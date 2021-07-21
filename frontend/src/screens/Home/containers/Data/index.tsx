@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchDataRoutine } from 'screens/Home/routines';
-import { IBindingAction } from 'models/Callbacks';
-import { IData } from 'screens/Home/models/IData';
+import { IBindingAction } from '@models/Callbacks';
+import { IData } from '@models/IData';
 import { IAppState } from '@models/AppState';
 
 export interface IDataProps {

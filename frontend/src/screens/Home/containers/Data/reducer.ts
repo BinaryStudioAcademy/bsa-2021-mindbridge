@@ -1,6 +1,6 @@
 import { Routine } from 'redux-saga-routines';
 import { fetchDataRoutine } from 'screens/Home/routines';
-import { IData } from 'screens/Home/models/IData';
+import { IData } from '@models/IData';
 
 export const data = (state: IData = { message: 'Empty string' }, action: Routine<any>) => {
   switch (action.type) {
