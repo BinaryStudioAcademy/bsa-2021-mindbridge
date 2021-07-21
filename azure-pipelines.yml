@@ -1,7 +1,3 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
 - main
 
@@ -12,7 +8,7 @@ variables:
   tag: '$(Build.BuildId)'
 
 stages:
-- stage: Build And Push
+- stage: BuildAndPush
   displayName: Build and push an image
   jobs:
   - job: BuildPush
