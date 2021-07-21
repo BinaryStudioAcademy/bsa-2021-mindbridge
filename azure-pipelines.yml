@@ -1,9 +1,6 @@
 trigger:
 - main
 
-resources:
-- repo: self
-
 variables:
   tag: '$(Build.BuildId)'
 
