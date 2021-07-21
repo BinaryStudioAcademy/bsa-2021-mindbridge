@@ -1,6 +1,10 @@
 trigger:
 - main
 
+pool:
+  name: 'Hosted Agent'
+  demands: Limit -equals DisAbleParallel 
+
 variables:
   tag: '$(Build.BuildId)'
 
