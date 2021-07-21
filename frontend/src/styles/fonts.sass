@@ -1,0 +1,37 @@
+@mixin font($fname, $fstyle, $fweight, $furl)
+  @font-face
+    font-family: $fname
+    font-style: $fstyle
+    font-weight: $fweight
+    // font-display: swap // Uncomment to initially display system fonts
+    src: local($fname), url($furl) format('truetype')
+
+@include font('Montserrat', normal, 100, 'fonts/Montserrat/Montserrat-Thin.ttf')
+@include font('Montserrat', italic, 100, 'fonts/Montserrat/Montserrat-ThinItalic.ttf')
+@include font('Montserrat', normal, 200, 'fonts/Montserrat/Montserrat-ExtraLight.ttf')
+@include font('Montserrat', italic, 200, 'fonts/Montserrat/Montserrat-ExtraLightItalic.ttf')
+@include font('Montserrat', normal, 300, 'fonts/Montserrat/Montserrat-Light.ttf')
+@include font('Montserrat', italic, 300, 'fonts/Montserrat/Montserrat-LightItalic.ttf')
+@include font('Montserrat', normal, 400, 'fonts/Montserrat/Montserrat-Regular.ttf')
+@include font('Montserrat', italic, 400, 'fonts/Montserrat/Montserrat-Italic.ttf')
+@include font('Montserrat', normal, 500, 'fonts/Montserrat/Montserrat-Medium.ttf')
+@include font('Montserrat', italic, 500, 'fonts/Montserrat/Montserrat-MediumItalic.ttf')
+@include font('Montserrat', normal, 600, 'fonts/Montserrat/Montserrat-SemiBold.ttf')
+@include font('Montserrat', italic, 600, 'fonts/Montserrat/Montserrat-SemiBoldItalic.ttf')
+@include font('Montserrat', normal, 700, 'fonts/Montserrat/Montserrat-Bold.ttf')
+@include font('Montserrat', italic, 700, 'fonts/Montserrat/Montserrat-BoldItalic.ttf')
+@include font('Montserrat', normal, 800, 'fonts/Montserrat/Montserrat-ExtraBold.ttf')
+@include font('Montserrat', italic, 800, 'fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf')
+@include font('Montserrat', normal, 900, 'fonts/Montserrat/Montserrat-Black.ttf')
+@include font('Montserrat', italic, 900, 'fonts/Montserrat/Montserrat-BlackItalic.ttf')
+
+@include font('Custom Open Sans', normal, 300, 'fonts/OpenSans/OpenSans-Light.ttf')
+@include font('Custom Open Sans', italic, 300, 'fonts/OpenSans/OpenSans-LightItalic.ttf')
+@include font('Custom Open Sans', normal, 400, 'fonts/OpenSans/OpenSans-Regular.ttf')
+@include font('Custom Open Sans', italic, 400, 'fonts/OpenSans/OpenSans-Italic.ttf')
+@include font('Custom Open Sans', normal, 600, 'fonts/OpenSans/OpenSans-SemiBold.ttf')
+@include font('Custom Open Sans', italic, 600, 'fonts/OpenSans/OpenSans-SemiBoldItalic.ttf')
+@include font('Custom Open Sans', normal, 700, 'fonts/OpenSans/OpenSans-Bold.ttf')
+@include font('Custom Open Sans', italic, 700, 'fonts/OpenSans/OpenSans-BoldItalic.ttf')
+@include font('Custom Open Sans', normal, 800, 'fonts/OpenSans/OpenSans-ExtraBold.ttf')
+@include font('Custom Open Sans', italic, 800, 'fonts/OpenSans/OpenSans-ExtraBoldItalic.ttf')
