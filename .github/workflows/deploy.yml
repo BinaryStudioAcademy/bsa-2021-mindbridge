@@ -53,7 +53,7 @@ jobs:
       - name: Create ACI context
         working-directory: .docker
         run: |
-          docker context create aci --resource-group=${{ secrets.RESOURCE_GROUP }} myacicontext
+          docker context create aci myacicontext --resource-group=${{ secrets.RESOURCE_GROUP }}
           docker context use myacicontext
           docker-compose up -d
 
