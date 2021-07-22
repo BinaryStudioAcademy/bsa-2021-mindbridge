@@ -27,7 +27,7 @@ jobs:
         id: docker-build-frontend        
         uses: docker/build-push-action@v2
         with:
-          context: ./frontend
+          context: .
           file: .docker/frontend.Dockerfile
           push: false
           tags: ${{ secrets.FRONTEND_DOCKER_REGISTRY }}:latest
