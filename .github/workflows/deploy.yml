@@ -63,7 +63,7 @@ jobs:
         working-directory: .docker
         run: |
           docker context use acicontext
-          docker-compose up -d
+          docker compose up
 
       # - name: 'Deploy frontend to Azure Container Instances'
       #   id: deploy-frontend
