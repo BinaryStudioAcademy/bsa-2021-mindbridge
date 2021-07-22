@@ -1,0 +1,91 @@
+version: '3'
+
+services:
+#   api-db:
+#     image: postgres
+#     hostname: postgres
+#     container_name: 'api-db'
+#     ports:
+#       - '5432:5432'
+#     volumes:
+#       - pgdata_api:/var/lib/postgresql/data
+#       - pgconf_api:/etc/postgresql
+#       - pglog_api:/var/log/postgresql
+#     # env_file:
+#     #  - ~/.env/api-db.env
+#     logging:
+#       driver: "json-file"
+#       options:
+#         max-size: "10m"
+#         max-file: "3"
+
+#   api:
+#     image: bsa2020knewless/dockerhub:api
+#     container_name: api
+#     depends_on:
+#       - api-db
+#       - kafka
+#       - elasticsearch
+#     ports:
+#       - '5000:5000'
+#     volumes:
+#       - /knewless-data/assets:/knewless/assets
+#     env_file:
+#       - ~/.env/api.env
+#     logging:
+#       driver: "json-file"
+#       options:
+#         max-size: "10m"
+#         max-file: "5"
+
+  frontend:
+    image: lecturedocker/frontend:latest
+    container_name: frontend
+    depends_on:
+      - api
+      - api-db
+    ports:
+      - '80:80'
+      - '443:443'
+    # env_file:
+    #   - ~/.env/client.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    # volumes:
+    #   - /data/certs:/etc/nginx/certs
+    #   - /knewless-data/assets:/knewless/assets
+    #   - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+    #   - /etc/nginx/dhparam.pem:/etc/nginx/dhparam.pem
+    #   - /etc/letsencrypt/live/knewless.tk/cert.pem:/etc/letsencrypt/live/knewless.tk/cert.pem
+    #   - /etc/letsencrypt/live/knewless.tk/chain.pem:/etc/letsencrypt/live/knewless.tk/chain.pem
+    #   - /etc/letsencrypt/live/knewless.tk/fullchain.pem:/etc/letsencrypt/live/knewless.tk/fullchain.pem
+    #   - /etc/letsencrypt/live/knewless.tk/privkey.pem:/etc/letsencrypt/live/knewless.tk/privkey.pem
+
+#   elasticsearch:
+#     image: docker.elastic.co/elasticsearch/elasticsearch:7.8.1
+#     container_name: elasticsearch
+#     ulimits:
+#       memlock:
+#         soft: -1
+#         hard: -1
+#     env_file:
+#       - ~/.env/elastic.env
+#     volumes:
+#       - esdata:/usr/share/elasticsearch/data
+#     ports:
+#       - 9200:9200
+
+# volumes:
+#   esdata:
+#     driver: local
+#   pgdata_api:
+#     driver: local
+#   pgconf_api:
+#     driver: local
+#   pglog_api:
+#     driver: local
+#   shared:
+#     driver: local
