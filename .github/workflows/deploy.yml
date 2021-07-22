@@ -43,6 +43,10 @@ jobs:
           push: true
           tags: ${{ secrets.FRONTEND_DOCKER_REGISTRY }}:latest
 
+      - name: Install Docker Compose CLI
+        run: >
+          curl -L https://raw.githubusercontent.com/docker/compose-cli/main/scripts/install/install_linux.sh | sh
+
       - name: Login to azure with docker        
         run: "docker login azure --client-id $AZURE_CLIENT_ID --client-secret $AZURE_CLIENT_SECRET --tenant-id $AZURE_TENANT_ID"
         env:
