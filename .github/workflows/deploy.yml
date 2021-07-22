@@ -44,17 +44,21 @@ jobs:
           tags: ${{ secrets.FRONTEND_DOCKER_REGISTRY }}:latest
 
       - name: Login to azure with docker        
-        uses: azure/docker-login@v1
-        with:
-          login-server: index.docker.io
-          username: ${{ secrets.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+        run: "docker login azure --client-id $AZURE_CLIENT_ID --client-secret $AZURE_CLIENT_SECRET --tenant-id $AZURE_TENANT_ID"
+        env:
+          AZURE_TENANT_ID: '${{ secrets.AZURE_TENANT_ID }}'
+          AZURE_CLIENT_ID: '${{ secrets.AZURE_CLIENT_ID }}'
+          AZURE_CLIENT_SECRET: '${{ secrets.AZURE_CLIENT_SECRET }}'
 
       - name: Create ACI context
+        run: 'docker context create aci --resource-group $RESOURCE_GROUP acicontext'
+        env:
+          RESOURCE_GROUP: '${{ secrets.RESOURCE_GROUP }}'
+
+      - name: Docker compose
         working-directory: .docker
         run: |
-          docker context create aci myacicontext --resource-group ${{ secrets.RESOURCE_GROUP }}
-          docker context use myacicontext
+          docker context use acicontext
           docker-compose up -d
 
       # - name: 'Deploy frontend to Azure Container Instances'
