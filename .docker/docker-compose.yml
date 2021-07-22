@@ -41,9 +41,9 @@ services:
   frontend:
     image: lecturedocker/frontend:latest
     container_name: frontend
-    depends_on:
-      - api
-      - api-db
+    # depends_on:
+    #   - api
+    #   - api-db
     ports:
       - '80:80'
       - '443:443'
