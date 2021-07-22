@@ -43,8 +43,7 @@ jobs:
           push: true
           tags: ${{ secrets.FRONTEND_DOCKER_REGISTRY }}:latest
 
-      - name: Login to azure with docker
-        working-directory: .docker
+      - name: Login to azure with docker        
         uses: azure/docker-login@v1
         with:
           login-server: index.docker.io
