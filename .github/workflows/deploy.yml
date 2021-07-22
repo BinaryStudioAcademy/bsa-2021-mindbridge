@@ -30,9 +30,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Login via Azure CLI
-          uses: azure/login@v1
-          with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build And Push Frontend docker image
         id: docker-build-frontend  
