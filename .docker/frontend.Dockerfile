@@ -8,11 +8,11 @@ WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 
 # install app dependencies
-COPY ./package.json /app/package.json
+COPY frontend/package.json /app/package.json
 RUN npm install --silent
 
 # add app
-COPY . /app
+COPY frontend /app
 
 # build app
 RUN npm run build
