@@ -1,23 +1,23 @@
 version: '3'
 
 services:
-#   api-db:
-#     image: postgres
-#     hostname: postgres
-#     container_name: 'api-db'
-#     ports:
-#       - '5432:5432'
-#     volumes:
-#       - pgdata_api:/var/lib/postgresql/data
-#       - pgconf_api:/etc/postgresql
-#       - pglog_api:/var/log/postgresql
-#     # env_file:
-#     #  - ~/.env/api-db.env
-#     logging:
-#       driver: "json-file"
-#       options:
-#         max-size: "10m"
-#         max-file: "3"
+  api-db:
+    image: postgres
+    hostname: postgres
+    container_name: 'api-db'
+    ports:
+      - '5432:5432'
+    volumes:
+      - share_volume:/var/lib/postgresql/data
+      - share_volume:/etc/postgresql
+      - share_volume:/var/log/postgresql
+    # env_file:
+    #  - ~/.env/api-db.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 #   api:
 #     image: bsa2020knewless/dockerhub:api
@@ -79,14 +79,9 @@ services:
 #     ports:
 #       - 9200:9200
 
-# volumes:
-#   esdata:
-#     driver: local
-#   pgdata_api:
-#     driver: local
-#   pgconf_api:
-#     driver: local
-#   pglog_api:
-#     driver: local
-#   shared:
-#     driver: local
+volumes:
+  share_volume:
+    driver: azure_file
+    driver_opts:
+      share_name: mindbridge-db
+      storage_account_name: mindbridgestorage    
