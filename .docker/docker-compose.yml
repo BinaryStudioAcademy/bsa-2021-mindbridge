@@ -8,9 +8,9 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - share_volume:/var/lib/postgresql/data
-      - share_volume:/etc/postgresql
-      - share_volume:/var/log/postgresql
+      - share-volume:/var/lib/postgresql/data
+      - share-volume:/etc/postgresql
+      - share-volume:/var/log/postgresql
     # env_file:
     #  - ~/.env/api-db.env
     logging:
@@ -80,7 +80,7 @@ services:
 #       - 9200:9200
 
 volumes:
-  share_volume:
+  share-volume:
     driver: azure_file
     driver_opts:
       share_name: mindbridge-db
