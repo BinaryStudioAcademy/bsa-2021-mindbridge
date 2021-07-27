@@ -1,0 +1,8 @@
+import { all } from 'redux-saga/effects';
+import {{camelCase name}}PageSagas from '@screens/{{pascalCase name}}/containers/{{pascalCase name}}Page/sagas';
+
+export default function* {{camelCase name}}Sagas() {
+  yield all([
+    {{camelCase name}}PageSagas()
+  ]);
+}

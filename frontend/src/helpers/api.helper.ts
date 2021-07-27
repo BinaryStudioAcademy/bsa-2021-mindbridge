@@ -1,7 +1,5 @@
 import * as queryString from 'query-string';
 import { toastr } from 'react-redux-toastr';
-import { IFetchArgsData } from 'models/IFetchArgsData';
-import { IFetchArgs } from 'models/IFetchArgs';
 
 const getFetchUrl = ({ endpoint, queryParams }: IFetchArgsData) => `${endpoint}${
   queryParams ? `?${queryString.stringify(queryParams)}` : ''
@@ -14,6 +12,12 @@ const getInitHeaders = (contentType = 'application/json', hasContent = true) => 
   }
   return headers;
 };
+
+interface IFetchArgs {
+  method: string;
+  headers: HeadersInit;
+  body?: string;
+}
 
 const getFetchArgs = (args: IFetchArgsData): IFetchArgs => {
   const headers = getInitHeaders();
@@ -46,6 +50,14 @@ const throwIfResponseFailed = async (res: Response) => {
     throw parsedException;
   }
 };
+
+interface IFetchArgsData {
+  type: string;
+  endpoint: string;
+  requestData?: object | string;
+  queryParams?: object;
+  attachment?: File;
+}
 
 export const callApi = async (args: IFetchArgsData): Promise<Response> => {
   const res = await fetch(getFetchUrl(args), getFetchArgs(args));

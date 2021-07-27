@@ -48,7 +48,8 @@
       "class-methods-use-this": "off",
       "import/order": "off",
       "arrow-parens": ["error", "as-needed"],
-      "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }]
+      "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
+      "no-param-reassign": ["error", { "props": false }]
     },
     "ignorePatterns": [
       "setupProxy.js",
