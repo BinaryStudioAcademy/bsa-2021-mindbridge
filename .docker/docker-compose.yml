@@ -41,6 +41,7 @@ services:
   frontend:
     image: lecturedocker/frontend:latest
     container_name: frontend
+    domainname: 'mindbridge'
     # depends_on:
     #   - api
     #   - api-db
