@@ -26,3 +26,4 @@ hs_err_pid*
 frontend/node_modules
 build
 .vscode
+keys.txt
