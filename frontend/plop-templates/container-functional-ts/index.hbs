@@ -1,0 +1,26 @@
+import React from 'react';
+import styles from './styles.module.scss';
+import { connect } from 'react-redux';
+
+export interface I{{pascalCase name}}Props extends IState, IActions {
+}
+
+interface IState {
+}
+
+interface IActions {
+}
+
+const {{pascalCase name}}: React.FC<I{{pascalCase name}}Props> = (
+  { children }
+) => (
+  <div className={styles.container}>{{name}}</div>
+);
+
+const mapStateToProps: (state) => IState = state => ({
+});
+
+const mapDispatchToProps: IActions = {
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)({{pascalCase name}});

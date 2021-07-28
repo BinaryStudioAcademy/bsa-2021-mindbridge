@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^5.6.4",
+    "@reduxjs/toolkit": "^1.6.1",
     "@stomp/stompjs": "^5.4.4",
     "@types/d3": "^5.7.2",
     "@types/styled-components": "^4.4.2",
@@ -90,7 +91,9 @@
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
     "@types/react-redux": "^7.1.5",
+    "@types/react-redux-toastr": "^7.6.1",
     "@types/react-select": "^3.0.9",
+    "@types/redux-saga": "^0.10.5",
     "@types/redux-saga-routines": "^3.1.0",
     "@types/sockjs-client": "^1.1.1",
     "@typescript-eslint/eslint-plugin": "^2.15.0",
@@ -104,6 +107,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "plop": "^2.7.4",
     "react-app-rewired": "^2.1.5",
     "source-map-loader": "^0.2.4",
     "typescript": "^3.7.5"
