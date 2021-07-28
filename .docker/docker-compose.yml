@@ -83,18 +83,15 @@ volumes:
   pgdata-api:
     driver: azure_file
     driver_opts:
-      share_name: mindbridge-db
+      share_name: pgdata-api
       storage_account_name: mindbridgestorage  
-      mount_path: /pgdata-api/
   pgconf-api:
     driver: azure_file
     driver_opts:
-      share_name: mindbridge-db
+      share_name: pgconf-api
       storage_account_name: mindbridgestorage  
-      mount_path: /pgconf-api/
   pglog-api:
     driver: azure_file
     driver_opts:
-      share_name: mindbridge-db
+      share_name: pglog-api
       storage_account_name: mindbridgestorage  
-      mount_path: /pglog-api/ 

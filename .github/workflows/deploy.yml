@@ -56,7 +56,7 @@ jobs:
 
       - name: Download environment files
         run: |
-          az storage file download --path ./api-db.env --share-name mindbridge-db --account-name mindbridgestorage --account-key $AZURE_STORAGE_KEY --dest .docker/api-db.env 
+          az storage file download --path ./api-db.env --share-name shared --account-name mindbridgestorage --account-key $AZURE_STORAGE_KEY --dest .docker/api-db.env 
         env:
           AZURE_STORAGE_KEY: '${{ secrets.AZURE_STORAGE_KEY }}'
 
