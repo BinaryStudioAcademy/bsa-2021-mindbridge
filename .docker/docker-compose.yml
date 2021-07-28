@@ -1,55 +1,30 @@
 version: '3'
 
 services:
-  api-db:
-    image: postgres
-    hostname: postgres
-    container_name: 'api-db'
+  backend:
+    image: lecturedocker/backend:latest
+    container_name: backend
     ports:
-      - '5432:5432'
+      - '5000:5000'
     volumes:
-      - share-volume/pgdata-api:/var/lib/postgresql/data
-      - share-volume/pgconf-api:/etc/postgresql
-      - share-volume/pglog-api:/var/log/postgresql
+      - shared:/mindbridge/assets
     env_file:
-     - ./api-db.env
+      - ./backend.env
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
-        max-file: "3"
-
-#   api:
-#     image: bsa2020knewless/dockerhub:api
-#     container_name: api
-#     depends_on:
-#       - api-db
-#       - kafka
-#       - elasticsearch
-#     ports:
-#       - '5000:5000'
-#     volumes:
-#       - /knewless-data/assets:/knewless/assets
-#     env_file:
-#       - ~/.env/api.env
-#     logging:
-#       driver: "json-file"
-#       options:
-#         max-size: "10m"
-#         max-file: "5"
+        max-file: "5"
 
   frontend:
     image: lecturedocker/frontend:latest
     container_name: frontend
     domainname: 'mindbridge'
-    # depends_on:
-    #   - api
-    #   - api-db
+    depends_on:
+      - backend
     ports:
       - '80:80'
-      - '443:443'
-    # env_file:
-    #   - ~/.env/client.env
+      - '443:443'    
     logging:
       driver: "json-file"
       options:
@@ -80,8 +55,8 @@ services:
 #       - 9200:9200
 
 volumes:
-  share-volume:
+  shared:
     driver: azure_file
     driver_opts:
-      share_name: mindbridge-db
+      share_name: shared
       storage_account_name: mindbridgestorage  
