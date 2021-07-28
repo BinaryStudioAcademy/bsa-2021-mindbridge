@@ -34,6 +34,15 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Build And Push Backend docker image
+        id: docker-build-backend        
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: .docker/backend.Dockerfile
+          push: true
+          tags: ${{ secrets.BACKEND_DOCKER_REGISTRY }}:latest
+
       - name: Build And Push Frontend docker image
         id: docker-build-frontend  
         uses: docker/build-push-action@v2
@@ -56,7 +65,7 @@ jobs:
 
       - name: Download environment files
         run: |
-          az storage file download --path ./api-db.env --share-name shared --account-name mindbridgestorage --account-key $AZURE_STORAGE_KEY --dest .docker/api-db.env 
+          az storage file download --path ./api-db.env --share-name shared --account-name mindbridgestorage --account-key $AZURE_STORAGE_KEY --dest .docker/backend.env 
         env:
           AZURE_STORAGE_KEY: '${{ secrets.AZURE_STORAGE_KEY }}'
 
