@@ -54,6 +54,12 @@ jobs:
           AZURE_CLIENT_ID: '${{ secrets.AZURE_CLIENT_ID }}'
           AZURE_CLIENT_SECRET: '${{ secrets.AZURE_CLIENT_SECRET }}'
 
+      - name: Download environment files
+        run: |
+          az storage file download --path ./api-db.env --share-name mindbridge-db --account-name mindbridgestorage --account-key $AZURE_STORAGE_KEY --dest .docker/api-db.env 
+        env:
+          AZURE_STORAGE_KEY: '${{ secrets.AZURE_STORAGE_KEY }}'
+
       - name: Create ACI context
         run: 'docker context create aci --resource-group $RESOURCE_GROUP acicontext'
         env:
