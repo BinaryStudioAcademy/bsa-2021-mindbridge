@@ -18,7 +18,7 @@ public class Tag extends BaseAuditableEntity {
 	private String name;
 
 	@ManyToMany(mappedBy = "tags", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-	private Set<Post> users = new HashSet<>();
+	private Set<Post> posts = new HashSet<>();
 
 	@Override
 	public String toString() {

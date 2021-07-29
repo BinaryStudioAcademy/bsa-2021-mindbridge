@@ -1,7 +1,6 @@
 package com.mindbridge.data.domains.PRComment.model;
 
 import com.mindbridge.data.domains.comment.model.Comment;
-import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postPR.model.PostPR;
 import com.mindbridge.data.domains.user.model.User;
 import com.mindbridge.data.model.BaseAuditableEntity;
