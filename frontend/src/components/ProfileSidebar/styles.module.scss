@@ -1,0 +1,125 @@
+@import "../../styles/common.sass";
+
+.profile_sidebar_container {
+    margin-top: 8rem;
+    margin-left: 57rem;
+    position: fixed;
+    height: 18rem;
+    width: 19.5rem;
+    background-color: $background-card;
+    a:hover{
+        cursor: pointer;
+    }
+}
+
+.top_group{
+    height: 5rem;
+    display: grid;
+    grid-template-columns: 10% 44% 36% 10%;
+    grid-template-rows: 65% 35%;
+    border-bottom: solid 2px rgba(172, 186, 215, 0.2);
+    padding-right: 2.32rem;
+    padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
+    padding-left: 2.35rem;
+}
+
+.avatar_and_name_group{
+    grid-column: 1/4;
+    grid-row: 1/2;
+    a{
+        justify-content: left;
+        text-align: left;
+        vertical-align: middle;
+        display: flex;
+        flex-direction: row;
+        span{
+            margin-left: 0.4rem;
+            margin-top: 0.5rem;
+        }
+    }
+}
+
+.following {
+    grid-column: 2/3;
+    grid-row: 2/3;  
+}
+
+.rating{
+    grid-column: 3/4;
+    grid-row: 2/3;
+}
+
+.following, .rating {
+    font-size: 0.7rem;
+    margin-top: 0.8rem;
+    margin-left: 0.7rem;
+    justify-content: left;
+    vertical-align: middle;
+    display: flex;
+    flex-direction: row;
+    color: rgba(172, 186, 215, 1);
+    padding: 0;
+    
+    div{
+        margin-left: 0.1rem;
+        margin-top: 0.08rem;
+    }
+}
+
+.user_name{
+    color: $dark-grey;
+    font-weight: bold;
+    font-size: 1rem;
+}
+.avatar{
+    height: 1.8rem;
+    width: 1.8rem;
+    border-radius: 50%;
+}
+    
+.settings_button{
+    grid-column: 4/5;
+    grid-row: 1/2;
+    background-color: rgba(0, 0, 0, 0);
+}  
+
+.sidebar_links{
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.3rem;
+    padding-left: 2rem;
+    :first-child{
+        margin-top: 0;
+    }
+    a{
+        display: flex;
+        margin-top: 1rem;
+        flex-direction: row;
+        svg{
+            width: 2rem;
+        }
+        span{
+            margin-left: 0.7rem;
+            font-size: 0.9rem;
+            color: $dark-grey;
+        }
+    }
+}
+
+.notification_count{
+    margin-left: 12px;
+    background-color: $red-notification;
+    height: 13px;
+    width: 13px;
+    border-radius: 50%;
+    color:  #FFFFFF;
+    overflow: visible;
+    font-size: 8px;
+    text-align: center;
+    padding-top: 2px;
+}
+
+.invisible{
+    display: none;
+}

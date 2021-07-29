@@ -15,13 +15,24 @@ interface IActions {
 }
 //use real value
 const notificationCount = 3;
+const userName = "Charlie Culhane";
+const avatar = "https://lh3.googleusercontent.com/proxy/KA7uim8AQvkXZU1zJyDVZAqC9UiYiR3Pf5cf_bzkxisffCmWtY9-JJ6xrCRe7i7eJVxjZenryL2wa4U";
+const folloversCount = 10;
+const rating = 543;
+const postNotificationCount = 4;
 
 const CreatePost: React.FC<ICreatePostProps> = (
   { children }
 ) => (
   <div className={classNames('content_wrapper', styles.container)}>
     <Header notificationCount={notificationCount}/>
-    <ProfileSidebar/>
+    <ProfileSidebar 
+      userName={userName} 
+      avatar={avatar}
+      folloversCount={folloversCount}
+      rating={rating}
+      postNotificationCount={postNotificationCount}
+    />
     create post
   </div>
 );
