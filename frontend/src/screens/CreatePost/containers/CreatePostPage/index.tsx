@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import Header from '@root/components/Header';
 import ProfileSidebar from '@root/components/ProfileSidebar';
+import HistorySidebar from '@root/components/HistorySidebar';
 
 export interface ICreatePostProps extends IState, IActions {
 }
@@ -16,7 +17,7 @@ interface IActions {
 //use real value
 const notificationCount = 3;
 const userName = "Charlie Culhane";
-const avatar = "https://lh3.googleusercontent.com/proxy/KA7uim8AQvkXZU1zJyDVZAqC9UiYiR3Pf5cf_bzkxisffCmWtY9-JJ6xrCRe7i7eJVxjZenryL2wa4U";
+const avatar = "https://lh3.googleusercontent.com/proxy/-bkRSqw6vRpujAkZ8wupHS9ls_2fQvQw8rEBtNch1-5HELvgCrP5hx-k810ntE059vEPmsg4LeSsyh4";
 const folloversCount = 6.6 + "K";
 const rating = 5.4 + "K";
 const postNotificationCount = 4;
@@ -25,30 +26,31 @@ const CreatePost: React.FC<ICreatePostProps> = (
   { children }
 ) => (
   <div className={classNames('content_wrapper', styles.container)}>
-    <Header notificationCount={notificationCount}/>
-    <ProfileSidebar 
+    <div className={styles.header_container}>
+      <Header notificationCount={notificationCount}/>
+    </div>
+    <div className={styles.profile_sidebar_container}>
+      <ProfileSidebar 
       userName={userName} 
       avatar={avatar}
       folloversCount={folloversCount}
       rating={rating}
       postNotificationCount={postNotificationCount}
-    />
+      />
+    </div>
+    
+    <HistorySidebar/>
     <div className={styles.create_post_container}>
       <form className={styles.create_post_form}>
         <div className={styles.header}>
           <button className={classNames(styles.colorless_button, styles.html_button) }>HTML</button>
           <button className={classNames(styles.blue_button, styles.markdown_button) }>Markdown</button>
           <button className={styles.edit_button}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0)">
-                <path d="M22.1511 15.0764C21.8209 15.0764 21.5533 15.3439 21.5533 15.6741V20.9812C21.5522 21.9712 20.7501 22.7735 19.7602 22.7744H2.98862C1.99864 22.7735 1.19662 21.9712 1.19545 20.9812V5.40513C1.19662 4.41538 1.99864 3.61312 2.98862 3.61195H8.29576C8.62591 3.61195 8.89348 3.34438 8.89348 3.01423C8.89348 2.68431 8.62591 2.4165 8.29576 2.4165H2.98862C1.33881 2.41837 0.00186789 3.75531 0 5.40513V20.9814C0.00186789 22.6313 1.33881 23.9682 2.98862 23.9701H19.7602C21.41 23.9682 22.7469 22.6313 22.7488 20.9814V15.6741C22.7488 15.3439 22.4812 15.0764 22.1511 15.0764Z" fill="#66B9FF" />
-                <path d="M22.5121 0.879149C21.4616 -0.171305 19.7586 -0.171305 18.7081 0.879149L8.04433 11.5429C7.97125 11.616 7.91848 11.7066 7.89093 11.8061L6.48861 16.8687C6.43094 17.0763 6.48954 17.2986 6.64178 17.4511C6.79424 17.6033 7.01652 17.6619 7.22409 17.6045L12.2868 16.2019C12.3862 16.1744 12.4768 16.1216 12.5499 16.0485L23.2135 5.3845C24.2623 4.33334 24.2623 2.6317 23.2135 1.58054L22.5121 0.879149ZM9.34671 11.9314L18.0742 3.20374L20.8889 6.01841L12.1612 14.7461L9.34671 11.9314ZM8.78448 13.0597L11.0332 15.3086L7.92268 16.1704L8.78448 13.0597ZM22.3682 4.53928L21.7343 5.17319L18.9194 2.35828L19.5536 1.72437C20.137 1.14089 21.0831 1.14089 21.6666 1.72437L22.3682 2.42576C22.9508 3.00994 22.9508 3.95533 22.3682 4.53928Z" fill="#66B9FF" />
-              </g>
-              <defs>
-                <clipPath id="clip0">
-                  <rect width="24" height="24" fill="white" />
-                </clipPath>
-              </defs>
+            <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.1511 13.0764C21.8209 13.0764 21.5533 13.3439 21.5533 13.6741V18.9812C21.5522 19.9712 20.7501 20.7735 19.7602 20.7744H2.98862C1.99864 20.7735 1.19662 19.9712 1.19545 18.9812V3.40513C1.19662 2.41538 1.99864 1.61312 2.98862 1.61195H8.29576C8.62591 1.61195 8.89348 1.34438 8.89348 1.01423C8.89348 0.684312 8.62591 0.416504 8.29576 0.416504H2.98862C1.33881 0.418372 0.00186789 1.75531 0 3.40513V18.9814C0.00186789 20.6313 1.33881 21.9682 2.98862 21.9701H19.7602C21.41 21.9682 22.7469 20.6313 22.7488 18.9814V13.6741C22.7488 13.3439 22.4812 13.0764 22.1511 13.0764Z" fill="#66B9FF"/>
+            </svg>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16.5121 0.879149C15.4616 -0.171305 13.7586 -0.171305 12.7081 0.879149L2.04433 11.5429C1.97125 11.616 1.91848 11.7066 1.89093 11.8061L0.488608 16.8687C0.430937 17.0763 0.489542 17.2986 0.641775 17.4511C0.794242 17.6033 1.01652 17.6619 1.22409 17.6045L6.28677 16.2019C6.38624 16.1744 6.47683 16.1216 6.54991 16.0485L17.2135 5.3845C18.2623 4.33334 18.2623 2.6317 17.2135 1.58054L16.5121 0.879149ZM3.34671 11.9314L12.0742 3.20374L14.8889 6.01841L6.16115 14.7461L3.34671 11.9314ZM2.78448 13.0597L5.03318 15.3086L1.92268 16.1704L2.78448 13.0597ZM16.3682 4.53928L15.7343 5.17319L12.9194 2.35828L13.5536 1.72437C14.137 1.14089 15.0831 1.14089 15.6666 1.72437L16.3682 2.42576C16.9508 3.00994 16.9508 3.95533 16.3682 4.53928Z" fill="#66B9FF"/>
             </svg>
           </button>
           <button className={styles.view_button}>

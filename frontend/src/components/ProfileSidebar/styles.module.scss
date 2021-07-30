@@ -1,32 +1,29 @@
 @import "../../styles/common.sass";
 
 .profile_sidebar_container {
-    margin-top: 8rem;
-    margin-left: 57rem;
-    position: fixed;
-    height: 18rem;
+    height: 18.5rem;
     width: 19.5rem;
     background-color: $background-card;
+    border-radius: 0.5rem;
     a:hover{
-        cursor: pointer;
-    }
+        cursor: pointer; 
+    }      
 }
 
 .top_group{
-    height: 5rem;
+    height: 5.5rem;
     display: grid;
-    grid-template-columns: 10% 44% 36% 10%;
-    grid-template-rows: 65% 35%;
+    grid-template-columns: 1.8rem 1fr 1fr 4rem;
+    grid-template-rows: 2.2fr 1fr;
     border-bottom: solid 2px rgba(172, 186, 215, 0.2);
-    padding-right: 2.32rem;
-    padding-bottom: 1.5rem;
-    padding-top: 1.5rem;
-    padding-left: 2.35rem;
+    padding-left: 1.8rem;
+    padding-top: 1.8rem;
 }
 
 .avatar_and_name_group{
     grid-column: 1/4;
     grid-row: 1/2;
+    
     a{
         justify-content: left;
         text-align: left;
@@ -34,75 +31,88 @@
         display: flex;
         flex-direction: row;
         span{
-            margin-left: 0.4rem;
+            margin-left: 0.6rem;
             margin-top: 0.5rem;
+            color: $dark-grey;
+            font-size: 0.95rem;
+            font-family: Lato;
+        }
+        .avatar{
+            height: 2rem;
+            width: 2rem;
+            border-radius: 50%;
         }
     }
 }
 
-.following {
-    grid-column: 2/3;
-    grid-row: 2/3;  
-}
-
-.rating{
-    grid-column: 3/4;
+.following_and_rating_group{
     grid-row: 2/3;
+    grid-column: 2/5;
+    display: flex;
+    flex-direction: row;
+    padding-top: 0.3rem;
+    padding-left: 0.8rem;
 }
 
 .following, .rating {
-    font-size: 0.7rem;
-    margin-top: 0.8rem;
-    margin-left: 0.7rem;
+    height: 1.2rem;
+    
     justify-content: left;
     vertical-align: middle;
     display: flex;
     flex-direction: row;
     color: rgba(172, 186, 215, 1);
     padding: 0;
-    
+    background-color: rgba(0, 0, 0, 0);
     div{
-        margin-left: 0.1rem;
-        margin-top: 0.08rem;
+        margin-left: 0.5rem;
+        margin-right: 0.3rem;
+        padding-top: 0.1rem;
+        font-family: Lato;
+        font-size: 0.7rem;
     }
 }
 
-.user_name{
-    color: $dark-grey;
-    font-weight: bold;
-    font-size: 1rem;
-}
-.avatar{
-    height: 1.8rem;
-    width: 1.8rem;
+.dot{
+    width: 6px;
+    height: 6px;
+    background-color: rgba(102, 185, 255, 1);
+    margin-right: 0.6rem;
+    margin-left: 0.4rem;
     border-radius: 50%;
+    margin-top: 0.3rem;
 }
     
 .settings_button{
     grid-column: 4/5;
     grid-row: 1/2;
     background-color: rgba(0, 0, 0, 0);
+    padding: 0;
+    margin-right: 0.5rem;
 }  
 
 .sidebar_links{
     display: flex;
     flex-direction: column;
     padding-top: 1.3rem;
-    padding-left: 2rem;
+    padding-left: 1.45rem;
     :first-child{
         margin-top: 0;
     }
     a{
         display: flex;
-        margin-top: 1rem;
+        margin-top: 1.4rem;
         flex-direction: row;
         svg{
             width: 2rem;
         }
         span{
-            margin-left: 0.7rem;
+            margin-left: 0.35rem;
             font-size: 0.9rem;
             color: $dark-grey;
+            font-family: Lato;
+            font-style: normal;
+            font-weight: bold;
         }
     }
 }
