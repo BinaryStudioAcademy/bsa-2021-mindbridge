@@ -2,7 +2,7 @@
 
 .container {
     height: 100vh;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .header_container{
@@ -31,6 +31,9 @@
     width: 100%;
     height: 100%;
     grid-template-rows: 0.7fr 1fr 1fr 4fr 1fr 1fr;
+    button{
+        font-family: lato;
+    }
     .header{
         grid-row: 1/2;
         display: grid;
@@ -39,7 +42,7 @@
         button {
             font-size: 0.9rem;
             font-weight: 600;
-            height: 2.2rem;
+            height: 2.36rem;
         }
         .html_button{
             grid-column: 1/2;
@@ -47,18 +50,22 @@
         }
         .markdown_button{
             grid-column: 2/3;
+            width: 6rem;
         }
         .edit_button{
             grid-column: 4/5;
             background-color: $light-blue;
+            width: 2.36rem;
             margin-right: 0.4rem;
             display: grid;
             grid-template-columns: 1fr;
             grid-template-rows: 1fr;
-            padding-top: 4px;
+            padding: 0;
+            padding-top: 15%;
+            padding-left: 15%;
             svg{
                 grid-row: 1/2;
-                grid-column: 1/2;
+                grid-column: 1/2; 
             }
             :last-child{
                 margin-left: 4px;
@@ -67,8 +74,12 @@
         .view_button{
             grid-column: 5/6;
             background-color: rgba(0,0,0,0);
-            width: 2.4rem;
+            width: 2.36rem;
             padding: 0;
+            svg{
+                height: 1.6rem;
+                width: 1.6rem;
+            }
         }
         .view_button:hover{
             background-color: $light-blue;
@@ -80,9 +91,68 @@
         margin-bottom: 0.5rem;
         padding: 1.5rem;
     }
-    .content_input{
-        overflow-y: scroll;
+    input::placeholder, textarea::placeholder{
+        font-family: lato;
+        color: rgba(20, 37, 63, 0.4);
     }
+    input:focus , textarea:focus {
+        outline: 2px solid $light-blue;
+        font-family: lato;
+        color: rgba(20, 37, 63, 1);
+    }
+    .content_input_container{
+        margin-bottom: 0.5rem;
+        display: grid;
+        grid-template-columns: 1fr 2.5rem 1fr;
+        grid-template-rows: 5fr 1fr 0.8fr;
+    }
+    .content_input{ 
+        overflow-y: scroll;
+        grid-column: 1/4;
+        grid-row: 1/4;
+        margin: 0;
+    }
+
+    .file_input_round{
+        height: 2.5rem;
+        width: 2.5rem;
+        grid-column: 2/3;
+        grid-row: 2/3;
+        z-index: 200;
+        background-color: white;
+        border-radius: 50%;
+        padding-left: 0.7rem;
+        padding-top: 0.7rem;
+        opacity: 0.6;
+    }
+
+    .file_input_round:hover{
+        cursor: pointer;
+        opacity: 1;
+    }
+
+    .file_input_rectangle{
+        background-color: rgba(248, 248, 248, 1);
+        border: none;
+        margin-bottom: 0.5rem;
+        padding: 1.5rem;
+        border-radius: 3px;
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        span{
+            font-family: lato;
+            color: rgba(20, 37, 63, 0.4);
+            margin-left: 0.7rem;
+        }
+        
+    }
+
+    .file_input_rectangle:hover{
+        outline: solid $light-blue 2px;
+        cursor: pointer;
+    }
+
     .footer{
         padding-top: 1rem;
         width: 100%;
@@ -113,3 +183,12 @@
     }
 }
 
+.invisible{
+    display: none;
+}
+
+.history_sidebar_container {
+    margin-top: 27rem;
+    margin-left: 57rem;
+    position: fixed;
+}
