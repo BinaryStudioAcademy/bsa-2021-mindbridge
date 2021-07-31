@@ -1,0 +1,36 @@
+.arrowDown {
+  margin-left: 16px;
+  margin-top: 4px;
+  fill: #66B9FF;
+  cursor: pointer;
+}
+
+.arrowUp {
+  margin-left: 16px;
+  margin-bottom: 4px;
+  margin-top: -0.4em;
+  fill: #66B9FF;
+  cursor: pointer;
+}
+
+.arrowDown:hover,
+.arrowUp:hover {
+  fill: #5254f5;
+}
+
+
+
+.ratingNumber {
+  width: 40px;
+  text-align: center;
+  font-family: Lato, sans-serif;
+  font-size: 0.88em;
+  color: #353535;
+  opacity: 0.4;
+}
+
+.ratingElement {
+  display: flex;
+  flex-direction: column;
+  margin-right: 1em;
+}

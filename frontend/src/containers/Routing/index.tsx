@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import LoaderWrapper from 'components/LoaderWrapper';
 import PublicRoute from 'components/PublicRoute';
 import Default from 'screens/Default/containers/DefaultPage';
+import FeedPage from '@screens/FeedPage/containers/FeedPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -13,6 +14,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => (
     {/* {isAuthorized ? <Header /> : ''} */}
     <Switch>
       <PublicRoute exact path="/public" component={Default} />
+      <PublicRoute exact path="/" component={FeedPage} />
       <div>
         <LoaderWrapper loading={isLoading}>
           <Switch>

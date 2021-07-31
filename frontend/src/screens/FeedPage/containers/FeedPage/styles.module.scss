@@ -1,0 +1,29 @@
+.feedPage {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 600px;
+  grid-template-rows: 105px 1fr;
+  grid-template-areas:
+      "header header"
+      "main sidebar"
+
+;
+  grid-gap: 1rem;
+  grid-row-gap: 0px;
+}
+
+.header {
+  grid-area: header;
+  border: 2px solid aquamarine;
+}
+
+.main {
+  grid-area: main;
+  min-width: 700px;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  border: 2px solid aquamarine;
+}
+
