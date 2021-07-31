@@ -22,165 +22,92 @@
     margin-top: 8rem;
     margin-left: 12.2rem;
     width: 43.5rem;
-    height: 40rem;
+    height: 42rem;
     z-index: 100;
-}
-
-.create_post_form{
-    display: grid;
-    width: 100%;
-    height: 100%;
-    grid-template-rows: 0.7fr 1fr 1fr 4fr 1fr 1fr;
+    padding-bottom: 2rem;
     button{
         font-family: lato;
     }
-    .header{
-        grid-row: 1/2;
-        display: grid;
-        grid-template-columns: 2fr 2fr 10fr 1fr 1fr;
-        align-content:flex-start;
-        button {
-            font-size: 0.9rem;
-            font-weight: 600;
-            height: 2.36rem;
-        }
-        .html_button{
-            grid-column: 1/2;
-            margin-right: 18%;
-        }
-        .markdown_button{
-            grid-column: 2/3;
-            width: 6rem;
-        }
-        .edit_button{
-            grid-column: 4/5;
-            background-color: $light-blue;
-            width: 2.36rem;
-            margin-right: 0.4rem;
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: 1fr;
-            padding: 0;
-            padding-top: 15%;
-            padding-left: 15%;
-            svg{
-                grid-row: 1/2;
-                grid-column: 1/2; 
-            }
-            :last-child{
-                margin-left: 4px;
-            }
-        }
-        .view_button{
-            grid-column: 5/6;
-            background-color: rgba(0,0,0,0);
-            width: 2.36rem;
-            padding: 0;
-            svg{
-                height: 1.6rem;
-                width: 1.6rem;
-            }
-        }
-        .view_button:hover{
-            background-color: $light-blue;
-        }
-    }
-    input, textarea {
-        background-color: rgba(248, 248, 248, 1);
-        border: none;
-        margin-bottom: 0.5rem;
-        padding: 1.5rem;
-    }
-    input::placeholder, textarea::placeholder{
-        font-family: lato;
-        color: rgba(20, 37, 63, 0.4);
-    }
-    input:focus , textarea:focus {
-        outline: 2px solid $light-blue;
-        font-family: lato;
-        color: rgba(20, 37, 63, 1);
-    }
-    .content_input_container{
-        margin-bottom: 0.5rem;
-        display: grid;
-        grid-template-columns: 1fr 2.5rem 1fr;
-        grid-template-rows: 5fr 1fr 0.8fr;
-    }
-    .content_input{ 
-        overflow-y: scroll;
-        grid-column: 1/4;
-        grid-row: 1/4;
-        margin: 0;
-    }
+}
 
-    .file_input_round{
-        height: 2.5rem;
-        width: 2.5rem;
+.header{
+    grid-row: 1/2;
+    display: grid;
+    grid-template-columns: 2fr 2fr 10fr 1fr 1fr;
+    align-content:flex-start;
+    margin-bottom: 0.8rem;
+    button {
+        font-size: 0.9rem;
+        font-weight: 600;
+        height: 2.36rem;
+    }
+    .html_button{
+        grid-column: 1/2;
+        margin-right: 18%;
+    }
+    .markdown_button{
         grid-column: 2/3;
-        grid-row: 2/3;
-        z-index: 200;
-        background-color: white;
-        border-radius: 50%;
-        padding-left: 0.7rem;
-        padding-top: 0.7rem;
-        opacity: 0.6;
+        width: 6rem;
     }
-
-    .file_input_round:hover{
-        cursor: pointer;
-        opacity: 1;
-    }
-
-    .file_input_rectangle{
-        background-color: rgba(248, 248, 248, 1);
-        border: none;
-        margin-bottom: 0.5rem;
-        padding: 1.5rem;
-        border-radius: 3px;
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
-        span{
-            font-family: lato;
-            color: rgba(20, 37, 63, 0.4);
-            margin-left: 0.7rem;
+    .edit_button{
+        grid-column: 4/5;
+        width: 2.36rem;
+        margin-right: 0.4rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        padding: 0;
+        padding-top: 15%;
+        padding-left: 15%;
+        svg{
+            grid-row: 1/2;
+            grid-column: 1/2; 
         }
-        
-    }
-
-    .file_input_rectangle:hover{
-        outline: solid $light-blue 2px;
-        cursor: pointer;
-    }
-
-    .footer{
-        padding-top: 1rem;
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        :first-child{
-            margin-left: 0;
-        }
-        button{
-            font-size: 0.8rem;
-            font-weight: bold;
-            height: 2.2rem;
-            min-width: 7rem;
-            margin-left: 0.6rem;
-            margin-right: 0.6rem;
+        :last-child{
+            margin-left: 4px;
         }
     }
-
-    .dark_border_button{
-        background-color: rgba(0,0,0,0);
-        border: solid 2px $dark-grey;
+    .view_button{
+        grid-column: 5/6;
+        width: 2.36rem;
+        padding: 0;
+        svg{
+            height: 1.6rem;
+            width: 1.6rem;
+        }
     }
-
-    .dark_border_button:hover{
-        background-color: $dark-grey;
-        color: white;
+    .view_button:hover{
+        background-color: $light-blue;
     }
+}
+
+.footer{
+    padding-top: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    :first-child{
+        margin-left: 0;
+    }
+    button{
+        font-size: 0.8rem;
+        font-weight: bold;
+        height: 2.2rem;
+        min-width: 7rem;
+        margin-left: 0.6rem;
+        margin-right: 0.6rem;
+    }
+}
+
+.dark_border_button{
+    background-color: rgba(0,0,0,0);
+    border: solid 2px $dark-grey;
+}
+
+.dark_border_button:hover{
+    background-color: $dark-grey;
+    color: white;
 }
 
 .invisible{
