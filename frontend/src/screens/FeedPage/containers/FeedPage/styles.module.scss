@@ -24,6 +24,11 @@
 
 .sidebar {
   grid-area: sidebar;
-  border: 2px solid aquamarine;
+
+  .logInSideBar {
+    margin-top: 8.5%;
+    margin-bottom: 2em;
+  }
 }
+
 

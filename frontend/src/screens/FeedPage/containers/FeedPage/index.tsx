@@ -7,6 +7,8 @@ import { IBindingAction } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/FeedPage/reducers';
 import { fetchDataRoutine } from '@screens/FeedPage/routines';
+import FeedLogInSidebar from '@components/FeedLogInSidebar';
+import FeedTagsSideBar from '@components/FeedTagsSideBar';
 
 export interface IFeedPageProps extends IState, IActions {
 
@@ -37,7 +39,12 @@ const FeedPage: React.FC<IFeedPageProps> = (
         <PostCard post={data.posts[0]} />
       </div>
       <div className={styles.sidebar}>
-        <h1>Sidebar</h1>
+        <div className={styles.logInSideBar}>
+          <FeedLogInSidebar />
+        </div>
+        <div className={styles.tagsSideBar}>
+          <FeedTagsSideBar />
+        </div>
       </div>
     </div>
   );
