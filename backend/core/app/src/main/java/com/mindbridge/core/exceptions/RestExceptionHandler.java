@@ -29,10 +29,14 @@ public class RestExceptionHandler extends AbstractExceptionHandler {
 	}
 
 	@ExceptionHandler(UsernameNotFoundException.class)
-	public ApiError handleUsernameNotFount(UsernameNotFoundException exception, HttpServletRequest request,
-			HttpServletResponse response) {
-		return setResponseStatusAndReturnError(exception, "username-not-found", HttpStatus.NOT_FOUND, request,
-				response);
+
+	public ApiError handleUsernameNotFoundExeption(UsernameNotFoundException exception, HttpServletRequest request, HttpServletResponse response) {
+		return setResponseStatusAndReturnError(exception, "username-not-found", HttpStatus.NOT_FOUND, request, response);
+	}
+
+	@ExceptionHandler(UserAlreadyExistException.class)
+	public ApiError handleUserAlreadyExistException(UserAlreadyExistException exception, HttpServletRequest request, HttpServletResponse response) {
+		return setResponseStatusAndReturnError(exception, "user-already-exist", HttpStatus.BAD_REQUEST, request, response);
 	}
 
 	@ExceptionHandler(Exception.class)
