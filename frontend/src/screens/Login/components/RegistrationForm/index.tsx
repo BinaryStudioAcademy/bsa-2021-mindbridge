@@ -74,7 +74,7 @@ const RegistrationForm: React.FC<IRegistrationFormProps> = (
             </svg>
           </button>
         </div>
-        <label htmlFor="password">Confirm password</label>
+        <label htmlFor="passwordConfirm">Confirm password</label>
         <div className={styles.passwordWrapper}>
           <input id={"passwordConfirm"} type="password" required placeholder={"Confirm your password"}/>
           <button id={"viewConfirmButton"} className={styles.showPasswordToggle} onClick={() => toggleShowPassword(false)} type={"button"}>
