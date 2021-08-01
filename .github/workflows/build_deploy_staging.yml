@@ -35,13 +35,13 @@ jobs:
         aws-region: us-east-1
 
     - name: Build and Push Backend docker image
-        id: docker-build-backend        
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: .docker/backend.Dockerfile
-          push: true
-          tags: ${{ secrets.BACKEND_DOCKER_REGISTRY }}:staging
+      id: docker-build-backend        
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: .docker/backend.Dockerfile
+        push: true
+        tags: ${{ secrets.BACKEND_DOCKER_REGISTRY }}:staging
 
     - name: Build and Push Frontend docker image
       id: docker-build-frontend        
@@ -61,19 +61,19 @@ jobs:
         wait-for-service-stability: true
 
     - name: Update Pull Request
-        uses: actions/github-script@0.9.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `
-            ### Mindbridge Staging Deploy ⚙️
+      uses: actions/github-script@0.9.0
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `
+          ### Mindbridge Staging Deploy ⚙️
 
-            #### Check the staging portal: 1.1.1.1 
+          #### Check the staging portal: 1.1.1.1 
 
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
