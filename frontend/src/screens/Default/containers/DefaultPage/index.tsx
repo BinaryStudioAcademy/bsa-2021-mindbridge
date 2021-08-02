@@ -4,7 +4,7 @@ import { IBindingAction } from '@models/Callbacks';
 import { IData } from '@screens/Default/models/IData';
 import { RootState } from '@root/store';
 import { fetchDataRoutine } from '@screens/Default/routines';
-import { extractData } from '@screens/Default/reducers';
+import { extractData, extractFetchDataError, extractFetchDataLoading } from '@screens/Default/reducers';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { Button } from 'semantic-ui-react';
 
@@ -47,7 +47,9 @@ const Default: React.FC<IDefaultProps> = (
           </>
         )}
       </LoaderWrapper>
+
       <button onClick={sendSomething}>Send message</button>
+
     </div>
   );
 };
