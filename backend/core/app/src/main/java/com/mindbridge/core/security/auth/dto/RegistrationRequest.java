@@ -10,8 +10,16 @@ import javax.validation.constraints.*;
 public class RegistrationRequest {
 
 	@NotNull
+	@NotEmpty(message = "Name cannot be empty.")
+	private String name;
+
+	@NotNull
+	@NotEmpty(message = "Surname cannot be empty.")
+	private String surname;
+
+	@NotNull
 	@NotEmpty(message = "Nickname cannot be empty.")
-	@Pattern(regexp = "(?=\\S+$).+", message = "Nickname must contain no whitespace.")
+	/*@Pattern(regexp = "(?=\\S+$).+", message = "Nickname must contain no whitespace.")*/
 	private String nickname;
 
 	@NotNull

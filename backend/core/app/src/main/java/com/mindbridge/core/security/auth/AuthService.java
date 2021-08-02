@@ -1,7 +1,7 @@
 package com.mindbridge.core.security.auth;
 
 import com.mindbridge.core.domains.user.UserService;
-import com.mindbridge.core.exceptions.UserAlreadyExistException;
+import com.mindbridge.core.exceptions.custom.UserAlreadyExistException;
 import com.mindbridge.core.security.auth.dto.AuthRequest;
 import com.mindbridge.core.security.auth.dto.AuthResponse;
 import com.mindbridge.core.security.auth.dto.RefreshTokenRequest;

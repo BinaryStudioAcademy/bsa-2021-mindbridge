@@ -22,10 +22,9 @@ public class UserService implements UserDetailsService {
 	private final PasswordEncoder passwordEncoder;
 
 	public static final String PHONE_REGEX = "^\\d{10}$";
-
 	public static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z].{2})(?=.*[A-Z])(?=\\S+$).{8,40}$";
 
-	@Lazy
+  @Lazy
 	@Autowired
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
@@ -42,11 +41,12 @@ public class UserService implements UserDetailsService {
 
 	public void registerNewUserAccount(RegistrationRequest registrationRequest) {
 		User user = new User();
+		user.setFirstName(registrationRequest.getName());
+		user.setLastName(registrationRequest.getSurname());
 		user.setNickname(registrationRequest.getNickname());
 		user.setEmail(registrationRequest.getEmail());
 		user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 		user.setEmailVerified(false);
 		userRepository.save(user);
 	}
-
 }
