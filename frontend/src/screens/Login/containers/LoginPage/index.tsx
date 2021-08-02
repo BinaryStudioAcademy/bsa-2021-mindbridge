@@ -2,8 +2,8 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
-import LoginForm from "@screens/Login/components/LoginForm";
-import RegistrationForm from "@screens/Login/components/RegistrationForm";
+import LoginForm from '@screens/Login/components/LoginForm';
+import RegistrationForm from '@screens/Login/components/RegistrationForm';
 
 export interface ILoginProps extends IState, IActions {
 }
