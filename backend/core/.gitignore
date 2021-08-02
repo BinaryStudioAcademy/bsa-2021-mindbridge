@@ -37,3 +37,4 @@ out/
 ### VS Code ###
 .vscode/
 logs
+/app/src/main/resources/application.properties
