@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { Button } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 
 interface ITagsMenuProps {
@@ -7,7 +6,7 @@ interface ITagsMenuProps {
 }
 
 const TagsMenu: FunctionComponent<ITagsMenuProps> = ({ tag }) => (
-  <Button content={tag} primary />
+      <button className={styles.tag}>{tag}</button>
 );
 
 export default TagsMenu;

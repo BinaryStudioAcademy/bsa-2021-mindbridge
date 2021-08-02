@@ -17,7 +17,8 @@ const initialState: IFeedPageReducerState = {
       + ' The developer technology landscape changes all the time as new tools and technologies are introduced.\n'
       + ' After having lots of interviews and reading through countless job descriptions on job boards i think this\n'
       + ' is a great modern tech stack for JavaScript developers in 2021.',
-    tags: ['IT', 'Code', 'Humor', 'Work', 'Tech'],
+    tags: [{ id: 1, name: 'IT' }, { id: 2, name: 'Code' }, { id: 3, name: 'Humor' }, { id: 4, name: 'Work' },
+      { id: 5, name: 'Tech' }],
     date: 'May 28',
     timeRead: '7 min read',
     comments: '54',

@@ -4,11 +4,11 @@
   display: flex;
   flex-direction: column;
   grid-gap: 1em;
-  height: 18rem;
-  width: 24rem;
+  height: 19em;
+  width: 25em;
   background-color: $background-card;
-  padding: 1.5rem 1.5rem 1.5rem 1.9rem;
-  border-radius: 0.5rem;
+  padding: 1.5em 1.5em 1.5em 1.9em;
+  border-radius: 0.5em;
 }
 
 .title {
@@ -33,8 +33,8 @@
     border: none;
     background-color: #FFFFFF;
     border-radius: 2%/16%;
-    padding-left: 1.5rem;
-    padding-right: 2.4rem;
+    padding-left: 1.5em;
+    padding-right: 2.4em;
     grid-column: 1/3;
     grid-row: 1/2;
   }
@@ -45,7 +45,7 @@
     background-color: #FFFFFF;
     grid-column: 2/3;
     grid-row: 1/2;
-    margin: 2px;
+    margin: 0.13em;
     opacity: 0.6;
   }
   button:hover{
@@ -67,15 +67,22 @@
 }
 
 .tag {
-  color: red;
-}
-
-:global(.ui.primary.button) {
   padding: 6px;
   font-size: 0.88rem;
   font-family: Lato, serif;
   color:rgba(102, 122, 175, 0.5);
   background-color: #FFFFFF;
-  margin-right: 0.5rem;
+  margin-right: 0.8rem;
   margin-bottom: 0.5em;
+  cursor: pointer;
+  min-height: 1em;
+  font-weight: normal;
+  line-height: 1em;
+  text-align: center;
+  border-radius: .28571429rem;
+}
+
+.tag:hover {
+  background: #CEE8FE;
+  color: black;
 }

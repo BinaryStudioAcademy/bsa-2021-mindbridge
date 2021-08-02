@@ -1,6 +1,6 @@
 :global(.ui.card).postCard {
   width: 83%;
-  max-width: 78em;
+  max-width: 83em;
   margin: 4% 0px -2em 15%;
   padding-top: 1.5em;
   border: 2px solid #F8F8F8;
@@ -21,10 +21,6 @@
     font-size: 0.85rem;
     color: rgba(53, 53, 53, 0.5);
   }
-}
-
-:global(.ui.feed>.event span) {
-  color: rgb(169, 169, 169);
 }
 
 :global(.ui.card>.content>.description) {

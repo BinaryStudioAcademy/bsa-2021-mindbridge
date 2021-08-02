@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import TagsMenu from '@components/TagsMenu';
 import styles from './styles.module.scss';
-import { Button } from 'semantic-ui-react';
 
 const FeedTagsSideBar: FunctionComponent = () => {
-  const tags = ['IT', 'Code', 'Humor', 'Work', 'Tech', 'API', 'React', 'Sport', 'Books', 'Self', 'Fitness'];
+  const tags = [{ id: 1, name: 'IT' }, { id: 2, name: 'Code' }, { id: 3, name: 'Humor' }, { id: 4, name: 'Work' },
+    { id: 5, name: 'Tech' }, { id: 6, name: 'API' }, { id: 7, name: 'React' }, { id: 8, name: 'Sport' },
+    { id: 9, name: 'Books' }, { id: 10, name: 'Self' }, { id: 11, name: 'Fitness' }];
+
   return (
     <div className={styles.tagsSideBar}>
       <div className={styles.title}>
@@ -24,9 +25,14 @@ const FeedTagsSideBar: FunctionComponent = () => {
         </button>
       </div>
       <div className={styles.btnWrapper}>
-        <div className={styles.tag}>
+        <div>
           {tags.map(tag => (
-            <Button content={tag} primary />
+            <button
+              key={tag.id}
+              className={styles.tag}
+            >
+              {tag.name}
+            </button>
           ))}
         </div>
       </div>

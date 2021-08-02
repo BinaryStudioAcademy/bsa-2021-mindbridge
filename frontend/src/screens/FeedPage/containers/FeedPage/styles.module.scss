@@ -1,7 +1,7 @@
 .feedPage {
   height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 600px;
+  grid-template-columns: 1fr 550px;
   grid-template-rows: 105px 1fr;
   grid-template-areas:
       "header header"
@@ -9,7 +9,7 @@
 
 ;
   grid-gap: 1rem;
-  grid-row-gap: 0px;
+  grid-row-gap: 0;
 }
 
 .header {
@@ -19,14 +19,14 @@
 
 .main {
   grid-area: main;
-  min-width: 700px;
+  min-width: 43.75em;
 }
 
 .sidebar {
   grid-area: sidebar;
 
   .logInSideBar {
-    margin-top: 8.5%;
+    margin-top: 10%;
     margin-bottom: 2em;
   }
 }

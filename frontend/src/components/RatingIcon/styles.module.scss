@@ -1,3 +1,5 @@
+@import "../../styles/common.sass";
+
 .arrowDown {
   margin-left: 16px;
   margin-top: 4px;
@@ -15,7 +17,7 @@
 
 .arrowDown:hover,
 .arrowUp:hover {
-  fill: #5254f5;
+  fill: $dark-grey;
 }
 
 .ratingNumber {

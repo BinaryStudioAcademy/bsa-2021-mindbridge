@@ -3,7 +3,7 @@ import { Card, Feed, Image } from 'semantic-ui-react';
 import ShareSvg from '@components/SvgComponents/shareSvg';
 import RatingComponent from '@components/RatingIcon';
 import FavouriteSvg from '@components/SvgComponents/favouriteSvg';
-import TagsMenu from '@components/TagsMenu';
+import TagsMenu from '@components/TagComponent';
 import PostHeaderInformation from '@components/PostHeaderInformation';
 import styles from './styles.module.scss';
 
@@ -35,7 +35,10 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
         </span>
         <div className={styles.btnWrapper}>
           {post.tags.map(tag => (
-            <TagsMenu tag={tag} />
+            <TagsMenu
+              key={tag.id}
+              tag={tag.name}
+            />
           ))}
         </div>
       </Card.Description>
