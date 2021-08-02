@@ -1,7 +1,7 @@
 name: Deploy Mindbridge Staging
 
 on:  
-  pull_request:
+  push:
     branches: 
       - dev
 
@@ -68,7 +68,7 @@ jobs:
           const output = `
           ### Mindbridge Staging Deploy ⚙️
 
-          #### Check the staging portal: 1.1.1.1 
+          #### Check the staging portal: http://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com
 
           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
