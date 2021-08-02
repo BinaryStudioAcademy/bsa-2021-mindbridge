@@ -1,4 +1,4 @@
-package com.mindbridge.core.exceptions;
+package com.mindbridge.core.exceptions.handling;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;

@@ -11,7 +11,7 @@ public class RegistrationRequest {
 
 	@NotNull
 	@NotEmpty(message = "Nickname cannot be empty.")
-	@Pattern(regexp = "(?=\\S+$).+", message = "Nickname must contain no whitespace.")
+	/*@Pattern(regexp = "(?=\\S+$).+", message = "Nickname must contain no whitespace.")*/
 	private String nickname;
 
 	@NotNull

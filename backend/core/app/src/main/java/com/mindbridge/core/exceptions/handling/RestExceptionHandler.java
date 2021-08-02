@@ -1,5 +1,7 @@
-package com.mindbridge.core.exceptions;
+package com.mindbridge.core.exceptions.handling;
 
+import com.mindbridge.core.exceptions.custom.OAuth2NotFoundException;
+import com.mindbridge.core.exceptions.custom.UserAlreadyExistException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,6 +35,11 @@ public class RestExceptionHandler extends AbstractExceptionHandler {
 	@ExceptionHandler(UserAlreadyExistException.class)
 	public ApiError handleUserAlreadyExistException(UserAlreadyExistException exception, HttpServletRequest request, HttpServletResponse response) {
 		return setResponseStatusAndReturnError(exception, "user-already-exist", HttpStatus.BAD_REQUEST, request, response);
+	}
+
+	@ExceptionHandler(OAuth2NotFoundException.class)
+	public ApiError handleOAuth2NotFoundException(OAuth2NotFoundException exception, HttpServletRequest request, HttpServletResponse response) {
+		return setResponseStatusAndReturnError(exception, "oauth2-not-found", HttpStatus.BAD_REQUEST, request, response);
 	}
 
 	@ExceptionHandler(Exception.class)
