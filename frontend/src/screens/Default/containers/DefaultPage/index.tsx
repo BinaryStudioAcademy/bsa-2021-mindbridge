@@ -24,11 +24,19 @@ const Default: React.FC<IDefaultProps> = (
     fetchData();
   }, []);
 
+  const sendSomething = () => {
+    fetch('http://localhost:5000/data/hello',{
+      method: 'GET',
+      mode: 'no-cors'
+    }).then();
+  };
+
   return (
     <div>
       <h1>Inner component</h1>
       <span>Data loaded: </span>
-      <span>{data.message}</span>
+      <span>{data.message}</span><br/>
+      <button onClick={sendSomething}>Send message</button>
     </div>
   );
 };
