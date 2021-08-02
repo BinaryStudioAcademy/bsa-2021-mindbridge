@@ -47,9 +47,6 @@ const Default: React.FC<IDefaultProps> = (
           </>
         )}
       </LoaderWrapper>
-
-      <button onClick={sendSomething}>Send message</button>
-
     </div>
   );
 };
