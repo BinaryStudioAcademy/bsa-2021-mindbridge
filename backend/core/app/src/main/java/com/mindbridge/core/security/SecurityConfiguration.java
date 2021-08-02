@@ -1,5 +1,7 @@
 package com.mindbridge.core.security;
 
+import com.mindbridge.core.security.jwt.JwtFilter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -38,6 +40,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers("/swagger-ui/**").permitAll()
 			.anyRequest().authenticated()
 			.and();
+	}
+
+	@Bean
+	public JwtFilter tokenFilter() {
+		return new JwtFilter();
 	}
 }
 

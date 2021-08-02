@@ -2,6 +2,7 @@ package com.mindbridge.core.security.auth;
 
 import com.mindbridge.core.security.auth.dto.AuthRequest;
 import com.mindbridge.core.security.auth.dto.AuthResponse;
+import com.mindbridge.core.security.auth.dto.RefreshTokenRequest;
 import com.mindbridge.core.security.auth.dto.RegistrationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -43,5 +44,10 @@ public class AuthController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errors.toString());
 		}
 		return authService.performRegister(registrationRequest);
+	}
+
+	@PostMapping("/refresh")
+	public AuthResponse refreshTokenPair(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+		return authService.refreshTokenPair(refreshTokenRequest);
 	}
 }
