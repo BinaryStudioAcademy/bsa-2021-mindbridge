@@ -5,6 +5,8 @@ import { IData } from '@screens/Default/models/IData';
 import { RootState } from '@root/store';
 import { fetchDataRoutine } from '@screens/Default/routines';
 import { extractData } from '@screens/Default/reducers';
+import LoaderWrapper from '@components/LoaderWrapper';
+import { Button } from 'semantic-ui-react';
 
 export interface IDefaultProps extends IState, IActions {
 }
@@ -33,9 +35,18 @@ const Default: React.FC<IDefaultProps> = (
 
   return (
     <div>
-      <h1>Inner component</h1>
-      <span>Data loaded: </span>
-      <span>{data.message}</span><br/>
+      <Button loading={dataLoading} onClick={fetchData} disabled={dataLoading}>Fetch data</Button>
+      <LoaderWrapper loading={dataLoading}>
+        <h1>Inner component</h1>
+        {dataError ? (
+          <p>{`Error: ${dataError}`}</p>
+        ) : (
+          <>
+            <span>Data loaded: </span>
+            <span>{data.message}</span>
+          </>
+        )}
+      </LoaderWrapper>
       <button onClick={sendSomething}>Send message</button>
     </div>
   );
