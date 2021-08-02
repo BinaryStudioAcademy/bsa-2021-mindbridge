@@ -4,10 +4,12 @@ import com.mindbridge.core.domains.user.UserService;
 import com.mindbridge.core.exceptions.UserAlreadyExistException;
 import com.mindbridge.core.security.auth.dto.AuthRequest;
 import com.mindbridge.core.security.auth.dto.AuthResponse;
+import com.mindbridge.core.security.auth.dto.RefreshTokenRequest;
 import com.mindbridge.core.security.auth.dto.RegistrationRequest;
 import com.mindbridge.core.security.jwt.JwtProvider;
 import com.mindbridge.data.domains.user.UserRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -55,6 +57,18 @@ public class AuthService {
 		}
 		userService.registerNewUserAccount(registrationRequest);
 
+		// need to add email verification before login new user
+
 		return performLogin(new AuthRequest(registrationRequest.getEmail(), registrationRequest.getPassword()));
+	}
+
+	public AuthResponse refreshTokenPair(RefreshTokenRequest refreshTokenRequest) {
+		String userName = jwtProvider.getLoginFromToken(refreshTokenRequest.getRefreshToken());
+
+		if (!userName.isEmpty()) {
+			var userDetails = userService.loadUserByUsername(userName);
+			return AuthResponse.of(jwtProvider.generateToken(userDetails, "30min"),
+				jwtProvider.generateToken(userDetails, "30days"));
+		} else throw new UsernameNotFoundException("Сouldn`t find a user with such refresh token.");
 	}
 }
