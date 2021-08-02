@@ -29,3 +29,5 @@ build
 keys.txt
 /.idea/
 
+/logs/
+

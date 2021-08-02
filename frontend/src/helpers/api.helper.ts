@@ -1,66 +1,61 @@
-import * as queryString from 'query-string';
 import { toastr } from 'react-redux-toastr';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
-const getFetchUrl = ({ endpoint, queryParams }: IFetchArgsData) => `${endpoint}${
-  queryParams ? `?${queryString.stringify(queryParams)}` : ''
-}`;
-
-const getInitHeaders = (contentType = 'application/json', hasContent = true) => {
-  const headers: HeadersInit = new Headers();
-  if (hasContent) {
-    headers.set('Content-Type', contentType);
+function handleBadResponse(error: AxiosError) {
+  if (error.response.status === 401) {
+    // logout
   }
-  return headers;
-};
-
-interface IFetchArgs {
-  method: string;
-  headers: HeadersInit;
-  body?: string;
+  throw error.response.data;
 }
 
-const getFetchArgs = (args: IFetchArgsData): IFetchArgs => {
-  const headers = getInitHeaders();
-
-  if (args.requestData && args.type === 'GET') {
-    throw new Error('GET request does not support request body.');
-  }
-
-  return {
-    method: args.type,
-    headers,
-    ...(args.type === 'GET' ? {} : { body: JSON.stringify(args.requestData) })
-  };
-};
-
-const throwIfResponseFailed = async (res: Response) => {
-  if (!res.ok) {
-    if (res.status === 401) {
-      // logout
+function handleMissingResponse(error: AxiosError) {
+  const errorMessage = 'No response was received';
+  // eslint-disable-next-line no-console
+  console.error(errorMessage, {
+    request: {
+      url: error.request.url,
+      method: error.request.method,
+      headers: error.request.headers,
+      body: error.request.body
     }
-    let parsedException = 'Something went wrong with request!';
-    try {
-      parsedException = await res.json();
-      toastr.error('Error!', parsedException);
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(`An error occurred: ${err}`);
-      toastr.error('Error!', err);
-    }
-    throw parsedException;
-  }
-};
-
-interface IFetchArgsData {
-  type: string;
-  endpoint: string;
-  requestData?: object | string;
-  queryParams?: object;
-  attachment?: File;
+  });
+  toastr.error('Error', errorMessage);
+  throw new Error(errorMessage);
 }
 
-export const callApi = async (args: IFetchArgsData): Promise<Response> => {
-  const res = await fetch(getFetchUrl(args), getFetchArgs(args));
-  await throwIfResponseFailed(res);
-  return res;
+function handleBadRequest(error: AxiosError) {
+  const errorMessage = 'Error in setting up the request';
+  // eslint-disable-next-line no-console
+  console.error(errorMessage, error.message);
+  toastr.error('Error', errorMessage);
+  throw new Error(errorMessage);
+}
+
+function handleApiCallError(error: AxiosError): void {
+  if (error.response) {
+    handleBadResponse(error);
+  } else if (error.request) {
+    handleMissingResponse(error);
+  } else {
+    handleBadRequest(error);
+  }
+}
+
+export const callApi = async (path: string, config: AxiosRequestConfig): Promise<any> => {
+  try {
+    return (await axios(path, config)).data;
+  } catch (e) {
+    handleApiCallError(e);
+    throw new Error('Unhandled error');
+  }
 };
+
+const api = {
+  get: async (path: string, config?: AxiosRequestConfig) => callApi(path, { ...config, method: 'GET' }),
+  post: async (path: string, config?: AxiosRequestConfig) => callApi(path, { ...config, method: 'POST' }),
+  put: async (path: string, config?: AxiosRequestConfig) => callApi(path, { ...config, method: 'PUT' }),
+  patch: async (path: string, config?: AxiosRequestConfig) => callApi(path, { ...config, method: 'PATCH' }),
+  delete: async (path: string, config?: AxiosRequestConfig) => callApi(path, { ...config, method: 'DELETE' })
+};
+
+export default api;

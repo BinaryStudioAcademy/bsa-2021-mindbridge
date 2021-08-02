@@ -1,4 +1,4 @@
-name: 'Deploy Mindbridge'
+name: Deploy Mindbridge Prod
 
 on:  
   push:
@@ -7,10 +7,10 @@ on:
       - dev
 
 jobs:
-  terraform:
+  deploy:
     name: 'Project Deploy'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
 

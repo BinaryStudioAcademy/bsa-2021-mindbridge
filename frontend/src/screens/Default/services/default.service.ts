@@ -1,14 +1,7 @@
-import { callApi } from '@helpers/api.helper';
+import api from '@helpers/api.helper';
 
 const defaultService = {
-  getData: async () => {
-    const response = await callApi({
-      endpoint: '/api/data/',
-      type: 'GET'
-    });
-
-    return response.json();
-  }
+  getData: async () => api.get('/api/data/')
 };
 
 export default defaultService;
