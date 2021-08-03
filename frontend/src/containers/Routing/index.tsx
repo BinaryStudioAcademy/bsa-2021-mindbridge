@@ -5,7 +5,7 @@ import PublicRoute from 'components/PublicRoute';
 import Default from 'screens/Default/containers/DefaultPage';
 import PrivateRoute from '@root/components/PrivateRoute';
 import CreatePostPage from '@root/screens/CreatePost/containers/CreatePostPage';
-import Login from "screens/Login/containers/LoginPage";
+import Login from 'screens/Login/containers/LoginPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -25,11 +25,11 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => (
               path="/private"
               component={Private}
             /> */}
-            {<PrivateRoute
+            <PrivateRoute
               exact
               path="/create/post"
               component={CreatePostPage}
-            />}
+            />
             <Route path="/*">
               <Redirect to="/public" />
             </Route>
