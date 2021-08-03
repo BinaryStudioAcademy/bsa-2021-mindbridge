@@ -15,19 +15,8 @@
   margin-right: 0.94rem;
 }
 
-:global(.ui.primary.button):hover {
-  background: #CEE8FE;
-  color: black;
-}
-
 .btnWrapper {
   margin: 1em 0 1.5em 1em;
-}
-
-:global(.ui.right.floated.image) {
-  height: 9rem;
-  width: 12rem;
-  border-radius: 5%;
 }
 
 .cardHeader {
@@ -59,12 +48,13 @@
 }
 
 .content {
+  object-fit: cover;
   font-family: Lato, sans-serif;
   size: 18px;
   color: #353535;
   font-style: normal;
   font-weight: normal;
-  position: center;
+  position: relative;
 }
 
 .image {

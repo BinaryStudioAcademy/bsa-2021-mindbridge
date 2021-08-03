@@ -6,7 +6,6 @@
   grid-template-areas:
       "header header"
       "main sidebar"
-
 ;
   grid-gap: 1rem;
   grid-row-gap: 0;
@@ -30,10 +29,6 @@
 .suggestChanges {
   width: 396px;
   height: 217px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  opacity: 1;
   position: relative;
   top: 30rem;
   left: 2rem;

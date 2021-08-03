@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles.module.scss';
-import SuggestChangesBtn from '@components/Button/SuggestChangesBtn';
+import SuggestChangesBtn from '@screens/ViewPost/components/Button/SuggestChangesBtn';
 
 function SuggestChangesCard() {
   return (

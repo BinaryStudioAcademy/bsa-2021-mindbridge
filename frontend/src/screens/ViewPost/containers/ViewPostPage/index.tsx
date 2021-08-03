@@ -6,8 +6,8 @@ import { IData } from '@screens/ViewPost/models/IData';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
 import { fetchDataRoutine } from '@screens/ViewPost/routines';
-import ViewPostCard from '@components/ViewPostCard';
-import SuggestChangesCard from '@components/SuggestChangesCard';
+import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
+import SuggestChangesCard from '@screens/ViewPost/components/SuggestChangesCard';
 
 export interface IViewPostProps extends IState, IActions {
 }

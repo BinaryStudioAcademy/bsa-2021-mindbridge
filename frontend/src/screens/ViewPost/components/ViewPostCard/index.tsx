@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { Card, Feed, Grid, Container } from 'semantic-ui-react';
 import styles from './styles.module.scss';
-import PostInformation from '@components/PostInformation/PostInformation';
-import RatingComponent from '@components/RatingIcon';
-import TagsMenu from '@components/TagsMenu';
-import FavouriteSvg from '@components/SvgComponents/favouriteSvg';
-import ShareSvg from '@components/SvgComponents/shareSvg';
-import CommentSvg from '@components/SvgComponents/commentSvg';
+import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
+import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
+import TagsMenu from '@screens/ViewPost/components/TagsMenu';
+import FavouriteSvg from '@screens/ViewPost/components/svgs/SvgComponents/favouriteSvg';
+import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
+import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
 
 interface IViewPostCardProps {
   post: any;
@@ -30,7 +30,6 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
             <ShareSvg />
           </div>
         </div>
-
         <img
           className={styles.image}
           src={post.imgSource}
