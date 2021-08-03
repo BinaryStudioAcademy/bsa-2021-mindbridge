@@ -11,16 +11,20 @@
     z-index: 200;
 }
 
-.profile_sidebar_container {
+.form_and_sidebar_container{
+    height: 100%;
+    width: 63rem;
+    margin: auto;
     margin-top: 8rem;
-    margin-left: 57rem;
+}
+
+.profile_sidebar_container {
+    margin-left: 45rem;
     position: fixed;
 }
 
 .create_post_container{
     position: relative;
-    margin-top: 8rem;
-    margin-left: 12.2rem;
     width: 43.5rem;
     height: 42rem;
     z-index: 100;
@@ -115,7 +119,7 @@
 }
 
 .history_sidebar_container {
-    margin-top: 27rem;
-    margin-left: 57rem;
+    margin-top: 19rem;
+    margin-left: 45rem;
     position: fixed;
 }
