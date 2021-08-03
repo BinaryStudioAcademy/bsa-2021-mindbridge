@@ -66,8 +66,8 @@
   "scripts": {
     "lint": "eslint --fix --ext .ts,.tsx,.js,.jsx src/",
     "lint-nofix": "eslint --ext .ts,.tsx,.js,.jsx src/",
-    "start": "craco start",
-    "build": "craco build",
+    "start": "npm run lint-nofix && craco start",
+    "build": "npm run lint-nofix && craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
