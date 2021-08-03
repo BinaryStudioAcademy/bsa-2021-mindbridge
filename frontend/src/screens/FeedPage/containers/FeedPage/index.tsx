@@ -11,7 +11,6 @@ import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 
 export interface IFeedPageProps extends IState, IActions {
-
 }
 
 interface IState {
