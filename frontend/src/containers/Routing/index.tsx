@@ -3,8 +3,6 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import LoaderWrapper from 'components/LoaderWrapper';
 import PublicRoute from 'components/PublicRoute';
 import Default from 'screens/Default/containers/DefaultPage';
-import { Stomp } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -12,20 +10,7 @@ export interface IRoutingProps {
 
 const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
 
-  React.useEffect(() => {
-    const stompClient = Stomp.over(() => new SockJS('/api/ws'));
-    stompClient.reconnect_delay = 10000;
-    stompClient.connect({}, frame => {
-      stompClient.subscribe("/topic/greeting", greeting => {
-        console.log("hi " + JSON.parse(greeting.body).message);
-      });
-    } );
 
-    return () => {
-      // @ts-ignore
-      stompClient.onDisconnect(() => {});
-    };
-  });
 
   return (
     <div>
