@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 /package-lock.json
 .idea
+=======
+.idea
+package-lock.json
+>>>>>>> dev
