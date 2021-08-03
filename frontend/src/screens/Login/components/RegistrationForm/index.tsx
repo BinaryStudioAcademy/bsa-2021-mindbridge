@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 import PasswordInput from '@screens/Login/components/PasswordInput';
+import FormButton from "@screens/Login/components/FormButton";
 
 export interface IRegistrationFormProps extends IState, IActions {
 }
@@ -32,7 +33,7 @@ const RegistrationForm: React.FC<IRegistrationFormProps> = (
         <PasswordInput idName={'password'}/>
         <label htmlFor="passwordConfirm">Confirm password</label>
         <PasswordInput idName={'passwordConfirm'}/>
-        <button type={"submit"} className={styles.submitButton}>Sign In</button>
+        <FormButton text={"Sign In"} inverted={true}/>
       </form>
     </div>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 import PasswordInput from '@screens/Login/components/PasswordInput';
+import FormButton from "@screens/Login/components/FormButton";
 
 export interface ILoginFormProps extends IState, IActions {
 }
@@ -19,9 +20,9 @@ const LoginForm: React.FC<ILoginFormProps> = (
   return (
     <div className={styles.loginForm}>
       <h2 className={styles.title}>Sign In</h2>
-      <button className={styles.oauthButton}>Sign in with Google</button>
-      <button className={styles.oauthButton}>Sign in with Facebook</button>
-      <button className={styles.oauthButton}>Sign in with GitHub</button>
+      <FormButton text={"Sign in with Google"} inverted={false}/>
+      <FormButton text={"Sign in with Facebook"} inverted={false}/>
+      <FormButton text={"Sign in with GitHub"} inverted={false}/>
 
       <div className={styles.separator}>
         <div className={styles.separatorLine}></div>
@@ -34,7 +35,7 @@ const LoginForm: React.FC<ILoginFormProps> = (
         <input id={"email"} type="email" placeholder={"Enter your email"} required/>
         <label htmlFor="password">Password <a href="" className={styles.linkTo}>Forget password</a></label>
         <PasswordInput idName={'password'}/>
-        <button type={"submit"} className={styles.submitButton}>Sign In</button>
+        <FormButton text={"Sign In"} inverted={true}/>
       </form>
     </div>
   );
