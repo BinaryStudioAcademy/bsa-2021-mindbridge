@@ -14,7 +14,7 @@ const FeedTagsSideBar: FunctionComponent = () => {
       </div>
       <div className={styles.searchInput}>
         <input type="text" placeholder="Search..." />
-        <button>
+        <button type="button">
           <SvgSearch />
         </button>
       </div>
@@ -22,6 +22,7 @@ const FeedTagsSideBar: FunctionComponent = () => {
         <div>
           {tags.map(tag => (
             <button
+              type="button"
               key={tag.id}
               className={styles.tag}
             >
@@ -30,7 +31,7 @@ const FeedTagsSideBar: FunctionComponent = () => {
           ))}
         </div>
       </div>
-      <button className={`${styles.dark_button} ${styles.searchBtn}`}>Search</button>
+      <button type="button" className={`${styles.dark_button} ${styles.searchBtn}`}>Search</button>
     </div>
   );
 };

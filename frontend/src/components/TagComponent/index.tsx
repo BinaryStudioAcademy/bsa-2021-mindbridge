@@ -6,7 +6,7 @@ interface ITagsMenuProps {
 }
 
 const TagsMenu: FunctionComponent<ITagsMenuProps> = ({ tag }) => (
-      <button className={styles.tag}>{tag}</button>
+  <button type="button" className={styles.tag}>{tag}</button>
 );
 
 export default TagsMenu;
