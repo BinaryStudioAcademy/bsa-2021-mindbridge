@@ -1,6 +1,7 @@
 # Binary Studio Academy | 2021 | Java 
 
 ## [Mindbridge](http://mindbridge.westeurope.azurecontainer.io)
+## [Staging Mindbridge](http://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com)
 
 > Let us connect your minds
 
