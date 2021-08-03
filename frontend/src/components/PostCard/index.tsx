@@ -11,8 +11,22 @@ import LikeSvg from '@components/FeedSvgComponents/likeSvg';
 import DisLikeSvg from '@components/FeedSvgComponents/disLikeSvg';
 import styles from './styles.module.scss';
 
+interface IPost {
+  id: string;
+  userName: string;
+  title: string;
+  text: string;
+  tags: any;
+  date: string;
+  timeRead: string;
+  comments: string;
+  views: string;
+  likes: string;
+  dislikes: string;
+}
+
 interface IPostCardProps {
-  post: any;
+  post: IPost;
 }
 
 const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
