@@ -1,4 +1,4 @@
-name: Lint frontend
+name: Linting
 
 on:
   pull_request:
