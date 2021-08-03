@@ -32,7 +32,7 @@ const RegistrationForm: React.FC<IRegistrationFormProps> = (
       <PasswordInput idName="password" />
       <label htmlFor="passwordConfirm">Confirm password</label>
       <PasswordInput idName="passwordConfirm" />
-      <FormButton text="Sign In" inverted />
+      <FormButton text="Sign Up" inverted />
     </form>
   </div>
 );
