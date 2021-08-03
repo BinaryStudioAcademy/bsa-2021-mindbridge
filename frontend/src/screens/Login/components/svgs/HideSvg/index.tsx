@@ -1,18 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-export interface IHideSvgProps extends IState, IActions {
-}
-
-interface IState {
-}
-
-interface IActions {
-}
-
-const HideSvg: React.FC<IHideSvgProps> = (
-  { children }
-) => {
+const HideSvg: React.FC = () => {
 
   return (
     <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,10 +10,4 @@ const HideSvg: React.FC<IHideSvgProps> = (
   );
 };
 
-const mapStateToProps: (state) => IState = state => ({
-});
-
-const mapDispatchToProps: IActions = {
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(HideSvg);
+export default HideSvg;
