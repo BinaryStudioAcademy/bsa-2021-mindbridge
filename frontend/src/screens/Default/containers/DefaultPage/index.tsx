@@ -7,7 +7,6 @@ import { fetchDataRoutine } from '@screens/Default/routines';
 import { extractData, extractFetchDataError, extractFetchDataLoading } from '@screens/Default/reducers';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { Button } from 'semantic-ui-react';
-import proxy from "http-proxy-middleware";
 
 export interface IDefaultProps extends IState, IActions {
 }
@@ -39,7 +38,6 @@ const Default: React.FC<IDefaultProps> = (
   return (
     <div>
       <Button loading={dataLoading} onClick={fetchData} disabled={dataLoading}>Fetch data</Button>
-      <Button onClick={sendSomething}>Send socket</Button>
       <LoaderWrapper loading={dataLoading}>
         <h1>Inner component</h1>
         {dataError ? (
