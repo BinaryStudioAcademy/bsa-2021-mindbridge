@@ -1,0 +1,67 @@
+@import "src/styles/fonts";
+@import "src/styles/common_variables";
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+.loginForm {
+
+  * {
+    font-family: 'Lato', serif;
+  }
+
+  .title {
+    color: #66B9FF;
+    margin-bottom: 1rem;
+    font-family: 'Montserrat', serif !important;
+    font-weight: 600;
+  }
+
+  .separator {
+    color: #E5E5E5;
+    text-align: center;
+    font-size: 1.3rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1rem -0.3rem;
+
+    .separatorLine {
+      height: 1px;
+      width: 100%;
+      background-color: #E5E5E5;
+      margin: 0 0.3rem;
+    }
+  }
+
+  label {
+    width: 100%;
+    line-height: 1rem;
+    color: $dark-grey;
+    font-weight: bold;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+
+    a {
+      font-weight: normal;
+      color: #66B9FF;
+    }
+  }
+
+  input {
+    width: 100%;
+    background-color: #F8F8F8;
+    box-sizing: border-box;
+    border-radius: 7px;
+    color: rgba(40, 40, 40, 0.7);;
+    line-height: 3rem;
+    outline: none;
+    border: none;
+    padding: 0 1.35rem;
+    margin-top: 0.3rem;
+    margin-bottom: 1.2rem;
+
+    &::placeholder {
+      opacity: 0.4;
+    }
+  }
+}

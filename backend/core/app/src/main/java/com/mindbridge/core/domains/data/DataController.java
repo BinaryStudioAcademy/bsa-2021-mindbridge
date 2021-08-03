@@ -14,7 +14,7 @@ public class DataController {
     private DataService dataService;
 
     @GetMapping("/")
-    public DataDto getData() {
+    public DataDto getData() throws InterruptedException {
         return dataService.getData();
     }
 }
