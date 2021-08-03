@@ -1,0 +1,55 @@
+name: Lint frontend
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  linter_frontend:
+    runs-on: ubuntu-latest
+    name: Frontend linter
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Clone code from repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Lint with Yarn
+        run: yarn lint-nofix
+
+# TODO: Currently not implemented
+#  linter_backend_core:
+#    runs-on: ubuntu-latest
+#    name: Backend Core linter
+#
+#    defaults:
+#      run:
+#        working-directory: backend/core
+#
+#    steps:
+#      - name: Clone code from repository
+#        uses: actions/checkout@v2
+#
+#      - name: Set up Java
+#        uses: actions/setup-java@v2
+#        with:
+#          java-version: '11'
+#          distribution: 'adopt'
+#
+#      - name: Validate Gradle wrapper
+#        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+#
+#      - name: Lint with Gradle
+#        run: ./gradlew checkFormat
