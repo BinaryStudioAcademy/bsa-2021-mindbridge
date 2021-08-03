@@ -61,7 +61,7 @@
     "socket.io-client": "^2.3.0",
     "stomp": "^0.1.1",
     "styled-components": "^4.4.1",
-    "yup": "^0.27.0"
+    "yup": "^0.32.9"
   },
   "scripts": {
     "lint": "eslint --fix --ext .ts,.tsx,.js,.jsx src/",

@@ -4,6 +4,7 @@ import LoaderWrapper from 'components/LoaderWrapper';
 import PublicRoute from 'components/PublicRoute';
 import Default from 'screens/Default/containers/DefaultPage';
 import ViewPost from '@screens/ViewPost/containers/ViewPostPage';
+import Login from 'screens/Login/containers/LoginPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -14,7 +15,8 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => (
     {/* {isAuthorized ? <Header /> : ''} */}
     <Switch>
       <PublicRoute exact path="/public" component={Default} />
-      <PublicRoute exact path="/" component={ViewPost} />
+      <PublicRoute exact path="/post" component={ViewPost} />
+      <PublicRoute exact path={['/login', '/registration']} component={Login} />
       <div>
         <LoaderWrapper loading={isLoading}>
           <Switch>

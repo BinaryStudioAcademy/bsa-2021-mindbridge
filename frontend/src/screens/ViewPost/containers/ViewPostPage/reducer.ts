@@ -10,6 +10,7 @@ const initialState: IViewPostReducerState = {
   posts: [{
     id: '25g04522-2f6f-a5f8-s4aa-5ac2f82ff1ad',
     title: 'Modern Full-Stack Developer Tech Stack 2021',
+    /* eslint-disable max-len */
     imgSource: 'https://i0.wp.com/vincenttechblog.com/wp-content/uploads/2020/12/computer_designs.jpg?fit=1200,630&ssl=1',
     likes: '3696',
     tags: ['IT', 'Code', 'Humor', 'Work', 'Tech'],

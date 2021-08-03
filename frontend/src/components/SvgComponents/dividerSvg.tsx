@@ -1,6 +1,5 @@
-import React, {FunctionComponent} from 'react';
+import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
-
 
 const DividerSvg: FunctionComponent = () => (
   <svg
@@ -23,6 +22,6 @@ const DividerSvg: FunctionComponent = () => (
       fill="#66B9FF"
     />
   </svg>
-)
+);
 
 export default DividerSvg;

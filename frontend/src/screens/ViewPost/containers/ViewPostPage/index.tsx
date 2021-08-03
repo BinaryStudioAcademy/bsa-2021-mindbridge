@@ -7,7 +7,7 @@ import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
 import { fetchDataRoutine } from '@screens/ViewPost/routines';
 import ViewPostCard from '@components/ViewPostCard';
-import SuggestChangesCard from "@components/SuggestChangesCard";
+import SuggestChangesCard from '@components/SuggestChangesCard';
 
 export interface IViewPostProps extends IState, IActions {
 }
