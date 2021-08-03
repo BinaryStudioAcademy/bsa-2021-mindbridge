@@ -9,6 +9,7 @@
     "@types/d3": "^5.7.2",
     "@types/styled-components": "^4.4.2",
     "animejs": "^3.2.0",
+    "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "d3": "^5.16.0",
     "d3blackbox": "^1.2.0",
@@ -63,6 +64,8 @@
     "yup": "^0.27.0"
   },
   "scripts": {
+    "lint": "eslint --fix --ext .ts,.tsx,.js,.jsx src/",
+    "lint-nofix": "eslint --ext .ts,.tsx,.js,.jsx src/",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
