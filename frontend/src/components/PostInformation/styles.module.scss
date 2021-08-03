@@ -1,16 +1,15 @@
 .userName{
+  justify-content: center;
   font-family: Lato, serif;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 16px;
   color: #353535;
-}
-
-.divider {
-  margin-right: 0.5em;
-  margin-left: 0.5em;
+  margin-left: 0.2rem;
+  margin-right: 0.6rem;
 }
 
 .postHeaderInfo {
+  justify-content: center;
   font-family: Lato, sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -18,25 +17,4 @@
   color: rgba(53, 53, 53, 0.4);
 }
 
-.btnFollow {
-  object-fit: cover;
-  align-items: flex-start;
-  position: relative;
-  margin: 0.45rem;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  background: #14253F;
-  border: 1px solid #14253F;
-  box-sizing: border-box;
-  border-radius: 5px;
-}
-.btnFollow p {
-  color: white;
-  font-family: Lato, sans-serif;
-  font-style: normal;
-  font-weight: normal;
-}
-
-.btnFollow:hover {
-  box-shadow: 0 10px 12px 0 rgba(0,0,0,0.24), 0 13px 40px 0 rgba(0,0,0,0.19);
-}
 

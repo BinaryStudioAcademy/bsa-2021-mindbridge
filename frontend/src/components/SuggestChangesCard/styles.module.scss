@@ -4,11 +4,10 @@
   background: rgba(243,249,254,1);
   opacity: 1;
   position: relative;
-  top: 0;
-  left: 0;
+  top: 0px;
+  left: 0px;
   border: 1px solid rgba(0,0,0,1);
   border-radius: 10px;
-  box-shadow: 0 4px 4px #000000;
   overflow: hidden;
 }
 
@@ -36,31 +35,4 @@
   font-size: 14px;
   opacity: 1;
   text-align: left;
-}
-
-.btnSuggest {
-  width: 328px;
-  height: 43px;
-  background: rgba(20,37,63,1);
-  padding: 12px 105px;
-  margin: 10px;
-  opacity: 1;
-  position: absolute;
-  top: 142px;
-  left: 34px;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.btnSuggest p {
-  width: 118px;
-  color: rgba(255,255,255,1);
-  position: absolute;
-  top: 12px;
-  left: 105px;
-  font-family: Lato, sans-serif;
-  font-weight: Bold;
-  font-size: 16px;
-  opacity: 1;
-  text-align: center;
 }

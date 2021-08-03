@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './styles.module.scss';
+import SuggestChangesBtn from '@components/Button/SuggestChangesBtn';
 
 function SuggestChangesCard() {
   return (
@@ -10,9 +11,7 @@ function SuggestChangesCard() {
     <span className={styles.description}>
       The author will consider your proposal and give an answer soon.
     </span>
-    <button className={styles.btnSuggest}>
-      <p>Suggest changes</p>
-    </button>
+    <SuggestChangesBtn />
   </div>
   );
 }
