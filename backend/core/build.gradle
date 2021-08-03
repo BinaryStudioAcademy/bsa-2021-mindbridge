@@ -9,7 +9,10 @@ apply plugin: 'checkstyle'
 
 checkstyle {
 	toolVersion = '8.29'
-	sourceSets = ['./app/src', './db/src']
+}
+
+dependencies {
+	checkstyle("io.spring.javaformat:spring-javaformat-checkstyle:0.0.28")
 }
 
 configurations {
@@ -20,12 +23,14 @@ configurations {
 
 subprojects {
 
-	group = 'com.sharedspacesgroup'
+	group = 'com.mindbridge'
 	version = '0.0.1-SNAPSHOT'
 	sourceCompatibility = '11'
 
 	apply plugin: 'java'
 	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'io.spring.javaformat'
+	apply plugin: 'checkstyle'
 
 	repositories {
 		mavenCentral()
@@ -39,5 +44,15 @@ subprojects {
 
 	tasks.withType(JavaCompile) {
 		options.compilerArgs << '-parameters'
+	}
+
+	checkstyle {
+		toolVersion = '8.29'
+		configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+		configProperties = [
+			'checkstyle.cache.file': "${buildDir}/checkstyle.cache",
+		]
+		ignoreFailures = true
+		showViolations = true
 	}
 }
