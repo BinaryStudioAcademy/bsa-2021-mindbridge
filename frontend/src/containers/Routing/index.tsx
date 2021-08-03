@@ -13,9 +13,8 @@ export interface IRoutingProps {
 const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
 
   React.useEffect(() => {
-    const stompClient = Stomp.over(() => new SockJS("http://localhost:5000/ws"));
+    const stompClient = Stomp.over(() => new SockJS('/api/ws'));
     stompClient.reconnect_delay = 10000;
-    //stompClient.reconnectDelay = 10000; Are they different?
     stompClient.connect({}, frame => {
       stompClient.subscribe("/topic/greeting", greeting => {
         console.log("hi " + JSON.parse(greeting.body).message);

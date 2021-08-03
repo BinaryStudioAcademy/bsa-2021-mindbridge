@@ -7,12 +7,15 @@ import { fetchDataRoutine } from '@screens/Default/routines';
 import { extractData, extractFetchDataError, extractFetchDataLoading } from '@screens/Default/reducers';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { Button } from 'semantic-ui-react';
+import proxy from "http-proxy-middleware";
 
 export interface IDefaultProps extends IState, IActions {
 }
 
 interface IState {
   data: IData;
+  dataLoading: boolean;
+  dataError?: string;
 }
 
 interface IActions {
@@ -20,14 +23,14 @@ interface IActions {
 }
 
 const Default: React.FC<IDefaultProps> = (
-  { data, fetchData }
+  { data, fetchData, dataError, dataLoading }
 ) => {
   useEffect(() => {
     fetchData();
   }, []);
 
   const sendSomething = () => {
-    fetch('http://localhost:5000/data/hello',{
+    fetch('/api/data/hello',{
       method: 'GET',
       mode: 'no-cors'
     }).then();
@@ -36,6 +39,7 @@ const Default: React.FC<IDefaultProps> = (
   return (
     <div>
       <Button loading={dataLoading} onClick={fetchData} disabled={dataLoading}>Fetch data</Button>
+      <Button onClick={sendSomething}>Send socket</Button>
       <LoaderWrapper loading={dataLoading}>
         <h1>Inner component</h1>
         {dataError ? (
@@ -52,7 +56,9 @@ const Default: React.FC<IDefaultProps> = (
 };
 
 const mapStateToProps: (state: RootState) => IState = state => ({
-  data: extractData(state)
+  data: extractData(state),
+  dataLoading: extractFetchDataLoading(state),
+  dataError: extractFetchDataError(state)
 });
 
 const mapDispatchToProps: IActions = {
