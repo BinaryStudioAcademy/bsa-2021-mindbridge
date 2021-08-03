@@ -38,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			// TODO: this is an example reference. Delete after getting familiar with the project structure
 			.antMatchers("/data/").permitAll()
 			.antMatchers("/swagger-ui/**").permitAll()
-			.anyRequest().authenticated()
+			.anyRequest().permitAll()
 			.and();
 	}
 }
