@@ -19,7 +19,7 @@ public class DataController {
 	private SimpMessagingTemplate template;
 
     @GetMapping("/")
-    public DataDto getData() {
+    public DataDto getData() throws InterruptedException {
         return dataService.getData();
     }
 

@@ -26,7 +26,7 @@ const Default: React.FC<IDefaultProps> = (
 ) => {
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const sendSomething = () => {
     fetch('/api/data/hello',{

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { join } from 'path';
 
 export const getOsEnv = (key: string): string => process.env[key];

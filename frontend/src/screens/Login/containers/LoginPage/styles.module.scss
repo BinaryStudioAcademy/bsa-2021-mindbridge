@@ -1,0 +1,49 @@
+@import "src/styles/fonts";
+@import "src/styles/common_variables";
+
+.container {
+  display: grid;
+  grid-template-columns: 9fr 11fr;
+  width: 100%;
+  height: 100vh;
+}
+
+.leftSide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loginFormWrapper {
+    width: 40%;
+  }
+
+  footer {
+    position: absolute;
+    bottom: 2.5rem;
+
+    span {
+      font-family: 'Montserrat', serif !important;
+      font-weight: 400;
+    }
+    a {
+      color: #66B9FF;
+      font-family: 'Montserrat', serif;
+      font-weight: 400;
+    }
+  }
+}
+
+.rightSide {
+  background-color: $dark-grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../../../../assets/images/blue-bg.png');
+  background-size: cover;
+  background-position: center;
+
+  svg {
+    width: 43%;
+    height: 20%;
+  }
+}
