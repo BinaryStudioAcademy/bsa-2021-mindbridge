@@ -4,21 +4,35 @@ import LoaderWrapper from 'components/LoaderWrapper';
 import PublicRoute from 'components/PublicRoute';
 import Default from 'screens/Default/containers/DefaultPage';
 import Login from 'screens/Login/containers/LoginPage';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
+import { toastr } from 'react-redux-toastr';
 
 export interface IRoutingProps {
   isLoading: boolean;
 }
 
-const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => (
-  <div>
-    {/* {isAuthorized ? <Header /> : ''} */}
-    <Switch>
-      <PublicRoute exact path="/public" component={Default} />
-      <PublicRoute exact path={['/login', '/registration']} component={Login} />
-      <div>
-        <LoaderWrapper loading={isLoading}>
-          <Switch>
-            {/* <PrivateRoute
+const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
+  React.useEffect(() => {
+    const stompClient = Stomp.over(() => new SockJS('/api/ws'));
+    stompClient.reconnectDelay = 10000;
+    stompClient.connect({}, () => {
+      stompClient.subscribe('/topic/greeting', () => {
+        toastr.success('Success', 'Socked loaded!');
+      });
+    });
+  });
+
+  return (
+    <div>
+      {/* {isAuthorized ? <Header /> : ''} */}
+      <Switch>
+        <PublicRoute exact path="/public" component={Default} />
+        <PublicRoute exact path={['/login', '/registration']} component={Login} />
+        <div>
+          <LoaderWrapper loading={isLoading}>
+            <Switch>
+              {/* <PrivateRoute
               exact
               path="/private"
               component={Private}
@@ -31,7 +45,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => (
         </div>
       </Switch>
     </div>
-  )
+  );
 };
 
 export default Routing;

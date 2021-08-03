@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 import LoginForm from '@screens/Login/components/LoginForm';
@@ -15,9 +15,7 @@ interface IState {
 interface IActions {
 }
 
-const Login: React.FC<ILoginProps> = (
-  { children }
-) => {
+const Login: React.FC<ILoginProps> = () => {
   const { pathname } = useLocation();
 
   const getScreen = path => {
@@ -30,7 +28,7 @@ const Login: React.FC<ILoginProps> = (
           <footer>
             <span>
               No account?
-              <a href="/registration">Sign Up</a>
+              <Link to="/registration"> Sign Up</Link>
             </span>
           </footer>];
       }
@@ -42,7 +40,7 @@ const Login: React.FC<ILoginProps> = (
           <footer>
             <span>
               Already have an account?
-              <a href="/login">Sign In</a>
+              <Link to="/login"> Sign In</Link>
             </span>
           </footer>];
       }
@@ -64,7 +62,7 @@ const Login: React.FC<ILoginProps> = (
   );
 };
 
-const mapStateToProps: (state) => IState = state => ({
+const mapStateToProps: (state) => IState = () => ({
 });
 
 const mapDispatchToProps: IActions = {

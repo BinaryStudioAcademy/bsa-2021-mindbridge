@@ -29,7 +29,7 @@ const Default: React.FC<IDefaultProps> = (
   }, [fetchData]);
 
   const sendSomething = () => {
-    fetch('/api/data/hello',{
+    fetch('/api/data/hello', {
       method: 'GET',
       mode: 'no-cors'
     }).then();
@@ -38,6 +38,7 @@ const Default: React.FC<IDefaultProps> = (
   return (
     <div>
       <Button loading={dataLoading} onClick={fetchData} disabled={dataLoading}>Fetch data</Button>
+      <Button onClick={sendSomething}>Send socket</Button>
       <LoaderWrapper loading={dataLoading}>
         <h1>Inner component</h1>
         {dataError ? (
