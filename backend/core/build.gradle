@@ -1,6 +1,15 @@
 plugins {
 	id 'java'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'io.spring.javaformat' version '0.0.27'
+}
+
+apply plugin: 'io.spring.javaformat'
+apply plugin: 'checkstyle'
+
+checkstyle {
+	toolVersion = '8.29'
+	sourceSets = ['./app/src', './db/src']
 }
 
 configurations {
