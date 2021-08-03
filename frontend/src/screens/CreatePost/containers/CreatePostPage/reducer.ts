@@ -1,12 +1,13 @@
-import { createAction, createReducer } from '@reduxjs/toolkit';
+import { changeEditViewModeRoutine, changeHtmlMarkdownModeRoutine } from '../../routines/index';
+import { createReducer } from '@reduxjs/toolkit';
 
 export interface ICreatePostReducerState {
-    modes: {
-        htmlMode: boolean;
-        markdownMode: boolean;
-        editMode: boolean;
-        viewMode: boolean;
-    };
+  modes: {
+    htmlMode: boolean;
+    markdownMode: boolean;
+    editMode: boolean;
+    viewMode: boolean;
+  };
 }
 
 const initialState: ICreatePostReducerState = {
@@ -18,15 +19,12 @@ const initialState: ICreatePostReducerState = {
   }
 };
 
-export const changeHtmlMarkdownMod = createAction('CHANGE_MOD_HTML_MARKDOWN');
-export const changeEditViewMod = createAction('CHANGE_MOD_EDIT_VIEW');
-
 export const createPostReducer = createReducer(initialState, {
-  [changeHtmlMarkdownMod.type]: state => {
+  [changeHtmlMarkdownModeRoutine.TRIGGER]: state => {
     state.modes.markdownMode = !state.modes.markdownMode;
     state.modes.htmlMode = !state.modes.htmlMode;
   },
-  [changeEditViewMod.type]: state => {
+  [changeEditViewModeRoutine.TRIGGER]: state => {
     state.modes.editMode = !state.modes.editMode;
     state.modes.viewMode = !state.modes.viewMode;
   }

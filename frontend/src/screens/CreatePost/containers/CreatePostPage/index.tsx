@@ -6,7 +6,7 @@ import Header from '@root/components/Header';
 import ProfileSidebar from '@root/components/ProfileSidebar';
 import HistorySidebar from '@root/components/PostHistorySidebar';
 import { IBindingAction } from '@root/models/Callbacks';
-import { changeEditViewMod, changeHtmlMarkdownMod } from './reducer';
+import { changeEditViewModeRoutine, changeHtmlMarkdownModeRoutine } from '../../routines';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
 import Image1 from './svg/svg1';
 import Image2 from './svg/svg2';
@@ -25,8 +25,8 @@ interface IState {
 }
 
 interface IActions {
-  changeHtmlMarkdownMod: IBindingAction;
-  changeEditViewMod: IBindingAction;
+  changeHtmlMarkdownMode: IBindingAction;
+  changeEditViewMode: IBindingAction;
 }
 
 // use real value
@@ -39,7 +39,7 @@ const postNotificationCount = 4;
 const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
 
 const CreatePost: React.FC<ICreatePostProps> = (
-  { modes, changeHtmlMarkdownMod, changeEditViewMod  }
+  { modes, changeHtmlMarkdownMode, changeEditViewMode }
 ) => {
   const htmlStyle = modes.htmlMode ? styles.blue_button : styles.colorless_button;
   const markdownStyle = modes.markdownMode ? styles.blue_button : styles.colorless_button;
@@ -69,22 +69,22 @@ const CreatePost: React.FC<ICreatePostProps> = (
             <button
               type="button"
               className={classNames(htmlStyle, styles.html_button)}
-              onClick={changeHtmlMarkdownMod}
+              onClick={changeHtmlMarkdownMode}
             >
               HTML
             </button>
             <button
               type="button"
               className={classNames(markdownStyle, styles.markdown_button)}
-              onClick={changeHtmlMarkdownMod}
+              onClick={changeHtmlMarkdownMode}
             >
               Markdown
             </button>
-            <button type="button" className={classNames(editStyle, styles.edit_button)} onClick={changeEditViewMod}>
+            <button type="button" className={classNames(editStyle, styles.edit_button)} onClick={changeEditViewMode}>
               <Image1 />
               <Image2 />
             </button>
-            <button type="button" className={classNames(viewStyle, styles.view_button)} onClick={changeEditViewMod}>
+            <button type="button" className={classNames(viewStyle, styles.view_button)} onClick={changeEditViewMode}>
               <Image3 />
             </button>
           </div>
@@ -105,8 +105,8 @@ const mapStateToProps: (state) => IState = state => ({
 });
 
 const mapDispatchToProps: IActions = {
-  changeHtmlMarkdownMod,
-  changeEditViewMod
+  changeHtmlMarkdownMode: changeHtmlMarkdownModeRoutine,
+  changeEditViewMode: changeEditViewModeRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);
