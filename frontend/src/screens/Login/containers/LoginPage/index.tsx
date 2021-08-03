@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 import LoginForm from '@screens/Login/components/LoginForm';
 import RegistrationForm from '@screens/Login/components/RegistrationForm';
-import LogoSvg from "@screens/Login/components/svgs/LogoSvg";
+import LogoSvg from '@screens/Login/components/svgs/LogoSvg';
 
 export interface ILoginProps extends IState, IActions {
 }
@@ -18,28 +18,33 @@ interface IActions {
 const Login: React.FC<ILoginProps> = (
   { children }
 ) => {
-
   const { pathname } = useLocation();
 
   const getScreen = path => {
-    switch (path){
+    switch (path) {
       case '/login': {
         return [
           <div className={styles.loginFormWrapper}>
-            <LoginForm/>
+            <LoginForm />
           </div>,
           <footer>
-            <span>No account? <a href="/registration">Sign Up</a></span>
-          </footer>]
+            <span>
+              No account?
+              <a href="/registration">Sign Up</a>
+            </span>
+          </footer>];
       }
       case '/registration': {
         return [
           <div className={styles.loginFormWrapper}>
-            <RegistrationForm/>
+            <RegistrationForm />
           </div>,
           <footer>
-            <span>Already have an account? <a href="/login">Sign In</a></span>
-          </footer>]
+            <span>
+              Already have an account?
+              <a href="/login">Sign In</a>
+            </span>
+          </footer>];
       }
       default: {
         return null;
@@ -53,7 +58,7 @@ const Login: React.FC<ILoginProps> = (
         {getScreen(pathname)}
       </div>
       <div className={styles.rightSide}>
-        <LogoSvg/>
+        <LogoSvg />
       </div>
     </div>
   );

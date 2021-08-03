@@ -16,7 +16,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => (
     {/* {isAuthorized ? <Header /> : ''} */}
     <Switch>
       <PublicRoute exact path="/public" component={Default} />
-      <PublicRoute exact path={["/login", "/registration"]} component={Login} />
+      <PublicRoute exact path={['/login', '/registration']} component={Login} />
       <div>
         <LoaderWrapper loading={isLoading}>
           <Switch>
