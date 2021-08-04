@@ -49,8 +49,8 @@ public class PostService {
 	public List<PostsListDetailsDto> getAllPosts() {
 
 		return postRepository.getAllPosts(PageRequest.of(0, 10)).stream()
-			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
-			.collect(Collectors.toList());
+				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+				.collect(Collectors.toList());
 	}
 
 }
