@@ -1,0 +1,11 @@
+@import '../../../styles/common_variables.sass';
+
+.button{
+  background-color: rgba(0,0,0,0);
+  border: solid 2px $dark-grey;
+}
+
+.button:hover{
+  background-color: $dark-grey;
+  color: white;
+}

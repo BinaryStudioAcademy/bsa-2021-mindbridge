@@ -3,6 +3,10 @@ import styles from './styles.module.scss';
 import Logo from '../Logo/Logo';
 import Svg1 from './svg/svg1';
 import Svg2 from './svg/svg2';
+import BlueButton from '../buttons/Blue_button';
+import ColorlessButton from '../buttons/ColorlessButton';
+import NotificationCount from '../NotificationCount';
+import DarkButton from '../buttons/DarcButton';
 
 function Header({ notificationCount }) {
   return (
@@ -10,17 +14,15 @@ function Header({ notificationCount }) {
       <div className={styles.left}>
         <Logo width={99} height={44} />
         <div className={styles.header_menu}>
-          <button className={styles.blue_button} type="button"> Home </button>
-          <button className={styles.colorless_button} type="button"> Hot posts </button>
-          <button className={styles.colorless_button} type="button"> Best posts </button>
+          <BlueButton content="Home" />
+          <ColorlessButton content="Hot posts" />
+          <ColorlessButton content="Best posts" />
         </div>
       </div>
       <div className={styles.right}>
         <button className={styles.header_notification} type="button">
           <Svg1 />
-          <div className={notificationCount ? styles.notification_count : styles.invisible}>
-            {notificationCount}
-          </div>
+          <NotificationCount notificationCount={notificationCount} />
         </button>
         <div className={styles.search_input}>
           <input type="text" placeholder="Search..." />
@@ -28,7 +30,7 @@ function Header({ notificationCount }) {
             <Svg2 />
           </button>
         </div>
-        <button type="button" className={`${styles.dark_button} ${styles.create_post_button}`}>Create post</button>
+        <DarkButton className={styles.create_post_button} content="Create post" />
       </div>
     </div>
   );
