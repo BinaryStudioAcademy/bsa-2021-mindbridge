@@ -1,7 +1,7 @@
 import React from 'react';
 
 /* eslint-disable max-len */
-export default function Image1() {
+export default function Svg1() {
   return (
     <svg width="21" height="19" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12.0156 25.95C9.97525 25.95 8.31563 24.2904 8.31563 22.25C8.31563 21.8636 8.62924 21.55 9.01562 21.55C9.40201 21.55 9.71562 21.8636 9.71562 22.25C9.71562 23.5187 10.7471 24.55 12.0156 24.55C13.2843 24.55 14.3156 23.5187 14.3156 22.25C14.3156 21.8636 14.6292 21.55 15.0156 21.55C15.402 21.55 15.7156 21.8636 15.7156 22.25C15.7156 24.2904 14.056 25.95 12.0156 25.95Z" fill="#353535" stroke="white" strokeWidth="0.1" />

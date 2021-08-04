@@ -8,9 +8,9 @@ import HistorySidebar from '@root/components/PostHistorySidebar';
 import { IBindingAction } from '@root/models/Callbacks';
 import { changeEditViewModeRoutine, changeHtmlMarkdownModeRoutine } from '../../routines';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
-import Image1 from './svg/svg1';
-import Image2 from './svg/svg2';
-import Image3 from './svg/svg3';
+import Svg1 from './svg/svg1';
+import Svg2 from './svg/svg2';
+import Svg3 from './svg/svg3';
 
 export interface ICreatePostProps extends IState, IActions {
 }
@@ -81,11 +81,11 @@ const CreatePost: React.FC<ICreatePostProps> = (
               Markdown
             </button>
             <button type="button" className={classNames(editStyle, styles.edit_button)} onClick={changeEditViewMode}>
-              <Image1 />
-              <Image2 />
+              <Svg1 />
+              <Svg2 />
             </button>
             <button type="button" className={classNames(viewStyle, styles.view_button)} onClick={changeEditViewMode}>
-              <Image3 />
+              <Svg3 />
             </button>
           </div>
           {modes.editMode ? <CreatePostForm /> : null}
