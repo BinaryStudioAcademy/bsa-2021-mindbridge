@@ -15,7 +15,8 @@ interface IState {
 interface IActions {
 }
 
-const LoginForm: React.FC<ILoginFormProps> = () => (
+const LoginForm: React.FC<ILoginFormProps> = (
+) => (
   <div className={styles.loginForm}>
     <h2 className={styles.title}>Sign In</h2>
     <FormButton text="Sign in with Google" inverted={false} />

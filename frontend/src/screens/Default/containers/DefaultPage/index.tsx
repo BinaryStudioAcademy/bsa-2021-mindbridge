@@ -6,6 +6,7 @@ import { RootState } from '@root/store';
 import { fetchDataRoutine } from '@screens/Default/routines';
 import { extractData, extractFetchDataError, extractFetchDataLoading } from '@screens/Default/reducers';
 import LoaderWrapper from '@components/LoaderWrapper';
+import SemanticButtonExample from '@components/SemanticButtonExample';
 
 export interface IDefaultProps extends IState, IActions {
 }
