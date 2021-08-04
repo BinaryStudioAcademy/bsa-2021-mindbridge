@@ -24,10 +24,9 @@ public class Favorite extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"Favorite\", " +
-			"\"user_id\":" + (user.getId() == null ? "null" : "\"" + user.getId() + "\"") + ", " +
-			"\"post_id\":" + (post.getId() == null ? "null" : "\"" + post.getId() + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"Favorite\", " + "\"user_id\":"
+				+ (user.getId() == null ? "null" : "\"" + user.getId() + "\"") + ", " + "\"post_id\":"
+				+ (post.getId() == null ? "null" : "\"" + post.getId() + "\"") + ", " + "}";
 	}
+
 }

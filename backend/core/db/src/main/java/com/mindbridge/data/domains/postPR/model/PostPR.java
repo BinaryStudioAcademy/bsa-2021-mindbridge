@@ -28,12 +28,11 @@ public class PostPR extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"PostPR\", " +
-			"\"postId\":" + (contributor.getId() == null ? "null" : "\"" + contributor.getId() + "\"") + ", " +
-			"\"postId\":" + (post.getId() == null ? "null" : "\"" + post.getId() + "\"") + ", " +
-			"\"text\":" + (text == null ? "null" : "\"" + text + "\"") + ", " +
-			"\"closed\":" + (closed == null ? "null" : "\"" + closed + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"PostPR\", " + "\"postId\":"
+				+ (contributor.getId() == null ? "null" : "\"" + contributor.getId() + "\"") + ", " + "\"postId\":"
+				+ (post.getId() == null ? "null" : "\"" + post.getId() + "\"") + ", " + "\"text\":"
+				+ (text == null ? "null" : "\"" + text + "\"") + ", " + "\"closed\":"
+				+ (closed == null ? "null" : "\"" + closed + "\"") + ", " + "}";
 	}
+
 }

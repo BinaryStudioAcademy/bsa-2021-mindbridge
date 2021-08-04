@@ -23,10 +23,9 @@ public class Follower extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"Follower\", " +
-			"\"followed_id\":" + (followed.getId() == null ? "null" : "\"" + followed.getId() + "\"") + ", " +
-			"\"follower_id\":" + (follower.getId() == null ? "null" : "\"" + follower.getId() + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"Follower\", " + "\"followed_id\":"
+				+ (followed.getId() == null ? "null" : "\"" + followed.getId() + "\"") + ", " + "\"follower_id\":"
+				+ (follower.getId() == null ? "null" : "\"" + follower.getId() + "\"") + ", " + "}";
 	}
+
 }
