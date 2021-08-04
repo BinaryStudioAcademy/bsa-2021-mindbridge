@@ -1,6 +1,6 @@
 package com.mindbridge.core.domains.posts;
 
-import com.mindbridge.core.domains.posts.dto.PostDto;
+import com.mindbridge.core.domains.posts.dto.PostsListDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +15,7 @@ public class PostsController {
 	PostsService postsService;
 
 	@GetMapping("/all")
-	public List<PostDto> printAllPosts() {
+	public List<PostsListDetailsDto> printAllPosts() {
 		return postsService.getAllPosts();
 	}
 }

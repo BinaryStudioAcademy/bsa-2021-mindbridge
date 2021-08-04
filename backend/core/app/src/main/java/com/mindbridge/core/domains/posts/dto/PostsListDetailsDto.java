@@ -1,10 +1,8 @@
 package com.mindbridge.core.domains.posts.dto;
 
-import com.mindbridge.data.domains.comment.model.Comment;
 import com.mindbridge.data.domains.post.dto.PostsReactionsQueryResult;
 import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.tag.dto.TagDto;
-import com.mindbridge.data.domains.tag.model.Tag;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
-public class PostDto {
+public class PostsListDetailsDto {
 
 	private String id;
 
@@ -36,8 +34,8 @@ public class PostDto {
 
 	private List<TagDto> tags;
 
-	public static PostDto fromEntity(Post post, PostsReactionsQueryResult postsReactionsQueryResult) {
-		return PostDto
+	public static PostsListDetailsDto fromEntity(Post post, PostsReactionsQueryResult postsReactionsQueryResult) {
+		return PostsListDetailsDto
 			.builder()
 			.id(post.getId().toString())
 			.title(post.getTitle())

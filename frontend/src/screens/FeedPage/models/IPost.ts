@@ -1,6 +1,6 @@
 import { ITag } from '@screens/FeedPage/models/ITag';
 
-export interface IData {
+export interface IPost {
   id: string;
   title: string;
   text: string;
@@ -13,8 +13,3 @@ export interface IData {
   postRating: number;
 }
 
-export interface IDataArr {
-  posts: [
-    IData
-  ];
-}

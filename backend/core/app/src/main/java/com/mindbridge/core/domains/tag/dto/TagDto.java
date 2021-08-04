@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.tag.dto;
 
+import com.mindbridge.data.domains.tag.model.Tag;
 import lombok.Data;
 
 import java.util.UUID;
@@ -10,5 +11,13 @@ public class TagDto {
 	private UUID id;
 
 	private String name;
+
+	public static com.mindbridge.data.domains.tag.dto.TagDto fromEntity(Tag tag) {
+		return com.mindbridge.data.domains.tag.dto.TagDto
+			.builder()
+			.id(tag.getId().toString())
+			.name(tag.getName())
+			.build();
+	}
 
 }

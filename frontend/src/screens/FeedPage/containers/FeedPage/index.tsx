@@ -2,20 +2,19 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import PostCard from '@components/PostCard';
-import { IData, IDataArr } from '@screens/FeedPage/models/IData';
 import { IBindingAction } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/FeedPage/reducers';
 import { fetchDataRoutine } from '@screens/FeedPage/routines';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
-import TagsMenu from '@components/TagComponent';
+import { IPostList } from '@screens/FeedPage/models/IPostList';
 
 export interface IFeedPageProps extends IState, IActions {
 }
 
 interface IState {
-  data: IDataArr;
+  data: IPostList;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

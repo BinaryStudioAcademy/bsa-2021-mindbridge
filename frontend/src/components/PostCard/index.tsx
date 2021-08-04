@@ -10,20 +10,7 @@ import ViewsSvg from '@components/FeedSvgComponents/viewsSvg';
 import LikeSvg from '@components/FeedSvgComponents/likeSvg';
 import DisLikeSvg from '@components/FeedSvgComponents/disLikeSvg';
 import styles from './styles.module.scss';
-import { ITag } from '@screens/FeedPage/models/ITag';
-
-interface IPost {
-  id: string;
-  title: string;
-  text: string;
-  authorName: string;
-  tags: ITag[];
-  commentsCount: number;
-  likesCount: number;
-  disLikesCount: number;
-  createdAt: string;
-  postRating: number;
-}
+import { IPost } from '@screens/FeedPage/models/IPost';
 
 interface IPostCardProps {
   post: IPost;

@@ -1,9 +1,10 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { fetchDataRoutine } from '@screens/FeedPage/routines';
-import { IData, IDataArr } from '@screens/FeedPage/models/IData';
+import { IPost } from '@screens/FeedPage/models/IPost';
+import { IPostList } from '@screens/FeedPage/models/IPostList';
 
 export interface IFeedPageReducerState {
-  posts: [IData];
+  posts: [IPost];
 }
 
 const initialState: IFeedPageReducerState = {
@@ -22,8 +23,7 @@ const initialState: IFeedPageReducerState = {
 };
 
 export const feedPageReducer = createReducer(initialState, {
-  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IDataArr>) => {
-    console.log(payload);
+  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPostList>) => {
     state.posts = payload.posts;
   }
 });

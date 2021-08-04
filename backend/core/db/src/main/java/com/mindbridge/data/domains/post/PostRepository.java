@@ -2,11 +2,14 @@ package com.mindbridge.data.domains.post;
 
 import com.mindbridge.data.domains.post.dto.PostsReactionsQueryResult;
 import com.mindbridge.data.domains.post.model.Post;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 
+import java.util.Collection;
 import java.util.UUID;
 
 import java.util.List;
@@ -20,7 +23,5 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 
 
 	@Query(value = "select * from posts p where p.deleted = false", nativeQuery = true)
-	List<Post> getAllPosts();
-
-
+	List<Post> getAllPosts(Pageable pageable);
 }
