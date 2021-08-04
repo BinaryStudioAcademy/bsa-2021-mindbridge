@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+package com.mindbridge.core.exceptions.custom;
+
+import lombok.Getter;
+
+@Getter
+public class UserAlreadyExistException extends RuntimeException {
+
+	public UserAlreadyExistException(String message) {
+		super(message);
+	}
+
+}
+=======
 package com.mindbridge.core.exceptions.custom;
 
 import lombok.Getter;
@@ -9,3 +23,4 @@ public class UserAlreadyExistException extends RuntimeException {
         super(message);
     }
 }
+>>>>>>> ff40577a61e4fb36ca184a81fc852805286a3c44

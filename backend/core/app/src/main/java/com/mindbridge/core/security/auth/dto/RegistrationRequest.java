@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.mindbridge.core.security.auth.dto;
 
 import lombok.Getter;
@@ -19,6 +20,39 @@ public class RegistrationRequest {
 
 	@NotNull
 	@NotEmpty(message = "Nickname cannot be empty.")
+	/*
+	 * @Pattern(regexp = "(?=\\S+$).+", message = "Nickname must contain no whitespace.")
+	 */
+	private String nickname;
+
+	@NotNull
+	@NotEmpty(message = "Email cannot be empty.")
+	@Email(message = "Email is not valid.",
+			regexp = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")
+	@Size(message = "Wrong email length.", min = 3, max = 320)
+	private String email;
+
+	@NotNull
+	@NotEmpty(message = "Password cannot be empty")
+	@Pattern(regexp = "(?=\\S+$).+", message = "Password must contain no whitespace.")
+	@Size(min = 5, message = "Password length must be at least 5 symbols.")
+	private String password;
+
+}
+=======
+package com.mindbridge.core.security.auth.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.validation.constraints.*;
+
+@Getter
+@Setter
+public class RegistrationRequest {
+
+	@NotNull
+	@NotEmpty(message = "Nickname cannot be empty.")
 	/*@Pattern(regexp = "(?=\\S+$).+", message = "Nickname must contain no whitespace.")*/
 	private String nickname;
 
@@ -34,3 +68,4 @@ public class RegistrationRequest {
 	@Size(min = 5, message = "Password length must be at least 5 symbols.")
 	private String password;
 }
+>>>>>>> ff40577a61e4fb36ca184a81fc852805286a3c44

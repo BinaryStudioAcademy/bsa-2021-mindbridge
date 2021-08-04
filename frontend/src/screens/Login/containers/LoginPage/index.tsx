@@ -25,7 +25,7 @@ const LoginPage: React.FC<ILoginProps> = (
     isLoginFailure }
 ) => (
   isAuthorized
-    ? <Redirect to="/private" />
+    ? <Redirect to="/create/post" />
     : (
       <div className={styles.container}>
         <div className={styles.leftSide}>

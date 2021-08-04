@@ -49,6 +49,7 @@ const LoginForm: FunctionComponent<ILoginForm> = ({
         <div className={styles.separatorLine} />
       </div>
       <Form onSubmit={handleLoginClick} className={styles.loginForm}>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="email">Email</label>
         <input
           id="email"
@@ -57,6 +58,7 @@ const LoginForm: FunctionComponent<ILoginForm> = ({
           required
           onChange={ev => emailChanged(ev.target.value)}
         />
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="password">
           Password
           <Link to="/forgot" className={styles.linkTo}>Forgot password</Link>
