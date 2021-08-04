@@ -44,11 +44,6 @@ const Default: React.FC<IDefaultProps> = (
       >
         Fetch data
       </SemanticButtonExample>
-      <SemanticButtonExample
-        onClick={sendSomething}
-      >
-        Send socket
-      </SemanticButtonExample>
       <LoaderWrapper loading={dataLoading}>
         <h1>Inner component</h1>
         {dataError ? (

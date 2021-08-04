@@ -1,0 +1,20 @@
+.tag {
+  padding: 6px;
+  font-size: 0.88rem;
+  font-family: Lato, serif;
+  margin-right: 0.8rem;
+  margin-bottom: 0.5em;
+  cursor: pointer;
+  min-height: 1em;
+  font-weight: normal;
+  line-height: 1em;
+  text-align: center;
+  border-radius: .28571429rem;
+  color:rgba(102, 122, 175, 0.5);
+  background-color: rgb(244, 249, 255);
+}
+
+.tag:hover {
+  background: #CEE8FE;
+  color: black;
+}
