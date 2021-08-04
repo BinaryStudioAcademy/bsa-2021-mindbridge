@@ -132,18 +132,6 @@ module.exports = function (plop) {
         actions.push(
           {
             type: 'append',
-            path: 'src/sagas.ts',
-            pattern: '/* PlopJS import placeholder. Do not remove */',
-            template: 'import {{camelCase name}}Sagas from \'@screens/{{pascalCase name}}/sagas\';'
-          },
-          {
-            type: 'append',
-            path: 'src/sagas.ts',
-            pattern: '/* PlopJS sagas placeholder. Do not remove */',
-            template: '    {{camelCase name}}Sagas(),'
-          },
-          {
-            type: 'append',
             path: 'src/reducers.ts',
             pattern: '/* PlopJS import placeholder. Do not remove */',
             template: 'import {{camelCase name}}Reducer from \'@screens/{{pascalCase name}}/reducers\';'
@@ -158,18 +146,6 @@ module.exports = function (plop) {
       } else {
         if (data.isRoutingScreen) {
           actions.push(
-            {
-              type: 'append',
-              path: 'src/sagas.ts',
-              pattern: '/* PlopJS import placeholder. Do not remove */',
-              template: 'import {{camelCase rootCatalog}}Sagas from \'@screens/{{pascalCase rootCatalog}}/{{pascalCase name}}/sagas\';'
-            },
-            {
-              type: 'append',
-              path: 'src/sagas.ts',
-              pattern: '/* PlopJS sagas placeholder. Do not remove */',
-              template: '    {{camelCase rootCatalog}}Sagas(),'
-            },
             {
               type: 'append',
               path: 'src/reducers.ts',

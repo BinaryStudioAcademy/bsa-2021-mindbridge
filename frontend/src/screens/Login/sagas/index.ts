@@ -1,8 +1,8 @@
 import { all } from 'redux-saga/effects';
-import loginPageSagas from '@screens/Login/containers/LoginPage/sagas';
+import auth from '../containers/sagas';
 
-export default function* loginSagas() {
+export default function* authSagas() {
   yield all([
-    loginPageSagas()
+    auth()
   ]);
 }

@@ -39,8 +39,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		var accessToken = jwtProvider.generateToken(storedUser, "30min");
 		var refreshToken = jwtProvider.generateToken(storedUser, "30days");
 		return UriComponentsBuilder.fromUriString(redirUrl)
-				.queryParam("access token", accessToken)
-				.queryParam("refresh token", refreshToken)
+				.queryParam("token", accessToken)
+				.queryParam("refresh", refreshToken)
 				.build().toUriString();
 	}
 
