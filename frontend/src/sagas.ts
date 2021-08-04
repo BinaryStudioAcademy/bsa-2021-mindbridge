@@ -3,7 +3,7 @@ import { all } from 'redux-saga/effects';
 import feedPageSagas from '@screens/FeedPage/sagas';
 import loginSagas from '@screens/Login/sagas';
 import defaultSagas from '@screens/Default/sagas';
-import loginSagas from '@screens/Login/sagas';
+
 import viewPostSagas from '@screens/ViewPost/sagas';
 
 export default function* rootSaga() {

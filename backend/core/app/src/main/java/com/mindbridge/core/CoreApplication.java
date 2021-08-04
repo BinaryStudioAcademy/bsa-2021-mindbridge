@@ -24,6 +24,10 @@ import java.util.concurrent.Executor;
 @EnableJpaRepositories("com.mindbridge.data")
 public class CoreApplication {
 
+	private static final int CORE_POOL_SIZE = 20;
+
+	private static final int MAX_POOL_SIZE = 100;
+
 	public static void main(String[] args) {
 		SpringApplication.run(CoreApplication.class, args);
 	}
@@ -31,8 +35,8 @@ public class CoreApplication {
 	@Bean
 	public Executor taskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(20);
-		executor.setMaxPoolSize(100);
+		executor.setCorePoolSize(CORE_POOL_SIZE);
+		executor.setMaxPoolSize(MAX_POOL_SIZE);
 		executor.initialize();
 		return executor;
 	}
