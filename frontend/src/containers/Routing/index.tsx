@@ -5,6 +5,7 @@ import PublicRoute from 'components/PublicRoute';
 import Default from 'screens/Default/containers/DefaultPage';
 import PrivateRoute from '@root/components/PrivateRoute';
 import CreatePostPage from '@root/screens/CreatePost/containers/CreatePostPage';
+import FeedPage from '@screens/FeedPage/containers/FeedPage';
 import Login from 'screens/Login/containers/LoginPage';
 
 export interface IRoutingProps {
@@ -16,6 +17,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => (
     {/* {isAuthorized ? <Header /> : ''} */}
     <Switch>
       <PublicRoute exact path="/public" component={Default} />
+      <PublicRoute exact path="/" component={FeedPage} />
       <PublicRoute exact path={['/login', '/registration']} component={Login} />
       <div>
         <LoaderWrapper loading={isLoading}>

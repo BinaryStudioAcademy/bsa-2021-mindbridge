@@ -1,0 +1,36 @@
+@import "../../styles/common.sass";
+
+.arrowDown {
+  margin-left: 15px;
+  margin-top: 4px;
+  fill: #66B9FF;
+  cursor: pointer;
+}
+
+.arrowUp {
+  margin-left: 15px;
+  margin-bottom: 4px;
+  margin-top: -0.4em;
+  fill: #66B9FF;
+  cursor: pointer;
+}
+
+.arrowDown:hover,
+.arrowUp:hover {
+  fill: $dark-grey;
+}
+
+.ratingNumber {
+  width: 40px;
+  text-align: center;
+  font-family: Lato, sans-serif;
+  font-size: 0.88em;
+  color: #353535;
+  opacity: 0.4;
+}
+
+.ratingElement {
+  display: flex;
+  flex-direction: column;
+  margin-right: 1em;
+}
