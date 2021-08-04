@@ -38,15 +38,13 @@ public class User extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"User\", " +
-			"\"email\":" + (email == null ? "null" : "\"" + email + "\"") + ", " +
-			"\"first_name\":" + (firstName == null ? "null" : "\"" + firstName + "\"") + ", " +
-			"\"last_name\":" + (lastName == null ? "null" : "\"" + lastName + "\"") + ", " +
-			"\"nickname\":" + (nickname == null ? "null" : "\"" + nickname + "\"") + ", " +
-			"\"password\":" + (password == null ? "null" : "\"" + password + "\"") + ", " +
-			"\"emailVerified\":\"" + emailVerified + "\"" + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"User\", " + "\"email\":"
+				+ (email == null ? "null" : "\"" + email + "\"") + ", " + "\"first_name\":"
+				+ (firstName == null ? "null" : "\"" + firstName + "\"") + ", " + "\"last_name\":"
+				+ (lastName == null ? "null" : "\"" + lastName + "\"") + ", " + "\"nickname\":"
+				+ (nickname == null ? "null" : "\"" + nickname + "\"") + ", " + "\"password\":"
+				+ (password == null ? "null" : "\"" + password + "\"") + ", " + "\"emailVerified\":\"" + emailVerified
+				+ "\"" + ", " + "}";
 	}
-}
 
+}

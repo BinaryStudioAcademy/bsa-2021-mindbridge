@@ -22,9 +22,8 @@ public class Tag extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"Tag\", " +
-			"\"name\":" + (name == null ? "null" : "\"" + name + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"Tag\", " + "\"name\":"
+				+ (name == null ? "null" : "\"" + name + "\"") + ", " + "}";
 	}
+
 }

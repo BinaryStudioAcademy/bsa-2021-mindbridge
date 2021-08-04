@@ -24,10 +24,9 @@ public class UsersAchievement extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"UsersAchievement\", " +
-			"\"user_id\":" + (user.getId() == null ? "null" : "\"" + user.getId() + "\"") + ", " +
-			"\"achievement_id\":" + (achievement.getId() == null ? "null" : "\"" + achievement.getId() + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"UsersAchievement\", " + "\"user_id\":"
+				+ (user.getId() == null ? "null" : "\"" + user.getId() + "\"") + ", " + "\"achievement_id\":"
+				+ (achievement.getId() == null ? "null" : "\"" + achievement.getId() + "\"") + ", " + "}";
 	}
+
 }

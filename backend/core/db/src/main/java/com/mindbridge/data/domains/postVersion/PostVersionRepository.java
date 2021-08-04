@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.UUID;
 
 public interface PostVersionRepository extends JpaRepository<PostVersion, UUID>, JpaSpecificationExecutor<PostVersion> {
+
 }

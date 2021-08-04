@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/data")
 public class DataController {
-    @Autowired
-    private DataService dataService;
 
-    @GetMapping("/")
-    public DataDto getData() throws InterruptedException {
-        return dataService.getData();
-    }
+	@Autowired
+	private DataService dataService;
+
+	@GetMapping("/")
+	public DataDto getData() throws InterruptedException {
+		return dataService.getData();
+	}
+
 }
