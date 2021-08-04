@@ -13,4 +13,3 @@ export default combineReducers({
 });
 
 /* PlopJS request_extractor placeholder. Do not remove */
-

@@ -28,6 +28,13 @@ const Default: React.FC<IDefaultProps> = (
     fetchData();
   }, [fetchData]);
 
+  const sendSomething = () => {
+    fetch('/api/data/hello', {
+      method: 'GET',
+      mode: 'no-cors'
+    }).then();
+  };
+
   return (
     <div>
       <SemanticButtonExample
@@ -36,6 +43,11 @@ const Default: React.FC<IDefaultProps> = (
         disabled={dataLoading}
       >
         Fetch data
+      </SemanticButtonExample>
+      <SemanticButtonExample
+        onClick={sendSomething}
+      >
+        Send socket
       </SemanticButtonExample>
       <LoaderWrapper loading={dataLoading}>
         <h1>Inner component</h1>
