@@ -16,7 +16,6 @@ interface IActions {
 }
 
 const LoginForm: React.FC<ILoginFormProps> = (
-  { children }
 ) => (
   <div className={styles.loginForm}>
     <h2 className={styles.title}>Sign In</h2>
@@ -43,7 +42,7 @@ const LoginForm: React.FC<ILoginFormProps> = (
   </div>
 );
 
-const mapStateToProps: (state) => IState = state => ({
+const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps: IActions = {
