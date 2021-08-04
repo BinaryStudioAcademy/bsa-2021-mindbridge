@@ -16,10 +16,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.headers().frameOptions().sameOrigin().and()
-				.cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf()
-				.disable().formLogin().disable().httpBasic().disable().authorizeRequests()
-				.antMatchers("/auth/**", "/oauth2/**").permitAll()
+		http.headers().frameOptions().sameOrigin().and().cors().and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable().formLogin().disable()
+				.httpBasic().disable().authorizeRequests().antMatchers("/auth/**", "/oauth2/**").permitAll()
 				// TODO: this is an example reference. Delete after getting familiar with
 				// the project structure
 				.antMatchers("/data/").permitAll().antMatchers("/swagger-ui/**").permitAll().anyRequest()
