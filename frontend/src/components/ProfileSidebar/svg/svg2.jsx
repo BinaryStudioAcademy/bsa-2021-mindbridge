@@ -1,5 +1,6 @@
 import React from 'react';
 
+/* eslint-disable max-len */
 export default function Image2() {
   return (
     <svg width="13" height="13" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -1,5 +1,6 @@
 import React from 'react';
 
+/* eslint-disable max-len */
 function Logo({ width, height }) {
   return (
     <svg className="Logo" width={width} height={height} viewBox="0 0 118 53" fill="none" xmlns="http://www.w3.org/2000/svg">
