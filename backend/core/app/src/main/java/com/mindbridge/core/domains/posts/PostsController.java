@@ -1,7 +1,6 @@
-package com.mindbridge.core.domains.post;
+package com.mindbridge.core.domains.posts;
 
-import com.mindbridge.core.domains.post.dto.PostDto;
-import com.mindbridge.data.domains.post.model.Post;
+import com.mindbridge.core.domains.posts.dto.PostDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

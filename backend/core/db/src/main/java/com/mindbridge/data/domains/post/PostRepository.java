@@ -2,13 +2,9 @@ package com.mindbridge.data.domains.post;
 
 import com.mindbridge.data.domains.post.dto.PostsReactionsQueryResult;
 import com.mindbridge.data.domains.post.model.Post;
-import com.mindbridge.data.domains.postPR.model.PostPR;
-import com.mindbridge.data.domains.tag.model.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import java.util.*;
-
 
 
 import java.util.UUID;
@@ -20,7 +16,7 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 		"(SELECT COALESCE(SUM(CASE WHEN pr.liked = TRUE THEN 1 ELSE 0 END), 0) FROM p.reactions pr WHERE pr.post = p ), " +
 		"(SELECT COALESCE(SUM(CASE WHEN pr.liked = FALSE THEN 1 ELSE 0 END), 0) FROM p.reactions pr WHERE pr.post = p ))" +
 		"FROM Post p where p.id = :id")
-	List<PostsReactionsQueryResult> getAllReactionsOnPost(UUID id);
+	PostsReactionsQueryResult getAllReactionsOnPost(UUID id);
 
 
 	@Query(value = "select * from posts p where p.deleted = false", nativeQuery = true)

@@ -22,7 +22,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/auth/**", "/oauth2/**").permitAll()
 				// TODO: this is an example reference. Delete after getting familiar with
 				// the project structure
-				.antMatchers("/data/").permitAll().antMatchers("/swagger-ui/**").permitAll().anyRequest()
+				.antMatchers("/data/").permitAll()
+				.antMatchers("/swagger-ui/**").permitAll()
+				.antMatchers("/posts/**").permitAll().anyRequest()
 				.authenticated().and();
 	}
 

@@ -6,12 +6,13 @@ import { Image } from 'semantic-ui-react';
 interface IPostHeaderInformationProps {
   date: string;
   timeRead: string;
+  authorName: string;
 }
 
-const PostHeaderInformation: FunctionComponent<IPostHeaderInformationProps> = ({ date, timeRead }) => (
+const PostHeaderInformation: FunctionComponent<IPostHeaderInformationProps> = ({ date, timeRead, authorName }) => (
   <div className={styles.postHeaderInfo}>
     <Image src="https://react.semantic-ui.com/images/wireframe/square-image.png" avatar size="big" />
-    <span className={styles.userName}>Nolan Saris</span>
+    <span className={styles.userName}>{authorName}</span>
     <DividerSvg />
     <span className={styles.postHeaderInfo}>{date}</span>
     <DividerSvg />

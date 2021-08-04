@@ -2,19 +2,20 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import PostCard from '@components/PostCard';
-import { IData } from '@screens/FeedPage/models/IData';
+import { IData, IDataArr } from '@screens/FeedPage/models/IData';
 import { IBindingAction } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/FeedPage/reducers';
 import { fetchDataRoutine } from '@screens/FeedPage/routines';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
+import TagsMenu from '@components/TagComponent';
 
 export interface IFeedPageProps extends IState, IActions {
 }
 
 interface IState {
-  data: IData;
+  data: IDataArr;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -35,7 +36,12 @@ const FeedPage: React.FC<IFeedPageProps> = (
         <h1>Header</h1>
       </div>
       <div className={styles.main}>
-        <PostCard post={data.posts[0]} />
+        {data.posts.map(post => (
+          <PostCard
+            key={post.id}
+            post={post}
+          />
+        ))}
       </div>
       <div className={styles.sidebar}>
         <div className={styles.logInSideBar}>

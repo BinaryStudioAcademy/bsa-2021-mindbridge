@@ -11,11 +11,13 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 public class TagDto {
-	List<String> name;
-	public static TagDto fromEntity(Set<Tag> tags) {
+	String id;
+	String name;
+	public static TagDto fromEntity(Tag tag) {
 		return TagDto
 			.builder()
-			.name(tags.stream().map(Tag::getName).collect(Collectors.toList()))
+			.id(tag.getId().toString())
+			.name(tag.getName())
 			.build();
 	}
 }
