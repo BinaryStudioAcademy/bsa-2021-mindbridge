@@ -5,7 +5,7 @@ WORKDIR /builder
 # copy project dir and run build
 ADD backend/core /builder
 WORKDIR /builder/app
-RUN gradle build
+RUN gradle build -x checkFormatMain
 
 # used alpine linux for small disk size
 FROM openjdk:13-alpine
