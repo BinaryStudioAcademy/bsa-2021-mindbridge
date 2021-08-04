@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { RootState } from '@root/store';
 import { loginReducer } from '@screens/Login/containers/LoginPage/reducer';
 /* PlopJS import placeholder. Do not remove */
 

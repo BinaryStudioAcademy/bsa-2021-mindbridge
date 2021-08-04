@@ -14,7 +14,8 @@ interface IState {
 interface IActions {
 }
 
-const RegistrationForm: React.FC<IRegistrationFormProps> = () => (
+const RegistrationForm: React.FC<IRegistrationFormProps> = (
+) => (
   <div className={styles.loginForm}>
     <h2 className={styles.title}>Sign Up</h2>
     <form>
@@ -35,7 +36,7 @@ const RegistrationForm: React.FC<IRegistrationFormProps> = () => (
   </div>
 );
 
-const mapStateToProps: (state) => IState = () => ({
+const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps: IActions = {

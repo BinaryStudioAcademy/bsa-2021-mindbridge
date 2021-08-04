@@ -41,7 +41,7 @@ const LoginForm: React.FC<ILoginFormProps> = () => (
   </div>
 );
 
-const mapStateToProps: (state) => IState = () => ({
+const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps: IActions = {

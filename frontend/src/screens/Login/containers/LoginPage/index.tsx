@@ -15,7 +15,8 @@ interface IState {
 interface IActions {
 }
 
-const Login: React.FC<ILoginProps> = () => {
+const Login: React.FC<ILoginProps> = (
+) => {
   const { pathname } = useLocation();
 
   const getScreen = path => {
@@ -62,7 +63,7 @@ const Login: React.FC<ILoginProps> = () => {
   );
 };
 
-const mapStateToProps: (state) => IState = () => ({
+const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps: IActions = {
