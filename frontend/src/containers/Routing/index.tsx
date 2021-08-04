@@ -3,6 +3,8 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import LoaderWrapper from 'components/LoaderWrapper';
 import PublicRoute from 'components/PublicRoute';
 import Default from 'screens/Default/containers/DefaultPage';
+import PrivateRoute from '@root/components/PrivateRoute';
+import CreatePostPage from '@root/screens/CreatePost/containers/CreatePostPage';
 import FeedPage from '@screens/FeedPage/containers/FeedPage';
 import Login from 'screens/Login/containers/LoginPage';
 import SockJS from 'sockjs-client';
@@ -39,6 +41,11 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
               path="/private"
               component={Private}
             /> */}
+              <PrivateRoute
+                exact
+                path="/create/post"
+                component={CreatePostPage}
+              />
               <Route path="/*">
                 <Redirect to="/public" />
               </Route>

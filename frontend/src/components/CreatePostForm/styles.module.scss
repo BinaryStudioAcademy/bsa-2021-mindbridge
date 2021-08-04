@@ -1,0 +1,78 @@
+@import "../../styles/common.sass";
+
+.create_post_form{
+  display: grid;
+  width: 100%;
+  grid-template-rows: 1fr 1fr 4fr 1fr;
+    
+  input, textarea {
+    background-color: rgba(248, 248, 248, 1);
+    border: none;
+    margin-bottom: 0.5rem;
+    padding: 1.5rem;
+  }
+  input::placeholder, textarea::placeholder{
+    font-family: lato;
+    color: rgba(20, 37, 63, 0.4);
+  }
+  input:focus , textarea:focus {
+    outline: 2px solid $light-blue;
+    font-family: lato;
+    color: rgba(20, 37, 63, 1);
+  }
+  .content_input_container{
+    margin-bottom: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr 2.5rem 1fr;
+    grid-template-rows: 5fr 1fr 0.8fr;
+  }
+  .content_input{ 
+    overflow-y: scroll;
+    grid-column: 1/4;
+    grid-row: 1/4;
+    margin: 0;
+  }
+
+  .file_input_round{
+    height: 2.5rem;
+    width: 2.5rem;
+    grid-column: 2/3;
+    grid-row: 2/3;
+    z-index: 200;
+    background-color: white;
+    border-radius: 50%;
+    padding-left: 0.7rem;
+    padding-top: 0.7rem;
+    opacity: 0.6;
+  }
+
+  .file_input_round:hover{
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  .file_input_rectangle{
+    background-color: rgba(248, 248, 248, 1);
+    border: none;
+    margin-bottom: 0.5rem;
+    padding: 1.5rem;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    span{
+      font-family: lato;
+      color: rgba(20, 37, 63, 0.4);
+      margin-left: 0.7rem;
+      }   
+    }
+
+  .file_input_rectangle:hover{
+    outline: solid $light-blue 2px;
+    cursor: pointer;
+  }
+}
+
+.invisible{
+  display: none;
+}
