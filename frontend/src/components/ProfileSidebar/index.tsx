@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './styles.module.scss';
-import Svg1 from './svg/svg1';
-import Svg2 from './svg/svg2';
-import Svg3 from './svg/svg3';
-import Svg4 from './svg/svg4';
-import Svg5 from './svg/svg5';
-import Svg6 from './svg/svg6';
-import Svg7 from './svg/svg7';
-import Svg8 from './svg/svg8';
+import FollowersSvg from './svg/followersSvg';
+import StarSvg from './svg/starSvg';
+import SettingsSvg from './svg/settingsSvg';
+import DraftSvg from './svg/draftsSvg';
+import FavoritesSvg from './svg/favorites';
+import HighlightsSvg from './svg/highlightsSvg';
+import PostsSvg from './svg/posts';
+import ContributorsSvg from './svg/contributors';
 import { Link } from 'react-router-dom';
 
 export interface IProfileSidebarProps {
@@ -25,7 +25,7 @@ function ProfileSidebar({ avatar, userName, folloversCount, rating, postNotifica
         </div>
         <div className={styles.following_and_rating_group}>
           <button type="button" className={styles.following}>
-            <Svg1 />
+            <FollowersSvg />
             <div className={styles.followers_count}>
               {folloversCount}
               {' '}
@@ -34,7 +34,7 @@ function ProfileSidebar({ avatar, userName, folloversCount, rating, postNotifica
           </button>
           <div className={styles.dot} />
           <button type="button" className={styles.rating}>
-            <Svg2 />
+            <StarSvg />
             <div className={styles.rating_count}>
               {rating}
               {' '}
@@ -43,31 +43,31 @@ function ProfileSidebar({ avatar, userName, folloversCount, rating, postNotifica
           </button>
         </div>
         <button type="button" className={styles.settings_button}>
-          <Svg3 />
+          <SettingsSvg />
         </button>
       </div>
       <div className={styles.sidebar_links}>
         <Link to="/">
-          <Svg4 />
+          <DraftSvg />
           <span>Drafts</span>
         </Link>
         <Link to="/">
-          <Svg5 />
+          <FollowersSvg />
           <span>Favorites</span>
         </Link>
         <Link to="/">
-          <Svg6 />
+          <HighlightsSvg />
           <span>Highlights</span>
         </Link>
         <Link to="/">
-          <Svg7 />
+          <PostsSvg />
           <span>Your posts</span>
           <div className={postNotificationCount ? styles.notification_count : styles.invisible}>
             {postNotificationCount}
           </div>
         </Link>
         <Link to="/">
-          <Svg8 />
+          <ContributorsSvg />
           <span>Your contributions</span>
         </Link>
       </div>

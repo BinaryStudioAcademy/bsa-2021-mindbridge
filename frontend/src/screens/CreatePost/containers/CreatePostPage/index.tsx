@@ -8,9 +8,9 @@ import HistorySidebar from '@root/components/PostHistorySidebar';
 import { IBindingAction } from '@root/models/Callbacks';
 import { changeEditViewModeRoutine, changeHtmlMarkdownModeRoutine } from '../../routines';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
-import Svg1 from './svg/svg1';
-import Svg2 from './svg/svg2';
-import Svg3 from './svg/svg3';
+import EditSvgPart1 from './svg/editSvgPart1';
+import EditSvgPart2 from './svg/editSvgPart2';
+import ViewSvg from './svg/viewSvg';
 import BlueButton from '@root/components/buttons/Blue_button';
 import ColorlessButton from '@root/components/buttons/ColorlessButton';
 import DarkButton from '@root/components/buttons/DarcButton';
@@ -45,10 +45,6 @@ const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
 const CreatePost: React.FC<ICreatePostProps> = (
   { modes, changeHtmlMarkdownMode, changeEditViewMode }
 ) => {
-  // const markdownStyle = modes.markdownMode ? styles.blue_button : styles.colorless_button;
-  const editStyle = modes.editMode ? styles.blue_button : styles.colorless_button;
-  const viewStyle = modes.viewMode ? styles.blue_button : styles.colorless_button;
-
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.header_container}>
@@ -86,8 +82,8 @@ const CreatePost: React.FC<ICreatePostProps> = (
                 <BlueButton
                   content={(
                     <div>
-                      <Svg1 />
-                      <Svg2 />
+                      <EditSvgPart1 />
+                      <EditSvgPart2 />
                     </div>
               )}
                   onClick={changeEditViewMode}
@@ -98,8 +94,8 @@ const CreatePost: React.FC<ICreatePostProps> = (
                 <ColorlessButton
                   content={(
                     <div>
-                      <Svg1 />
-                      <Svg2 />
+                      <EditSvgPart1 />
+                      <EditSvgPart2 />
                     </div>
               )}
                   onClick={changeEditViewMode}
@@ -109,14 +105,14 @@ const CreatePost: React.FC<ICreatePostProps> = (
             {modes.viewMode
               ? (
                 <BlueButton
-                  content={<Svg3 />}
+                  content={<ViewSvg />}
                   className={classNames(styles.view_button)}
                   onClick={changeEditViewMode}
                 />
               )
               : (
                 <ColorlessButton
-                  content={<Svg3 />}
+                  content={<ViewSvg />}
                   className={classNames(styles.view_button)}
                   onClick={changeEditViewMode}
                 />

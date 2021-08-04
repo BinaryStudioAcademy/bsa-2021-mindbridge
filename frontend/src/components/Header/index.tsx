@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import Logo from '../Logo/Logo';
-import Svg1 from './svg/svg1';
-import Svg2 from './svg/svg2';
+import BellSvg from './svg/bellSvg';
+import SearchSvg from './svg/searchSvg';
 import BlueButton from '../buttons/Blue_button';
 import ColorlessButton from '../buttons/ColorlessButton';
 import NotificationCount from '../NotificationCount';
@@ -21,13 +21,13 @@ function Header({ notificationCount }) {
       </div>
       <div className={styles.right}>
         <button className={styles.header_notification} type="button">
-          <Svg1 />
+          <BellSvg />
           <NotificationCount notificationCount={notificationCount} />
         </button>
         <div className={styles.search_input}>
           <input type="text" placeholder="Search..." />
           <button type="button">
-            <Svg2 />
+            <SearchSvg />
           </button>
         </div>
         <DarkButton className={styles.create_post_button} content="Create post" />
