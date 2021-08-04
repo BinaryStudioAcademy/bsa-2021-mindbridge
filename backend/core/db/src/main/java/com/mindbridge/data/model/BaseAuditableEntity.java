@@ -21,4 +21,5 @@ public abstract class BaseAuditableEntity extends BaseEntity {
 	@Column(name = "updated_at", nullable = false)
 	@UpdateTimestamp
 	private Date updatedAt;
+
 }

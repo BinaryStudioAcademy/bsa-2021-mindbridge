@@ -16,7 +16,6 @@ interface IActions {
 }
 
 const Login: React.FC<ILoginProps> = (
-  { children }
 ) => {
   const { pathname } = useLocation();
 
@@ -64,7 +63,7 @@ const Login: React.FC<ILoginProps> = (
   );
 };
 
-const mapStateToProps: (state) => IState = state => ({
+const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps: IActions = {

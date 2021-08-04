@@ -45,21 +45,17 @@ public class Post extends BaseAuditableEntity {
 	private List<PostPR> pullRequests = new ArrayList<>();
 
 	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-	@JoinTable(
-		name = "post2tag",
-		joinColumns = @JoinColumn(name = "post_id"),
-		inverseJoinColumns = @JoinColumn(name = "tag_id")
-	)
+	@JoinTable(name = "post2tag", joinColumns = @JoinColumn(name = "post_id"),
+			inverseJoinColumns = @JoinColumn(name = "tag_id"))
 	private Set<Tag> tags = new HashSet<>();
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"Post\", " +
-			"\"authorId\":" + (author.getId() == null ? "null" : "\"" + author.getId() + "\"") + ", " +
-			"\"title\":" + (title == null ? "null" : "\"" + title + "\"") + ", " +
-			"\"text\":" + (text == null ? "null" : "\"" + text + "\"") + ", " +
-			"\"draft\":" + (draft == null ? "null" : "\"" + draft + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"Post\", " + "\"authorId\":"
+				+ (author.getId() == null ? "null" : "\"" + author.getId() + "\"") + ", " + "\"title\":"
+				+ (title == null ? "null" : "\"" + title + "\"") + ", " + "\"text\":"
+				+ (text == null ? "null" : "\"" + text + "\"") + ", " + "\"draft\":"
+				+ (draft == null ? "null" : "\"" + draft + "\"") + ", " + "}";
 	}
+
 }

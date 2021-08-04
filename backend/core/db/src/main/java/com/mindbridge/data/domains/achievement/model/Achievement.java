@@ -23,12 +23,11 @@ public class Achievement extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"Achievement\", " +
-			"\"text\":" + (text == null ? "null" : "\"" + text + "\"") + ", " +
-			"\"title\":" + (title == null ? "null" : "\"" + title + "\"") + ", " +
-			"\"type\":" + (type == null ? "null" : "\"" + type + "\"") + ", " +
-			"\"level\":" + (level == null ? "null" : "\"" + level + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"Achievement\", " + "\"text\":"
+				+ (text == null ? "null" : "\"" + text + "\"") + ", " + "\"title\":"
+				+ (title == null ? "null" : "\"" + title + "\"") + ", " + "\"type\":"
+				+ (type == null ? "null" : "\"" + type + "\"") + ", " + "\"level\":"
+				+ (level == null ? "null" : "\"" + level + "\"") + ", " + "}";
 	}
+
 }
