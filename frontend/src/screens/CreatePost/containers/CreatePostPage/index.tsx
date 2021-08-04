@@ -44,91 +44,89 @@ const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
 
 const CreatePost: React.FC<ICreatePostProps> = (
   { modes, changeHtmlMarkdownMode, changeEditViewMode }
-) => {
-  return (
-    <div className={classNames('content_wrapper', styles.container)}>
-      <div className={styles.header_container}>
-        <Header notificationCount={notificationCount} />
+) => (
+  <div className={classNames('content_wrapper', styles.container)}>
+    <div className={styles.header_container}>
+      <Header notificationCount={notificationCount} />
+    </div>
+    <div className={styles.form_and_sidebar_container}>
+      <div className={styles.profile_sidebar_container}>
+        <ProfileSidebar
+          userName={userName}
+          avatar={avatar}
+          folloversCount={folloversCount}
+          rating={rating}
+          postNotificationCount={postNotificationCount}
+        />
       </div>
-      <div className={styles.form_and_sidebar_container}>
-        <div className={styles.profile_sidebar_container}>
-          <ProfileSidebar
-            userName={userName}
-            avatar={avatar}
-            folloversCount={folloversCount}
-            rating={rating}
-            postNotificationCount={postNotificationCount}
-          />
+      <div className={styles.history_sidebar_container}>
+        <HistorySidebar history={history} />
+      </div>
+      <div className={styles.create_post_container}>
+        <div className={styles.header}>
+          {modes.htmlMode
+            ? <BlueButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />
+            : <ColorlessButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />}
+          {modes.markdownMode
+            ? <BlueButton content="Markdown" onClick={changeHtmlMarkdownMode} className={styles.markdown_button} />
+            : (
+              <ColorlessButton
+                content="Markdown"
+                onClick={changeHtmlMarkdownMode}
+                className={styles.markdown_button}
+              />
+            )}
+          {modes.editMode
+            ? (
+              <BlueButton
+                content={(
+                  <div>
+                    <EditSvgPart1 />
+                    <EditSvgPart2 />
+                  </div>
+              )}
+                onClick={changeEditViewMode}
+                className={styles.edit_button}
+              />
+            )
+            : (
+              <ColorlessButton
+                content={(
+                  <div>
+                    <EditSvgPart1 />
+                    <EditSvgPart2 />
+                  </div>
+              )}
+                onClick={changeEditViewMode}
+                className={styles.edit_button}
+              />
+            )}
+          {modes.viewMode
+            ? (
+              <BlueButton
+                content={<ViewSvg />}
+                className={classNames(styles.view_button)}
+                onClick={changeEditViewMode}
+              />
+            )
+            : (
+              <ColorlessButton
+                content={<ViewSvg />}
+                className={classNames(styles.view_button)}
+                onClick={changeEditViewMode}
+              />
+            )}
         </div>
-        <div className={styles.history_sidebar_container}>
-          <HistorySidebar history={history} />
-        </div>
-        <div className={styles.create_post_container}>
-          <div className={styles.header}>
-            {modes.htmlMode
-              ? <BlueButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />
-              : <ColorlessButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />}
-            {modes.markdownMode
-              ? <BlueButton content="Markdown" onClick={changeHtmlMarkdownMode} className={styles.markdown_button} />
-              : (
-                <ColorlessButton
-                  content="Markdown"
-                  onClick={changeHtmlMarkdownMode}
-                  className={styles.markdown_button}
-                />
-              )}
-            {modes.editMode
-              ? (
-                <BlueButton
-                  content={(
-                    <div>
-                      <EditSvgPart1 />
-                      <EditSvgPart2 />
-                    </div>
-              )}
-                  onClick={changeEditViewMode}
-                  className={styles.edit_button}
-                />
-              )
-              : (
-                <ColorlessButton
-                  content={(
-                    <div>
-                      <EditSvgPart1 />
-                      <EditSvgPart2 />
-                    </div>
-              )}
-                  onClick={changeEditViewMode}
-                  className={styles.edit_button}
-                />
-              )}
-            {modes.viewMode
-              ? (
-                <BlueButton
-                  content={<ViewSvg />}
-                  className={classNames(styles.view_button)}
-                  onClick={changeEditViewMode}
-                />
-              )
-              : (
-                <ColorlessButton
-                  content={<ViewSvg />}
-                  className={classNames(styles.view_button)}
-                  onClick={changeEditViewMode}
-                />
-              )}
-          </div>
-          {modes.editMode ? <CreatePostForm /> : null}
-          <div className={styles.footer}>
-            <DarkBorderButton content="Cancel" />
-            <DarkBorderButton content="Save draft" />
-            <DarkButton content="Publish" />
-          </div>
+        {modes.editMode ? <CreatePostForm /> : null}
+        <div className={styles.footer}>
+          <DarkBorderButton content="Cancel" />
+          <DarkBorderButton content="Save draft" />
+          <DarkButton content="Publish" />
         </div>
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 const mapStateToProps: (state) => IState = state => ({
   modes: state.createPostReducer.data.modes
