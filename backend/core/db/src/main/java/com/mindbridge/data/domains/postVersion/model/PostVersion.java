@@ -23,11 +23,10 @@ public class PostVersion extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"PostVersion\", " +
-			"\"postId\":" + (post.getId() == null ? "null" : "\"" + post.getId() + "\"") + ", " +
-			"\"title\":" + (title == null ? "null" : "\"" + title + "\"") + ", " +
-			"\"text\":" + (text == null ? "null" : "\"" + text + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"PostVersion\", " + "\"postId\":"
+				+ (post.getId() == null ? "null" : "\"" + post.getId() + "\"") + ", " + "\"title\":"
+				+ (title == null ? "null" : "\"" + title + "\"") + ", " + "\"text\":"
+				+ (text == null ? "null" : "\"" + text + "\"") + ", " + "}";
 	}
+
 }

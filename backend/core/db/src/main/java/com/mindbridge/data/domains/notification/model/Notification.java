@@ -30,13 +30,12 @@ public class Notification extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"Notification\", " +
-			"\"text\":" + (text == null ? "null" : "\"" + text + "\"") + ", " +
-			"\"type\":" + (type == null ? "null" : "\"" + type + "\"") + ", " +
-			"\"receiver_id\":" + (receiver.getId() == null ? "null" : "\"" + receiver.getId() + "\"") + ", " +
-			"\"source_id\":" + (sourceId == null ? "null" : "\"" + sourceId + "\"") + ", " +
-			"\"isRead\":" + (isRead == null ? "null" : "\"" + isRead + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"Notification\", " + "\"text\":"
+				+ (text == null ? "null" : "\"" + text + "\"") + ", " + "\"type\":"
+				+ (type == null ? "null" : "\"" + type + "\"") + ", " + "\"receiver_id\":"
+				+ (receiver.getId() == null ? "null" : "\"" + receiver.getId() + "\"") + ", " + "\"source_id\":"
+				+ (sourceId == null ? "null" : "\"" + sourceId + "\"") + ", " + "\"isRead\":"
+				+ (isRead == null ? "null" : "\"" + isRead + "\"") + ", " + "}";
 	}
+
 }

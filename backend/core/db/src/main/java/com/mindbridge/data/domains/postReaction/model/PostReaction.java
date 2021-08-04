@@ -26,11 +26,10 @@ public class PostReaction extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"PostReaction\", " +
-			"\"authorId\":" + (author.getId() == null ? "null" : "\"" + author.getId() + "\"") + ", " +
-			"\"like\":" + (liked == null ? "null" : "\"" + liked + "\"") + ", " +
-			"\"postId\":" + (post.getId() == null ? "null" : "\"" + post.getId() + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"PostReaction\", " + "\"authorId\":"
+				+ (author.getId() == null ? "null" : "\"" + author.getId() + "\"") + ", " + "\"like\":"
+				+ (liked == null ? "null" : "\"" + liked + "\"") + ", " + "\"postId\":"
+				+ (post.getId() == null ? "null" : "\"" + post.getId() + "\"") + ", " + "}";
 	}
+
 }
