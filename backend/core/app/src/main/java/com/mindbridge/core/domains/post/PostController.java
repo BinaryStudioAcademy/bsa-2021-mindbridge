@@ -14,6 +14,7 @@ import java.util.UUID;
 @RequestMapping("post")
 @Validated
 public class PostController {
+
 	private final PostService postService;
 
 	@Autowired
@@ -25,4 +26,5 @@ public class PostController {
 	public PostDetailsDto getPost(@PathVariable UUID id) {
 		return postService.getPostById(id);
 	}
+
 }

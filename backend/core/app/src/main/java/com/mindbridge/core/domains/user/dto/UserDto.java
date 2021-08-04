@@ -9,14 +9,12 @@ public class UserDto {
 
 	private UUID id;
 
+	private String nickname;
 
-	private String email;
+	private String avatar;
 
 	private String firstName;
 
 	private String lastName;
-
-
-	private boolean emailVerified;
 
 }

@@ -12,13 +12,23 @@ import java.util.UUID;
 
 @Data
 public class PostDetailsDto {
+
 	private UUID id;
+
 	private Date createdAt;
-	private Date editedAt;
+
+	private Date updatedAt;
+
 	private String title;
+
 	private String text;
+
 	private UserDto author;
+
 	private Set<TagDto> tags;
-	private Integer reactions;
+
+	private long rating;
+
 	private List<CommentDto> comments;
+
 }
