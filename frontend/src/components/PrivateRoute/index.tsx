@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const PrivateRoute = ({ component: Component, roles = null, ...rest }) => (
+const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => {

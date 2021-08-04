@@ -6,7 +6,7 @@ import { RootState } from '@root/store';
 import { fetchDataRoutine } from '@screens/Default/routines';
 import { extractData, extractFetchDataError, extractFetchDataLoading } from '@screens/Default/reducers';
 import LoaderWrapper from '@components/LoaderWrapper';
-import { Button } from 'semantic-ui-react';
+import SemanticButtonExample from '@components/SemanticButtonExample';
 
 export interface IDefaultProps extends IState, IActions {
 }
@@ -28,9 +28,27 @@ const Default: React.FC<IDefaultProps> = (
     fetchData();
   }, [fetchData]);
 
+  const sendSomething = () => {
+    fetch('/api/data/hello', {
+      method: 'GET',
+      mode: 'no-cors'
+    }).then();
+  };
+
   return (
     <div>
-      <Button loading={dataLoading} onClick={fetchData} disabled={dataLoading}>Fetch data</Button>
+      <SemanticButtonExample
+        loading={dataLoading}
+        onClick={fetchData}
+        disabled={dataLoading}
+      >
+        Fetch data
+      </SemanticButtonExample>
+      <SemanticButtonExample
+        onClick={sendSomething}
+      >
+        Send socket
+      </SemanticButtonExample>
       <LoaderWrapper loading={dataLoading}>
         <h1>Inner component</h1>
         {dataError ? (

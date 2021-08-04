@@ -15,7 +15,6 @@ interface IActions {
 }
 
 const RegistrationForm: React.FC<IRegistrationFormProps> = (
-  { children }
 ) => (
   <div className={styles.loginForm}>
     <h2 className={styles.title}>Sign Up</h2>
@@ -32,12 +31,12 @@ const RegistrationForm: React.FC<IRegistrationFormProps> = (
       <PasswordInput idName="password" />
       <label htmlFor="passwordConfirm">Confirm password</label>
       <PasswordInput idName="passwordConfirm" />
-      <FormButton text="Sign In" inverted />
+      <FormButton text="Sign Up" inverted />
     </form>
   </div>
 );
 
-const mapStateToProps: (state) => IState = state => ({
+const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps: IActions = {

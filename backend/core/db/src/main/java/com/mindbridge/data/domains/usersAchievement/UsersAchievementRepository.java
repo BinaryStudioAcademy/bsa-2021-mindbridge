@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.UUID;
 
-public interface UsersAchievementRepository extends JpaRepository<UsersAchievement, UUID>, JpaSpecificationExecutor<UsersAchievement> {
+public interface UsersAchievementRepository
+		extends JpaRepository<UsersAchievement, UUID>, JpaSpecificationExecutor<UsersAchievement> {
+
 }
