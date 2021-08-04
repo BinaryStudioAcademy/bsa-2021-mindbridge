@@ -26,11 +26,10 @@ public class Highlight extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"Highlight\", " +
-			"\"text\":" + (text == null ? "null" : "\"" + text + "\"") + ", " +
-			"\"user_id\":" + (user.getId() == null ? "null" : "\"" + user.getId() + "\"") + ", " +
-			"\"post_id\":" + (post.getId() == null ? "null" : "\"" + post.getId() + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"Highlight\", " + "\"text\":"
+				+ (text == null ? "null" : "\"" + text + "\"") + ", " + "\"user_id\":"
+				+ (user.getId() == null ? "null" : "\"" + user.getId() + "\"") + ", " + "\"post_id\":"
+				+ (post.getId() == null ? "null" : "\"" + post.getId() + "\"") + ", " + "}";
 	}
+
 }

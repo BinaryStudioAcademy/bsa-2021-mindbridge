@@ -36,11 +36,10 @@ public class PRComment extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"PRComment\", " +
-			"\"text\":" + (text == null ? "null" : "\"" + text + "\"") + ", " +
-			"\"comment_id\":" + (comment.getId() == null ? "null" : "\"" + comment.getId() + "\"") + ", " +
-			"\"pr_id\":" + (postPR.getId() == null ? "null" : "\"" + postPR.getId() + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"PRComment\", " + "\"text\":"
+				+ (text == null ? "null" : "\"" + text + "\"") + ", " + "\"comment_id\":"
+				+ (comment.getId() == null ? "null" : "\"" + comment.getId() + "\"") + ", " + "\"pr_id\":"
+				+ (postPR.getId() == null ? "null" : "\"" + postPR.getId() + "\"") + ", " + "}";
 	}
+
 }

@@ -26,11 +26,10 @@ public class CommentReaction extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " +
-			"\"_class\":\"CommentReaction\", " +
-			"\"authorId\":" + (author.getId() == null ? "null" : "\"" + author.getId() + "\"") + ", " +
-			"\"like\":" + (liked == null ? "null" : "\"" + liked + "\"") + ", " +
-			"\"commentId\":" + (comment.getId() == null ? "null" : "\"" + comment.getId() + "\"") + ", " +
-			"}";
+		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"CommentReaction\", " + "\"authorId\":"
+				+ (author.getId() == null ? "null" : "\"" + author.getId() + "\"") + ", " + "\"like\":"
+				+ (liked == null ? "null" : "\"" + liked + "\"") + ", " + "\"commentId\":"
+				+ (comment.getId() == null ? "null" : "\"" + comment.getId() + "\"") + ", " + "}";
 	}
+
 }
