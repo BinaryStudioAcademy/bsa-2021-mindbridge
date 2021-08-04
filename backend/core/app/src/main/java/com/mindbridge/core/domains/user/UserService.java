@@ -13,11 +13,13 @@ public class UserService {
 	private final UserRepository userRepository;
 
 	public static final String PHONE_REGEX = "^\\d{10}$";
+
 	public static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z].{2})(?=.*[A-Z])(?=\\S+$).{8,40}$";
 
-  @Lazy
+	@Lazy
 	@Autowired
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
+
 }

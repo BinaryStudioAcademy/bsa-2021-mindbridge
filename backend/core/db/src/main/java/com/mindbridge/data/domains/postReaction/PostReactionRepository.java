@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.UUID;
 
-public interface PostReactionRepository extends JpaRepository<PostReaction, UUID>, JpaSpecificationExecutor<PostReaction> {
+public interface PostReactionRepository
+		extends JpaRepository<PostReaction, UUID>, JpaSpecificationExecutor<PostReaction> {
+
 }
