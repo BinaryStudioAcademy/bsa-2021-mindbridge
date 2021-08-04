@@ -9,16 +9,17 @@ export interface IFeedPageReducerState {
 
 const initialState: IFeedPageReducerState = {
   posts: [{
-    id: 'John',
-    title: 'Hello',
-    text: 'Hello',
-    authorName: 'Hello',
+    id: '',
+    title: '',
+    text: '',
+    authorName: '',
     commentsCount: 0,
     likesCount: 0,
     disLikesCount: 0,
-    tags: [{ id: '1', name: 'Java' }],
-    createdAt: '28 may',
-    postRating: 0
+    tags: [{ id: '', name: '' }],
+    createdAt: '',
+    postRating: 0,
+    avatar: ''
   }]
 };
 

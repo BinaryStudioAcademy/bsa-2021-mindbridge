@@ -11,13 +11,4 @@ public class TagDto {
 	private UUID id;
 
 	private String name;
-
-	public static com.mindbridge.data.domains.tag.dto.TagDto fromEntity(Tag tag) {
-		return com.mindbridge.data.domains.tag.dto.TagDto
-			.builder()
-			.id(tag.getId().toString())
-			.name(tag.getName())
-			.build();
-	}
-
 }

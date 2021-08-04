@@ -21,7 +21,12 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
     <Card.Content>
       <Feed>
         <div className={styles.cardHeader}>
-          <PostHeaderInformation date={post.createdAt} timeRead="7 min read" authorName={post.authorName} />
+          <PostHeaderInformation
+            date={post.createdAt}
+            timeRead="7 min read"
+            authorName={post.authorName}
+            avatar={post.avatar}
+          />
           <div className={styles.leftSide}>
             <RatingComponent postRating={post.postRating} />
             <FavouriteSvg />

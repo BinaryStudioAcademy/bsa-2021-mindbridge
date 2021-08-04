@@ -11,5 +11,6 @@ export interface IPost {
   tags: ITag[];
   createdAt: string;
   postRating: number;
+  avatar: string;
 }
 

@@ -14,6 +14,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostsReactionsQueryResult {
+
 	public long likeCount;
+
 	public long disLikeCount;
+
 }

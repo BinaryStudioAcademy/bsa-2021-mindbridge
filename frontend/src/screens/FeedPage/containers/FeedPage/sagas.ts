@@ -6,9 +6,7 @@ import { fetchDataRoutine } from '@screens/FeedPage/routines';
 function* fetchData() {
   try {
     const response = yield call(feedPageService.getData);
-    const postsList = {
-      posts: response
-    };
+    const postsList = { posts: response };
     yield put(fetchDataRoutine.success(postsList));
     toastr.success('Success', 'Data loaded!');
   } catch (error) {
