@@ -1,31 +1,32 @@
-import { changeEditViewModeRoutine, changeHtmlMarkdownModeRoutine } from '../../routines/index';
-import { createReducer } from '@reduxjs/toolkit';
+import { sendImageRoutine } from '../../routines/index';
+import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ICreatePostReducerState {
-  modes: {
-    htmlMode: boolean;
-    markdownMode: boolean;
-    editMode: boolean;
-    viewMode: boolean;
+  savingImage: {
+    title: string;
+    url: string;
   };
 }
 
 const initialState: ICreatePostReducerState = {
-  modes: {
-    htmlMode: true,
-    markdownMode: false,
-    editMode: true,
-    viewMode: false
+  savingImage: {
+    title: '',
+    url: ''
   }
 };
 
 export const createPostReducer = createReducer(initialState, {
-  [changeHtmlMarkdownModeRoutine.TRIGGER]: state => {
-    state.modes.markdownMode = !state.modes.markdownMode;
-    state.modes.htmlMode = !state.modes.htmlMode;
+  [sendImageRoutine.SUCCESS]: (state, action) => {
+    state.savingImage = {
+      title: state.savingImage.title,
+      url: ''
+    };
   },
-  [changeEditViewModeRoutine.TRIGGER]: state => {
-    state.modes.editMode = !state.modes.editMode;
-    state.modes.viewMode = !state.modes.viewMode;
+  [sendImageRoutine.TRIGGER]: (state, action) => {
+    console.log(action.payload);
+    state.savingImage = {
+      title: action.payload.name,
+      url: 'loading'
+    };
   }
 });

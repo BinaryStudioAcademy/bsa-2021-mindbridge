@@ -1,0 +1,15 @@
+@import "../../styles/common.sass";
+
+.dropdown {
+  background-color: rgba(248, 248, 248, 1) !important;
+  border: none !important;
+  margin-bottom: 0.5rem !important;
+  padding: 1.5rem !important;
+  font-family: lato !important;
+  a {
+    background-color: $light-blue !important;
+    border: none !important;
+    font-family: lato !important;
+    color: $dark-grey !important;
+  }
+}

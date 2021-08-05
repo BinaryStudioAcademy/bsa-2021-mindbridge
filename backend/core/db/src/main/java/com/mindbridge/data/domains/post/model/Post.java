@@ -30,6 +30,11 @@ public class Post extends BaseAuditableEntity {
 
 	private String text;
 
+	private Boolean markdown;
+
+	@Column(name = "cover_image")
+	private String coverImage;
+
 	private Boolean draft;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

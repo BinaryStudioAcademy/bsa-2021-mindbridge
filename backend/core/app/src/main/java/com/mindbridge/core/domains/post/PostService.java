@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.comment.CommentService;
+import com.mindbridge.core.domains.post.dto.CreatePostDto;
 import com.mindbridge.core.domains.post.dto.PostDetailsDto;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.data.domains.comment.CommentRepository;
@@ -40,6 +41,10 @@ public class PostService {
 		post.setRating(postReactionService.calcPostRatingById(id));
 
 		return post;
+	}
+
+	public void savePost(CreatePostDto post){
+		System.out.println(post);
 	}
 
 }
