@@ -13,6 +13,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.concurrent.Executor;
 
@@ -22,6 +23,7 @@ import java.util.concurrent.Executor;
 @ComponentScan("com.mindbridge")
 @EntityScan("com.mindbridge.data")
 @EnableJpaRepositories("com.mindbridge.data")
+@EnableSwagger2
 public class CoreApplication {
 
 	public static void main(String[] args) {
