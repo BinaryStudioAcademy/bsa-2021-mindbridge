@@ -142,7 +142,3 @@ values
 ('b98a7973-08cd-4308-a6cb-e8dc4d88e8f6', 'ComputerScience'),
 ('a9bd986b-aabd-433e-9d00-8255ad113198', 'Programming'),
 ('253cd787-5115-42e4-85c6-e7d0daaa1a56', 'Coding');
-
-
-
-
