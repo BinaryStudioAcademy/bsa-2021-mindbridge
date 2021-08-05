@@ -3,7 +3,7 @@ import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
 import { viewPostReducer } from '@screens/ViewPost/containers/ViewPostPage/reducer';
 /* PlopJS import placeholder. Do not remove */
-import { fetchDataRoutine } from '@screens/Default/routines';
+import { fetchDataRoutine } from '@screens/ViewPost/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */

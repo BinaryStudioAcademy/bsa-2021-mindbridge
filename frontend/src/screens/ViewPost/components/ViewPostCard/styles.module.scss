@@ -1,9 +1,10 @@
 :global(.ui.card).viewCard {
   width: 83%;
-  margin: 4% 0px -2em 15%;
+  max-width: 83em;
+  margin: 2.8vw 0px -2em 15%;
   padding-top: 1.5em;
   box-shadow: none;
-  object-fit: cover;
+  content: inherit;
 }
 
 :global(.ui.primary.button) {
@@ -23,7 +24,7 @@
   font-family: Lato, serif;
   font-size: 14px;
   display: flex;
-  justify-content: inherit;
+  justify-content: space-between;
   margin-left: 1em;
   padding-right: 1em;
 }

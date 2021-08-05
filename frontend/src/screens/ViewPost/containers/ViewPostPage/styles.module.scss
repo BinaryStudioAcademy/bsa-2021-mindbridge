@@ -18,19 +18,23 @@
 
 .main {
   grid-area: main;
-  min-width: 100px;
+  min-width: 43.75em;
 }
 
 .sidebar {
   grid-area: sidebar;
-  border: 2px solid aquamarine;
+
+  .logInSideBar {
+    margin-top: 2.8vw;
+    margin-bottom: 2em;
+  }
+
+  .suggestChanges {
+    width: 396px;
+    height: 217px;
+    top: 30rem;
+    left: 2rem;
+  }
 }
 
-.suggestChanges {
-  width: 396px;
-  height: 217px;
-  position: relative;
-  top: 30rem;
-  left: 2rem;
-  overflow: hidden;
-}
+

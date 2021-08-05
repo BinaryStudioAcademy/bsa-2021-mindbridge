@@ -7,10 +7,9 @@ import FollowBtn from '@screens/ViewPost/components/Button/FollowBtn/FollowBtn';
 interface IPostInformationProps {
   date: string;
   author: string;
-  timeRead: string;
 }
 
-const PostInformation: FunctionComponent<IPostInformationProps> = ({ author, date, timeRead }) => (
+const PostInformation: FunctionComponent<IPostInformationProps> = ({ author, date }) => (
   <div className={styles.postHeaderInfo}>
     <div className={styles.userBlock}>
       <Image src="https://react.semantic-ui.com/images/wireframe/square-image.png" avatar size="big" />
@@ -25,7 +24,7 @@ const PostInformation: FunctionComponent<IPostInformationProps> = ({ author, dat
     </span>
     <DividerSvg />
     <span className={styles.additionalInformation}>
-      {timeRead}
+      7 min
     </span>
   </div>
 );

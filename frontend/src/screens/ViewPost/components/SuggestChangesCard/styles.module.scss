@@ -1,38 +1,28 @@
 .back {
-  width: 396px;
-  height: 217px;
-  background: rgba(243,249,254,1);
-  opacity: 1;
-  position: relative;
-  top: 0px;
-  left: 0px;
-  border: 1px solid rgba(0,0,0,1);
-  border-radius: 10px;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 1em;
+  height: 14em;
+  width: 25em;
+  background-color: #F3F9FE;
+  padding: 0 1.5em 1.5em 1.9em;
+  border-radius: 0.5em;
 }
 
 .title {
-  width: 329px;
-  color: rgba(53,53,53,1);
-  position: absolute;
-  top: 32px;
-  left: 34px;
-  font-family: Lato, sans-serif;
-  font-weight: Bold;
-  font-size: 18px;
-  opacity: 1;
-  text-align: left;
+  font-family: Lato, serif;
+  font-weight: bold;
+  font-size: 16px;
+  color: #353535;
+  line-height: 1.4rem;
+  margin-top: .7em;
 }
 
 .description {
-  width: 329px;
-  color: rgba(53,53,53,1);
-  position: absolute;
-  top: 91px;
-  left: 34px;
-  font-family: Lato, sans-serif;
-  font-weight: Regular;
+  font-family: Lato, serif;
+  font-weight: regular;
   font-size: 14px;
-  opacity: 1;
-  text-align: left;
+  color: #353535;
+  line-height: 1.4rem;
+  margin-top: .7em;
 }
