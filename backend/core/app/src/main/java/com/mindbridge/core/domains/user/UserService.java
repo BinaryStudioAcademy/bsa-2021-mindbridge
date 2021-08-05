@@ -22,4 +22,8 @@ public class UserService {
 		this.userRepository = userRepository;
 	}
 
+	public int getQuantityOfUsers() {
+		return userRepository.countUserByDeletedFalse();
+	}
+
 }

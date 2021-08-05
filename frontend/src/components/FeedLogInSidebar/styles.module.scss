@@ -39,3 +39,14 @@
   background-color: rgba(0,0,0,0);
   border: solid 2px $dark-grey;
 }
+
+.dark_button:hover {
+  background-color: rgba(0,0,0,0);
+  border: solid 2px $dark-grey;
+  color: $dark-grey;
+}
+
+.darkBorderButton:hover {
+  background-color: $dark-grey;
+  color: white;
+}
