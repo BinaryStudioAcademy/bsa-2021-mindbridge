@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { FunctionComponent } from 'react';
 import { Card, Feed, Container } from 'semantic-ui-react';
 import styles from './styles.module.scss';
@@ -12,7 +13,6 @@ import { IPost } from '@screens/ViewPost/models/IPost';
 interface IViewPostCardProps {
   post: IPost;
 }
-{ /* eslint-disable-next-line max-len */}
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
   <Card className={styles.viewCard}>
     <Card.Content>
@@ -20,7 +20,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
         <div className={styles.gridColumn}>
           <div className={styles.leftSide}>
             <div className={styles.backgroundRatingCircle}>
-              <RatingComponent postRating={post.postRating} />
+              <RatingComponent postRating={post.rating} />
             </div>
             <div className={styles.backgroundFavouriteCircle}>
               <FavouriteSvg />

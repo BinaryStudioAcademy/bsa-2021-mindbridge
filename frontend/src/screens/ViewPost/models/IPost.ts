@@ -7,5 +7,5 @@ export interface IPost {
   text: string;
   authorName: string;
   tags: ITag[];
-  postRating: number;
+  rating: number;
 }

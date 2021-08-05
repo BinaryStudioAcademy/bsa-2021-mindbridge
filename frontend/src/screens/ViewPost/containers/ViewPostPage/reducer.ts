@@ -1,26 +1,25 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { IData } from '@screens/ViewPost/models/IData';
 import { IPost } from '@screens/ViewPost/models/IPost';
 import { fetchDataRoutine } from '@screens/ViewPost/routines';
 
 export interface IViewPostReducerState {
-  posts: [IPost] ;
+  posts: IPost;
 }
 
 const initialState: IViewPostReducerState = {
-  posts: [{
+  posts: {
     id: '',
     title: '',
     text: '',
+    rating: 0,
     authorName: '',
     tags: [{ id: '', name: '' }],
-    createdAt: '',
-    postRating: 0
-  }]
+    createdAt: ''
+  }
 };
 
 export const viewPostReducer = createReducer(initialState, {
-  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IData>) => {
-    state.posts = payload.posts;
+  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPost>) => {
+    state.posts = payload;
   }
 });

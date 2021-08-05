@@ -6,10 +6,8 @@ import { fetchDataRoutine } from '@screens/ViewPost/routines';
 function* fetchData() {
   try {
     const response = yield call(viewPageService.getData);
-    const postData = { posts: response };
-    yield put(fetchDataRoutine.success(postData));
+    yield put(fetchDataRoutine.success(response));
     toastr.success('Success', 'Data loaded');
-    console.log(postData);
   } catch (error) {
     yield put(fetchDataRoutine.failure(error?.message));
     toastr.error('Error', 'Loading data failed');

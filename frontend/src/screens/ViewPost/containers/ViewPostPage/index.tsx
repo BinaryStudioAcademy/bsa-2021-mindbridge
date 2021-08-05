@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { IBindingAction } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
-import { fetchDataRoutine } from '@screens/Default/routines';
+import { fetchDataRoutine } from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import SuggestChangesCard from '@screens/ViewPost/components/SuggestChangesCard';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
@@ -27,7 +27,7 @@ const ViewPost: React.FC<IViewPostProps> = (
 ) => {
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [0]);
 
   return (
     <div className={styles.viewPost}>
@@ -35,11 +35,7 @@ const ViewPost: React.FC<IViewPostProps> = (
         <h1>Header</h1>
       </div>
       <div className={styles.main}>
-        {data.posts.map(post => (
-          <ViewPostCard
-            post={post}
-          />
-        ))}
+        <ViewPostCard post={data.posts} />
       </div>
       <div className={styles.sidebar}>
         <div className={styles.logInSideBar}>

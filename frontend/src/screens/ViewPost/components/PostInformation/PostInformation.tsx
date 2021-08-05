@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import { Image } from 'semantic-ui-react';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import FollowBtn from '@screens/ViewPost/components/Button/FollowBtn/FollowBtn';
+import { timeToLocal } from '@helpers/dataTimeToLocalData';
 
 interface IPostInformationProps {
   date: string;
@@ -20,7 +21,7 @@ const PostInformation: FunctionComponent<IPostInformationProps> = ({ author, dat
     <FollowBtn />
     <DividerSvg />
     <span className={styles.additionalInformation}>
-      { date }
+      { timeToLocal(date) }
     </span>
     <DividerSvg />
     <span className={styles.additionalInformation}>
