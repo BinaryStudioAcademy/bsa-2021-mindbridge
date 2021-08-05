@@ -18,33 +18,44 @@ import java.util.NoSuchElementException;
 public class RestExceptionHandler extends AbstractExceptionHandler {
 
 	@ExceptionHandler(ResponseStatusException.class)
-	public ApiError handleResponseStatusException(ResponseStatusException exception, HttpServletRequest request, HttpServletResponse response) {
-		return setResponseStatusAndReturnError(exception, exception.getReason(), exception.getStatus(), request, response);
+	public ApiError handleResponseStatusException(ResponseStatusException exception, HttpServletRequest request,
+			HttpServletResponse response) {
+		return setResponseStatusAndReturnError(exception, exception.getReason(), exception.getStatus(), request,
+				response);
 	}
 
 	@ExceptionHandler(NoSuchElementException.class)
-	public ApiError handleEntityNotFound(NoSuchElementException exception, HttpServletRequest request, HttpServletResponse response) {
+	public ApiError handleEntityNotFound(NoSuchElementException exception, HttpServletRequest request,
+			HttpServletResponse response) {
 		return setResponseStatusAndReturnError(exception, "entity-not-found", HttpStatus.NOT_FOUND, request, response);
 	}
 
 	@ExceptionHandler(UsernameNotFoundException.class)
-	public ApiError handleUsernameNotFoundExeption(UsernameNotFoundException exception, HttpServletRequest request, HttpServletResponse response) {
-		return setResponseStatusAndReturnError(exception, "username-not-found", HttpStatus.NOT_FOUND, request, response);
+	public ApiError handleUsernameNotFoundExeption(UsernameNotFoundException exception, HttpServletRequest request,
+			HttpServletResponse response) {
+		return setResponseStatusAndReturnError(exception, "username-not-found", HttpStatus.NOT_FOUND, request,
+				response);
 	}
 
 	@ExceptionHandler(UserAlreadyExistException.class)
-	public ApiError handleUserAlreadyExistException(UserAlreadyExistException exception, HttpServletRequest request, HttpServletResponse response) {
-		return setResponseStatusAndReturnError(exception, "user-already-exist", HttpStatus.BAD_REQUEST, request, response);
+	public ApiError handleUserAlreadyExistException(UserAlreadyExistException exception, HttpServletRequest request,
+			HttpServletResponse response) {
+		return setResponseStatusAndReturnError(exception, "user-already-exist", HttpStatus.BAD_REQUEST, request,
+				response);
 	}
 
 	@ExceptionHandler(OAuth2NotFoundException.class)
-	public ApiError handleOAuth2NotFoundException(OAuth2NotFoundException exception, HttpServletRequest request, HttpServletResponse response) {
-		return setResponseStatusAndReturnError(exception, "oauth2-not-found", HttpStatus.BAD_REQUEST, request, response);
+	public ApiError handleOAuth2NotFoundException(OAuth2NotFoundException exception, HttpServletRequest request,
+			HttpServletResponse response) {
+		return setResponseStatusAndReturnError(exception, "oauth2-not-found", HttpStatus.BAD_REQUEST, request,
+				response);
 	}
 
 	@ExceptionHandler(Exception.class)
 	public ApiError handleAll(Exception exception, HttpServletRequest request, HttpServletResponse response) {
 		log.error("Unhandled error", exception);
-		return setResponseStatusAndReturnError(exception, "internal-error", HttpStatus.INTERNAL_SERVER_ERROR, request, response);
+		return setResponseStatusAndReturnError(exception, "internal-error", HttpStatus.INTERNAL_SERVER_ERROR, request,
+				response);
 	}
+
 }

@@ -5,9 +5,13 @@ import org.springframework.http.HttpStatus;
 
 @Data
 public class ApiError {
+
 	private HttpStatus status;
+
 	private String code;
+
 	private String message;
+
 	private String path;
 
 	public static ApiError of(HttpStatus status, String code, String message, String path) {
@@ -18,4 +22,5 @@ public class ApiError {
 		apiError.setPath(path);
 		return apiError;
 	}
+
 }
