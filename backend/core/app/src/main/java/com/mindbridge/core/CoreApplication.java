@@ -1,18 +1,17 @@
 package com.mindbridge.core;
 
+import com.mindbridge.core.configs.SwaggerConfig;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.concurrent.Executor;
 
@@ -24,10 +23,6 @@ import java.util.concurrent.Executor;
 @EnableJpaRepositories("com.mindbridge.data")
 public class CoreApplication {
 
-	private static final int CORE_POOL_SIZE = 20;
-
-	private static final int MAX_POOL_SIZE = 100;
-
 	public static void main(String[] args) {
 		SpringApplication.run(CoreApplication.class, args);
 	}
@@ -35,16 +30,10 @@ public class CoreApplication {
 	@Bean
 	public Executor taskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(CORE_POOL_SIZE);
-		executor.setMaxPoolSize(MAX_POOL_SIZE);
+		executor.setCorePoolSize(20);
+		executor.setMaxPoolSize(100);
 		executor.initialize();
 		return executor;
-	}
-
-	@Bean
-	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
-				.paths(PathSelectors.any()).build();
 	}
 
 }
