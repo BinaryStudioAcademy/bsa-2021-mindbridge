@@ -15,6 +15,7 @@ import javax.servlet.ServletContext;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+
 	private final ServletContext servletContext;
 
 	@Autowired
@@ -24,13 +25,12 @@ public class SwaggerConfig {
 
 	@Bean
 	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2)
-			.pathProvider(new RelativePathProvider(servletContext) {
-				@Override
-				public String getApplicationBasePath() {
-					return "/api";
-				}
-			})
-			.select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
+		return new Docket(DocumentationType.SWAGGER_2).pathProvider(new RelativePathProvider(servletContext) {
+			@Override
+			public String getApplicationBasePath() {
+				return "/api";
+			}
+		}).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
 	}
+
 }
