@@ -25,13 +25,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.headers().frameOptions().sameOrigin().and()
 
-				.cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf()
-				.disable().formLogin().disable().httpBasic().disable().authorizeRequests()
-				.antMatchers("/auth/**", "/oauth2/**").permitAll()
-				// TODO: this is an example reference. Delete after getting familiar with
-				// the project structure
-				.antMatchers("/data/").permitAll().antMatchers("/swagger-ui/**").permitAll().anyRequest()
-				.authenticated().and();
+			.cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf()
+			.disable().formLogin().disable().httpBasic().disable().authorizeRequests()
+			.antMatchers("/auth/**", "/oauth2/**").permitAll()
+			// TODO: this is an example reference. Delete after getting familiar with
+			// the project structure
+			.antMatchers("/ws/**").permitAll().antMatchers("/swagger-resources/**").permitAll()
+			.antMatchers("/v2/api-docs").permitAll().antMatchers("/swagger-ui.html").permitAll()
+			.antMatchers("/webjars/**").permitAll().antMatchers("/data/**").permitAll().anyRequest().authenticated()
+			.and();
 
 		applyOAuth2Config(http);
 
@@ -64,10 +66,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	public OAuth2SuccessHandler oAuth2SuccessHandler() {
 		return new OAuth2SuccessHandler();
-				.antMatchers("/ws/**").permitAll().antMatchers("/swagger-resources/**").permitAll()
-				.antMatchers("/v2/api-docs").permitAll().antMatchers("/swagger-ui.html").permitAll()
-				.antMatchers("/webjars/**").permitAll().antMatchers("/data/**").permitAll().anyRequest().authenticated()
-				.and();
 	}
 
 }
