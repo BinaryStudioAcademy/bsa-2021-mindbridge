@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
@@ -16,7 +16,7 @@ import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
-import { sendImageRoutine, sendPostRoutine } from '../../routines';
+import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine } from '../../routines';
 
 export interface ICreatePostProps extends IState, IActions {
 }
@@ -25,12 +25,15 @@ interface IState {
   savingImage: {
     title: string;
     url: string;
+    isLoaded: boolean;
+    isInContent: boolean;
   };
 }
 
 interface IActions {
   sendImage: IBindingAction;
   sendPost: IBindingCallback1<object>;
+  resetLoadingImage: IBindingAction;
 }
 
 // use real value
@@ -42,8 +45,7 @@ const rating = `${5.4}K`;
 const postNotificationCount = 4;
 const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
 
-const CreatePost: React.FC<ICreatePostProps> = ({ sendImage, sendPost, savingImage }) => {
-  console.log(savingImage);
+const CreatePost: React.FC<ICreatePostProps> = ({ sendImage, sendPost, resetLoadingImage, savingImage }) => {
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,
@@ -60,6 +62,33 @@ const CreatePost: React.FC<ICreatePostProps> = ({ sendImage, sendPost, savingIma
     content: '',
     tags: [],
     editedTag: ''
+  });
+
+  useEffect(() => {
+    if (savingImage.isLoaded) {
+      if (!savingImage.isInContent) {
+        setForm({
+          ...form,
+          coverImage: {
+            url: savingImage.url,
+            title: savingImage.title
+          }
+        });
+      } else if (modes.htmlMode) {
+        setForm({
+          ...form,
+          content: `${form.content
+          }\n<img  height="100" width="" src=${savingImage.url} alt="image" />\n`
+        });
+      } else {
+        setForm({
+          ...form,
+          content: `${form.content
+          }\n![Alt Text](${savingImage.url})\n`
+        });
+      }
+      resetLoadingImage();
+    }
   });
 
   const changeHtmlMarkdownMode = () => {
@@ -200,7 +229,6 @@ const CreatePost: React.FC<ICreatePostProps> = ({ sendImage, sendPost, savingIma
                 form={form}
                 modes={modes}
                 setForm={setForm}
-                savingImage={savingImage}
                 sendImage={sendImage}
               />
             )
@@ -222,7 +250,8 @@ const mapStateToProps: (state) => IState = state => ({
 
 const mapDispatchToProps: IActions = {
   sendImage: sendImageRoutine,
-  sendPost: sendPostRoutine
+  sendPost: sendPostRoutine,
+  resetLoadingImage: resetLoadingImageRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

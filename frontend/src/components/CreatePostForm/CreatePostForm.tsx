@@ -10,13 +10,9 @@ interface ICreatePostFormProps {
   modes: IModes;
   setForm: any;
   sendImage: any;
-  savingImage: {
-    title: string;
-    url: string;
-  };
 }
 
-const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, modes, savingImage, setForm, sendImage }) => {
+const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, modes, setForm, sendImage }) => {
   console.log(form);
   const handelCoverFile = (event: any) => {
     if (!event.target.files[0]) {
@@ -28,7 +24,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, modes, savingIma
         }
       });
     } else {
-      sendImage(event.target.files[0]);
+      sendImage({ file: event.target.files[0], inContent: false });
       setForm({
         ...form,
         coverImage: {
@@ -56,20 +52,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, modes, savingIma
     if (!event.target.files[0]) {
       return;
     }
-    sendImage(sendImage(event.target.files[0]));
-    if (modes.htmlMode) {
-      setForm({
-        ...form,
-        content: `${form.content
-        }\n<img  height="100" width="" src= loading... alt="image" />\n`
-      });
-    } else {
-      setForm({
-        ...form,
-        content: `${form.content
-        }\n![Alt Text](loading...)\n`
-      });
-    }
+    sendImage({ file: event.target.files[0], inContent: true });
   };
 
   const handleTags = (event: any, data: any) => {

@@ -4,13 +4,15 @@ import { toastr } from 'react-redux-toastr';
 import createPostService from '../../services';
 
 function* sendImage(action) {
-  console.log(action.payload);
   const formData = new FormData();
-  formData.append('userFile', action.payload);
+  formData.append('file', action.payload.file);
   try {
     const response = yield call(createPostService.sendImage, formData);
-    yield put(sendImageRoutine.success(response));
-    toastr.error('Success', 'Image sended!');
+    // response has a real url to image on service
+    // yield put(sendImageRoutine.success(response));
+    yield put(sendImageRoutine.success(URL.createObjectURL(action.payload.file)));
+    toastr.success('Success', 'Image sended!');
+    yield console.log(response);
   } catch (error) {
     yield put(sendImageRoutine.failure(error?.message));
     toastr.error('Error', 'Sanding image failed!');
