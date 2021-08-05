@@ -37,10 +37,17 @@ const FeedPage: React.FC<IFeedPageProps> = (
       </div>
       <div className={styles.main}>
         {data.posts.map(post => (
-          <PostCard
-            key={post.id}
-            post={post}
-          />
+          post.id.length !== 0 ? (
+            <PostCard
+              key={post.id}
+              post={post}
+            />
+          ) : (
+            <p>
+              🔍 Seems like there are no posts...
+              Please try another query
+            </p>
+          )
         ))}
       </div>
       <div className={styles.sidebar}>
