@@ -10,20 +10,7 @@ import ViewsSvg from '@components/FeedSvgComponents/viewsSvg';
 import LikeSvg from '@components/FeedSvgComponents/likeSvg';
 import DisLikeSvg from '@components/FeedSvgComponents/disLikeSvg';
 import styles from './styles.module.scss';
-
-interface IPost {
-  id: string;
-  userName: string;
-  title: string;
-  text: string;
-  tags: any;
-  date: string;
-  timeRead: string;
-  comments: string;
-  views: string;
-  likes: string;
-  dislikes: string;
-}
+import { IPost } from '@screens/FeedPage/models/IPost';
 
 interface IPostCardProps {
   post: IPost;
@@ -34,9 +21,14 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
     <Card.Content>
       <Feed>
         <div className={styles.cardHeader}>
-          <PostHeaderInformation date={post.date} timeRead={post.timeRead} />
+          <PostHeaderInformation
+            date={post.createdAt}
+            timeRead="7 min read"
+            authorName={post.authorName}
+            avatar={post.avatar}
+          />
           <div className={styles.leftSide}>
-            <RatingComponent />
+            <RatingComponent postRating={post.postRating} />
             <FavouriteSvg />
           </div>
         </div>
@@ -65,19 +57,19 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
       <div className={styles.postIcons}>
         <div className={styles.icon}>
           <CommentSvg />
-          <p>{post.comments}</p>
+          <p>{post.commentsCount}</p>
         </div>
         <div className={styles.icon}>
           <ViewsSvg />
-          <p>{post.views}</p>
+          <p>{7}</p>
         </div>
         <div className={styles.icon}>
           <LikeSvg />
-          <p>{post.likes}</p>
+          <p>{post.likesCount}</p>
         </div>
         <div className={styles.icon}>
           <DisLikeSvg />
-          <p>{post.dislikes}</p>
+          <p>{post.disLikesCount}</p>
         </div>
         <div className={styles.icon}>
           <ShareSvg />

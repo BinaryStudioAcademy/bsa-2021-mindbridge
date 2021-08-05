@@ -21,8 +21,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.httpBasic().disable().authorizeRequests().antMatchers("/auth/**", "/oauth2/**").permitAll()
 				// TODO: this is an example reference. Delete after getting familiar with
 				// the project structure
-				.antMatchers("/data/").permitAll().antMatchers("/swagger-ui/**").permitAll().anyRequest()
-				.authenticated().and();
+				.antMatchers("/ws/**").permitAll().antMatchers("/swagger-resources/**").permitAll()
+				.antMatchers("/v2/api-docs").permitAll().antMatchers("/swagger-ui.html").permitAll()
+				.antMatchers("/webjars/**").permitAll().antMatchers("/data/**").permitAll().anyRequest().authenticated()
+				.and();
 	}
 
 }

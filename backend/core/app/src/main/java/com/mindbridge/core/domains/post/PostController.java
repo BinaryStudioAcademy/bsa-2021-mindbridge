@@ -3,6 +3,7 @@ package com.mindbridge.core.domains.post;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.mindbridge.core.domains.post.dto.CreatePostDto;
 import com.mindbridge.core.domains.post.dto.PostDetailsDto;
+import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -35,6 +37,10 @@ public class PostController {
 	@PostMapping("/create")
 	public void createPost(@RequestBody CreatePostDto post){
 		postService.savePost(post);
+
+	@GetMapping("/all")
+	public List<PostsListDetailsDto> getAllPosts() {
+		return postService.getAllPosts();
 	}
 
 }
