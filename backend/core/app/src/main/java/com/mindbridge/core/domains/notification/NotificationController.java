@@ -14,6 +14,7 @@ import java.util.UUID;
 @RequestMapping("notification")
 @Validated
 public class NotificationController {
+
 	private final NotificationService notificationService;
 
 	@Autowired
@@ -34,4 +35,5 @@ public class NotificationController {
 		UUID userId = UUID.fromString("1934406d-e088-4a28-8c44-ccfdd5125b90");
 		return notificationService.getNotificationList(userId);
 	}
+
 }

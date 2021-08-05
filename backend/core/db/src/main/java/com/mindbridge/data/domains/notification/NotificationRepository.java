@@ -17,4 +17,5 @@ public interface NotificationRepository
 
 	@Query("SELECT n FROM Notification n WHERE n.receiver.id = :id and n.isRead = false")
 	List<Notification> getNotificationList(@Param("id") UUID id);
+
 }

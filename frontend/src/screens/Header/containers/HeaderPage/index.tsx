@@ -43,18 +43,18 @@ const Header: React.FC<IHeaderProps> = (
   return (
     <div className={styles.header_container}>
       <div className={styles.left}>
-        <NavLink to="/">
+        <Link to="/">
           <Logo width={99} height={44} />
-        </NavLink>
+        </Link>
         <div className={styles.header_menu}>
-          <NavLink to="/">
-            <BlueButton content="Home" />
+          <NavLink exact className={styles.navButton} activeClassName={styles.activeNavButton} to="/">
+            Home
           </NavLink>
-          <NavLink to="/hots">
-            <ColorlessButton content="Hot posts" />
+          <NavLink className={styles.navButton} activeClassName={styles.activeNavButton} to="/hots">
+            Hot posts
           </NavLink>
-          <NavLink to="bests">
-            <ColorlessButton content="Best posts" />
+          <NavLink className={styles.navButton} activeClassName={styles.activeNavButton} to="/bests">
+            Best posts
           </NavLink>
         </div>
       </div>

@@ -7,7 +7,9 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface NotificationMapper {
+
 	NotificationMapper MAPPER = Mappers.getMapper(NotificationMapper.class);
 
 	public abstract NotificationDto notificationToNotificationDto(Notification notification);
+
 }

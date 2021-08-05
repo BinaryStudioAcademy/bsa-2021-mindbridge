@@ -1,4 +1,5 @@
 @import "../../../../styles/common.sass";
+@import '../../../../styles/common_variables.sass';
 
 .header_container {
   display: flex;
@@ -8,9 +9,26 @@
   height: 5.7rem;
   border: 2px solid rgba(151, 151, 151, 0.15);
   background-color: white;
-  button {
+  .navButton {
     height: 2.37rem;
     font-family: lato;
+    border-radius: 5%/13%;
+    border: none;
+    line-height: 2.37rem;
+    padding: 0 1rem;
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0);
+    color: $dark-grey;
+
+    &:hover {
+      background-color: $light-blue;
+    }
+  }
+  .activeNavButton {
+    border-radius: 5%/13%;
+    border: none;
+    background-color: $light-blue;
+    color: $dark-grey;
   }
 }
 

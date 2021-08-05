@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class NotificationService {
+
 	private final NotificationRepository notificationRepository;
 
 	@Lazy
@@ -27,8 +28,8 @@ public class NotificationService {
 	}
 
 	public List<NotificationDto> getNotificationList(UUID userId) {
-		return notificationRepository.getNotificationList(userId)
-				.stream().map(NotificationMapper.MAPPER::notificationToNotificationDto)
-				.collect(Collectors.toList());
+		return notificationRepository.getNotificationList(userId).stream()
+				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
 	}
+
 }
