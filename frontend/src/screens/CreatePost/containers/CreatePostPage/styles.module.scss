@@ -1,0 +1,117 @@
+@import "../../../../styles/common.sass";
+
+.container {
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+.header_container{
+    position: fixed;
+    width: 100%;
+    z-index: 200;
+}
+
+.form_and_sidebar_container{
+    height: 100%;
+    width: 63rem;
+    margin: auto;
+    margin-top: 8rem;
+}
+
+.profile_sidebar_container {
+    margin-left: 45rem;
+    position: fixed;
+}
+
+.create_post_container{
+    position: relative;
+    width: 43.5rem;
+    height: 42rem;
+    z-index: 100;
+    padding-bottom: 2rem;
+    button{
+        font-family: lato;
+    }
+}
+
+.header{
+    grid-row: 1/2;
+    display: grid;
+    grid-template-columns: 2fr 2fr 10fr 1fr 1fr;
+    align-content:flex-start;
+    margin-bottom: 0.8rem;
+    button {
+        font-size: 0.9rem;
+        font-weight: 600;
+        height: 2.36rem;
+    }
+    .html_button{
+        grid-column: 1/2;
+        margin-right: 18%;
+    }
+    .markdown_button{
+        grid-column: 2/3;
+        width: 6rem;
+    }
+    .edit_button{
+        grid-column: 4/5;
+        width: 2.36rem;
+        margin-right: 0.4rem;
+        padding: 0;
+        div{
+            padding-left: 15%;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+            svg{
+                grid-row: 1/2;
+                grid-column: 1/2; 
+            }
+            :last-child{
+                margin-left: 4px;
+            }  
+        }
+        
+    }
+    .view_button{
+        grid-column: 5/6;
+        width: 2.36rem;
+        padding: 0;
+        svg{
+            height: 1.6rem;
+            width: 1.6rem;
+        }
+    }
+    .view_button:hover{
+        background-color: $light-blue;
+    }
+}
+
+.footer{
+    padding-top: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    :first-child{
+        margin-left: 0;
+    }
+    button{
+        font-size: 0.8rem;
+        font-weight: bold;
+        height: 2.2rem;
+        min-width: 7rem;
+        margin-left: 0.6rem;
+        margin-right: 0.6rem;
+    }
+}
+
+.invisible{
+    display: none;
+}
+
+.history_sidebar_container {
+    margin-top: 19rem;
+    margin-left: 45rem;
+    position: fixed;
+}

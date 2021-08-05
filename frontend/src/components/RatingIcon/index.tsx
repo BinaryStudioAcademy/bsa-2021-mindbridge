@@ -1,7 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 
-const RatingComponent: FunctionComponent = () => (
+interface IRatingIconProps {
+  postRating: number;
+}
+const RatingComponent: FunctionComponent<IRatingIconProps> = ({ postRating }) => (
   <div className={styles.ratingElement}>
     <svg
       className={styles.arrowUp}
@@ -14,7 +17,7 @@ const RatingComponent: FunctionComponent = () => (
       <path fillRule="evenodd" clipRule="evenodd" d="M10 5L5 -4.37114e-07L0 5L10 5Z" />
     </svg>
     <div className={styles.ratingNumber}>
-      <span>34567</span>
+      <span>{postRating}</span>
     </div>
     <svg
       className={styles.arrowDown}
