@@ -9,6 +9,7 @@ import { extractData } from '@screens/FeedPage/reducers';
 import { fetchDataRoutine } from '@screens/FeedPage/routines';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
+import Header from '@components/Header';
 
 export interface IFeedPageProps extends IState, IActions {
 }
@@ -32,7 +33,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
   return (
     <div className={styles.feedPage}>
       <div className={styles.header}>
-        <h1>Header</h1>
+        <Header notificationCount="3" />
       </div>
       <div className={styles.main}>
         <PostCard post={data.posts[0]} />

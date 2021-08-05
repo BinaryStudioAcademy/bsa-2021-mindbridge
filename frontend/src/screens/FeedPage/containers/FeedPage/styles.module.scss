@@ -2,7 +2,7 @@
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr 550px;
-  grid-template-rows: 105px 1fr;
+  grid-template-rows: 82px 1fr;
   grid-template-areas:
       "header header"
       "main sidebar"
@@ -14,7 +14,6 @@
 
 .header {
   grid-area: header;
-  border: 2px solid aquamarine;
 }
 
 .main {
