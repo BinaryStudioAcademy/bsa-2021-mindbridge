@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import Header from '@root/components/Header';
 import ProfileSidebar from '@root/components/ProfileSidebar';
 import HistorySidebar from '@root/components/PostHistorySidebar';
 import { IBindingAction } from '@root/models/Callbacks';
@@ -46,9 +45,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
   { modes, changeHtmlMarkdownMode, changeEditViewMode }
 ) => (
   <div className={classNames('content_wrapper', styles.container)}>
-    <div className={styles.header_container}>
-      <Header notificationCount={notificationCount} />
-    </div>
     <div className={styles.form_and_sidebar_container}>
       <div className={styles.profile_sidebar_container}>
         <ProfileSidebar

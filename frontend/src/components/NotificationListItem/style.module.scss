@@ -1,0 +1,13 @@
+.listItem {
+  padding: 1rem;
+  transition: 0.2s;
+
+  span {
+    display: block;
+    margin-top: 0.5rem;
+  }
+
+  &:hover {
+    background-color: lightgray;
+  }
+}

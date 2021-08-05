@@ -36,7 +36,9 @@ public class PostService {
 	}
 
 	public PostDetailsDto getPostById(UUID id) {
-		var post = postRepository.findById(id).map(PostMapper.MAPPER::postToPostDetailsDto).orElseThrow();
+		var post = postRepository.findById(id)
+			.map(PostMapper.MAPPER::postToPostDetailsDto)
+			.orElseThrow();
 
 		var comments = commentService.findAllByPostId(id);
 		post.setComments(comments);

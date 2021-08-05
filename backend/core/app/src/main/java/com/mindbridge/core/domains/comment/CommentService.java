@@ -29,8 +29,9 @@ public class CommentService {
 	}
 
 	public List<CommentDto> findAllByPostId(UUID id) {
-		var comments = commentRepository.findAllByPostId(id).stream().map(CommentMapper.MAPPER::commentToCommentDto)
-				.collect(Collectors.toList());
+		var comments = commentRepository.findAllByPostId(id)
+			.stream().map(CommentMapper.MAPPER::commentToCommentDto)
+			.collect(Collectors.toList());
 
 		comments = calcRatingForAll(comments);
 		return comments;

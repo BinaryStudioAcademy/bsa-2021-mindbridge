@@ -3,8 +3,8 @@ import React from 'react';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 import PasswordInput from '@screens/Login/components/PasswordInput';
-import FormButton from '@screens/Login/components/FormButton';
 import { Link } from 'react-router-dom';
+import FormButton from '@components/FormButton';
 
 export interface ILoginFormProps extends IState, IActions {
 }

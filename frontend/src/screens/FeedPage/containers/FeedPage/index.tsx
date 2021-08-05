@@ -31,9 +31,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
 
   return (
     <div className={styles.feedPage}>
-      <div className={styles.header}>
-        <h1>Header</h1>
-      </div>
       <div className={styles.main}>
         {data.posts.map(post => (
           <PostCard

@@ -10,6 +10,7 @@ import Login from 'screens/Login/containers/LoginPage';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { toastr } from 'react-redux-toastr';
+import Header from '@screens/Header/containers/HeaderPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -28,7 +29,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
 
   return (
     <div>
-      {/* {isAuthorized ? <Header /> : ''} */}
+      <Header />
       <Switch>
         <PublicRoute exact path="/public" component={Default} />
         <PublicRoute exact path="/" component={FeedPage} />
