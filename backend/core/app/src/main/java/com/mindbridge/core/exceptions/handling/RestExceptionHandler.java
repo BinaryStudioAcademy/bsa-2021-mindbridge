@@ -1,10 +1,10 @@
 package com.mindbridge.core.exceptions.handling;
 
+import com.mindbridge.core.exceptions.custom.EmailNotFoundException;
 import com.mindbridge.core.exceptions.custom.OAuth2NotFoundException;
 import com.mindbridge.core.exceptions.custom.UserAlreadyExistException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,11 +30,10 @@ public class RestExceptionHandler extends AbstractExceptionHandler {
 		return setResponseStatusAndReturnError(exception, "entity-not-found", HttpStatus.NOT_FOUND, request, response);
 	}
 
-	@ExceptionHandler(UsernameNotFoundException.class)
-	public ApiError handleUsernameNotFoundExeption(UsernameNotFoundException exception, HttpServletRequest request,
+	@ExceptionHandler(EmailNotFoundException.class)
+	public ApiError handleEmailNotFoundException(EmailNotFoundException exception, HttpServletRequest request,
 			HttpServletResponse response) {
-		return setResponseStatusAndReturnError(exception, "username-not-found", HttpStatus.NOT_FOUND, request,
-				response);
+		return setResponseStatusAndReturnError(exception, "email-not-found", HttpStatus.NOT_FOUND, request, response);
 	}
 
 	@ExceptionHandler(UserAlreadyExistException.class)

@@ -34,7 +34,7 @@ public class AuthService {
 	}
 
 	public AuthResponse performLogin(AuthRequest authRequest) {
-		var userDetails = userService.loadUserByUsername(authRequest.getEmail());
+		var userDetails = userService.loadUserByEmail(authRequest.getEmail());
 		if (passwordsDontMatch(authRequest.getPassword(), userDetails.getPassword())) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password");
 		}
@@ -64,10 +64,10 @@ public class AuthService {
 	}
 
 	public AuthResponse refreshTokenPair(RefreshTokenRequest refreshTokenRequest) {
-		String userName = jwtProvider.getLoginFromToken(refreshTokenRequest.getRefreshToken());
+		String userEmail = jwtProvider.getLoginFromToken(refreshTokenRequest.getRefreshToken());
 
-		if (!userName.isEmpty()) {
-			var userDetails = userService.loadUserByUsername(userName);
+		if (!userEmail.isEmpty()) {
+			var userDetails = userService.loadUserByEmail(userEmail);
 			return AuthResponse.of(jwtProvider.generateToken(userDetails, "30min"),
 					jwtProvider.generateToken(userDetails, "30days"));
 		}

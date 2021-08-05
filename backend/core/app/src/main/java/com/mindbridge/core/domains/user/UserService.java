@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.user;
 
+import com.mindbridge.core.exceptions.custom.EmailNotFoundException;
 import com.mindbridge.core.security.PasswordConfig;
 import com.mindbridge.core.security.auth.UserPrincipal;
 import com.mindbridge.core.security.auth.dto.RegistrationRequest;
@@ -33,10 +34,9 @@ public class UserService implements UserDetailsService {
 		this.passwordEncoder = new PasswordConfig().passwordEncoder();
 	}
 
-	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+	public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
 		User user = userRepository.findByEmail(email)
-				.orElseThrow(() -> new UsernameNotFoundException("User with email : " + email + " not found."));
+				.orElseThrow(() -> new EmailNotFoundException("User with email : " + email + " not found."));
 		return new UserPrincipal(user);
 	}
 
@@ -49,6 +49,13 @@ public class UserService implements UserDetailsService {
 		user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 		user.setEmailVerified(false);
 		userRepository.save(user);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
+		User user = userRepository.findByNickname(nickname)
+				.orElseThrow(() -> new EmailNotFoundException("User with nickname : " + nickname + " not found."));
+		return new UserPrincipal(user);
 	}
 
 }

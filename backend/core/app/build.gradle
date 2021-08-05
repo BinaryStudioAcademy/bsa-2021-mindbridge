@@ -50,5 +50,5 @@ test {
 flyway {
 	url = 'jdbc:postgresql://localhost:5432/mindbridge'
 	user = 'postgres'
-	password = 'postgres'
+	password = 'admin'
 }

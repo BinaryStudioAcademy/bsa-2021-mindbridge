@@ -44,13 +44,17 @@ public class JwtProvider {
 
 	public String generateToken(UserDetails user, String period) {
 		Date date = null;
-		if (period.equals("30min")) {
+		switch (period) {
+		case "30min": {
 			date = Date.from(LocalDateTime.now().plusSeconds(jwtProperties.getSecs_to_expire_access())
 					.toInstant(ZoneOffset.UTC));
+			break;
 		}
-		else if (period.equals("30days")) {
+		case "30days": {
 			date = Date.from(LocalDateTime.now().plusSeconds(jwtProperties.getSecs_to_expire_refresh())
 					.toInstant(ZoneOffset.UTC));
+			break;
+		}
 		}
 		return Jwts.builder().setSubject(user.getUsername()).setExpiration(date).signWith(key()).compact();
 	}
