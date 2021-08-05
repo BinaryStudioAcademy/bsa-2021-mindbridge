@@ -36,6 +36,4 @@ public class CoreApplication {
 		return executor;
 	}
 
-
-
 }
