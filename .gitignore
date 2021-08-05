@@ -30,8 +30,3 @@ keys.txt
 /.idea/
 
 /logs/
-
-
-frontend/.env
-
-backend/core/app/src/test/resources/application.properties
