@@ -1,7 +1,6 @@
 <<<<<<< HEAD
 package com.mindbridge.core.security.jwt;
 
-import com.mindbridge.core.security.auth.UserPrincipal;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

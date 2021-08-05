@@ -11,7 +11,10 @@ values
 ('8a29bd6d-9c90-44e5-87ea-493618aa1f6b', 'Arwa', 'Bain', 'barwa@gmail.com', 'niabawra', null, true),
 ('b9eb8231-5422-4d6f-906b-eeb55da1edd1', 'Kali', 'Chan', 'channi@gmail.com', 'kanChankali', null, true),
 ('1934406d-e088-4a28-8c44-ccfdd5125b90', 'Admin', 'Admin', 'admin@gmail.com', 'admin12345', null, true);
+<<<<<<< HEAD
+=======
 /*anayahLawson1999*/
+>>>>>>> ff40577a61e4fb36ca184a81fc852805286a3c44
 insert into posts
 (id, author_id, draft, title, text)
 values

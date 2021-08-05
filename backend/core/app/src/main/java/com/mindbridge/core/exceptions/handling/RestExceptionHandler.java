@@ -32,7 +32,6 @@ public class RestExceptionHandler extends AbstractExceptionHandler {
 	}
 
 	@ExceptionHandler(UsernameNotFoundException.class)
-
 	public ApiError handleUsernameNotFoundExeption(UsernameNotFoundException exception, HttpServletRequest request,
 			HttpServletResponse response) {
 		return setResponseStatusAndReturnError(exception, "username-not-found", HttpStatus.NOT_FOUND, request,
