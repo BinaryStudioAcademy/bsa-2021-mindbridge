@@ -1,5 +1,6 @@
-import { changeEditViewModeRoutine, changeHtmlMarkdownModeRoutine } from '../../routines/index';
-import { createReducer } from '@reduxjs/toolkit';
+import { changeEditViewModeRoutine, changeHtmlMarkdownModeRoutine, fetchDataRoutine } from '../../routines/index';
+import { createReducer, PayloadAction } from '@reduxjs/toolkit';
+import { IData } from '@screens/Default/models/IData';
 
 export interface ICreatePostReducerState {
   modes: {
@@ -8,6 +9,7 @@ export interface ICreatePostReducerState {
     editMode: boolean;
     viewMode: boolean;
   };
+  message: string;
 }
 
 const initialState: ICreatePostReducerState = {
@@ -16,7 +18,9 @@ const initialState: ICreatePostReducerState = {
     markdownMode: false,
     editMode: true,
     viewMode: false
-  }
+  },
+
+  message: 'Empty string'
 };
 
 export const createPostReducer = createReducer(initialState, {
@@ -27,5 +31,8 @@ export const createPostReducer = createReducer(initialState, {
   [changeEditViewModeRoutine.TRIGGER]: state => {
     state.modes.editMode = !state.modes.editMode;
     state.modes.viewMode = !state.modes.viewMode;
+  },
+  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IData>) => {
+    state.message = payload.message;
   }
 });
