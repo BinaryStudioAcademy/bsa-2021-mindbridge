@@ -90,7 +90,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, modes, savingIma
       <div className={styles.content_input_container}>
         <label className={styles.file_input_round} onChange={handelImageInContent} htmlFor="image-input-2">
           <AddImageSvg />
-          <input id="image-input-1" className={styles.invisible} type="file" />
+          <input id="image-input-2" className={styles.invisible} type="file" />
         </label>
         <textarea
           className={styles.content_input}

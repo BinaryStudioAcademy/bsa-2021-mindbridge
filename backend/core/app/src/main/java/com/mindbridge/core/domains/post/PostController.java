@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.post;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.mindbridge.core.domains.post.dto.CreatePostDto;
 import com.mindbridge.core.domains.post.dto.PostDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;

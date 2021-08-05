@@ -9,7 +9,10 @@ const createPostService = {
       },
       body: image
     });
-  }
+  },
+
+  sendPost: async (post: object) => { api.post('/api/post/create', {data: post})}
+  
 };
 
 export default createPostService;
