@@ -64,6 +64,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	public OAuth2SuccessHandler oAuth2SuccessHandler() {
 		return new OAuth2SuccessHandler();
+				.antMatchers("/ws/**").permitAll().antMatchers("/swagger-resources/**").permitAll()
+				.antMatchers("/v2/api-docs").permitAll().antMatchers("/swagger-ui.html").permitAll()
+				.antMatchers("/webjars/**").permitAll().antMatchers("/data/**").permitAll().anyRequest().authenticated()
+				.and();
 	}
 
 }
