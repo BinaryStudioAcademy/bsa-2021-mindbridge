@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.mindbridge.data.domains.user;
 
 import com.mindbridge.data.domains.user.model.User;
@@ -16,23 +15,5 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
 
 	boolean existsByNickname(String nickname);
 
+	int countUserByDeletedFalse();
 }
-=======
-package com.mindbridge.data.domains.user;
-
-import com.mindbridge.data.domains.user.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-
-import java.util.Optional;
-import java.util.UUID;
-
-public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificationExecutor<User> {
-
-	Optional<User> findByEmail(String email);
-
-	boolean existsByEmail(String email);
-
-	boolean existsByNickname(String nickname);
-}
->>>>>>> ff40577a61e4fb36ca184a81fc852805286a3c44
