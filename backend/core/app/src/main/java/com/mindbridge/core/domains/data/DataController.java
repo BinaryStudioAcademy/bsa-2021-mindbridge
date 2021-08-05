@@ -27,7 +27,6 @@ public class DataController {
 
 	@GetMapping("/hello")
 	public DataDto greeting() {
-		System.out.println("hello here");
 		DataDto answer = new DataDto("User");
 		template.convertAndSend("/topic/greeting", answer);
 		// template how to send message for current user, not for everyone
