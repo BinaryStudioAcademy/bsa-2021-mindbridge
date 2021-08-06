@@ -37,7 +37,6 @@ interface IActions {
 }
 
 // use real value
-const notificationCount = 3;
 const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
 
 const CreatePost: React.FC<ICreatePostProps> = (
@@ -46,16 +45,16 @@ const CreatePost: React.FC<ICreatePostProps> = (
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-  return ( 
+  return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
         <div className={styles.profile_sidebar_container}>
           <ProfileSidebar
-            userName={userName}
-            avatar={avatar}
-            folloversCount={folloversCount}
-            rating={rating}
-            postNotificationCount={postNotificationCount}
+            userName={userInfo.profile.fullName}
+            avatar={userInfo.profile.avatar}
+            folloversCount={userInfo.profile.followersQuantity}
+            rating={userInfo.profile.rating}
+            postNotificationCount={userInfo.profile.postsQuantity}
           />
         </div>
         <div className={styles.history_sidebar_container}>
@@ -138,7 +137,8 @@ const CreatePost: React.FC<ICreatePostProps> = (
           </div>
         </div>
       </div>
-    );
+    </div>
+  );
 };
 
 const mapStateToProps: (state) => IState = state => ({

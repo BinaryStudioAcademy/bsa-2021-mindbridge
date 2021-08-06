@@ -32,9 +32,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
 
   return (
     <div className={styles.feedPage}>
-      <div className={styles.header}>
-        <Header notificationCount="3" />
-      </div>
       <div className={styles.main}>
         {data.posts.map(post => (
           post.id.length !== 0 ? (
