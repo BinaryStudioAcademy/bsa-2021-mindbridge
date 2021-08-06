@@ -1,10 +1,12 @@
 package com.mindbridge.core.domains.user.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 public class UserDto {
 
 	private UUID id;

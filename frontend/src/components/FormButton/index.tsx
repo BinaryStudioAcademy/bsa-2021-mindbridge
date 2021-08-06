@@ -7,7 +7,7 @@ export interface IFormButtonProps {
 }
 
 const FormButton: React.FC<IFormButtonProps> = ({ text, inverted }) => (
-  <button type="button" className={(inverted ? styles.submitButton : styles.oauthButton)}>{text}</button>
+  <button type="submit" className={(inverted ? styles.submitButton : styles.oauthButton)}>{text}</button>
 );
 
 export default FormButton;

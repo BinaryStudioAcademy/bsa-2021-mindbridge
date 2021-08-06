@@ -1,8 +1,10 @@
-package com.mindbridge.core.exceptions;
+package com.mindbridge.core.exceptions.handling;
 
+import com.mindbridge.core.exceptions.custom.EmailNotFoundException;
+import com.mindbridge.core.exceptions.custom.OAuth2NotFoundException;
+import com.mindbridge.core.exceptions.custom.UserAlreadyExistException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,10 +30,23 @@ public class RestExceptionHandler extends AbstractExceptionHandler {
 		return setResponseStatusAndReturnError(exception, "entity-not-found", HttpStatus.NOT_FOUND, request, response);
 	}
 
-	@ExceptionHandler(UsernameNotFoundException.class)
-	public ApiError handleUsernameNotFount(UsernameNotFoundException exception, HttpServletRequest request,
+	@ExceptionHandler(EmailNotFoundException.class)
+	public ApiError handleEmailNotFoundException(EmailNotFoundException exception, HttpServletRequest request,
 			HttpServletResponse response) {
-		return setResponseStatusAndReturnError(exception, "username-not-found", HttpStatus.NOT_FOUND, request,
+		return setResponseStatusAndReturnError(exception, "email-not-found", HttpStatus.NOT_FOUND, request, response);
+	}
+
+	@ExceptionHandler(UserAlreadyExistException.class)
+	public ApiError handleUserAlreadyExistException(UserAlreadyExistException exception, HttpServletRequest request,
+			HttpServletResponse response) {
+		return setResponseStatusAndReturnError(exception, "user-already-exist", HttpStatus.BAD_REQUEST, request,
+				response);
+	}
+
+	@ExceptionHandler(OAuth2NotFoundException.class)
+	public ApiError handleOAuth2NotFoundException(OAuth2NotFoundException exception, HttpServletRequest request,
+			HttpServletResponse response) {
+		return setResponseStatusAndReturnError(exception, "oauth2-not-found", HttpStatus.BAD_REQUEST, request,
 				response);
 	}
 

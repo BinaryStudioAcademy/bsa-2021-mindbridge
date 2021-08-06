@@ -1,7 +1,8 @@
 /* eslint-disable max-len */
 import { createRoutine } from 'redux-saga-routines';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const createLoginRoutine = <T extends unknown>(actionName: string) => createRoutine<T>(`LOGIN:${actionName}`);
+export const loginRoutine = createRoutine('LOGIN');
+export const registerRoutine = createRoutine('REGISTER');
+export const setNoAuthorizedRoutine = createRoutine('NO_AUTHORIZED');
 
 /* PlopJS routine placeholder. Do not remove */
