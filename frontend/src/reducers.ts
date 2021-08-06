@@ -4,8 +4,8 @@ import { reducer as toastr } from 'react-redux-toastr';
 import headerReducer from '@screens/Header/reducers';
 import createPostReducer from '@screens/CreatePost/reducers';
 import feedPageReducer from '@screens/FeedPage/reducers';
-import loginReducer from '@screens/Login/reducers';
 import defaultReducer from '@screens/Default/reducers';
+import auth from '@screens/Login/reducers';
 
 export default combineReducers({
   toastr,
@@ -13,6 +13,6 @@ export default combineReducers({
   headerReducer,
   createPostReducer,
   feedPageReducer,
-  loginReducer,
+  auth,
   defaultReducer
 });
