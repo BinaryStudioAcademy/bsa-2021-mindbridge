@@ -40,6 +40,14 @@ public class UserService implements UserDetailsService {
 
 	@Lazy
 	@Autowired
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+			FollowerRepository followerRepository, PostRepository postRepository) {
+		this.userRepository = userRepository;
+		this.passwordEncoder = new PasswordConfig().passwordEncoder();
+		this.followerRepository = followerRepository;
+		this.postRepository = postRepository;
+	}
+
 	public UserProfileDto getQuantityOfUsers(UUID userId) {
 		Random random = new Random();
 		var user = UserProfileDto.fromEntity(userRepository.findById(userId).get());
@@ -47,13 +55,6 @@ public class UserService implements UserDetailsService {
 		user.setPostsQuantity(postRepository.countPostByAuthorId(userId));
 		user.setRating(random.nextInt(100));
 		return user;
-
-	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-			FollowerRepository followerRepository, PostRepository postRepository) {
-		this.userRepository = userRepository;
-		this.passwordEncoder = new PasswordConfig().passwordEncoder();
-		this.followerRepository = followerRepository;
-		this.postRepository = postRepository;
 	}
 
 	public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
@@ -77,6 +78,7 @@ public class UserService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
 		User user = userRepository.findByNickname(nickname)
 				.orElseThrow(() -> new EmailNotFoundException("User with nickname : " + nickname + " not found."));
+		return new UserPrincipal(user);
 	}
 
 }
