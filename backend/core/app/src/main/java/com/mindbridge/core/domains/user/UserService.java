@@ -48,8 +48,8 @@ public class UserService implements UserDetailsService {
 		user.setRating(random.nextInt(100));
 		return user;
 
-	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, FollowerRepository followerRepository,
-			PostRepository postRepository) {
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+			FollowerRepository followerRepository, PostRepository postRepository) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = new PasswordConfig().passwordEncoder();
 		this.followerRepository = followerRepository;
