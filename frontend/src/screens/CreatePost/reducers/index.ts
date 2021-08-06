@@ -3,12 +3,14 @@ import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
 import { createPostReducer } from '@screens/CreatePost/containers/CreatePostPage/reducer';
 /* PlopJS import placeholder. Do not remove */
-import { changeHtmlMarkdownModeRoutine, changeEditViewModeRoutine } from '@screens/CreatePost/routines';
+import { changeHtmlMarkdownModeRoutine, changeEditViewModeRoutine, fetchDataRoutine } from
+  '@screens/CreatePost/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
   changeHtmlMarkdownModeRequest: reducerCreator([changeHtmlMarkdownModeRoutine.TRIGGER]),
-  changeEditViewModeRequest: reducerCreator([changeEditViewModeRoutine.TRIGGER])
+  changeEditViewModeRequest: reducerCreator([changeEditViewModeRoutine.TRIGGER]),
+  fetchDataRequest: reducerCreator[fetchDataRoutine.TRIGGER]
 });
 
 export default combineReducers({
@@ -24,3 +26,5 @@ export const extractChangeHtmlMarkdownModeLoading = state => reqs(state).changeH
 export const extractChangeHtmlMarkdownModeError = state => reqs(state).changeHtmlMarkdownModeRequest.error;
 export const extractChangeEditViewModeLoading = state => reqs(state).changeEditViewModeRequest.loading;
 export const extractChangeEditViewModeError = state => reqs(state).changeEditViewModeRequest.error;
+
+export const extractData = state => data(state);

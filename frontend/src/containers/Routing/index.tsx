@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import LoaderWrapper from 'components/LoaderWrapper';
 import PublicRoute from 'components/PublicRoute';
@@ -12,6 +12,7 @@ import oauth2handler from '@components/OAuth2RedirectHandler/OAuth2RedirectHandl
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { toastr } from 'react-redux-toastr';
+import { history } from '@helpers/history.helper';
 import Header from '@screens/Header/containers/HeaderPage';
 
 export interface IRoutingProps {
@@ -29,9 +30,20 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
     });
   });
 
+  const checkHeaderShown = () => {
+    const headerBlackList = ['/login', '/registration'];
+
+    return headerBlackList.every(item => !history.location.pathname.startsWith(item));
+  };
+  const [isHeaderShown, setIsHeaderShown] = useState(checkHeaderShown());
+
+  history.listen(() => {
+    setIsHeaderShown(checkHeaderShown());
+  });
+
   return (
     <div>
-      <Header />
+      {isHeaderShown && <Header />}
       <Switch>
         <PublicRoute exact path="/public" component={Default} />
         <PublicRoute exact path="/" component={FeedPage} />
