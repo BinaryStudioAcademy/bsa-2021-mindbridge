@@ -10,8 +10,9 @@
   border: 2px solid rgba(151, 151, 151, 0.15);
   background-color: white;
   .navButton {
+    transition: 0.1s;
     height: 2.37rem;
-    font-family: lato;
+    font-family: lato, sans-serif;
     border-radius: 5%/13%;
     border: none;
     line-height: 2.37rem;
@@ -105,7 +106,6 @@
   background-color: rgba(0, 0, 0, 0);
   display: grid;
   margin-right: 1rem;
-  padding-top: 0.5rem;
   grid-template-columns: 1.05fr 0.95fr;
   grid-template-rows: 1fr 1fr;
   width: 2.37rem;
