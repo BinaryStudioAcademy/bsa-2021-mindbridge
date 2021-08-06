@@ -6,7 +6,6 @@ import createPostReducer from '@screens/CreatePost/reducers';
 import feedPageReducer from '@screens/FeedPage/reducers';
 import defaultReducer from '@screens/Default/reducers';
 import auth from '@screens/Login/reducers';
-import loginReducer from '@screens/Login/reducers';
 import viewPostReducer from '@screens/ViewPost/reducers';
 
 export default combineReducers({
@@ -15,7 +14,6 @@ export default combineReducers({
   headerReducer,
   createPostReducer,
   feedPageReducer,
-  loginReducer,
   viewPostReducer,
   auth,
   defaultReducer
