@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ImageService.class);
+
 	private final FileSystem fileSystem;
 
 	@Autowired
@@ -24,11 +25,13 @@ public class ImageService {
 		byte[] byteFile;
 		try {
 			byteFile = multipartFile.getBytes();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			logger.error("Cannot parse incoming file");
 			return Optional.empty();
 		}
 		UUID uuid = UUID.randomUUID();
 		return fileSystem.saveFile(byteFile, uuid);
 	}
+
 }

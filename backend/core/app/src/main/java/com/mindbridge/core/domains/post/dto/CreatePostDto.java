@@ -25,14 +25,8 @@ public class CreatePostDto {
 	private Set<UUID> tags;
 
 	public static Post toPost(CreatePostDto post, User author, Set<Tag> tags) {
-		return Post.builder()
-			.author(author)
-			.title(post.getTitle())
-			.text(post.getText())
-			.markdown(post.getMarkdown())
-			.draft(post.getDraft())
-			.coverImage(post.getCoverImage())
-			.tags(tags)
-			.build();
+		return Post.builder().author(author).title(post.getTitle()).text(post.getText()).markdown(post.getMarkdown())
+				.draft(post.getDraft()).coverImage(post.getCoverImage()).tags(tags).build();
 	}
+
 }

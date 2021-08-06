@@ -16,6 +16,7 @@ public class FileSystem {
 	public final File IMAGE_FOLDER = new File(File.separator + "images");
 
 	private static final Logger logger = LoggerFactory.getLogger(FileSystem.class);
+
 	public Optional<String> saveFile(byte[] file, UUID id) {
 		if (!IMAGE_FOLDER.exists()) {
 			if (IMAGE_FOLDER.mkdir()) {
@@ -28,7 +29,8 @@ public class FileSystem {
 			bos = new BufferedOutputStream(fos);
 			bos.write(file);
 
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			logger.error("Cannot save file");
 			return Optional.empty();
 		}

@@ -40,8 +40,7 @@ public class PostService {
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService,
-			PostReactionService postReactionService, UserRepository userRepository,
-		TagRepository tagRepository) {
+			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
@@ -60,12 +59,13 @@ public class PostService {
 		return post;
 	}
 
-	public void savePost(CreatePostDto post){
+	public void savePost(CreatePostDto post) {
 		System.out.println(post);
 		var user = userRepository.getOne(post.getAuthor());
 		var tags = new HashSet<>(tagRepository.findAllById(post.getTags()));
 
 		postRepository.save(CreatePostDto.toPost(post, user, tags));
+	}
 
 	public List<PostsListDetailsDto> getAllPosts() {
 

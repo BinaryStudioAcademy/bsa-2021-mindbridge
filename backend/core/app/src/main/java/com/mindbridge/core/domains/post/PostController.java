@@ -35,8 +35,9 @@ public class PostController {
 	}
 
 	@PostMapping("/create")
-	public void createPost(@RequestBody CreatePostDto post){
+	public void createPost(@RequestBody CreatePostDto post) {
 		postService.savePost(post);
+	}
 
 	@GetMapping("/all")
 	public List<PostsListDetailsDto> getAllPosts() {

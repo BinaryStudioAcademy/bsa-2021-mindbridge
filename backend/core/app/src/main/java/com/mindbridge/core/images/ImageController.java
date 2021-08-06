@@ -16,20 +16,23 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("image")
 @Validated
 public class ImageController {
+
 	private final ImageService imageService;
 
 	@Autowired
-	public ImageController(ImageService imageService){
+	public ImageController(ImageService imageService) {
 		this.imageService = imageService;
 	}
 
 	@PostMapping("/save")
-	public ResponseEntity<?> createPost(@RequestParam("file") MultipartFile file){
+	public ResponseEntity<?> createPost(@RequestParam("file") MultipartFile file) {
 		Optional<String> optional = imageService.uploadImages(file);
 		if (optional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.OK).body(optional.get());
-		} else {
+		}
+		else {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+
 }
