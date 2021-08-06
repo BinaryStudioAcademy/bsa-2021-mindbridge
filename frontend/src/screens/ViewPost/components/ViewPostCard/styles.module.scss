@@ -1,4 +1,8 @@
 :global(.ui.card).viewCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  object-fit: cover;
   width: 85%;
   max-width: 100em;
   margin: 1vw 0px -2em 15%;
@@ -9,7 +13,6 @@
 
 :global(.ui.primary.button) {
   padding: 0.375rem;
-
   font-family: Lato, serif;
   color:rgba(102, 122, 175, 0.5);
   background-color: rgb(244, 249, 255);
@@ -49,13 +52,12 @@
 }
 
 .content {
-  object-fit: cover;
   font-family: Lato, sans-serif;
   size: 18px;
   color: #353535;
+  line-height: 145%;
   font-style: normal;
-  font-weight: normal;
-  position: relative;
+  font-weight: 400;
 }
 
 .image {
@@ -63,7 +65,6 @@
   width: 1130px;
   height: 357px;
   border-radius: 10px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   background: #C4C4C4;
 }
 
