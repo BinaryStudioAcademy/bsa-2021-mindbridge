@@ -70,9 +70,9 @@ const Header: React.FC<IHeaderProps> = (
             <SearchSvg />
           </button>
         </div>
-        <Link to="/create/post">
+        <a href="/create/post">
           <DarkButton className={styles.create_post_button} content="Create post" />
-        </Link>
+        </a>
       </div>
     </div>
   );
