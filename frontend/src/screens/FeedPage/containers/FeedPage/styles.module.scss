@@ -2,20 +2,12 @@
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr 550px;
-  grid-template-rows: 82px 1fr;
   grid-template-areas:
-      "header header"
       "main sidebar"
-
 ;
   grid-gap: 1rem;
   grid-row-gap: 0;
 }
-
-.header {
-  grid-area: header;
-}
-
 .main {
   grid-area: main;
   min-width: 43.75em;
