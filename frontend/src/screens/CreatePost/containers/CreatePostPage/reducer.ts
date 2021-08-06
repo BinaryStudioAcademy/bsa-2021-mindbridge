@@ -1,5 +1,7 @@
-import { changeEditViewModeRoutine, changeHtmlMarkdownModeRoutine } from '../../routines/index';
-import { createReducer } from '@reduxjs/toolkit';
+import { changeEditViewModeRoutine, changeHtmlMarkdownModeRoutine, fetchDataRoutine } from '../../routines/index';
+import { createReducer, PayloadAction } from '@reduxjs/toolkit';
+import { IData } from '@screens/Default/models/IData';
+import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 
 export interface ICreatePostReducerState {
   modes: {
@@ -8,6 +10,7 @@ export interface ICreatePostReducerState {
     editMode: boolean;
     viewMode: boolean;
   };
+  profile: IUserProfile;
 }
 
 const initialState: ICreatePostReducerState = {
@@ -16,6 +19,15 @@ const initialState: ICreatePostReducerState = {
     markdownMode: false,
     editMode: true,
     viewMode: false
+  },
+
+  profile: {
+    id: '',
+    fullName: 'string',
+    avatar: '',
+    postsQuantity: 0,
+    followersQuantity: 0,
+    rating: 0
   }
 };
 
@@ -27,5 +39,8 @@ export const createPostReducer = createReducer(initialState, {
   [changeEditViewModeRoutine.TRIGGER]: state => {
     state.modes.editMode = !state.modes.editMode;
     state.modes.viewMode = !state.modes.viewMode;
+  },
+  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
+    state.profile = payload;
   }
 });

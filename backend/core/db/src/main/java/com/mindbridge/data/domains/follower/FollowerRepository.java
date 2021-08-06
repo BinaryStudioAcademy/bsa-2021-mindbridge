@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface FollowerRepository extends JpaRepository<Follower, UUID>, JpaSpecificationExecutor<Follower> {
 
+	int countFollowerByFollowedId(UUID id);
+
 }
