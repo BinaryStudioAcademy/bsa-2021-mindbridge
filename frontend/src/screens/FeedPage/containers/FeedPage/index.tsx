@@ -32,12 +32,19 @@ const FeedPage: React.FC<IFeedPageProps> = (
   return (
     <div className={styles.feedPage}>
       <div className={styles.main}>
-        {data.posts.map(post => (
-          <PostCard
-            key={post.id}
-            post={post}
-          />
-        ))}
+        {data.posts[0].id ? (
+          data.posts.map(post => (
+            <PostCard
+              key={post.id}
+              post={post}
+            />
+          ))
+        ) : (
+          <p>
+            🔍 Seems like there are no posts...
+            Please try another query
+          </p>
+        )}
       </div>
       <div className={styles.sidebar}>
         <div className={styles.logInSideBar}>

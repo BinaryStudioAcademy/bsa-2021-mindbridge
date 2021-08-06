@@ -6,3 +6,4 @@ const createCreatePostRoutine = <T extends unknown>(actionName: string) => creat
 /* PlopJS routine placeholder. Do not remove */
 export const changeHtmlMarkdownModeRoutine = createCreatePostRoutine('CHANGE_HTML_MARKDOWN_MODE');
 export const changeEditViewModeRoutine = createCreatePostRoutine('CHANGE_EDIT_VIEW_MODE');
+export const fetchDataRoutine = createCreatePostRoutine('FETCH_DATA');

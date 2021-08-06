@@ -3,6 +3,7 @@ package com.mindbridge.core.security;
 import com.mindbridge.core.security.jwt.JwtFilter;
 import com.mindbridge.core.security.oauth2.RedirectUriToCookiePersister;
 import com.mindbridge.core.security.oauth2.OAuth2SuccessHandler;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -14,6 +15,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableScheduling
@@ -23,18 +28,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.headers().frameOptions().sameOrigin().and()
-
-				.cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf()
-				.disable().formLogin().disable().httpBasic().disable().authorizeRequests()
-				.antMatchers("/auth/**", "/oauth2/**").permitAll()
+		http.headers().frameOptions().sameOrigin().and().cors().and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable().formLogin().disable()
+				.httpBasic().disable().authorizeRequests().antMatchers("/auth/**", "/oauth2/**").permitAll()
 				// TODO: this is an example reference. Delete after getting familiar with
 				// the project structure
 				.antMatchers("/ws/**").permitAll().antMatchers("/swagger-resources/**").permitAll()
 				.antMatchers("/v2/api-docs").permitAll().antMatchers("/swagger-ui.html").permitAll()
-				.antMatchers("/webjars/**").permitAll().antMatchers("/data/**").permitAll().anyRequest().authenticated()
-				.antMatchers("/post/**").permitAll()
-				.and();
+				.antMatchers("/webjars/**").permitAll().antMatchers("/data/**").permitAll().antMatchers("/post/**")
+				.permitAll().antMatchers("/notification/**").permitAll().anyRequest().authenticated().and();
 
 		applyOAuth2Config(http);
 
@@ -67,6 +69,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	public OAuth2SuccessHandler oAuth2SuccessHandler() {
 		return new OAuth2SuccessHandler();
+	}
+
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("http://localhost:3000");
+		config.addAllowedOrigin("http://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com/");
+		config.addAllowedOrigin("https://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com/");
+		config.addAllowedOrigin("http://mindbridge.westeurope.azurecontainer.io/");
+		config.addAllowedOrigin("https://mindbridge.westeurope.azurecontainer.io/");
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("*");
+		source.registerCorsConfiguration("/**", config);
+		return source;
 	}
 
 }

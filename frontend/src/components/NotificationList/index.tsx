@@ -10,15 +10,18 @@ export interface INotificationListProps {
 
 const NotificationList: React.FC<INotificationListProps> = ({ list }) => (
   <ul className={styles.list}>
-    {list.map(item => (
-      <NotificationListItem
-        sourceId={item.sourceId}
-        type={item.type}
-        text={item.text}
-        createdAt={item.createdAt}
-        key={item.id}
-      />
-    ))}
+    {list ? (
+      list.map(item => (
+        <NotificationListItem
+          sourceId={item.sourceId}
+          type={item.type}
+          text={item.text}
+          createdAt={item.createdAt}
+          key={item.id}
+        />
+      ))) : (
+        <p>Notification list is empty</p>
+    )}
   </ul>
 );
 
