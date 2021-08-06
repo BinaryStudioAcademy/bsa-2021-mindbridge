@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 import PasswordInput from '@screens/Login/components/PasswordInput';
-import FormButton from '@screens/Login/components/FormButton';
+import FormButton from '@components/FormButton';
 
 export interface IRegistrationFormProps extends IState, IActions {
 }
