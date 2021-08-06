@@ -13,7 +13,7 @@ const tagOptions = [
 export interface ITagDropdownProps extends DropdownProps {
 }
 
-const TagsDropdown: React.FC<ITagDropdownProps> = ({ className, ...props }) => (
+const TagsDropdown: React.FC<ITagDropdownProps> = ({ className, data, ...props }) => (
   <Dropdown
     className={classNames(styles.dropdown, className)}
     clearable
@@ -22,6 +22,7 @@ const TagsDropdown: React.FC<ITagDropdownProps> = ({ className, ...props }) => (
     search
     selection
     options={tagOptions}
+    value={data}
     placeholder="Enter tags"
     {...props}
   />

@@ -81,7 +81,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, modes, setForm, 
           placeholder="Write your post content"
         />
       </div>
-      <TagsDropdown onChange={handleTags} />
+      <TagsDropdown onChange={handleTags} data={form.tags} />
     </form>
   );
 };

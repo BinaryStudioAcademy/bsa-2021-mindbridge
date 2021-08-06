@@ -42,7 +42,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
         />
         <p className={styles.postName}>{post.title}</p>
 
-        <div dangerouslySetInnerHTML ={post.markdown ? { __html: marked(post.text) } : { __html: post.text }} />
+        <div dangerouslySetInnerHTML={post.markdown ? { __html: marked(post.text) } : { __html: post.text }} />
 
         <div className={styles.btnWrapper}>
           {post.tags.map(tag => (
