@@ -33,4 +33,6 @@ public class PostDetailsDto {
 
 	private String coverImage;
 
+	private Boolean markdown;
+
 }

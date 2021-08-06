@@ -13,5 +13,6 @@ export interface IPost {
   postRating: number;
   avatar: string;
   coverImage: string;
+  markdown: boolean;
 }
 

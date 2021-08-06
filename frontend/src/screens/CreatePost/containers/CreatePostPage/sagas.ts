@@ -12,7 +12,6 @@ function* sendImage(action) {
     //yield put(sendImageRoutine.success(response));
     yield put(sendImageRoutine.success("http://localhost:5000/image/" + response));
     toastr.success('Success', 'Image sended!');
-    yield console.log(response);
   } catch (error) {
     yield put(sendImageRoutine.failure(error?.message));
     toastr.error('Error', 'Sanding image failed!');

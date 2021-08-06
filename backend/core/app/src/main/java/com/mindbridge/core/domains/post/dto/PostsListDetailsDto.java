@@ -40,6 +40,8 @@ public class PostsListDetailsDto {
 
 	private String coverImage;
 
+	private Boolean markdown;
+
 	public static PostsListDetailsDto fromEntity(Post post, PostsReactionsQueryResult postsReactionsQueryResult) {
 		return PostsListDetailsDto.builder().id(post.getId().toString()).title(post.getTitle()).text(post.getText())
 				.authorName(post.getAuthor().getFullName()).createdAt(getDate(post.getCreatedAt()))
@@ -47,7 +49,8 @@ public class PostsListDetailsDto {
 				.tags(post.getTags().stream().map(TagDto::fromEntity).collect(Collectors.toList()))
 				.likesCount(postsReactionsQueryResult.likeCount).disLikesCount(postsReactionsQueryResult.disLikeCount)
 				.postRating(postsReactionsQueryResult.likeCount - postsReactionsQueryResult.disLikeCount)
-				.coverImage(post.getCoverImage()).avatar(post.getAuthor().getAvatar()).build();
+				.markdown(post.getMarkdown()).coverImage(post.getCoverImage()).avatar(post.getAuthor().getAvatar())
+				.build();
 	}
 
 	public static String getDate(Date date) {

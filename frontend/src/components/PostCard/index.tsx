@@ -11,6 +11,7 @@ import LikeSvg from '@components/FeedSvgComponents/likeSvg';
 import DisLikeSvg from '@components/FeedSvgComponents/disLikeSvg';
 import styles from './styles.module.scss';
 import { IPost } from '@screens/FeedPage/models/IPost';
+import marked from 'marked';
 
 interface IPostCardProps {
   post: IPost;
@@ -40,9 +41,9 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
           src={post.coverImage}
         />
         <p className={styles.postName}>{post.title}</p>
-        <span>
-          {post.text}
-        </span>
+
+        <div dangerouslySetInnerHTML ={post.markdown ? { __html: marked(post.text) } : { __html: post.text }} />
+
         <div className={styles.btnWrapper}>
           {post.tags.map(tag => (
             <TagsMenu
