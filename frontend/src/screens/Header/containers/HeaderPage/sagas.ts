@@ -10,7 +10,7 @@ function* fetchNotificationCount() {
     yield put(fetchNotificationCountRoutine.success(count));
   } catch (error) {
     yield put(fetchNotificationCountRoutine.failure(error?.message));
-    toastr.error('Error', 'Loading notification count failed!');
+    /* toastr.error('Error', 'Loading notification count failed!');*/
   }
 }
 
@@ -21,7 +21,7 @@ function* fetchNotificationList() {
     yield put(fetchNotificationListRoutine.success(list));
   } catch (error) {
     yield put(fetchNotificationListRoutine.failure(error?.message));
-    toastr.error('Error', 'Loading notification list failed!');
+    /* toastr.error('Error', 'Loading notification list failed!');*/
   }
 }
 

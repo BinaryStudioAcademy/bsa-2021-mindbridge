@@ -25,7 +25,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
     stompClient.reconnectDelay = 10000;
     stompClient.connect({}, () => {
       stompClient.subscribe('/topic/greeting', () => {
-        toastr.success('Success', 'Socket loaded!');
+        /* toastr.success('Success', 'Socket loaded!');*/
       });
     });
   });

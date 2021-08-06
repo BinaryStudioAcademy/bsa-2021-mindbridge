@@ -8,10 +8,10 @@ function* fetchData() {
     const response = yield call(feedPageService.getData);
     const postsList = { posts: response };
     yield put(fetchDataRoutine.success(postsList));
-    toastr.success('Success', 'Data loaded!');
+    /* toastr.success('Success', 'Data loaded!');*/
   } catch (error) {
     yield put(fetchDataRoutine.failure(error?.message));
-    toastr.error('Error', 'Loading failed!');
+    /* toastr.error('Error', 'Loading failed!');*/
   }
 }
 
