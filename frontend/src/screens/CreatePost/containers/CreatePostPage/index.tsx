@@ -15,8 +15,8 @@ import BlueButton from '@root/components/buttons/Blue_button';
 import ColorlessButton from '@root/components/buttons/ColorlessButton';
 import DarkButton from '@root/components/buttons/DarcButton';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
-import { IData } from '@screens/Default/models/IData';
 import { extractData } from '@screens/CreatePost/reducers';
+import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 
 export interface ICreatePostProps extends IState, IActions {
 }
@@ -28,8 +28,7 @@ interface IState {
     editMode: boolean;
     viewMode: boolean;
   };
-
-  data: IData;
+  userInfo: IStateProfile;
 }
 
 interface IActions {
@@ -40,15 +39,10 @@ interface IActions {
 
 // use real value
 const notificationCount = 3;
-const userName = 'Charlie Culhane';
-const avatar = '';
-const folloversCount = `${6.6}K`;
-const rating = `${5.4}K`;
-const postNotificationCount = 4;
 const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
 
 const CreatePost: React.FC<ICreatePostProps> = (
-  { modes, changeHtmlMarkdownMode, changeEditViewMode, data, fetchData }
+  { modes, changeHtmlMarkdownMode, changeEditViewMode, userInfo, fetchData }
 ) => {
   useEffect(() => {
     fetchData();
@@ -61,11 +55,11 @@ const CreatePost: React.FC<ICreatePostProps> = (
       <div className={styles.form_and_sidebar_container}>
         <div className={styles.profile_sidebar_container}>
           <ProfileSidebar
-            userName={userName}
-            avatar={avatar}
-            folloversCount={folloversCount}
-            rating={rating}
-            postNotificationCount={postNotificationCount}
+            userName={userInfo.profile.fullName}
+            avatar={userInfo.profile.avatar}
+            folloversCount={userInfo.profile.followersQuantity}
+            rating={userInfo.profile.rating}
+            postNotificationCount={userInfo.profile.postsQuantity}
           />
         </div>
         <div className={styles.history_sidebar_container}>
@@ -140,7 +134,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
 
 const mapStateToProps: (state) => IState = state => ({
   modes: state.createPostReducer.data.modes,
-  data: extractData(state)
+  userInfo: extractData(state)
 });
 
 const mapDispatchToProps: IActions = {

@@ -25,4 +25,5 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 	List<Post> getAllPosts(Pageable pageable);
 
 	int countPostByAuthorId(UUID id);
+
 }

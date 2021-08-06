@@ -23,13 +23,7 @@ public class UserProfileDto {
 	private int rating;
 
 	public static UserProfileDto fromEntity(User user) {
-		return UserProfileDto.builder()
-			.id(user.getId())
-			.fullName(user.getFullName())
-			.avatar(user.getAvatar())
-			.build();
+		return UserProfileDto.builder().id(user.getId()).fullName(user.getFullName()).avatar(user.getAvatar()).build();
 	}
-
-
 
 }

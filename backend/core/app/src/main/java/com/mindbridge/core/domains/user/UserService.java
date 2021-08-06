@@ -29,12 +29,12 @@ public class UserService {
 
 	@Lazy
 	@Autowired
-	public UserService(UserRepository userRepository, FollowerRepository followerRepository, PostRepository postRepository) {
+	public UserService(UserRepository userRepository, FollowerRepository followerRepository,
+			PostRepository postRepository) {
 		this.userRepository = userRepository;
 		this.followerRepository = followerRepository;
 		this.postRepository = postRepository;
 	}
-
 
 	public UserProfileDto getQuantityOfUsers(UUID userId) {
 		Random random = new Random();

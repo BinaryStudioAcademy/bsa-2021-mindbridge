@@ -23,4 +23,5 @@ public class UserController {
 	public UserProfileDto getUserProfileInfo(@PathVariable UUID id) {
 		return userService.getQuantityOfUsers(id);
 	}
+
 }

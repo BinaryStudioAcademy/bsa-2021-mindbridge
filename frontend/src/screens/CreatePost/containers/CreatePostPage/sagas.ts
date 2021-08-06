@@ -7,7 +7,6 @@ import createPostService from '@screens/CreatePost/services/createPost';
 function* fetchData() {
   try {
     const response = yield call(createPostService.getData);
-    console.log(response);
     yield put(fetchDataRoutine.success(response));
     toastr.success('Success', 'Data loaded!');
   } catch (error) {
