@@ -24,4 +24,6 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 	@Query(value = "select * from posts p where p.deleted = false", nativeQuery = true)
 	List<Post> getAllPosts(Pageable pageable);
 
+	int countPostByAuthorId(UUID id);
+
 }

@@ -1,51 +1,77 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import styles from './styles.module.scss';
-import { connect } from 'react-redux';
+import { GOOGLE_OAUTH2_URL, FACEBOOK_OAUTH2_URL, GITHUB_OAUTH2_URL } from '@screens/Login/constants/auth_constants';
 import PasswordInput from '@screens/Login/components/PasswordInput';
-import FormButton from '@screens/Login/components/FormButton';
+import { IBindingCallback1 } from '@models/Callbacks';
+import { ILoginRequest } from '@screens/Login/containers/LoginPage';
+import { Form } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import FormButton from '@components/FormButton';
 
-export interface ILoginFormProps extends IState, IActions {
+interface ILoginForm {
+  login: IBindingCallback1<ILoginRequest>;
 }
 
-interface IState {
-}
+const LoginForm: FunctionComponent<ILoginForm> = ({
+  login
+}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-interface IActions {
-}
+  const emailChanged = data => {
+    setEmail(data);
+  };
 
-const LoginForm: React.FC<ILoginFormProps> = (
-) => (
-  <div className={styles.loginForm}>
-    <h2 className={styles.title}>Sign In</h2>
-    <FormButton text="Sign in with Google" inverted={false} />
-    <FormButton text="Sign in with Facebook" inverted={false} />
-    <FormButton text="Sign in with GitHub" inverted={false} />
+  const passwordChanged = data => {
+    setPassword(data);
+  };
 
-    <div className={styles.separator}>
-      <div className={styles.separatorLine} />
-      or
-      <div className={styles.separatorLine} />
+  const handleLoginClick = () => {
+    login({ email, password });
+  };
+
+  return (
+    <div className={styles.loginForm}>
+      <h2 className={styles.title}>Sign In</h2>
+      <a href={GOOGLE_OAUTH2_URL}>
+        <FormButton text="Sign in with Google" inverted={false} />
+      </a>
+      <a href={FACEBOOK_OAUTH2_URL}>
+        <FormButton text="Sign in with Facebook" inverted={false} />
+      </a>
+      <a href={GITHUB_OAUTH2_URL}>
+        <FormButton text="Sign in with GitHub" inverted={false} />
+      </a>
+
+      <div className={styles.separator}>
+        <div className={styles.separatorLine} />
+        or
+        <div className={styles.separatorLine} />
+      </div>
+      <Form onSubmit={handleLoginClick} className={styles.loginForm}>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="Enter your email"
+          required
+          onChange={ev => emailChanged(ev.target.value)}
+        />
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label htmlFor="password">
+          Password
+          <Link to="/forgot" className={styles.linkTo}>Forgot password</Link>
+        </label>
+        <PasswordInput
+          idName="password"
+          value={password}
+          onChange={passwordChanged}
+        />
+        <FormButton text="Sign In" inverted />
+      </Form>
     </div>
-
-    <form>
-      <label htmlFor="email">Email</label>
-      <input id="email" type="email" placeholder="Enter your email" required />
-      <label htmlFor="password">
-        Password
-        <Link to="/forgot" className={styles.linkTo}>Forgot password</Link>
-      </label>
-      <PasswordInput idName="password" />
-      <FormButton text="Sign In" inverted />
-    </form>
-  </div>
-);
-
-const mapStateToProps = () => ({
-});
-
-const mapDispatchToProps: IActions = {
+  );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default LoginForm;

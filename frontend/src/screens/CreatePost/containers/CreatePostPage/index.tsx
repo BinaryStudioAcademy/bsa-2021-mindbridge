@@ -16,7 +16,9 @@ import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
-import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine } from '../../routines';
+import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine } from '../../routines';
+import { extractData } from '@screens/CreatePost/reducers';
+import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 
 export interface ICreatePostProps extends IState, IActions {
 }
@@ -28,24 +30,20 @@ interface IState {
     isLoaded: boolean;
     isInContent: boolean;
   };
+  userInfo: IStateProfile;
 }
 
 interface IActions {
   sendImage: IBindingAction;
   sendPost: IBindingCallback1<object>;
   resetLoadingImage: IBindingAction;
+  fetchData: IBindingAction;
 }
 
 // use real value
-const notificationCount = 3;
-const userName = 'Charlie Culhane';
-const avatar = '';
-const folloversCount = `${6.6}K`;
-const rating = `${5.4}K`;
-const postNotificationCount = 4;
 const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
 
-const CreatePost: React.FC<ICreatePostProps> = ({ sendImage, sendPost, resetLoadingImage, savingImage }) => {
+const CreatePost: React.FC<ICreatePostProps> = ({ sendImage, sendPost, resetLoadingImage, savingImage, userInfo, fetchData }) => {
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,
@@ -63,6 +61,10 @@ const CreatePost: React.FC<ICreatePostProps> = ({ sendImage, sendPost, resetLoad
     tags: [],
     editedTag: ''
   });
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   useEffect(() => {
     if (savingImage.isLoaded) {
@@ -152,17 +154,14 @@ const CreatePost: React.FC<ICreatePostProps> = ({ sendImage, sendPost, resetLoad
 
   return (
     <div className={classNames('content_wrapper', styles.container)}>
-      <div className={styles.header_container}>
-        <Header notificationCount={notificationCount} />
-      </div>
       <div className={styles.form_and_sidebar_container}>
         <div className={styles.profile_sidebar_container}>
           <ProfileSidebar
-            userName={userName}
-            avatar={avatar}
-            folloversCount={folloversCount}
-            rating={rating}
-            postNotificationCount={postNotificationCount}
+            userName={userInfo.profile.fullName}
+            avatar={userInfo.profile.avatar}
+            folloversCount={userInfo.profile.followersQuantity}
+            rating={userInfo.profile.rating}
+            postNotificationCount={userInfo.profile.postsQuantity}
           />
         </div>
         <div className={styles.history_sidebar_container}>
@@ -245,13 +244,15 @@ const CreatePost: React.FC<ICreatePostProps> = ({ sendImage, sendPost, resetLoad
 };
 
 const mapStateToProps: (state) => IState = state => ({
-  savingImage: state.createPostReducer.data.savingImage
+  savingImage: state.createPostReducer.data.savingImage,
+  userInfo: extractData(state)
 });
 
 const mapDispatchToProps: IActions = {
   sendImage: sendImageRoutine,
   sendPost: sendPostRoutine,
-  resetLoadingImage: resetLoadingImageRoutine
+  resetLoadingImage: resetLoadingImageRoutine,
+  fetchData: fetchDataRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

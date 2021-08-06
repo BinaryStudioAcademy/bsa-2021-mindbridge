@@ -1,72 +1,71 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import styles from './styles.module.scss';
+import { Redirect } from 'react-router-dom';
+import styles from '../styles.module.scss';
 import { connect } from 'react-redux';
 import LoginForm from '@screens/Login/components/LoginForm';
-import RegistrationForm from '@screens/Login/components/RegistrationForm';
 import LogoSvg from '@screens/Login/components/svgs/LogoSvg';
+import { IBindingAction } from '@models/Callbacks';
+import { loginRoutine } from '@screens/Login/routines';
+import { IAppState } from '@models/AppState';
 
-export interface ILoginProps extends IState, IActions {
+export interface ILoginRequest {
+  email: string;
+  password: string;
 }
 
-interface IState {
+export interface ILoginProps {
+  isAuthorized: boolean;
+  isLoginFailure: boolean;
+  loginUser: IBindingAction;
 }
 
-interface IActions {
-}
-
-const Login: React.FC<ILoginProps> = (
-) => {
-  const { pathname } = useLocation();
-
-  const getScreen = path => {
-    switch (path) {
-      case '/login': {
-        return [
+const LoginPage: React.FC<ILoginProps> = (
+  { loginUser: login,
+    isAuthorized,
+    isLoginFailure }
+) => (
+  isAuthorized
+    ? <Redirect to="/create/post" />
+    : (
+      <div className={styles.container}>
+        <div className={styles.leftSide}>
           <div className={styles.loginFormWrapper}>
-            <LoginForm />
-          </div>,
+            {isLoginFailure
+              ? (
+                <div className={styles.main_container__error_message}>
+                  Email or password is incorrect
+                </div>
+              ) : null}
+            <LoginForm login={login} />
+          </div>
           <footer>
             <span>
               No account?
-              <Link to="/registration"> Sign Up</Link>
+              <a href="/registration">Sign Up</a>
             </span>
-          </footer>];
-      }
-      case '/registration': {
-        return [
-          <div className={styles.loginFormWrapper}>
-            <RegistrationForm />
-          </div>,
-          <footer>
-            <span>
-              Already have an account?
-              <Link to="/login"> Sign In</Link>
-            </span>
-          </footer>];
-      }
-      default: {
-        return null;
-      }
-    }
-  };
+          </footer>
+        </div>
+        <div className={styles.rightSide}>
+          <LogoSvg />
+        </div>
+      </div>
+    )
+);
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.leftSide}>
-        {getScreen(pathname)}
-      </div>
-      <div className={styles.rightSide}>
-        <LogoSvg />
-      </div>
-    </div>
-  );
+const mapStateToProps = (state: IAppState) => {
+  const { auth, requests } = state.auth;
+  return ({
+    isAuthorized: auth.isAuthorized,
+    /* isLoginLoading: requests.loginRequest.loading,*/
+    isLoginFailure: requests.loginRequest.error != null && !requests.loginRequest.loading
+  });
 };
 
-const mapStateToProps = () => ({
-});
-
-const mapDispatchToProps: IActions = {
+const mapDispatchToProps = {
+  loginUser: loginRoutine.trigger
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginPage);

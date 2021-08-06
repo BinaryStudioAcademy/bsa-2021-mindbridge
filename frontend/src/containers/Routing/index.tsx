@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import LoaderWrapper from 'components/LoaderWrapper';
 import PublicRoute from 'components/PublicRoute';
@@ -6,10 +6,14 @@ import Default from 'screens/Default/containers/DefaultPage';
 import PrivateRoute from '@root/components/PrivateRoute';
 import CreatePostPage from '@root/screens/CreatePost/containers/CreatePostPage';
 import FeedPage from '@screens/FeedPage/containers/FeedPage';
-import Login from 'screens/Login/containers/LoginPage';
+import LoginPage from 'screens/Login/containers/LoginPage';
+import RegistrationPage from 'screens/Login/containers/RegisterPage';
+import oauth2handler from '@components/OAuth2RedirectHandler/OAuth2RedirectHandler';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { toastr } from 'react-redux-toastr';
+import { history } from '@helpers/history.helper';
+import Header from '@screens/Header/containers/HeaderPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -26,13 +30,26 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
     });
   });
 
+  const checkHeaderShown = () => {
+    const headerBlackList = ['/login', '/registration'];
+
+    return headerBlackList.every(item => !history.location.pathname.startsWith(item));
+  };
+  const [isHeaderShown, setIsHeaderShown] = useState(checkHeaderShown());
+
+  history.listen(() => {
+    setIsHeaderShown(checkHeaderShown());
+  });
+
   return (
     <div>
-      {/* {isAuthorized ? <Header /> : ''} */}
+      {isHeaderShown && <Header />}
       <Switch>
         <PublicRoute exact path="/public" component={Default} />
         <PublicRoute exact path="/" component={FeedPage} />
-        <PublicRoute exact path={['/login', '/registration']} component={Login} />
+        <PublicRoute exact path="/login" component={LoginPage} />
+        <PublicRoute exact path="/registration" component={RegistrationPage} />
+        <PublicRoute exact path="/oauth2/resolve" component={oauth2handler} />
         <div>
           <LoaderWrapper loading={isLoading}>
             <Switch>

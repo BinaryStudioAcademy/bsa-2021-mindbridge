@@ -11,6 +11,12 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
 
 	Optional<User> findByEmail(String email);
 
+	Optional<User> findByNickname(String nickname);
+
+	boolean existsByEmail(String email);
+
+	boolean existsByNickname(String nickname);
+
 	int countUserByDeletedFalse();
 
 }

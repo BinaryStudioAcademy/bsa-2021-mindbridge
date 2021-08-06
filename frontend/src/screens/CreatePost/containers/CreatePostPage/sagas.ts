@@ -1,7 +1,8 @@
 import { sendImageRoutine, sendPostRoutine } from '../../routines/index';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
-import createPostService from '../../services';
+import createPostService from '@screens/CreatePost/services/createPost';
+import { fetchDataRoutine } from '@screens/CreatePost/routines';
 
 function* sendImage(action) {
   const formData = new FormData();
@@ -37,9 +38,25 @@ function* watchSendPostRequest() {
   yield takeEvery(sendPostRoutine.TRIGGER, sendPost);
 }
 
-export default function* createPostPageSagas() {
+function* fetchData() {
+  try {
+    const response = yield call(createPostService.getData);
+    yield put(fetchDataRoutine.success(response));
+    toastr.success('Success', 'Data loaded!');
+  } catch (error) {
+    yield put(fetchDataRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading failed!');
+  }
+}
+
+function* watchGetDataRequest() {
+  yield takeEvery(fetchDataRoutine.TRIGGER, fetchData);
+}
+
+export default function* defaultPageSagas() {
   yield all([
     watchSendImageRequest(),
-    watchSendPostRequest()
+    watchSendPostRequest(),
+    watchGetDataRequest()
   ]);
 }

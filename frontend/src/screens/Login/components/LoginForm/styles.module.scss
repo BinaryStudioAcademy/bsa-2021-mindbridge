@@ -48,20 +48,20 @@
   }
 
   input {
-    width: 100%;
-    background-color: #F8F8F8;
-    box-sizing: border-box;
-    border-radius: 7px;
-    color: rgba(40, 40, 40, 0.7);;
-    line-height: 3rem;
-    outline: none;
-    border: none;
-    padding: 0 1.35rem;
-    margin-top: 0.3rem;
-    margin-bottom: 1.2rem;
+    width: 100% !important;
+    background-color: #F8F8F8 !important;
+    box-sizing: border-box !important;
+    border-radius: 7px !important;
+    color: rgba(40, 40, 40, 0.7) !important;
+    line-height: 3rem !important;
+    outline: none !important;
+    border: none !important;
+    padding: 0 1.35rem !important;
+    margin-top: 0.3rem !important;
+    margin-bottom: 1.2rem !important;
 
     &::placeholder {
-      opacity: 0.4;
+      opacity: 0.4 !important;
     }
   }
 }

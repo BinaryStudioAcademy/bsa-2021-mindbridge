@@ -1,6 +1,7 @@
-import { resetLoadingImageRoutine, sendImageRoutine } from '../../routines/index';
-
+import { resetLoadingImageRoutine, sendImageRoutine, fetchDataRoutine } from '../../routines/index';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
+import { IData } from '@screens/Default/models/IData';
+import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 
 export interface ICreatePostReducerState {
   savingImage: {
@@ -9,6 +10,7 @@ export interface ICreatePostReducerState {
     isLoaded: boolean;
     isInContent: boolean;
   };
+  profile: IUserProfile;
 }
 
 const initialState: ICreatePostReducerState = {
@@ -17,6 +19,14 @@ const initialState: ICreatePostReducerState = {
     url: '',
     isLoaded: false,
     isInContent: false
+  },
+  profile: {
+    id: '',
+    fullName: 'string',
+    avatar: '',
+    postsQuantity: 0,
+    followersQuantity: 0,
+    rating: 0
   }
 };
 
@@ -42,5 +52,8 @@ export const createPostReducer = createReducer(initialState, {
       isLoaded: false,
       isInContent: false
     };
+  },
+  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
+    state.profile = payload;
   }
 });

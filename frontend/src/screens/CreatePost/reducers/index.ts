@@ -3,13 +3,14 @@ import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
 import { createPostReducer } from '@screens/CreatePost/containers/CreatePostPage/reducer';
 /* PlopJS import placeholder. Do not remove */
-import { sendPostRoutine, sendImageRoutine, resetLoadingImageRoutine } from '@screens/CreatePost/routines';
+import { sendPostRoutine, sendImageRoutine, resetLoadingImageRoutine, fetchDataRoutine  } from '@screens/CreatePost/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
   resetLoadingImageRequest: reducerCreator([resetLoadingImageRoutine.TRIGGER]),
   sendPostRequest: reducerCreator([sendPostRoutine.TRIGGER]),
-  sendImageRequest: reducerCreator([sendImageRoutine.TRIGGER])
+  sendImageRequest: reducerCreator([sendImageRoutine.TRIGGER]),
+  fetchDataRequest: reducerCreator[fetchDataRoutine.TRIGGER]
 });
 
 export default combineReducers({
@@ -27,3 +28,4 @@ export const extractSendPostLoading = state => reqs(state).sendPostRequest.loadi
 export const extractSendPostError = state => reqs(state).sendPostRequest.error;
 export const extractSendImageLoading = state => reqs(state).sendImageRequest.loading;
 export const extractSendImageError = state => reqs(state).sendImageRequest.error;
+export const extractData = state => data(state);

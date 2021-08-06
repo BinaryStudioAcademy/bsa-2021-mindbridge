@@ -1,0 +1,116 @@
+@import "../../../../styles/common.sass";
+@import '../../../../styles/common_variables.sass';
+
+.header_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 5.7rem;
+  border: 2px solid rgba(151, 151, 151, 0.15);
+  background-color: white;
+  .navButton {
+    transition: 0.1s;
+    height: 2.37rem;
+    font-family: lato, sans-serif;
+    border-radius: 5%/13%;
+    border: none;
+    line-height: 2.37rem;
+    padding: 0 1rem;
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0);
+    color: $dark-grey;
+
+    &:hover {
+      background-color: $light-blue;
+    }
+  }
+  .activeNavButton {
+    border-radius: 5%/13%;
+    border: none;
+    background-color: $light-blue;
+    color: $dark-grey;
+  }
+}
+
+.left {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-left: 5rem;
+}
+
+.right{
+  position: relative;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-right: 5rem;
+}
+
+.header_menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 20rem;
+  height: 2.37rem;
+  margin-left: 2rem;
+
+  button {
+    min-width: 6rem;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+}
+
+.create_post_button {
+  width: 8rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.search_input{
+  display: grid;
+  grid-template-columns: 6fr 1fr;
+  grid-template-rows: 1fr;
+  width: 16rem;
+  height: 2.37rem;
+  margin-right: 2rem;
+  input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: #F8F8F8;
+    border-radius: 2%/16%;
+    padding-left: 1.5rem;
+    padding-right: 2.4rem;
+    grid-column: 1/3;
+    grid-row: 1/2;
+  }
+  input::placeholder{
+    font-family: lato;
+  }
+  button{
+    background-color: #F8F8F8;
+    grid-column: 2/3;
+    grid-row: 1/2;
+    margin: 2px;
+    opacity: 0.6;
+  }
+  button:hover{
+    opacity: 1;
+  }
+}
+
+.header_notification{
+  background-color: rgba(0, 0, 0, 0);
+  display: grid;
+  margin-right: 1rem;
+  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-rows: 1fr 1fr;
+  width: 2.37rem;
+  svg{
+    grid-column: 1/3;
+    grid-row: 1/3;
+  }
+}

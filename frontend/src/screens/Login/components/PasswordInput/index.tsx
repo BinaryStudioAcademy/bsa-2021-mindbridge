@@ -4,10 +4,15 @@ import InputButton from '@screens/Login/components/InputButton';
 
 export interface IPasswordInputProps {
   idName: string;
+  value: string;
+  onChange: (newValue: string) => void;
 }
 
 const PasswordInput: React.FC<IPasswordInputProps> = (
-  { idName }
+  { idName,
+    value,
+    onChange
+  }
 ) => {
   const [inputType, setInputType] = React.useState('password');
 
@@ -17,7 +22,15 @@ const PasswordInput: React.FC<IPasswordInputProps> = (
 
   return (
     <div className={styles.passwordWrapper}>
-      <input id={idName} type={inputType} required className={styles.passwordInput} placeholder="Enter your password" />
+      <input
+        id={idName}
+        type={inputType}
+        value={value}
+        onChange={ev => onChange(ev.target.value)}
+        required
+        className={styles.passwordInput}
+        placeholder="Enter your password"
+      />
       <InputButton onToggleInput={handleToggleInput} />
     </div>
   );
