@@ -1,4 +1,4 @@
-package com.mindbridge.core.exceptions;
+package com.mindbridge.core.exceptions.handling;
 
 import org.springframework.http.HttpStatus;
 

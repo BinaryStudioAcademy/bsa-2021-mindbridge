@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { ACCESS_TOKEN } from '@screens/Login/constants/auth_constants';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -7,7 +8,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     {...rest}
     render={props => {
       // get token
-      const token = 'fake';
+      const token = localStorage.getItem(ACCESS_TOKEN);
       if (!token) {
         return (
           <Redirect
@@ -15,7 +16,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
           />
         );
       }
-
       return <Component {...props} />;
     }}
   />
