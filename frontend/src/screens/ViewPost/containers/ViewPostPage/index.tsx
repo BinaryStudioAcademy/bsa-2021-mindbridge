@@ -31,9 +31,6 @@ const ViewPost: React.FC<IViewPostProps> = (
 
   return (
     <div className={styles.viewPost}>
-      <div className={styles.header}>
-        <h1>Header</h1>
-      </div>
       <div className={styles.main}>
         <ViewPostCard post={data.posts} />
       </div>
