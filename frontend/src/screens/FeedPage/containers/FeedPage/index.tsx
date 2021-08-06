@@ -8,7 +8,6 @@ import { extractData } from '@screens/FeedPage/reducers';
 import { fetchDataRoutine } from '@screens/FeedPage/routines';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
-import { isEmptyArray } from 'formik';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 
 export interface IFeedPageProps extends IState, IActions {

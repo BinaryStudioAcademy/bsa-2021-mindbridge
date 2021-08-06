@@ -3,7 +3,6 @@ import { INotification } from '@screens/Header/models/INotification';
 import NotificationListItem from '@components/NotificationListItem';
 
 import styles from './style.module.scss';
-import { toastr } from 'react-redux-toastr';
 
 export interface INotificationListProps {
   list: INotification[];
