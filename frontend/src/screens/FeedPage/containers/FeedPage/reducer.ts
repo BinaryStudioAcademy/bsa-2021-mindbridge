@@ -19,12 +19,14 @@ const initialState: IFeedPageReducerState = {
     tags: [{ id: '', name: '' }],
     createdAt: '',
     postRating: 0,
-    avatar: ''
+    avatar: '',
+    coverImage: ''
   }]
 };
 
 export const feedPageReducer = createReducer(initialState, {
   [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPostList>) => {
+    console.log(payload.posts)
     state.posts = payload.posts;
   }
 });

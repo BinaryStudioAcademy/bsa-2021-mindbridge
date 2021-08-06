@@ -37,7 +37,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
         <Image
           floated="right"
           size="mini"
-          src="https://www.economiadigital.es/wp-content/uploads/2020/10/xps-dpbxgth0lac-unsplash-1000x665.jpeg"
+          src={post.coverImage}
         />
         <p className={styles.postName}>{post.title}</p>
         <span>

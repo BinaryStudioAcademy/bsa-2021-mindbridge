@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +33,10 @@ public class ImageService {
 		}
 		UUID uuid = UUID.randomUUID();
 		return fileSystem.saveFile(byteFile, uuid);
+	}
+
+	public byte[] getImageById(UUID id) {
+		return fileSystem.getImageById(id);
 	}
 
 }

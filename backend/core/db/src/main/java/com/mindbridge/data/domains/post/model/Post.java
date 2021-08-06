@@ -7,6 +7,7 @@ import com.mindbridge.data.domains.postVersion.model.PostVersion;
 import com.mindbridge.data.domains.tag.model.Tag;
 import com.mindbridge.data.domains.user.model.User;
 import com.mindbridge.data.model.BaseAuditableEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,11 +17,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "posts")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class Post extends BaseAuditableEntity {
 

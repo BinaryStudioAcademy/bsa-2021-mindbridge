@@ -31,4 +31,6 @@ public class PostDetailsDto {
 
 	private List<CommentDto> comments;
 
+	private String coverImage;
+
 }
