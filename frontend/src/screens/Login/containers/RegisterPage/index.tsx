@@ -31,7 +31,7 @@ const RegistrationPage: React.FC<IRegisterProps> = (
     error }
 ) => (
   isAuthorized
-    ? <Redirect to="/create/post" />
+    ? <Redirect to="/" />
     : (
       <div className={styles.container}>
         <div className={styles.leftSide}>

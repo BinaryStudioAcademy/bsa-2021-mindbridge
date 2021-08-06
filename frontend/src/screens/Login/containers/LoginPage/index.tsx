@@ -7,6 +7,7 @@ import LogoSvg from '@screens/Login/components/svgs/LogoSvg';
 import { IBindingAction } from '@models/Callbacks';
 import { loginRoutine } from '@screens/Login/routines';
 import { IAppState } from '@models/AppState';
+import { toastr } from 'react-redux-toastr';
 
 export interface ILoginRequest {
   email: string;
@@ -25,16 +26,14 @@ const LoginPage: React.FC<ILoginProps> = (
     isLoginFailure }
 ) => (
   isAuthorized
-    ? <Redirect to="/create/post" />
+    ? <Redirect to="/" />
     : (
       <div className={styles.container}>
         <div className={styles.leftSide}>
           <div className={styles.loginFormWrapper}>
             {isLoginFailure
               ? (
-                <div className={styles.main_container__error_message}>
-                  Email or password is incorrect
-                </div>
+                toastr.error('FAILED TO LOGIN', 'Email or password is incorrect')
               ) : null}
             <LoginForm login={login} />
           </div>
