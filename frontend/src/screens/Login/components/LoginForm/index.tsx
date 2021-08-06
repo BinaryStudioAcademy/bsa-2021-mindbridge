@@ -2,11 +2,11 @@ import React, { FunctionComponent, useState } from 'react';
 import styles from './styles.module.scss';
 import { GOOGLE_OAUTH2_URL, FACEBOOK_OAUTH2_URL, GITHUB_OAUTH2_URL } from '@screens/Login/constants/auth_constants';
 import PasswordInput from '@screens/Login/components/PasswordInput';
-import FormButton from '@screens/Login/components/FormButton';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { ILoginRequest } from '@screens/Login/containers/LoginPage';
 import { Form } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import FormButton from '@components/FormButton';
 
 interface ILoginForm {
   login: IBindingCallback1<ILoginRequest>;

@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import { GOOGLE_OAUTH2_URL, FACEBOOK_OAUTH2_URL, GITHUB_OAUTH2_URL } from '@screens/Login/constants/auth_constants';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { IRegisterRequest } from '@screens/Login/containers/RegisterPage';
-import FormButton from '@screens/Login/components/FormButton';
+import FormButton from '@components/FormButton';
 import { Form, Message } from 'semantic-ui-react';
 
 import {

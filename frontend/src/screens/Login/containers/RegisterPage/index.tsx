@@ -40,12 +40,12 @@ const RegistrationPage: React.FC<IRegisterProps> = (
             )}
             <RegistrationForm register={register} />
           </div>
-          <div style={{ margin: '0.5rem' }}>
+          <footer>
             <span>
               Already have an account?
               <a href="/login">Sign In</a>
             </span>
-          </div>
+          </footer>
         </div>
         <div className={styles.rightSide}>
           <LogoSvg />
