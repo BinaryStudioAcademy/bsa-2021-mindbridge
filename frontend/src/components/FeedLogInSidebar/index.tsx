@@ -1,25 +1,36 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
+import { useHistory } from 'react-router-dom';
 
-const FeedLogInSidebar: FunctionComponent = () => (
-  <div className={styles.logInSideBar}>
-    <div className={styles.title}>
-      MindBridge is a community of 500.999 amazing developers
-    </div>
-    <div className={styles.description}>
-      We&apos;re a place where coders share, stay up-to-date and grow their careers.
-    </div>
-    <a href="/registration">
-      <button type="button" className={`${styles.dark_button}`}>
+const FeedLogInSidebar: FunctionComponent = () => {
+  const history = useHistory();
+
+  const handleLoginButton = () => {
+    history.push('/login');
+    history.go();
+  };
+
+  const handleRegistrationButton = () => {
+    history.push('/registration');
+    history.go();
+  };
+
+  return (
+    <div className={styles.logInSideBar}>
+      <div className={styles.title}>
+        MindBridge is a community of 500.999 amazing developers
+      </div>
+      <div className={styles.description}>
+        We&apos;re a place where coders share, stay up-to-date and grow their careers.
+      </div>
+      <button type="button" onClick={() => handleRegistrationButton()} className={styles.darkBorderButton}>
         Create new account
       </button>
-    </a>
-    <a href="/login">
-      <button type="button" className={styles.darkBorderButton}>
+      <button type="button" onClick={() => handleLoginButton()} className={styles.darkBorderButton}>
         Log in
       </button>
-    </a>
-  </div>
-);
+    </div>
+  );
+};
 
 export default FeedLogInSidebar;
