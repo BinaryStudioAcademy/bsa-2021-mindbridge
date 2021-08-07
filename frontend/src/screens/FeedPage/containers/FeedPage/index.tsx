@@ -9,8 +9,7 @@ import { fetchDataRoutine } from '@screens/FeedPage/routines';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
-import { Loader } from 'semantic-ui-react';
-import LoaderWrapper from "@components/LoaderWrapper";
+import LoaderWrapper from '@components/LoaderWrapper';
 
 export interface IFeedPageProps extends IState, IActions {
 }
