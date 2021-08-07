@@ -1,8 +1,9 @@
 package com.mindbridge.core.security;
 
 import com.mindbridge.core.security.jwt.JwtFilter;
-import com.mindbridge.core.security.oauth2.OAuth2SuccessHandler;
 import com.mindbridge.core.security.oauth2.RedirectUriToCookiePersister;
+import com.mindbridge.core.security.oauth2.OAuth2SuccessHandler;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableScheduling

@@ -8,10 +8,10 @@ function* fetchData() {
   try {
     const response = yield call(createPostService.getData);
     yield put(fetchDataRoutine.success(response));
-    /* toastr.success('Success', 'Data loaded!');*/
+    toastr.success('Success', 'Data loaded!');
   } catch (error) {
     yield put(fetchDataRoutine.failure(error?.message));
-    /* toastr.error('Error', 'Loading failed!');*/
+    toastr.error('Error', 'Loading failed!');
   }
 }
 

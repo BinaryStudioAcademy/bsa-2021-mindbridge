@@ -19,7 +19,7 @@ function handleMissingResponse(error: AxiosError) {
       body: error.request.body
     }
   });
-  /* toastr.error('Error', errorMessage);*/
+  toastr.error('Error', errorMessage);
   throw new Error(errorMessage);
 }
 
