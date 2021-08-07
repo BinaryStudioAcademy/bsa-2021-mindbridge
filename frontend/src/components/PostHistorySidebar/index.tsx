@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
+import { IPostsDates } from '@screens/CreatePost/models/IPostsDates';
 
 export interface IProfileSidebarProps {
 }
@@ -10,11 +11,11 @@ function HistorySidebar({ history }) {
     return null;
   }
   const links = [];
-  history.forEach((date: string) => {
+  history.forEach((date: IPostsDates) => {
     links.push(
       <div className={styles.link}>
         <div className={styles.dot} />
-        <Link to="/create/post">{date}</Link>
+        <Link to="/create/post">{date.createdAt}</Link>
       </div>
     );
   });

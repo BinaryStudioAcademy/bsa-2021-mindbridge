@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.user;
 
+import com.mindbridge.core.domains.post.dto.PostsHistoryListDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDto;
 import com.mindbridge.data.domains.follower.FollowerRepository;
 import com.mindbridge.data.domains.post.PostRepository;
@@ -19,8 +20,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -33,6 +38,8 @@ public class UserService implements UserDetailsService {
 	private final PostRepository postRepository;
 
 	private final PasswordEncoder passwordEncoder;
+
+	private final Random random = new Random();
 
 	public static final String PHONE_REGEX = "^\\d{10}$";
 
@@ -49,10 +56,11 @@ public class UserService implements UserDetailsService {
 	}
 
 	public UserProfileDto getQuantityOfUsers(UUID userId) {
-		Random random = new Random();
-		var user = UserProfileDto.fromEntity(userRepository.findById(userId).get());
+		var user = UserMapper.MAPPER.userToUserProfileDto(userRepository.findById(userId).orElseThrow());
+		var posts = postRepository.getPostsByAuthorId(userId);
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
-		user.setPostsQuantity(postRepository.countPostByAuthorId(userId));
+		user.setDatesOfPosts(posts.stream().map(PostsHistoryListDto::fromEntity).collect(Collectors.toList()));
+		user.setPostsQuantity(posts.size());
 		user.setRating(random.nextInt(100));
 		return user;
 	}

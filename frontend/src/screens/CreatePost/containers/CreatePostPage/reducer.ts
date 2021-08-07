@@ -27,7 +27,8 @@ const initialState: ICreatePostReducerState = {
     avatar: '',
     postsQuantity: 0,
     followersQuantity: 0,
-    rating: 0
+    rating: 0,
+    datesOfPosts: [{ id: '', createdAt: '' }]
   }
 };
 

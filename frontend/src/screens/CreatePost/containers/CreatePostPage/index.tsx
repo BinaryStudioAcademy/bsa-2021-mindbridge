@@ -58,7 +58,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
           />
         </div>
         <div className={styles.history_sidebar_container}>
-          <HistorySidebar history={history} />
+          <HistorySidebar history={userInfo.profile.datesOfPosts} />
         </div>
         <div className={styles.form_and_sidebar_container}>
           <div className={styles.profile_sidebar_container}>
@@ -69,9 +69,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
               rating={userInfo.profile.rating}
               postNotificationCount={userInfo.profile.postsQuantity}
             />
-          </div>
-          <div className={styles.history_sidebar_container}>
-            <HistorySidebar history={history} />
           </div>
           <div className={styles.create_post_container}>
             <div className={styles.header}>

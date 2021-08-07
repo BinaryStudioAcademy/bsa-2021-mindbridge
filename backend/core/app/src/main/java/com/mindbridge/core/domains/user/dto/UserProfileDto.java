@@ -1,13 +1,12 @@
 package com.mindbridge.core.domains.user.dto;
 
-import com.mindbridge.data.domains.user.model.User;
-import lombok.Builder;
+import com.mindbridge.core.domains.post.dto.PostsHistoryListDto;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
-@Builder
 public class UserProfileDto {
 
 	private UUID id;
@@ -22,8 +21,6 @@ public class UserProfileDto {
 
 	private int rating;
 
-	public static UserProfileDto fromEntity(User user) {
-		return UserProfileDto.builder().id(user.getId()).fullName(user.getFullName()).avatar(user.getAvatar()).build();
-	}
+	private List<PostsHistoryListDto> datesOfPosts;
 
 }
