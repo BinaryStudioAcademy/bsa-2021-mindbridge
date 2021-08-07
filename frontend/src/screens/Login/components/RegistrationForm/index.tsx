@@ -88,7 +88,7 @@ const RegistrationForm: FunctionComponent<IRegisterForm> = ({
         <Form.Input
           id="name"
           type="text"
-          label="Name"
+          label="FirstName"
           placeholder="Enter your name"
           required
           onChange={e => { setName(e.target.value); validateName(e.target.value); }}
@@ -98,7 +98,7 @@ const RegistrationForm: FunctionComponent<IRegisterForm> = ({
         <Form.Input
           id="surname"
           type="text"
-          label="Surname"
+          label="LastName"
           placeholder="Enter your surname"
           required
           onChange={e => { setSurname(e.target.value); validateSurname(e.target.value); }}

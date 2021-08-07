@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styles from '../styles.module.scss';
 import { connect } from 'react-redux';
 import LoginForm from '@screens/Login/components/LoginForm';
@@ -41,7 +41,7 @@ const LoginPage: React.FC<ILoginProps> = (
           <footer>
             <span>
               No account?
-              <a href="/registration">Sign Up</a>
+              <Link to="/registration"> Sign Up</Link>
             </span>
           </footer>
         </div>
