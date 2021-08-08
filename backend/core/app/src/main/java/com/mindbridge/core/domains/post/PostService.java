@@ -60,7 +60,6 @@ public class PostService {
 	}
 
 	public void savePost(CreatePostDto post) {
-		System.out.println(post);
 		var user = userRepository.getOne(post.getAuthor());
 		var tags = new HashSet<>(tagRepository.findAllById(post.getTags()));
 
