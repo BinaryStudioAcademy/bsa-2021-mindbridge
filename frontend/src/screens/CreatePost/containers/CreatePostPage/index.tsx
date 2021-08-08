@@ -43,7 +43,8 @@ interface IActions {
 // use real value
 const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
 
-const CreatePost: React.FC<ICreatePostProps> = ({ sendImage, sendPost, resetLoadingImage, savingImage, userInfo, fetchData }) => {
+const CreatePost: React.FC<ICreatePostProps> = ({
+  sendImage, sendPost, resetLoadingImage, savingImage, userInfo, fetchData }) => {
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,

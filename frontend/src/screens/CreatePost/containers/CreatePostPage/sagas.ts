@@ -1,8 +1,7 @@
-import { sendImageRoutine, sendPostRoutine } from '../../routines/index';
+import { sendImageRoutine, sendPostRoutine, fetchDataRoutine } from '../../routines/index';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import createPostService from '@screens/CreatePost/services/createPost';
-import { fetchDataRoutine } from '@screens/CreatePost/routines';
 
 function* sendImage(action) {
   const formData = new FormData();
@@ -12,10 +11,10 @@ function* sendImage(action) {
     // response must has a real url to image on service
     // yield put(sendImageRoutine.success(response));
     yield put(sendImageRoutine.success(`http://localhost:5000/image/${response}`));
-    toastr.success('Success', 'Image sended!');
+    toastr.success('Success', 'Image was sent!');
   } catch (error) {
     yield put(sendImageRoutine.failure(error?.message));
-    toastr.error('Error', 'Sanding image failed!');
+    toastr.error('Error', 'Sending image failed!');
   }
 }
 
@@ -23,10 +22,10 @@ function* sendPost(action) {
   try {
     const response = yield call(createPostService.sendPost, action.payload);
     yield put(sendPostRoutine.success(response));
-    toastr.success('Success', 'Post sended!');
+    toastr.success('Success', 'Post was sent!');
   } catch (error) {
     yield put(sendImageRoutine.failure(error?.message));
-    toastr.error('Error', 'Sanding post failed!');
+    toastr.error('Error', 'Sending post failed!');
   }
 }
 
@@ -60,3 +59,4 @@ export default function* defaultPageSagas() {
     watchGetDataRequest()
   ]);
 }
+ 

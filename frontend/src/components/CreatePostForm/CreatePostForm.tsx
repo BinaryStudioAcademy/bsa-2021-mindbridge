@@ -12,7 +12,7 @@ interface ICreatePostFormProps {
   sendImage: any;
 }
 
-const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, modes, setForm, sendImage }) => {
+const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendImage }) => {
   const handelCoverFile = (event: any) => {
     if (!event.target.files[0]) {
       setForm({

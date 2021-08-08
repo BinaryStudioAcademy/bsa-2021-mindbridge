@@ -17,6 +17,11 @@ interface IPostCardProps {
   post: IPost;
 }
 
+const styleObj = {
+  color: 'red',
+  wight: 300
+};
+
 const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
   <Card className={styles.postCard}>
     <Card.Content>
@@ -35,15 +40,21 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
         </div>
       </Feed>
       <Card.Description>
-        <Image
-          floated="right"
-          size="mini"
-          src={post.coverImage}
-        />
+        {post.coverImage ?
+          <Image
+            floated="right"
+            size="mini"
+            src={post.coverImage}
+          />
+          : null
+        }
         <p className={styles.postName}>{post.title}</p>
-
-        <div dangerouslySetInnerHTML={post.markdown ? { __html: marked(post.text) } : { __html: post.text }} />
-
+        <p className={styles.post_content}
+          dangerouslySetInnerHTML={
+            post.markdown ?
+              { __html: marked(post.text) }
+              : { __html: post.text }}
+              style={styleObj} />
         <div className={styles.btnWrapper}>
           {post.tags.map(tag => (
             <TagsMenu
