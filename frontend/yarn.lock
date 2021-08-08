@@ -8908,7 +8908,6 @@
   "resolved" "https://registry.npmjs.org/make-iterator/-/make-iterator-1.0.1.tgz"
   "version" "1.0.1"
   dependencies:
-
     "kind-of" "^6.0.2"
 
 "makeerror@1.0.x":
@@ -9168,7 +9167,6 @@
   "integrity" "sha512-YWCYEmd5CQeHGSAKrYvXgmzzkrvssZcuuQDDeqkT+PziKGMgE+0MCCtcKbROzocGBG1meBLl2FotlRwf4gAzbQ=="
   "resolved" "https://registry.npmjs.org/mini-create-react-context/-/mini-create-react-context-0.4.1.tgz"
   "version" "0.4.1"
-  
   dependencies:
     "@babel/runtime" "^7.12.1"
     "tiny-warning" "^1.0.3"
