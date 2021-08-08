@@ -40,21 +40,25 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
         </div>
       </Feed>
       <Card.Description>
-        {post.coverImage ?
-          <Image
-            floated="right"
-            size="mini"
-            src={post.coverImage}
-          />
-          : null
-        }
+        {post.coverImage
+          ? (
+            <Image
+              floated="right"
+              size="mini"
+              src={post.coverImage}
+            />
+          )
+          : null}
         <p className={styles.postName}>{post.title}</p>
-        <p className={styles.post_content}
+        <p
+          className={styles.post_content}
           dangerouslySetInnerHTML={
-            post.markdown ?
-              { __html: marked(post.text) }
-              : { __html: post.text }}
-              style={styleObj} />
+            post.markdown
+              ? { __html: marked(post.text) }
+              : { __html: post.text }
+}
+          style={styleObj}
+        />
         <div className={styles.btnWrapper}>
           {post.tags.map(tag => (
             <TagsMenu
