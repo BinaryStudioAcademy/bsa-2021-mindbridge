@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import styles from '../styles.module.scss';
 import { connect } from 'react-redux';
@@ -24,32 +24,36 @@ const LoginPage: React.FC<ILoginProps> = (
   { loginUser: login,
     isAuthorized,
     isLoginFailure }
-) => (
-  isAuthorized
-    ? <Redirect to="/" />
-    : (
-      <div className={styles.container}>
-        <div className={styles.leftSide}>
-          <div className={styles.loginFormWrapper}>
-            {isLoginFailure
-              ? (
-                toastr.error('FAILED TO LOGIN', 'Email or password is incorrect')
-              ) : null}
-            <LoginForm login={login} />
+) => {
+  useEffect(() => {
+    if (isLoginFailure) {
+      toastr.error('FAILED TO LOGIN', 'Email or password is incorrect');
+    }
+  }, [isLoginFailure]);
+
+  return (
+    isAuthorized
+      ? <Redirect to="/" />
+      : (
+        <div className={styles.container}>
+          <div className={styles.leftSide}>
+            <div className={styles.loginFormWrapper}>
+              <LoginForm login={login} />
+            </div>
+            <footer>
+              <span>
+                No account?
+                <a href="/registration">Sign Up</a>
+              </span>
+            </footer>
           </div>
-          <footer>
-            <span>
-              No account?
-              <a href="/registration">Sign Up</a>
-            </span>
-          </footer>
+          <div className={styles.rightSide}>
+            <LogoSvg />
+          </div>
         </div>
-        <div className={styles.rightSide}>
-          <LogoSvg />
-        </div>
-      </div>
-    )
-);
+      )
+  );
+};
 
 const mapStateToProps = (state: IAppState) => {
   const { auth, requests } = state.auth;
