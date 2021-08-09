@@ -14,8 +14,8 @@ public class EMapper {
 		Map<String, Object> meta = new HashMap<>();
 		meta.put("authorId", post.getAuthor().getId());
 
-		return builderFromBaseEn(post).createdAt(post.getCreatedAt().toString()).author(post.getAuthor().getFullName()).title(post.getTitle()).tags(tags)
-				.metadata(meta).build();
+		return builderFromBaseEn(post).createdAt(post.getCreatedAt().toString()).author(post.getAuthor().getFullName())
+				.title(post.getTitle()).tags(tags).metadata(meta).build();
 	}
 
 	private static ElasticEntity.ElasticEntityBuilder builderFromBaseEn(BaseEntity entity) {
