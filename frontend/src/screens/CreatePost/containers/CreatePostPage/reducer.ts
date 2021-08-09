@@ -1,26 +1,25 @@
-import { changeEditViewModeRoutine, changeHtmlMarkdownModeRoutine, fetchDataRoutine } from '../../routines/index';
+import { resetLoadingImageRoutine, sendImageRoutine, fetchDataRoutine } from '../../routines/index';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IData } from '@screens/Default/models/IData';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 
 export interface ICreatePostReducerState {
-  modes: {
-    htmlMode: boolean;
-    markdownMode: boolean;
-    editMode: boolean;
-    viewMode: boolean;
+  savingImage: {
+    title: string;
+    url: string;
+    isLoaded: boolean;
+    isInContent: boolean;
   };
   profile: IUserProfile;
 }
 
 const initialState: ICreatePostReducerState = {
-  modes: {
-    htmlMode: true,
-    markdownMode: false,
-    editMode: true,
-    viewMode: false
+  savingImage: {
+    title: '',
+    url: '',
+    isLoaded: false,
+    isInContent: false
   },
-
   profile: {
     id: '',
     fullName: 'string',
@@ -32,13 +31,27 @@ const initialState: ICreatePostReducerState = {
 };
 
 export const createPostReducer = createReducer(initialState, {
-  [changeHtmlMarkdownModeRoutine.TRIGGER]: state => {
-    state.modes.markdownMode = !state.modes.markdownMode;
-    state.modes.htmlMode = !state.modes.htmlMode;
+  [sendImageRoutine.SUCCESS]: (state, action) => {
+    state.savingImage = {
+      ...state.savingImage,
+      url: action.payload,
+      isLoaded: true
+    };
   },
-  [changeEditViewModeRoutine.TRIGGER]: state => {
-    state.modes.editMode = !state.modes.editMode;
-    state.modes.viewMode = !state.modes.viewMode;
+  [sendImageRoutine.TRIGGER]: (state, action) => {
+    state.savingImage = {
+      ...state.savingImage,
+      title: action.payload.file.name,
+      isInContent: action.payload.inContent
+    };
+  },
+  [resetLoadingImageRoutine.TRIGGER]: state => {
+    state.savingImage = {
+      title: '',
+      url: '',
+      isLoaded: false,
+      isInContent: false
+    };
   },
   [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
     state.profile = payload;

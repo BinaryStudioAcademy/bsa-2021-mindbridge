@@ -60,7 +60,7 @@ function ProfileSidebar({ avatar, userName, folloversCount, rating, postNotifica
           <span>Drafts</span>
         </Link>
         <Link to="/">
-          <FollowersSvg />
+          <FavoritesSvg />
           <span>Favorites</span>
         </Link>
         <Link to="/">
@@ -70,8 +70,10 @@ function ProfileSidebar({ avatar, userName, folloversCount, rating, postNotifica
         <Link to="/">
           <PostsSvg />
           <span>Your posts</span>
-          <div className={postNotificationCount ? styles.notification_count : styles.invisible}>
-            {postNotificationCount}
+          <div className={postNotificationCount ? styles.post_notification_count : styles.invisible}>
+            <div className={styles.count}>
+              {postNotificationCount}
+            </div>
           </div>
         </Link>
         <Link to="/">

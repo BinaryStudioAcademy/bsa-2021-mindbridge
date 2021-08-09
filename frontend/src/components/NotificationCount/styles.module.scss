@@ -1,7 +1,6 @@
 @import "../../styles/common.sass";
 
 .notification_count{
-  grid-template-columns: 2/3;
   grid-row: 1/2;
   background-color: $red-notification;
   height: 0.85rem;
@@ -11,6 +10,7 @@
   overflow: visible;
   font-size: 0.6rem;
   text-align: center;
+  vertical-align: center;
   padding-top: 0.1rem;
 }
 
