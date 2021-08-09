@@ -50,6 +50,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/login" component={LoginPage} />
         <PublicRoute exact path="/registration" component={RegistrationPage} />
         <PublicRoute exact path="/oauth2/resolve" component={oauth2handler} />
+        <PublicRoute exact path="/create/post" component={CreatePostPage} />
         <div>
           <LoaderWrapper loading={isLoading}>
             <Switch>
@@ -58,11 +59,6 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
               path="/private"
               component={Private}
             /> */}
-              <PrivateRoute
-                exact
-                path="/create/post"
-                component={CreatePostPage}
-              />
               <Route path="/*">
                 <Redirect to="/public" />
               </Route>

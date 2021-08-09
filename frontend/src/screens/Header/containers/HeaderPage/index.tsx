@@ -9,7 +9,7 @@ import { IBindingCallback1 } from '@models/Callbacks';
 import { INotification } from '@screens/Header/models/INotification';
 import { fetchNotificationCountRoutine, fetchNotificationListRoutine } from '@screens/Header/routines';
 import { extractData } from '@screens/Header/reducers';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useHistory } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
 
@@ -32,6 +32,7 @@ const Header: React.FC<IHeaderProps> = (
   const { currentUser } = useSelector((state: any) => ({
     currentUser: state.auth.auth.user
   }));
+  const history = useHistory();
 
   useEffect(() => {
     fetchNotificationCount(currentUser.id);
@@ -41,6 +42,11 @@ const Header: React.FC<IHeaderProps> = (
   const toggleNotificationList = () => {
     fetchNotificationList(currentUser.id);
     setIsListOpen(!isListOpen);
+  };
+
+  const handleCreatePostButton = () => {
+    history.push('/create/post');
+    history.go();
   };
   return (
     <div className={styles.header_container}>
@@ -72,9 +78,11 @@ const Header: React.FC<IHeaderProps> = (
             <SearchSvg />
           </button>
         </div>
-        <Link to="/create/post">
-          <DarkButton className={styles.create_post_button} content="Create post" />
-        </Link>
+        <DarkButton
+          className={styles.create_post_button}
+          onClick={() => handleCreatePostButton()}
+          content="Create post"
+        />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styles from '../styles.module.scss';
 import { connect } from 'react-redux';
 import RegistrationForm from '@screens/Login/components/RegistrationForm';
@@ -31,7 +31,7 @@ const RegistrationPage: React.FC<IRegisterProps> = (
     error }
 ) => (
   isAuthorized
-    ? <Redirect to="/create/post" />
+    ? <Redirect to="/" />
     : (
       <div className={styles.container}>
         <div className={styles.leftSide}>
@@ -44,7 +44,7 @@ const RegistrationPage: React.FC<IRegisterProps> = (
             <span>
               Already have an account?
               {' '}
-              <a href="/login">Sign In</a>
+              <Link to="/login">Sign In</Link>
             </span>
           </footer>
         </div>

@@ -19,7 +19,9 @@ const initialState: IFeedPageReducerState = {
     tags: [{ id: '', name: '' }],
     createdAt: '',
     postRating: 0,
-    avatar: ''
+    avatar: '',
+    coverImage: '',
+    markdown: false
   }]
 };
 
