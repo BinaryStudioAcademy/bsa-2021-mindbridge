@@ -52,7 +52,8 @@ const FeedPage: React.FC<IFeedPageProps> = (
     addMorePosts();
     const { from, count } = params;
     params.from = from + count;
-    handleLoadMorePosts(params);
+    // handleLoadMorePosts(params);
+    fetchData(params);
   };
 
   // if (dataLoading === true) {
