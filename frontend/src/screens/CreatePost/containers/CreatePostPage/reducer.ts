@@ -1,5 +1,5 @@
-import { fetchTagsRoutine } from './../../routines/index';
-import { resetLoadingImageRoutine, sendImageRoutine, fetchDataRoutine } from '../../routines/index';
+import { fetchTagsRoutine, resetLoadingImageRoutine, sendImageRoutine, fetchDataRoutine } from '../../routines/index';
+
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IData } from '@screens/Default/models/IData';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
@@ -12,7 +12,7 @@ export interface ICreatePostReducerState {
     isInContent: boolean;
   };
   profile: IUserProfile;
-  allTags:[];
+  allTags: [];
 }
 
 const initialState: ICreatePostReducerState = {
@@ -30,7 +30,7 @@ const initialState: ICreatePostReducerState = {
     followersQuantity: 0,
     rating: 0
   },
-  allTags:[]
+  allTags: []
 };
 
 export const createPostReducer = createReducer(initialState, {

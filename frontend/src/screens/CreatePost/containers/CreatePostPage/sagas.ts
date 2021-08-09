@@ -55,7 +55,7 @@ function* fetchTags() {
     console.log(response);
     const allTags = [];
     response.forEach(element => {
-      let tag = { key: element.id, value: element.id, text: element.name };
+      const tag = { key: element.id, value: element.id, text: element.name };
       allTags.push(tag);
     });
     yield put(fetchTagsRoutine.success(allTags));
