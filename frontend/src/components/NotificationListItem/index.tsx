@@ -14,7 +14,7 @@ const NotificationListItem: React.FC<INotificationListItemProps> = ({ sourceId, 
   <li className={styles.listItem}>
     <span>{type}</span>
     <span>{text}</span>
-    <span><Link to={`/post/${sourceId}`}>Follow to notification</Link></span>
+    <span><Link to={`/post/${sourceId}`}>Follow notification</Link></span>
   </li>
 );
 

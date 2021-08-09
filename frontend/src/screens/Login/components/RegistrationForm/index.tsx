@@ -4,7 +4,7 @@ import { GOOGLE_OAUTH2_URL, FACEBOOK_OAUTH2_URL, GITHUB_OAUTH2_URL } from '@scre
 import { IBindingCallback1 } from '@models/Callbacks';
 import { IRegisterRequest } from '@screens/Login/containers/RegisterPage';
 import FormButton from '@components/FormButton';
-import { Form, Message } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 
 import {
   EMAIL_MESSAGE,
@@ -18,6 +18,7 @@ import {
   isValidNickname,
   isValidNameSurname
 } from '@helpers/validation.helper';
+import InputPopup from '@components/InputPopup';
 
 interface IRegisterForm {
   register: IBindingCallback1<IRegisterRequest>;
@@ -77,6 +78,7 @@ const RegistrationForm: FunctionComponent<IRegisterForm> = ({
       register({ name, surname, nickname, email, password });
     }
   };
+
   return (
     <div className={styles.loginForm}>
       <h2 className={styles.title}>Sign Up</h2>
@@ -85,78 +87,65 @@ const RegistrationForm: FunctionComponent<IRegisterForm> = ({
         warning={!isNameValid || !isSurnameValid || !isNicknameValid
         || !isEmailValid || !isPasswordValid || !isPasswordsMatch}
       >
-        <Form.Input
+        <InputPopup
           id="name"
           type="text"
           label="FirstName"
-          placeholder="Enter your name"
-          required
-          onChange={e => { setName(e.target.value); validateName(e.target.value); }}
-          error={!isNameValid}
-          onBlur={validateName}
+          placeholder="Enter your first name"
+          setValue={setName}
+          validateValue={validateName}
+          isValueValid={isNameValid}
+          errorMessage={NAME_MESSAGE}
         />
-        <Form.Input
+        <InputPopup
           id="surname"
           type="text"
           label="LastName"
-          placeholder="Enter your surname"
-          required
-          onChange={e => { setSurname(e.target.value); validateSurname(e.target.value); }}
-          error={!isSurnameValid}
-          onBlur={validateSurname}
+          placeholder="Enter your last name"
+          setValue={setSurname}
+          validateValue={validateSurname}
+          isValueValid={isSurnameValid}
+          errorMessage={SURNAME_MESSAGE}
         />
-        <Form.Input
+        <InputPopup
           id="nickname"
           type="text"
           label="Nickname"
           placeholder="Enter your nickname"
-          required
-          onChange={e => { setNickname(e.target.value); validateNickname(e.target.value); }}
-          error={!isNicknameValid}
-          onBlur={validateNickname}
+          setValue={setNickname}
+          validateValue={validateNickname}
+          isValueValid={isNicknameValid}
+          errorMessage={NICKNAME_MESSAGE}
         />
-        <Form.Input
+        <InputPopup
           id="email"
-          label="Email"
           type="email"
+          label="Email"
           placeholder="Enter your email"
-          required
-          onChange={e => { setEmail(e.target.value); validateEmail(e.target.value); }}
-          error={!isEmailValid}
-          onBlur={validateEmail}
+          setValue={setEmail}
+          validateValue={validateEmail}
+          isValueValid={isEmailValid}
+          errorMessage={EMAIL_MESSAGE}
         />
-        <Form.Input
+        <InputPopup
           id="password"
+          type="password"
           label="Password"
-          type="password"
           placeholder="Enter your password"
-          required
-          onChange={e => { setPassword(e.target.value); validatePassword(e.target.value); }}
-          error={!isPasswordValid}
-          onBlur={validatePassword}
+          setValue={setPassword}
+          validateValue={validatePassword}
+          isValueValid={isPasswordValid}
+          errorMessage={PASSWORD_MESSAGE}
         />
-        {/* <label htmlFor="password">Password</label>
-        <PasswordInput idName="password" />*/}
-        <Form.Input
+        <InputPopup
           id="passwordConfirm"
-          label="Repeat password"
           type="password"
+          label="Repeat password"
           placeholder="Repeat your password"
-          required
-          onChange={e => { setRepeatPassword(e.target.value); validateRepeatPassword(e.target.value); }}
-          error={!isPasswordsMatch}
-          onBlur={validateRepeatPassword}
-        />
-        <Message
-          warning
-          list={[
-            !isEmailValid && EMAIL_MESSAGE,
-            !isPasswordValid && PASSWORD_MESSAGE,
-            !isPasswordsMatch && PASSWORDS_NOT_MATCH,
-            !isNicknameValid && NICKNAME_MESSAGE,
-            !isNameValid && NAME_MESSAGE,
-            !isSurnameValid && SURNAME_MESSAGE
-          ]}
+          setValue={setRepeatPassword}
+          validateValue={validateRepeatPassword}
+          isValueValid={isPasswordsMatch}
+          errorMessage={PASSWORDS_NOT_MATCH}
         />
         <FormButton text="Sign Up" inverted />
       </Form>
