@@ -5,11 +5,13 @@ import createPostSagas from '@screens/CreatePost/sagas';
 import feedPageSagas from '@screens/FeedPage/sagas';
 import loginSagas from '@screens/Login/sagas';
 import defaultSagas from '@screens/Default/sagas';
+import pageNotFoundSagas from '@screens/NotFound/sagas';
 
 export default function* rootSaga() {
   yield all([
     /* PlopJS sagas placeholder. Do not remove */
     headerSagas(),
+    pageNotFoundSagas(),
     createPostSagas(),
     feedPageSagas(),
     loginSagas(),
