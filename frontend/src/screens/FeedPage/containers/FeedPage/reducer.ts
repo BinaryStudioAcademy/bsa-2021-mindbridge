@@ -1,10 +1,12 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { fetchDataRoutine } from '@screens/FeedPage/routines';
+import { addMorePostsRoutine, fetchDataRoutine } from '@screens/FeedPage/routines';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 
 export interface IFeedPageReducerState {
   posts: [IPost];
+  hasMore: boolean;
+  loadMore: boolean;
 }
 
 const initialState: IFeedPageReducerState = {
@@ -20,11 +22,26 @@ const initialState: IFeedPageReducerState = {
     createdAt: '',
     postRating: 0,
     avatar: ''
-  }]
+  }],
+
+  hasMore: false,
+  loadMore: false
 };
 
 export const feedPageReducer = createReducer(initialState, {
   [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPostList>) => {
-    state.posts = payload.posts;
+    if (!state.loadMore) {
+      state.posts = payload.posts;
+    } else {
+      for (let i = 0; i < payload.posts.length; i += 1) {
+        state.posts.push(payload.posts[i]);
+      }
+    }
+    console.log(payload);
+    state.hasMore = Boolean(payload.posts.length);
+  },
+  [addMorePostsRoutine.TRIGGER]: state => {
+    state.loadMore = true;
   }
+
 });
