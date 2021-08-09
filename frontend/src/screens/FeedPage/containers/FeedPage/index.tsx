@@ -28,7 +28,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
   useEffect(() => {
     fetchData();
   }, []);
-
   return (
     <div className={styles.feedPage}>
       <div className={styles.main}>

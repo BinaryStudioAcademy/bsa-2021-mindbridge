@@ -1,7 +1,12 @@
-import { changeEditViewModeRoutine, changeHtmlMarkdownModeRoutine, fetchDataRoutine } from '../../routines/index';
+import {
+  changeEditViewModeRoutine,
+  changeHtmlMarkdownModeRoutine,
+  fetchDataRoutine,
+  getPostVersionsRoutine
+} from '../../routines/index';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { IData } from '@screens/Default/models/IData';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
+import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 
 export interface ICreatePostReducerState {
   modes: {
@@ -11,6 +16,7 @@ export interface ICreatePostReducerState {
     viewMode: boolean;
   };
   profile: IUserProfile;
+  versionsOfPost: [IPostVersions];
 }
 
 const initialState: ICreatePostReducerState = {
@@ -27,9 +33,10 @@ const initialState: ICreatePostReducerState = {
     avatar: '',
     postsQuantity: 0,
     followersQuantity: 0,
-    rating: 0,
-    datesOfPosts: [{ id: '', createdAt: '' }]
-  }
+    rating: 0
+  },
+
+  versionsOfPost: [{ id: '', createdAt: '' }]
 };
 
 export const createPostReducer = createReducer(initialState, {
@@ -43,5 +50,8 @@ export const createPostReducer = createReducer(initialState, {
   },
   [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
     state.profile = payload;
+  },
+  [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersions]>) => {
+    state.versionsOfPost = payload;
   }
 });

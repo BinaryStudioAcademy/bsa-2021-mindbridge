@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.post.dto.PostDetailsDto;
+import com.mindbridge.core.domains.post.dto.PostVersionsListDto;
 import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,6 +33,11 @@ public class PostController {
 	@GetMapping("/all")
 	public List<PostsListDetailsDto> getAllPosts() {
 		return postService.getAllPosts();
+	}
+
+	@GetMapping("/versions/{id}")
+	public List<PostVersionsListDto> getPostVersions(@PathVariable UUID id) {
+		return postService.getPostVersions(id);
 	}
 
 }

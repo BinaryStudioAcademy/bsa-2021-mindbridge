@@ -2,10 +2,11 @@ package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.post.dto.PostDetailsDto;
+import com.mindbridge.core.domains.post.dto.PostVersionsListDto;
 import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
-import com.mindbridge.data.domains.comment.CommentRepository;
 import com.mindbridge.data.domains.post.PostRepository;
+import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -26,13 +27,16 @@ public class PostService {
 
 	private final PostReactionService postReactionService;
 
+	private final PostVersionRepository postVersionRepository;
+
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService,
-			PostReactionService postReactionService) {
+			PostReactionService postReactionService, PostVersionRepository postVersionRepository) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
+		this.postVersionRepository = postVersionRepository;
 	}
 
 	public PostDetailsDto getPostById(UUID id) {
@@ -47,9 +51,14 @@ public class PostService {
 	}
 
 	public List<PostsListDetailsDto> getAllPosts() {
-
 		return postRepository.getAllPosts(PageRequest.of(0, 10)).stream()
 				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+				.collect(Collectors.toList());
+	}
+
+	public List<PostVersionsListDto> getPostVersions(UUID postId) {
+		System.out.println(postVersionRepository.getPostVersionByPostId(postId));
+		return postVersionRepository.getPostVersionByPostId(postId).stream().map(PostVersionsListDto::fromEntity)
 				.collect(Collectors.toList());
 	}
 

@@ -1,4 +1,4 @@
-export interface IPostsDates {
+export interface IPostVersions {
   id: string;
   createdAt: string;
 }

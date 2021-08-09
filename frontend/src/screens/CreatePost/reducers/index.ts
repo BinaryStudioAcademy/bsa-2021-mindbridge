@@ -3,14 +3,15 @@ import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
 import { createPostReducer } from '@screens/CreatePost/containers/CreatePostPage/reducer';
 /* PlopJS import placeholder. Do not remove */
-import { changeHtmlMarkdownModeRoutine, changeEditViewModeRoutine, fetchDataRoutine } from
+import { changeHtmlMarkdownModeRoutine, changeEditViewModeRoutine, fetchDataRoutine, getPostVersionsRoutine } from
   '@screens/CreatePost/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
   changeHtmlMarkdownModeRequest: reducerCreator([changeHtmlMarkdownModeRoutine.TRIGGER]),
   changeEditViewModeRequest: reducerCreator([changeEditViewModeRoutine.TRIGGER]),
-  fetchDataRequest: reducerCreator[fetchDataRoutine.TRIGGER]
+  fetchDataRequest: reducerCreator[fetchDataRoutine.TRIGGER],
+  getPostVersionsRequest: reducerCreator[getPostVersionsRoutine.TRIGGER]
 });
 
 export default combineReducers({

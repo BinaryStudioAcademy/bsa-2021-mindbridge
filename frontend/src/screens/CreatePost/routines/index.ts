@@ -7,3 +7,4 @@ const createCreatePostRoutine = <T extends unknown>(actionName: string) => creat
 export const changeHtmlMarkdownModeRoutine = createCreatePostRoutine('CHANGE_HTML_MARKDOWN_MODE');
 export const changeEditViewModeRoutine = createCreatePostRoutine('CHANGE_EDIT_VIEW_MODE');
 export const fetchDataRoutine = createCreatePostRoutine('FETCH_DATA');
+export const getPostVersionsRoutine = createCreatePostRoutine('GET_POST_VERSIONS');

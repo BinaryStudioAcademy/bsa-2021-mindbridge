@@ -1,6 +1,6 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 // import createPostService from '@screens/CreatePost/services/createPost';
-import { fetchDataRoutine } from '@screens/CreatePost/routines';
+import { fetchDataRoutine, getPostVersionsRoutine } from '@screens/CreatePost/routines';
 import { toastr } from 'react-redux-toastr';
 import createPostService from '@screens/CreatePost/services/createPost';
 
@@ -15,12 +15,26 @@ function* fetchData() {
   }
 }
 
+export function* getPostVersions() {
+  try {
+    const response = yield call(createPostService.getPostVersions);
+    yield put(getPostVersionsRoutine.success(response));
+  } catch (ex) {
+    yield put(getPostVersionsRoutine.failure(ex.message));
+  }
+}
+
+function* watchPostVersions() {
+  yield takeEvery(getPostVersionsRoutine.TRIGGER, getPostVersions);
+}
+
 function* watchGetDataRequest() {
   yield takeEvery(fetchDataRoutine.TRIGGER, fetchData);
 }
 
 export default function* defaultPageSagas() {
   yield all([
-    watchGetDataRequest()
+    watchGetDataRequest(),
+    watchPostVersions()
   ]);
 }

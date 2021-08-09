@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
-import { IPostsDates } from '@screens/CreatePost/models/IPostsDates';
+import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 
 export interface IProfileSidebarProps {
+  history: IPostVersions[];
 }
 
-function HistorySidebar({ history }) {
-  if (history.length === 0) {
+const HistorySidebar: FunctionComponent<IProfileSidebarProps> = ({ history }) => {
+  if (!history[0].id) {
     return null;
   }
+
   const links = [];
-  history.forEach((date: IPostsDates) => {
+  history.forEach(date => {
     links.push(
       <div className={styles.link}>
         <div className={styles.dot} />
@@ -29,6 +31,6 @@ function HistorySidebar({ history }) {
       </div>
     </div>
   );
-}
+};
 
 export default HistorySidebar;

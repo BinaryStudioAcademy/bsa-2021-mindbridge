@@ -5,7 +5,12 @@ import { connect } from 'react-redux';
 import ProfileSidebar from '@root/components/ProfileSidebar';
 import HistorySidebar from '@root/components/PostHistorySidebar';
 import { IBindingAction } from '@root/models/Callbacks';
-import { changeEditViewModeRoutine, changeHtmlMarkdownModeRoutine, fetchDataRoutine } from '../../routines';
+import {
+  changeEditViewModeRoutine,
+  changeHtmlMarkdownModeRoutine,
+  fetchDataRoutine,
+  getPostVersionsRoutine
+} from '../../routines';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
 import EditSvgPart1 from './svg/editSvgPart1';
 import EditSvgPart2 from './svg/editSvgPart2';
@@ -16,6 +21,7 @@ import DarkButton from '@root/components/buttons/DarcButton';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
+import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 
 export interface ICreatePostProps extends IState, IActions {
 }
@@ -28,23 +34,23 @@ interface IState {
     viewMode: boolean;
   };
   userInfo: IStateProfile;
+  versionsOfPost: [IPostVersions];
 }
 
 interface IActions {
   changeHtmlMarkdownMode: IBindingAction;
   changeEditViewMode: IBindingAction;
   fetchData: IBindingAction;
+  getPostVersions: IBindingAction;
 }
 
-// use real value
-const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
-
 const CreatePost: React.FC<ICreatePostProps> = (
-  { modes, changeHtmlMarkdownMode, changeEditViewMode, userInfo, fetchData }
+  { modes, changeHtmlMarkdownMode, changeEditViewMode, userInfo, fetchData, getPostVersions, versionsOfPost }
 ) => {
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+    getPostVersions();
+  }, [fetchData, getPostVersions]);
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
@@ -58,7 +64,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
           />
         </div>
         <div className={styles.history_sidebar_container}>
-          <HistorySidebar history={userInfo.profile.datesOfPosts} />
+          <HistorySidebar history={versionsOfPost} />
         </div>
         <div className={styles.form_and_sidebar_container}>
           <div className={styles.profile_sidebar_container}>
@@ -140,13 +146,15 @@ const CreatePost: React.FC<ICreatePostProps> = (
 
 const mapStateToProps: (state) => IState = state => ({
   modes: state.createPostReducer.data.modes,
-  userInfo: extractData(state)
+  userInfo: extractData(state),
+  versionsOfPost: state.createPostReducer.data.versionsOfPost
 });
 
 const mapDispatchToProps: IActions = {
   changeHtmlMarkdownMode: changeHtmlMarkdownModeRoutine,
   changeEditViewMode: changeEditViewModeRoutine,
-  fetchData: fetchDataRoutine
+  fetchData: fetchDataRoutine,
+  getPostVersions: getPostVersionsRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

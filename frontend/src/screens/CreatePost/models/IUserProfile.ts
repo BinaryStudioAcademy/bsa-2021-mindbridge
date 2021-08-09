@@ -1,4 +1,4 @@
-import { IPostsDates } from '@screens/CreatePost/models/IPostsDates';
+import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 
 export interface IUserProfile {
   id: string;
@@ -7,5 +7,4 @@ export interface IUserProfile {
   postsQuantity: number;
   followersQuantity: number;
   rating: number;
-  datesOfPosts: [IPostsDates];
 }
