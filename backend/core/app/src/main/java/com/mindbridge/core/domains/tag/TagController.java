@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("tag")
 @Validated
 public class TagController {
+
 	private final TagService tagService;
 
 	@Autowired
@@ -23,4 +24,5 @@ public class TagController {
 	public List<TagDto> getTags() {
 		return tagService.getTags();
 	}
+
 }

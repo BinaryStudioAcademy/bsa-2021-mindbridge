@@ -11,12 +11,12 @@ public class TagService {
 
 	private final TagRepository tagRepository;
 
-	public TagService(TagRepository tagRepository){
+	public TagService(TagRepository tagRepository) {
 		this.tagRepository = tagRepository;
 	}
 
 	public List<TagDto> getTags() {
-		return tagRepository.findAll().stream().map(TagDto::fromEntity).collect(
-			Collectors.toList());
+		return tagRepository.findAll().stream().map(TagDto::fromEntity).collect(Collectors.toList());
 	}
+
 }
