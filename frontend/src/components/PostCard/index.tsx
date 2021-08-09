@@ -41,14 +41,13 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
       </Feed>
       <Card.Description>
         {post.coverImage
-          ? (
+          && (
             <Image
               floated="right"
               size="mini"
               src={post.coverImage}
             />
-          )
-          : null}
+          )}
         <p className={styles.postName}>{post.title}</p>
         <p
           className={styles.post_content}
@@ -56,7 +55,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
             post.markdown
               ? { __html: marked(post.text) }
               : { __html: post.text }
-}
+          }
           style={styleObj}
         />
         <div className={styles.btnWrapper}>
