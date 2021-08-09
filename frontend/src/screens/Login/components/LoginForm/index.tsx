@@ -61,7 +61,7 @@ const LoginForm: FunctionComponent<ILoginForm> = ({
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="password">
           Password
-          <Link to="/forgot" className={styles.linkTo}>Forgot password</Link>
+          <Link to="/forgot" className={styles.linkTo}>Forgot your password?</Link>
         </label>
         <PasswordInput
           idName="password"

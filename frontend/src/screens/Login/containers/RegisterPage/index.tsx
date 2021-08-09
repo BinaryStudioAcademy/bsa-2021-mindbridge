@@ -43,6 +43,7 @@ const RegistrationPage: React.FC<IRegisterProps> = (
           <footer>
             <span>
               Already have an account?
+              {' '}
               <a href="/login">Sign In</a>
             </span>
           </footer>
