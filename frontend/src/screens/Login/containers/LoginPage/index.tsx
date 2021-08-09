@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import styles from '../styles.module.scss';
 import { connect } from 'react-redux';
@@ -7,6 +7,7 @@ import LogoSvg from '@screens/Login/components/svgs/LogoSvg';
 import { IBindingAction } from '@models/Callbacks';
 import { loginRoutine } from '@screens/Login/routines';
 import { IAppState } from '@models/AppState';
+import { toastr } from 'react-redux-toastr';
 
 export interface ILoginRequest {
   email: string;
@@ -23,35 +24,37 @@ const LoginPage: React.FC<ILoginProps> = (
   { loginUser: login,
     isAuthorized,
     isLoginFailure }
-) => (
-  isAuthorized
-    ? <Redirect to="/create/post" />
-    : (
-      <div className={styles.container}>
-        <div className={styles.leftSide}>
-          <div className={styles.loginFormWrapper}>
-            {isLoginFailure
-              ? (
-                <div className={styles.main_container__error_message}>
-                  Email or password is incorrect
-                </div>
-              ) : null}
-            <LoginForm login={login} />
+) => {
+  useEffect(() => {
+    if (isLoginFailure) {
+      toastr.error('FAILED TO LOGIN', 'Email or password is incorrect');
+    }
+  }, [isLoginFailure]);
+
+  return (
+    isAuthorized
+      ? <Redirect to="/" />
+      : (
+        <div className={styles.container}>
+          <div className={styles.leftSide}>
+            <div className={styles.loginFormWrapper}>
+              <LoginForm login={login} />
+            </div>
+            <footer>
+              <span>
+                No account?
+                {' '}
+                <a href="/registration">Sign Up</a>
+              </span>
+            </footer>
           </div>
-          <footer>
-            <span>
-              No account?
-              {' '}
-              <a href="/registration">Sign Up</a>
-            </span>
-          </footer>
+          <div className={styles.rightSide}>
+            <LogoSvg />
+          </div>
         </div>
-        <div className={styles.rightSide}>
-          <LogoSvg />
-        </div>
-      </div>
-    )
-);
+      )
+  );
+};
 
 const mapStateToProps = (state: IAppState) => {
   const { auth, requests } = state.auth;
