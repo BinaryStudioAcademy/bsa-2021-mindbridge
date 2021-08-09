@@ -1,4 +1,5 @@
-import { sendImageRoutine, sendPostRoutine, fetchDataRoutine } from '../../routines/index';
+import { fetchTagsRoutine, sendImageRoutine, sendPostRoutine, fetchDataRoutine } from '../../routines/index';
+
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import createPostService from '@screens/CreatePost/services/createPost';
@@ -48,14 +49,36 @@ function* fetchData() {
   }
 }
 
+function* fetchTags() {
+  try {
+    const response = yield call(createPostService.getTags);
+    console.log(response);
+    const allTags = [];
+    response.forEach(element => {
+      let tag = { key: element.id, value: element.id, text: element.name };
+      allTags.push(tag);
+    });
+    yield put(fetchTagsRoutine.success(allTags));
+    toastr.success('Success', 'Tags loaded!');
+  } catch (error) {
+    yield put(fetchTagsRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading tags failed!');
+  }
+}
+
 function* watchGetDataRequest() {
   yield takeEvery(fetchDataRoutine.TRIGGER, fetchData);
+}
+
+function* watchFetchTagsRequest() {
+  yield takeEvery(fetchTagsRoutine.TRIGGER, fetchTags);
 }
 
 export default function* defaultPageSagas() {
   yield all([
     watchSendImageRequest(),
     watchSendPostRequest(),
-    watchGetDataRequest()
+    watchGetDataRequest(),
+    watchFetchTagsRequest()
   ]);
 }

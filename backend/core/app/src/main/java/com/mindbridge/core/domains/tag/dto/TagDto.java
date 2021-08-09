@@ -7,15 +7,10 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
 public class TagDto {
 
 	private UUID id;
 
 	private String name;
-
-	public static TagDto fromEntity(Tag tag){
-		return new TagDto(tag.getId(), tag.getName());
-	}
 
 }

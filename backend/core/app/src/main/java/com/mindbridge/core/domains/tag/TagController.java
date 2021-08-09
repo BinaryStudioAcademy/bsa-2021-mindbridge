@@ -1,7 +1,6 @@
 package com.mindbridge.core.domains.tag;
 
-import com.mindbridge.core.domains.tag.dto.TagDto;
-import com.mindbridge.core.domains.tag.dto.TagService;
+import com.mindbridge.data.domains.tag.dto.TagDto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

@@ -1,7 +1,7 @@
 package com.mindbridge.core.domains.tag;
 
-import com.mindbridge.core.domains.tag.dto.TagDto;
 import com.mindbridge.data.domains.tag.TagRepository;
+import com.mindbridge.data.domains.tag.dto.TagDto;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;

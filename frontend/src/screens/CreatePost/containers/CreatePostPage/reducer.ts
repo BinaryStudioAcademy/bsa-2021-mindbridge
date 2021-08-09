@@ -1,3 +1,4 @@
+import { fetchTagsRoutine } from './../../routines/index';
 import { resetLoadingImageRoutine, sendImageRoutine, fetchDataRoutine } from '../../routines/index';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IData } from '@screens/Default/models/IData';
@@ -11,6 +12,7 @@ export interface ICreatePostReducerState {
     isInContent: boolean;
   };
   profile: IUserProfile;
+  allTags:[];
 }
 
 const initialState: ICreatePostReducerState = {
@@ -27,7 +29,8 @@ const initialState: ICreatePostReducerState = {
     postsQuantity: 0,
     followersQuantity: 0,
     rating: 0
-  }
+  },
+  allTags:[]
 };
 
 export const createPostReducer = createReducer(initialState, {
@@ -55,5 +58,8 @@ export const createPostReducer = createReducer(initialState, {
   },
   [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
     state.profile = payload;
+  },
+  [fetchTagsRoutine.SUCCESS]: (state, action) => {
+    state.allTags = action.payload;
   }
 });
