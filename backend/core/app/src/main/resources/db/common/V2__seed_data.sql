@@ -132,8 +132,8 @@ values
 ('c7cec6ad-6b04-4beb-ba92-33d354bb2c5c', '8a29bd6d-9c90-44e5-87ea-493618aa1f6b', 'b9eb8231-5422-4d6f-906b-eeb55da1edd1', 'Your post has been published', true, 'New follower'),
 ('d14a0c7b-5e91-4e3b-980e-4043f5a0daa8', 'db127d6b-f2f3-4115-b20a-5b5f67c384aa', 'ccb9f16b-e852-4ffb-b5e4-87247d978fd9', 'Congratulations on your registration', true, 'New post'),
 ('7e5616f3-8b8b-4c41-9fcc-672cd98a70e0', 'b9eb8231-5422-4d6f-906b-eeb55da1edd1', '95a46088-b143-483d-a86c-3d6be6fd2e6d', 'Congratulations on your registration', true, 'New post'),
-('b00c8e87-702d-40b4-943d-4124b0f821c5', '1934406d-e088-4a28-8c44-ccfdd5125b90', 'e1ed2f0f-b402-4208-b39b-ff8d2fbf6164', 'You have new follower', false, 'New follower'),
-('0ea40bb8-054b-4b63-91a6-8acccf835eb4', '1934406d-e088-4a28-8c44-ccfdd5125b90', 'b9eb8231-5422-4d6f-906b-eeb55da1edd1', 'You have new follower', false, 'New follower'),
+('b00c8e87-702d-40b4-943d-4124b0f821c5', '1934406d-e088-4a28-8c44-ccfdd5125b90', 'e1ed2f0f-b402-4208-b39b-ff8d2fbf6164', 'You have a new follower', false, 'New follower'),
+('0ea40bb8-054b-4b63-91a6-8acccf835eb4', '1934406d-e088-4a28-8c44-ccfdd5125b90', 'b9eb8231-5422-4d6f-906b-eeb55da1edd1', 'You have a new follower', false, 'New follower'),
 ('b4309d34-84ea-42c5-a3a6-fc7468208a4f', '1934406d-e088-4a28-8c44-ccfdd5125b90', 'e2eceb99-7388-47bb-9f14-339f3392efbd', 'New post published', false, 'New post'),
 ('10c9058a-c93a-4254-91ce-6558e786c6d1', '1934406d-e088-4a28-8c44-ccfdd5125b90', '95a46088-b143-483d-a86c-3d6be6fd2e6d', 'New post published', false, 'New post');
 
