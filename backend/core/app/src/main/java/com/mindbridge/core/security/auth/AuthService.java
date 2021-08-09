@@ -1,6 +1,7 @@
 package com.mindbridge.core.security.auth;
 
 import com.mindbridge.core.domains.user.UserService;
+import com.mindbridge.core.domains.user.dto.UserDto;
 import com.mindbridge.core.exceptions.custom.UserAlreadyExistException;
 import com.mindbridge.core.security.auth.dto.AuthRequest;
 import com.mindbridge.core.security.auth.dto.AuthResponse;
@@ -31,6 +32,17 @@ public class AuthService {
 		this.passwordEncoder = passwordEncoder;
 		this.jwtProvider = jwtProvider;
 		this.userReposiroty = userReposiroty;
+	}
+
+	public UserDto getUserByToken(RefreshTokenRequest token) {
+		String userEmail = jwtProvider.getLoginFromToken(token.getRefreshToken());
+
+		if (!userEmail.isEmpty()) {
+			return userService.loadUserDtoByEmail(userEmail);
+		}
+		else {
+			throw new UsernameNotFoundException("Сouldn`t find a user with such refresh token.");
+		}
 	}
 
 	public AuthResponse performLogin(AuthRequest authRequest) {

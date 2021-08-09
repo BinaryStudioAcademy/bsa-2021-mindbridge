@@ -10,6 +10,16 @@ export const authUser = async ({ endpoint, payload }) => {
   return response.json();
 };
 
+export const getCurrentUser = async ({ payload }) => {
+  const response = await callApi({
+    endpoint: '/auth/getUser',
+    type: 'POST',
+    requestData: { refreshToken: payload }
+  });
+
+  return response.json();
+};
+
 export const setToken = (token: string, refresh: string) => {
   localStorage.setItem(ACCESS_TOKEN, token);
   localStorage.setItem(REFRESH_TOKEN, refresh);
