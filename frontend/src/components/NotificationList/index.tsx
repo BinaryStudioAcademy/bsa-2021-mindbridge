@@ -10,7 +10,7 @@ export interface INotificationListProps {
 
 const NotificationList: React.FC<INotificationListProps> = ({ list }) => (
   <ul className={styles.list}>
-    {list ? (
+    {list && list?.length !== 0 ? (
       list.map(item => (
         <NotificationListItem
           sourceId={item.sourceId}

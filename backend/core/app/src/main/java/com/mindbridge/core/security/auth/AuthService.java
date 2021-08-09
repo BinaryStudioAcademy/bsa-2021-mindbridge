@@ -49,7 +49,7 @@ public class AuthService {
 		}
 
 		var tokens = AuthResponse.of(jwtProvider.generateToken(userDetails, "30min"),
-			jwtProvider.generateToken(userDetails, "30days"));
+				jwtProvider.generateToken(userDetails, "30days"));
 		var userDto = userService.loadUserDtoByEmail(authRequest.getEmail());
 		return new TokensWithUser(tokens, userDto);
 	}

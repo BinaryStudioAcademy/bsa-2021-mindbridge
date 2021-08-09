@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TokensWithUser {
+
 	AuthResponse tokens;
+
 	UserDto user;
+
 }
