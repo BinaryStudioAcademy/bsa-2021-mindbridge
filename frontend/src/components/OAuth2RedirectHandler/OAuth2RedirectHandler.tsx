@@ -36,7 +36,7 @@ const OAuth2Handler: FunctionComponent<IOAuthProps> = ({
   return (
     isTokenExtracted()
       ? (
-        <Redirect to="/create/post" />
+        <Redirect to="/" />
       )
       : (
         <Redirect to={{

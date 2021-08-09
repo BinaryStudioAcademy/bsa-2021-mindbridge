@@ -3,7 +3,7 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from '@screens/Login/constants/auth_const
 
 export const authUser = async ({ endpoint, payload }) => {
   const response = await callApi({
-    endpoint: `/auth/${endpoint}`,
+    endpoint: `/api/auth/${endpoint}`,
     type: 'POST',
     requestData: payload
   });

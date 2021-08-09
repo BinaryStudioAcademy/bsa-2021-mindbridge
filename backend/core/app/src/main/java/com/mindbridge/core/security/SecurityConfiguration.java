@@ -77,10 +77,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
 		config.addAllowedOrigin("http://localhost:3000");
-		config.addAllowedOrigin("http://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com/");
-		config.addAllowedOrigin("https://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com/");
-		config.addAllowedOrigin("http://mindbridge.westeurope.azurecontainer.io/");
-		config.addAllowedOrigin("https://mindbridge.westeurope.azurecontainer.io/");
+		config.addAllowedOrigin("http://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com");
+		config.addAllowedOrigin("https://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com");
+		config.addAllowedOrigin("http://mindbridge.westeurope.azurecontainer.io");
+		config.addAllowedOrigin("https://mindbridge.westeurope.azurecontainer.io");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
 		source.registerCorsConfiguration("/**", config);
