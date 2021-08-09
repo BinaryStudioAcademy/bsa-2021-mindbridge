@@ -36,7 +36,7 @@ const Header: React.FC<IHeaderProps> = (
 
   useEffect(() => {
     fetchNotificationCount(currentUser.id);
-  },[currentUser]);
+  }, [currentUser]);
   const [isListOpen, setIsListOpen] = useState(false);
 
   const toggleNotificationList = () => {
