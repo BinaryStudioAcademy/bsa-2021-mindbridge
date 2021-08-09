@@ -6,10 +6,9 @@ import { REFRESH_TOKEN } from '@screens/Login/constants/auth_constants';
 export function* login(request: any) {
   try {
     const response = yield call(authUser, { endpoint: 'login', payload: request.payload });
-    setToken(response.accessToken, response.refreshToken);
-    const currentUser = yield call(getCurrentUser, { payload: response.refreshToken });
+    setToken(response.tokens.accessToken, response.tokens.refreshToken);
 
-    yield put(loginRoutine.success(currentUser));
+    yield put(loginRoutine.success(response.user));
   } catch (ex) {
     yield put(loginRoutine.failure(ex.message));
   }
@@ -22,10 +21,9 @@ function* watchLogin() {
 export function* register(request: any) {
   try {
     const response = yield call(authUser, { endpoint: 'register', payload: request.payload });
-    setToken(response.accessToken, response.accessToken);
-    const currentUser = yield call(getCurrentUser, { payload: response.refreshToken });
+    setToken(response.tokens.accessToken, response.tokens.refreshToken);
 
-    yield put(registerRoutine.success(currentUser));
+    yield put(registerRoutine.success(response.user));
   } catch (ex) {
     yield put(registerRoutine.failure(ex.message));
   }
