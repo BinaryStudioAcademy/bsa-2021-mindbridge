@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
-import { IBindingAction } from '@models/Callbacks';
+import { IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
 import { fetchDataRoutine } from '@screens/ViewPost/routines';
@@ -10,6 +10,7 @@ import SuggestChangesCard from '@screens/ViewPost/components/SuggestChangesCard'
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import { IData } from '@screens/ViewPost/models/IData';
+import { useParams } from "react-router-dom";
 
 export interface IViewPostProps extends IState, IActions {
 }
@@ -19,20 +20,22 @@ interface IState {
 }
 
 interface IActions {
-  fetchData: IBindingAction;
+  fetchData: IBindingCallback1<string>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
   { data, fetchData }
 ) => {
+  let { id } = useParams();
+
   useEffect(() => {
-    fetchData();
+    fetchData(id);
   }, [0]);
 
   return (
     <div className={styles.viewPost}>
       <div className={styles.main}>
-        <ViewPostCard post={data.posts} />
+        <ViewPostCard post={data.post} />
       </div>
       <div className={styles.sidebar}>
         <div className={styles.logInSideBar}>

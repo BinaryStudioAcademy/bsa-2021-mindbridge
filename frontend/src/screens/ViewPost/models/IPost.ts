@@ -1,11 +1,16 @@
-import { ITag } from '@screens/ViewPost/models/ITag';
+import { ITag } from "./ITag";
 
 export interface IPost {
   id: string;
-  createdAt: string;
   title: string;
   text: string;
   authorName: string;
-  tags: ITag[];
+  commentsCount: number;
   rating: number;
+  tags: ITag [];
+  createdAt: string;
+  postRating: number;
+  avatar: string;
+  coverImage: string;
+  markdown: boolean;
 }

@@ -1,5 +1,6 @@
-import { IPost } from '@screens/ViewPost/models/IPost';
+import { IPost } from './IPost';
+
 
 export interface IData {
-  posts: IPost;
+  post: IPost;
 }
