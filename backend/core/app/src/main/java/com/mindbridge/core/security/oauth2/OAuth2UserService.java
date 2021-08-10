@@ -46,10 +46,10 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 	}
 
 	private void updateUser(User user, OAuth2UserInfo oAuth2UserInfo) {
-		if (user.getNickname().isEmpty()) {
+		if (user.getNickname() == null) {
 			user.setNickname(oAuth2UserInfo.getNickname());
 		}
-		if (user.getAvatar().isEmpty()) {
+		if (user.getAvatar() == null) {
 			user.setAvatar(oAuth2UserInfo.getAvatarUrl());
 		}
 	}
