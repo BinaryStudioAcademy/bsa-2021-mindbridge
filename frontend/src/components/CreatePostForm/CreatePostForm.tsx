@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import CoverImageSvg from './svg/coverImageSvg';
 import AddImageSvg from './svg/addImageSvg';
 import { IForm, IModes } from '@root/screens/CreatePost/models/IData';
+import { useDropzone } from 'react-dropzone';
 import TagsDropdown from '../TagsDropdown';
 
 interface ICreatePostFormProps {
@@ -13,6 +14,9 @@ interface ICreatePostFormProps {
 }
 
 const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendImage }) => {
+  const { getRootProps } = useDropzone({
+    onDrop: files => sendImage({ file: files[0], inContent: true })
+  });
   const handelCoverFile = (event: any) => {
     if (!event.target.files[0]) {
       setForm({
@@ -70,10 +74,23 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
       </label>
       <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
       <div className={styles.content_input_container}>
-        <label className={styles.file_input_round} onChange={handelImageInContent} htmlFor="image-input-2">
-          <AddImageSvg />
+
+        {/* <label className={styles.file_input_round} onChange={handelImageInContent} htmlFor="image-input-2">*/}
+        {/*  <AddImageSvg />*/}
+        {/*  <input id="image-input-2" className={styles.invisible} type="file" />*/}
+        {/* </label>*/}
+        <div {...getRootProps({ className: 'dropzone' })} className={styles.addImageArea}>
+          <div className={styles.addImageSvg}>
+            <AddImageSvg />
+          </div>
+          <p>
+            Drag and drop an image here or
+            {' '}
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+            <label onChange={handelImageInContent} htmlFor="image-input-2">choose image</label>
+          </p>
           <input id="image-input-2" className={styles.invisible} type="file" />
-        </label>
+        </div>
         <textarea
           className={styles.content_input}
           value={form.content}
