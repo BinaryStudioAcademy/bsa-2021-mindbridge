@@ -4,18 +4,19 @@ import styles from './styles.module.scss';
 import PostCard from '@components/PostCard';
 import { IBindingAction } from '@models/Callbacks';
 import { RootState } from '@root/store';
-import { extractData } from '@screens/FeedPage/reducers';
+import { extractData, extractFetchDataLoading } from '@screens/FeedPage/reducers';
 import { fetchDataRoutine } from '@screens/FeedPage/routines';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
-import Header from '@components/Header';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
+import LoaderWrapper from '@components/LoaderWrapper';
 
 export interface IFeedPageProps extends IState, IActions {
 }
 
 interface IState {
   data: IPostList;
+  dataLoading: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -24,28 +25,34 @@ interface IActions {
 }
 
 const FeedPage: React.FC<IFeedPageProps> = (
-  { data, fetchData }
+  { data, fetchData, dataLoading }
 ) => {
   useEffect(() => {
     fetchData();
   }, []);
 
+  if (dataLoading === true) {
+    return (
+      <LoaderWrapper loading={dataLoading} />
+    );
+  }
+
   return (
     <div className={styles.feedPage}>
       <div className={styles.main}>
-        {data.posts.map(post => (
-          post.id.length !== 0 ? (
+        {data.posts[0].id ? (
+          data.posts.map(post => (
             <PostCard
               key={post.id}
               post={post}
             />
-          ) : (
-            <p>
-              🔍 Seems like there are no posts...
-              Please try another query
-            </p>
-          )
-        ))}
+          ))
+        ) : (
+          <p>
+            🔍 Seems like there are no posts...
+            Please try another query
+          </p>
+        )}
       </div>
       <div className={styles.sidebar}>
         <div className={styles.logInSideBar}>
@@ -60,7 +67,8 @@ const FeedPage: React.FC<IFeedPageProps> = (
 };
 
 const mapStateToProps: (state: RootState) => IState = state => ({
-  data: extractData(state)
+  data: extractData(state),
+  dataLoading: extractFetchDataLoading(state)
 });
 
 const mapDispatchToProps: IActions = {

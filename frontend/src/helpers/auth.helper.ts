@@ -65,7 +65,7 @@ const refreshToken = async () => {
     headers.set('Refresh-token', token);
   }
 
-  const response = await fetch('/auth/refresh', { headers, method: 'POST' });
+  const response = await fetch('/api/auth/refresh', { headers, method: 'POST' });
   return response.json();
 };
 
