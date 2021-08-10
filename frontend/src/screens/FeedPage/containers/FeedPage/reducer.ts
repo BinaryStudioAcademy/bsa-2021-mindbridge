@@ -26,7 +26,7 @@ const initialState: IFeedPageReducerState = {
     coverImage: '',
     markdown: false
   }],
-  
+
   hasMore: false,
   loadMore: false
 };
