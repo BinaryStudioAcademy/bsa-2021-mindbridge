@@ -7,14 +7,15 @@
 
 .coverImage{
     object-fit: cover;
-    width: 43rem;
+    width: 100%;
     height: 13.5rem;
     border-radius: 10px;
     background: #C4C4C4;
 }
 
 .btnWrapper, .title, .content{
-    padding: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 .title {
