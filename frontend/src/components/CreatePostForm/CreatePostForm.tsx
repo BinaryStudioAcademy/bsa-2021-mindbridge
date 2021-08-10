@@ -75,10 +75,10 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
       <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
       <div className={styles.content_input_container}>
 
-         {/*<label className={styles.file_input_round} onChange={handelImageInContent} htmlFor="image-input-2">*/}
-         {/* <AddImageSvg />*/}
-         {/* <input id="image-input-2" className={styles.invisible} type="file" />*/}
-         {/*</label>*/}
+        {/* <label className={styles.file_input_round} onChange={handelImageInContent} htmlFor="image-input-2">*/}
+        {/* <AddImageSvg />*/}
+        {/* <input id="image-input-2" className={styles.invisible} type="file" />*/}
+        {/* </label>*/}
         <div {...getRootProps({ className: 'dropzone' })} className={styles.addImageArea}>
           <div className={styles.addImageSvg}>
             <AddImageSvg />

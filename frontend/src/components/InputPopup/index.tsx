@@ -32,9 +32,9 @@ const InputPopup: React.FC<IInputPopupProps> = (
       trigger={(
         <Form.Input
           id={id}
-          type={props.type}
-          label={props.label}
-          placeholder={props.placeholder}
+          // type={props.type}
+          // label={props.label}
+          // placeholder={props.placeholder}
           required
           onChange={e => handleSetValue(e.target.value)}
           error={!isValueValid}
