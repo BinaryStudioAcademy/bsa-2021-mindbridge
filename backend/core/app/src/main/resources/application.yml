@@ -13,23 +13,23 @@ spring:
             client:
                 registration:
                     google:
-                        client-id: 531677136441-2ihh1vter6jrb0fdla7qkf9mjq87tfqm.apps.googleusercontent.com
-                        client-secret: ejtZmFhG9eiwL2lJ3EIhVbxA
-                        redirectUri: "{baseScheme}://localhost{basePort}/auth/oauth2/code/{registrationId}"
+                        client-id: ${GOOGLE_CLIENT_ID}
+                        client-secret: ${GOOGLE_CLIENT_SECRET}
+                        redirectUri: ${OAUTH2_REDIRECT_URI}
                         scope:
                             - email
                             - profile
                     github:
-                        clientId: a0edbdbedc83304611be
-                        clientSecret: cdd0d0ac844becf45c2f04d2b0e91fa23686af93
-                        redirectUri: "{baseScheme}://localhost{basePort}/auth/oauth2/code/{registrationId}"
+                        clientId: ${FACEBOOK_CLIENT_ID}
+                        clientSecret: ${FACEBOOK_CLIENT_SECRET}
+                        redirectUri: ${OAUTH2_REDIRECT_URI}
                         scope:
                             - email
                             - public_profile
                     facebook:
-                        clientId: 554266855704800
-                        clientSecret: 9c678ada2f6ab4c17c3c3be63082eaea
-                        redirectUri: "https://localhost{basePort}/auth/oauth2/code/{registrationId}"
+                        clientId: ${GITHUB_CLIENT_ID}
+                        clientSecret: ${GITHUB_CLIENT_SECRET}
+                        redirectUri: ${OAUTH2_REDIRECT_URI}
                         scope:
                             - email
                             - public_profile
