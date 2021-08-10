@@ -24,7 +24,7 @@ jobs:
           node-version: '13.x'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Lint with Yarn
         run: npm run lint-nofix
