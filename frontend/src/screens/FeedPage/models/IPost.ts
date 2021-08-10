@@ -12,5 +12,7 @@ export interface IPost {
   createdAt: string;
   postRating: number;
   avatar: string;
+  coverImage: string;
+  markdown: boolean;
 }
 

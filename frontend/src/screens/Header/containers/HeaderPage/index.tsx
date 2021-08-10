@@ -11,13 +11,12 @@ import { IBindingAction } from '@models/Callbacks';
 import { INotification } from '@screens/Header/models/INotification';
 import { fetchNotificationCountRoutine, fetchNotificationListRoutine } from '@screens/Header/routines';
 import { extractData } from '@screens/Header/reducers';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useHistory } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
 import LogOutSvg from '@screens/Header/containers/HeaderPage/svg/logOutSvg';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'screens/Login/constants/auth_constants';
 import { history } from '@helpers/history.helper';
-import { IDataAuth } from '@screens/Login/models/IDataAuth';
 
 export interface IHeaderProps extends IState, IActions {
   isAuthorized: boolean;
@@ -53,6 +52,11 @@ const Header: React.FC<IHeaderProps> = (
     history.go();
   };
 
+  const handleCreatePostButton = () => {
+    history.push('/create/post');
+    history.go();
+  };
+
   return (
     <div className={styles.header_container}>
       <div className={styles.left}>
@@ -83,9 +87,11 @@ const Header: React.FC<IHeaderProps> = (
             <SearchSvg />
           </button>
         </div>
-        <Link to="/create/post">
-          <DarkButton className={styles.create_post_button} content="Create post" />
-        </Link>
+        <DarkButton
+          className={styles.create_post_button}
+          onClick={() => handleCreatePostButton()}
+          content="Create post"
+        />
         {isAuthorized
           ? (
             <button className={styles.header_notification} type="button" onClick={handleOnClickSignOut}>
