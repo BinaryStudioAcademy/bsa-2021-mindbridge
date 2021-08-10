@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import PostCard from '@components/PostCard';
 import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { RootState } from '@root/store';
 import { extractData, extractFetchDataLoading } from '@screens/FeedPage/reducers';
 import { addMorePostsRoutine, fetchDataRoutine } from '@screens/FeedPage/routines';
@@ -19,21 +19,21 @@ interface IState {
   data: IPostList;
   dataLoading: boolean;
   hasMore: boolean;
+  loadMore: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface IActions {
   fetchData: IBindingCallback1<Record<string, number>>;
-  addMorePosts: IBindingAction;
+  setLoadMorePosts: IBindingAction;
 }
 
 const params = {
   from: 0,
-  count: 5
+  count: 10
 };
 
 const FeedPage: React.FC<IFeedPageProps> = (
-  { data, fetchData, dataLoading, hasMore, addMorePosts }
+  { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore }
 ) => {
   useEffect(() => {
     fetchData(params);
@@ -43,26 +43,28 @@ const FeedPage: React.FC<IFeedPageProps> = (
   };
 
   const getMorePosts = () => {
-    addMorePosts();
+    setLoadMorePosts();
     const { from, count } = params;
     params.from = from + count;
     handleLoadMorePosts(params);
   };
 
-  // if (dataLoading === true) {
-  //   return (
-  //     <LoaderWrapper loading={dataLoading} />
-  //   );
-  // }
+  if (dataLoading === true && loadMore === false) {
+    return (
+      <LoaderWrapper loading={dataLoading} />
+    );
+  }
 
   return (
     <div className={styles.feedPage}>
       <div className={styles.main}>
         <InfiniteScroll
-          pageStart={0}
-          loadMore={getMorePosts}
-          // loader={<LoaderWrapper loading={dataLoading} key={0} />}
+          style={{ height: '100%', overflow: 'none' }}
+          dataLength={data.posts.length}
+          next={getMorePosts}
           hasMore={hasMore}
+          loader={' '}
+          scrollThreshold={0.9}
         >
           {data.posts ? (
             data.posts.map(post => (
@@ -100,7 +102,7 @@ const mapStateToProps: (state: RootState) => IState = state => ({
 
 const mapDispatchToProps: IActions = {
   fetchData: fetchDataRoutine,
-  addMorePosts: addMorePostsRoutine
+  setLoadMorePosts: addMorePostsRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);
