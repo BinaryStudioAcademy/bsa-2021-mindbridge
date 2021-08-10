@@ -5,6 +5,32 @@
 }
 
 .coverImage{
-    width: 20rem;
-    height: 10rem;
+    object-fit: cover;
+    width: 43rem;
+    height: 13.5rem;
+    border-radius: 10px;
+    background: #C4C4C4;
+}
+
+.btnWrapper, .title, .content{
+    padding: 1rem;
+}
+
+.title {
+    font-family: lato;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: rgba(53, 53, 53, 1) !important;
+}
+
+.content{
+    font-family: Lato, serif !important;
+    font-size: 0.85rem !important;
+    color: rgba(53, 53, 53, 1) !important;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    *{
+        font-family: Lato, serif !important;
+        text-overflow: ellipsis;
+    }
 }
