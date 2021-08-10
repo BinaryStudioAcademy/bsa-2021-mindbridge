@@ -14,8 +14,13 @@ import { extractData } from '@screens/Header/reducers';
 import { NavLink, Link } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
+import LogOutSvg from '@screens/Header/containers/HeaderPage/svg/logOutSvg';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from 'screens/Login/constants/auth_constants';
+import { history } from '@helpers/history.helper';
+import { IDataAuth } from '@screens/Login/models/IDataAuth';
 
 export interface IHeaderProps extends IState, IActions {
+  isAuthorized: boolean;
 }
 
 interface IState {
@@ -29,7 +34,7 @@ interface IActions {
 }
 
 const Header: React.FC<IHeaderProps> = (
-  { notificationCount, notificationList, fetchNotificationCount, fetchNotificationList }
+  { isAuthorized, notificationCount, notificationList, fetchNotificationCount, fetchNotificationList }
 ) => {
   useEffect(() => {
     fetchNotificationCount();
@@ -40,6 +45,14 @@ const Header: React.FC<IHeaderProps> = (
     fetchNotificationList();
     setIsListOpen(!isListOpen);
   };
+
+  const handleOnClickSignOut = () => {
+    localStorage.removeItem(ACCESS_TOKEN);
+    localStorage.removeItem(REFRESH_TOKEN);
+    history.push('/');
+    history.go();
+  };
+
   return (
     <div className={styles.header_container}>
       <div className={styles.left}>
@@ -73,15 +86,26 @@ const Header: React.FC<IHeaderProps> = (
         <Link to="/create/post">
           <DarkButton className={styles.create_post_button} content="Create post" />
         </Link>
+        {isAuthorized
+          ? (
+            <button className={styles.header_notification} type="button" onClick={handleOnClickSignOut}>
+              <LogOutSvg />
+            </button>
+          )
+          : null}
       </div>
     </div>
   );
 };
 
-const mapStateToProps: (state) => IState = state => ({
-  notificationCount: extractData(state).notificationCount,
-  notificationList: extractData(state).notificationList
-});
+const mapStateToProps = (state: any) => {
+  const { auth } = state;
+  return {
+    isAuthorized: auth.auth.isAuthorized,
+    notificationCount: extractData(state).notificationCount,
+    notificationList: extractData(state).notificationList
+  };
+};
 
 const mapDispatchToProps: IActions = {
   fetchNotificationCount: fetchNotificationCountRoutine,
