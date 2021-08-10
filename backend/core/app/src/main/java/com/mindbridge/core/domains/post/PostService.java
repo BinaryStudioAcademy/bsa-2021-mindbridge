@@ -62,8 +62,8 @@ public class PostService {
 	public List<PostsListDetailsDto> getAllPosts(Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 		return postRepository.getAllPosts(pageable).stream()
-			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
-			.collect(Collectors.toList());
+				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+				.collect(Collectors.toList());
 	}
 
 	public void savePost(CreatePostDto post) {
@@ -72,4 +72,5 @@ public class PostService {
 
 		postRepository.save(CreatePostDto.toPost(post, user, tags));
 	}
+
 }

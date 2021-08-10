@@ -67,7 +67,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
           loader={' '}
           scrollThreshold={0.9}
         >
-          {data.posts ? (
+          {data.posts[0].id ? (
             data.posts.map(post => (
               <PostCard
                 key={post.id}

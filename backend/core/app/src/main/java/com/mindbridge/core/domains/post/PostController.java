@@ -41,7 +41,8 @@ public class PostController {
 	}
 
 	@GetMapping("/all")
-	public List<PostsListDetailsDto> getAllPosts(@RequestParam(defaultValue = "0") Integer from, @RequestParam(defaultValue = "10") Integer count) {
+	public List<PostsListDetailsDto> getAllPosts(@RequestParam(defaultValue = "0") Integer from,
+			@RequestParam(defaultValue = "10") Integer count) {
 		return postService.getAllPosts(from, count);
 	}
 
