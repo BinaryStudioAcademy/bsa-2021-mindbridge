@@ -14,6 +14,7 @@ import { Stomp } from '@stomp/stompjs';
 import { toastr } from 'react-redux-toastr';
 import { history } from '@helpers/history.helper';
 import Header from '@screens/Header/containers/HeaderPage';
+import PrivateRoute from '@components/PrivateRoute';
 
 export interface IRoutingProps {
   isLoading: boolean;
