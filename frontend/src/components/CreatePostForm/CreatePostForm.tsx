@@ -75,11 +75,6 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
       </label>
       <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
       <div className={styles.content_input_container}>
-
-        {/* <label className={styles.file_input_round} onChange={handelImageInContent} htmlFor="image-input-2">*/}
-        {/* <AddImageSvg />*/}
-        {/* <input id="image-input-2" className={styles.invisible} type="file" />*/}
-        {/* </label>*/}
         <div {...getRootProps({ className: 'dropzone' })} className={styles.addImageArea}>
           <div className={styles.addImageSvg}>
             <AddImageSvg />
@@ -87,8 +82,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
           <p>
             Drag and drop an image here or
             {' '}
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label>choose image</label>
+            <p className={styles.uploadRef}>choose image</p>
           </p>
           <input {...getInputProps()} id="image-input-2" className={styles.invisible} type="file" />
         </div>
