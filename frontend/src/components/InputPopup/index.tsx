@@ -1,7 +1,5 @@
 import React from 'react';
 import { Form, FormInputProps, Popup } from 'semantic-ui-react';
-import styles from './styles.module.scss';
-import PasswordInput from '@screens/Login/components/PasswordInput';
 
 export interface IInputPopupProps extends FormInputProps {
   isValueValid: boolean;
@@ -16,6 +14,9 @@ const InputPopup: React.FC<IInputPopupProps> = (
     validateValue,
     errorMessage,
     id,
+    label,
+    type,
+    placeholder,
     ...props
   }
 ) => {
@@ -32,12 +33,13 @@ const InputPopup: React.FC<IInputPopupProps> = (
       trigger={(
         <Form.Input
           id={id}
-          // type={props.type}
-          // label={props.label}
-          // placeholder={props.placeholder}
+          type={type}
+          label={label}
+          placeholder={placeholder}
           required
           onChange={e => handleSetValue(e.target.value)}
           error={!isValueValid}
+          {...props}
         />
       )}
     />

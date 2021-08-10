@@ -11,9 +11,10 @@ interface ICreatePostFormProps {
   modes: IModes;
   setForm: any;
   sendImage: any;
+  allTags: [];
 }
 
-const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendImage }) => {
+const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendImage, allTags }) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: files => sendImage({ file: files[0], inContent: true })
   });
@@ -98,7 +99,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
           placeholder="Write your post content"
         />
       </div>
-      <TagsDropdown onChange={handleTags} data={form.tags} />
+      <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
     </form>
   );
 };
