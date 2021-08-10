@@ -8,20 +8,19 @@
   position: center;
 }
 
-.image {
-  padding: 8em;
-}
-
-.error {
-  font-family: Libre Baskerville, serif;
-  font-size: 10em;
-}
-
 .text {
-  font-family: Libre Baskerville, serif;
+  font-family: Lato, sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 25px;
+  padding: 2em;
+  font-size: 24px;
   line-height: 29px;
-  color: #353535;
+  color: #000000;
+  position: center;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  position: center;
 }
