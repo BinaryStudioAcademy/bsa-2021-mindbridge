@@ -1,18 +1,15 @@
 package com.mindbridge.core.domains.post;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.post.dto.CreatePostDto;
 import com.mindbridge.core.domains.post.dto.PostDetailsDto;
 import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
-import com.mindbridge.data.domains.comment.CommentRepository;
 import com.mindbridge.data.domains.post.PostRepository;
-import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
 import java.util.HashSet;
-import java.util.Set;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -59,11 +56,11 @@ public class PostService {
 		return post;
 	}
 
-	public void savePost(CreatePostDto post) {
-		var user = userRepository.getOne(post.getAuthor());
-		var tags = new HashSet<>(tagRepository.findAllById(post.getTags()));
-
-		postRepository.save(CreatePostDto.toPost(post, user, tags));
+	public void savePost(CreatePostDto createPostDto) {
+		var post = PostMapper.MAPPER.createPostDtoToPost(createPostDto);
+		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
+		post.setTags(tags);
+		postRepository.save(post);
 	}
 
 	public List<PostsListDetailsDto> getAllPosts() {
