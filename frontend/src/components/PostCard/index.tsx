@@ -12,7 +12,7 @@ import DisLikeSvg from '@components/FeedSvgComponents/disLikeSvg';
 import styles from './styles.module.scss';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import marked from 'marked';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 interface IPostCardProps {
   post: IPost;
@@ -44,7 +44,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
               src={post.coverImage}
             />
           )}
-        <Link to={ '/post/' + post.id } className={styles.postName}>{post.title}</Link>
+        <Link to={`/post/${post.id}`} className={styles.postName}>{post.title}</Link>
         <p
           className={styles.post_content}
           dangerouslySetInnerHTML={
