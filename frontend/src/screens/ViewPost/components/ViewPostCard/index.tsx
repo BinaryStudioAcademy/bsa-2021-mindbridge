@@ -49,7 +49,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
           ))}
         </div>
         <div className={styles.cardHeader}>
-          <PostInformation author="Nolan Saris" date={post.createdAt} />
+          <PostInformation firstName={post.author.firstName} lastName={post.author.lastName} date={post.createdAt} />
         </div>
       </Feed>
       <Container text>
