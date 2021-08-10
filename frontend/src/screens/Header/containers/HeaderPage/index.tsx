@@ -9,7 +9,7 @@ import { IBindingCallback1 } from '@models/Callbacks';
 import { INotification } from '@screens/Header/models/INotification';
 import { fetchNotificationCountRoutine, fetchNotificationListRoutine } from '@screens/Header/routines';
 import { extractData } from '@screens/Header/reducers';
-import { NavLink, Link, useHistory } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
 
