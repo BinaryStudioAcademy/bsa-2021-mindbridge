@@ -1,7 +1,6 @@
 import { fetchTagsRoutine, resetLoadingImageRoutine, sendImageRoutine, fetchDataRoutine } from '../../routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { IData } from '@screens/Default/models/IData';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 
 export interface ICreatePostReducerState {

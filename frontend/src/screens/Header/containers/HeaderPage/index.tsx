@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 import Logo from '@components/Logo/Logo';
-import BlueButton from '@components/buttons/Blue_button';
-import ColorlessButton from '@components/buttons/ColorlessButton';
 import NotificationCount from '@components/NotificationCount';
 import DarkButton from '@components/buttons/DarcButton';
 import BellSvg from '@screens/Header/containers/HeaderPage/svg/bellSvg';
@@ -11,7 +9,7 @@ import { IBindingAction } from '@models/Callbacks';
 import { INotification } from '@screens/Header/models/INotification';
 import { fetchNotificationCountRoutine, fetchNotificationListRoutine } from '@screens/Header/routines';
 import { extractData } from '@screens/Header/reducers';
-import { NavLink, Link, useHistory } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
 
