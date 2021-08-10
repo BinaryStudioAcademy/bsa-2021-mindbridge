@@ -1,0 +1,18 @@
+.btnFollow {
+  object-fit: cover;
+  width: 4rem;
+  height: 2rem;
+  align-items: flex-start;
+  position: relative;
+  margin: 0.45rem;
+  background: #14253F;
+  border: 1px solid #14253F;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+.btnFollow p {
+  color: white;
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
