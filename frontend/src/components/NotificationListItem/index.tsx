@@ -1,5 +1,4 @@
 import React from 'react';
-import { INotification } from '@screens/Header/models/INotification';
 import styles from './style.module.scss';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +9,7 @@ export interface INotificationListItemProps {
   createdAt: string;
 }
 
-const NotificationListItem: React.FC<INotificationListItemProps> = ({ sourceId, type, createdAt, text }) => (
+const NotificationListItem: React.FC<INotificationListItemProps> = ({ sourceId, type, text }) => (
   <li className={styles.listItem}>
     <span>{type}</span>
     <span>{text}</span>

@@ -3,7 +3,6 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import LoaderWrapper from 'components/LoaderWrapper';
 import PublicRoute from 'components/PublicRoute';
 import Default from 'screens/Default/containers/DefaultPage';
-import PrivateRoute from '@root/components/PrivateRoute';
 import CreatePostPage from '@root/screens/CreatePost/containers/CreatePostPage';
 import FeedPage from '@screens/FeedPage/containers/FeedPage';
 import ViewPost from '@screens/ViewPost/containers/ViewPostPage';
