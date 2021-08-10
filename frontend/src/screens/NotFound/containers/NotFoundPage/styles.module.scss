@@ -1,0 +1,27 @@
+.main_container {
+  color: #353535;
+  display: flex;
+  padding-top: 20em;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  position: center;
+}
+
+.image {
+  padding: 8em;
+}
+
+.error {
+  font-family: Libre Baskerville, serif;
+  font-size: 10em;
+}
+
+.text {
+  font-family: Libre Baskerville, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 25px;
+  line-height: 29px;
+  color: #353535;
+}
