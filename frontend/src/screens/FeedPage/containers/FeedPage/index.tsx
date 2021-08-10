@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import PostCard from '@components/PostCard';
@@ -35,25 +35,18 @@ const params = {
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, addMorePosts }
 ) => {
-  const dispatch = useDispatch();
   useEffect(() => {
     fetchData(params);
   }, []);
-
   const handleLoadMorePosts = filtersPayload => {
-    // addMorePosts();
-    // const { from, count } = params;
-    // params.from = from + count;
-    // fetchData(params);
-    dispatch(fetchData(filtersPayload));
+    fetchData(filtersPayload);
   };
 
   const getMorePosts = () => {
     addMorePosts();
     const { from, count } = params;
     params.from = from + count;
-    // handleLoadMorePosts(params);
-    fetchData(params);
+    handleLoadMorePosts(params);
   };
 
   // if (dataLoading === true) {
@@ -68,7 +61,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
         <InfiniteScroll
           pageStart={0}
           loadMore={getMorePosts}
-          loader={<LoaderWrapper loading={dataLoading} key={0} />}
+          // loader={<LoaderWrapper loading={dataLoading} key={0} />}
           hasMore={hasMore}
         >
           {data.posts ? (

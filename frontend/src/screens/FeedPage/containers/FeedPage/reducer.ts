@@ -2,6 +2,7 @@ import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { addMorePostsRoutine, fetchDataRoutine } from '@screens/FeedPage/routines';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
+import { isEmptyArray } from 'formik';
 
 export interface IFeedPageReducerState {
   posts: [IPost];
@@ -37,8 +38,7 @@ export const feedPageReducer = createReducer(initialState, {
         state.posts.push(payload.posts[i]);
       }
     }
-    console.log(payload);
-    state.hasMore = Boolean(payload.posts.length);
+    state.hasMore = !isEmptyArray(payload.posts);
   },
   [addMorePostsRoutine.TRIGGER]: state => {
     state.loadMore = true;
