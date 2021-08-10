@@ -5,6 +5,33 @@
 }
 
 .coverImage{
-    width: 20rem;
-    height: 10rem;
+    object-fit: cover;
+    width: 43rem;
+    height: 13.5rem;
+    border-radius: 10px;
+    background: #C4C4C4;
+}
+
+.btnWrapper, .title, .content{
+    padding: 1rem;
+}
+
+.title {
+    font-family: lato;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.content{
+    font-family: Lato, serif !important;
+    font-size: 0.85rem !important;
+    color: rgba(32, 10, 10, 0.5) !important;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    *{
+        font-family: Lato, serif !important;
+        font-size: 0.85rem !important;
+        color: rgba(32, 10, 10, 0.5) !important;
+        text-overflow: ellipsis;
+    }
 }
