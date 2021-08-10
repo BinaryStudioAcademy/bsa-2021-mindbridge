@@ -24,10 +24,10 @@ jobs:
           node-version: '13.x'
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: npm ci
 
       - name: Lint with Yarn
-        run: yarn lint-nofix
+        run: npm run lint-nofix
 
   linter_backend_core:
     runs-on: ubuntu-latest
