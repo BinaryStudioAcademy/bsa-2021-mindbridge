@@ -38,6 +38,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
   useEffect(() => {
     fetchData(params);
   }, []);
+
   const handleLoadMorePosts = filtersPayload => {
     fetchData(filtersPayload);
   };
@@ -59,7 +60,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
     <div className={styles.feedPage}>
       <div className={styles.main}>
         <InfiniteScroll
-          style={{ height: '100%', overflow: 'none' }}
+          style={{ overflow: 'none' }}
           dataLength={data.posts.length}
           next={getMorePosts}
           hasMore={hasMore}

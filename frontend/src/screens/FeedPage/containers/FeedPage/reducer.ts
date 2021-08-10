@@ -36,14 +36,11 @@ export const feedPageReducer = createReducer(initialState, {
     if (!state.loadMore) {
       state.posts = payload.posts;
     } else {
-      for (let i = 0; i < payload.posts.length; i += 1) {
-        state.posts.push(payload.posts[i]);
-      }
+      payload.posts.map(post => state.posts.push(post));
     }
     state.hasMore = !isEmptyArray(payload.posts);
   },
   [addMorePostsRoutine.TRIGGER]: state => {
     state.loadMore = true;
   }
-
 });

@@ -14,7 +14,7 @@ interface ICreatePostFormProps {
 }
 
 const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendImage }) => {
-  const { getRootProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop: files => sendImage({ file: files[0], inContent: true })
   });
   const handelCoverFile = (event: any) => {
@@ -75,10 +75,10 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
       <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
       <div className={styles.content_input_container}>
 
-        {/* <label className={styles.file_input_round} onChange={handelImageInContent} htmlFor="image-input-2">*/}
-        {/*  <AddImageSvg />*/}
-        {/*  <input id="image-input-2" className={styles.invisible} type="file" />*/}
-        {/* </label>*/}
+         {/*<label className={styles.file_input_round} onChange={handelImageInContent} htmlFor="image-input-2">*/}
+         {/* <AddImageSvg />*/}
+         {/* <input id="image-input-2" className={styles.invisible} type="file" />*/}
+         {/*</label>*/}
         <div {...getRootProps({ className: 'dropzone' })} className={styles.addImageArea}>
           <div className={styles.addImageSvg}>
             <AddImageSvg />
@@ -87,9 +87,9 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
             Drag and drop an image here or
             {' '}
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label onChange={handelImageInContent} htmlFor="image-input-2">choose image</label>
+            <label>choose image</label>
           </p>
-          <input id="image-input-2" className={styles.invisible} type="file" />
+          <input {...getInputProps()} id="image-input-2" className={styles.invisible} type="file" />
         </div>
         <textarea
           className={styles.content_input}
