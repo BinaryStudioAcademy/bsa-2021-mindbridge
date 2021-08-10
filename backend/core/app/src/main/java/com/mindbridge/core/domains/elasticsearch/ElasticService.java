@@ -89,7 +89,7 @@ public class ElasticService {
 
 		List<ElasticEntity> result = entities.getSearchHits().stream().map(SearchHit::getContent).distinct()
 				.collect(Collectors.toList());
-		return result.size() > 10 ? result.subList(0, 10) : result;
+		return result;
 	}
 
 	private ElasticEntity convertToEntity(BaseEntity data) {
@@ -109,7 +109,6 @@ public class ElasticService {
 	}
 
 	public void add() {
-		log.info("NEW!!!!");
 		List<Post> posts = postRepository.findAll();
 		List<ElasticEntity> entities = elasticService.findAll();
 		List<ElasticEntity> esPost = new ArrayList<>(entities);
@@ -117,7 +116,7 @@ public class ElasticService {
 	}
 
 	private void sync(List<? extends BaseEntity> dbEntities, List<ElasticEntity> esEntities) {
-		log.info("Syncing ");
+		log.info("Elasticsearch syncing...");
 		for (BaseEntity dbEntity : dbEntities) {
 			boolean savedBefore = false;
 			for (ElasticEntity esEntity : esEntities) {

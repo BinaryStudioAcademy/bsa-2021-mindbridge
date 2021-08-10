@@ -18,8 +18,8 @@ public class ElasticController {
 		return service.findAll();
 	}
 
-	@GetMapping("/{query}")
-	public List<ElasticEntity> search(@PathVariable("query") String query) {
+	@GetMapping("/")
+	public List<ElasticEntity> search(@RequestParam("query") String query) {
 		return service.search(query);
 	}
 
@@ -30,18 +30,18 @@ public class ElasticController {
 	}
 
 	@GetMapping("/sync")
-	public void pot() {
+	public void sync() {
 		service.add();
 	}
 
-	@GetMapping("/tags/{query}")
-	public List<ElasticEntity> searchByTag(@PathVariable("query") String query) {
+	@GetMapping("/tags/")
+	public List<ElasticEntity> searchByTag(@RequestParam("query") String query) {
 		return service.searchByTags(query);
 
 	}
 
-	@GetMapping("/author/{query}")
-	public List<ElasticEntity> searchByAuthor(@PathVariable("query") String query) {
+	@GetMapping("/author/")
+	public List<ElasticEntity> searchByAuthor(@RequestParam("query") String query) {
 		return service.searchByAuthor(query);
 
 	}
