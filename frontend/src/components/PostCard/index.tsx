@@ -11,10 +11,16 @@ import LikeSvg from '@components/FeedSvgComponents/likeSvg';
 import DisLikeSvg from '@components/FeedSvgComponents/disLikeSvg';
 import styles from './styles.module.scss';
 import { IPost } from '@screens/FeedPage/models/IPost';
+import marked from 'marked';
 
 interface IPostCardProps {
   post: IPost;
 }
+
+const styleObj = {
+  color: 'red',
+  wight: 300
+};
 
 const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
   <Card className={styles.postCard}>
@@ -34,15 +40,24 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
         </div>
       </Feed>
       <Card.Description>
-        <Image
-          floated="right"
-          size="mini"
-          src="https://www.economiadigital.es/wp-content/uploads/2020/10/xps-dpbxgth0lac-unsplash-1000x665.jpeg"
-        />
+        {post.coverImage
+          && (
+            <Image
+              floated="right"
+              size="mini"
+              src={post.coverImage}
+            />
+          )}
         <p className={styles.postName}>{post.title}</p>
-        <span>
-          {post.text}
-        </span>
+        <p
+          className={styles.post_content}
+          dangerouslySetInnerHTML={
+            post.markdown
+              ? { __html: marked(post.text) }
+              : { __html: post.text }
+          }
+          style={styleObj}
+        />
         <div className={styles.btnWrapper}>
           {post.tags.map(tag => (
             <TagsMenu

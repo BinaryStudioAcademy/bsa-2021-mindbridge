@@ -7,9 +7,6 @@ jwt:
     #30 days
     secs_to_expire_refresh: 2592000
 
-oauth2:
-    redirect-uris: http://localhost:3000
-
 spring:
     security:
         oauth2:
@@ -18,21 +15,26 @@ spring:
                     google:
                         client-id: 531677136441-2ihh1vter6jrb0fdla7qkf9mjq87tfqm.apps.googleusercontent.com
                         client-secret: ejtZmFhG9eiwL2lJ3EIhVbxA
-                        redirectUri: "{baseUrl}/auth/oauth2/code/{registrationId}"
+                        redirectUri: "{baseScheme}://localhost{basePort}/auth/oauth2/code/{registrationId}"
                         scope:
                             - email
                             - profile
                     github:
                         clientId: a0edbdbedc83304611be
                         clientSecret: cdd0d0ac844becf45c2f04d2b0e91fa23686af93
-                        redirectUri: "{baseUrl}/auth/oauth2/code/{registrationId}"
+                        redirectUri: "{baseScheme}://localhost{basePort}/auth/oauth2/code/{registrationId}"
                         scope:
                             - email
                             - public_profile
                     facebook:
                         clientId: 554266855704800
                         clientSecret: 9c678ada2f6ab4c17c3c3be63082eaea
-                        redirectUri: "{baseUrl}/auth/oauth2/code/{registrationId}"
+                        redirectUri: "https://localhost{basePort}/auth/oauth2/code/{registrationId}"
                         scope:
                             - email
                             - public_profile
+                provider:
+                    facebook:
+                        authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
+                        tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
+                        userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
