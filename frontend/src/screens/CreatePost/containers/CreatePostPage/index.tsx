@@ -20,6 +20,7 @@ import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataR
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
+import { history } from '@helpers/history.helper';
 
 export interface ICreatePostProps extends IState, IActions {
 }
@@ -156,6 +157,7 @@ const CreatePost: React.FC<ICreatePostProps> = ({
     };
     sendPost(post);
     handleCancel();
+    history.push('/');
   };
 
   return (
