@@ -1,10 +1,16 @@
 .btnSuggest {
-  background: #14253F !important;
-  color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  color: #14253F  !important;
   width: 20.2rem;
   font-weight: bold;
   font-size: 0.85rem;
   height: 2.7rem;
   min-width: 6rem;
   border-radius: 5px;
+  border: solid 2px #14253F !important;
+}
+
+.btnSuggest:hover {
+  background-color: #14253F !important;
+  color: white !important;
 }
