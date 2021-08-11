@@ -1,4 +1,5 @@
-import { fetchTagsRoutine, sendImageRoutine, sendPostRoutine, fetchDataRoutine, getPostVersionsRoutine } from '../../routines/index';
+import { fetchTagsRoutine, sendImageRoutine, sendPostRoutine, fetchDataRoutine, getPostVersionsRoutine }
+  from '../../routines/index';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import createPostService from '@screens/CreatePost/services/createPost';

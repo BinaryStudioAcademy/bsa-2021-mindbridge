@@ -1,5 +1,6 @@
 
-import { fetchTagsRoutine, resetLoadingImageRoutine, sendImageRoutine, fetchDataRoutine, getPostVersionsRoutine } from '../../routines/index';
+import { fetchTagsRoutine, resetLoadingImageRoutine, sendImageRoutine, fetchDataRoutine,
+  getPostVersionsRoutine } from '../../routines/index';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';

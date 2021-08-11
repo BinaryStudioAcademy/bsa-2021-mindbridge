@@ -1,6 +1,5 @@
 package com.mindbridge.core.domains.post;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.post.dto.CreatePostDto;
 import com.mindbridge.core.domains.post.dto.PostDetailsDto;
@@ -9,11 +8,10 @@ import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
-import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
 import java.util.HashSet;
-import java.util.Set;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -43,12 +41,13 @@ public class PostService {
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService,
-			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository, PostVersionRepository postVersionRepository) {
+					   PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository, PostVersionRepository postVersionRepository, PostVersionRepository postVersionRepository1) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
 		this.userRepository = userRepository;
 		this.tagRepository = tagRepository;
+		this.postVersionRepository = postVersionRepository1;
 	}
 
 	public PostDetailsDto getPostById(UUID id) {
@@ -61,7 +60,7 @@ public class PostService {
 
 		return post;
 	}
-	
+
 	public List<PostsListDetailsDto> getAllPosts(Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 		return postRepository.getAllPosts(pageable).stream()
@@ -72,7 +71,8 @@ public class PostService {
 	public List<PostVersionsListDto> getPostVersions(UUID postId) {
 		System.out.println(postVersionRepository.getPostVersionByPostId(postId));
 		return postVersionRepository.getPostVersionByPostId(postId).stream().map(PostVersionsListDto::fromEntity)
-				.collect(Collectors.toList());
+			.collect(Collectors.toList());
+	}
 
 	public void savePost(CreatePostDto post) {
 		var user = userRepository.getOne(post.getAuthor());

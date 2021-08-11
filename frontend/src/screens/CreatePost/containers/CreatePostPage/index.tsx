@@ -15,7 +15,7 @@ import DarkButton from '@root/components/buttons/DarcButton';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
-import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine, getPostVersionsRoutine
+import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine, getPostVersionsRoutine,
   fetchTagsRoutine } from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
@@ -46,7 +46,8 @@ interface IActions {
 }
 
 const CreatePost: React.FC<ICreatePostProps> = ({
-  sendImage, sendPost, resetLoadingImage, savingImage, userInfo, allTags, fetchData, fetchTags, getPostVersions, versionsOfPost  }) => {
+  sendImage, sendPost, resetLoadingImage, savingImage, userInfo, allTags, fetchData,
+  fetchTags, getPostVersions, versionsOfPost }) => {
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,
