@@ -11,7 +11,7 @@ interface ICreatePostFormProps {
   modes: IModes;
   setForm: any;
   sendImage: any;
-  allTags: [];
+  allTags: [any];
 }
 
 const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendImage, allTags }) => {
