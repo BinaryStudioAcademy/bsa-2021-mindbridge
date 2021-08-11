@@ -179,7 +179,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     });
   };
 
-  const handleSendForm = (isDraft) => {
+  const handleSendForm = isDraft => {
     if (!postId) {
       const postOnAdd = {
         title: form.title,
