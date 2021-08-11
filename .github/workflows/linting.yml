@@ -21,13 +21,13 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v2
         with:
-          node-version: '13.x'
+          node-version: '14.17.0'
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: npm install
 
-      - name: Lint with Yarn
-        run: yarn lint-nofix
+      - name: Lint
+        run: npm run lint-nofix
 
   linter_backend_core:
     runs-on: ubuntu-latest
