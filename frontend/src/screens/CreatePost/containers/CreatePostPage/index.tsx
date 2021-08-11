@@ -179,50 +179,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     });
   };
 
-  const handleDraft = () => {
-    if (!postId) {
-      const postOnChange = {
-        title: form.title,
-        text: form.content,
-        coverImage: form.coverImage.url,
-        markdown: modes.markdownMode,
-        author: currentUserId,
-        tags: form.tags,
-        draft: true
-      };
-      sendPost(postOnChange);
-      handleCancel();
-    }
-    if (currentUserId === post.author.id) {
-      // TODO edit post (add new version)
-      const postOnEdit = {
-        title: form.title,
-        text: form.content,
-        coverImage: form.coverImage.url,
-        markdown: modes.markdownMode,
-        tags: form.tags,
-        postId,
-        draft: true
-      };
-      // sendPost(postOnEdit);
-      handleCancel();
-      return;
-    }
-    const postOnPR = {
-      title: form.title,
-      text: form.content,
-      coverImage: form.coverImage.url,
-      markdown: modes.markdownMode,
-      tags: form.tags,
-      draft: true,
-      postId,
-      contributorId: currentUserId
-    };
-    sendPR(postOnPR);
-    handleCancel();
-  };
-
-  const handlePublish = () => {
+  const handleSendForm = (isDraft) => {
     if (!postId) {
       const postOnAdd = {
         title: form.title,
@@ -230,7 +187,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         coverImage: form.coverImage.url,
         markdown: modes.markdownMode,
         tags: form.tags,
-        draft: false,
+        draft: isDraft,
         author: currentUserId
       };
       sendPost(postOnAdd);
@@ -246,7 +203,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         markdown: modes.markdownMode,
         tags: form.tags,
         postId,
-        draft: false
+        draft: isDraft
       };
       // sendPost(postOnEdit);
       handleCancel();
@@ -258,7 +215,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
       coverImage: form.coverImage.url,
       markdown: modes.markdownMode,
       tags: form.tags,
-      draft: false,
       postId,
       contributorId: currentUserId
     };
@@ -349,8 +305,8 @@ const CreatePost: React.FC<ICreatePostProps> = (
             : <PostPreview form={form} modes={modes} allTags={allTags} />}
           <div className={styles.footer}>
             <DarkBorderButton content="Cancel" onClick={handleCancel} />
-            <DarkBorderButton content="Save draft" onClick={handleDraft} />
-            <DarkButton content="Publish" onClick={handlePublish} />
+            <DarkBorderButton content="Save draft" onClick={() => handleSendForm(true)} />
+            <DarkButton content="Publish" onClick={() => handleSendForm(false)} />
           </div>
         </div>
       </div>
