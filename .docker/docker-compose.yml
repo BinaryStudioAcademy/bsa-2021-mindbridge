@@ -30,7 +30,6 @@ services:
         max-file: "5"
     volumes:
       - /data/certs:/etc/nginx/certs
-      - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt/ssl-dhparams.pem:/etc/letsencrypt/ssl-dhparams.pem
       - /etc/letsencrypt/live/mindbridge.westeurope.cloudapp.azure.com/cert.pem:/etc/letsencrypt/live/knewless.tk/cert.pem
       - /etc/letsencrypt/live/mindbridge.westeurope.cloudapp.azure.com/chain.pem:/etc/letsencrypt/live/mindbridge.westeurope.cloudapp.azure.com/chain.pem

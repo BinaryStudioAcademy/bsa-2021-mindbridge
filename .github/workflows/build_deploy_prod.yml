@@ -9,7 +9,7 @@ jobs:
   deploy:
     name: 'Project Deploy'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
 
@@ -22,23 +22,23 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # - name: Build And Push Backend docker image
-      #   id: docker-build-backend        
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: .
-      #     file: .docker/backend.Dockerfile
-      #     push: true
-      #     tags: ${{ secrets.BACKEND_DOCKER_REGISTRY }}:latest
+      - name: Build And Push Backend docker image
+        id: docker-build-backend        
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: .docker/backend.Dockerfile
+          push: true
+          tags: ${{ secrets.BACKEND_DOCKER_REGISTRY }}:latest
 
-      # - name: Build And Push Frontend docker image
-      #   id: docker-build-frontend  
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: .
-      #     file: .docker/frontend.Dockerfile
-      #     push: true
-      #     tags: ${{ secrets.FRONTEND_DOCKER_REGISTRY }}:latest
+      - name: Build And Push Frontend docker image
+        id: docker-build-frontend  
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: .docker/frontend.Dockerfile
+          push: true
+          tags: ${{ secrets.FRONTEND_DOCKER_REGISTRY }}:latest
 
       - name: Update compose file
         uses: appleboy/scp-action@master
