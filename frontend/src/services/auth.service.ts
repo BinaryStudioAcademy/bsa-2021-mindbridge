@@ -11,8 +11,7 @@ export const authUser = async ({ endpoint, payload }) => {
   return response.json();
 };
 
-export const getCurrentUser = async ( payload ) =>
-  (await api.post('/auth/getUser', { data: payload }));
+export const getCurrentUser = async payload => (api.post('/auth/getUser', { data: payload }));
 
 export const setToken = (token: string, refresh: string) => {
   localStorage.setItem(ACCESS_TOKEN, token);
