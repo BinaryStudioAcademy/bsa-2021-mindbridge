@@ -7,7 +7,7 @@ services:
     ports:
       - '5000:5000'
     env_file:
-      - ~/.env/backend.env
+      - ../.env/backend.env
     logging:
       driver: "json-file"
       options:
