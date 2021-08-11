@@ -1,11 +1,12 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { fetchNotificationCountRoutine, fetchNotificationListRoutine } from '@screens/Header/routines';
 import { toastr } from 'react-redux-toastr';
+import { Routine } from 'redux-saga-routines';
 import headerService from '@screens/Header/services/header';
 
-function* fetchNotificationCount() {
+function* fetchNotificationCount({ payload }: Routine<any>) {
   try {
-    const response = yield call(headerService.getNotificationCount);
+    const response = yield call(headerService.getNotificationCount, payload);
     const count = { notificationCount: response };
     yield put(fetchNotificationCountRoutine.success(count));
   } catch (error) {
@@ -14,9 +15,9 @@ function* fetchNotificationCount() {
   }
 }
 
-function* fetchNotificationList() {
+function* fetchNotificationList({ payload }: Routine<any>) {
   try {
-    const response = yield call(headerService.getNotificationList);
+    const response = yield call(headerService.getNotificationList, payload);
     const list = { notificationList: response };
     yield put(fetchNotificationListRoutine.success(list));
   } catch (error) {
