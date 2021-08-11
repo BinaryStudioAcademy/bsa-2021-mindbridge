@@ -1,0 +1,12 @@
+@import '../../../styles/common_variables.sass';
+
+.button {
+  border-radius: 5%/13%;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: $dark-grey;
+}
+
+.button:hover{
+   background-color: $light-blue;
+}

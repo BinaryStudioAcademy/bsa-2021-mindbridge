@@ -1,0 +1,24 @@
+.listItem {
+  padding: 1rem;
+  transition: 0.2s;
+  color: #14253f;
+
+  span {
+    display: block;
+    margin-top: 0.5rem;
+    &:first-child {
+      font-weight: bold;
+    }
+
+    a {
+      font-style: italic;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &:hover {
+    background-color: #efefef;
+  }
+}

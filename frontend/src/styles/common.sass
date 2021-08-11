@@ -1,2 +1,33 @@
 @import "fonts"
 @import "reset"
+@import "./common_variables"
+
+//buttons
+
+button:hover 
+    cursor: pointer;
+
+button
+    border-radius: 5%/13%;
+    border: none;
+
+
+.blue_button
+    background-color: $light-blue;
+
+
+.colorless_button
+    background-color: rgba(0, 0, 0, 0);
+
+
+.colorless_button:hover
+    background-color: $light-blue;
+
+
+.dark_button
+    background-color: $dark-grey;
+    color: white;
+
+
+.blue_button, .colorless_button
+    color: $dark-grey;
