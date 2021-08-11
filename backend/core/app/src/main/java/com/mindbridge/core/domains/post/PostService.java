@@ -59,18 +59,18 @@ public class PostService {
 		return post;
 	}
 
+	public List<PostsListDetailsDto> getAllPosts(Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+		return postRepository.getAllPosts(pageable).stream()
+				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+				.collect(Collectors.toList());
+	}
+
 	public void savePost(CreatePostDto post) {
 		var user = userRepository.getOne(post.getAuthor());
 		var tags = new HashSet<>(tagRepository.findAllById(post.getTags()));
 
 		postRepository.save(CreatePostDto.toPost(post, user, tags));
-	}
-
-	public List<PostsListDetailsDto> getAllPosts() {
-
-		return postRepository.getAllPosts(PageRequest.of(0, 10)).stream()
-				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
-				.collect(Collectors.toList());
 	}
 
 }

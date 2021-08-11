@@ -1,8 +1,8 @@
 import api from '@helpers/api.helper';
 
 const headerService = {
-  getNotificationCount: async () => api.get('/api/notification/count'),
-  getNotificationList: async () => api.get('/api/notification/list')
+  getNotificationCount: async (userId: string) => api.get(`/api/notification/count/${userId}`),
+  getNotificationList: async (userId: string) => api.get(`/api/notification/list/${userId}`)
 };
 
 export default headerService;
