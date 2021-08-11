@@ -38,7 +38,7 @@ public class PostPR extends BaseAuditableEntity {
 
 	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinTable(name = "post_pr2tag", joinColumns = @JoinColumn(name = "post_pr_id"),
-		inverseJoinColumns = @JoinColumn(name = "tag_id"))
+			inverseJoinColumns = @JoinColumn(name = "tag_id"))
 	private Set<Tag> tags = new HashSet<>();
 
 	@Override

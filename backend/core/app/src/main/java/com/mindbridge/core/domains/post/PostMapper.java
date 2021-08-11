@@ -16,8 +16,8 @@ public interface PostMapper {
 	@Mapping(target = "rating", ignore = true)
 	PostDetailsDto postToPostDetailsDto(Post post);
 
-
 	@Mapping(source = "author", target = "author.id")
 	@Mapping(target = "tags", ignore = true)
 	Post createPostDtoToPost(CreatePostDto createPostDto);
+
 }

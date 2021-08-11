@@ -8,6 +8,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface PostPRMapper {
+
 	PostPRMapper MAPPER = Mappers.getMapper(PostPRMapper.class);
 
 	@Mapping(source = "postId", target = "post.id")
@@ -15,4 +16,5 @@ public interface PostPRMapper {
 	@Mapping(target = "closed", constant = "false")
 	@Mapping(target = "tags", ignore = true)
 	PostPR createPostPRDtoToPostPr(CreatePostPRDto createPostPRDto);
+
 }
