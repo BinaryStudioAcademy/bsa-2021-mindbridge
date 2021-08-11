@@ -6,6 +6,7 @@ import Default from 'screens/Default/containers/DefaultPage';
 import PrivateRoute from '@root/components/PrivateRoute';
 import CreatePostPage from '@root/screens/CreatePost/containers/CreatePostPage';
 import FeedPage from '@screens/FeedPage/containers/FeedPage';
+import ProfilePage from '@screens/ProfilePage/containers/ProfilePage';
 import LoginPage from 'screens/Login/containers/LoginPage';
 import RegistrationPage from 'screens/Login/containers/RegisterPage';
 import oauth2handler from '@components/OAuth2RedirectHandler/OAuth2RedirectHandler';
@@ -50,7 +51,6 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/login" component={LoginPage} />
         <PublicRoute exact path="/registration" component={RegistrationPage} />
         <PublicRoute exact path="/oauth2/resolve" component={oauth2handler} />
-        <PublicRoute exact path="/create/post" component={CreatePostPage} />
         <div>
           <LoaderWrapper loading={isLoading}>
             <Switch>
@@ -59,6 +59,8 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
               path="/private"
               component={Private}
             /> */}
+              <PrivateRoute exact path="/create/post" component={CreatePostPage} />
+              <PrivateRoute exact path="/user/:userId" component={ProfilePage} />
               <Route path="/*">
                 <Redirect to="/public" />
               </Route>
