@@ -13,7 +13,7 @@ export interface ICreatePostReducerState {
     isInContent: boolean;
   };
   profile: IUserProfile;
-  versionsOfPost: [IPostVersions];
+  versionsOfPost: IPostVersions[];
   allTags: [];
 }
 
@@ -32,7 +32,7 @@ const initialState: ICreatePostReducerState = {
     followersQuantity: 0,
     rating: 0
   },
-  versionsOfPost: [{ id: '', createdAt: '' }],
+  versionsOfPost: [],
   allTags: []
 };
 

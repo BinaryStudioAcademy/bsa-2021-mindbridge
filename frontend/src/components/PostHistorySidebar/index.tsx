@@ -8,7 +8,7 @@ export interface IProfileSidebarProps {
 }
 
 const HistorySidebar: FunctionComponent<IProfileSidebarProps> = ({ history }) => {
-  if (!history[0].id) {
+  if (history.length === 0) {
     return null;
   }
 

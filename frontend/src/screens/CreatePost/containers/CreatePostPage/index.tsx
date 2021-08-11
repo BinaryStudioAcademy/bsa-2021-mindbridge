@@ -32,7 +32,7 @@ interface IState {
     isInContent: boolean;
   };
   userInfo: IStateProfile;
-  versionsOfPost: [IPostVersions];
+  versionsOfPost: IPostVersions[];
   allTags: [any];
 }
 
