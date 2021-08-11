@@ -1,6 +1,6 @@
 package com.mindbridge.core.domains.post.dto;
 
-import com.mindbridge.data.domains.post.model.Post;
+import com.mindbridge.core.domains.helpers.DateFormatter;
 import com.mindbridge.data.domains.postVersion.model.PostVersion;
 import lombok.Builder;
 import lombok.Data;
@@ -19,13 +19,9 @@ public class PostVersionsListDto {
 	private String createdAt;
 
 	public static PostVersionsListDto fromEntity(PostVersion postVersion) {
-		return PostVersionsListDto.builder().id(postVersion.getId()).createdAt(getDate(postVersion.getCreatedAt()))
-				.build();
-	}
-
-	public static String getDate(Date date) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM, hh:mm", Locale.ENGLISH);
-		return dateFormat.format(date);
+		String format = "dd MMMM, hh:mm";
+		return PostVersionsListDto.builder().id(postVersion.getId())
+				.createdAt(DateFormatter.getDate(postVersion.getCreatedAt(), format)).build();
 	}
 
 }
