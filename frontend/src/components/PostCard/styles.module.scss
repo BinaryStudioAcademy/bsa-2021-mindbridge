@@ -81,15 +81,16 @@
 }
 
 .icon {
-  display: inline-block;
+  display: flex;
   margin-right: 2em;
+  align-items: center;
 }
 
 .postIcons {
   margin-left: 1em;
   margin-top: 0.4em;
+  display: flex;
   p {
-    display: inline-block;
     font-family: Lato, sans-serif;
     font-size: 0.85rem;
     color: rgba(53, 53, 53, 0.5);
@@ -98,7 +99,7 @@
 }
 
 .comment {
-  margin-bottom: -0.13rem;
+  margin-bottom: 0.1rem;
 }
 
 .views {
