@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.user;
 
 import com.mindbridge.core.domains.user.dto.UserProfileDto;
+import com.mindbridge.core.domains.user.dto.UserDto;
 import com.mindbridge.data.domains.user.model.User;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -15,5 +16,8 @@ public interface UserMapper {
 	@Mapping(target = "rating", ignore = true)
 	@Mapping(target = "datesOfPosts", ignore = true)
 	public abstract UserProfileDto userToUserProfileDto(User user);
+
+	public abstract UserDto userToUserDto(User user);
+
 
 }

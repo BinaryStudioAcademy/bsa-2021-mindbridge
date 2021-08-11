@@ -33,7 +33,7 @@ interface IState {
   };
   userInfo: IStateProfile;
   versionsOfPost: [IPostVersions];
-  allTags: [];
+  allTags: [any];
 }
 
 interface IActions {
@@ -238,7 +238,7 @@ const CreatePost: React.FC<ICreatePostProps> = ({
                 allTags={allTags}
               />
             )
-            : <PostPreview form={form} modes={modes} />}
+            : <PostPreview form={form} modes={modes} allTags={allTags} />}
           <div className={styles.footer}>
             <DarkBorderButton content="Cancel" onClick={handleCancel} />
             <DarkBorderButton content="Save draft" onClick={handleDraft} />

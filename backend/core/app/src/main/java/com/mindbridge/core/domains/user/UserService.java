@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.user;
 
 import com.mindbridge.core.domains.post.dto.PostsHistoryListDto;
+import com.mindbridge.core.domains.user.dto.UserDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDto;
 import com.mindbridge.data.domains.follower.FollowerRepository;
 import com.mindbridge.data.domains.post.PostRepository;
@@ -69,6 +70,10 @@ public class UserService implements UserDetailsService {
 		User user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new EmailNotFoundException("User with email : " + email + " not found."));
 		return new UserPrincipal(user);
+	}
+
+	public UserDto loadUserDtoByEmail(String email) throws UsernameNotFoundException {
+		return userRepository.findByEmail(email).map(UserMapper.MAPPER::userToUserDto).get();
 	}
 
 	public void registerNewUserAccount(RegistrationRequest registrationRequest) {
