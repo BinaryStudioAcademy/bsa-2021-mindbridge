@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import Header from '@root/components/Header';
 import ProfileSidebar from '@root/components/ProfileSidebar';
 import HistorySidebar from '@root/components/PostHistorySidebar';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
@@ -16,7 +15,8 @@ import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
-import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine } from '../../routines';
+import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine,
+  fetchTagsRoutine } from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 
@@ -31,6 +31,7 @@ interface IState {
     isInContent: boolean;
   };
   userInfo: IStateProfile;
+  allTags: [any];
 }
 
 interface IActions {
@@ -38,13 +39,14 @@ interface IActions {
   sendPost: IBindingCallback1<object>;
   resetLoadingImage: IBindingAction;
   fetchData: IBindingAction;
+  fetchTags: IBindingAction;
 }
 
 // use real value
 const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
 
 const CreatePost: React.FC<ICreatePostProps> = ({
-  sendImage, sendPost, resetLoadingImage, savingImage, userInfo, fetchData }) => {
+  sendImage, sendPost, resetLoadingImage, savingImage, userInfo, allTags, fetchData, fetchTags }) => {
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,
@@ -65,7 +67,8 @@ const CreatePost: React.FC<ICreatePostProps> = ({
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+    fetchTags();
+  }, [fetchData, fetchTags]);
 
   useEffect(() => {
     if (savingImage.isLoaded) {
@@ -230,9 +233,10 @@ const CreatePost: React.FC<ICreatePostProps> = ({
                 modes={modes}
                 setForm={setForm}
                 sendImage={sendImage}
+                allTags={allTags}
               />
             )
-            : <PostPreview form={form} modes={modes} />}
+            : <PostPreview form={form} modes={modes} allTags={allTags} />}
           <div className={styles.footer}>
             <DarkBorderButton content="Cancel" onClick={handleCancel} />
             <DarkBorderButton content="Save draft" onClick={handleDraft} />
@@ -246,14 +250,16 @@ const CreatePost: React.FC<ICreatePostProps> = ({
 
 const mapStateToProps: (state) => IState = state => ({
   savingImage: state.createPostReducer.data.savingImage,
-  userInfo: extractData(state)
+  userInfo: extractData(state),
+  allTags: state.createPostReducer.data.allTags
 });
 
 const mapDispatchToProps: IActions = {
   sendImage: sendImageRoutine,
   sendPost: sendPostRoutine,
   resetLoadingImage: resetLoadingImageRoutine,
-  fetchData: fetchDataRoutine
+  fetchData: fetchDataRoutine,
+  fetchTags: fetchTagsRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

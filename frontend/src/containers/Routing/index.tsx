@@ -3,10 +3,10 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import LoaderWrapper from 'components/LoaderWrapper';
 import PublicRoute from 'components/PublicRoute';
 import Default from 'screens/Default/containers/DefaultPage';
-import PrivateRoute from '@root/components/PrivateRoute';
 import CreatePostPage from '@root/screens/CreatePost/containers/CreatePostPage';
 import FeedPage from '@screens/FeedPage/containers/FeedPage';
 import ProfilePage from '@screens/ProfilePage/containers/ProfilePage';
+import ViewPost from '@screens/ViewPost/containers/ViewPostPage';
 import LoginPage from 'screens/Login/containers/LoginPage';
 import RegistrationPage from 'screens/Login/containers/RegisterPage';
 import oauth2handler from '@components/OAuth2RedirectHandler/OAuth2RedirectHandler';
@@ -15,6 +15,7 @@ import { Stomp } from '@stomp/stompjs';
 import { toastr } from 'react-redux-toastr';
 import { history } from '@helpers/history.helper';
 import Header from '@screens/Header/containers/HeaderPage';
+import PrivateRoute from '@components/PrivateRoute';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -48,9 +49,13 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
       <Switch>
         <PublicRoute exact path="/public" component={Default} />
         <PublicRoute exact path="/" component={FeedPage} />
+        <PublicRoute exact path="/post" component={ViewPost} />
         <PublicRoute exact path="/login" component={LoginPage} />
         <PublicRoute exact path="/registration" component={RegistrationPage} />
         <PublicRoute exact path="/oauth2/resolve" component={oauth2handler} />
+
+        {/* should be ViewPage */}
+        <PublicRoute exact path="/post/:id" component={Default} />
         <div>
           <LoaderWrapper loading={isLoading}>
             <Switch>

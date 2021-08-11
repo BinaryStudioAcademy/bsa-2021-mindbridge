@@ -4,6 +4,7 @@ import com.mindbridge.core.domains.notification.dto.NotificationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,18 +23,14 @@ public class NotificationController {
 		this.notificationService = notificationService;
 	}
 
-	@GetMapping("/count")
-	public long getNotificationCount() {
-		// TODO connect TokenService that get current user id
-		UUID userId = UUID.fromString("1934406d-e088-4a28-8c44-ccfdd5125b90");
-		return notificationService.getNotificationCount(userId);
+	@GetMapping("/count/{id}")
+	public long getNotificationCount(@PathVariable(name = "id") UUID id) {
+		return notificationService.getNotificationCount(id);
 	}
 
-	@GetMapping("/list")
-	public List<NotificationDto> getNotificationList() {
-		// TODO connect TokenService that get current user id
-		UUID userId = UUID.fromString("1934406d-e088-4a28-8c44-ccfdd5125b90");
-		return notificationService.getNotificationList(userId);
+	@GetMapping("/list/{id}")
+	public List<NotificationDto> getNotificationList(@PathVariable(name = "id") UUID id) {
+		return notificationService.getNotificationList(id);
 	}
 
 }

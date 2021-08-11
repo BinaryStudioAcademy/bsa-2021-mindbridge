@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataService {
 
+	private static final int THREAD_SLEEP_MILLIS = 1000;
+
 	public DataDto getData() throws InterruptedException {
-		Thread.sleep(1000);
+		Thread.sleep(THREAD_SLEEP_MILLIS);
 		return new DataDto("Hello world!");
 	}
 
