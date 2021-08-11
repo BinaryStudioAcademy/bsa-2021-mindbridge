@@ -1,0 +1,26 @@
+.main_container {
+  color: #353535;
+  display: flex;
+  padding-top: 20em;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  position: center;
+}
+
+.text {
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  padding: 2em;
+  font-size: 1.8em;
+  line-height: 1.81em;
+  color: #000000;
+  position: center;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  position: center;
+}
