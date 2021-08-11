@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import Logo from '@components/Logo/Logo';
 import NotificationCount from '@components/NotificationCount';
 import DarkButton from '@components/buttons/DarcButton';
 import BellSvg from '@screens/Header/containers/HeaderPage/svg/bellSvg';
-import { IBindingAction } from '@models/Callbacks';
+import { IBindingCallback1 } from '@models/Callbacks';
 import { INotification } from '@screens/Header/models/INotification';
 import { fetchNotificationCountRoutine, fetchNotificationListRoutine } from '@screens/Header/routines';
 import { extractData } from '@screens/Header/reducers';
@@ -22,22 +22,25 @@ interface IState {
 }
 
 interface IActions {
-  fetchNotificationCount: IBindingAction;
-  fetchNotificationList: IBindingAction;
+  fetchNotificationCount: IBindingCallback1<string>;
+  fetchNotificationList: IBindingCallback1<string>;
 }
 
 const Header: React.FC<IHeaderProps> = (
   { notificationCount, notificationList, fetchNotificationCount, fetchNotificationList }
 ) => {
+  const { currentUser } = useSelector((state: any) => ({
+    currentUser: state.auth.auth.user
+  }));
   const history = useHistory();
 
   useEffect(() => {
-    fetchNotificationCount();
-  }, [fetchNotificationCount]);
+    fetchNotificationCount(currentUser.id);
+  }, [currentUser]);
   const [isListOpen, setIsListOpen] = useState(false);
 
   const toggleNotificationList = () => {
-    fetchNotificationList();
+    fetchNotificationList(currentUser.id);
     setIsListOpen(!isListOpen);
   };
 
