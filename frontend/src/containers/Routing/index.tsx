@@ -14,8 +14,8 @@ import { Stomp } from '@stomp/stompjs';
 import { toastr } from 'react-redux-toastr';
 import { history } from '@helpers/history.helper';
 import Header from '@screens/Header/containers/HeaderPage';
-import PageNotFound from '@screens/NotFound/containers/NotFoundPage';
 import PrivateRoute from '@components/PrivateRoute';
+import { NotFoundPage } from '@screens/NotFound/containers/NotFoundPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -54,7 +54,8 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/registration" component={RegistrationPage} />
         <PublicRoute exact path="/oauth2/resolve" component={oauth2handler} />
         <PublicRoute exact path="/create/post" component={CreatePostPage} />
-        <PublicRoute exact path="*" component={PageNotFound} />
+        <PublicRoute exact path="/404" component={NotFoundPage} />
+        <PublicRoute component={NotFoundPage} />
 
         {/* should be ViewPage */}
         <PublicRoute exact path="/post/:id" component={Default} />

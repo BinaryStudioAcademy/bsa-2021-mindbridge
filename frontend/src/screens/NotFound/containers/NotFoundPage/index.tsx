@@ -3,15 +3,6 @@ import React from 'react';
 import styles from './styles.module.scss';
 import ButtonEmphasis from '@screens/NotFound/components/Btn404';
 
-export interface IPageNotFoundProps extends IState, IActions {
-}
-
-interface IState {
-}
-
-interface IActions {
-}
-
 export const NotFoundPage: React.FC = () => (
   <div className={styles.main_container}>
     <div className={styles.error}>
