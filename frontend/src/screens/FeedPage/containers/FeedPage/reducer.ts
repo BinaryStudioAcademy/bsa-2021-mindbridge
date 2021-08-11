@@ -1,10 +1,13 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { fetchDataRoutine } from '@screens/FeedPage/routines';
+import { addMorePostsRoutine, fetchDataRoutine } from '@screens/FeedPage/routines';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
+import { isEmptyArray } from 'formik';
 
 export interface IFeedPageReducerState {
   posts: [IPost];
+  hasMore: boolean;
+  loadMore: boolean;
 }
 
 const initialState: IFeedPageReducerState = {
@@ -19,12 +22,25 @@ const initialState: IFeedPageReducerState = {
     tags: [{ id: '', name: '' }],
     createdAt: '',
     postRating: 0,
-    avatar: ''
-  }]
+    avatar: '',
+    coverImage: '',
+    markdown: false
+  }],
+
+  hasMore: false,
+  loadMore: false
 };
 
 export const feedPageReducer = createReducer(initialState, {
   [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPostList>) => {
-    state.posts = payload.posts;
+    if (!state.loadMore) {
+      state.posts = payload.posts;
+    } else {
+      payload.posts.map(post => state.posts.push(post));
+    }
+    state.hasMore = !isEmptyArray(payload.posts);
+  },
+  [addMorePostsRoutine.TRIGGER]: state => {
+    state.loadMore = true;
   }
 });

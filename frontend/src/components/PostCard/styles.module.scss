@@ -6,6 +6,7 @@
   border: 2px solid #F8F8F8;
   border-radius: 10px;
   box-shadow: none;
+  max-height: 28rem;
 }
 
 :global(.ui.card>.extra).extraContent {
@@ -33,7 +34,7 @@
     color: #353535;
   }
 
-  p {
+  a {
     font-size: 1.5rem;
     font-family: Libre Baskerville, serif;
     font-style: normal;
@@ -103,6 +104,27 @@
   margin-bottom: -0.2rem;
   position: relative;
   margin-top: -0.2rem;
+}
+
+.post_content {
+  padding-top: 0.8rem;
+  font-family: Lato, serif !important;
+  font-size: 0.85rem !important;
+  color: rgba(32, 10, 10, 0.5) !important;
+  word-wrap: break-word;
+  max-height: 4.4rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  *{
+    font-family: Lato, serif !important;
+    font-size: 0.85rem !important;
+    color: rgba(32, 10, 10, 0.5) !important;
+    text-overflow: ellipsis;
+  }
+  img {
+    display: none !important;
+  }
+  
 }
 
 

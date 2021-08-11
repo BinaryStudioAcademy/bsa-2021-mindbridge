@@ -32,6 +32,7 @@
     button{
         font-family: lato;
     }
+    z-index: 1;
 }
 
 .header{
@@ -111,7 +112,7 @@
 }
 
 .history_sidebar_container {
-    margin-top: 19rem;
+    margin-top: 22rem;
     margin-left: 45rem;
     position: fixed;
 }

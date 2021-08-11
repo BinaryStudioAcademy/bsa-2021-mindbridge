@@ -1,0 +1,49 @@
+@import "../../styles/common.sass";
+
+.dropdown {
+  background-color: rgba(248, 248, 248, 1) !important;
+  border: none !important;
+  margin-bottom: 0.5rem !important;
+  padding: 1.5rem !important;
+  font-family: lato !important;
+  z-index: 400 !important;
+  a {
+    background-color: $light-blue !important;
+    font-family: lato !important;
+    color: $dark-grey !important;
+  }
+}
+
+:global(.dropdown.icon) {
+  display: none;
+}
+
+.dropdown:hover{
+  outline: solid $light-blue 2px !important;
+}
+
+:global(.menu){
+  outline: solid $light-blue 1.5px !important;
+  position: relative;
+  border: solid $light-blue 2px !important;
+  border-left: solid $light-blue 1px !important;
+  border-right: solid $light-blue 1px !important;
+  box-shadow: none !important;
+  div{
+    border: solid white 2px !important;
+  }
+}
+
+:global(.dropdown>.label){
+  border: none !important;
+  box-shadow: none !important;
+  font-family: lato !important;
+  font-size: 0.8rem !important;
+  padding-left: 1rem !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  padding-right: 0.5rem !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
