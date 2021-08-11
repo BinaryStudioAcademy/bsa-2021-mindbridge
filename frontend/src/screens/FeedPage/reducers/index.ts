@@ -3,11 +3,12 @@ import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
 import { feedPageReducer } from '@screens/FeedPage/containers/FeedPage/reducer';
 /* PlopJS import placeholder. Do not remove */
-import { fetchDataRoutine } from '@screens/FeedPage/routines';
+import { addMorePostsRoutine, fetchDataRoutine } from '@screens/FeedPage/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
-  fetchDataRequest: reducerCreator([fetchDataRoutine.TRIGGER])
+  fetchDataRequest: reducerCreator([fetchDataRoutine.TRIGGER]),
+  addMorePostsRequest: reducerCreator([addMorePostsRoutine.TRIGGER])
 });
 
 export default combineReducers({

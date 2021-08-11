@@ -1,11 +1,9 @@
 package com.mindbridge.core.security.auth;
 
 import com.mindbridge.core.domains.user.UserService;
+import com.mindbridge.core.domains.user.dto.UserDto;
 import com.mindbridge.core.exceptions.custom.UserAlreadyExistException;
-import com.mindbridge.core.security.auth.dto.AuthRequest;
-import com.mindbridge.core.security.auth.dto.AuthResponse;
-import com.mindbridge.core.security.auth.dto.RefreshTokenRequest;
-import com.mindbridge.core.security.auth.dto.RegistrationRequest;
+import com.mindbridge.core.security.auth.dto.*;
 import com.mindbridge.core.security.jwt.JwtProvider;
 import com.mindbridge.data.domains.user.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -33,21 +31,34 @@ public class AuthService {
 		this.userReposiroty = userReposiroty;
 	}
 
-	public AuthResponse performLogin(AuthRequest authRequest) {
+	public UserDto getUserByToken(RefreshTokenRequest token) {
+		String userEmail = jwtProvider.getLoginFromToken(token.getRefreshToken());
+
+		if (!userEmail.isEmpty()) {
+			return userService.loadUserDtoByEmail(userEmail);
+		}
+		else {
+			throw new UsernameNotFoundException("Сouldn`t find a user with such refresh token.");
+		}
+	}
+
+	public TokensWithUser performLogin(AuthRequest authRequest) {
 		var userDetails = userService.loadUserByEmail(authRequest.getEmail());
 		if (passwordsDontMatch(authRequest.getPassword(), userDetails.getPassword())) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password");
 		}
 
-		return AuthResponse.of(jwtProvider.generateToken(userDetails, "30min"),
+		var tokens = AuthResponse.of(jwtProvider.generateToken(userDetails, "30min"),
 				jwtProvider.generateToken(userDetails, "30days"));
+		var userDto = userService.loadUserDtoByEmail(authRequest.getEmail());
+		return new TokensWithUser(tokens, userDto);
 	}
 
 	private boolean passwordsDontMatch(String rawPw, String encodedPw) {
 		return !passwordEncoder.matches(rawPw, encodedPw);
 	}
 
-	public AuthResponse performRegister(RegistrationRequest registrationRequest) {
+	public TokensWithUser performRegister(RegistrationRequest registrationRequest) {
 		if (userReposiroty.existsByEmail(registrationRequest.getEmail())) {
 			throw new UserAlreadyExistException(
 					"User with email '" + registrationRequest.getEmail() + "' is already registered.");
