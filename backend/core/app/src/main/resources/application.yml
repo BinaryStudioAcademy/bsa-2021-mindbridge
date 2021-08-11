@@ -7,6 +7,9 @@ jwt:
     #30 days
     secs_to_expire_refresh: 2592000
 
+oauth2:
+    redirect-uris: ${OAUTH2_AUTHORIZED_REDIRECT_URIS}
+
 spring:
     security:
         oauth2:
