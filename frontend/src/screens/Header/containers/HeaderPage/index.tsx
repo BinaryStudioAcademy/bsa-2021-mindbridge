@@ -12,8 +12,11 @@ import { extractData } from '@screens/Header/reducers';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
+import LogOutSvg from '@screens/Header/containers/HeaderPage/svg/logOutSvg';
+import { handleOnClickSignOut } from '@helpers/signOut.helper';
 
 export interface IHeaderProps extends IState, IActions {
+  isAuthorized: boolean;
 }
 
 interface IState {
@@ -27,7 +30,7 @@ interface IActions {
 }
 
 const Header: React.FC<IHeaderProps> = (
-  { notificationCount, notificationList, fetchNotificationCount, fetchNotificationList }
+  { isAuthorized, notificationCount, notificationList, fetchNotificationCount, fetchNotificationList }
 ) => {
   const { currentUser } = useSelector((state: any) => ({
     currentUser: state.auth.auth.user
@@ -48,6 +51,7 @@ const Header: React.FC<IHeaderProps> = (
     history.push('/create/post');
     history.go();
   };
+
   return (
     <div className={styles.header_container}>
       <div className={styles.left}>
@@ -83,15 +87,26 @@ const Header: React.FC<IHeaderProps> = (
           onClick={() => handleCreatePostButton()}
           content="Create post"
         />
+        {isAuthorized
+          ? (
+            <button className={styles.header_notification} type="button" onClick={handleOnClickSignOut}>
+              <LogOutSvg />
+            </button>
+          )
+          : null}
       </div>
     </div>
   );
 };
 
-const mapStateToProps: (state) => IState = state => ({
-  notificationCount: extractData(state).notificationCount,
-  notificationList: extractData(state).notificationList
-});
+const mapStateToProps = (state: any) => {
+  const { auth } = state;
+  return {
+    isAuthorized: auth.auth.isAuthorized,
+    notificationCount: extractData(state).notificationCount,
+    notificationList: extractData(state).notificationList
+  };
+};
 
 const mapDispatchToProps: IActions = {
   fetchNotificationCount: fetchNotificationCountRoutine,
