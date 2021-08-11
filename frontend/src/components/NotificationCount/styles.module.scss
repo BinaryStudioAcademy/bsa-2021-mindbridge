@@ -1,0 +1,19 @@
+@import "../../styles/common.sass";
+
+.notification_count{
+  grid-row: 1/2;
+  background-color: $red-notification;
+  height: 0.85rem;
+  width: 0.85rem;
+  border-radius: 50%;
+  color:  #FFFFFF;
+  overflow: visible;
+  font-size: 0.6rem;
+  text-align: center;
+  vertical-align: center;
+  padding-top: 0.1rem;
+}
+
+.invisible{
+  display: none;
+}

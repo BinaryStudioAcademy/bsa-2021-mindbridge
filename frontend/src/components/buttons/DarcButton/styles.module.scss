@@ -1,0 +1,9 @@
+@import '../../../styles/common_variables.sass';
+
+.button {
+  border-radius: 5%/13%;
+  border: none;
+  background-color: $dark-grey;
+  color: white;
+  line-height: 2.37rem;
+}

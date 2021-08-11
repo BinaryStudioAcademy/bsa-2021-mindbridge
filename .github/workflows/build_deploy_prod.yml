@@ -1,0 +1,57 @@
+name: Deploy Mindbridge Prod
+
+on:  
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: 'Project Deploy'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # - name: Build And Push Backend docker image
+      #   id: docker-build-backend        
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     file: .docker/backend.Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.BACKEND_DOCKER_REGISTRY }}:latest
+
+      # - name: Build And Push Frontend docker image
+      #   id: docker-build-frontend  
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     file: .docker/frontend.Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.FRONTEND_DOCKER_REGISTRY }}:latest
+
+      - name: Update compose file
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          key: ${{ secrets.AZURE_SSH_KEY }}
+          username: ${{ secrets.AZURE_USERNAME }}
+          source: ".docker/docker-compose.yml"
+          target: "."
+
+      - name: Update VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          key: ${{ secrets.AZURE_SSH_KEY }}
+          script: sudo docker-compose -f docker-compose.yml stop && docker-compose -f docker-compose.yml pull && docker system prune -f && docker-compose -f docker-compose.yml up -d

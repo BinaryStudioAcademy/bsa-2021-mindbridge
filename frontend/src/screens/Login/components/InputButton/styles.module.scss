@@ -1,0 +1,21 @@
+.showPasswordToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.3rem;
+  margin-bottom: 1.2rem;
+  background-color: #F8F8F8;
+  box-sizing: border-box;
+  border-radius: 0 7px 7px 0;
+  color: #9DA4AE;
+  outline: none;
+
+  svg {
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  &:hover svg path {
+    fill-opacity: 1;
+  }
+}

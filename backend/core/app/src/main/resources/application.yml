@@ -1,0 +1,43 @@
+jwt:
+    secret: 9i3Bk8SJ3CfqIm+v9JJjHc5PGmqNmevaXDLYX4k0sW9hmhuvA6rTNWIM6uISlbVWcn28bMs+gY+P3LLzRytHMQ==
+
+    #30 min
+    secs_to_expire_access: 1800
+
+    #30 days
+    secs_to_expire_refresh: 2592000
+
+oauth2:
+    redirect-uris: ${OAUTH2_AUTHORIZED_REDIRECT_URIS}
+
+spring:
+    security:
+        oauth2:
+            client:
+                registration:
+                    google:
+                        client-id: ${GOOGLE_CLIENT_ID}
+                        client-secret: ${GOOGLE_CLIENT_SECRET}
+                        redirectUri: ${OAUTH2_REDIRECT_URI}
+                        scope:
+                            - email
+                            - profile
+                    github:
+                        clientId: ${FACEBOOK_CLIENT_ID}
+                        clientSecret: ${FACEBOOK_CLIENT_SECRET}
+                        redirectUri: ${OAUTH2_REDIRECT_URI}
+                        scope:
+                            - email
+                            - public_profile
+                    facebook:
+                        clientId: ${GITHUB_CLIENT_ID}
+                        clientSecret: ${GITHUB_CLIENT_SECRET}
+                        redirectUri: ${OAUTH2_REDIRECT_URI}
+                        scope:
+                            - email
+                            - public_profile
+                provider:
+                    facebook:
+                        authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
+                        tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
+                        userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)

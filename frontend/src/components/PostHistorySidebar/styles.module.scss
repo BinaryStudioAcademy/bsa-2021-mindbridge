@@ -1,0 +1,47 @@
+@import "../../styles/common.sass";
+
+.history_sidebar_container {
+    height: 12rem;
+    width: 19.5rem;
+    background-color: $background-card;
+    padding: 1.5rem;
+    padding-left: 1.9rem;
+    border-radius: 0.5rem;
+    a:hover{
+        cursor: pointer;
+    }
+}
+
+.title{
+    font-size: 0.9rem;
+    color: $dark-grey;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.history_links{
+    display: flex;
+    flex-direction: column;
+    .link{
+        margin-top: 1.4rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        align-content: center;
+        a{
+            margin-left: 0.5rem;
+            font-size: 0.7rem;
+            color: $dark-grey;
+            font-family: Lato;
+            font-style: normal;
+        }
+    }
+}
+
+.dot{
+    width: 6px;
+    height: 6px;
+    background-color: rgba(102, 185, 255, 1);
+    border-radius: 50%;
+}

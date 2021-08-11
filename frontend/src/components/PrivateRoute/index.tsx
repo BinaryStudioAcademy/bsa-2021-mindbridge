@@ -1,13 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import { ACCESS_TOKEN } from '@screens/Login/constants/auth_constants';
 
-const PrivateRoute = ({ component: Component, roles = null, ...rest }) => (
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => {
       // get token
-      const token = 'fake';
+      const token = localStorage.getItem(ACCESS_TOKEN);
       if (!token) {
         return (
           <Redirect
@@ -15,7 +16,6 @@ const PrivateRoute = ({ component: Component, roles = null, ...rest }) => (
           />
         );
       }
-
       return <Component {...props} />;
     }}
   />
