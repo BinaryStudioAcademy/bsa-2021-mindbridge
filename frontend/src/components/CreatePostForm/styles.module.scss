@@ -4,7 +4,7 @@
   display: grid;
   width: 100%;
   grid-template-rows: 1fr 1fr 4fr 1fr;
-    
+
   input, textarea {
     background-color: rgba(248, 248, 248, 1);
     border: none;
@@ -26,11 +26,43 @@
     grid-template-columns: 1fr 2.5rem 1fr;
     grid-template-rows: 5fr 1fr 0.8fr;
   }
-  .content_input{ 
+  .content_input{
     overflow-y: scroll;
     grid-column: 1/4;
     grid-row: 1/4;
     margin: 0;
+  }
+
+  .addImageArea {
+    border: 1.5px dashed #C6C8CD;
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin-top: 17.5em;
+    margin-left: 1.6em;
+    position: absolute;
+    height: 3em;
+    width: 39.7em;
+
+    p {
+      padding-top: 1.2em;
+      font-family: Lato, serif;
+      font-size: 0.88rem;
+      color: rgba(29, 29, 29, 0.2);
+      margin-left: 3.2em;
+      margin-top: -2.8em;
+    }
+
+    .uploadRef {
+      color: #66B9FF;
+      cursor: pointer;
+      display: inline;
+      margin-left: 0;
+    }
+
+    .addImageSvg {
+      margin-top: 0.9em;
+      margin-left: 1.3em;
+    }
   }
 
   .file_input_round{
@@ -64,7 +96,7 @@
       font-family: lato;
       color: rgba(20, 37, 63, 0.4);
       margin-left: 0.7rem;
-      }   
+      }
     }
 
   .file_input_rectangle:hover{

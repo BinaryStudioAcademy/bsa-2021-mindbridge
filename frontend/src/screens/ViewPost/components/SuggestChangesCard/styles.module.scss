@@ -1,0 +1,28 @@
+.back {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 1em;
+  height: 14em;
+  width: 25em;
+  background-color: #F3F9FE;
+  padding: 0 1.5em 1.5em 1.9em;
+  border-radius: 0.5em;
+}
+
+.title {
+  font-family: Lato, serif;
+  font-weight: bold;
+  font-size: 16px;
+  color: #353535;
+  line-height: 1.4rem;
+  margin-top: .7em;
+}
+
+.description {
+  font-family: Lato, serif;
+  font-weight: regular;
+  font-size: 14px;
+  color: #353535;
+  line-height: 1.4rem;
+  margin-top: .7em;
+}
