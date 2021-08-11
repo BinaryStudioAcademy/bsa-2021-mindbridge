@@ -75,6 +75,14 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
       </label>
       <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
       <div className={styles.content_input_container}>
+        <textarea
+          className={styles.content_input}
+          value={form.content}
+          onChange={handleContent}
+          placeholder="Write your post content"
+        />
+      </div>
+      <div>
         <div {...getRootProps({ className: 'dropzone' })} className={styles.addImageArea}>
           <div className={styles.addImageSvg}>
             <AddImageSvg />
@@ -86,12 +94,6 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
           </p>
           <input {...getInputProps()} id="image-input-2" className={styles.invisible} type="file" />
         </div>
-        <textarea
-          className={styles.content_input}
-          value={form.content}
-          onChange={handleContent}
-          placeholder="Write your post content"
-        />
       </div>
       <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
     </form>
