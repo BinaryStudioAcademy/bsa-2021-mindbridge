@@ -10,6 +10,7 @@ import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
 import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
 import { IPost } from '@screens/ViewPost/models/IPost';
 import marked from 'marked';
+import TextRenderer from '@root/components/TextRenderer';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -54,13 +55,10 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
         </div>
       </Feed>
       <Container text>
-        <div
+        <TextRenderer
           className={styles.content}
-          dangerouslySetInnerHTML={
-            !post.markdown
-              ? { __html: post.text }
-              : { __html: marked(post.text) }
-}
+          markdown={post.markdown}
+          content={post.text}
         />
       </Container>
     </Card.Content>

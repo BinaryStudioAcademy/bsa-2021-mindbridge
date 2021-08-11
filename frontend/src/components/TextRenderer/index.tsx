@@ -9,8 +9,8 @@ const TextRender = ({ className, content, markdown }) => (
     className={classNames(styles.rendered_text, className)}
     dangerouslySetInnerHTML={
       markdown
-        ? { __html: content }
-        : { __html: marked(content) }
+        ? { __html: marked(content) }
+        : { __html: content }
     }
   />
 );
