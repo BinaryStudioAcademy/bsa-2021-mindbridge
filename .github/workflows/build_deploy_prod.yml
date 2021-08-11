@@ -16,22 +16,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Login via Azure CLI
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build And Push Backend docker image
         id: docker-build-backend        
@@ -51,43 +40,17 @@ jobs:
           push: true
           tags: ${{ secrets.FRONTEND_DOCKER_REGISTRY }}:latest
 
-      - name: Install Docker Compose CLI
-        run: >
-          curl -L https://raw.githubusercontent.com/docker/compose-cli/main/scripts/install/install_linux.sh | sh
+      - name: Update compose file
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          key: ${{ secrets.AZURE_SSH_KEY }}
+          source: ".docker/docker-compose.yml"
+          target: "."
 
-      - name: Login to azure with docker        
-        run: "docker login azure --client-id $AZURE_CLIENT_ID --client-secret $AZURE_CLIENT_SECRET --tenant-id $AZURE_TENANT_ID"
-        env:
-          AZURE_TENANT_ID: '${{ secrets.AZURE_TENANT_ID }}'
-          AZURE_CLIENT_ID: '${{ secrets.AZURE_CLIENT_ID }}'
-          AZURE_CLIENT_SECRET: '${{ secrets.AZURE_CLIENT_SECRET }}'
-
-      - name: Download environment files
-        run: |
-          az storage file download --path ./backend.env --share-name shared --account-name mindbridgestorage --account-key $AZURE_STORAGE_KEY --dest .docker/backend.env 
-        env:
-          AZURE_STORAGE_KEY: '${{ secrets.AZURE_STORAGE_KEY }}'
-
-      - name: Create ACI context
-        run: 'docker context create aci --resource-group $RESOURCE_GROUP acicontext'
-        env:
-          RESOURCE_GROUP: '${{ secrets.RESOURCE_GROUP }}'
-
-      - name: Docker compose
-        working-directory: .docker
-        run: |
-          docker context use acicontext
-          docker compose up
-
-      # - name: 'Deploy frontend to Azure Container Instances'
-      #   id: deploy-frontend
-      #   uses: 'azure/aci-deploy@v1'
-      #   with:
-      #     resource-group: ${{ secrets.RESOURCE_GROUP }}
-      #     dns-name-label: mindbridge
-      #     image: ${{ secrets.FRONTEND_DOCKER_REGISTRY }}:latest
-      #     registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-      #     registry-username: ${{ secrets.DOCKER_USER }}
-      #     registry-password: ${{ secrets.DOCKER_PASSWORD }}
-      #     name: frontend
-      #     location: 'west us'
+      - name: Update VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          key: ${{ secrets.AZURE_SSH_KEY }}
+          script: sudo docker-compose -f docker-compose.yml stop && docker-compose -f docker-compose.yml pull && docker system prune -f && docker-compose -f docker-compose.yml up -d
