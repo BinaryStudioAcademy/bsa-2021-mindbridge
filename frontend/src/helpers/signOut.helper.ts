@@ -4,6 +4,6 @@ import { history } from '@helpers/history.helper';
 export const handleOnClickSignOut = () => {
   localStorage.removeItem(ACCESS_TOKEN);
   localStorage.removeItem(REFRESH_TOKEN);
-  history.push('/');
+  history.push('/login');
   history.go();
 };
