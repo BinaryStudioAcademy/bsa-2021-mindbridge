@@ -1,9 +1,11 @@
 import { toastr } from 'react-redux-toastr';
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '@screens/Login/constants/auth_constants';
 
 function handleBadResponse(error: AxiosError) {
   if (error.response.status === 401) {
-    // logout
+    localStorage.removeItem(ACCESS_TOKEN);
+    localStorage.removeItem(REFRESH_TOKEN);
   }
   throw error.response.data;
 }

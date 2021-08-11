@@ -44,7 +44,8 @@ const getFetchArgs = (args: IFetchData): IFetchArgs => {
 const handleBadResponse = async (res: Response) => {
   if (!res.ok) {
     if (res.status === 401) {
-      // logout
+      localStorage.removeItem(ACCESS_TOKEN);
+      localStorage.removeItem(REFRESH_TOKEN);
     }
     let parsedException = 'Something went wrong with request!';
     try {
