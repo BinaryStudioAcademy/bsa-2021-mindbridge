@@ -1,5 +1,5 @@
 .viewPost {
-  height: 100vh;
+  height: 100%;
   display: grid;
   grid-template-columns: 1fr 550px;
   grid-template-areas:
@@ -11,21 +11,21 @@
 
 
 .main {
-  margin-top: 1.2vw;
   grid-area: main;
-  min-width: 43.75em;
+  min-width: 100%;
 }
 
 .sidebar {
+  margin-top: 5.5vw;
+  display: flex;
+  flex-direction: column;
   grid-area: sidebar;
 
   .logInSideBar {
-    margin-top: 6.8vw;
     margin-bottom: 2em;
   }
 
   .suggestChanges {
-    margin-top: 1.8vw;
     margin-bottom: 2em;
   }
 }

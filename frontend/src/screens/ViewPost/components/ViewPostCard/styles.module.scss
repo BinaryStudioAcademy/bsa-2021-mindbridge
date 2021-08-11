@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   width: 85%;
-  max-width: 83em;
+  max-width: 100%;
   margin: 3.8vw 0px -2em 15%;
   padding-top: 1.5em;
   box-shadow: none;
@@ -34,12 +34,14 @@
   font-family: Libre Baskerville, sans-serif;
   font-weight: bold;
   font-size: 40px;
+  line-height: 120%;
 }
 
 .content {
   font-family: Lato, sans-serif;
   size: 18px;
   color: #353535;
+  max-width: 100% !important;
   line-height: 145%;
   font-style: normal;
   font-weight: 400;
@@ -47,6 +49,7 @@
 
 .image {
   object-fit: cover;
+  max-width: 100%;
   content: inherit;
   width: 1130px;
   height: 357px;
