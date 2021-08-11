@@ -1,9 +1,7 @@
 package com.mindbridge.core.domains.user.dto;
 
-import com.mindbridge.core.domains.post.dto.PostsHistoryListDto;
 import lombok.Data;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -20,7 +18,5 @@ public class UserProfileDto {
 	private int followersQuantity;
 
 	private int rating;
-
-	private List<PostsHistoryListDto> datesOfPosts;
 
 }

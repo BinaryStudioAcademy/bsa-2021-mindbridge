@@ -1,6 +1,5 @@
 package com.mindbridge.core.domains.user;
 
-import com.mindbridge.core.domains.post.dto.PostsHistoryListDto;
 import com.mindbridge.core.domains.user.dto.UserDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDto;
 import com.mindbridge.data.domains.follower.FollowerRepository;
@@ -12,7 +11,6 @@ import com.mindbridge.core.security.auth.dto.RegistrationRequest;
 import com.mindbridge.data.domains.user.UserRepository;
 import com.mindbridge.data.domains.user.model.User;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,12 +19,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -60,7 +54,6 @@ public class UserService implements UserDetailsService {
 		var user = UserMapper.MAPPER.userToUserProfileDto(userRepository.findById(userId).orElseThrow());
 		var posts = postRepository.getPostsByAuthorId(userId);
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
-		user.setDatesOfPosts(posts.stream().map(PostsHistoryListDto::fromEntity).collect(Collectors.toList()));
 		user.setPostsQuantity(posts.size());
 		user.setRating(random.nextInt(100));
 		return user;

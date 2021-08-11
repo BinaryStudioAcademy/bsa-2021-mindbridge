@@ -14,7 +14,6 @@ public interface UserMapper {
 	@Mapping(target = "postsQuantity", ignore = true)
 	@Mapping(target = "followersQuantity", ignore = true)
 	@Mapping(target = "rating", ignore = true)
-	@Mapping(target = "datesOfPosts", ignore = true)
 	public abstract UserProfileDto userToUserProfileDto(User user);
 
 	public abstract UserDto userToUserDto(User user);
