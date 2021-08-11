@@ -19,9 +19,8 @@ public class PostVersionsListDto {
 	private String createdAt;
 
 	public static PostVersionsListDto fromEntity(PostVersion postVersion) {
-		String format = "dd MMMM, hh:mm";
 		return PostVersionsListDto.builder().id(postVersion.getId())
-				.createdAt(DateFormatter.getDate(postVersion.getCreatedAt(), format)).build();
+				.createdAt(DateFormatter.getDate(postVersion.getCreatedAt())).build();
 	}
 
 }
