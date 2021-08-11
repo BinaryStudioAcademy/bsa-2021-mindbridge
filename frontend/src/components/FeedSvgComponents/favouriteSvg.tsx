@@ -1,7 +1,15 @@
 import React, { FunctionComponent } from 'react';
+import styles from './styles.module.scss';
 
 const FavouriteSvg: FunctionComponent = () => (
-  <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    className={styles.favouriteSvg}
+    width="18"
+    height="20"
+    viewBox="0 0 18 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M16.5663 0H1.43384C0.895361 0 0.457275 0.438086 0.457275 0.976523V18.6315C0.457275 19.0939 0.688174
     19.5214 1.07497 19.7749C1.46259 20.0289 1.94669 20.0692 2.36985 19.8851L8.9222 17.0345C8.97173 17.0129 9.02849
