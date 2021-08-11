@@ -41,7 +41,8 @@ public class PostService {
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService,
-					   PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository, PostVersionRepository postVersionRepository, PostVersionRepository postVersionRepository1) {
+			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
+			PostVersionRepository postVersionRepository, PostVersionRepository postVersionRepository1) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
@@ -71,7 +72,7 @@ public class PostService {
 	public List<PostVersionsListDto> getPostVersions(UUID postId) {
 		System.out.println(postVersionRepository.getPostVersionByPostId(postId));
 		return postVersionRepository.getPostVersionByPostId(postId).stream().map(PostVersionsListDto::fromEntity)
-			.collect(Collectors.toList());
+				.collect(Collectors.toList());
 	}
 
 	public void savePost(CreatePostDto post) {

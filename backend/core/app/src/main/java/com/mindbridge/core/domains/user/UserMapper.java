@@ -19,5 +19,4 @@ public interface UserMapper {
 
 	public abstract UserDto userToUserDto(User user);
 
-
 }
