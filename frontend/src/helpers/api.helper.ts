@@ -1,9 +1,12 @@
 import { toastr } from 'react-redux-toastr';
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import { handleOnClickSignOut } from '@helpers/signOut.helper';
 
 function handleBadResponse(error: AxiosError) {
+  const errorMessage = 'Sorry, you are not authorized to access this page. Please login again.';
   if (error.response.status === 401) {
-    // logout
+    handleOnClickSignOut();
+    toastr.error('Error', errorMessage);
   }
   throw error.response.data;
 }
