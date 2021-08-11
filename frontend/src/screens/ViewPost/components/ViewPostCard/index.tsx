@@ -54,11 +54,13 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
         </div>
       </Feed>
       <Container text>
-        <div className={styles.content}
+        <div
+          className={styles.content}
           dangerouslySetInnerHTML={
-            !post.markdown ?
-              { __html: post.text }
-              : { __html: marked(post.text) }}
+            !post.markdown
+              ? { __html: post.text }
+              : { __html: marked(post.text) }
+}
         />
       </Container>
     </Card.Content>

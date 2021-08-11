@@ -10,7 +10,7 @@ import SuggestChangesCard from '@screens/ViewPost/components/SuggestChangesCard'
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import { IData } from '@screens/ViewPost/models/IData';
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 export interface IViewPostProps extends IState, IActions {
 }
@@ -26,7 +26,7 @@ interface IActions {
 const ViewPost: React.FC<IViewPostProps> = (
   { data, fetchData }
 ) => {
-  let { id } = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     fetchData(id);
