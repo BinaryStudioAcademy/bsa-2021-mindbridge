@@ -6,8 +6,6 @@ services:
     container_name: backend
     ports:
       - '5000:5000'
-    volumes:
-      - shared:/mindbridge/assets
     env_file:
       - ./backend.env
     logging:
