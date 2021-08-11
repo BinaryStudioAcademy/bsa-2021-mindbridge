@@ -56,18 +56,18 @@ public class PostService {
 		return post;
 	}
 
+	public List<PostsListDetailsDto> getAllPosts(Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+		return postRepository.getAllPosts(pageable).stream()
+				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+				.collect(Collectors.toList());
+	}
+
 	public void savePost(CreatePostDto createPostDto) {
 		var post = PostMapper.MAPPER.createPostDtoToPost(createPostDto);
 		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
 		post.setTags(tags);
 		postRepository.save(post);
-	}
-
-	public List<PostsListDetailsDto> getAllPosts() {
-
-		return postRepository.getAllPosts(PageRequest.of(0, 10)).stream()
-				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
-				.collect(Collectors.toList());
 	}
 
 }
