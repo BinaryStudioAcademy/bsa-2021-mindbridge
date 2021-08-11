@@ -10,11 +10,12 @@ const initialState: IViewPostReducerState = {
   posts: {
     id: '',
     title: '',
+    coverImage: '',
     text: '',
     rating: 0,
-    authorName: 'Nolan Saris',
-    tags: [{ id: '', name: '' }],
-    createdAt: ''
+    tags: [],
+    createdAt: '',
+    author: { id: '', firstName: '', lastName: '', avatar: '' }
   }
 };
 
