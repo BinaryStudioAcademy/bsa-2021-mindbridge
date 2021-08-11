@@ -13,7 +13,7 @@ import { Link, NavLink, useHistory } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
 import LogOutSvg from '@screens/Header/containers/HeaderPage/svg/logOutSvg';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from 'screens/Login/constants/auth_constants';
+import { handleOnClickSignOut } from '@helpers/signOut.helper';
 
 export interface IHeaderProps extends IState, IActions {
   isAuthorized: boolean;
@@ -45,13 +45,6 @@ const Header: React.FC<IHeaderProps> = (
   const toggleNotificationList = () => {
     fetchNotificationList(currentUser.id);
     setIsListOpen(!isListOpen);
-  };
-
-  const handleOnClickSignOut = () => {
-    localStorage.removeItem(ACCESS_TOKEN);
-    localStorage.removeItem(REFRESH_TOKEN);
-    history.push('/');
-    history.go();
   };
 
   const handleCreatePostButton = () => {

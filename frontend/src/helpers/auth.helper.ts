@@ -2,6 +2,8 @@ import { IFetchData } from '@models/IFetchData';
 import { IFetchArgs } from '@models/IFetchArgs';
 import * as queryString from 'query-string';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'screens/Login/constants/auth_constants';
+import { handleOnClickSignOut } from '@helpers/signOut.helper';
+import { toastr } from 'react-redux-toastr';
 
 const getFetchUrl = ({ endpoint, queryParams }: IFetchData) => `${endpoint}${
   queryParams ? `?${queryString.stringify(queryParams)}` : ''
@@ -42,10 +44,11 @@ const getFetchArgs = (args: IFetchData): IFetchArgs => {
 };
 
 const handleBadResponse = async (res: Response) => {
+  const errorMessage = 'Sorry, you are not authorized to access this page. Please login again.';
   if (!res.ok) {
     if (res.status === 401) {
-      localStorage.removeItem(ACCESS_TOKEN);
-      localStorage.removeItem(REFRESH_TOKEN);
+      handleOnClickSignOut();
+      toastr.error('Error', errorMessage);
     }
     let parsedException = 'Something went wrong with request!';
     try {
