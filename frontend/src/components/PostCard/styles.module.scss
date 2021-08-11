@@ -1,5 +1,6 @@
 :global(.ui.card).postCard {
   width: 83%;
+  min-height: 20rem;
   max-width: 83em;
   margin: 2.8vw 0px -2em 15%;
   padding-top: 1.5em;
@@ -124,7 +125,7 @@
   img {
     display: none !important;
   }
-  
+
 }
 
 
