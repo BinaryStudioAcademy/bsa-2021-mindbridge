@@ -5,3 +5,4 @@ const createFeedPageRoutine = <T extends unknown>(actionName: string) => createR
 
 /* PlopJS routine placeholder. Do not remove */
 export const fetchDataRoutine = createFeedPageRoutine('FETCH_DATA');
+export const addMorePostsRoutine = createFeedPageRoutine('ADD_MORE_POSTS');
