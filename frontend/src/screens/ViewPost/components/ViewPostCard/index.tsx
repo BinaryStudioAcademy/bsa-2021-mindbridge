@@ -9,7 +9,6 @@ import FavouriteSvg from '@screens/ViewPost/components/svgs/SvgComponents/favour
 import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
 import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
 import { IPost } from '@screens/ViewPost/models/IPost';
-import marked from 'marked';
 import TextRenderer from '@root/components/TextRenderer';
 
 interface IViewPostCardProps {
@@ -51,16 +50,14 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
           ))}
         </div>
         <div className={styles.cardHeader}>
-          <PostInformation author="Nolan Saris" date={post.createdAt} />
+          <PostInformation firstName={post.author.firstName} lastName={post.author.lastName} date={post.createdAt} avatar={post.author.avatar} />
         </div>
       </Feed>
-      <Container text>
         <TextRenderer
           className={styles.content}
           markdown={post.markdown}
           content={post.text}
         />
-      </Container>
     </Card.Content>
   </Card>
 );

@@ -10,16 +10,16 @@ const initialState: IViewPostReducerState = {
   post: {
     id: '',
     title: '',
+    coverImage: '',
     text: '',
-    authorName: '',
     commentsCount: 0,
     rating: 0,
     tags: [{ id: '', name: '' }],
     createdAt: '',
     postRating: 0,
     avatar: '',
-    coverImage: '',
-    markdown: false
+    markdown: false,
+    author: { id: '', firstName: '', lastName: '', avatar: '' }
   }
 };
 

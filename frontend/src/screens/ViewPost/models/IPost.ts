@@ -1,16 +1,17 @@
-import { ITag } from './ITag';
+import { ITag } from '@screens/ViewPost/models/ITag';
+import { IUser } from '@screens/ViewPost/models/IUser';
 
 export interface IPost {
   id: string;
   title: string;
+  coverImage: string;
   text: string;
-  authorName: string;
   commentsCount: number;
+  author: IUser;
   rating: number;
   tags: ITag [];
   createdAt: string;
   postRating: number;
   avatar: string;
-  coverImage: string;
   markdown: boolean;
 }
