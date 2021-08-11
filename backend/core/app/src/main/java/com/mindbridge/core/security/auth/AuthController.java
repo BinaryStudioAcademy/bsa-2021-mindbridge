@@ -1,9 +1,7 @@
 package com.mindbridge.core.security.auth;
 
-import com.mindbridge.core.security.auth.dto.AuthRequest;
-import com.mindbridge.core.security.auth.dto.AuthResponse;
-import com.mindbridge.core.security.auth.dto.RefreshTokenRequest;
-import com.mindbridge.core.security.auth.dto.RegistrationRequest;
+import com.mindbridge.core.domains.user.dto.UserDto;
+import com.mindbridge.core.security.auth.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -30,7 +28,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public AuthResponse login(@Valid @RequestBody AuthRequest authRequest, BindingResult bindingResult) {
+	public TokensWithUser login(@Valid @RequestBody AuthRequest authRequest, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			List<String> errors = bindingResult.getAllErrors().stream()
 					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
@@ -40,7 +38,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/register")
-	public AuthResponse register(@Valid @RequestBody RegistrationRequest registrationRequest,
+	public TokensWithUser register(@Valid @RequestBody RegistrationRequest registrationRequest,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			List<String> errors = bindingResult.getAllErrors().stream()
@@ -53,6 +51,11 @@ public class AuthController {
 	@PostMapping("/refresh")
 	public AuthResponse refreshTokenPair(@RequestBody RefreshTokenRequest refreshTokenRequest) {
 		return authService.refreshTokenPair(refreshTokenRequest);
+	}
+
+	@PostMapping("/getUser")
+	public UserDto getUserByToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+		return authService.getUserByToken(refreshTokenRequest);
 	}
 
 }

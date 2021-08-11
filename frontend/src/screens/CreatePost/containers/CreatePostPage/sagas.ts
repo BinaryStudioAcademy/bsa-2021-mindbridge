@@ -52,7 +52,6 @@ function* fetchData() {
 function* fetchTags() {
   try {
     const response = yield call(createPostService.getTags);
-    console.log(response);
     const allTags = [];
     response.forEach(element => {
       const tag = { key: element.id, value: element.id, text: element.name };
