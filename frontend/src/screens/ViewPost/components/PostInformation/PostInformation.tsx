@@ -9,12 +9,13 @@ interface IPostInformationProps {
   date: string;
   firstName: string;
   lastName: string;
+  avatar: string;
 }
 
-const PostInformation: FunctionComponent<IPostInformationProps> = ({ firstName, lastName, date }) => (
+const PostInformation: FunctionComponent<IPostInformationProps> = ({ firstName, lastName, date, avatar }) => (
   <div className={styles.postHeaderInfo}>
     <div className={styles.userBlock}>
-      <Image src="https://react.semantic-ui.com/images/wireframe/square-image.png" avatar size="big" />
+      <Image src={avatar} avatar size="big" />
       <div className={styles.userName}>
         { firstName }
         {' '}

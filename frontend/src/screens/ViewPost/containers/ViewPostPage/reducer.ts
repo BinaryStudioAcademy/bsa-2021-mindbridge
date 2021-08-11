@@ -10,6 +10,7 @@ const initialState: IViewPostReducerState = {
   posts: {
     id: '',
     title: '',
+    coverImage: '',
     text: '',
     rating: 0,
     tags: [],

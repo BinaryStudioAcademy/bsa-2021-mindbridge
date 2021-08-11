@@ -5,6 +5,7 @@ export interface IPost {
   id: string;
   createdAt: string;
   title: string;
+  coverImage: string;
   text: string;
   author: IUser;
   tags: ITag[];

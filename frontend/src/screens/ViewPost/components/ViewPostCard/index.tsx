@@ -34,7 +34,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
           </div>
           <img
             className={styles.image}
-            src="https://i0.wp.com/vincenttechblog.com/wp-content/uploads/2020/12/computer_designs.jpg?fit=1200,630&ssl=1"
+            src={post.coverImage}
             alt="media"
           />
         </div>
@@ -49,7 +49,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
           ))}
         </div>
         <div className={styles.cardHeader}>
-          <PostInformation firstName={post.author.firstName} lastName={post.author.lastName} date={post.createdAt} />
+          <PostInformation firstName={post.author.firstName} lastName={post.author.lastName} date={post.createdAt} avatar={post.author.avatar} />
         </div>
       </Feed>
     </Card.Content>
