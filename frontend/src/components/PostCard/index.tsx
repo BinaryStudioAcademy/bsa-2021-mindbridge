@@ -11,7 +11,6 @@ import LikeSvg from '@components/FeedSvgComponents/likeSvg';
 import DisLikeSvg from '@components/FeedSvgComponents/disLikeSvg';
 import styles from './styles.module.scss';
 import { IPost } from '@screens/FeedPage/models/IPost';
-import marked from 'marked';
 import { Link } from 'react-router-dom';
 import TextRenderer from '../TextRenderer';
 
