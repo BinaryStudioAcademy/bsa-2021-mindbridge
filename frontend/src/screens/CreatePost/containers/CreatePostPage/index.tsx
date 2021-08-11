@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@root/components/ProfileSidebar';
 import HistorySidebar from '@root/components/PostHistorySidebar';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
@@ -15,8 +16,10 @@ import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
-import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine,
-  fetchTagsRoutine } from '../../routines';
+import {
+  sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine,
+  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine
+} from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 
@@ -32,6 +35,19 @@ interface IState {
   };
   userInfo: IStateProfile;
   allTags: [any];
+  currentUserId: string;
+  post?: {
+    id: string;
+    author: any;
+    title: string;
+    text: string;
+    tags: [{
+      id: string;
+      name: string;
+    }];
+    coverImage: string;
+    markdown: string;
+  };
 }
 
 interface IActions {
@@ -40,13 +56,29 @@ interface IActions {
   resetLoadingImage: IBindingAction;
   fetchData: IBindingAction;
   fetchTags: IBindingAction;
+  fetchPost: IBindingCallback1<string>;
+  sendPR: IBindingCallback1<object>;
 }
 
 // use real value
 const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
 
-const CreatePost: React.FC<ICreatePostProps> = ({
-  sendImage, sendPost, resetLoadingImage, savingImage, userInfo, allTags, fetchData, fetchTags }) => {
+const CreatePost: React.FC<ICreatePostProps> = (
+  {
+    sendImage,
+    sendPost,
+    sendPR,
+    resetLoadingImage,
+    savingImage,
+    userInfo,
+    allTags,
+    post,
+    currentUserId,
+    fetchData,
+    fetchTags,
+    fetchPost
+  }
+) => {
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,
@@ -64,6 +96,27 @@ const CreatePost: React.FC<ICreatePostProps> = ({
     tags: [],
     editedTag: ''
   });
+
+  const { postId } = useParams();
+
+  useEffect(() => {
+    if (post) {
+      setForm({
+        ...form,
+        title: post.title,
+        content: post.text,
+        tags: Array.from(post.tags.map(tag => tag.id)),
+        coverImage: {
+          title: '',
+          url: post.coverImage
+        }
+      });
+    }
+  }, [post]);
+
+  useEffect(() => {
+    fetchPost(postId);
+  }, [postId]);
 
   useEffect(() => {
     fetchData();
@@ -127,32 +180,59 @@ const CreatePost: React.FC<ICreatePostProps> = ({
   };
 
   const handleDraft = () => {
-    const post = {
+    const postOnChange = {
       title: form.title,
       text: form.content,
       coverImage: form.coverImage.url,
       markdown: modes.markdownMode,
-      // use current user id as author
-      author: 'b9eb8231-5422-4d6f-906b-eeb55da1edd1',
+      author: currentUserId,
       tags: form.tags,
       draft: true
     };
-    sendPost(post);
+    sendPost(postOnChange);
     handleCancel();
   };
 
   const handlePublish = () => {
-    const post = {
+    if (!postId) {
+      const postOnAdd = {
+        title: form.title,
+        text: form.content,
+        coverImage: form.coverImage.url,
+        markdown: modes.markdownMode,
+        tags: form.tags,
+        draft: false,
+        author: currentUserId
+      };
+      sendPost(postOnAdd);
+      handleCancel();
+      return;
+    }
+    if (currentUserId === post.author.id) {
+      // TODO edit post (add new version)
+      const postOnEdit = {
+        title: form.title,
+        text: form.content,
+        coverImage: form.coverImage.url,
+        markdown: modes.markdownMode,
+        tags: form.tags,
+        draft: false
+      };
+      // sendPost(postOnEdit);
+      handleCancel();
+      return;
+    }
+    const postOnPR = {
       title: form.title,
       text: form.content,
       coverImage: form.coverImage.url,
       markdown: modes.markdownMode,
-      // use current user id as author
-      author: 'b9eb8231-5422-4d6f-906b-eeb55da1edd1',
       tags: form.tags,
-      draft: false
+      draft: false,
+      postId,
+      contributorId: currentUserId
     };
-    sendPost(post);
+    sendPR(postOnPR);
     handleCancel();
   };
 
@@ -251,7 +331,9 @@ const CreatePost: React.FC<ICreatePostProps> = ({
 const mapStateToProps: (state) => IState = state => ({
   savingImage: state.createPostReducer.data.savingImage,
   userInfo: extractData(state),
-  allTags: state.createPostReducer.data.allTags
+  allTags: state.createPostReducer.data.allTags,
+  post: state.createPostReducer.data.post,
+  currentUserId: state.auth.auth.user.id
 });
 
 const mapDispatchToProps: IActions = {
@@ -259,7 +341,9 @@ const mapDispatchToProps: IActions = {
   sendPost: sendPostRoutine,
   resetLoadingImage: resetLoadingImageRoutine,
   fetchData: fetchDataRoutine,
-  fetchTags: fetchTagsRoutine
+  fetchTags: fetchTagsRoutine,
+  fetchPost: fetchPostRoutine,
+  sendPR: sendPRRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

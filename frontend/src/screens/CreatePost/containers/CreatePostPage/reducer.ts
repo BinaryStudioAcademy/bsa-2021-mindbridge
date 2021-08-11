@@ -1,7 +1,14 @@
-import { fetchTagsRoutine, resetLoadingImageRoutine, sendImageRoutine, fetchDataRoutine } from '../../routines/index';
+import {
+  fetchTagsRoutine,
+  resetLoadingImageRoutine,
+  sendImageRoutine,
+  fetchDataRoutine,
+  fetchPostRoutine
+} from '../../routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
+import { IPost } from '@screens/CreatePost/models/IPost';
 
 export interface ICreatePostReducerState {
   savingImage: {
@@ -12,6 +19,7 @@ export interface ICreatePostReducerState {
   };
   profile: IUserProfile;
   allTags: [];
+  post?: IPost;
 }
 
 const initialState: ICreatePostReducerState = {
@@ -60,5 +68,8 @@ export const createPostReducer = createReducer(initialState, {
   },
   [fetchTagsRoutine.SUCCESS]: (state, action) => {
     state.allTags = action.payload;
+  },
+  [fetchPostRoutine.SUCCESS]: (state, action) => {
+    state.post = action.payload;
   }
 });
