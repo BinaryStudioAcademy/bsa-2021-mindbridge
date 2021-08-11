@@ -41,7 +41,7 @@ function handleApiCallError(error: AxiosError): void {
   }
 }
 
-export const callApi = async (path: string, config: AxiosRequestConfig): Promise<any> => {
+const callApi = async (path: string, config: AxiosRequestConfig): Promise<any> => {
   try {
     return (await axios(path, config)).data;
   } catch (e) {
