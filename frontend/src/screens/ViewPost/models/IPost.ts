@@ -3,11 +3,15 @@ import { IUser } from '@screens/ViewPost/models/IUser';
 
 export interface IPost {
   id: string;
-  createdAt: string;
   title: string;
   coverImage: string;
   text: string;
+  commentsCount: number;
   author: IUser;
-  tags: ITag[];
   rating: number;
+  tags: ITag [];
+  createdAt: string;
+  postRating: number;
+  avatar: string;
+  markdown: boolean;
 }
