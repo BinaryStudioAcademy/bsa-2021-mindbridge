@@ -180,16 +180,45 @@ const CreatePost: React.FC<ICreatePostProps> = (
   };
 
   const handleDraft = () => {
-    const postOnChange = {
+    if (!postId) {
+      const postOnChange = {
+        title: form.title,
+        text: form.content,
+        coverImage: form.coverImage.url,
+        markdown: modes.markdownMode,
+        author: currentUserId,
+        tags: form.tags,
+        draft: true
+      };
+      sendPost(postOnChange);
+      handleCancel();
+    }
+    if (currentUserId === post.author.id) {
+      // TODO edit post (add new version)
+      const postOnEdit = {
+        title: form.title,
+        text: form.content,
+        coverImage: form.coverImage.url,
+        markdown: modes.markdownMode,
+        tags: form.tags,
+        postId,
+        draft: true
+      };
+      // sendPost(postOnEdit);
+      handleCancel();
+      return;
+    }
+    const postOnPR = {
       title: form.title,
       text: form.content,
       coverImage: form.coverImage.url,
       markdown: modes.markdownMode,
-      author: currentUserId,
       tags: form.tags,
-      draft: true
+      draft: true,
+      postId,
+      contributorId: currentUserId
     };
-    sendPost(postOnChange);
+    sendPR(postOnPR);
     handleCancel();
   };
 
@@ -216,6 +245,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         coverImage: form.coverImage.url,
         markdown: modes.markdownMode,
         tags: form.tags,
+        postId,
         draft: false
       };
       // sendPost(postOnEdit);
