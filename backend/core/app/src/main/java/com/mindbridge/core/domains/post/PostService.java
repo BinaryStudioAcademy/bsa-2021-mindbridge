@@ -70,7 +70,6 @@ public class PostService {
 	}
 
 	public List<PostVersionsListDto> getPostVersions(UUID postId) {
-		System.out.println(postVersionRepository.getPostVersionByPostId(postId));
 		return postVersionRepository.getPostVersionByPostId(postId).stream().map(PostVersionsListDto::fromEntity)
 				.collect(Collectors.toList());
 	}
