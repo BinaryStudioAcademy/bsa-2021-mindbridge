@@ -29,26 +29,26 @@ jobs:
       - name: Lint
         run: npm run lint-nofix
 
-  linter_backend_core:
-    runs-on: ubuntu-latest
-    name: Backend Core linter
-
-    defaults:
-      run:
-        working-directory: backend/core
-
-    steps:
-      - name: Clone code from repository
-        uses: actions/checkout@v2
-
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
-
-      - name: Lint with Gradle
-        run: ./gradlew checkFormatMain
+#  linter_backend_core:
+#    runs-on: ubuntu-latest
+#    name: Backend Core linter
+#
+#    defaults:
+#      run:
+#        working-directory: backend/core
+#
+#    steps:
+#      - name: Clone code from repository
+#        uses: actions/checkout@v2
+#
+#      - name: Set up Java
+#        uses: actions/setup-java@v2
+#        with:
+#          java-version: '11'
+#          distribution: 'adopt'
+#
+#      - name: Validate Gradle wrapper
+#        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+#
+#      - name: Lint with Gradle
+#        run: ./gradlew checkFormatMain
