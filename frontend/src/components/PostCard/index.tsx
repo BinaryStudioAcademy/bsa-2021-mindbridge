@@ -11,8 +11,8 @@ import LikeSvg from '@components/FeedSvgComponents/likeSvg';
 import DisLikeSvg from '@components/FeedSvgComponents/disLikeSvg';
 import styles from './styles.module.scss';
 import { IPost } from '@screens/FeedPage/models/IPost';
-import marked from 'marked';
 import { Link } from 'react-router-dom';
+import TextRenderer from '../TextRenderer';
 
 interface IPostCardProps {
   post: IPost;
@@ -45,13 +45,10 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
             />
           )}
         <Link to={`/post/${post.id}`} className={styles.postName}>{post.title}</Link>
-        <p
+        <TextRenderer
           className={styles.post_content}
-          dangerouslySetInnerHTML={
-            post.markdown
-              ? { __html: marked(post.text) }
-              : { __html: post.text }
-          }
+          markdown={post.markdown}
+          content={post.text}
         />
         <div className={styles.btnWrapper}>
           {post.tags.map(tag => (

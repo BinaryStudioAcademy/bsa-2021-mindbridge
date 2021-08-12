@@ -5,6 +5,7 @@ import { connect, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@root/components/ProfileSidebar';
 import HistorySidebar from '@root/components/PostHistorySidebar';
+import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
 import EditSvgPart1 from './svg/editSvgPart1';
 import EditSvgPart2 from './svg/editSvgPart2';
@@ -17,11 +18,12 @@ import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import {
-  sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine,
+  sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine, getPostVersionsRoutine,
   fetchTagsRoutine, fetchPostRoutine, sendPRRoutine
 } from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
+import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 
 export interface ICreatePostProps extends IState, IActions {
 }
@@ -34,6 +36,7 @@ interface IState {
     isInContent: boolean;
   };
   userInfo: IStateProfile;
+  versionsOfPost: IPostVersions[];
   allTags: [any];
   currentUserId: string;
   post?: {
@@ -55,6 +58,7 @@ interface IActions {
   sendPost: IBindingCallback1<object>;
   resetLoadingImage: IBindingAction;
   fetchData: IBindingAction;
+  getPostVersions: IBindingAction;
   fetchTags: IBindingAction;
   fetchPost: IBindingCallback1<string>;
   sendPR: IBindingCallback1<object>;
@@ -76,7 +80,9 @@ const CreatePost: React.FC<ICreatePostProps> = (
     currentUserId,
     fetchData,
     fetchTags,
-    fetchPost
+    fetchPost,
+    getPostVersions,
+    versionsOfPost
   }
 ) => {
   const [modes, setModes] = useState({
@@ -121,7 +127,8 @@ const CreatePost: React.FC<ICreatePostProps> = (
   useEffect(() => {
     fetchData();
     fetchTags();
-  }, [fetchData, fetchTags]);
+    getPostVersions();
+  }, [fetchData, fetchTags, getPostVersions]);
 
   useEffect(() => {
     if (savingImage.isLoaded) {
@@ -235,7 +242,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
           />
         </div>
         <div className={styles.history_sidebar_container}>
-          <HistorySidebar history={history} />
+          <HistorySidebar history={versionsOfPost} />
         </div>
         <div className={styles.create_post_container}>
           <div className={styles.header}>
@@ -319,7 +326,8 @@ const mapStateToProps: (state) => IState = state => ({
   userInfo: extractData(state),
   allTags: state.createPostReducer.data.allTags,
   post: state.createPostReducer.data.post,
-  currentUserId: state.auth.auth.user.id
+  currentUserId: state.auth.auth.user.id,
+  versionsOfPost: state.createPostReducer.data.versionsOfPost
 });
 
 const mapDispatchToProps: IActions = {
@@ -329,7 +337,8 @@ const mapDispatchToProps: IActions = {
   fetchData: fetchDataRoutine,
   fetchTags: fetchTagsRoutine,
   fetchPost: fetchPostRoutine,
-  sendPR: sendPRRoutine
+  sendPR: sendPRRoutine,
+  getPostVersions: getPostVersionsRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

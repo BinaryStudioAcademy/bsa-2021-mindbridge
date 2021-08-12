@@ -5,7 +5,8 @@ import { createPostReducer } from '@screens/CreatePost/containers/CreatePostPage
 /* PlopJS import placeholder. Do not remove */
 import {
   sendPostRoutine, sendImageRoutine, resetLoadingImageRoutine,
-  fetchDataRoutine, fetchTagsRoutine, fetchPostRoutine, sendPRRoutine
+  fetchDataRoutine, fetchTagsRoutine, fetchPostRoutine, sendPRRoutine,
+  getPostVersionsRoutine
 } from '@screens/CreatePost/routines';
 
 const requests = combineReducers({
@@ -17,6 +18,7 @@ const requests = combineReducers({
   fetchDataRequest: reducerCreator[fetchDataRoutine.TRIGGER],
   fetchPostRequest: reducerCreator[fetchPostRoutine.TRIGGER],
   sendPRRequest: reducerCreator[sendPRRoutine.TRIGGER]
+  getPostVersionsRequest: reducerCreator[getPostVersionsRoutine.TRIGGER]
 });
 
 export default combineReducers({

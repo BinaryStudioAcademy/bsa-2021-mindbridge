@@ -7,16 +7,20 @@ import { timeToLocal } from '@helpers/dataTimeToLocalData';
 
 interface IPostInformationProps {
   date: string;
-  author: string;
+  firstName: string;
+  lastName: string;
+  avatar: string;
 }
 
-const PostInformation: FunctionComponent<IPostInformationProps> = ({ author, date }) => (
+const PostInformation: FunctionComponent<IPostInformationProps> = ({ firstName, lastName, date, avatar }) => (
   <div className={styles.postHeaderInfo}>
     <div className={styles.userBlock}>
-      <Image src="https://react.semantic-ui.com/images/wireframe/square-image.png" avatar size="big" />
-      <span className={styles.userName}>
-        { author }
-      </span>
+      <Image src={avatar} avatar size="big" />
+      <div className={styles.userName}>
+        { firstName }
+        {' '}
+        { lastName }
+      </div>
     </div>
     <FollowBtn />
     <DividerSvg />
