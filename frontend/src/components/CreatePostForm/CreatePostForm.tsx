@@ -88,9 +88,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
             <AddImageSvg />
           </div>
           <p>
-            Drag and drop an image here or
-            {' '}
-            <p className={styles.uploadRef}>choose image</p>
+            Drag and drop an image here or choose image
           </p>
           <input {...getInputProps()} id="image-input-2" className={styles.invisible} type="file" />
         </div>
