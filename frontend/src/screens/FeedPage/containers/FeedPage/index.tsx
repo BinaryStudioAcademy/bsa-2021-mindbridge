@@ -55,7 +55,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
       <LoaderWrapper loading={dataLoading} />
     );
   }
-
   return (
     <div className={styles.feedPage}>
       <div className={styles.main}>

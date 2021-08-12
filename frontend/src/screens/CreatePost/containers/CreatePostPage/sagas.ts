@@ -1,5 +1,5 @@
-import { fetchTagsRoutine, sendImageRoutine, sendPostRoutine, fetchDataRoutine } from '../../routines/index';
-
+import { fetchTagsRoutine, sendImageRoutine, sendPostRoutine, fetchDataRoutine, getPostVersionsRoutine }
+  from '../../routines/index';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import createPostService from '@screens/CreatePost/services/createPost';
@@ -47,6 +47,19 @@ function* fetchData() {
   }
 }
 
+export function* getPostVersions() {
+  try {
+    const response = yield call(createPostService.getPostVersions);
+    yield put(getPostVersionsRoutine.success(response));
+  } catch (ex) {
+    yield put(getPostVersionsRoutine.failure(ex.message));
+  }
+}
+
+function* watchPostVersions() {
+  yield takeEvery(getPostVersionsRoutine.TRIGGER, getPostVersions);
+}
+
 function* fetchTags() {
   try {
     const response = yield call(createPostService.getTags);
@@ -73,6 +86,7 @@ function* watchFetchTagsRequest() {
 
 export default function* defaultPageSagas() {
   yield all([
+    watchPostVersions(),
     watchSendImageRequest(),
     watchSendPostRequest(),
     watchGetDataRequest(),

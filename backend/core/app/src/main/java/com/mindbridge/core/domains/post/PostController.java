@@ -3,6 +3,7 @@ package com.mindbridge.core.domains.post;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.mindbridge.core.domains.post.dto.CreatePostDto;
 import com.mindbridge.core.domains.post.dto.PostDetailsDto;
+import com.mindbridge.core.domains.post.dto.PostVersionsListDto;
 import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,11 @@ public class PostController {
 	public List<PostsListDetailsDto> getAllPosts(@RequestParam(defaultValue = "0") Integer from,
 			@RequestParam(defaultValue = "10") Integer count) {
 		return postService.getAllPosts(from, count);
+	}
+
+	@GetMapping("/versions/{id}")
+	public List<PostVersionsListDto> getPostVersions(@PathVariable UUID id) {
+		return postService.getPostVersions(id);
 	}
 
 }
