@@ -34,22 +34,29 @@
   }
 
   .addImageArea {
-    border: 1.5px dashed #C6C8CD;
+    border: 1.5px dashed $dark-grey;
     box-sizing: border-box;
+    grid-column: 1/2;
+    grid-row: 1/2;
     border-radius: 5px;
-    margin-top: 17.5em;
-    margin-left: 1.6em;
+    margin-top: 0.7em;
+    margin-left: 0.1em;
     position: absolute;
     height: 3em;
-    width: 39.7em;
+    width: 43.4em;
 
     p {
       padding-top: 1.2em;
       font-family: Lato, serif;
       font-size: 0.88rem;
-      color: rgba(29, 29, 29, 0.2);
+      color: $dark-grey;
       margin-left: 3.2em;
       margin-top: -2.8em;
+      width: 19.8em;
+    }
+
+    p:hover {
+      cursor: pointer;
     }
 
     .uploadRef {
