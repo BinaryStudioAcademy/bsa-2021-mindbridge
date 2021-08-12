@@ -19,7 +19,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: files => {
       if (files[0].size > (1024 * 1024)) {
-        toastr.error('Error', 'File is too large, use image less then 1Mb');
+        toastr.error('Error', 'File is too large, use image less than 1Mb');
       } else {
         sendImage({ file: files[0], inContent: true });
       }
