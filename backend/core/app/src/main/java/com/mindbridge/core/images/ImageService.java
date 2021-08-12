@@ -1,12 +1,15 @@
 package com.mindbridge.core.images;
 
+import com.azure.core.util.BinaryData;
+import com.azure.storage.blob.BlobClient;
+import com.azure.storage.blob.BlobClientBuilder;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,12 +18,11 @@ public class ImageService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ImageService.class);
 
-	private final FileSystem fileSystem;
+	@Value("${azure.blob.url}")
+	String blobUrl;
 
-	@Autowired
-	public ImageService(FileSystem fileSystem) {
-		this.fileSystem = fileSystem;
-	}
+	@Value("${azure.blob.key}")
+	String blobKey;
 
 	public Optional<String> uploadImages(MultipartFile multipartFile) {
 		byte[] byteFile;
@@ -32,11 +34,12 @@ public class ImageService {
 			return Optional.empty();
 		}
 		UUID uuid = UUID.randomUUID();
-		return fileSystem.saveFile(byteFile, uuid);
-	}
 
-	public byte[] getImageById(UUID id) {
-		return fileSystem.getImageById(id);
+		BlobClient blobClient = new BlobClientBuilder()
+			.endpoint(blobUrl + "/"
+				+ uuid + "?" + blobKey)
+			.buildClient();
+		blobClient.upload(BinaryData.fromBytes(byteFile));
+		return Optional.of(blobClient.getBlobUrl());
 	}
-
 }

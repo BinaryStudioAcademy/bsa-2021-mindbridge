@@ -27,7 +27,7 @@ public class ImageController {
 	}
 
 	@PostMapping("/save")
-	public ResponseEntity<?> createPost(@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<?> saveImage(@RequestParam("file") MultipartFile file) {
 		Optional<String> optional = imageService.uploadImages(file);
 		if (optional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.OK).body(optional.get());
@@ -36,10 +36,4 @@ public class ImageController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getImageById(@PathVariable UUID id) {
-		return ResponseEntity.status(HttpStatus.OK).body(imageService.getImageById(id));
-	}
-
 }

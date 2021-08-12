@@ -73,7 +73,7 @@ const RegistrationForm: FunctionComponent<IRegisterForm> = ({
 
   const handleRegistrClick = e => {
     e.preventDefault();
-    if (isRequiredFieldsValid) {
+    if (isRequiredFieldsValid()) {
       // add all fields
       register({ name, surname, nickname, email, password });
     }

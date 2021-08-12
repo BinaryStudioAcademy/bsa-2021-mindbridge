@@ -3,11 +3,11 @@
 .tagsSideBar {
   display: flex;
   flex-direction: column;
-  grid-gap: 1em;
+  grid-gap: 0.8em;
   height: 19em;
-  width: 25em;
+  width: 25.8em;
   background-color: $background-card;
-  padding: 1.5em 1.5em 1.5em 1.9em;
+  padding: 2em 2.43em 2.3em 2.43em;
   border-radius: 0.5em;
 }
 
@@ -24,7 +24,7 @@
   display: grid;
   grid-template-columns: 6fr 1fr;
   grid-template-rows: 1fr;
-  width: 20.2rem;
+  width: 21rem;
   height: 2.7rem;
   margin-right: 2rem;
   input {
@@ -58,7 +58,7 @@
 }
 
 .searchBtn {
-  width: 20.2rem;
+  width: 21rem;
   font-weight: bold;
   font-size: 0.85rem;
   height: 2.7rem;
@@ -67,7 +67,7 @@
 }
 
 .tag {
-  padding: 6px;
+  padding: 7px;
   font-size: 0.88rem;
   font-family: Lato, serif;
   color:rgba(102, 122, 175, 0.5);
@@ -91,4 +91,8 @@
   background-color: rgba(0,0,0,0);
   border: solid 2px $dark-grey;
   color: $dark-grey;
+}
+
+.btnWrapper {
+  width: 22rem;
 }

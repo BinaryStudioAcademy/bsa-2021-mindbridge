@@ -1,5 +1,6 @@
 :global(.ui.card).postCard {
   width: 83%;
+  min-height: 20rem;
   max-width: 83em;
   margin: 2.8vw 0px -2em 15%;
   padding-top: 1.5em;
@@ -80,15 +81,16 @@
 }
 
 .icon {
-  display: inline-block;
+  display: flex;
   margin-right: 2em;
+  align-items: center;
 }
 
 .postIcons {
   margin-left: 1em;
   margin-top: 0.4em;
+  display: flex;
   p {
-    display: inline-block;
     font-family: Lato, sans-serif;
     font-size: 0.85rem;
     color: rgba(53, 53, 53, 0.5);
@@ -97,7 +99,7 @@
 }
 
 .comment {
-  margin-bottom: -0.13rem;
+  margin-bottom: 0.1rem;
 }
 
 .views {
@@ -124,7 +126,7 @@
   img {
     display: none !important;
   }
-  
+
 }
 
 
