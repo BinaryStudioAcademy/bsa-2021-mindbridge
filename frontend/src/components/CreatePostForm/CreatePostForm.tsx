@@ -82,7 +82,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
       <label className={styles.file_input_rectangle} htmlFor="image-input-1" onChange={handelCoverFile}>
         <CoverImageSvg />
         {!form.coverImage.title ? <span>Add a cover image</span> : <span>{form.coverImage.title}</span>}
-        <input id="image-input-1" className={styles.invisible} type="file" />
+        <input id="image-input-1" className={styles.invisible} type="file" accept="image/*" />
       </label>
       <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
       <div className={styles.content_input_container}>
@@ -95,7 +95,10 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
             {' '}
             <p className={styles.uploadRef}>choose image</p>
           </p>
-          <input {...getInputProps()} id="image-input-2" className={styles.invisible} type="file" />
+          <input {...getInputProps()}
+            id="image-input-2"
+            className={styles.invisible}
+            type="file" accept="image/*" />
         </div>
         <textarea
           className={styles.content_input}
