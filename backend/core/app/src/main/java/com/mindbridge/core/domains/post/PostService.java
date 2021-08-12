@@ -2,10 +2,7 @@ package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.helpers.DateFormatter;
-import com.mindbridge.core.domains.post.dto.CreatePostDto;
-import com.mindbridge.core.domains.post.dto.PostDetailsDto;
-import com.mindbridge.core.domains.post.dto.PostVersionsListDto;
-import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
+import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
@@ -75,6 +72,20 @@ public class PostService {
 	public List<PostVersionsListDto> getPostVersions(UUID postId) {
 		return postVersionRepository.getPostVersionByPostId(postId).stream().map(PostVersionsListDto::fromEntity)
 				.collect(Collectors.toList());
+	}
+
+	public void editPost(EditPostDto editPostDto) {
+		var currentPost = postRepository.getOne(editPostDto.getPostId());
+		var postVersion = PostMapper.MAPPER.postToPostVersion(currentPost);
+		postVersionRepository.save(postVersion);
+		currentPost.setTitle(editPostDto.getTitle());
+		currentPost.setText(editPostDto.getText());
+		currentPost.setMarkdown(editPostDto.getMarkdown());
+		currentPost.setCoverImage(editPostDto.getCoverImage());
+		currentPost.setDraft(editPostDto.getDraft());
+		currentPost.setTags(new HashSet<>(tagRepository.findAllById(editPostDto.getTags())));
+
+		postRepository.save(currentPost);
 	}
 
 	public void savePost(CreatePostDto createPostDto) {

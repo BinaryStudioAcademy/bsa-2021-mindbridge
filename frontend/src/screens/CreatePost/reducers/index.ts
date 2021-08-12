@@ -6,7 +6,7 @@ import { createPostReducer } from '@screens/CreatePost/containers/CreatePostPage
 import {
   sendPostRoutine, sendImageRoutine, resetLoadingImageRoutine,
   fetchDataRoutine, fetchTagsRoutine, fetchPostRoutine, sendPRRoutine,
-  getPostVersionsRoutine
+  getPostVersionsRoutine, editPostRoutine
 } from '@screens/CreatePost/routines';
 
 const requests = combineReducers({
@@ -18,6 +18,7 @@ const requests = combineReducers({
   fetchDataRequest: reducerCreator[fetchDataRoutine.TRIGGER],
   fetchPostRequest: reducerCreator[fetchPostRoutine.TRIGGER],
   sendPRRequest: reducerCreator[sendPRRoutine.TRIGGER],
+  editPostRequest: reducerCreator[editPostRoutine.TRIGGER],
   getPostVersionsRequest: reducerCreator[getPostVersionsRoutine.TRIGGER]
 });
 
