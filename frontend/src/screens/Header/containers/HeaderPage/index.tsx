@@ -48,8 +48,13 @@ const Header: React.FC<IHeaderProps> = (
   };
 
   const handleCreatePostButton = () => {
-    history.push('/create/post');
-    history.go();
+    if (isAuthorized) {
+      history.push('/create/post');
+      history.go();
+    } else {
+      history.push('/login');
+      history.go();
+    }
   };
 
   return (
