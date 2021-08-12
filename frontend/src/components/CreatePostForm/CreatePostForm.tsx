@@ -15,15 +15,14 @@ interface ICreatePostFormProps {
   allTags: [any];
 }
 
-const checkImageSize = (file) => {
+const checkImageSize = file => {
   const BYTES_IN_MEGABYTE = 1024 * 1024;
   if (file.size > (BYTES_IN_MEGABYTE)) {
     toastr.error('Error', 'File is too large, use image less than 1Mb');
     return false;
-  } else {
-    return true;
   }
-}
+  return true;
+};
 
 const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendImage, allTags }) => {
   const { getRootProps, getInputProps } = useDropzone({
@@ -42,17 +41,15 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
           title: ''
         }
       });
-    } else {
-      if (checkImageSize(event.target.files[0])) {
-        sendImage({ file: event.target.files[0], inContent: false });
-        setForm({
-          ...form,
-          coverImage: {
-            url: '',
-            title: 'loading...'
-          }
-        });
-      }
+    } else if (checkImageSize(event.target.files[0])) {
+      sendImage({ file: event.target.files[0], inContent: false });
+      setForm({
+        ...form,
+        coverImage: {
+          url: '',
+          title: 'loading...'
+        }
+      });
     }
   };
   const handleTitle = (event: any) => {
