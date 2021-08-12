@@ -50,7 +50,7 @@ public class UserService implements UserDetailsService {
 		this.postRepository = postRepository;
 	}
 
-	public UserProfileDto getQuantityOfUsers(UUID userId) {
+	public UserProfileDto getUserProfileInformation(UUID userId) {
 		var user = UserMapper.MAPPER.userToUserProfileDto(userRepository.findById(userId).orElseThrow());
 		var posts = postRepository.getPostsByAuthorId(userId);
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));

@@ -15,13 +15,16 @@ import DarkButton from '@root/components/buttons/DarcButton';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
-import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine, getPostVersionsRoutine,
+import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine, getPostVersionsRoutine,
   fetchTagsRoutine } from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
+import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 
 export interface ICreatePostProps extends IState, IActions {
+  isAuthorized: boolean;
+  currentUser: ICurrentUser;
 }
 
 interface IState {
@@ -40,21 +43,20 @@ interface IActions {
   sendImage: IBindingAction;
   sendPost: IBindingCallback1<object>;
   resetLoadingImage: IBindingAction;
-  fetchData: IBindingAction;
+  fetchData: IBindingCallback1<string>;
   getPostVersions: IBindingAction;
   fetchTags: IBindingAction;
 }
 
 const CreatePost: React.FC<ICreatePostProps> = ({
   sendImage, sendPost, resetLoadingImage, savingImage, userInfo, allTags, fetchData,
-  fetchTags, getPostVersions, versionsOfPost }) => {
+  fetchTags, getPostVersions, versionsOfPost, currentUser, isAuthorized }) => {
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,
     editMode: true,
     viewMode: false
   });
-
   const [form, setForm] = useState<IForm>({
     coverImage: {
       title: '',
@@ -67,11 +69,10 @@ const CreatePost: React.FC<ICreatePostProps> = ({
   });
 
   useEffect(() => {
-    fetchData();
+    fetchData(currentUser.id);
     fetchTags();
     getPostVersions();
-  }, [fetchData, fetchTags, getPostVersions]);
-
+  }, [currentUser, fetchTags, getPostVersions]);
   useEffect(() => {
     if (savingImage.isLoaded) {
       if (!savingImage.isInContent) {
@@ -114,7 +115,6 @@ const CreatePost: React.FC<ICreatePostProps> = ({
       viewMode: !modes.viewMode
     });
   };
-
   const handleCancel = () => {
     setForm({
       coverImage: {
@@ -135,7 +135,7 @@ const CreatePost: React.FC<ICreatePostProps> = ({
       coverImage: form.coverImage.url,
       markdown: modes.markdownMode,
       // use current user id as author
-      author: 'b9eb8231-5422-4d6f-906b-eeb55da1edd1',
+      author: currentUser.id,
       tags: form.tags,
       draft: true
     };
@@ -150,14 +150,13 @@ const CreatePost: React.FC<ICreatePostProps> = ({
       coverImage: form.coverImage.url,
       markdown: modes.markdownMode,
       // use current user id as author
-      author: 'b9eb8231-5422-4d6f-906b-eeb55da1edd1',
+      author: currentUser.id,
       tags: form.tags,
       draft: false
     };
     sendPost(post);
     handleCancel();
   };
-
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
@@ -170,9 +169,10 @@ const CreatePost: React.FC<ICreatePostProps> = ({
             postNotificationCount={userInfo.profile.postsQuantity}
           />
         </div>
-        <div className={styles.history_sidebar_container}>
-          <HistorySidebar history={versionsOfPost} />
-        </div>
+        {/* We need this component only if we edit post*/}
+        {/* <div className={styles.history_sidebar_container}>*/}
+        {/*  <HistorySidebar history={versionsOfPost} />*/}
+        {/* </div>*/}
         <div className={styles.create_post_container}>
           <div className={styles.header}>
             {modes.htmlMode
@@ -254,14 +254,16 @@ const mapStateToProps: (state) => IState = state => ({
   savingImage: state.createPostReducer.data.savingImage,
   userInfo: extractData(state),
   allTags: state.createPostReducer.data.allTags,
-  versionsOfPost: state.createPostReducer.data.versionsOfPost
+  versionsOfPost: state.createPostReducer.data.versionsOfPost,
+  isAuthorized: state.auth.auth.isAuthorized,
+  currentUser: state.auth.auth.user
 });
 
 const mapDispatchToProps: IActions = {
   sendImage: sendImageRoutine,
   sendPost: sendPostRoutine,
   resetLoadingImage: resetLoadingImageRoutine,
-  fetchData: fetchDataRoutine,
+  fetchData: fetchUserProfileRoutine,
   fetchTags: fetchTagsRoutine,
   getPostVersions: getPostVersionsRoutine
 };
