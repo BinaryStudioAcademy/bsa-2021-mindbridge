@@ -50,7 +50,7 @@ interface IActions {
 
 const CreatePost: React.FC<ICreatePostProps> = ({
   sendImage, sendPost, resetLoadingImage, savingImage, userInfo, allTags, fetchData,
-  fetchTags, getPostVersions, versionsOfPost, currentUser, isAuthorized }) => {
+  fetchTags, getPostVersions, versionsOfPost, currentUser }) => {
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,

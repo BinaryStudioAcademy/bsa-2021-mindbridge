@@ -67,7 +67,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
   };
 
   return (
-    <form className={styles.create_post_form}>
+    <form {...getRootProps({ className: 'dropzone' })} className={styles.create_post_form}>
       <label className={styles.file_input_rectangle} htmlFor="image-input-1" onChange={handelCoverFile}>
         <CoverImageSvg />
         {!form.coverImage.title ? <span>Add a cover image</span> : <span>{form.coverImage.title}</span>}
@@ -75,7 +75,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
       </label>
       <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
       <div className={styles.content_input_container}>
-        <div {...getRootProps({ className: 'dropzone' })} className={styles.addImageArea}>
+        <div className={styles.addImageArea}>
           <div className={styles.addImageSvg}>
             <AddImageSvg />
           </div>
