@@ -1,6 +1,6 @@
 # Binary Studio Academy | 2021 | Java 
 
-### [Mindbridge](http://mindbridge.westeurope.azurecontainer.io) [![Deploy Mindbridge Prod](https://github.com/BinaryStudioAcademy/bsa-2021-mindbridge/actions/workflows/build_deploy_prod.yml/badge.svg?branch=dev)](https://github.com/BinaryStudioAcademy/bsa-2021-mindbridge/actions/workflows/build_deploy_prod.yml)
+### [Mindbridge](https://mindbridge.westeurope.cloudapp.azure.com) [![Deploy Mindbridge Prod](https://github.com/BinaryStudioAcademy/bsa-2021-mindbridge/actions/workflows/build_deploy_prod.yml/badge.svg?branch=dev)](https://github.com/BinaryStudioAcademy/bsa-2021-mindbridge/actions/workflows/build_deploy_prod.yml)
 ### [Staging Mindbridge](http://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com) [![Deploy Mindbridge Staging](https://github.com/BinaryStudioAcademy/bsa-2021-mindbridge/actions/workflows/build_deploy_staging.yml/badge.svg)](https://github.com/BinaryStudioAcademy/bsa-2021-mindbridge/actions/workflows/build_deploy_staging.yml)
 
 > Let us connect your minds
