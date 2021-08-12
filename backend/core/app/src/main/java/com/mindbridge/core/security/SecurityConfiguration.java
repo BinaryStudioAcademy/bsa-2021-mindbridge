@@ -43,6 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/webjars/**").permitAll()
 				.antMatchers("/data/**").permitAll()
 				.antMatchers("/post/**").permitAll()
+				.antMatchers("/user/**").permitAll()
 				.antMatchers("/notification/**")
 				.permitAll().anyRequest().authenticated().and();
 
