@@ -95,10 +95,13 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
             {' '}
             <p className={styles.uploadRef}>choose image</p>
           </p>
-          <input {...getInputProps()}
+          <input
+            {...getInputProps()}
             id="image-input-2"
             className={styles.invisible}
-            type="file" accept="image/*" />
+            type="file"
+            accept="image/*"
+          />
         </div>
         <textarea
           className={styles.content_input}
