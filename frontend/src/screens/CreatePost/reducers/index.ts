@@ -17,7 +17,7 @@ const requests = combineReducers({
   sendImageRequest: reducerCreator([sendImageRoutine.TRIGGER]),
   fetchDataRequest: reducerCreator[fetchDataRoutine.TRIGGER],
   fetchPostRequest: reducerCreator[fetchPostRoutine.TRIGGER],
-  sendPRRequest: reducerCreator[sendPRRoutine.TRIGGER]
+  sendPRRequest: reducerCreator[sendPRRoutine.TRIGGER],
   getPostVersionsRequest: reducerCreator[getPostVersionsRoutine.TRIGGER]
 });
 

@@ -16,7 +16,7 @@ import DarkButton from '@root/components/buttons/DarcButton';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
-import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
+
 import {
   sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine, getPostVersionsRoutine,
   fetchTagsRoutine, fetchPostRoutine, sendPRRoutine
