@@ -1,6 +1,4 @@
-export interface ICurrentUser {
-  id: string;
-  createdAt: string;
+export interface IUserForm {
   nickname: string;
   avatar: string;
   email: string;

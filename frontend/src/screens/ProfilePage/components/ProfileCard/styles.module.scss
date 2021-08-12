@@ -1,4 +1,4 @@
-@import "../../styles/common.sass";
+@import "src/styles/common";
 
 .viewCard {
   display: flex;
@@ -182,4 +182,14 @@
   &::placeholder {
     opacity: 0.4 !important;
   }
+}
+
+.invisible{
+  display: none;
+}
+
+.disableFormButton button {
+  cursor: not-allowed;
+  pointer-events: none;
+  background: #8c8c8c99;
 }

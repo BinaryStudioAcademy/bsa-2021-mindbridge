@@ -1,26 +1,16 @@
-import { all, call, put, takeEvery } from 'redux-saga/effects';
-import profilePageService from '@screens/ProfilePage/services/profilePage';
+import { sendFormRoutine } from '@screens/ProfilePage/routines';
+import { call, put } from 'redux-saga/effects';
+import createPostService from '@screens/CreatePost/services/createPost';
+import { sendImageRoutine, sendPostRoutine } from '@screens/CreatePost/routines';
 import { toastr } from 'react-redux-toastr';
-import { fetchDataRoutine } from '@screens/ProfilePage/routines';
 
-function* fetchData() {
+function* sendForm(action) {
   try {
-    const response = yield call(profilePageService.getData);
-    const postsList = { posts: response };
-    yield put(fetchDataRoutine.success(postsList));
-    toastr.success('Success', 'Data loaded!');
+    const response = yield call(createPostService.sendPost, action.payload);
+    yield put(sendPostRoutine.success(response));
+    toastr.success('Success', 'Post was sent!');
   } catch (error) {
-    yield put(fetchDataRoutine.failure(error?.message));
-    toastr.error('Error', 'Loading failed!');
+    yield put(sendImageRoutine.failure(error?.message));
+    toastr.error('Error', 'Sending post failed!');
   }
-}
-
-function* watchGetDataRequest() {
-  yield takeEvery(fetchDataRoutine.TRIGGER, fetchData);
-}
-
-export default function* profilePageSagas() {
-  yield all([
-    watchGetDataRequest()
-  ]);
 }

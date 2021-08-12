@@ -7,10 +7,13 @@ const initialState: IDataAuth = {
   isAuthorized: false,
   user: {
     id: '',
+    createdAt: '',
     nickname: '',
     avatar: '',
+    email: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
+    password: ''
   }
 };
 

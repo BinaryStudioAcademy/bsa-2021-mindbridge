@@ -1,62 +1,63 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
-import { IBindingAction } from '@models/Callbacks';
-import { RootState } from '@root/store';
-import { extractData, extractFetchDataLoading } from '@screens/FeedPage/reducers';
-import { fetchDataRoutine } from '@screens/FeedPage/routines';
-import FeedLogInSidebar from '@components/FeedLogInSidebar';
+import { IBindingCallback1 } from '@models/Callbacks';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
-import { IPostList } from '@screens/FeedPage/models/IPostList';
-import LoaderWrapper from '@components/LoaderWrapper';
-import ProfileCard from '@components/ProfileCard';
+import ProfileCard from '@screens/ProfilePage/components/ProfileCard';
+import { IAppState } from '@models/AppState';
+import { sendFormRoutine } from '@screens/ProfilePage/routines';
+
+export interface IProfileFormRequest {
+  nickname: string;
+  avatar: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+}
 
 export interface IProfilePageProps extends IState, IActions {
+  initialData: any;
 }
 
 interface IState {
-   data: IPostList;
-  dataLoading: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface IActions {
-   fetchData: IBindingAction;
+  sendForm: IBindingCallback1<object>;
 }
 
-const FeedPage: React.FC<IProfilePageProps> = (
-  /* { data, fetchData, dataLoading }*/
+const ProfilePage: React.FC<IProfilePageProps> = (
+  { initialData, sendForm }
 ) => (
-  /* useEffect(() => {
-      fetchData();
-    }, []);
-
-    if (dataLoading === true) {
-      return (
-        <LoaderWrapper loading={dataLoading} />
-      );
-    }*/
-
-  (
-    <div className={styles.feedPage}>
-      <div className={styles.main}>
-        <ProfileCard />
-      </div>
-      <div className={styles.sidebar}>
-        <div className={styles.tagsSideBar}>
-          <FeedTagsSideBar />
-        </div>
+  <div className={styles.feedPage}>
+    <div className={styles.main}>
+      <ProfileCard initialData={initialData} sendForm={sendForm} />
+    </div>
+    <div className={styles.sidebar}>
+      <div className={styles.tagsSideBar}>
+        <FeedTagsSideBar />
       </div>
     </div>
-  )
+  </div>
 );
-const mapStateToProps: (state: RootState) => IState = state => ({
-  data: extractData(state),
-  dataLoading: extractFetchDataLoading(state)
-});
 
-const mapDispatchToProps: IActions = {
-  fetchData: fetchDataRoutine
+const mapStateToProps = (state: IAppState) => {
+  const { user } = state.auth.auth;
+  return ({
+    initialData: {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      nickname: user.nickname,
+      avatar: user.avatar,
+      email: user.email,
+      password: user.password
+    }
+  });
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);
+const mapDispatchToProps: IActions = {
+  sendForm: sendFormRoutine
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

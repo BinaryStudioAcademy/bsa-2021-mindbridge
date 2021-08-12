@@ -1,32 +1,19 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { fetchDataRoutine } from '@screens/FeedPage/routines';
-import { IPost } from '@screens/FeedPage/models/IPost';
-import { IPostList } from '@screens/FeedPage/models/IPostList';
+import { fetchDataRoutine } from '@screens/ProfilePage/routines';
+import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
+import { IUserForm } from '@screens/ProfilePage/models/IUserForm';
 
-export interface IProfilePageReducerState {
-   posts: [IPost];
-}
-
-const initialState: IProfilePageReducerState = {
-  posts: [{
-    id: '',
-    title: '',
-    text: '',
-    authorName: '',
-    commentsCount: 0,
-    likesCount: 0,
-    disLikesCount: 0,
-    tags: [{ id: '', name: '' }],
-    createdAt: '',
-    postRating: 0,
-    avatar: '',
-    coverImage: '',
-    markdown: false
-  }]
+const initialState: IUserForm = {
+  nickname: '',
+  avatar: '',
+  email: '',
+  firstName: '',
+  lastName: '',
+  password: ''
 };
 
 export const profilePageReducer = createReducer(initialState, {
-  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPostList>) => {
-    state.posts = payload.posts;
+  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserForm>) => {
+    /* state.posts = payload.posts;*/
   }
 });
