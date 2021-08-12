@@ -21,6 +21,6 @@ RUN npm run build
 FROM nginx:stable-alpine
 COPY --from=build /app/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
-COPY .docker/nginx/nginx.staging.conf /etc/nginx/conf.d
+COPY .docker/nginx/nginx.staging.conf /etc/nginx/conf.d/nginx.conf
 EXPOSE 80
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
