@@ -23,10 +23,10 @@ const FeedLogInSidebar: FunctionComponent = () => {
       <div className={styles.description}>
         We&apos;re a place where coders share, stay up-to-date and grow their careers.
       </div>
-      <button type="button" onClick={handleRegistrationButton} className={styles.darkBorderButton}>
+      <button type="button" onClick={handleRegistrationButton} className={styles.dark_button}>
         Create new account
       </button>
-      <button type="button" onClick={handleLoginButton} className={styles.darkBorderButton}>
+      <button type="button" onClick={handleLoginButton} className={styles.dark_button}>
         Log in
       </button>
     </div>
