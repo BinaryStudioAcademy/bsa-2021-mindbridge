@@ -3,13 +3,13 @@ package com.mindbridge.core.domains.post;
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.helpers.DateFormatter;
 import com.mindbridge.core.domains.post.dto.*;
+import com.mindbridge.core.domains.elasticsearch.ElasticService;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
 
-import java.util.Date;
 import java.util.HashSet;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,17 +38,20 @@ public class PostService {
 
 	private final TagRepository tagRepository;
 
+	private final ElasticService elasticService;
+
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService,
-			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-			PostVersionRepository postVersionRepository) {
+					   PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
+					   PostVersionRepository postVersionRepository, ElasticService elasticService) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
 		this.userRepository = userRepository;
 		this.tagRepository = tagRepository;
 		this.postVersionRepository = postVersionRepository;
+		this.elasticService = elasticService;
 	}
 
 	public PostDetailsDto getPostById(UUID id) {
@@ -92,7 +95,8 @@ public class PostService {
 		var post = PostMapper.MAPPER.createPostDtoToPost(createPostDto);
 		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
 		post.setTags(tags);
-		postRepository.save(post);
+		var savedPost = postRepository.save(post);
+		elasticService.put(savedPost);
 	}
 
 }
