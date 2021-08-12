@@ -1,8 +1,15 @@
-import { fetchTagsRoutine, sendImageRoutine, sendPostRoutine, fetchDataRoutine, getPostVersionsRoutine }
-  from '../../routines/index';
+import {
+  fetchTagsRoutine,
+  sendImageRoutine,
+  sendPostRoutine,
+  fetchDataRoutine,
+  fetchPostRoutine, sendPRRoutine,
+  getPostVersionsRoutine
+} from '../../routines/index';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import createPostService from '@screens/CreatePost/services/createPost';
+import { Routine } from 'redux-saga-routines';
 
 function* sendImage(action) {
   const formData = new FormData();
@@ -84,12 +91,44 @@ function* watchFetchTagsRequest() {
   yield takeEvery(fetchTagsRoutine.TRIGGER, fetchTags);
 }
 
+function* fetchPost({ payload }: Routine<any>) {
+  try {
+    const response = yield call(createPostService.getPost, payload);
+
+    yield put(fetchPostRoutine.success(response));
+  } catch (error) {
+    yield put(fetchPostRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading post failed');
+  }
+}
+
+function* watchFetchPost() {
+  yield takeEvery(fetchPostRoutine.TRIGGER, fetchPost);
+}
+
+function* sendPR({ payload }: Routine<any>) {
+  try {
+    const response = yield call(createPostService.sendPR, payload);
+
+    yield put(sendPRRoutine.success(response));
+  } catch (error) {
+    yield put(sendPRRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading PR failed');
+  }
+}
+
+function* watchSendPR() {
+  yield takeEvery(sendPRRoutine.TRIGGER, sendPR);
+}
+
 export default function* defaultPageSagas() {
   yield all([
     watchPostVersions(),
     watchSendImageRequest(),
     watchSendPostRequest(),
     watchGetDataRequest(),
-    watchFetchTagsRequest()
+    watchFetchTagsRequest(),
+    watchFetchPost(),
+    watchSendPR()
   ]);
 }
