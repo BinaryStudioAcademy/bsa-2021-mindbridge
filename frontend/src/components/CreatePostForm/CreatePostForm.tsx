@@ -15,12 +15,20 @@ interface ICreatePostFormProps {
   allTags: [any];
 }
 
+const checkImageSize = (file) => {
+  const BYTES_IN_MEGABYTE = 1024 * 1024;
+  if (file.size > (BYTES_IN_MEGABYTE)) {
+    toastr.error('Error', 'File is too large, use image less than 1Mb');
+    return false;
+  } else {
+    return true;
+  }
+}
+
 const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendImage, allTags }) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: files => {
-      if (files[0].size > (1024 * 1024)) {
-        toastr.error('Error', 'File is too large, use image less than 1Mb');
-      } else {
+      if (checkImageSize(files[0])) {
         sendImage({ file: files[0], inContent: true });
       }
     }
@@ -35,18 +43,16 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
         }
       });
     } else {
-      if (event.target.files[0].size > (1024 * 1024)) {
-        toastr.error('Error', 'File is too large, use image less then 1Mb');
-        return;
+      if (checkImageSize(event.target.files[0])) {
+        sendImage({ file: event.target.files[0], inContent: false });
+        setForm({
+          ...form,
+          coverImage: {
+            url: '',
+            title: 'loading...'
+          }
+        });
       }
-      sendImage({ file: event.target.files[0], inContent: false });
-      setForm({
-        ...form,
-        coverImage: {
-          url: '',
-          title: 'loading...'
-        }
-      });
     }
   };
   const handleTitle = (event: any) => {
