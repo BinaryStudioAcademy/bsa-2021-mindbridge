@@ -5,6 +5,7 @@ import AddImageSvg from './svg/addImageSvg';
 import { IForm, IModes } from '@root/screens/CreatePost/models/IData';
 import { useDropzone } from 'react-dropzone';
 import TagsDropdown from '../TagsDropdown';
+import { toastr } from 'react-redux-toastr';
 
 interface ICreatePostFormProps {
   form: IForm;
@@ -16,7 +17,13 @@ interface ICreatePostFormProps {
 
 const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendImage, allTags }) => {
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop: files => sendImage({ file: files[0], inContent: true })
+    onDrop: files => {
+      if (files[0].size > (1024 * 1024)) {
+        toastr.error('Error', 'File is too large, use image less then 1Mb');
+      } else {
+        sendImage({ file: files[0], inContent: true });
+      }
+    }
   });
   const handelCoverFile = (event: any) => {
     if (!event.target.files[0]) {
@@ -28,6 +35,10 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
         }
       });
     } else {
+      if (event.target.files[0].size > (1024 * 1024)) {
+        toastr.error('Error', 'File is too large, use image less then 1Mb');
+        return;
+      }
       sendImage({ file: event.target.files[0], inContent: false });
       setForm({
         ...form,

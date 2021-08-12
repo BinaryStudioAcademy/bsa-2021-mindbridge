@@ -9,9 +9,7 @@ function* sendImage(action) {
   formData.append('file', action.payload.file);
   try {
     const response = yield call(createPostService.sendImage, formData);
-    // response must has a real url to image on service
-    // yield put(sendImageRoutine.success(response));
-    yield put(sendImageRoutine.success(`http://localhost:5000/image/${response}`));
+    yield put(sendImageRoutine.success(response));
     toastr.success('Success', 'Image was sent!');
   } catch (error) {
     yield put(sendImageRoutine.failure(error?.message));
