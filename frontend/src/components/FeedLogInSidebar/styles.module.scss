@@ -4,14 +4,14 @@
   display: flex;
   flex-direction: column;
   grid-gap: 1em;
-  height: 18em;
-  width: 25em;
+  height: 19em;
+  width: 25.8em;
   background-color: $background-card;
-  padding: 1.5em 1.5em 1.5em 1.9em;
+  padding: 2em 2.43em 2.3em 2.43em;
   border-radius: 0.5em;
 
   button {
-    width: 20.2rem;
+    width: 21rem;
     font-weight: bold;
     font-size: 0.85rem;
     height: 2.7rem;
@@ -33,6 +33,7 @@
   font-family: Lato, serif;
   font-size: 0.88rem;
   color: $dark-grey;
+  max-width: 23em;
 }
 
 .darkBorderButton {
