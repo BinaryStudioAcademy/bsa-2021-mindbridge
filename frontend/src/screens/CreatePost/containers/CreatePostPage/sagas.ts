@@ -42,7 +42,6 @@ function* fetchData(id) {
   try {
     const response = yield call(createPostService.getData, id.payload);
     yield put(fetchUserProfileRoutine.success(response));
-    toastr.success('Success', 'Data loaded!');
   } catch (error) {
     yield put(fetchUserProfileRoutine.failure(error?.message));
   }
@@ -70,7 +69,6 @@ function* fetchTags() {
       allTags.push(tag);
     });
     yield put(fetchTagsRoutine.success(allTags));
-    toastr.success('Success', 'Tags loaded!');
   } catch (error) {
     yield put(fetchTagsRoutine.failure(error?.message));
     toastr.error('Error', 'Loading tags failed!');
