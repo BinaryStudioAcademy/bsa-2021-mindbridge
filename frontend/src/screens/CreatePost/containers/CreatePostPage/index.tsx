@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import ProfileSidebar from '@root/components/ProfileSidebar';
 import HistorySidebar from '@root/components/PostHistorySidebar';
+import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
 import EditSvgPart1 from './svg/editSvgPart1';
 import EditSvgPart2 from './svg/editSvgPart2';
@@ -14,11 +15,11 @@ import DarkButton from '@root/components/buttons/DarcButton';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
-import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
-import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine,
+import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine, getPostVersionsRoutine,
   fetchTagsRoutine } from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
+import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 
 export interface ICreatePostProps extends IState, IActions {
 }
@@ -31,6 +32,7 @@ interface IState {
     isInContent: boolean;
   };
   userInfo: IStateProfile;
+  versionsOfPost: IPostVersions[];
   allTags: [any];
 }
 
@@ -39,14 +41,13 @@ interface IActions {
   sendPost: IBindingCallback1<object>;
   resetLoadingImage: IBindingAction;
   fetchData: IBindingAction;
+  getPostVersions: IBindingAction;
   fetchTags: IBindingAction;
 }
 
-// use real value
-const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
-
 const CreatePost: React.FC<ICreatePostProps> = ({
-  sendImage, sendPost, resetLoadingImage, savingImage, userInfo, allTags, fetchData, fetchTags }) => {
+  sendImage, sendPost, resetLoadingImage, savingImage, userInfo, allTags, fetchData,
+  fetchTags, getPostVersions, versionsOfPost }) => {
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,
@@ -68,7 +69,8 @@ const CreatePost: React.FC<ICreatePostProps> = ({
   useEffect(() => {
     fetchData();
     fetchTags();
-  }, [fetchData, fetchTags]);
+    getPostVersions();
+  }, [fetchData, fetchTags, getPostVersions]);
 
   useEffect(() => {
     if (savingImage.isLoaded) {
@@ -169,7 +171,7 @@ const CreatePost: React.FC<ICreatePostProps> = ({
           />
         </div>
         <div className={styles.history_sidebar_container}>
-          <HistorySidebar history={history} />
+          <HistorySidebar history={versionsOfPost} />
         </div>
         <div className={styles.create_post_container}>
           <div className={styles.header}>
@@ -251,7 +253,8 @@ const CreatePost: React.FC<ICreatePostProps> = ({
 const mapStateToProps: (state) => IState = state => ({
   savingImage: state.createPostReducer.data.savingImage,
   userInfo: extractData(state),
-  allTags: state.createPostReducer.data.allTags
+  allTags: state.createPostReducer.data.allTags,
+  versionsOfPost: state.createPostReducer.data.versionsOfPost
 });
 
 const mapDispatchToProps: IActions = {
@@ -259,7 +262,8 @@ const mapDispatchToProps: IActions = {
   sendPost: sendPostRoutine,
   resetLoadingImage: resetLoadingImageRoutine,
   fetchData: fetchDataRoutine,
-  fetchTags: fetchTagsRoutine
+  fetchTags: fetchTagsRoutine,
+  getPostVersions: getPostVersionsRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);
