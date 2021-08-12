@@ -9,7 +9,7 @@ jobs:
   deploy:
     name: 'Project Deploy'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
 
@@ -45,6 +45,7 @@ jobs:
         with:
           host: ${{ secrets.AZURE_VM_HOST }}
           key: ${{ secrets.AZURE_SSH_KEY }}
+          username: ${{ secrets.AZURE_USERNAME }}
           source: ".docker/docker-compose.yml"
           target: "."
 
@@ -53,4 +54,9 @@ jobs:
         with:
           host: ${{ secrets.AZURE_VM_HOST }}
           key: ${{ secrets.AZURE_SSH_KEY }}
-          script: sudo docker-compose -f docker-compose.yml stop && docker-compose -f docker-compose.yml pull && docker system prune -f && docker-compose -f docker-compose.yml up -d
+          username: ${{ secrets.AZURE_USERNAME }}
+          script: |
+            sudo docker-compose -f .docker/docker-compose.yml stop 
+            sudo docker-compose -f .docker/docker-compose.yml pull 
+            sudo docker system prune -f 
+            sudo docker-compose -f .docker/docker-compose.yml up -d
