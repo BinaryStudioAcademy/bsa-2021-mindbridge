@@ -45,7 +45,7 @@ function handleApiCallError(error: AxiosError): void {
   }
 }
 
-const refreshToken = async () => {
+const refreshTokens = async () => {
   const refreshToken = localStorage.getItem(REFRESH_TOKEN);
   const response = await axios('/api/auth/refresh', { data: { refreshToken } });
   return response.data;
@@ -63,20 +63,18 @@ const callApi = async (path: string, config: AxiosRequestConfig): Promise<any> =
   try {
     const response = await axios(path, token ? newConfig : config);
     if (response.status === 401 && localStorage.getItem(REFRESH_TOKEN)) {
-      const tokenRefreshResponse = await refreshToken();
+      const tokenRefreshResponse = await refreshTokens();
 
       if (tokenRefreshResponse.accessToken) {
         localStorage.setItem(ACCESS_TOKEN, tokenRefreshResponse.accessToken);
         localStorage.setItem(REFRESH_TOKEN, tokenRefreshResponse.refreshToken);
-        const token = localStorage.getItem(ACCESS_TOKEN);
-        const newConfig = {
+        const updatedConfig = {
           ...config,
           headers: {
-            authorization: `Bearer ${token}`
+            authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
           }
         };
-        const response = await axios(path, newConfig);
-        return response.data;
+        return (await axios(path, updatedConfig)).data;
       }
     }
     return response.data;
