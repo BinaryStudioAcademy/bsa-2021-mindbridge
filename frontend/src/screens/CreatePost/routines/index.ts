@@ -9,4 +9,6 @@ export const resetLoadingImageRoutine = createCreatePostRoutine('RESET_LOADING_I
 export const sendPostRoutine = createCreatePostRoutine('SEND_POST');
 export const sendImageRoutine = createCreatePostRoutine('SEND_IMAGE');
 export const fetchUserProfileRoutine = createCreatePostRoutine('FETCH_USER_PROFILE');
+export const fetchPostRoutine = createCreatePostRoutine('FETCH_POST');
+export const sendPRRoutine = createCreatePostRoutine('SEND_PR');
 export const getPostVersionsRoutine = createCreatePostRoutine('GET_POST_VERSIONS');

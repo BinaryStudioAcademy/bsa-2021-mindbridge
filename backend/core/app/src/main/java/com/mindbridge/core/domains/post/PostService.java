@@ -79,11 +79,11 @@ public class PostService {
 				.collect(Collectors.toList());
 	}
 
-	public void savePost(CreatePostDto post) {
-		var user = userRepository.getOne(post.getAuthor());
-		var tags = new HashSet<>(tagRepository.findAllById(post.getTags()));
-
-		var savedPost = postRepository.save(CreatePostDto.toPost(post, user, tags));
+	public void savePost(CreatePostDto createPostDto) {
+		var post = PostMapper.MAPPER.createPostDtoToPost(createPostDto);
+		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
+		post.setTags(tags);
+		var savedPost = postRepository.save(post);
 		elasticService.put(savedPost);
 	}
 

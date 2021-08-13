@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@root/components/ProfileSidebar';
 import HistorySidebar from '@root/components/PostHistorySidebar';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
@@ -15,8 +16,10 @@ import DarkButton from '@root/components/buttons/DarcButton';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
-import { sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine, getPostVersionsRoutine,
-  fetchTagsRoutine } from '../../routines';
+import {
+  sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine, getPostVersionsRoutine,
+  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine
+} from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
@@ -37,6 +40,19 @@ interface IState {
   userInfo: IStateProfile;
   versionsOfPost: IPostVersions[];
   allTags: [any];
+  currentUserId: string;
+  post?: {
+    id: string;
+    author: any;
+    title: string;
+    text: string;
+    tags: [{
+      id: string;
+      name: string;
+    }];
+    coverImage: string;
+    markdown: string;
+  };
 }
 
 interface IActions {
@@ -46,11 +62,29 @@ interface IActions {
   fetchData: IBindingCallback1<string>;
   getPostVersions: IBindingAction;
   fetchTags: IBindingAction;
+  fetchPost: IBindingCallback1<string>;
+  sendPR: IBindingCallback1<object>;
 }
 
-const CreatePost: React.FC<ICreatePostProps> = ({
-  sendImage, sendPost, resetLoadingImage, savingImage, userInfo, allTags, fetchData,
-  fetchTags, getPostVersions, versionsOfPost, currentUser }) => {
+const CreatePost: React.FC<ICreatePostProps> = (
+  {
+    sendImage,
+    sendPost,
+    sendPR,
+    resetLoadingImage,
+    savingImage,
+    userInfo,
+    allTags,
+    post,
+    currentUserId,
+    fetchData,
+    fetchTags,
+    fetchPost,
+    getPostVersions,
+    versionsOfPost,
+    currentUser
+  }
+) => {
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,
@@ -67,6 +101,27 @@ const CreatePost: React.FC<ICreatePostProps> = ({
     tags: [],
     editedTag: ''
   });
+
+  const { postId } = useParams();
+
+  useEffect(() => {
+    if (post) {
+      setForm({
+        ...form,
+        title: post.title,
+        content: post.text,
+        tags: Array.from(post.tags.map(tag => tag.id)),
+        coverImage: {
+          title: '',
+          url: post.coverImage
+        }
+      });
+    }
+  }, [post]);
+
+  useEffect(() => {
+    fetchPost(postId);
+  }, [postId]);
 
   useEffect(() => {
     fetchData(currentUser.id);
@@ -128,33 +183,47 @@ const CreatePost: React.FC<ICreatePostProps> = ({
     });
   };
 
-  const handleDraft = () => {
-    const post = {
+  const handleSendForm = isDraft => {
+    if (!postId) {
+      const postOnAdd = {
+        title: form.title,
+        text: form.content,
+        coverImage: form.coverImage.url,
+        markdown: modes.markdownMode,
+        tags: form.tags,
+        draft: isDraft,
+        author: currentUserId
+      };
+      sendPost(postOnAdd);
+      handleCancel();
+      return;
+    }
+    if (currentUserId === post.author.id) {
+      // TODO edit post (add new version)
+      const postOnEdit = {
+        title: form.title,
+        text: form.content,
+        coverImage: form.coverImage.url,
+        markdown: modes.markdownMode,
+        tags: form.tags,
+        postId,
+        draft: isDraft
+      };
+      // sendPost(postOnEdit);
+      handleCancel();
+      return;
+    }
+    const postOnPR = {
       title: form.title,
       text: form.content,
       coverImage: form.coverImage.url,
       markdown: modes.markdownMode,
-      // use current user id as author
       author: currentUser.id,
       tags: form.tags,
-      draft: true
+      postId,
+      contributorId: currentUserId
     };
-    sendPost(post);
-    handleCancel();
-  };
-
-  const handlePublish = () => {
-    const post = {
-      title: form.title,
-      text: form.content,
-      coverImage: form.coverImage.url,
-      markdown: modes.markdownMode,
-      // use current user id as author
-      author: currentUser.id,
-      tags: form.tags,
-      draft: false
-    };
-    sendPost(post);
+    sendPR(postOnPR);
     handleCancel();
   };
   return (
@@ -241,8 +310,8 @@ const CreatePost: React.FC<ICreatePostProps> = ({
             : <PostPreview form={form} modes={modes} allTags={allTags} />}
           <div className={styles.footer}>
             <DarkBorderButton content="Cancel" onClick={handleCancel} />
-            <DarkBorderButton content="Save draft" onClick={handleDraft} />
-            <DarkButton content="Publish" onClick={handlePublish} />
+            <DarkBorderButton content="Save draft" onClick={() => handleSendForm(true)} />
+            <DarkButton content="Publish" onClick={() => handleSendForm(false)} />
           </div>
         </div>
       </div>
@@ -254,9 +323,11 @@ const mapStateToProps: (state) => IState = state => ({
   savingImage: state.createPostReducer.data.savingImage,
   userInfo: extractData(state),
   allTags: state.createPostReducer.data.allTags,
-  versionsOfPost: state.createPostReducer.data.versionsOfPost,
   isAuthorized: state.auth.auth.isAuthorized,
-  currentUser: state.auth.auth.user
+  currentUser: state.auth.auth.user,
+  post: state.createPostReducer.data.post,
+  currentUserId: state.auth.auth.user.id,
+  versionsOfPost: state.createPostReducer.data.versionsOfPost
 });
 
 const mapDispatchToProps: IActions = {
@@ -265,6 +336,8 @@ const mapDispatchToProps: IActions = {
   resetLoadingImage: resetLoadingImageRoutine,
   fetchData: fetchUserProfileRoutine,
   fetchTags: fetchTagsRoutine,
+  fetchPost: fetchPostRoutine,
+  sendPR: sendPRRoutine,
   getPostVersions: getPostVersionsRoutine
 };
 

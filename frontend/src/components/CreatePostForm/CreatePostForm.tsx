@@ -5,6 +5,7 @@ import AddImageSvg from './svg/addImageSvg';
 import { IForm, IModes } from '@root/screens/CreatePost/models/IData';
 import { useDropzone } from 'react-dropzone';
 import TagsDropdown from '../TagsDropdown';
+import { toastr } from 'react-redux-toastr';
 
 interface ICreatePostFormProps {
   form: IForm;
@@ -14,9 +15,22 @@ interface ICreatePostFormProps {
   allTags: [any];
 }
 
+const checkImageSize = file => {
+  const BYTES_IN_MEGABYTE = 1024 * 1024;
+  if (file.size > (BYTES_IN_MEGABYTE)) {
+    toastr.error('Error', 'File is too large, use image less than 1Mb');
+    return false;
+  }
+  return true;
+};
+
 const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendImage, allTags }) => {
   const { getRootProps } = useDropzone({
-    onDrop: files => sendImage({ file: files[0], inContent: true })
+    onDrop: files => {
+      if (checkImageSize(files[0])) {
+        sendImage({ file: files[0], inContent: true });
+      }
+    }
   });
   const handelCoverFile = (event: any) => {
     if (!event.target.files[0]) {
@@ -27,7 +41,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
           title: ''
         }
       });
-    } else {
+    } else if (checkImageSize(event.target.files[0])) {
       sendImage({ file: event.target.files[0], inContent: false });
       setForm({
         ...form,
@@ -71,7 +85,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
       <label className={styles.file_input_rectangle} htmlFor="image-input-1" onChange={handelCoverFile}>
         <CoverImageSvg />
         {!form.coverImage.title ? <span>Add a cover image</span> : <span>{form.coverImage.title}</span>}
-        <input id="image-input-1" className={styles.invisible} type="file" />
+        <input id="image-input-1" className={styles.invisible} type="file" accept="image/*" />
       </label>
       <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
       <div className={styles.content_input_container}>

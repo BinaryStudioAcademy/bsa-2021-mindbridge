@@ -58,6 +58,8 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
 
         {/* should be ViewPage */}
         <PublicRoute exact path="/post/:id" component={Default} />
+        <PublicRoute exact path="/create/post" component={CreatePostPage} />
+        <PublicRoute exact path="/post/edit/:postId" component={CreatePostPage} />
         <div>
           <LoaderWrapper loading={isLoading}>
             <Switch>
