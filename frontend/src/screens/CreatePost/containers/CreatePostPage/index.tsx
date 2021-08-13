@@ -23,11 +23,9 @@ import {
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
-import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 
 export interface ICreatePostProps extends IState, IActions {
   isAuthorized: boolean;
-  currentUser: ICurrentUser;
 }
 
 interface IState {
@@ -81,8 +79,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     fetchTags,
     fetchPost,
     getPostVersions,
-    versionsOfPost,
-    currentUser
+    versionsOfPost
   }
 ) => {
   const [modes, setModes] = useState({
@@ -124,10 +121,10 @@ const CreatePost: React.FC<ICreatePostProps> = (
   }, [postId]);
 
   useEffect(() => {
-    fetchData(currentUser.id);
+    fetchData(currentUserId);
     fetchTags();
     getPostVersions();
-  }, [currentUser, fetchTags, getPostVersions]);
+  }, [currentUserId, fetchTags, getPostVersions]);
   useEffect(() => {
     if (savingImage.isLoaded) {
       if (!savingImage.isInContent) {
@@ -218,7 +215,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
       text: form.content,
       coverImage: form.coverImage.url,
       markdown: modes.markdownMode,
-      author: currentUser.id,
+      author: currentUserId,
       tags: form.tags,
       postId,
       contributorId: currentUserId
@@ -324,7 +321,6 @@ const mapStateToProps: (state) => IState = state => ({
   userInfo: extractData(state),
   allTags: state.createPostReducer.data.allTags,
   isAuthorized: state.auth.auth.isAuthorized,
-  currentUser: state.auth.auth.user,
   post: state.createPostReducer.data.post,
   currentUserId: state.auth.auth.user.id,
   versionsOfPost: state.createPostReducer.data.versionsOfPost
