@@ -11,9 +11,15 @@ import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import { IData } from '@screens/ViewPost/models/IData';
 import { useParams } from 'react-router-dom';
+import ProfileSidebar from '@components/ProfileSidebar';
+import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
+import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
+import { fetchUserProfileRoutine } from '@screens/CreatePost/routines';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
+  currentUser: ICurrentUser;
+  userInfo: IUserProfile;
 }
 
 interface IState {
@@ -22,16 +28,18 @@ interface IState {
 
 interface IActions {
   fetchData: IBindingCallback1<string>;
+  fetchUserProfile: IBindingCallback1<string>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
-  { data, fetchData, isAuthorized }
+  { data, fetchData, isAuthorized, currentUser, fetchUserProfile, userInfo }
 ) => {
   const { id } = useParams();
 
   useEffect(() => {
     fetchData(id);
-  }, [0]);
+    fetchUserProfile(currentUser.id);
+  }, [0, currentUser]);
 
   return (
     <div className={styles.viewPost}>
@@ -39,19 +47,28 @@ const ViewPost: React.FC<IViewPostProps> = (
         <ViewPostCard post={data.post} />
       </div>
       <div className={styles.sidebar}>
-        <div className={styles.logInSideBar}>
-          <FeedLogInSidebar />
-        </div>
         {isAuthorized ? (
           <div className={styles.suggestChanges}>
+            <div className={styles.profileSideBar}>
+              <ProfileSidebar
+                userName={userInfo.fullName}
+                avatar={userInfo.avatar}
+                folloversCount={userInfo.followersQuantity}
+                rating={userInfo.rating}
+                postNotificationCount={userInfo.postsQuantity}
+              />
+            </div>
             <SuggestChangesCard />
             <div className={styles.tagsSideBar}>
               <FeedTagsSideBar />
             </div>
           </div>
         ) : (
-          <div className={styles.tagsSideBar}>
-            <FeedTagsSideBar />
+          <div className={styles.logInSideBar}>
+            <FeedLogInSidebar />
+            <div className={styles.tagsSideBar}>
+              <FeedTagsSideBar />
+            </div>
           </div>
         )}
       </div>
@@ -61,11 +78,14 @@ const ViewPost: React.FC<IViewPostProps> = (
 
 const mapStateToProps: (state: RootState) => IState = state => ({
   data: extractData(state),
-  isAuthorized: state.auth.auth.isAuthorized
+  isAuthorized: state.auth.auth.isAuthorized,
+  currentUser: state.auth.auth.user,
+  userInfo: state.createPostReducer.data.profile
 });
 
 const mapDispatchToProps: IActions = {
-  fetchData: fetchDataRoutine
+  fetchData: fetchDataRoutine,
+  fetchUserProfile: fetchUserProfileRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);
