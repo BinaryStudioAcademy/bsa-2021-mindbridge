@@ -1,6 +1,7 @@
 import { toastr } from 'react-redux-toastr';
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { handleOnClickSignOut } from '@helpers/signOut.helper';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '@screens/Login/constants/auth_constants';
 
 function handleBadResponse(error: AxiosError) {
   const errorMessage = 'Sorry, you are not authorized to access this page. Please login again.';
@@ -44,9 +45,41 @@ function handleApiCallError(error: AxiosError): void {
   }
 }
 
+const refreshToken = async () => {
+  const refreshToken = localStorage.getItem(REFRESH_TOKEN);
+  const response = await axios('/api/auth/refresh', { data: { refreshToken } });
+  return response.data;
+};
+
 const callApi = async (path: string, config: AxiosRequestConfig): Promise<any> => {
+  const token = localStorage.getItem(ACCESS_TOKEN);
+
+  const newConfig = {
+    ...config,
+    headers: {
+      authorization: `Bearer ${token}`
+    }
+  };
   try {
-    return (await axios(path, config)).data;
+    const response = await axios(path, token ? newConfig : config);
+    if (response.status === 401 && localStorage.getItem(REFRESH_TOKEN)) {
+      const tokenRefreshResponse = await refreshToken();
+
+      if (tokenRefreshResponse.accessToken) {
+        localStorage.setItem(ACCESS_TOKEN, tokenRefreshResponse.accessToken);
+        localStorage.setItem(REFRESH_TOKEN, tokenRefreshResponse.refreshToken);
+        const token = localStorage.getItem(ACCESS_TOKEN);
+        const newConfig = {
+          ...config,
+          headers: {
+            authorization: `Bearer ${token}`
+          }
+        };
+        const response = await axios(path, newConfig);
+        return response.data;
+      }
+    }
+    return response.data;
   } catch (e) {
     handleApiCallError(e);
     throw new Error('Unhandled error');
