@@ -38,7 +38,9 @@ const Header: React.FC<IHeaderProps> = (
   const history = useHistory();
 
   useEffect(() => {
-    fetchNotificationCount(currentUser.id);
+    if (currentUser?.id) {
+      fetchNotificationCount(currentUser.id);
+    }
   }, [currentUser]);
   const [isListOpen, setIsListOpen] = useState(false);
 
