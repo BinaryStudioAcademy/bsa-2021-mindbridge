@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import CoverImageSvg from './svg/coverImageSvg';
-import AddImageSvg from './svg/addImageSvg';
 import { IForm, IModes } from '@root/screens/CreatePost/models/IData';
 import { useDropzone } from 'react-dropzone';
 import TagsDropdown from '../TagsDropdown';
 import { toastr } from 'react-redux-toastr';
+import DropZoneComponent from '@components/DropZoneComponent';
 
 interface ICreatePostFormProps {
   form: IForm;
@@ -96,41 +96,9 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
           placeholder="Write your post content"
         />
       </div>
-      {/* <div>*/}
-      {/*  <div {...getRootProps({ className: 'dropzone' })} className={styles.addImageArea}>*/}
-      {/*    <div className={styles.addImageSvg}>*/}
-      {/*      <AddImageSvg />*/}
-      {/*    </div>*/}
-      {/*    <p>*/}
-      {/*      Drag and drop an image here or choose image*/}
-      {/*    </p>*/}
-      {/*    <input {...getInputProps()} id="image-input-2" className={styles.invisible} type="file" />*/}
-      {/*  </div>*/}
-      {/* </div>*/}
-      <SecondDropZone send={sendImage} />
+      <DropZoneComponent sendImage={sendImage} />
       <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
     </form>
-  );
-};
-
-const SecondDropZone = ({ send }) => {
-  const { getRootProps, getInputProps } = useDropzone({
-    noDragEventsBubbling: true,
-    onDrop: files => send({ file: files[0], inContent: true })
-  });
-
-  return (
-    <div>
-      <div {...getRootProps({ className: 'dropzone' })} className={styles.addImageArea}>
-        <div className={styles.addImageSvg}>
-          <AddImageSvg />
-        </div>
-        <p>
-          Drag and drop an image here or choose image
-        </p>
-        <input {...getInputProps()} id="image-input-2" className={styles.invisible} type="file" />
-      </div>
-    </div>
   );
 };
 export default CreatePostForm;
