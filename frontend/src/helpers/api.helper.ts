@@ -47,7 +47,7 @@ function handleApiCallError(error: AxiosError): void {
 
 const refreshTokens = async () => {
   const refreshToken = localStorage.getItem(REFRESH_TOKEN);
-  const response = await axios('/api/auth/refresh', { data: { refreshToken } });
+  const response = await axios('/api/auth/refresh', { data: { refreshToken }, method: 'POST' });
   return response.data;
 };
 
@@ -62,7 +62,9 @@ const callApi = async (path: string, config: AxiosRequestConfig): Promise<any> =
   };
   try {
     const response = await axios(path, token ? newConfig : config);
-    if (response.status === 401 && localStorage.getItem(REFRESH_TOKEN)) {
+    return response.data;
+  } catch (e) {
+    try {
       const tokenRefreshResponse = await refreshTokens();
 
       if (tokenRefreshResponse.accessToken) {
@@ -76,11 +78,10 @@ const callApi = async (path: string, config: AxiosRequestConfig): Promise<any> =
         };
         return (await axios(path, updatedConfig)).data;
       }
+    } catch (e) {
+      handleApiCallError(e);
+      throw new Error('Unhandled error');
     }
-    return response.data;
-  } catch (e) {
-    handleApiCallError(e);
-    throw new Error('Unhandled error');
   }
 };
 
