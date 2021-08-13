@@ -1,7 +1,15 @@
-import { fetchTagsRoutine, resetLoadingImageRoutine, sendImageRoutine, fetchDataRoutine } from '../../routines/index';
+import {
+  fetchTagsRoutine,
+  resetLoadingImageRoutine,
+  sendImageRoutine,
+  fetchUserProfileRoutine,
+  fetchPostRoutine,
+  getPostVersionsRoutine } from '../../routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
+import { IPost } from '@screens/CreatePost/models/IPost';
+import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 
 export interface ICreatePostReducerState {
   savingImage: {
@@ -11,7 +19,9 @@ export interface ICreatePostReducerState {
     isInContent: boolean;
   };
   profile: IUserProfile;
+  versionsOfPost: IPostVersions[];
   allTags: [];
+  post?: IPost;
 }
 
 const initialState: ICreatePostReducerState = {
@@ -29,6 +39,7 @@ const initialState: ICreatePostReducerState = {
     followersQuantity: 0,
     rating: 0
   },
+  versionsOfPost: [],
   allTags: []
 };
 
@@ -55,10 +66,16 @@ export const createPostReducer = createReducer(initialState, {
       isInContent: false
     };
   },
-  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
+  [fetchUserProfileRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
     state.profile = payload;
+  },
+  [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersions]>) => {
+    state.versionsOfPost = payload;
   },
   [fetchTagsRoutine.SUCCESS]: (state, action) => {
     state.allTags = action.payload;
+  },
+  [fetchPostRoutine.SUCCESS]: (state, action) => {
+    state.post = action.payload;
   }
 });

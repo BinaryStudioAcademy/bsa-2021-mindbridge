@@ -38,7 +38,9 @@ const Header: React.FC<IHeaderProps> = (
   const history = useHistory();
 
   useEffect(() => {
-    fetchNotificationCount(currentUser.id);
+    if (currentUser?.id) {
+      fetchNotificationCount(currentUser.id);
+    }
   }, [currentUser]);
   const [isListOpen, setIsListOpen] = useState(false);
 
@@ -48,8 +50,13 @@ const Header: React.FC<IHeaderProps> = (
   };
 
   const handleCreatePostButton = () => {
-    history.push('/create/post');
-    history.go();
+    if (isAuthorized) {
+      history.push('/create/post');
+      history.go();
+    } else {
+      history.push('/login');
+      history.go();
+    }
   };
 
   return (

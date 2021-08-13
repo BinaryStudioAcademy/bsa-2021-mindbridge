@@ -11,7 +11,6 @@ import com.mindbridge.core.security.auth.dto.RegistrationRequest;
 import com.mindbridge.data.domains.user.UserRepository;
 import com.mindbridge.data.domains.user.model.User;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +34,8 @@ public class UserService implements UserDetailsService {
 
 	private final PasswordEncoder passwordEncoder;
 
+	private final Random random = new Random();
+
 	public static final String PHONE_REGEX = "^\\d{10}$";
 
 	public static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z].{2})(?=.*[A-Z])(?=\\S+$).{8,40}$";
@@ -49,11 +50,9 @@ public class UserService implements UserDetailsService {
 		this.postRepository = postRepository;
 	}
 
-	public UserProfileDto getQuantityOfUsers(UUID userId) {
-		Random random = new Random();
-		var user = UserProfileDto.fromEntity(userRepository.findById(userId).get());
+	public UserProfileDto getUserProfileInformation(UUID userId) {
+		var user = UserMapper.MAPPER.userToUserProfileDto(userRepository.findById(userId).orElseThrow());
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
-		user.setPostsQuantity(postRepository.countPostByAuthorId(userId));
 		user.setRating(random.nextInt(100));
 		return user;
 	}

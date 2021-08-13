@@ -1,22 +1,12 @@
 :global(.ui.card).viewCard {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  object-fit: cover;
+  justify-content: space-between;
   width: 85%;
-  max-width: 100em;
-  margin: 1vw 0px -2em 15%;
+  max-width: 100%;
+  margin: 3.8vw 0px -2em 15%;
   padding-top: 1.5em;
   box-shadow: none;
-  content: inherit;
-}
-
-:global(.ui.primary.button) {
-  padding: 0.375rem;
-  font-family: Lato, serif;
-  color:rgba(102, 122, 175, 0.5);
-  background-color: rgb(244, 249, 255);
-  margin-right: 0.94rem;
+  max-height: 28rem;
 }
 
 .btnWrapper {
@@ -24,8 +14,6 @@
 }
 
 .cardHeader {
-  font-family: Lato, serif;
-  font-size: 14px;
   display: flex;
   justify-content: space-between;
   margin-left: 1em;
@@ -39,9 +27,6 @@
 
 .leftSide {
   position: absolute;
-  margin-bottom: -1 rem;
-  float: left;
-
 }
 
 .postName {
@@ -49,12 +34,14 @@
   font-family: Libre Baskerville, sans-serif;
   font-weight: bold;
   font-size: 40px;
+  line-height: 120%;
 }
 
 .content {
   font-family: Lato, sans-serif;
   size: 18px;
   color: #353535;
+  max-width: 100% !important;
   line-height: 145%;
   font-style: normal;
   font-weight: 400;
@@ -62,6 +49,8 @@
 
 .image {
   object-fit: cover;
+  max-width: 100%;
+  content: inherit;
   width: 1130px;
   height: 357px;
   border-radius: 10px;

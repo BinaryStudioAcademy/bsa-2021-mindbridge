@@ -3,7 +3,7 @@ package com.mindbridge.core.domains.user.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter

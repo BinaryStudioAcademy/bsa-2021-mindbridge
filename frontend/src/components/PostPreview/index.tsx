@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import { IForm, IModes } from '@root/screens/CreatePost/models/IData';
-import marked from 'marked';
 import TagsMenu from '@root/screens/ViewPost/components/TagsMenu';
+import TextRender from '../TextRenderer';
 
 interface IPreviewFormProps {
   form: IForm;
@@ -31,13 +31,10 @@ const PostPreview: React.FC<IPreviewFormProps> = ({ form, modes, allTags }) => (
         );
       })}
     </div>
-    <div
+    <TextRender
       className={styles.content}
-      dangerouslySetInnerHTML={
-        modes.htmlMode
-          ? { __html: form.content }
-          : { __html: marked(form.content) }
-}
+      markdown={modes.markdownMode}
+      content={form.content}
     />
   </div>
 );

@@ -11,8 +11,15 @@ import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import LoaderWrapper from '@components/LoaderWrapper';
+import ProfileSidebar from '@components/ProfileSidebar';
+import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
+import { fetchUserProfileRoutine } from '@screens/CreatePost/routines';
+import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 
 export interface IFeedPageProps extends IState, IActions {
+  isAuthorized: boolean;
+  currentUser: ICurrentUser;
+  userInfo: IUserProfile;
 }
 
 interface IState {
@@ -24,6 +31,7 @@ interface IState {
 
 interface IActions {
   fetchData: IBindingCallback1<Record<string, number>>;
+  fetchUserProfile: IBindingCallback1<string>;
   setLoadMorePosts: IBindingAction;
 }
 
@@ -33,11 +41,13 @@ const params = {
 };
 
 const FeedPage: React.FC<IFeedPageProps> = (
-  { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore }
+  { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
+    isAuthorized, currentUser, fetchUserProfile, userInfo }
 ) => {
   useEffect(() => {
     fetchData(params);
-  }, []);
+    fetchUserProfile(currentUser.id);
+  }, [currentUser, fetchUserProfile, fetchData]);
 
   const handleLoadMorePosts = filtersPayload => {
     fetchData(filtersPayload);
@@ -55,7 +65,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
       <LoaderWrapper loading={dataLoading} />
     );
   }
-
   return (
     <div className={styles.feedPage}>
       <div className={styles.main}>
@@ -84,7 +93,17 @@ const FeedPage: React.FC<IFeedPageProps> = (
       </div>
       <div className={styles.sidebar}>
         <div className={styles.logInSideBar}>
-          <FeedLogInSidebar />
+          {isAuthorized ? (
+            <ProfileSidebar
+              userName={userInfo.fullName}
+              avatar={userInfo.avatar}
+              folloversCount={userInfo.followersQuantity}
+              rating={userInfo.rating}
+              postNotificationCount={userInfo.postsQuantity}
+            />
+          ) : (
+            <FeedLogInSidebar />
+          )}
         </div>
         <div className={styles.tagsSideBar}>
           <FeedTagsSideBar />
@@ -98,12 +117,16 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   data: extractData(state),
   dataLoading: extractFetchDataLoading(state),
   hasMore: state.feedPageReducer.data.hasMore,
-  loadMore: state.feedPageReducer.data.loadMore
+  loadMore: state.feedPageReducer.data.loadMore,
+  isAuthorized: state.auth.auth.isAuthorized,
+  currentUser: state.auth.auth.user,
+  userInfo: state.createPostReducer.data.profile
 });
 
 const mapDispatchToProps: IActions = {
   fetchData: fetchDataRoutine,
-  setLoadMorePosts: addMorePostsRoutine
+  setLoadMorePosts: addMorePostsRoutine,
+  fetchUserProfile: fetchUserProfileRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);

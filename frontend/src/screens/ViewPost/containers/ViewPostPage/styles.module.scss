@@ -1,5 +1,5 @@
 .viewPost {
-  height: 100vh;
+  height: 100%;
   display: grid;
   grid-template-columns: 1fr 550px;
   grid-template-areas:
@@ -12,22 +12,33 @@
 
 .main {
   grid-area: main;
-  min-width: 43.75em;
+  min-width: 100%;
 }
 
 .sidebar {
+  margin-top: 5.5vw;
+  display: flex;
+  flex-direction: column;
   grid-area: sidebar;
 
   .logInSideBar {
-    margin-top: 2.8vw;
     margin-bottom: 2em;
   }
 
   .suggestChanges {
-    width: 396px;
-    height: 217px;
-    top: 30rem;
-    left: 2rem;
+    margin-bottom: 2em;
+
+    .tagsSideBar {
+      margin-top: 2em;
+    }
+  }
+
+  .tagsSideBar {
+    margin-top: 2em;
+  }
+
+  .profileSideBar {
+    margin-bottom: 2em;
   }
 }
 
