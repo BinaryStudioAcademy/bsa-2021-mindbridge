@@ -54,12 +54,12 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/oauth2/resolve" component={oauth2handler} />
         <PublicRoute exact path="/post/:id" component={ViewPost} />
         <PublicRoute exact path="/create/post" component={CreatePostPage} />
-        <PublicRoute component={NotFoundPage} />
-
-        {/* should be ViewPage */}
         <PublicRoute exact path="/post/:id" component={Default} />
         <PublicRoute exact path="/create/post" component={CreatePostPage} />
         <PublicRoute exact path="/post/edit/:postId" component={CreatePostPage} />
+
+        <PublicRoute component={NotFoundPage} />
+
         <div>
           <LoaderWrapper loading={isLoading}>
             <Switch>

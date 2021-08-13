@@ -16,6 +16,7 @@
     font-size: 0.85rem;
     height: 2.7rem;
     min-width: 6rem;
+    border: solid 2px $dark-grey;
     border-radius: 5px;
   }
 }
@@ -38,6 +39,5 @@
 
 .dark_button:hover {
   background-color: rgba(0,0,0,0);
-  border: solid 2px $dark-grey;
   color: $dark-grey;
 }

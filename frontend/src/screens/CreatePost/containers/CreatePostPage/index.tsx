@@ -16,16 +16,16 @@ import DarkButton from '@root/components/buttons/DarcButton';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
-
 import {
-  sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchDataRoutine, getPostVersionsRoutine,
-  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine
+  sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine, getPostVersionsRoutine,
+  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine, editPostRoutine
 } from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 
 export interface ICreatePostProps extends IState, IActions {
+  isAuthorized: boolean;
 }
 
 interface IState {
@@ -57,15 +57,13 @@ interface IActions {
   sendImage: IBindingAction;
   sendPost: IBindingCallback1<object>;
   resetLoadingImage: IBindingAction;
-  fetchData: IBindingAction;
+  fetchData: IBindingCallback1<string>;
   getPostVersions: IBindingAction;
   fetchTags: IBindingAction;
   fetchPost: IBindingCallback1<string>;
   sendPR: IBindingCallback1<object>;
+  editPost: IBindingCallback1<object>;
 }
-
-// use real value
-const history = ['22 june, 7:50', '20 june, 13:10', '2 june, 13:50'];
 
 const CreatePost: React.FC<ICreatePostProps> = (
   {
@@ -81,6 +79,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     fetchData,
     fetchTags,
     fetchPost,
+    editPost,
     getPostVersions,
     versionsOfPost
   }
@@ -91,7 +90,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
     editMode: true,
     viewMode: false
   });
-
   const [form, setForm] = useState<IForm>({
     coverImage: {
       title: '',
@@ -125,11 +123,10 @@ const CreatePost: React.FC<ICreatePostProps> = (
   }, [postId]);
 
   useEffect(() => {
-    fetchData();
+    fetchData(currentUserId);
     fetchTags();
     getPostVersions();
-  }, [fetchData, fetchTags, getPostVersions]);
-
+  }, [currentUserId, fetchTags, getPostVersions]);
   useEffect(() => {
     if (savingImage.isLoaded) {
       if (!savingImage.isInContent) {
@@ -144,7 +141,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         setForm({
           ...form,
           content: `${form.content
-          }\n<img  height="100" width="" src=${savingImage.url} alt="image" />\n`
+          }\n<img  height="" width="" src=${savingImage.url} alt="image" />\n`
         });
       } else {
         setForm({
@@ -172,7 +169,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
       viewMode: !modes.viewMode
     });
   };
-
   const handleCancel = () => {
     setForm({
       coverImage: {
@@ -202,7 +198,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
       return;
     }
     if (currentUserId === post.author.id) {
-      // TODO edit post (add new version)
       const postOnEdit = {
         title: form.title,
         text: form.content,
@@ -212,7 +207,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         postId,
         draft: isDraft
       };
-      // sendPost(postOnEdit);
+      editPost(postOnEdit);
       handleCancel();
       return;
     }
@@ -221,6 +216,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
       text: form.content,
       coverImage: form.coverImage.url,
       markdown: modes.markdownMode,
+      author: currentUserId,
       tags: form.tags,
       postId,
       contributorId: currentUserId
@@ -228,7 +224,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
     sendPR(postOnPR);
     handleCancel();
   };
-
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
@@ -241,9 +236,10 @@ const CreatePost: React.FC<ICreatePostProps> = (
             postNotificationCount={userInfo.profile.postsQuantity}
           />
         </div>
-        <div className={styles.history_sidebar_container}>
-          <HistorySidebar history={versionsOfPost} />
-        </div>
+        {/* We need this component only if we edit post*/}
+        {/* <div className={styles.history_sidebar_container}>*/}
+        {/*  <HistorySidebar history={versionsOfPost} />*/}
+        {/* </div>*/}
         <div className={styles.create_post_container}>
           <div className={styles.header}>
             {modes.htmlMode
@@ -325,6 +321,7 @@ const mapStateToProps: (state) => IState = state => ({
   savingImage: state.createPostReducer.data.savingImage,
   userInfo: extractData(state),
   allTags: state.createPostReducer.data.allTags,
+  isAuthorized: state.auth.auth.isAuthorized,
   post: state.createPostReducer.data.post,
   currentUserId: state.auth.auth.user.id,
   versionsOfPost: state.createPostReducer.data.versionsOfPost
@@ -334,10 +331,11 @@ const mapDispatchToProps: IActions = {
   sendImage: sendImageRoutine,
   sendPost: sendPostRoutine,
   resetLoadingImage: resetLoadingImageRoutine,
-  fetchData: fetchDataRoutine,
+  fetchData: fetchUserProfileRoutine,
   fetchTags: fetchTagsRoutine,
   fetchPost: fetchPostRoutine,
   sendPR: sendPRRoutine,
+  editPost: editPostRoutine,
   getPostVersions: getPostVersionsRoutine
 };
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import CoverImageSvg from './svg/coverImageSvg';
-import AddImageSvg from './svg/addImageSvg';
 import { IForm, IModes } from '@root/screens/CreatePost/models/IData';
 import { useDropzone } from 'react-dropzone';
 import TagsDropdown from '../TagsDropdown';
 import { toastr } from 'react-redux-toastr';
+import DropZoneComponent from '@components/DropZoneComponent';
 
 interface ICreatePostFormProps {
   form: IForm;
@@ -25,7 +25,7 @@ const checkImageSize = file => {
 };
 
 const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendImage, allTags }) => {
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps } = useDropzone({
     onDrop: files => {
       if (checkImageSize(files[0])) {
         sendImage({ file: files[0], inContent: true });
@@ -81,7 +81,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
   };
 
   return (
-    <form className={styles.create_post_form}>
+    <form {...getRootProps({ className: 'dropzone' })} className={styles.create_post_form}>
       <label className={styles.file_input_rectangle} htmlFor="image-input-1" onChange={handelCoverFile}>
         <CoverImageSvg />
         {!form.coverImage.title ? <span>Add a cover image</span> : <span>{form.coverImage.title}</span>}
@@ -96,26 +96,9 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
           placeholder="Write your post content"
         />
       </div>
-      <div>
-        <div {...getRootProps({ className: 'dropzone' })} className={styles.addImageArea}>
-          <div className={styles.addImageSvg}>
-            <AddImageSvg />
-          </div>
-          <p>
-            Drag and drop an image here or choose image
-          </p>
-          <input
-            {...getInputProps()}
-            id="image-input-2"
-            className={styles.invisible}
-            type="file"
-            accept="image/*"
-          />
-        </div>
-      </div>
+      <DropZoneComponent sendImage={sendImage} />
       <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
     </form>
   );
 };
-
 export default CreatePostForm;

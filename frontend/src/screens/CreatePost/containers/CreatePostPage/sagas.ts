@@ -2,9 +2,9 @@ import {
   fetchTagsRoutine,
   sendImageRoutine,
   sendPostRoutine,
-  fetchDataRoutine,
+  fetchUserProfileRoutine,
   fetchPostRoutine, sendPRRoutine,
-  getPostVersionsRoutine
+  getPostVersionsRoutine, editPostRoutine
 } from '../../routines/index';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
@@ -43,14 +43,12 @@ function* watchSendPostRequest() {
   yield takeEvery(sendPostRoutine.TRIGGER, sendPost);
 }
 
-function* fetchData() {
+function* fetchData(id) {
   try {
-    const response = yield call(createPostService.getData);
-    yield put(fetchDataRoutine.success(response));
-    toastr.success('Success', 'Data loaded!');
+    const response = yield call(createPostService.getData, id.payload);
+    yield put(fetchUserProfileRoutine.success(response));
   } catch (error) {
-    yield put(fetchDataRoutine.failure(error?.message));
-    toastr.error('Error', 'Loading failed!');
+    yield put(fetchUserProfileRoutine.failure(error?.message));
   }
 }
 
@@ -76,7 +74,6 @@ function* fetchTags() {
       allTags.push(tag);
     });
     yield put(fetchTagsRoutine.success(allTags));
-    toastr.success('Success', 'Tags loaded!');
   } catch (error) {
     yield put(fetchTagsRoutine.failure(error?.message));
     toastr.error('Error', 'Loading tags failed!');
@@ -84,7 +81,7 @@ function* fetchTags() {
 }
 
 function* watchGetDataRequest() {
-  yield takeEvery(fetchDataRoutine.TRIGGER, fetchData);
+  yield takeEvery(fetchUserProfileRoutine.TRIGGER, fetchData);
 }
 
 function* watchFetchTagsRequest() {
@@ -121,6 +118,21 @@ function* watchSendPR() {
   yield takeEvery(sendPRRoutine.TRIGGER, sendPR);
 }
 
+function* editPost({ payload }: Routine<any>) {
+  try {
+    const response = yield call(createPostService.editPost, payload);
+
+    yield put(editPostRoutine.success(response));
+  } catch (error) {
+    yield put(editPostRoutine.failure(error?.message));
+    toastr.error('Error', 'Editing post failed');
+  }
+}
+
+function* watchEditPost() {
+  yield takeEvery(editPostRoutine.TRIGGER, editPost);
+}
+
 export default function* defaultPageSagas() {
   yield all([
     watchPostVersions(),
@@ -129,6 +141,7 @@ export default function* defaultPageSagas() {
     watchGetDataRequest(),
     watchFetchTagsRequest(),
     watchFetchPost(),
-    watchSendPR()
+    watchSendPR(),
+    watchEditPost()
   ]);
 }

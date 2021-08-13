@@ -7,7 +7,6 @@ function* fetchData(action) {
   try {
     const response = yield call(viewPageService.getData, action.payload);
     yield put(fetchDataRoutine.success(response));
-    toastr.success('Success', 'Data loaded');
   } catch (error) {
     yield put(fetchDataRoutine.failure(error?.message));
     toastr.error('Error', 'Loading data failed');

@@ -2,7 +2,7 @@ import {
   fetchTagsRoutine,
   resetLoadingImageRoutine,
   sendImageRoutine,
-  fetchDataRoutine,
+  fetchUserProfileRoutine,
   fetchPostRoutine,
   getPostVersionsRoutine } from '../../routines/index';
 
@@ -66,7 +66,7 @@ export const createPostReducer = createReducer(initialState, {
       isInContent: false
     };
   },
-  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
+  [fetchUserProfileRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
     state.profile = payload;
   },
   [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersions]>) => {
