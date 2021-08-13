@@ -43,8 +43,8 @@ public class PostService {
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService,
-					   PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-					   PostVersionRepository postVersionRepository, ElasticService elasticService) {
+			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
+			PostVersionRepository postVersionRepository, ElasticService elasticService) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;

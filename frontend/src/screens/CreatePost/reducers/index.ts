@@ -5,7 +5,7 @@ import { createPostReducer } from '@screens/CreatePost/containers/CreatePostPage
 /* PlopJS import placeholder. Do not remove */
 import {
   sendPostRoutine, sendImageRoutine, resetLoadingImageRoutine,
-  fetchDataRoutine, fetchTagsRoutine, fetchPostRoutine, sendPRRoutine,
+  fetchUserProfileRoutine, fetchTagsRoutine, fetchPostRoutine, sendPRRoutine,
   getPostVersionsRoutine, editPostRoutine
 } from '@screens/CreatePost/routines';
 
@@ -15,7 +15,7 @@ const requests = combineReducers({
   resetLoadingImageRequest: reducerCreator([resetLoadingImageRoutine.TRIGGER]),
   sendPostRequest: reducerCreator([sendPostRoutine.TRIGGER]),
   sendImageRequest: reducerCreator([sendImageRoutine.TRIGGER]),
-  fetchDataRequest: reducerCreator[fetchDataRoutine.TRIGGER],
+  fetchUserProfileRequest: reducerCreator[fetchUserProfileRoutine.TRIGGER],
   fetchPostRequest: reducerCreator[fetchPostRoutine.TRIGGER],
   sendPRRequest: reducerCreator[sendPRRoutine.TRIGGER],
   editPostRequest: reducerCreator[editPostRoutine.TRIGGER],

@@ -2,7 +2,7 @@ import {
   fetchTagsRoutine,
   sendImageRoutine,
   sendPostRoutine,
-  fetchDataRoutine,
+  fetchUserProfileRoutine,
   fetchPostRoutine, sendPRRoutine,
   getPostVersionsRoutine, editPostRoutine
 } from '../../routines/index';
@@ -43,14 +43,12 @@ function* watchSendPostRequest() {
   yield takeEvery(sendPostRoutine.TRIGGER, sendPost);
 }
 
-function* fetchData() {
+function* fetchData(id) {
   try {
-    const response = yield call(createPostService.getData);
-    yield put(fetchDataRoutine.success(response));
-    toastr.success('Success', 'Data loaded!');
+    const response = yield call(createPostService.getData, id.payload);
+    yield put(fetchUserProfileRoutine.success(response));
   } catch (error) {
-    yield put(fetchDataRoutine.failure(error?.message));
-    toastr.error('Error', 'Loading failed!');
+    yield put(fetchUserProfileRoutine.failure(error?.message));
   }
 }
 
@@ -76,7 +74,6 @@ function* fetchTags() {
       allTags.push(tag);
     });
     yield put(fetchTagsRoutine.success(allTags));
-    toastr.success('Success', 'Tags loaded!');
   } catch (error) {
     yield put(fetchTagsRoutine.failure(error?.message));
     toastr.error('Error', 'Loading tags failed!');
@@ -84,7 +81,7 @@ function* fetchTags() {
 }
 
 function* watchGetDataRequest() {
-  yield takeEvery(fetchDataRoutine.TRIGGER, fetchData);
+  yield takeEvery(fetchUserProfileRoutine.TRIGGER, fetchData);
 }
 
 function* watchFetchTagsRequest() {

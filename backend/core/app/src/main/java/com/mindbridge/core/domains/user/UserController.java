@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.user;
 
+import com.mindbridge.core.domains.user.dto.UserDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +22,7 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	public UserProfileDto getUserProfileInfo(@PathVariable UUID id) {
-		return userService.getQuantityOfUsers(id);
+		return userService.getUserProfileInformation(id);
 	}
 
 }
