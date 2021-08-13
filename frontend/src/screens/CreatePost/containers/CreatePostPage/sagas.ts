@@ -4,7 +4,7 @@ import {
   sendPostRoutine,
   fetchDataRoutine,
   fetchPostRoutine, sendPRRoutine,
-  getPostVersionsRoutine
+  getPostVersionsRoutine, editPostRoutine
 } from '../../routines/index';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
@@ -121,6 +121,21 @@ function* watchSendPR() {
   yield takeEvery(sendPRRoutine.TRIGGER, sendPR);
 }
 
+function* editPost({ payload }: Routine<any>) {
+  try {
+    const response = yield call(createPostService.editPost, payload);
+
+    yield put(editPostRoutine.success(response));
+  } catch (error) {
+    yield put(editPostRoutine.failure(error?.message));
+    toastr.error('Error', 'Editing post failed');
+  }
+}
+
+function* watchEditPost() {
+  yield takeEvery(editPostRoutine.TRIGGER, editPost);
+}
+
 export default function* defaultPageSagas() {
   yield all([
     watchPostVersions(),
@@ -129,6 +144,7 @@ export default function* defaultPageSagas() {
     watchGetDataRequest(),
     watchFetchTagsRequest(),
     watchFetchPost(),
-    watchSendPR()
+    watchSendPR(),
+    watchEditPost()
   ]);
 }
