@@ -141,7 +141,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         setForm({
           ...form,
           content: `${form.content
-          }\n<img  height="100" width="" src=${savingImage.url} alt="image" />\n`
+          }\n<img  height="" width="" src=${savingImage.url} alt="image" />\n`
         });
       } else {
         setForm({
