@@ -13,6 +13,7 @@ import { IData } from '@screens/ViewPost/models/IData';
 import { useParams } from 'react-router-dom';
 
 export interface IViewPostProps extends IState, IActions {
+  isAuthorized: boolean;
 }
 
 interface IState {
@@ -24,7 +25,7 @@ interface IActions {
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
-  { data, fetchData }
+  { data, fetchData, isAuthorized }
 ) => {
   const { id } = useParams();
 
@@ -41,19 +42,26 @@ const ViewPost: React.FC<IViewPostProps> = (
         <div className={styles.logInSideBar}>
           <FeedLogInSidebar />
         </div>
-        <div className={styles.suggestChanges}>
-          <SuggestChangesCard />
-        </div>
-        <div className={styles.tagsSideBar}>
-          <FeedTagsSideBar />
-        </div>
+        {isAuthorized ? (
+          <div className={styles.suggestChanges}>
+            <SuggestChangesCard />
+            <div className={styles.tagsSideBar}>
+              <FeedTagsSideBar />
+            </div>
+          </div>
+        ) : (
+          <div className={styles.tagsSideBar}>
+            <FeedTagsSideBar />
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 const mapStateToProps: (state: RootState) => IState = state => ({
-  data: extractData(state)
+  data: extractData(state),
+  isAuthorized: state.auth.auth.isAuthorized
 });
 
 const mapDispatchToProps: IActions = {
