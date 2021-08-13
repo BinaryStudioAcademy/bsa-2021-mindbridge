@@ -14,7 +14,7 @@ const passwordRegex = /^(?=^.{5,32}$)(?=\S+$).+$/;
 const userNameSurnameRegex = /^[A-Za-z]+(-[A-Za-z]+)*$/;
 const userNicknameRegex = /^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$/;
 
-export const isValidEmail = (str: string): boolean => emailRegex.test(str) && str.length >= 4 && str.length <= 320;
+export const isValidEmail = (str: string): boolean => emailRegex.test(str.toLowerCase()) && str.length >= 4 && str.length <= 320;
 export const isValidPassword = (str: string): boolean => passwordRegex.test(str) && str.length >= 5 && str.length <= 32;
 export const isValidNickname = (str: string): boolean => userNicknameRegex.test(str) && str.length >= 1 && str.length <= 30;
 export const isValidNameSurname = (str: string): boolean => userNameSurnameRegex.test(str) && str.length >= 1 && str.length <= 30;
