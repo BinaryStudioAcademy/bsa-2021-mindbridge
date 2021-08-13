@@ -12,3 +12,4 @@ export const fetchUserProfileRoutine = createCreatePostRoutine('FETCH_USER_PROFI
 export const fetchPostRoutine = createCreatePostRoutine('FETCH_POST');
 export const sendPRRoutine = createCreatePostRoutine('SEND_PR');
 export const getPostVersionsRoutine = createCreatePostRoutine('GET_POST_VERSIONS');
+export const editPostRoutine = createCreatePostRoutine('EDIT_POST');

@@ -18,7 +18,7 @@ import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import {
   sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine, getPostVersionsRoutine,
-  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine
+  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine, editPostRoutine
 } from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
@@ -62,6 +62,7 @@ interface IActions {
   fetchTags: IBindingAction;
   fetchPost: IBindingCallback1<string>;
   sendPR: IBindingCallback1<object>;
+  editPost: IBindingCallback1<object>;
 }
 
 const CreatePost: React.FC<ICreatePostProps> = (
@@ -78,6 +79,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     fetchData,
     fetchTags,
     fetchPost,
+    editPost,
     getPostVersions,
     versionsOfPost
   }
@@ -196,7 +198,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
       return;
     }
     if (currentUserId === post.author.id) {
-      // TODO edit post (add new version)
       const postOnEdit = {
         title: form.title,
         text: form.content,
@@ -206,7 +207,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         postId,
         draft: isDraft
       };
-      // sendPost(postOnEdit);
+      editPost(postOnEdit);
       handleCancel();
       return;
     }
@@ -334,6 +335,7 @@ const mapDispatchToProps: IActions = {
   fetchTags: fetchTagsRoutine,
   fetchPost: fetchPostRoutine,
   sendPR: sendPRRoutine,
+  editPost: editPostRoutine,
   getPostVersions: getPostVersionsRoutine
 };
 

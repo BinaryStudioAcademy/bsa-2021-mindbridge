@@ -20,6 +20,12 @@ const createPostService = {
     {
       data: payload
     }
+  ),
+  editPost: async payload => api.put(
+    '/api/post/edit',
+    {
+      data: payload
+    }
   )
 };
 
