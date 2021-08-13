@@ -1,6 +1,7 @@
 package com.mindbridge.data.domains.tag.model;
 
 import com.mindbridge.data.domains.post.model.Post;
+import com.mindbridge.data.domains.postPR.model.PostPR;
 import com.mindbridge.data.model.BaseAuditableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,6 +20,9 @@ public class Tag extends BaseAuditableEntity {
 
 	@ManyToMany(mappedBy = "tags", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	private Set<Post> posts = new HashSet<>();
+
+	@ManyToMany(mappedBy = "tags", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+	private Set<PostPR> postPRs = new HashSet<>();
 
 	@Override
 	public String toString() {

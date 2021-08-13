@@ -22,9 +22,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "posts")
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class Post extends BaseAuditableEntity {
 
