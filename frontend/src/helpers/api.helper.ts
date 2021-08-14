@@ -67,19 +67,17 @@ const callApi = async (path: string, config: AxiosRequestConfig): Promise<any> =
     try {
       const tokenRefreshResponse = await refreshTokens();
 
-      if (tokenRefreshResponse.accessToken) {
-        localStorage.setItem(ACCESS_TOKEN, tokenRefreshResponse.accessToken);
-        localStorage.setItem(REFRESH_TOKEN, tokenRefreshResponse.refreshToken);
-        const updatedConfig = {
-          ...config,
-          headers: {
-            authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
-          }
-        };
-        return (await axios(path, updatedConfig)).data;
-      }
-    } catch (e) {
-      handleApiCallError(e);
+      localStorage.setItem(ACCESS_TOKEN, tokenRefreshResponse.accessToken);
+      localStorage.setItem(REFRESH_TOKEN, tokenRefreshResponse.refreshToken);
+      const updatedConfig = {
+        ...config,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+        }
+      };
+      return (await axios(path, updatedConfig)).data;
+    } catch (error) {
+      handleApiCallError(error);
       throw new Error('Unhandled error');
     }
   }
