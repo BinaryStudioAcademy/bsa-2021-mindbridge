@@ -24,37 +24,29 @@ const LoginPage: React.FC<ILoginProps> = (
   { loginUser: login,
     isAuthorized,
     isLoginFailure }
-) => {
-  useEffect(() => {
-    if (isLoginFailure) {
-      toastr.error('FAILED TO LOGIN', 'Email or password is incorrect');
-    }
-  }, [isLoginFailure]);
-
-  return (
-    isAuthorized
-      ? <Redirect to="/" />
-      : (
-        <div className={styles.container}>
-          <div className={styles.leftSide}>
-            <div className={styles.loginFormWrapper}>
-              <LoginForm login={login} />
-            </div>
-            <footer>
-              <span>
-                No account?
-                {' '}
-                <Link to="/registration">Sign Up</Link>
-              </span>
-            </footer>
+) => (
+  isAuthorized
+    ? <Redirect to="/" />
+    : (
+      <div className={styles.container}>
+        <div className={styles.leftSide}>
+          <div className={styles.loginFormWrapper}>
+            <LoginForm login={login} />
           </div>
-          <div className={styles.rightSide}>
-            <LogoSvg />
-          </div>
+          <footer>
+            <span>
+              No account?
+              {' '}
+              <Link to="/registration">Sign Up</Link>
+            </span>
+          </footer>
         </div>
-      )
-  );
-};
+        <div className={styles.rightSide}>
+          <LogoSvg />
+        </div>
+      </div>
+    )
+);
 
 const mapStateToProps = (state: IAppState) => {
   const { auth, requests } = state.auth;
