@@ -92,21 +92,23 @@ const FeedPage: React.FC<IFeedPageProps> = (
         </InfiniteScroll>
       </div>
       <div className={styles.sidebar}>
-        <div className={styles.logInSideBar}>
-          {isAuthorized ? (
-            <ProfileSidebar
-              userName={userInfo.fullName}
-              avatar={userInfo.avatar}
-              folloversCount={userInfo.followersQuantity}
-              rating={userInfo.rating}
-              postNotificationCount={userInfo.postsQuantity}
-            />
-          ) : (
-            <FeedLogInSidebar />
-          )}
-        </div>
-        <div className={styles.tagsSideBar}>
-          <FeedTagsSideBar />
+        <div className={styles.feedPageSidebars}>
+          <div className={styles.logInSideBar}>
+            {isAuthorized ? (
+              <ProfileSidebar
+                userName={userInfo.fullName}
+                avatar={userInfo.avatar}
+                folloversCount={userInfo.followersQuantity}
+                rating={userInfo.rating}
+                postNotificationCount={userInfo.postsQuantity}
+              />
+            ) : (
+              <FeedLogInSidebar />
+            )}
+          </div>
+          <div className={styles.tagsSideBar}>
+            <FeedTagsSideBar />
+          </div>
         </div>
       </div>
     </div>
