@@ -46,7 +46,9 @@ const FeedPage: React.FC<IFeedPageProps> = (
 ) => {
   useEffect(() => {
     fetchData(params);
-    fetchUserProfile(currentUser.id);
+    if (currentUser) {
+      fetchUserProfile(currentUser.id);
+    }
   }, [currentUser, fetchUserProfile, fetchData]);
 
   const handleLoadMorePosts = filtersPayload => {
