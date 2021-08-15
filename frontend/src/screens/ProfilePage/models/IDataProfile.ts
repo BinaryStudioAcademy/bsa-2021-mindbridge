@@ -1,4 +1,5 @@
 export interface IDataProfile {
   isNicknameEngaged: boolean;
-  isLoaded: boolean;
+  isFormLoaded: boolean;
+  isNicknameLoaded: boolean;
 }

@@ -9,16 +9,13 @@ import { getHowLong } from '@helpers/date.helper';
 import {
   isValidNameSurname,
   isValidNickname,
-  NAME_MESSAGE,
+  NAME_MESSAGE, NICKNAME_ENGAGED_MESSAGE,
   NICKNAME_MESSAGE
 } from '@helpers/validation.helper';
 import InputPopup from '@components/InputPopup';
 import { isDeepEqual } from 'react-use/lib/util';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { IProfileFormRequest } from '@screens/ProfilePage/containers/ProfilePage';
-import { toastr } from 'react-redux-toastr';
-import { RootState } from '@root/store';
-import { connect } from 'react-redux';
 import LoaderWrapper from '@components/LoaderWrapper';
 
 interface IProfileCardProps {
@@ -33,7 +30,8 @@ interface IProfileCardProps {
 };
   initialState: {
     isNicknameEngaged: false;
-    isLoaded: false;
+    isFormLoaded: true;
+    isNicknameLoaded: true;
 };
   sendForm: IBindingCallback1<IProfileFormRequest>;
   sendNickname: IBindingCallback1<string>;
@@ -48,18 +46,21 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
   };
 
   const [userForm, setUserForm] = useState(initialData);
+  const [canChangeNick, setCanChangeNick] = useState(true);
+  const [isSubmitBlocked, setIsSubmitBlocked] = useState(false);
   const [profileData, setProfileData] = useState(initialState);
   const [validationData, setValidationData] = useState(validationInitialState);
   const [isEditName, setIsEditName] = useState(false);
-
-  const isRequiredFieldsValid = (): boolean => isValidNickname(userForm.nickname) && isValidNameSurname(userForm.firstName)
-    && isValidNameSurname(userForm.lastName);
 
   const formIntact = useMemo(() => (isDeepEqual(initialData, userForm)), [initialData, userForm]);
   const validationIntact = useMemo(() => (isDeepEqual(validationInitialState, validationData)), [validationInitialState, validationData]);
 
   useEffect(() => {
-    setUserForm(initialData);
+    if (userForm.email === '') {
+      setUserForm(initialData);
+    } else {
+      setUserForm(userForm);
+    }
   }, [initialData]);
 
   useEffect(() => {
@@ -76,11 +77,18 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
     }
   };
 
-  const updateProfileData = (fieldId, val) => {
-    setProfileData(prevState => ({ ...prevState, [fieldId]: val }));
-  };
+  useEffect(() => {
+    if (profileData.isNicknameEngaged && userForm.nickname !== initialData.nickname) {
+      setCanChangeNick(false);
+    } else {
+      setCanChangeNick(true);
+    }
+  }, [profileData.isNicknameEngaged]);
 
   const updateForm = (fieldId, val) => {
+    if (fieldId === 'nickname') {
+      setIsSubmitBlocked(true);
+    }
     if (val === '') {
       setUserForm(prevState => ({ ...prevState, [fieldId]: null }));
     } else {
@@ -98,12 +106,18 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
     }
   };
 
+  const handleOnBlur = val => {
+    if (val !== initialData.nickname && validationData.isNicknameValid) {
+      sendNickname(val);
+      setIsSubmitBlocked(false);
+    } else {
+      setCanChangeNick(true);
+    }
+  };
+
   const handleSaveClick = e => {
-    /* if (!profileData.isNicknameEngaged) {*/
     sendForm(userForm);
-    /* } else {
-        toastr.error('Error', 'This nickname is already in use!');
-      }*/
+    setCanChangeNick(true);
   };
 
   return (
@@ -150,7 +164,7 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
                     setValue={val => updateForm('firstName', val)}
                     validateValue={val => updateValidationData('isNameValid', val)}
                     isValueValid={validationData.isNameValid}
-                    disabled={!profileData.isLoaded}
+                    disabled={!profileData.isFormLoaded}
                     errorMessage={NAME_MESSAGE}
                   />
                   <InputPopup
@@ -162,7 +176,7 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
                     setValue={val => updateForm('lastName', val)}
                     validateValue={val => updateValidationData('isSurnameValid', val)}
                     isValueValid={validationData.isSurnameValid}
-                    disabled={!profileData.isLoaded}
+                    disabled={!profileData.isFormLoaded}
                     errorMessage={NAME_MESSAGE}
                   />
                 </div>
@@ -194,13 +208,15 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
               <InputPopup
                 id="nickname"
                 type="text"
+                loading={!profileData.isNicknameLoaded}
                 placeholder="Enter your nickname"
                 value={userForm?.nickname || null}
                 setValue={val => updateForm('nickname', val)}
                 validateValue={val => updateValidationData('isNicknameValid', val)}
-                isValueValid={validationData.isNicknameValid}
-                disabled={!profileData.isLoaded}
-                errorMessage={NICKNAME_MESSAGE}
+                onBlur={() => { handleOnBlur(userForm.nickname); }}
+                isValueValid={validationData.isNicknameValid && canChangeNick}
+                disabled={!profileData.isFormLoaded}
+                errorMessage={!canChangeNick ? NICKNAME_ENGAGED_MESSAGE : NICKNAME_MESSAGE}
               />
               <label htmlFor="email">Email</label>
               <input
@@ -210,8 +226,8 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
                 placeholder="Enter your email"
                 disabled
               />
-              <div className={(formIntact || !validationIntact) ? styles.disableFormButton : null}>
-                <FormButton text={profileData.isLoaded ? 'Save' : <LoaderWrapper className={styles.buttonLoader} loading={!profileData.isLoaded} />} inverted />
+              <div className={(formIntact || !validationIntact || !canChangeNick || isSubmitBlocked) ? styles.disableFormButton : null}>
+                <FormButton text={profileData.isFormLoaded ? 'Save' : <LoaderWrapper className={styles.buttonLoader} loading={!profileData.isFormLoaded} />} inverted />
               </div>
             </Form>
           </div>
@@ -221,9 +237,4 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
   );
 };
 
-const mapStateToProps = (state: RootState) => ({
-  isNicknameEngaged: state.profilePageReducer.data.isNicknameEngaged,
-  isLoaded: state.profilePageReducer.data.isLoaded
-});
-
-export default connect(mapStateToProps)(ProfileCard);
+export default ProfileCard;

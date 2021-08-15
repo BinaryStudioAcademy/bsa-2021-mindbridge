@@ -5,33 +5,25 @@ import profilePageService from '@screens/ProfilePage/services/profilePage';
 import { loginRoutine } from '@screens/Login/routines';
 
 /* eslint-disable max-len*/
-function* sendNickname(action) {
+function* sendForm(action) {
   try {
-    const response = yield call(profilePageService.sendNickname, { endpoint: 'nickname', payload: action.payload.nickname });
-    yield put(sendNicknameRoutine.success(response));
-    return response;
+    const response = yield call(profilePageService.sendForm, { endpoint: action.payload.id, payload: action.payload });
+    yield put(loginRoutine.success(response));
+    yield put(sendFormRoutine.success(response));
+    toastr.success('Success', 'Data changed successfully!');
   } catch (error) {
     yield put(sendFormRoutine.failure(error?.message));
-    toastr.error('Error', 'Sending nickname failed!');
-    return null;
+    toastr.error('Error', 'Sending form failed!');
   }
 }
 
-function* sendForm(action) {
-  const isNicknameEngaged = yield sendNickname(action);
-  if (!isNicknameEngaged) {
-    try {
-      const response = yield call(profilePageService.sendForm, { endpoint: action.payload.id, payload: action.payload });
-      yield put(loginRoutine.success(response));
-      yield put(sendFormRoutine.success(response));
-      toastr.success('Success', 'Data changed successfully!');
-    } catch (error) {
-      yield put(sendFormRoutine.failure(error?.message));
-      toastr.error('Error', 'Sending form failed!');
-    }
-  } else if (isNicknameEngaged) {
-    yield put(sendFormRoutine.failure('This nickname is already in use!'));
-    toastr.error('Error', 'This nickname is already in use!');
+function* sendNickname(action) {
+  try {
+    const response = yield call(profilePageService.sendNickname, { endpoint: 'nickname', payload: action.payload });
+    yield put(sendNicknameRoutine.success(response));
+  } catch (error) {
+    yield put(sendFormRoutine.failure(error?.message));
+    toastr.error('Error', 'Sending nickname failed!');
   }
 }
 

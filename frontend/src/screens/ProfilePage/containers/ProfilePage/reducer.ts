@@ -4,18 +4,29 @@ import { IDataProfile } from '@screens/ProfilePage/models/IDataProfile';
 
 const initialState: IDataProfile = {
   isNicknameEngaged: false,
-  isLoaded: true
+  isFormLoaded: true,
+  isNicknameLoaded: true
 };
 
 export const profilePageReducer = createReducer(initialState, {
+  [sendNicknameRoutine.TRIGGER]: (state, { payload }: PayloadAction<boolean>) => {
+    state.isNicknameLoaded = false;
+  },
+  [sendNicknameRoutine.SUCCESS]: (state, { payload }: PayloadAction<boolean>) => {
+    state.isNicknameEngaged = payload;
+    state.isNicknameLoaded = true;
+  },
+  [sendNicknameRoutine.FAILURE]: (state, { payload }: PayloadAction<boolean>) => {
+    state.isNicknameLoaded = true;
+  },
   [sendFormRoutine.TRIGGER]: (state, { payload }: PayloadAction<boolean>) => {
-    state.isLoaded = false;
+    state.isFormLoaded = false;
   },
   [sendFormRoutine.SUCCESS]: (state, { payload }: PayloadAction<boolean>) => {
     state.isNicknameEngaged = payload;
-    state.isLoaded = true;
+    state.isFormLoaded = true;
   },
   [sendFormRoutine.FAILURE]: (state, { payload }: PayloadAction<boolean>) => {
-    state.isLoaded = true;
+    state.isFormLoaded = true;
   }
 });

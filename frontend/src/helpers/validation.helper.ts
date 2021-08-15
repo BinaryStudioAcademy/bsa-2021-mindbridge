@@ -5,6 +5,7 @@ export const EMAIL_MESSAGE = `Email length must be 4-320(with @) symbols ${DIGIT
 export const PASSWORD_MESSAGE = `Password length must be 5-32 symbols ${DIGITS_LATIN_LETTERS_SPEC_CHARS_ONLY}.`;
 export const PASSWORDS_NOT_MATCH = 'Passwords do not match.';
 export const NICKNAME_MESSAGE = `Nickname must be 1-30 symbols ${DIGITS_LATIN_LETTERS_ONLY}.`;
+export const NICKNAME_ENGAGED_MESSAGE = 'This nickname is already in use. Please, choose another one.';
 export const NAME_MESSAGE = `Name must be 1-30 symbols ${LATIN_LETTER_ONLY}.`;
 export const SURNAME_MESSAGE = `Surname must be 1-30 symbols ${LATIN_LETTER_ONLY}.`;
 

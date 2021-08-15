@@ -63,7 +63,8 @@ const mapStateToProps = (state: RootState) => {
     },
     initialState: {
       isNicknameEngaged: data.isNicknameEngaged,
-      isLoaded: data.isLoaded
+      isFormLoaded: data.isFormLoaded,
+      isNicknameLoaded: data.isNicknameLoaded
     }
   });
 };
