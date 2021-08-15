@@ -1,5 +1,7 @@
 package com.mindbridge.core.security.auth.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,5 +38,19 @@ public class RegistrationRequest {
 	@Pattern(regexp = "(?=\\S+$).+", message = "Password must contain no whitespace.")
 	@Size(min = 5, message = "Password length must be at least 5 symbols.")
 	private String password;
+
+	@JsonCreator
+	public RegistrationRequest(
+		@JsonProperty("email") String email,
+		@JsonProperty("name") String name,
+		@JsonProperty("nickname") String nickname,
+		@JsonProperty("password") String password,
+		@JsonProperty("surname") String surname) {
+		this.email = email.toLowerCase();
+		this.name = name;
+		this.nickname = nickname;
+		this.password = password;
+		this.surname = surname;
+	}
 
 }

@@ -1,17 +1,22 @@
-import { fetchTagsRoutine, sendImageRoutine, sendPostRoutine, fetchDataRoutine, getPostVersionsRoutine }
-  from '../../routines/index';
+import {
+  fetchTagsRoutine,
+  sendImageRoutine,
+  sendPostRoutine,
+  fetchUserProfileRoutine,
+  fetchPostRoutine, sendPRRoutine,
+  getPostVersionsRoutine, editPostRoutine
+} from '../../routines/index';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import createPostService from '@screens/CreatePost/services/createPost';
+import { Routine } from 'redux-saga-routines';
 
 function* sendImage(action) {
   const formData = new FormData();
   formData.append('file', action.payload.file);
   try {
     const response = yield call(createPostService.sendImage, formData);
-    // response must has a real url to image on service
-    // yield put(sendImageRoutine.success(response));
-    yield put(sendImageRoutine.success(`http://localhost:5000/image/${response}`));
+    yield put(sendImageRoutine.success(response));
     toastr.success('Success', 'Image was sent!');
   } catch (error) {
     yield put(sendImageRoutine.failure(error?.message));
@@ -38,14 +43,12 @@ function* watchSendPostRequest() {
   yield takeEvery(sendPostRoutine.TRIGGER, sendPost);
 }
 
-function* fetchData() {
+function* fetchData(id) {
   try {
-    const response = yield call(createPostService.getData);
-    yield put(fetchDataRoutine.success(response));
-    toastr.success('Success', 'Data loaded!');
+    const response = yield call(createPostService.getData, id.payload);
+    yield put(fetchUserProfileRoutine.success(response));
   } catch (error) {
-    yield put(fetchDataRoutine.failure(error?.message));
-    toastr.error('Error', 'Loading failed!');
+    yield put(fetchUserProfileRoutine.failure(error?.message));
   }
 }
 
@@ -71,7 +74,6 @@ function* fetchTags() {
       allTags.push(tag);
     });
     yield put(fetchTagsRoutine.success(allTags));
-    toastr.success('Success', 'Tags loaded!');
   } catch (error) {
     yield put(fetchTagsRoutine.failure(error?.message));
     toastr.error('Error', 'Loading tags failed!');
@@ -79,11 +81,56 @@ function* fetchTags() {
 }
 
 function* watchGetDataRequest() {
-  yield takeEvery(fetchDataRoutine.TRIGGER, fetchData);
+  yield takeEvery(fetchUserProfileRoutine.TRIGGER, fetchData);
 }
 
 function* watchFetchTagsRequest() {
   yield takeEvery(fetchTagsRoutine.TRIGGER, fetchTags);
+}
+
+function* fetchPost({ payload }: Routine<any>) {
+  try {
+    const response = yield call(createPostService.getPost, payload);
+
+    yield put(fetchPostRoutine.success(response));
+  } catch (error) {
+    yield put(fetchPostRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading post failed');
+  }
+}
+
+function* watchFetchPost() {
+  yield takeEvery(fetchPostRoutine.TRIGGER, fetchPost);
+}
+
+function* sendPR({ payload }: Routine<any>) {
+  try {
+    const response = yield call(createPostService.sendPR, payload);
+
+    yield put(sendPRRoutine.success(response));
+  } catch (error) {
+    yield put(sendPRRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading PR failed');
+  }
+}
+
+function* watchSendPR() {
+  yield takeEvery(sendPRRoutine.TRIGGER, sendPR);
+}
+
+function* editPost({ payload }: Routine<any>) {
+  try {
+    const response = yield call(createPostService.editPost, payload);
+
+    yield put(editPostRoutine.success(response));
+  } catch (error) {
+    yield put(editPostRoutine.failure(error?.message));
+    toastr.error('Error', 'Editing post failed');
+  }
+}
+
+function* watchEditPost() {
+  yield takeEvery(editPostRoutine.TRIGGER, editPost);
 }
 
 export default function* defaultPageSagas() {
@@ -92,6 +139,9 @@ export default function* defaultPageSagas() {
     watchSendImageRequest(),
     watchSendPostRequest(),
     watchGetDataRequest(),
-    watchFetchTagsRequest()
+    watchFetchTagsRequest(),
+    watchFetchPost(),
+    watchSendPR(),
+    watchEditPost()
   ]);
 }

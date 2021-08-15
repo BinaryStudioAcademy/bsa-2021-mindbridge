@@ -1,11 +1,9 @@
 package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.comment.CommentService;
+import com.mindbridge.core.domains.helpers.DateFormatter;
+import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
-import com.mindbridge.core.domains.post.dto.CreatePostDto;
-import com.mindbridge.core.domains.post.dto.PostDetailsDto;
-import com.mindbridge.core.domains.post.dto.PostVersionsListDto;
-import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
@@ -45,8 +43,8 @@ public class PostService {
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService,
-					   PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-					   PostVersionRepository postVersionRepository, ElasticService elasticService) {
+			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
+			PostVersionRepository postVersionRepository, ElasticService elasticService) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
@@ -79,11 +77,25 @@ public class PostService {
 				.collect(Collectors.toList());
 	}
 
-	public void savePost(CreatePostDto post) {
-		var user = userRepository.getOne(post.getAuthor());
-		var tags = new HashSet<>(tagRepository.findAllById(post.getTags()));
+	public void editPost(EditPostDto editPostDto) {
+		var currentPost = postRepository.getOne(editPostDto.getPostId());
+		var postVersion = PostMapper.MAPPER.postToPostVersion(currentPost);
+		postVersionRepository.save(postVersion);
+		currentPost.setTitle(editPostDto.getTitle());
+		currentPost.setText(editPostDto.getText());
+		currentPost.setMarkdown(editPostDto.getMarkdown());
+		currentPost.setCoverImage(editPostDto.getCoverImage());
+		currentPost.setDraft(editPostDto.getDraft());
+		currentPost.setTags(new HashSet<>(tagRepository.findAllById(editPostDto.getTags())));
 
-		var savedPost = postRepository.save(CreatePostDto.toPost(post, user, tags));
+		postRepository.save(currentPost);
+	}
+
+	public void savePost(CreatePostDto createPostDto) {
+		var post = PostMapper.MAPPER.createPostDtoToPost(createPostDto);
+		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
+		post.setTags(tags);
+		var savedPost = postRepository.save(post);
 		elasticService.put(savedPost);
 	}
 

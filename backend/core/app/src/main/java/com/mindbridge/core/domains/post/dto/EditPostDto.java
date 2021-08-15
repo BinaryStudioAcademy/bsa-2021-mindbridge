@@ -5,7 +5,9 @@ import java.util.UUID;
 import lombok.Data;
 
 @Data
-public class CreatePostDto {
+public class EditPostDto {
+
+	private UUID postId;
 
 	private String title;
 
@@ -14,8 +16,6 @@ public class CreatePostDto {
 	private String coverImage;
 
 	private Boolean markdown;
-
-	private UUID author;
 
 	private Boolean draft;
 

@@ -10,10 +10,12 @@ const initialState: IDataAuth = {
     createdAt: '',
     nickname: '',
     avatar: '',
-    email: '',
     firstName: '',
     lastName: '',
-    password: ''
+    email: '',
+    postsQuantity: 0,
+    followersQuantity: 0,
+    rating: 0
   }
 };
 

@@ -3,8 +3,10 @@ export interface ICurrentUser {
   createdAt: string;
   nickname: string;
   avatar: string;
-  email: string;
   firstName: string;
   lastName: string;
-  password: string;
+  email: string;
+  postsQuantity: number;
+  followersQuantity: number;
+  rating: number;
 }

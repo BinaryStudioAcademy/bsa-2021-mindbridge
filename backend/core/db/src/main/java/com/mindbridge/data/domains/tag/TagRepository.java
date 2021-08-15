@@ -10,11 +10,8 @@ import java.util.UUID;
 
 public interface TagRepository extends JpaRepository<Tag, UUID>, JpaSpecificationExecutor<Tag> {
 
-	@Query("SELECT DISTINCT tag.name " +
-			" FROM Post p " +
-			" JOIN p.tags as tag" +
-			" JOIN tag.posts" +
-			" WHERE p.id = :id ")
+	@Query("SELECT DISTINCT tag.name " + " FROM Post p " + " JOIN p.tags as tag" + " JOIN tag.posts"
+			+ " WHERE p.id = :id ")
 	List<String> getTagById(UUID id);
 
 }

@@ -23,7 +23,7 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	public UserProfileDto getUserProfileInfo(@PathVariable UUID id) {
-		return userService.getQuantityOfUsers(id);
+		return userService.getUserProfileInformation(id);
 	}
 
 	@PostMapping("/update/{id}")

@@ -5,7 +5,7 @@ export interface IForm {
   };
   title: string;
   content: string;
-  tags: [];
+  tags: string[];
   editedTag: string;
 
 }
