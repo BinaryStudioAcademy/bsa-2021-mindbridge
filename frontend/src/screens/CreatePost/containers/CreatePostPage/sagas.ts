@@ -10,6 +10,7 @@ import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import createPostService from '@screens/CreatePost/services/createPost';
 import { Routine } from 'redux-saga-routines';
+import { history } from '@helpers/history.helper';
 
 function* sendImage(action) {
   const formData = new FormData();
@@ -29,6 +30,7 @@ function* sendPost(action) {
     const response = yield call(createPostService.sendPost, action.payload);
     yield put(sendPostRoutine.success(response));
     toastr.success('Success', 'Post was sent!');
+    yield put(history.push('/'));
   } catch (error) {
     yield put(sendImageRoutine.failure(error?.message));
     toastr.error('Error', 'Sending post failed!');
