@@ -1,0 +1,39 @@
+@import "../../styles/common.sass";
+.addImageArea {
+  border: 1.5px dashed $dark-grey;
+  box-sizing: border-box;
+  grid-column: 1/2;
+  grid-row: 1/2;
+  border-radius: 5px;
+  margin-top: 0.7em;
+  margin-left: 0.1em;
+  position: absolute;
+  height: 3em;
+  width: 43.4em;
+
+  p {
+    padding-top: 1.2em;
+    font-family: Lato, serif;
+    font-size: 0.88rem;
+    color: $dark-grey;
+    margin-left: 3.2em;
+    margin-top: -2.8em;
+    width: 19.8em;
+  }
+
+  p:hover {
+    cursor: pointer;
+  }
+
+  .uploadRef {
+    color: #66B9FF;
+    cursor: pointer;
+    display: inline;
+    margin-left: 0;
+  }
+
+  .addImageSvg {
+    margin-top: 0.9em;
+    margin-left: 1.3em;
+  }
+}

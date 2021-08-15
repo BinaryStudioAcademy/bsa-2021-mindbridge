@@ -4,4 +4,8 @@ export interface ICurrentUser {
   avatar: string;
   firstName: string;
   lastName: string;
+  email: string;
+  postsQuantity: number;
+  followersQuantity: number;
+  rating: number;
 }

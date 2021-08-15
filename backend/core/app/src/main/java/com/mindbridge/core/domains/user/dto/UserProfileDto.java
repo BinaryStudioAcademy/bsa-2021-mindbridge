@@ -11,6 +11,8 @@ public class UserProfileDto {
 
 	private String fullName;
 
+	private String nickname;
+
 	private String avatar;
 
 	private int postsQuantity;

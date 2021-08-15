@@ -2,12 +2,12 @@
 
 .profile_sidebar_container {
     height: 21rem;
-    width: 19.5rem;
+    width: 25rem;
     background-color: $background-card;
     border-radius: 0.5rem;
     a:hover{
-        cursor: pointer; 
-    }      
+        cursor: pointer;
+    }
 }
 
 .top_group{
@@ -23,7 +23,7 @@
 .avatar_and_name_group{
     grid-column: 1/4;
     grid-row: 1/2;
-    
+
     a{
         justify-content: left;
         text-align: left;
@@ -56,7 +56,7 @@
 
 .following, .rating {
     height: 1.2rem;
-    
+
     justify-content: left;
     vertical-align: middle;
     display: flex;
@@ -82,14 +82,14 @@
     border-radius: 50%;
     margin-top: 0.3rem;
 }
-    
+
 .settings_button{
     grid-column: 4/5;
     grid-row: 1/2;
     background-color: rgba(0, 0, 0, 0);
     padding: 0;
     margin-right: 0.5rem;
-}  
+}
 
 .sidebar_links{
     display: flex;
