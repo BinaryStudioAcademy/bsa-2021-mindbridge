@@ -40,7 +40,7 @@ interface IState {
   allTags: [any];
   currentUserId: string;
   isLoading: boolean;
-  isLoaded: boolean
+  isLoaded: boolean;
   post?: {
     id: string;
     author: any;
@@ -108,7 +108,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
   const { postId } = useParams();
 
   useEffect(() => {
-    if(isLoaded) {
+    if (isLoaded) {
       history.push(`/post/${post?.id}`);
       history.go();
     }

@@ -90,11 +90,11 @@ export const createPostReducer = createReducer(initialState, {
     state.isLoading = payload.isLoading;
     state.isLoaded = payload.isLoaded;
   },
-  [sendPostRoutine.SUCCESS]: (state, {payload}) => {
+  [sendPostRoutine.SUCCESS]: (state, { payload }) => {
     state.post = {
       ...state.post,
       id: payload
-    }
+    };
   },
   [fetchTagsRoutine.SUCCESS]: (state, action) => {
     state.allTags = action.payload;

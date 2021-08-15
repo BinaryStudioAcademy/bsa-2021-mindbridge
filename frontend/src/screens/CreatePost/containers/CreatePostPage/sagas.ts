@@ -29,7 +29,7 @@ function* sendPost(action) {
     yield put(setLoaderRoutine.success({ isLoading: true, isLoaded: null }));
     const response = yield call(createPostService.sendPost, action.payload);
     yield put(sendPostRoutine.success(response));
-    yield put(setLoaderRoutine.success( { isLoading: false, isLoaded: true }));
+    yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: true }));
     toastr.success('Success', 'Post was sent!');
   } catch (error) {
     yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: null }));
