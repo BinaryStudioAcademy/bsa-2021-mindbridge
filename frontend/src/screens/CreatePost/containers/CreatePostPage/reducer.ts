@@ -1,4 +1,4 @@
-import {
+import { editPostRoutine, sendPostRoutine, sendPRRoutine,
   fetchTagsRoutine,
   resetLoadingImageRoutine,
   sendImageRoutine,
@@ -22,6 +22,10 @@ export interface ICreatePostReducerState {
   versionsOfPost: IPostVersions[];
   allTags: [];
   post?: IPost;
+  preloader: {
+    publishButton: boolean;
+    draftButton: boolean;
+  };
 }
 
 const initialState: ICreatePostReducerState = {
@@ -40,7 +44,11 @@ const initialState: ICreatePostReducerState = {
     rating: 0
   },
   versionsOfPost: [],
-  allTags: []
+  allTags: [],
+  preloader: {
+    publishButton: false,
+    draftButton: false
+  }
 };
 
 export const createPostReducer = createReducer(initialState, {
@@ -56,6 +64,13 @@ export const createPostReducer = createReducer(initialState, {
       ...state.savingImage,
       title: action.payload.file.name,
       isInContent: action.payload.inContent
+    };
+  },
+  [sendImageRoutine.FAILURE]: (state, action) => {
+    state.savingImage = {
+      ...state.savingImage,
+      url: '0',
+      isLoaded: true
     };
   },
   [resetLoadingImageRoutine.TRIGGER]: state => {
@@ -77,5 +92,41 @@ export const createPostReducer = createReducer(initialState, {
   },
   [fetchPostRoutine.SUCCESS]: (state, action) => {
     state.post = action.payload;
+  },
+  [sendPostRoutine.TRIGGER]: (state, action) => {
+    state.preloader = {
+      publishButton: !action.payload.draft,
+      draftButton: action.payload.draft
+    };
+  },
+  [sendPostRoutine.FULFILL]: state => {
+    state.preloader = {
+      publishButton: false,
+      draftButton: false
+    };
+  },
+  [editPostRoutine.TRIGGER]: (state, action) => {
+    state.preloader = {
+      publishButton: !action.payload.draft,
+      draftButton: action.payload.draft
+    };
+  },
+  [editPostRoutine.FULFILL]: state => {
+    state.preloader = {
+      publishButton: false,
+      draftButton: false
+    };
+  },
+  [sendPRRoutine.TRIGGER]: state => {
+    state.preloader = {
+      publishButton: true,
+      draftButton: false
+    };
+  },
+  [sendPRRoutine.FULFILL]: state => {
+    state.preloader = {
+      publishButton: false,
+      draftButton: false
+    };
   }
 });

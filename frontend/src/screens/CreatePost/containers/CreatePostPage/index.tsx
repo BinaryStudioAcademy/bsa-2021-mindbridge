@@ -51,6 +51,10 @@ interface IState {
     coverImage: string;
     markdown: string;
   };
+  preloader: {
+    publishButton: boolean;
+    draftButton: boolean;
+  };
 }
 
 interface IActions {
@@ -81,7 +85,8 @@ const CreatePost: React.FC<ICreatePostProps> = (
     fetchPost,
     editPost,
     getPostVersions,
-    versionsOfPost
+    versionsOfPost,
+    preloader
   }
 ) => {
   const [modes, setModes] = useState({
@@ -130,13 +135,23 @@ const CreatePost: React.FC<ICreatePostProps> = (
   useEffect(() => {
     if (savingImage.isLoaded) {
       if (!savingImage.isInContent) {
-        setForm({
-          ...form,
-          coverImage: {
-            url: savingImage.url,
-            title: savingImage.title
-          }
-        });
+        if (savingImage.url !== '0') {
+          setForm({
+            ...form,
+            coverImage: {
+              url: savingImage.url,
+              title: savingImage.title
+            }
+          });
+        } else {
+          setForm({
+            ...form,
+            coverImage: {
+              url: '',
+              title: ''
+            }
+          });
+        }
       } else if (modes.htmlMode) {
         setForm({
           ...form,
@@ -194,7 +209,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
         author: currentUserId
       };
       sendPost(postOnAdd);
-      handleCancel();
       return;
     }
     if (currentUserId === post.author.id) {
@@ -208,7 +222,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
         draft: isDraft
       };
       editPost(postOnEdit);
-      handleCancel();
       return;
     }
     const postOnPR = {
@@ -222,7 +235,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
       contributorId: currentUserId
     };
     sendPR(postOnPR);
-    handleCancel();
   };
   return (
     <div className={classNames('content_wrapper', styles.container)}>
@@ -308,8 +320,29 @@ const CreatePost: React.FC<ICreatePostProps> = (
             : <PostPreview form={form} modes={modes} allTags={allTags} />}
           <div className={styles.footer}>
             <DarkBorderButton content="Cancel" onClick={handleCancel} />
-            <DarkBorderButton content="Save draft" onClick={() => handleSendForm(true)} />
-            <DarkButton content="Publish" onClick={() => handleSendForm(false)} />
+            {!(post && currentUserId === post.author.id)
+              && (
+                <DarkBorderButton
+                  content="Save draft"
+                  loading={preloader.draftButton}
+                  onClick={() => handleSendForm(true)}
+                />
+              )}
+            {post
+              ? (
+                <DarkButton
+                  content={currentUserId === post.author.id ? 'Save changes' : 'Save pull request'}
+                  loading={preloader.publishButton}
+                  onClick={() => handleSendForm(false)}
+                />
+              )
+              : (
+                <DarkButton
+                  content="Publish"
+                  loading={preloader.publishButton}
+                  onClick={() => handleSendForm(false)}
+                />
+              )}
           </div>
         </div>
       </div>
@@ -324,7 +357,8 @@ const mapStateToProps: (state) => IState = state => ({
   isAuthorized: state.auth.auth.isAuthorized,
   post: state.createPostReducer.data.post,
   currentUserId: state.auth.auth.user.id,
-  versionsOfPost: state.createPostReducer.data.versionsOfPost
+  versionsOfPost: state.createPostReducer.data.versionsOfPost,
+  preloader: state.createPostReducer.data.preloader
 });
 
 const mapDispatchToProps: IActions = {

@@ -98,12 +98,12 @@
         margin-left: 0;
     }
     button{
-        font-size: 0.8rem;
-        font-weight: bold;
+        font-weight: bold !important;
         height: 2.2rem;
         min-width: 7rem;
         margin-left: 0.6rem;
         margin-right: 0.6rem;
+        font-size: 0.8rem !important;
     }
 }
 

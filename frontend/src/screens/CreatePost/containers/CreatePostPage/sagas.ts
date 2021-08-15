@@ -30,8 +30,10 @@ function* sendPost(action) {
     yield put(sendPostRoutine.success(response));
     toastr.success('Success', 'Post was sent!');
   } catch (error) {
-    yield put(sendImageRoutine.failure(error?.message));
+    yield put(sendPostRoutine.failure(error?.message));
     toastr.error('Error', 'Sending post failed!');
+  } finally {
+    yield put(sendPostRoutine.fulfill());
   }
 }
 
@@ -111,6 +113,8 @@ function* sendPR({ payload }: Routine<any>) {
   } catch (error) {
     yield put(sendPRRoutine.failure(error?.message));
     toastr.error('Error', 'Loading PR failed');
+  } finally {
+    yield put(sendPRRoutine.fulfill());
   }
 }
 
@@ -126,6 +130,8 @@ function* editPost({ payload }: Routine<any>) {
   } catch (error) {
     yield put(editPostRoutine.failure(error?.message));
     toastr.error('Error', 'Editing post failed');
+  } finally {
+    yield put(editPostRoutine.fulfill());
   }
 }
 
