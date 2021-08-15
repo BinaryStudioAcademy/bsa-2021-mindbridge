@@ -5,18 +5,22 @@ import { IBindingCallback1 } from '@models/Callbacks';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import ProfileCard from '@screens/ProfilePage/components/ProfileCard';
 import { IAppState } from '@models/AppState';
-import { sendFormRoutine } from '@screens/ProfilePage/routines';
+import { sendFormRoutine, sendNicknameRoutine } from '@screens/ProfilePage/routines';
+import { RootState } from '@root/store';
 
 export interface IProfileFormRequest {
+  id: string;
   nickname: string;
   avatar: string;
   email: string;
   firstName: string;
   lastName: string;
+  createdAt: string;
 }
 
 export interface IProfilePageProps extends IState, IActions {
   initialData: any;
+  initialState: any;
 }
 
 interface IState {
@@ -25,14 +29,16 @@ interface IState {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface IActions {
   sendForm: IBindingCallback1<object>;
+  sendNickname: IBindingCallback1<string>;
 }
 
 const ProfilePage: React.FC<IProfilePageProps> = (
-  { initialData, sendForm }
+  { initialData, initialState, sendForm, sendNickname }
 ) => (
   <div className={styles.feedPage}>
     <div className={styles.main}>
-      <ProfileCard initialData={initialData} sendForm={sendForm} />
+      {/* eslint-disable-next-line max-len */}
+      <ProfileCard initialData={initialData} initialState={initialState} sendForm={sendForm} sendNickname={sendNickname} />
     </div>
     <div className={styles.sidebar}>
       <div className={styles.tagsSideBar}>
@@ -42,22 +48,29 @@ const ProfilePage: React.FC<IProfilePageProps> = (
   </div>
 );
 
-const mapStateToProps = (state: IAppState) => {
+const mapStateToProps = (state: RootState) => {
   const { user } = state.auth.auth;
+  const { data } = state.profilePageReducer;
   return ({
     initialData: {
+      id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       nickname: user.nickname,
       avatar: user.avatar,
       email: user.email,
-      password: user.password
+      createdAt: user.createdAt
+    },
+    initialState: {
+      isNicknameEngaged: data.isNicknameEngaged,
+      isLoaded: data.isLoaded
     }
   });
 };
 
 const mapDispatchToProps: IActions = {
-  sendForm: sendFormRoutine
+  sendForm: sendFormRoutine,
+  sendNickname: sendNicknameRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

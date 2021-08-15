@@ -124,7 +124,7 @@
   top: 0;
   bottom: 0;
   left: 0;
-  right: 0.4em;
+  right: 0.6em;
   width: 10em;
   height: 10em;
   margin: 0 auto;
@@ -148,6 +148,10 @@
   text-align: center;
 }
 
+.file_input_rectangle {
+  cursor: pointer;
+}
+
 .imgContainer {
   position: relative;
   width: 100%;
@@ -166,22 +170,8 @@
   fill: #66B9FF;
 }
 
-.headerInput {
-  width: 100% !important;
-  background-color: #F8F8F8 !important;
-  box-sizing: border-box !important;
-  border-radius: 7px !important;
-  color: rgba(40, 40, 40, 0.7) !important;
-  line-height: 3rem !important;
-  outline: none !important;
-  border: none !important;
-  padding: 0 1.35rem !important;
-  margin: 0.3rem 0.3rem 0 0 !important;
-  margin-bottom: 1.2rem !important;
-
-  &::placeholder {
-    opacity: 0.4 !important;
-  }
+.nameSurnameInput {
+  margin: 0 0.5rem 0 0;
 }
 
 .invisible{
@@ -192,4 +182,11 @@
   cursor: not-allowed;
   pointer-events: none;
   background: #8c8c8c99;
+  border-color: transparent;
+}
+
+:global(.ui.active.loader).buttonLoader {
+  position: relative;
+  transform: translateX(-50%) translateY(0%);
+  margin: 0.3em 0 0.3em 0;
 }

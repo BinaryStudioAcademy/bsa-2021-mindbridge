@@ -1,7 +1,22 @@
-import api from '@helpers/api.helper';
+import { callApi } from '@helpers/auth.helper';
 
 const profilePageService = {
-  getData: async () => api.get('/api/post/all')
+  sendForm: async ({ endpoint, payload }) => {
+    const response = await callApi({
+      endpoint: `/api/user/update/${endpoint}`,
+      type: 'POST',
+      requestData: payload
+    });
+    return response.json();
+  },
+  sendNickname: async ({ endpoint, payload }) => {
+    const response = await callApi({
+      endpoint: `/api/user/check/${endpoint}`,
+      type: 'POST',
+      requestData: payload
+    });
+    return response.json();
+  }
 };
 
 export default profilePageService;

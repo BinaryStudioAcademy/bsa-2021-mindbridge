@@ -1,19 +1,21 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { fetchDataRoutine } from '@screens/ProfilePage/routines';
-import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
-import { IUserForm } from '@screens/ProfilePage/models/IUserForm';
+import { sendNicknameRoutine, sendFormRoutine } from '@screens/ProfilePage/routines';
+import { IDataProfile } from '@screens/ProfilePage/models/IDataProfile';
 
-const initialState: IUserForm = {
-  nickname: '',
-  avatar: '',
-  email: '',
-  firstName: '',
-  lastName: '',
-  password: ''
+const initialState: IDataProfile = {
+  isNicknameEngaged: false,
+  isLoaded: true
 };
 
 export const profilePageReducer = createReducer(initialState, {
-  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserForm>) => {
-    /* state.posts = payload.posts;*/
+  [sendFormRoutine.TRIGGER]: (state, { payload }: PayloadAction<boolean>) => {
+    state.isLoaded = false;
+  },
+  [sendFormRoutine.SUCCESS]: (state, { payload }: PayloadAction<boolean>) => {
+    state.isNicknameEngaged = payload;
+    state.isLoaded = true;
+  },
+  [sendFormRoutine.FAILURE]: (state, { payload }: PayloadAction<boolean>) => {
+    state.isLoaded = true;
   }
 });

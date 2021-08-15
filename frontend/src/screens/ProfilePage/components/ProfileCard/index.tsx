@@ -5,8 +5,6 @@ import styles from './styles.module.scss';
 import EditSvg from '@screens/ProfilePage/containers/ProfilePage/svg/editSvg';
 import FormButton from '@components/FormButton';
 import PencilSvg from '@screens/ProfilePage/containers/ProfilePage/svg/pencilSvg';
-import { useSelector } from 'react-redux';
-import { IAppState } from '@models/AppState';
 import { getHowLong } from '@helpers/date.helper';
 import {
   isValidNameSurname,
@@ -18,34 +16,69 @@ import InputPopup from '@components/InputPopup';
 import { isDeepEqual } from 'react-use/lib/util';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { IProfileFormRequest } from '@screens/ProfilePage/containers/ProfilePage';
+import { toastr } from 'react-redux-toastr';
+import { RootState } from '@root/store';
+import { connect } from 'react-redux';
+import LoaderWrapper from '@components/LoaderWrapper';
 
 interface IProfileCardProps {
   initialData: {
+  id: '';
   nickname: '';
   avatar: '';
   email: '';
   firstName: '';
   lastName: '';
+  createdAt: '';
+};
+  initialState: {
+    isNicknameEngaged: false;
+    isLoaded: false;
 };
   sendForm: IBindingCallback1<IProfileFormRequest>;
+  sendNickname: IBindingCallback1<string>;
 }
-const ProfileCard: FunctionComponent<IProfileCardProps> = ({ initialData, sendForm }) => {
-  const { currentUser } = useSelector((state: IAppState) => ({
-    currentUser: state.auth.auth.user
-  }));
+const ProfileCard: FunctionComponent<IProfileCardProps> = (
+  { initialData, initialState, sendForm, sendNickname }
+) => {
+  const validationInitialState = {
+    isNameValid: true,
+    isSurnameValid: true,
+    isNicknameValid: true
+  };
 
   const [userForm, setUserForm] = useState(initialData);
+  const [profileData, setProfileData] = useState(initialState);
+  const [validationData, setValidationData] = useState(validationInitialState);
   const [isEditName, setIsEditName] = useState(false);
 
-  const [isNameValid, setIsNameValid] = useState(true);
-  const [isNicknameValid, setIsNicknameValid] = useState(true);
-  const [isSurnameValid, setIsSurnameValid] = useState(true);
+  const isRequiredFieldsValid = (): boolean => isValidNickname(userForm.nickname) && isValidNameSurname(userForm.firstName)
+    && isValidNameSurname(userForm.lastName);
 
-  const formIntact = useMemo(() => isDeepEqual(initialData, userForm), [initialData, userForm]);
+  const formIntact = useMemo(() => (isDeepEqual(initialData, userForm)), [initialData, userForm]);
+  const validationIntact = useMemo(() => (isDeepEqual(validationInitialState, validationData)), [validationInitialState, validationData]);
 
   useEffect(() => {
     setUserForm(initialData);
   }, [initialData]);
+
+  useEffect(() => {
+    setProfileData(initialState);
+  }, [initialState]);
+
+  const updateValidationData = (fieldId, val) => {
+    if (fieldId === 'isNameValid' || fieldId === 'isSurnameValid') {
+      setValidationData(prevState => ({ ...prevState,
+        [fieldId]: isValidNameSurname(val) }));
+    } else if (fieldId === 'isNicknameValid') {
+      setValidationData(prevState => ({ ...prevState,
+        [fieldId]: isValidNickname(val) }));
+    }
+  };
+
+  const updateProfileData = (fieldId, val) => {
+    setProfileData(prevState => ({ ...prevState, [fieldId]: val }));
+  };
 
   const updateForm = (fieldId, val) => {
     if (val === '') {
@@ -65,26 +98,12 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = ({ initialData, sendFo
     }
   };
 
-  const validateName = (newName?: string) => setIsNameValid(
-    isValidNameSurname(typeof newName === 'string' ? newName : userForm.firstName)
-  );
-
-  const validateSurname = (newName?: string) => setIsSurnameValid(
-    isValidNameSurname(typeof newName === 'string' ? newName : userForm.lastName)
-  );
-
-  const validateNickname = (newName?: string) => setIsNicknameValid(
-    isValidNickname(typeof newName === 'string' ? newName : userForm.nickname)
-  );
-
-  const isRequiredFieldsValid = (): boolean => isValidNickname(userForm.nickname) && isValidNameSurname(userForm.firstName)
-    && isValidNameSurname(userForm.lastName);
-
   const handleSaveClick = e => {
-    e.preventDefault();
-    if (isRequiredFieldsValid) {
-      sendForm(userForm);
-    }
+    /* if (!profileData.isNicknameEngaged) {*/
+    sendForm(userForm);
+    /* } else {
+        toastr.error('Error', 'This nickname is already in use!');
+      }*/
   };
 
   return (
@@ -93,7 +112,7 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = ({ initialData, sendFo
       <div className={styles.contentWrp}>
         <div className={styles.avatarWrp}>
           <div className={styles.imgContainer}>
-            {userForm.avatar == null ? (
+            {(userForm.avatar == null || userForm.avatar === '') ? (
               <img
                 className={styles.avatar}
                 src="https://www.unizwa.edu.om/index1/staff-icon.png"
@@ -121,25 +140,29 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = ({ initialData, sendFo
           <div className={styles.header}>
             <div className={styles.inputWrp}>
               { isEditName ? (
-                <div className={styles.loginForm} style={{ display: 'flex' }}>
+                <div className={styles.loginForm} style={{ display: 'flex', padding: '0' }}>
                   <InputPopup
+                    className={styles.nameSurnameInput}
                     id="name"
                     type="text"
                     placeholder="Enter your first name"
                     value={userForm.firstName}
                     setValue={val => updateForm('firstName', val)}
-                    validateValue={validateName}
-                    isValueValid={isNameValid}
+                    validateValue={val => updateValidationData('isNameValid', val)}
+                    isValueValid={validationData.isNameValid}
+                    disabled={!profileData.isLoaded}
                     errorMessage={NAME_MESSAGE}
                   />
                   <InputPopup
+                    className={styles.nameSurnameInput}
                     id="surname"
                     type="text"
                     placeholder="Enter your last name"
                     value={userForm.lastName}
                     setValue={val => updateForm('lastName', val)}
-                    validateValue={validateSurname}
-                    isValueValid={isSurnameValid}
+                    validateValue={val => updateValidationData('isSurnameValid', val)}
+                    isValueValid={validationData.isSurnameValid}
+                    disabled={!profileData.isLoaded}
                     errorMessage={NAME_MESSAGE}
                   />
                 </div>
@@ -158,14 +181,14 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = ({ initialData, sendFo
                 )}
             </div>
             <span className={styles.period}>
-              {getHowLong(currentUser.createdAt)}
+              {getHowLong(userForm.createdAt)}
             </span>
           </div>
           <div className={styles.loginForm}>
             <h2 className={styles.title}>Personal data</h2>
             <Form
               onSubmit={handleSaveClick}
-              warning={!isNameValid || !isSurnameValid || !isNicknameValid}
+              warning={!validationData.isNameValid || !validationData.isSurnameValid || !validationData.isNicknameValid}
             >
               <label htmlFor="nickname">Nickname</label>
               <InputPopup
@@ -174,8 +197,9 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = ({ initialData, sendFo
                 placeholder="Enter your nickname"
                 value={userForm?.nickname || null}
                 setValue={val => updateForm('nickname', val)}
-                validateValue={validateNickname}
-                isValueValid={isNicknameValid}
+                validateValue={val => updateValidationData('isNicknameValid', val)}
+                isValueValid={validationData.isNicknameValid}
+                disabled={!profileData.isLoaded}
                 errorMessage={NICKNAME_MESSAGE}
               />
               <label htmlFor="email">Email</label>
@@ -186,8 +210,8 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = ({ initialData, sendFo
                 placeholder="Enter your email"
                 disabled
               />
-              <div className={(formIntact && isRequiredFieldsValid) ? styles.disableFormButton : null}>
-                <FormButton text="Save" inverted />
+              <div className={(formIntact || !validationIntact) ? styles.disableFormButton : null}>
+                <FormButton text={profileData.isLoaded ? 'Save' : <LoaderWrapper className={styles.buttonLoader} loading={!profileData.isLoaded} />} inverted />
               </div>
             </Form>
           </div>
@@ -197,4 +221,9 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = ({ initialData, sendFo
   );
 };
 
-export default ProfileCard;
+const mapStateToProps = (state: RootState) => ({
+  isNicknameEngaged: state.profilePageReducer.data.isNicknameEngaged,
+  isLoaded: state.profilePageReducer.data.isLoaded
+});
+
+export default connect(mapStateToProps)(ProfileCard);
