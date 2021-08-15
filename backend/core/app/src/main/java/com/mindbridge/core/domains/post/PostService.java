@@ -77,7 +77,7 @@ public class PostService {
 				.collect(Collectors.toList());
 	}
 
-	public void editPost(EditPostDto editPostDto) {
+	public UUID editPost(EditPostDto editPostDto) {
 		var currentPost = postRepository.getOne(editPostDto.getPostId());
 		var postVersion = PostMapper.MAPPER.postToPostVersion(currentPost);
 		postVersionRepository.save(postVersion);
@@ -88,15 +88,16 @@ public class PostService {
 		currentPost.setDraft(editPostDto.getDraft());
 		currentPost.setTags(new HashSet<>(tagRepository.findAllById(editPostDto.getTags())));
 
-		postRepository.save(currentPost);
+		return postRepository.save(currentPost).getId();
 	}
 
-	public void savePost(CreatePostDto createPostDto) {
+	public UUID savePost(CreatePostDto createPostDto) {
 		var post = PostMapper.MAPPER.createPostDtoToPost(createPostDto);
 		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
 		post.setTags(tags);
 		var savedPost = postRepository.save(post);
 		elasticService.put(savedPost);
+		return savedPost.getId();
 	}
 
 }

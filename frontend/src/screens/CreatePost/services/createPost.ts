@@ -12,7 +12,7 @@ const createPostService = {
         data: image
       })
   ),
-  sendPost: async (post: object) => { await api.post('/api/post/create', { data: post }); },
+  sendPost: async (post: object) => api.post('/api/post/create', { data: post }),
   getTags: async () => api.get('/api/tag/all'),
   getPost: async postId => api.get(`/api/post/${postId}`),
   sendPR: async payload => api.post(

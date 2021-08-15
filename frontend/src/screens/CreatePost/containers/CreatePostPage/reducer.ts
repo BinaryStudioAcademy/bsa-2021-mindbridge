@@ -4,7 +4,8 @@ import {
   sendImageRoutine,
   fetchUserProfileRoutine,
   fetchPostRoutine,
-  getPostVersionsRoutine } from '../../routines/index';
+  getPostVersionsRoutine, sendPostRoutine, setLoaderRoutine
+} from '../../routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
@@ -21,7 +22,9 @@ export interface ICreatePostReducerState {
   profile: IUserProfile;
   versionsOfPost: IPostVersions[];
   allTags: [];
-  post?: IPost;
+  post: IPost;
+  isLoading: boolean;
+  isLoaded: boolean;
 }
 
 const initialState: ICreatePostReducerState = {
@@ -40,7 +43,18 @@ const initialState: ICreatePostReducerState = {
     rating: 0
   },
   versionsOfPost: [],
-  allTags: []
+  allTags: [],
+  isLoading: true,
+  isLoaded: null,
+  post: {
+    id: '',
+    authorId: '',
+    text: '',
+    title: '',
+    markdown: false,
+    coverImage: '',
+    tags: []
+  }
 };
 
 export const createPostReducer = createReducer(initialState, {
@@ -71,6 +85,16 @@ export const createPostReducer = createReducer(initialState, {
   },
   [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersions]>) => {
     state.versionsOfPost = payload;
+  },
+  [setLoaderRoutine.SUCCESS]: (state, { payload }) => {
+    state.isLoading = payload.isLoading;
+    state.isLoaded = payload.isLoaded;
+  },
+  [sendPostRoutine.SUCCESS]: (state, {payload}) => {
+    state.post = {
+      ...state.post,
+      id: payload
+    }
   },
   [fetchTagsRoutine.SUCCESS]: (state, action) => {
     state.allTags = action.payload;

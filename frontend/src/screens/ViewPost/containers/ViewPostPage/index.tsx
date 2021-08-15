@@ -58,7 +58,7 @@ const ViewPost: React.FC<IViewPostProps> = (
                 postNotificationCount={userInfo.postsQuantity}
               />
             </div>
-            <SuggestChangesCard />
+            <SuggestChangesCard isAuthor={data.post.author.id === currentUser.id} postId={data.post.id} />
             <div className={styles.tagsSideBar}>
               <FeedTagsSideBar />
             </div>

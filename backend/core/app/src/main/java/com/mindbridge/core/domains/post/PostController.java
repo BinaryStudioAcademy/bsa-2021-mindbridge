@@ -32,13 +32,13 @@ public class PostController {
 	}
 
 	@PostMapping("/create")
-	public void createPost(@RequestBody CreatePostDto post) {
-		postService.savePost(post);
+	public UUID createPost(@RequestBody CreatePostDto post) {
+		return postService.savePost(post);
 	}
 
 	@PutMapping("/edit")
-	public void editPost(@RequestBody EditPostDto editPostDto) {
-		postService.editPost(editPostDto);
+	public UUID editPost(@RequestBody EditPostDto editPostDto) {
+		return postService.editPost(editPostDto);
 	}
 
 	@GetMapping("/all")
