@@ -16,7 +16,7 @@ const PostInformation: FunctionComponent<IPostInformationProps> = ({ firstName, 
   <div className={styles.postHeaderInfo}>
     <div className={styles.userBlock}>
       {avatar ? (
-        <Image src={avatar} avatar size="big" />
+        <Image src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'} avatar size="big" />
       ) : (
         <Image src="https://i.imgur.com/LaWyPZF.png" avatar size="big" />
       )}

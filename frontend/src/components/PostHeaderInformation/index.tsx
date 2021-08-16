@@ -13,19 +13,11 @@ interface IPostHeaderInformationProps {
 const PostHeaderInformation: FunctionComponent<IPostHeaderInformationProps> = ({ date, timeRead,
   authorName, avatar }) => (
     <div className={styles.postHeaderInfo}>
-      {avatar === null ? (
-        <Image
-          src="https://i.imgur.com/LaWyPZF.png"
-          avatar
-          size="big"
-        />
-      ) : (
-        <Image
-          src={avatar}
-          avatar
-          size="big"
-        />
-      )}
+      <Image
+        src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'}
+        avatar
+        size="big"
+      />
       <span className={styles.userName}>{authorName}</span>
       <DividerSvg />
       <span className={styles.postHeaderInfo}>{date}</span>

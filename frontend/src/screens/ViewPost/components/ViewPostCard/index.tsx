@@ -33,19 +33,11 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
               <ShareSvg />
             </div>
           </div>
-          {post.coverImage ? (
-            <img
-              className={styles.image}
-              src={post.coverImage}
-              alt="media"
-            />
-          ) : (
-            <img
-              className={styles.image}
-              src="https://i.imgur.com/KVI8r34.jpg"
-              alt="media"
-            />
-          )}
+          <img
+            className={styles.image}
+            src={post.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'}
+            alt="media"
+          />
         </div>
 
         <div className={styles.postName}>{post.title}</div>
