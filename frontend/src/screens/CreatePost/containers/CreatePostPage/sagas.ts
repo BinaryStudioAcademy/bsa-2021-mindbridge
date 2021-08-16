@@ -123,7 +123,7 @@ function* watchSendPR() {
 function* editPost({ payload }: Routine<any>) {
   try {
     const response = yield call(createPostService.editPost, payload);
-
+    history.push(`/post/${payload.postId}`);
     yield put(editPostRoutine.success(response));
   } catch (error) {
     yield put(editPostRoutine.failure(error?.message));
