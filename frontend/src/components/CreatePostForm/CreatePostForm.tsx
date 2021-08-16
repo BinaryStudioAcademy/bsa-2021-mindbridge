@@ -66,13 +66,6 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
     });
   };
 
-  const handelImageInContent = (event: any) => {
-    if (!event.target.files[0]) {
-      return;
-    }
-    sendImage({ file: event.target.files[0], inContent: true });
-  };
-
   const handleTags = (event: any, data: any) => {
     setForm({
       ...form,

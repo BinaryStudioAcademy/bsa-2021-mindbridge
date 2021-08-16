@@ -19,10 +19,15 @@
   margin-top: 5.8em;
   grid-area: sidebar;
 
+  .feedPageSidebars {
+    position: fixed;
+  }
+
   .logInSideBar {
     margin-top: 2.7vw;
     margin-bottom: 2em;
   }
 }
+
 
 
