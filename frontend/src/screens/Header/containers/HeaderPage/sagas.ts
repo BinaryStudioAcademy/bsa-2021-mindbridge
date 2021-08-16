@@ -1,5 +1,9 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { fetchNotificationCountRoutine, fetchNotificationListRoutine } from '@screens/Header/routines';
+import {
+  fetchNotificationCountRoutine,
+  fetchNotificationListRoutine,
+  searchPostsByElasticRoutine
+} from '@screens/Header/routines';
 import { toastr } from 'react-redux-toastr';
 import { Routine } from 'redux-saga-routines';
 import headerService from '@screens/Header/services/header';
@@ -26,6 +30,17 @@ function* fetchNotificationList({ payload }: Routine<any>) {
   }
 }
 
+function* searchPostsByElastic() {
+  try {
+    const params = { query: 'dart' };
+    const response = yield call(headerService.getPostByElastic, params);
+    yield put(searchPostsByElasticRoutine.success(response));
+  } catch (error) {
+    yield put(searchPostsByElasticRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading posts by elastic failed');
+  }
+}
+
 function* watchFetchNotificationCount() {
   yield takeEvery(fetchNotificationCountRoutine.TRIGGER, fetchNotificationCount);
 }
@@ -34,9 +49,14 @@ function* watchFetchNotificationList() {
   yield takeEvery(fetchNotificationListRoutine.TRIGGER, fetchNotificationList);
 }
 
+function* watchSearchPostsByElastic() {
+  yield takeEvery(searchPostsByElasticRoutine.TRIGGER, searchPostsByElastic);
+}
+
 export default function* headerPageSagas() {
   yield all([
     watchFetchNotificationCount(),
-    watchFetchNotificationList()
+    watchFetchNotificationList(),
+    watchSearchPostsByElastic()
   ]);
 }

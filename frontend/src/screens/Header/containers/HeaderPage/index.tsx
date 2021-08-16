@@ -5,9 +5,13 @@ import Logo from '@components/Logo/Logo';
 import NotificationCount from '@components/NotificationCount';
 import DarkButton from '@components/buttons/DarcButton';
 import BellSvg from '@screens/Header/containers/HeaderPage/svg/bellSvg';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { INotification } from '@screens/Header/models/INotification';
-import { fetchNotificationCountRoutine, fetchNotificationListRoutine } from '@screens/Header/routines';
+import {
+  fetchNotificationCountRoutine,
+  fetchNotificationListRoutine,
+  searchPostsByElasticRoutine
+} from '@screens/Header/routines';
 import { extractData } from '@screens/Header/reducers';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
@@ -27,16 +31,17 @@ interface IState {
 interface IActions {
   fetchNotificationCount: IBindingCallback1<string>;
   fetchNotificationList: IBindingCallback1<string>;
+  searchPostsByElastic: IBindingAction;
 }
 
 const Header: React.FC<IHeaderProps> = (
-  { isAuthorized, notificationCount, notificationList, fetchNotificationCount, fetchNotificationList }
+  { isAuthorized, notificationCount, notificationList, fetchNotificationCount, fetchNotificationList, searchPostsByElastic }
 ) => {
   const { currentUser } = useSelector((state: any) => ({
     currentUser: state.auth.auth.user
   }));
   const history = useHistory();
-
+  const [elasticContent, setElasticContent] = useState(' ');
   useEffect(() => {
     if (currentUser?.id) {
       fetchNotificationCount(currentUser.id);
@@ -59,6 +64,13 @@ const Header: React.FC<IHeaderProps> = (
     }
   };
 
+  const handleInputContent = (event: any) => {
+    setElasticContent(event.target.value);
+  };
+
+  const handleSendToElasticSearch = () => {
+    searchPostsByElastic();
+  };
   return (
     <div className={styles.header_container}>
       <div className={styles.left}>
@@ -84,8 +96,8 @@ const Header: React.FC<IHeaderProps> = (
           <NotificationCount notificationCount={notificationCount} />
         </button>
         <div className={styles.search_input}>
-          <input type="text" placeholder="Search..." />
-          <button type="button">
+          <input type="text" placeholder="Search..." onChange={handleInputContent} />
+          <button type="button" onClick={handleSendToElasticSearch}>
             <SearchSvg />
           </button>
         </div>
@@ -117,7 +129,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps: IActions = {
   fetchNotificationCount: fetchNotificationCountRoutine,
-  fetchNotificationList: fetchNotificationListRoutine
+  fetchNotificationList: fetchNotificationListRoutine,
+  searchPostsByElastic: searchPostsByElasticRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
