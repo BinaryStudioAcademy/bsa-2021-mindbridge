@@ -262,7 +262,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         {/* <div className={styles.history_sidebar_container}>*/}
         {/*  <HistorySidebar history={versionsOfPost} />*/}
         {/* </div>*/}
-        <div className={styles.create_post_container}>
+        <form className={styles.create_post_container}>
           <div className={styles.header}>
             {modes.htmlMode
               ? <BlueButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />
@@ -344,7 +344,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
               onClick={() => handleSendForm(false)}
             />
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
