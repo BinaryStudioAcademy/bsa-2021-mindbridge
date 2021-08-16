@@ -11,6 +11,7 @@ function* fetchNotificationCount({ payload }: Routine<any>) {
     yield put(fetchNotificationCountRoutine.success(count));
   } catch (error) {
     yield put(fetchNotificationCountRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading notification count failed!');
   }
 }
 
