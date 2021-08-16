@@ -4,8 +4,7 @@ import styles from './styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import ProfileCard from '@screens/ProfilePage/components/ProfileCard';
-import { IAppState } from '@models/AppState';
-import { sendFormRoutine, sendNicknameRoutine } from '@screens/ProfilePage/routines';
+import { sendAvatarRoutine, sendFormRoutine, sendNicknameRoutine } from '@screens/ProfilePage/routines';
 import { RootState } from '@root/store';
 
 export interface IProfileFormRequest {
@@ -29,16 +28,23 @@ interface IState {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface IActions {
   sendForm: IBindingCallback1<object>;
+  sendAvatar: IBindingCallback1<object>;
   sendNickname: IBindingCallback1<string>;
 }
 
 const ProfilePage: React.FC<IProfilePageProps> = (
-  { initialData, initialState, sendForm, sendNickname }
+  { initialData, initialState, sendForm, sendAvatar, sendNickname }
 ) => (
   <div className={styles.feedPage}>
     <div className={styles.main}>
       {/* eslint-disable-next-line max-len */}
-      <ProfileCard initialData={initialData} initialState={initialState} sendForm={sendForm} sendNickname={sendNickname} />
+      <ProfileCard
+        initialData={initialData}
+        initialState={initialState}
+        sendForm={sendForm}
+        sendAvatar={sendAvatar}
+        sendNickname={sendNickname}
+      />
     </div>
     <div className={styles.sidebar}>
       <div className={styles.tagsSideBar}>
@@ -64,13 +70,15 @@ const mapStateToProps = (state: RootState) => {
     initialState: {
       isNicknameEngaged: data.isNicknameEngaged,
       isFormLoaded: data.isFormLoaded,
-      isNicknameLoaded: data.isNicknameLoaded
+      isNicknameLoaded: data.isNicknameLoaded,
+      savingAvatar: data.savingAvatar
     }
   });
 };
 
 const mapDispatchToProps: IActions = {
   sendForm: sendFormRoutine,
+  sendAvatar: sendAvatarRoutine,
   sendNickname: sendNicknameRoutine
 };
 

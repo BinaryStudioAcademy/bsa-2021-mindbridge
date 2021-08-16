@@ -20,6 +20,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.UUID;
 
@@ -90,7 +92,6 @@ public class UserService implements UserDetailsService {
 		User user = userRepository.findById(id)
 			.orElseThrow(() -> new EmailNotFoundException("User with id : " + id + " not found."));
 		user.setNickname(userProfileData.getNickname());
-		user.setAvatar(userProfileData.getAvatar());
 		user.setFirstName(userProfileData.getFirstName());
 		user.setLastName(userProfileData.getLastName());
 		userRepository.save(user);
@@ -100,5 +101,14 @@ public class UserService implements UserDetailsService {
 
 	public boolean checkNickname(String nickname) {
 		return userRepository.existsByNickname(nickname);
+	}
+
+	public void updateUserAvatarById(UUID id, String url) {
+		User user = userRepository.findById(id)
+			.orElseThrow(() -> new EmailNotFoundException("User with id : " + id + " not found."));
+		String result = URLDecoder.decode( url, StandardCharsets.UTF_8);
+		String rigth_url = result.substring(0, result.length()-1);
+		user.setAvatar(rigth_url);
+		userRepository.save(user);
 	}
 }

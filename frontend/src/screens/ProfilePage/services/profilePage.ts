@@ -1,21 +1,38 @@
-import { callApi } from '@helpers/auth.helper';
+import api from '@helpers/api.helper';
 
 const profilePageService = {
   sendForm: async ({ endpoint, payload }) => {
-    const response = await callApi({
-      endpoint: `/api/user/update/${endpoint}`,
-      type: 'POST',
-      requestData: payload
-    });
-    return response.json();
+    const response = await api.post(
+      `/api/user/update/${endpoint}`,
+      { data: payload }
+    );
+    return response;
   },
   sendNickname: async ({ endpoint, payload }) => {
-    const response = await callApi({
-      endpoint: `/api/user/check/${endpoint}`,
-      type: 'POST',
-      requestData: payload
-    });
-    return response.json();
+    const response = await api.post(
+      `/api/user/check/${endpoint}`,
+      { data: payload }
+    );
+    return response;
+  },
+  sendAvatar: async ({ endpoint, payload }) => {
+    const response = await api.post(
+      `/api/image/${endpoint}`,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        data: payload }
+    );
+    return response;
+  },
+  updateAvatar: async ({ endpoint, payload }) => {
+    const response = await api.post(
+      `/api/user/update/avatar/${endpoint}`,
+      {
+        data: payload }
+    );
+    return response;
   }
 };
 

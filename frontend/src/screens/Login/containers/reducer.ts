@@ -1,4 +1,10 @@
-import { loginRoutine, registerRoutine, setNoAuthorizedRoutine } from '@screens/Login/routines';
+import {
+  loginRoutine,
+  registerRoutine,
+  setNoAuthorizedRoutine,
+  updateUserAvatar,
+  updateUserRoutine
+} from '@screens/Login/routines';
 import { IDataAuth } from '@screens/Login/models/IDataAuth';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
@@ -27,6 +33,16 @@ export const authReducer = createReducer(initialState, {
   [registerRoutine.SUCCESS]: (state, { payload }: PayloadAction<ICurrentUser>) => {
     state.isAuthorized = true;
     state.user = payload;
+  },
+  [updateUserRoutine.SUCCESS]: (state, { payload }: PayloadAction<ICurrentUser>) => {
+    state.user.firstName = payload.firstName;
+    state.user.lastName = payload.lastName;
+    state.user.avatar = payload.avatar;
+    state.user.nickname = payload.nickname;
+    state.user.email = payload.email;
+  },
+  [updateUserAvatar.SUCCESS]: (state, { payload }: PayloadAction<string>) => {
+    state.user.avatar = payload;
   },
   [setNoAuthorizedRoutine.TRIGGER]: state => {
     state.isAuthorized = false;

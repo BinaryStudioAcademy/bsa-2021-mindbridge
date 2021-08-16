@@ -9,8 +9,6 @@ public class UserProfileDataDto {
 
 	private String nickname;
 
-	private String avatar;
-
 	private String email;
 
 	private String firstName;
