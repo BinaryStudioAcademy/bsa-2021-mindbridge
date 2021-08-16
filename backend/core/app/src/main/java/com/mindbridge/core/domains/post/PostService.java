@@ -1,7 +1,6 @@
 package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.comment.CommentService;
-import com.mindbridge.core.domains.helpers.DateFormatter;
 import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
@@ -91,12 +90,13 @@ public class PostService {
 		postRepository.save(currentPost);
 	}
 
-	public void savePost(CreatePostDto createPostDto) {
+	public UUID savePost(CreatePostDto createPostDto) {
 		var post = PostMapper.MAPPER.createPostDtoToPost(createPostDto);
 		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
 		post.setTags(tags);
 		var savedPost = postRepository.save(post);
 		elasticService.put(savedPost);
+		return savedPost.getId();
 	}
 
 }
