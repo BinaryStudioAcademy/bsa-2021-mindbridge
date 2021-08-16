@@ -15,7 +15,7 @@ const PostHeaderInformation: FunctionComponent<IPostHeaderInformationProps> = ({
     <div className={styles.postHeaderInfo}>
       {avatar === null ? (
         <Image
-          src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+          src="https://i.imgur.com/LaWyPZF.png"
           avatar
           size="big"
         />

@@ -22,7 +22,7 @@ function ProfileSidebar({ avatar, userName, folloversCount, rating, postNotifica
             {avatar === null ? (
               <img
                 className={styles.avatar}
-                src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+                src="https://i.imgur.com/LaWyPZF.png"
                 alt="avatar"
               />
             ) : (

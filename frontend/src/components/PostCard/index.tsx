@@ -47,8 +47,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
             <Image
               floated="right"
               size="mini"
-              src="https://images.unsplash.com/photo-1554034483-04fda0d3507b?ixid=
-              MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+              src="https://i.imgur.com/KVI8r34.jpg"
             />
           )}
         <Link to={`/post/${post.id}`} className={styles.postName}>{post.title}</Link>

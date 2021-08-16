@@ -18,7 +18,7 @@ const PostInformation: FunctionComponent<IPostInformationProps> = ({ firstName, 
       {avatar ? (
         <Image src={avatar} avatar size="big" />
       ) : (
-        <Image src="https://react.semantic-ui.com/images/wireframe/square-image.png" avatar size="big" />
+        <Image src="https://i.imgur.com/LaWyPZF.png" avatar size="big" />
       )}
       <div className={styles.userName}>
         { firstName }
