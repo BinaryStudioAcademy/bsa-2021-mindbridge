@@ -91,7 +91,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
   const [form, setForm] = useState<IForm>({
     coverImage: {
       title: '',
-      url: ''
+      url: null
     },
     title: '',
     content: '',

@@ -2,6 +2,7 @@ import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { authUser, getCurrentUser, setToken } from '@root/services/auth.service';
 import { loginRoutine, registerRoutine } from '../routines';
 import { REFRESH_TOKEN } from '@screens/Login/constants/auth_constants';
+import { toastr } from 'react-redux-toastr';
 
 export function* login(request: any) {
   try {
@@ -11,6 +12,7 @@ export function* login(request: any) {
     yield put(loginRoutine.success(response.user));
   } catch (ex) {
     yield put(loginRoutine.failure(ex.message));
+    toastr.error('Failed to log in', 'Email or password is incorrect');
   }
 }
 

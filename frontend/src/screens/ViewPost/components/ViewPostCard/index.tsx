@@ -35,7 +35,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
           </div>
           <img
             className={styles.image}
-            src={post.coverImage}
+            src={post.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'}
             alt="media"
           />
         </div>
