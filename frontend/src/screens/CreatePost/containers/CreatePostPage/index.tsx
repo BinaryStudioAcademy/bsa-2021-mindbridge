@@ -156,13 +156,13 @@ const CreatePost: React.FC<ICreatePostProps> = (
         setForm({
           ...form,
           content: `${form.content
-          }\n<img  height="" width="" src=${savingImage.url} alt="image" />\n`
+            }\n<img  height="" width="" src=${savingImage.url} alt="image" />\n`
         });
       } else {
         setForm({
           ...form,
           content: `${form.content
-          }\n![Alt Text](${savingImage.url})\n`
+            }\n![Alt Text](${savingImage.url})\n`
         });
       }
       resetLoadingImage();
@@ -236,6 +236,16 @@ const CreatePost: React.FC<ICreatePostProps> = (
     };
     sendPR(postOnPR);
   };
+
+  let submitButtonName = "";
+  if (!post) {
+    submitButtonName = "Publish";
+  } else if (currentUserId === post.author.id) {
+    submitButtonName = 'Save changes';
+  } else {
+    submitButtonName = 'Create pull request';
+  }
+
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
@@ -320,7 +330,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
             : <PostPreview form={form} modes={modes} allTags={allTags} />}
           <div className={styles.footer}>
             <DarkBorderButton content="Cancel" onClick={handleCancel} />
-            {!(post && currentUserId === post.author.id)
+            {!(post)
               && (
                 <DarkBorderButton
                   content="Save draft"
@@ -328,21 +338,11 @@ const CreatePost: React.FC<ICreatePostProps> = (
                   onClick={() => handleSendForm(true)}
                 />
               )}
-            {post
-              ? (
-                <DarkButton
-                  content={currentUserId === post.author.id ? 'Save changes' : 'Save pull request'}
-                  loading={preloader.publishButton}
-                  onClick={() => handleSendForm(false)}
-                />
-              )
-              : (
-                <DarkButton
-                  content="Publish"
-                  loading={preloader.publishButton}
-                  onClick={() => handleSendForm(false)}
-                />
-              )}
+            <DarkButton
+              content={submitButtonName}
+              loading={preloader.publishButton}
+              onClick={() => handleSendForm(false)}
+            />
           </div>
         </div>
       </div>
