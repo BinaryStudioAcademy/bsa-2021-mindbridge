@@ -30,11 +30,16 @@ function* fetchNotificationList({ payload }: Routine<any>) {
   }
 }
 
-function* searchPostsByElastic() {
+function* searchPostsByElastic({ payload }: Routine<any>) {
   try {
-    const params = { query: 'dart' };
+    const params = {
+      query: payload
+    };
     const response = yield call(headerService.getPostByElastic, params);
-    yield put(searchPostsByElasticRoutine.success(response));
+    const posts = {
+      posts: response
+    };
+    yield put(searchPostsByElasticRoutine.success(posts));
   } catch (error) {
     yield put(searchPostsByElasticRoutine.failure(error?.message));
     toastr.error('Error', 'Loading posts by elastic failed');

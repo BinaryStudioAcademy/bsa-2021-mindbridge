@@ -18,6 +18,7 @@ import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
 import LogOutSvg from '@screens/Header/containers/HeaderPage/svg/logOutSvg';
 import { handleOnClickSignOut } from '@helpers/signOut.helper';
+import { IPost } from '@screens/Header/models/IPost';
 
 export interface IHeaderProps extends IState, IActions {
   isAuthorized: boolean;
@@ -26,16 +27,18 @@ export interface IHeaderProps extends IState, IActions {
 interface IState {
   notificationCount: any;
   notificationList?: INotification[];
+  posts: IPost[];
 }
 
 interface IActions {
   fetchNotificationCount: IBindingCallback1<string>;
   fetchNotificationList: IBindingCallback1<string>;
-  searchPostsByElastic: IBindingAction;
+  searchPostsByElastic: IBindingCallback1<string>;
 }
 
 const Header: React.FC<IHeaderProps> = (
-  { isAuthorized, notificationCount, notificationList, fetchNotificationCount, fetchNotificationList, searchPostsByElastic }
+  { isAuthorized, notificationCount, notificationList, fetchNotificationCount,
+    fetchNotificationList, searchPostsByElastic, posts }
 ) => {
   const { currentUser } = useSelector((state: any) => ({
     currentUser: state.auth.auth.user
@@ -48,7 +51,7 @@ const Header: React.FC<IHeaderProps> = (
     }
   }, [currentUser]);
   const [isListOpen, setIsListOpen] = useState(false);
-
+  const [isSearchInputEmpty, setIsSearchInputEmpty] = useState(false);
   const toggleNotificationList = () => {
     fetchNotificationList(currentUser.id);
     setIsListOpen(!isListOpen);
@@ -64,12 +67,19 @@ const Header: React.FC<IHeaderProps> = (
     }
   };
 
-  const handleInputContent = (event: any) => {
-    setElasticContent(event.target.value);
+  const handleSendToElasticSearch = () => {
+    console.log(isSearchInputEmpty);
+    // searchPostsByElastic(params);
   };
 
-  const handleSendToElasticSearch = () => {
-    searchPostsByElastic();
+  const handleInputContent = (event: any) => {
+    searchPostsByElastic(event.target.value);
+    if (event.target.value) {
+      setIsSearchInputEmpty(true);
+    } else {
+      setIsSearchInputEmpty(false);
+    }
+    handleSendToElasticSearch();
   };
   return (
     <div className={styles.header_container}>
@@ -100,6 +110,21 @@ const Header: React.FC<IHeaderProps> = (
           <button type="button" onClick={handleSendToElasticSearch}>
             <SearchSvg />
           </button>
+          {isSearchInputEmpty
+            && (
+            <div className={styles.foundPosts}>
+              <ul>
+                <li>
+                  {posts[0] ? (
+                    <Link to={`/post/${posts[0].sourceId}`} className={styles.postName}>
+                      {posts[0].title}
+                    </Link>
+                  ) : (' ')}
+                </li>
+                <li>Post 2</li>
+              </ul>
+            </div>
+            )}
         </div>
         <DarkButton
           className={styles.create_post_button}
@@ -123,7 +148,8 @@ const mapStateToProps = (state: any) => {
   return {
     isAuthorized: auth.auth.isAuthorized,
     notificationCount: extractData(state).notificationCount,
-    notificationList: extractData(state).notificationList
+    notificationList: extractData(state).notificationList,
+    posts: extractData(state).posts
   };
 };
 

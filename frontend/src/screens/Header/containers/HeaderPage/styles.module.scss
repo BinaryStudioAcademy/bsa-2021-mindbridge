@@ -102,6 +102,17 @@
   button:hover{
     opacity: 1;
   }
+
+  .foundPosts {
+    position: absolute;
+    width: 16em;
+    border-radius: 0.32em;
+    margin-top: 3em;
+    height: 16em;
+    border: 0.5px solid #F8F8F8;
+    box-shadow: 0px 4px 6px rgba(189, 189, 189, 8%);
+    background: #FFFFFF;
+  }
 }
 
 .header_notification{
