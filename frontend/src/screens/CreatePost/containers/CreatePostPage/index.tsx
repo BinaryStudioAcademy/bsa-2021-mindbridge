@@ -156,13 +156,13 @@ const CreatePost: React.FC<ICreatePostProps> = (
         setForm({
           ...form,
           content: `${form.content
-            }\n<img  height="" width="" src=${savingImage.url} alt="image" />\n`
+          }\n<img  height="" width="" src=${savingImage.url} alt="image" />\n`
         });
       } else {
         setForm({
           ...form,
           content: `${form.content
-            }\n![Alt Text](${savingImage.url})\n`
+          }\n![Alt Text](${savingImage.url})\n`
         });
       }
       resetLoadingImage();
@@ -237,9 +237,9 @@ const CreatePost: React.FC<ICreatePostProps> = (
     sendPR(postOnPR);
   };
 
-  let submitButtonName = "";
+  let submitButtonName = '';
   if (!post) {
-    submitButtonName = "Publish";
+    submitButtonName = 'Publish';
   } else if (currentUserId === post.author.id) {
     submitButtonName = 'Save changes';
   } else {

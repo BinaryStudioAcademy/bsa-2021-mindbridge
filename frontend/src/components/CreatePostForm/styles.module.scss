@@ -59,6 +59,7 @@
     border-radius: 3px;
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: start;
     span{
       font-family: lato;
@@ -75,4 +76,14 @@
 
 .invisible{
   display: none;
+}
+
+.close_image{
+  background-color: rgba(0, 0, 0, 0);
+  color: rgba(20, 37, 63, 0.4);
+  z-index: 400;
+}
+.close_image:hover{
+  font-weight: bolder;
+  color: $dark-grey;
 }

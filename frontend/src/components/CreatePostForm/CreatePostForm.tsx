@@ -80,12 +80,33 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = ({ form, setForm, sendIma
     });
   };
 
+  const closeCoverImage = () => {
+    setForm({
+      ...form,
+      coverImage: ''
+    });
+  };
+
   return (
     <div {...getRootProps({ className: 'dropzone' })} className={styles.create_post_form}>
       <label className={styles.file_input_rectangle} htmlFor="image-input-1" onChange={handelCoverFile}>
         <CoverImageSvg />
-        {!form.coverImage.title ? <span>Add a cover image</span> : <span>{form.coverImage.title}</span>}
-        <input id="image-input-1" className={styles.invisible} type="file" accept="image/*" />
+        {!form.coverImage.title
+          ? <span>Add a cover image</span>
+          : (
+            <div>
+              <span>{form.coverImage.title}</span>
+              {form.coverImage.title !== 'loading...'
+                && <button type="button" className={styles.close_image} onClick={closeCoverImage}>✖</button>}
+            </div>
+          )}
+        <input
+          id="image-input-1"
+          disabled={form.coverImage.title !== ''}
+          className={styles.invisible}
+          type="file"
+          accept="image/*"
+        />
       </label>
       <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
       <div className={styles.content_input_container}>
