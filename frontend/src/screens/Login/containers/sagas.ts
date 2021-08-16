@@ -12,7 +12,7 @@ export function* login(request: any) {
     yield put(loginRoutine.success(response.user));
   } catch (ex) {
     yield put(loginRoutine.failure(ex.message));
-    toastr.error('FAILED TO LOGIN', 'Email or password is incorrect');
+    toastr.error('Failed to log in', 'Email or password is incorrect');
   }
 }
 

@@ -15,11 +15,7 @@ interface IPostInformationProps {
 const PostInformation: FunctionComponent<IPostInformationProps> = ({ firstName, lastName, date, avatar }) => (
   <div className={styles.postHeaderInfo}>
     <div className={styles.userBlock}>
-      {avatar ? (
-        <Image src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'} avatar size="big" />
-      ) : (
-        <Image src="https://i.imgur.com/LaWyPZF.png" avatar size="big" />
-      )}
+      <Image src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'} avatar size="big" />
       <div className={styles.userName}>
         { firstName }
         {' '}

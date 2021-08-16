@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import styles from '../styles.module.scss';
 import { connect } from 'react-redux';
@@ -7,7 +7,6 @@ import LogoSvg from '@screens/Login/components/svgs/LogoSvg';
 import { IBindingAction } from '@models/Callbacks';
 import { loginRoutine } from '@screens/Login/routines';
 import { IAppState } from '@models/AppState';
-import { toastr } from 'react-redux-toastr';
 
 export interface ILoginRequest {
   email: string;
@@ -22,8 +21,7 @@ export interface ILoginProps {
 
 const LoginPage: React.FC<ILoginProps> = (
   { loginUser: login,
-    isAuthorized,
-    isLoginFailure }
+    isAuthorized }
 ) => (
   isAuthorized
     ? <Redirect to="/" />

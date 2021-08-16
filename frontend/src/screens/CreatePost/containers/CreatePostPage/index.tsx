@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@root/components/ProfileSidebar';
 import HistorySidebar from '@root/components/PostHistorySidebar';
