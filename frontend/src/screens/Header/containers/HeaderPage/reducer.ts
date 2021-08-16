@@ -8,7 +8,7 @@ import {
 import { INotificationList } from '@screens/Header/models/INotificationList';
 import { INotificationCount } from '@screens/Header/models/INotificationCount';
 import { IPost } from '@screens/Header/models/IPost';
-import IPostsPayload from "@screens/Header/models/IPostsPayload";
+import { IPostsPayload } from '@screens/Header/models/IPostsPayload';
 
 export interface IHeaderReducerState {
   notificationCount: number;
@@ -32,5 +32,6 @@ export const headerReducer = createReducer(initialState, {
   },
   [searchPostsByElasticRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPostsPayload>) => {
     state.posts = payload.posts;
+    console.log(state.posts);
   }
 });

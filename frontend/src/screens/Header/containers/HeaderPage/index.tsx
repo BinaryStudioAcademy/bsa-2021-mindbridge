@@ -5,7 +5,7 @@ import Logo from '@components/Logo/Logo';
 import NotificationCount from '@components/NotificationCount';
 import DarkButton from '@components/buttons/DarcButton';
 import BellSvg from '@screens/Header/containers/HeaderPage/svg/bellSvg';
-import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
+import { IBindingCallback1 } from '@models/Callbacks';
 import { INotification } from '@screens/Header/models/INotification';
 import {
   fetchNotificationCountRoutine,
@@ -19,6 +19,8 @@ import SearchSvg from '@components/Header/svg/searchSvg';
 import LogOutSvg from '@screens/Header/containers/HeaderPage/svg/logOutSvg';
 import { handleOnClickSignOut } from '@helpers/signOut.helper';
 import { IPost } from '@screens/Header/models/IPost';
+import FoundPostsList from '@components/FoundPostsList';
+import { useDebouncedCallback } from 'use-debounce';
 
 export interface IHeaderProps extends IState, IActions {
   isAuthorized: boolean;
@@ -56,7 +58,6 @@ const Header: React.FC<IHeaderProps> = (
     fetchNotificationList(currentUser.id);
     setIsListOpen(!isListOpen);
   };
-
   const handleCreatePostButton = () => {
     if (isAuthorized) {
       history.push('/create/post');
@@ -67,20 +68,25 @@ const Header: React.FC<IHeaderProps> = (
     }
   };
 
+  const debounced = useDebouncedCallback(value => {
+    searchPostsByElastic(value);
+  }, 1000);
+
   const handleSendToElasticSearch = () => {
-    console.log(isSearchInputEmpty);
     // searchPostsByElastic(params);
   };
 
   const handleInputContent = (event: any) => {
-    searchPostsByElastic(event.target.value);
+    debounced(event.target.value);
     if (event.target.value) {
       setIsSearchInputEmpty(true);
     } else {
       setIsSearchInputEmpty(false);
     }
+
     handleSendToElasticSearch();
   };
+
   return (
     <div className={styles.header_container}>
       <div className={styles.left}>
@@ -114,14 +120,13 @@ const Header: React.FC<IHeaderProps> = (
             && (
             <div className={styles.foundPosts}>
               <ul>
-                <li>
-                  {posts[0] ? (
-                    <Link to={`/post/${posts[0].sourceId}`} className={styles.postName}>
-                      {posts[0].title}
-                    </Link>
-                  ) : (' ')}
-                </li>
-                <li>Post 2</li>
+                {posts[0]
+                && posts.map(post => (
+                  <FoundPostsList
+                    key={post.sourceId}
+                    post={post}
+                  />
+                ))}
               </ul>
             </div>
             )}
