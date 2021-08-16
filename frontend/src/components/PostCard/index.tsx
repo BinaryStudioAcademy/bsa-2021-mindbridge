@@ -36,14 +36,11 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
         </div>
       </Feed>
       <Card.Description>
-        {post.coverImage
-          && (
-            <Image
-              floated="right"
-              size="mini"
-              src={post.coverImage}
-            />
-          )}
+        <Image
+          floated="right"
+          size="mini"
+          src={post.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'}
+        />
         <Link to={`/post/${post.id}`} className={styles.postName}>{post.title}</Link>
         <TextRenderer
           className={styles.post_content}

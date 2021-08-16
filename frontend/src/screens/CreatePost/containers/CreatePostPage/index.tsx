@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@root/components/ProfileSidebar';
-import HistorySidebar from '@root/components/PostHistorySidebar';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
 import EditSvgPart1 from './svg/editSvgPart1';
@@ -80,8 +79,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     fetchTags,
     fetchPost,
     editPost,
-    getPostVersions,
-    versionsOfPost
+    getPostVersions
   }
 ) => {
   const [modes, setModes] = useState({
@@ -93,7 +91,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
   const [form, setForm] = useState<IForm>({
     coverImage: {
       title: '',
-      url: ''
+      url: null
     },
     title: '',
     content: '',
