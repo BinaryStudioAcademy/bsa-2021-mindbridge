@@ -1,0 +1,24 @@
+@import '../../../../styles/common_variables.sass';
+
+.active{
+  background-color: $light-blue;
+}
+
+.buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  button{
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: Lato;
+    height: 2.36rem;
+  }
+  .diffButton{
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+}

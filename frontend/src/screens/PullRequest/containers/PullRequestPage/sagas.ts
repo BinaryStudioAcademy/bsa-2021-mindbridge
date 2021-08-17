@@ -5,7 +5,6 @@ import pullRequestService from '../../services';
 
 function* fetchPR(action) {
   try {
-    console.log("saga")
     const response = yield call( pullRequestService.getPR, action.payload);
     console.log(response);
     yield put(fetchPrRoutine.success(response));

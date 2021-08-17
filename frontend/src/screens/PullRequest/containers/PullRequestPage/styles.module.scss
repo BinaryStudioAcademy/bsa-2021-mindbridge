@@ -1,2 +1,10 @@
+@import "../../../../styles/common.sass";
+
 .container {
+  padding-top: 6rem;
+  width: 50rem;
+  margin: auto;
+}
+.text_diff{
+  border: solid 1px $dark-grey;
 }

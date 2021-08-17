@@ -1,13 +1,14 @@
 import React from 'react';
-
+import classNames from 'classnames';
 import { diffWords } from 'diff';
 
 interface ITextDiffProps {
   oldText: string;
   newText: string;
+  className: string
 }
 
-const TextDiff: React.FC<ITextDiffProps> = ({ oldText, newText }) => {
+const TextDiff: React.FC<ITextDiffProps> = ({ oldText, newText, className }) => {
   const diff = diffWords(oldText, newText);
 
   const result = diff.map(part => {
@@ -35,7 +36,7 @@ const TextDiff: React.FC<ITextDiffProps> = ({ oldText, newText }) => {
   return (
     React.createElement(
       'div',
-      { className: 'diff-result' },
+      { className: classNames('diff-result', className) },
       result
     ));
 };
