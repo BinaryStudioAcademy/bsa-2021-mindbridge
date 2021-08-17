@@ -23,7 +23,7 @@ import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 import LoaderWrapper from '@components/LoaderWrapper';
-import HistorySidebar from "@components/PostHistorySidebar";
+import HistorySidebar from '@components/PostHistorySidebar';
 
 export interface ICreatePostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -267,9 +267,9 @@ const CreatePost: React.FC<ICreatePostProps> = (
           </div>
         )}
         {isLoading ? (
-            <form className={styles.create_post_container}>
-              <LoaderWrapper loading={isLoading} />
-            </form>
+          <form className={styles.create_post_container}>
+            <LoaderWrapper loading={isLoading} />
+          </form>
         ) : (
           <form className={styles.create_post_container}>
             <div className={styles.header}>
