@@ -39,7 +39,7 @@ const ViewPost: React.FC<IViewPostProps> = (
   useEffect(() => {
     fetchData(id);
     fetchUserProfile(currentUser.id);
-  }, [id, currentUser]);
+  }, [0, currentUser]);
 
   return (
     <div className={styles.viewPost}>

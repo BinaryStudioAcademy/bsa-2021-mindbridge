@@ -10,5 +10,3 @@ export const fetchNotificationCountRoutine = createHeaderRoutine('FETCH_NOTIFICA
 export const fetchNotificationListRoutine = createHeaderRoutine('FETCH_NOTIFICATION_LIST');
 
 export const searchPostsByElasticRoutine = createHeaderRoutine('SEARCH_POSTS_BY_ELASTIC_ROUTINE');
-
-export const searchButtonClickedRoutine = createHeaderRoutine('SEARCH_BUTTON_CLICKED_ROUTINE');
