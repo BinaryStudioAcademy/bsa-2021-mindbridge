@@ -5,7 +5,7 @@ import { resetImageTagRoutine,
   sendImageRoutine,
   fetchUserProfileRoutine,
   fetchPostRoutine,
-  getPostVersionsRoutine, sendPostRoutine, setLoaderRoutine
+  getPostVersionsRoutine, setLoaderRoutine
 } from '../../routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';

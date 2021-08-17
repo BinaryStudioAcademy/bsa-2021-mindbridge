@@ -250,7 +250,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
   let submitButtonName = '';
   if (!post) {
     submitButtonName = 'Publish';
-  } else if (currentUserId === post.author.id) {
+  } else if (currentUserId === post.author?.id) {
     submitButtonName = 'Save changes';
   } else {
     submitButtonName = 'Create pull request';
@@ -286,26 +286,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
                   className={styles.markdown_button}
                 />
               )}
-            {modes.editMode
-              ? (
-                <CreatePostForm
-                  form={form}
-                  modes={modes}
-                  setForm={setForm}
-                  sendImage={sendImage}
-                  allTags={allTags}
-                />
-              )
-              : <PostPreview form={form} modes={modes} allTags={allTags} />}
-            <div className={styles.footer}>
-              <DarkBorderButton content="Cancel" onClick={handleCancel} />
-              <DarkBorderButton content="Save draft" onClick={() => handleSendForm(true)} />
-              {post?.author?.id === currentUserId ? (
-                <DarkButton content="Save" onClick={() => handleSendForm(false)} />
-              ) : (
-                <DarkButton content="Publish" onClick={() => handleSendForm(false)} />
-              )}
-            </div>
           </div>
           {modes.editMode
             ? (
