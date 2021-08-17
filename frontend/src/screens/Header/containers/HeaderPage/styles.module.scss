@@ -84,7 +84,7 @@
     border: none;
     background-color: #F8F8F8;
     border-radius: 2%/16%;
-    padding-left: 1.5rem;
+    padding-left: 1.8rem;
     padding-right: 2.4rem;
     grid-column: 1/3;
     grid-row: 1/2;
@@ -102,7 +102,11 @@
   button:hover{
     opacity: 1;
   }
-
+  .close_image {
+    color: #14253F;
+    margin-left: -13.6rem;
+    width: 1.3em;
+  }
   .foundPosts {
     position: absolute;
     width: 18.7em;

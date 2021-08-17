@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom';
 
 interface IFoundPostsList {
   post: IPost;
+  linkClick: any;
 }
 
 const FoundPostsList: FunctionComponent<IFoundPostsList> = (
-  { post }
+  { post, linkClick }
 ) => (
   <li>
-    <Link to={`/post/${post.sourceId}`} className={styles.foundPostLink}>
+    <Link to={`/post/${post.sourceId}`} className={styles.foundPostLink} onClick={linkClick}>
       {post.title}
     </Link>
   </li>

@@ -46,7 +46,7 @@ const Header: React.FC<IHeaderProps> = (
     currentUser: state.auth.auth.user
   }));
   const history = useHistory();
-  const [elasticContent, setElasticContent] = useState(' ');
+  const [elasticContent, setElasticContent] = useState('');
   useEffect(() => {
     if (currentUser?.id) {
       fetchNotificationCount(currentUser.id);
@@ -68,23 +68,24 @@ const Header: React.FC<IHeaderProps> = (
     }
   };
 
+  const handleLinkClick = () => {
+    setIsSearchInputEmpty(false);
+    searchPostsByElastic('');
+    setElasticContent('');
+  };
+
   const debounced = useDebouncedCallback(value => {
     searchPostsByElastic(value);
   }, 1000);
 
-  const handleSendToElasticSearch = () => {
-    // searchPostsByElastic(params);
-  };
-
   const handleInputContent = (event: any) => {
     debounced(event.target.value);
+    setElasticContent(event.target.value);
     if (event.target.value) {
       setIsSearchInputEmpty(true);
     } else {
       setIsSearchInputEmpty(false);
     }
-
-    handleSendToElasticSearch();
   };
 
   return (
@@ -112,8 +113,9 @@ const Header: React.FC<IHeaderProps> = (
           <NotificationCount notificationCount={notificationCount} />
         </button>
         <div className={styles.search_input}>
-          <input type="text" placeholder="Search..." onChange={handleInputContent} />
-          <button type="button" onClick={handleSendToElasticSearch}>
+          <input type="text" placeholder="Search..." onChange={handleInputContent} value={elasticContent} />
+          <button type="button" className={styles.close_image} onClick={handleLinkClick}>✖</button>
+          <button type="button">
             <SearchSvg />
           </button>
           {isSearchInputEmpty
@@ -123,6 +125,7 @@ const Header: React.FC<IHeaderProps> = (
                 {posts[0]
                 && posts.map(post => (
                   <FoundPostsList
+                    linkClick={handleLinkClick}
                     key={post.sourceId}
                     post={post}
                   />
