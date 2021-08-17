@@ -97,7 +97,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
 
   const getTag = () => (
     modes.htmlMode
-      ? `<img  height="" width="" src=${imageTag.url} alt="image" />`
+      ? `<img src=${imageTag.url} alt="image" />`
       : `![Alt Text](${imageTag.url})`
   );
 
@@ -105,20 +105,26 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
   if (!imageTag.isPresent) {
     dropzoneOrTag = <DropZoneComponent sendImage={sendImage} checkImageSize={checkImageSize} />;
   } else if (imageTag.preloader) {
-    dropzoneOrTag = <div className={styles.image_tag_loading}>loading image...</div>;
+    dropzoneOrTag = <div className={styles.image_tag_loading}>Loading image...</div>;
   } else {
     dropzoneOrTag = (
       <div className={styles.image_tag}>
         <div className={styles.tag_image_buttons}>
-          <CopyToClipboard text={getTag()}>
-            <Popup
-              content="Copied!"
-              on="click"
-              pinned
-              trigger={<button type="button" aria-label="Copy"><CopySvg /></button>}
-            />
-          </CopyToClipboard>
-          <input type="text" value={getTag()} disabled />
+          <Popup
+            content="Copied!"
+            on="click"
+            pinned
+            trigger={(
+              <span>
+                <CopyToClipboard text={getTag()}>
+                  <button aria-label="Copy" type="button">
+                    <CopySvg />
+                  </button>
+                </CopyToClipboard>
+              </span>
+            )}
+          />
+          <input type="text" value={getTag()} />
           <button type="button" aria-label="Close" onClick={resetImageTag}><CloseSvg /></button>
         </div>
       </div>
@@ -154,7 +160,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
           placeholder="Write your post content"
         />
       </div>
-      { dropzoneOrTag }
+      {dropzoneOrTag}
       <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
     </div>
   );
