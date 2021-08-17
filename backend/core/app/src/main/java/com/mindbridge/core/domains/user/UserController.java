@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.user;
 
 import com.mindbridge.core.domains.user.dto.UserDto;
+import com.mindbridge.core.domains.user.dto.UserProfileDataDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +24,23 @@ public class UserController {
 	@GetMapping("/{id}")
 	public UserProfileDto getUserProfileInfo(@PathVariable UUID id) {
 		return userService.getUserProfileInformation(id);
+	}
+
+	@PostMapping("/update/{id}")
+	public UserDto updateUserData(@PathVariable UUID id, @RequestBody UserProfileDataDto userProfileData) {
+		return userService.updateUserById(id, userProfileData);
+	}
+
+	@PostMapping("/check/nickname")
+	public boolean checkUserNickname(@RequestBody String nickname) {
+		System.out.println(nickname);
+		String nick = nickname.substring(0, nickname.length()-1);
+		return userService.checkNickname(nick);
+	}
+
+	@PostMapping("/update/avatar/{id}")
+	public void checkUserNickname(@PathVariable UUID id, @RequestBody String url) {
+		userService.updateUserAvatarById(id, url);
 	}
 
 }
