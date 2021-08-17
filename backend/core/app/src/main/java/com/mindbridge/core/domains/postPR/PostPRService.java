@@ -1,8 +1,12 @@
 package com.mindbridge.core.domains.postPR;
 
+import com.mindbridge.core.domains.post.PostMapper;
 import com.mindbridge.core.domains.postPR.dto.CreatePostPRDto;
+import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
 import com.mindbridge.data.domains.postPR.PostPRRepository;
+import com.mindbridge.data.domains.postPR.model.PostPR;
 import com.mindbridge.data.domains.tag.TagRepository;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -33,4 +37,7 @@ public class PostPRService {
 		postPRRepository.save(postPR);
 	}
 
+	public PostPRDetailsDto getPR(UUID id) {
+		return postPRRepository.findById(id).map(PostPRMapper.MAPPER::postPRToPostPRDetailsDto).orElseThrow();
+	}
 }
