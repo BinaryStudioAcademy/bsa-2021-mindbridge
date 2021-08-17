@@ -87,3 +87,37 @@
   font-weight: bolder;
   color: $dark-grey;
 }
+.image_tag, .image_tag_loading{
+  border: 1.5px dashed $dark-grey;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  font-family: lato;
+  color: $dark-grey;
+  height: 3em;
+  margin-top: 0.7em;
+  input{
+    padding: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+    margin: 0;
+  }
+}
+.image_tag_loading{
+  padding: 0;
+  padding-left: 1.5rem;
+}
+.tag_image_buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  button{
+    background-color: rgba(0, 0, 0, 0);
+  }
+}

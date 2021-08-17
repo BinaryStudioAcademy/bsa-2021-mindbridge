@@ -18,7 +18,7 @@ import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import {
   sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine, getPostVersionsRoutine,
-  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine, editPostRoutine
+  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine, editPostRoutine, resetImageTagRoutine
 } from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
@@ -55,6 +55,11 @@ interface IState {
     publishButton: boolean;
     draftButton: boolean;
   };
+  imageTag: {
+    isPresent: boolean;
+    url: string;
+    preloader: boolean;
+  };
 }
 
 interface IActions {
@@ -67,6 +72,7 @@ interface IActions {
   fetchPost: IBindingCallback1<string>;
   sendPR: IBindingCallback1<object>;
   editPost: IBindingCallback1<object>;
+  resetImageTag: IBindingAction;
 }
 
 const CreatePost: React.FC<ICreatePostProps> = (
@@ -86,7 +92,9 @@ const CreatePost: React.FC<ICreatePostProps> = (
     editPost,
     getPostVersions,
     versionsOfPost,
-    preloader
+    preloader,
+    imageTag,
+    resetImageTag
   }
 ) => {
   const [modes, setModes] = useState({
@@ -152,18 +160,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
             }
           });
         }
-      } else if (modes.htmlMode) {
-        setForm({
-          ...form,
-          content: `${form.content
-          }\n<img  height="" width="" src=${savingImage.url} alt="image" />\n`
-        });
-      } else {
-        setForm({
-          ...form,
-          content: `${form.content
-          }\n![Alt Text](${savingImage.url})\n`
-        });
       }
       resetLoadingImage();
     }
@@ -325,6 +321,8 @@ const CreatePost: React.FC<ICreatePostProps> = (
                 setForm={setForm}
                 sendImage={sendImage}
                 allTags={allTags}
+                imageTag={imageTag}
+                resetImageTag={resetImageTag}
               />
             )
             : <PostPreview form={form} modes={modes} allTags={allTags} />}
@@ -358,7 +356,8 @@ const mapStateToProps: (state) => IState = state => ({
   post: state.createPostReducer.data.post,
   currentUserId: state.auth.auth.user.id,
   versionsOfPost: state.createPostReducer.data.versionsOfPost,
-  preloader: state.createPostReducer.data.preloader
+  preloader: state.createPostReducer.data.preloader,
+  imageTag: state.createPostReducer.data.imageTag
 });
 
 const mapDispatchToProps: IActions = {
@@ -370,7 +369,8 @@ const mapDispatchToProps: IActions = {
   fetchPost: fetchPostRoutine,
   sendPR: sendPRRoutine,
   editPost: editPostRoutine,
-  getPostVersions: getPostVersionsRoutine
+  getPostVersions: getPostVersionsRoutine,
+  resetImageTag: resetImageTagRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

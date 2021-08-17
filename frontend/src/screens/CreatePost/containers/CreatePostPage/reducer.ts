@@ -1,10 +1,12 @@
-import { editPostRoutine, sendPostRoutine, sendPRRoutine,
+import { resetImageTagRoutine,
+  editPostRoutine, sendPostRoutine, sendPRRoutine,
   fetchTagsRoutine,
   resetLoadingImageRoutine,
   sendImageRoutine,
   fetchUserProfileRoutine,
   fetchPostRoutine,
-  getPostVersionsRoutine } from '../../routines/index';
+  getPostVersionsRoutine
+} from '../../routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
@@ -17,6 +19,11 @@ export interface ICreatePostReducerState {
     url: string;
     isLoaded: boolean;
     isInContent: boolean;
+  };
+  imageTag: {
+    isPresent: boolean;
+    url: string;
+    preloader: boolean;
   };
   profile: IUserProfile;
   versionsOfPost: IPostVersions[];
@@ -34,6 +41,11 @@ const initialState: ICreatePostReducerState = {
     url: '',
     isLoaded: false,
     isInContent: false
+  },
+  imageTag: {
+    isPresent: false,
+    url: '',
+    preloader: false
   },
   profile: {
     id: '',
@@ -53,6 +65,13 @@ const initialState: ICreatePostReducerState = {
 
 export const createPostReducer = createReducer(initialState, {
   [sendImageRoutine.SUCCESS]: (state, action) => {
+    if (state.imageTag.isPresent) {
+      state.imageTag = {
+        isPresent: true,
+        url: action.payload,
+        preloader: false
+      };
+    }
     state.savingImage = {
       ...state.savingImage,
       url: action.payload,
@@ -60,6 +79,13 @@ export const createPostReducer = createReducer(initialState, {
     };
   },
   [sendImageRoutine.TRIGGER]: (state, action) => {
+    if (action.payload.inContent) {
+      state.imageTag = {
+        isPresent: true,
+        url: '',
+        preloader: true
+      };
+    }
     state.savingImage = {
       ...state.savingImage,
       title: action.payload.file.name,
@@ -67,11 +93,19 @@ export const createPostReducer = createReducer(initialState, {
     };
   },
   [sendImageRoutine.FAILURE]: (state, action) => {
-    state.savingImage = {
-      ...state.savingImage,
-      url: '0',
-      isLoaded: true
-    };
+    if (state.imageTag.isPresent) {
+      state.imageTag = {
+        isPresent: false,
+        url: '',
+        preloader: false
+      };
+    } else {
+      state.savingImage = {
+        ...state.savingImage,
+        url: '0',
+        isLoaded: true
+      };
+    }
   },
   [resetLoadingImageRoutine.TRIGGER]: state => {
     state.savingImage = {
@@ -127,6 +161,13 @@ export const createPostReducer = createReducer(initialState, {
     state.preloader = {
       publishButton: false,
       draftButton: false
+    };
+  },
+  [resetImageTagRoutine.TRIGGER]: state => {
+    state.imageTag = {
+      isPresent: false,
+      url: '',
+      preloader: false
     };
   }
 });
