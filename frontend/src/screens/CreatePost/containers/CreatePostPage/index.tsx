@@ -332,12 +332,14 @@ const CreatePost: React.FC<ICreatePostProps> = (
               && (
                 <DarkBorderButton
                   content="Save draft"
+                  disabled={preloader.publishButton}
                   loading={preloader.draftButton}
                   onClick={() => handleSendForm(true)}
                 />
               )}
             <DarkButton
               content={submitButtonName}
+              disabled={preloader.draftButton}
               loading={preloader.publishButton}
               onClick={() => handleSendForm(false)}
             />
