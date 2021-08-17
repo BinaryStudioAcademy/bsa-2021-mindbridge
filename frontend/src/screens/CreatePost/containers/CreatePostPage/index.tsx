@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@root/components/ProfileSidebar';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
-import EditSvgPart1 from './svg/editSvgPart1';
-import EditSvgPart2 from './svg/editSvgPart2';
-import ViewSvg from './svg/viewSvg';
 import BlueButton from '@root/components/buttons/Blue_button';
 import ColorlessButton from '@root/components/buttons/ColorlessButton';
 import DarkButton from '@root/components/buttons/DarcButton';
@@ -243,7 +240,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
   let submitButtonName = '';
   if (!post) {
     submitButtonName = 'Publish';
-  } else if (currentUserId === post.author?.id) {
+  } else if (currentUserId === post?.author?.id) {
     submitButtonName = 'Save changes';
   } else {
     submitButtonName = 'Create pull request';

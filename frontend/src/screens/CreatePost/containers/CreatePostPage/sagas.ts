@@ -28,10 +28,11 @@ function* sendImage(action) {
 function* sendPost(action) {
   try {
     const response = yield call(createPostService.sendPost, action.payload);
+    yield put(sendPostRoutine.success(response));
     toastr.success('Success', 'Post was sent!');
     history.push(`/post/${response}`);
   } catch (error) {
-    yield put(sendImageRoutine.failure(error?.message));
+    yield put(sendPostRoutine.failure(error?.message));
     toastr.error('Error', 'Sending post failed!');
   } finally {
     yield put(sendPostRoutine.fulfill());
