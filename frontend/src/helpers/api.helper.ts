@@ -76,10 +76,9 @@ const callApi = async (path: string, config: AxiosRequestConfig): Promise<any> =
               authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
             }
           })).data;
-      } else {
-        handleApiCallError(e);
-        throw new Error('Unhandled error');
       }
+      handleApiCallError(e);
+      throw new Error('Unhandled error');
     }
   } else {
     try {
