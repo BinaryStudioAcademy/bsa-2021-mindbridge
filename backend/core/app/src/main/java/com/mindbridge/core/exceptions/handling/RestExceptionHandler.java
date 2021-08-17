@@ -3,6 +3,7 @@ package com.mindbridge.core.exceptions.handling;
 import com.mindbridge.core.exceptions.custom.EmailNotFoundException;
 import com.mindbridge.core.exceptions.custom.OAuth2NotFoundException;
 import com.mindbridge.core.exceptions.custom.UserAlreadyExistException;
+import com.mindbridge.core.security.jwt.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -48,6 +49,11 @@ public class RestExceptionHandler extends AbstractExceptionHandler {
 			HttpServletResponse response) {
 		return setResponseStatusAndReturnError(exception, "oauth2-not-found", HttpStatus.BAD_REQUEST, request,
 				response);
+	}
+
+	@ExceptionHandler(JwtException.class)
+	public ApiError handleJwtException(JwtException exception, HttpServletRequest request, HttpServletResponse response) {
+		return setResponseStatusAndReturnError(exception, exception.getCode(), HttpStatus.UNAUTHORIZED, request, response);
 	}
 
 	@ExceptionHandler(Exception.class)
