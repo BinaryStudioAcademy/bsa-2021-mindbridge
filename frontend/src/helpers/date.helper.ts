@@ -13,6 +13,7 @@ export function getHowLong(date: string) {
   let message = 'on the MindBridge ';
   switch (days) {
     case 0:
+      message += 'less than 1 day ';
       break;
     case 1:
       message += `${days} day `;

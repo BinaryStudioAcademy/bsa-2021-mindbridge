@@ -52,6 +52,7 @@ const ViewPost: React.FC<IViewPostProps> = (
             <div className={styles.suggestChanges}>
               <div className={styles.profileSideBar}>
                 <ProfileSidebar
+                  id={userInfo.id}
                   userName={userInfo.fullName}
                   avatar={userInfo.avatar}
                   folloversCount={userInfo.followersQuantity}

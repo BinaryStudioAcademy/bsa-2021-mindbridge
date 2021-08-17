@@ -41,13 +41,15 @@ interface IProfileCardProps {
   sendForm: IBindingCallback1<IProfileFormRequest>;
   sendAvatar: IBindingCallback1<object>;
   sendNickname: IBindingCallback1<string>;
+  openPasswordChangeModal: IBindingCallback1<boolean>;
 }
 const ProfileCard: FunctionComponent<IProfileCardProps> = (
   {
     initialData,
     initialState,
     sendForm, sendAvatar,
-    sendNickname }
+    sendNickname,
+    openPasswordChangeModal }
 ) => {
   const validationInitialState = {
     isNameValid: true,
@@ -67,7 +69,7 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
   const validationIntact = useMemo(() => (isDeepEqual(validationInitialState, validationData)), [validationInitialState, validationData]);
 
   useEffect(() => {
-    if (userForm.email === '') {
+    if (userForm.id === '') {
       setUserForm(initialData);
     } else {
       setUserForm(userForm);
@@ -145,6 +147,10 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
     }
   };
 
+  const handleChangePasswordClick = () => {
+    openPasswordChangeModal(true);
+  };
+
   const handleSaveClick = () => {
     if (userForm.avatar !== initialData.avatar) {
       sendAvatar({
@@ -160,7 +166,7 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
   return (
     <div className={styles.viewCard}>
       {/* eslint-disable jsx-a11y/label-has-associated-control */}
-      {userForm.email !== ''
+      {userForm.id !== ''
         ? (
           <div className={styles.contentWrp}>
             <div className={styles.avatarWrp}>
@@ -295,7 +301,13 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
                       inverted
                     />
                   </div>
+                  <div className={styles.separatorLine} />
                 </Form>
+                <FormButton
+                  text="Change password"
+                  onClick={handleChangePasswordClick}
+                  inverted
+                />
               </div>
             </div>
           </div>
