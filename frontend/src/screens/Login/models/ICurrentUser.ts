@@ -1,5 +1,6 @@
 export interface ICurrentUser {
   id: string;
+  createdAt: string;
   nickname: string;
   avatar: string;
   firstName: string;

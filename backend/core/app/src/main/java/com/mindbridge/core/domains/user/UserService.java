@@ -1,13 +1,14 @@
 package com.mindbridge.core.domains.user;
 
 import com.mindbridge.core.domains.user.dto.UserDto;
+import com.mindbridge.core.domains.user.dto.UserProfileDataDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDto;
-import com.mindbridge.data.domains.follower.FollowerRepository;
-import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.core.exceptions.custom.EmailNotFoundException;
 import com.mindbridge.core.security.PasswordConfig;
 import com.mindbridge.core.security.auth.UserPrincipal;
 import com.mindbridge.core.security.auth.dto.RegistrationRequest;
+import com.mindbridge.data.domains.follower.FollowerRepository;
+import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.user.UserRepository;
 import com.mindbridge.data.domains.user.model.User;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.UUID;
 
@@ -85,4 +88,27 @@ public class UserService implements UserDetailsService {
 		return new UserPrincipal(user);
 	}
 
+	public UserDto updateUserById(UUID id, UserProfileDataDto userProfileData) {
+		User user = userRepository.findById(id)
+			.orElseThrow(() -> new EmailNotFoundException("User with id : " + id + " not found."));
+		user.setNickname(userProfileData.getNickname());
+		user.setFirstName(userProfileData.getFirstName());
+		user.setLastName(userProfileData.getLastName());
+		userRepository.save(user);
+
+		return loadUserDtoByEmail(user.getEmail());
+	}
+
+	public boolean checkNickname(String nickname) {
+		return userRepository.existsByNickname(nickname);
+	}
+
+	public void updateUserAvatarById(UUID id, String url) {
+		User user = userRepository.findById(id)
+			.orElseThrow(() -> new EmailNotFoundException("User with id : " + id + " not found."));
+		String result = URLDecoder.decode( url, StandardCharsets.UTF_8);
+		String rigth_url = result.substring(0, result.length()-1);
+		user.setAvatar(rigth_url);
+		userRepository.save(user);
+	}
 }
