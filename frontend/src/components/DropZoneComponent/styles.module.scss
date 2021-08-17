@@ -10,6 +10,7 @@
   position: absolute;
   height: 3em;
   width: 43.4em;
+  transition: 0.5s;
 
   p {
     padding-top: 1.2em;
@@ -19,10 +20,6 @@
     margin-left: 3.2em;
     margin-top: -2.8em;
     width: 19.8em;
-  }
-
-  p:hover {
-    cursor: pointer;
   }
 
   .uploadRef {
@@ -36,4 +33,9 @@
     margin-top: 0.9em;
     margin-left: 1.3em;
   }
+}
+
+.addImageArea:hover {
+  border: 1.5px dashed rgba(102, 185, 255, 1);
+  cursor: pointer;
 }

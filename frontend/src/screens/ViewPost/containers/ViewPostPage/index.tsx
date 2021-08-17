@@ -47,30 +47,32 @@ const ViewPost: React.FC<IViewPostProps> = (
         <ViewPostCard post={data.post} />
       </div>
       <div className={styles.sidebar}>
-        {isAuthorized ? (
-          <div className={styles.suggestChanges}>
-            <div className={styles.profileSideBar}>
-              <ProfileSidebar
-                userName={userInfo.fullName}
-                avatar={userInfo.avatar}
-                folloversCount={userInfo.followersQuantity}
-                rating={userInfo.rating}
-                postNotificationCount={userInfo.postsQuantity}
-              />
+        <div className={styles.viewPostSideBar}>
+          {isAuthorized ? (
+            <div className={styles.suggestChanges}>
+              <div className={styles.profileSideBar}>
+                <ProfileSidebar
+                  userName={userInfo.fullName}
+                  avatar={userInfo.avatar}
+                  folloversCount={userInfo.followersQuantity}
+                  rating={userInfo.rating}
+                  postNotificationCount={userInfo.postsQuantity}
+                />
+              </div>
+              <SuggestChangesCard />
+              <div className={styles.tagsSideBar}>
+                <FeedTagsSideBar />
+              </div>
             </div>
-            <SuggestChangesCard isAuthor={data.post.author.id === currentUser.id} postId={data.post.id} />
-            <div className={styles.tagsSideBar}>
-              <FeedTagsSideBar />
+          ) : (
+            <div className={styles.logInSideBar}>
+              <FeedLogInSidebar />
+              <div className={styles.tagsSideBar}>
+                <FeedTagsSideBar />
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className={styles.logInSideBar}>
-            <FeedLogInSidebar />
-            <div className={styles.tagsSideBar}>
-              <FeedTagsSideBar />
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

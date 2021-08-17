@@ -10,6 +10,7 @@ import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import createPostService from '@screens/CreatePost/services/createPost';
 import { Routine } from 'redux-saga-routines';
+import { history } from '@helpers/history.helper';
 
 function* sendImage(action) {
   const formData = new FormData();
@@ -31,10 +32,13 @@ function* sendPost(action) {
     yield put(sendPostRoutine.success(response));
     yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: true }));
     toastr.success('Success', 'Post was sent!');
+    history.push(`/post/${response}`);
   } catch (error) {
     yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: null }));
     yield put(sendImageRoutine.failure(error?.message));
     toastr.error('Error', 'Sending post failed!');
+  } finally {
+    yield put(sendPostRoutine.fulfill());
   }
 }
 
@@ -123,6 +127,8 @@ function* sendPR({ payload }: Routine<any>) {
     yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: null }));
     yield put(sendPRRoutine.failure(error?.message));
     toastr.error('Error', 'Loading PR failed');
+  } finally {
+    yield put(sendPRRoutine.fulfill());
   }
 }
 
@@ -142,6 +148,8 @@ function* editPost({ payload }: Routine<any>) {
     yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: null }));
     yield put(editPostRoutine.failure(error?.message));
     toastr.error('Error', 'Editing post failed');
+  } finally {
+    yield put(editPostRoutine.fulfill());
   }
 }
 

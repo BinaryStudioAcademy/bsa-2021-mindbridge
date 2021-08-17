@@ -19,15 +19,11 @@ function ProfileSidebar({ avatar, userName, folloversCount, rating, postNotifica
       <div className={styles.top_group}>
         <div className={styles.avatar_and_name_group}>
           <Link to="/">
-            {avatar === null ? (
-              <img
-                className={styles.avatar}
-                src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-                alt="avatar"
-              />
-            ) : (
-              <img className={styles.avatar} src={avatar} alt="avatar" />
-            )}
+            <img
+              className={styles.avatar}
+              src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'}
+              alt="avatar"
+            />
             <span className={styles.user_name}>{userName}</span>
           </Link>
         </div>

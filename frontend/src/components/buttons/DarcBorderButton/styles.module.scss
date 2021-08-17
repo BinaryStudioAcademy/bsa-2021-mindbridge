@@ -1,11 +1,14 @@
 @import '../../../styles/common_variables.sass';
 
-.button{
-  background-color: rgba(0,0,0,0);
-  border: solid 2px $dark-grey;
+.dark_border_button{
+  background-color: rgba(0,0,0,0) !important;
+  border: solid 2px $dark-grey !important;
+  color: $dark-grey !important;
+  font-size: 0.8rem !important;
+  font-weight: bold !important;
 }
 
-.button:hover{
-  background-color: $dark-grey;
-  color: white;
+.dark_border_button:hover{
+  background-color: $dark-grey !important;
+  color: white !important;
 }
