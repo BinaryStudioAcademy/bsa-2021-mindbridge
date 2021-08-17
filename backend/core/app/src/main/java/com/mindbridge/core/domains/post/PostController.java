@@ -32,8 +32,8 @@ public class PostController {
 	}
 
 	@PostMapping("/create")
-	public void createPost(@RequestBody CreatePostDto post) {
-		postService.savePost(post);
+	public UUID createPost(@RequestBody CreatePostDto post) {
+		return postService.savePost(post);
 	}
 
 	@PutMapping("/edit")
