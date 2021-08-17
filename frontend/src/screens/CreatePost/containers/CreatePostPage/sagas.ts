@@ -27,14 +27,10 @@ function* sendImage(action) {
 
 function* sendPost(action) {
   try {
-    yield put(setLoaderRoutine.success({ isLoading: true, isLoaded: null }));
     const response = yield call(createPostService.sendPost, action.payload);
-    yield put(sendPostRoutine.success(response));
-    yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: true }));
     toastr.success('Success', 'Post was sent!');
     history.push(`/post/${response}`);
   } catch (error) {
-    yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: null }));
     yield put(sendImageRoutine.failure(error?.message));
     toastr.error('Error', 'Sending post failed!');
   } finally {
@@ -54,7 +50,6 @@ function* fetchData(id) {
   try {
     const response = yield call(createPostService.getData, id.payload);
     yield put(fetchUserProfileRoutine.success(response));
-    yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: null }));
   } catch (error) {
     yield put(fetchUserProfileRoutine.failure(error?.message));
   }
@@ -82,7 +77,6 @@ function* fetchTags() {
       allTags.push(tag);
     });
     yield put(fetchTagsRoutine.success(allTags));
-    yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: null }));
   } catch (error) {
     yield put(fetchTagsRoutine.failure(error?.message));
     toastr.error('Error', 'Loading tags failed!');
@@ -99,9 +93,9 @@ function* watchFetchTagsRequest() {
 
 function* fetchPost({ payload }: Routine<any>) {
   try {
-    yield put(setLoaderRoutine.success({ isLoading: true, isLoaded: null }));
+    yield put(setLoaderRoutine.success({ isLoading: true }));
     const response = yield call(createPostService.getPost, payload);
-    yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: null }));
+    yield put(setLoaderRoutine.success({ isLoading: false }));
 
     yield put(fetchPostRoutine.success(response));
   } catch (error) {
@@ -117,14 +111,11 @@ function* watchFetchPost() {
 
 function* sendPR({ payload }: Routine<any>) {
   try {
-    yield put(setLoaderRoutine.success({ isLoading: true, isLoaded: null }));
     const response = yield call(createPostService.sendPR, payload);
-    yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: true }));
-
     yield put(sendPRRoutine.success(response));
     toastr.success('Success', 'Pull request has been created');
+    history.push(`/post/${payload.postId}`);
   } catch (error) {
-    yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: null }));
     yield put(sendPRRoutine.failure(error?.message));
     toastr.error('Error', 'Loading PR failed');
   } finally {
@@ -138,14 +129,11 @@ function* watchSendPR() {
 
 function* editPost({ payload }: Routine<any>) {
   try {
-    yield put(setLoaderRoutine.success({ isLoading: true, isLoaded: null }));
     const response = yield call(createPostService.editPost, payload);
-    yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: true }));
-
     yield put(editPostRoutine.success(response));
     toastr.success('Success', 'Post has been edited');
+    history.push(`/post/${payload.postId}`);
   } catch (error) {
-    yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: null }));
     yield put(editPostRoutine.failure(error?.message));
     toastr.error('Error', 'Editing post failed');
   } finally {

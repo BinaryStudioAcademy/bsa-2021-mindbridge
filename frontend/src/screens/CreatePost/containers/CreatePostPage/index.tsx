@@ -23,6 +23,7 @@ import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 import LoaderWrapper from '@components/LoaderWrapper';
+import HistorySidebar from "@components/PostHistorySidebar";
 
 export interface ICreatePostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -40,7 +41,6 @@ interface IState {
   allTags: [any];
   currentUserId: string;
   isLoading: boolean;
-  isLoaded: boolean;
   post?: {
     id: string;
     author: any;
@@ -87,7 +87,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
     userInfo,
     allTags,
     isLoading,
-    isLoaded,
     post,
     currentUserId,
     fetchData,
@@ -101,7 +100,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
     resetImageTag
   }
 ) => {
-  const history = useHistory();
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,
@@ -119,13 +117,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
     editedTag: ''
   });
   const { postId } = useParams();
-
-  useEffect(() => {
-    if (isLoaded) {
-      history.push(`/post/${post?.id}`);
-      history.go();
-    }
-  }, [isLoaded]);
 
   useEffect(() => {
     if (postId) {
@@ -149,7 +140,9 @@ const CreatePost: React.FC<ICreatePostProps> = (
   }, [post]);
 
   useEffect(() => {
-    fetchData(currentUserId);
+    if (currentUserId) {
+      fetchData(currentUserId);
+    }
     fetchTags();
     getPostVersions();
   }, [currentUserId, fetchTags, getPostVersions]);
@@ -268,41 +261,47 @@ const CreatePost: React.FC<ICreatePostProps> = (
             postNotificationCount={userInfo.profile.postsQuantity}
           />
         </div>
-        {/* We need this component only if we edit post*/}
-        {/* <div className={styles.history_sidebar_container}>*/}
-        {/*  <HistorySidebar history={versionsOfPost} />*/}
-        {/* </div>*/}
-        <form className={styles.create_post_container}>
-          <div className={styles.header}>
-            {modes.htmlMode
-              ? <BlueButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />
-              : <ColorlessButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />}
-            {modes.markdownMode
-              ? <BlueButton content="Markdown" onClick={changeHtmlMarkdownMode} className={styles.markdown_button} />
-              : (
-                <ColorlessButton
-                  content="Markdown"
-                  onClick={changeHtmlMarkdownMode}
-                  className={styles.markdown_button}
-                />
-              )}
+        {currentUserId === post?.author?.id && (
+          <div className={styles.history_sidebar_container}>
+            <HistorySidebar history={versionsOfPost} />
           </div>
-          {modes.editMode
-            ? (
-              <CreatePostForm
-                form={form}
-                modes={modes}
-                setForm={setForm}
-                sendImage={sendImage}
-                allTags={allTags}
-                imageTag={imageTag}
-                resetImageTag={resetImageTag}
-              />
-            )
-            : <PostPreview form={form} modes={modes} allTags={allTags} />}
-          <div className={styles.footer}>
-            <DarkBorderButton content="Cancel" onClick={handleCancel} />
-            {!(post)
+        )}
+        {isLoading ? (
+            <form className={styles.create_post_container}>
+              <LoaderWrapper loading={isLoading} />
+            </form>
+        ) : (
+          <form className={styles.create_post_container}>
+            <div className={styles.header}>
+              {modes.htmlMode
+                ? <BlueButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />
+                : <ColorlessButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />}
+              {modes.markdownMode
+                ? <BlueButton content="Markdown" onClick={changeHtmlMarkdownMode} className={styles.markdown_button} />
+                : (
+                  <ColorlessButton
+                    content="Markdown"
+                    onClick={changeHtmlMarkdownMode}
+                    className={styles.markdown_button}
+                  />
+                )}
+            </div>
+            {modes.editMode
+              ? (
+                <CreatePostForm
+                  form={form}
+                  modes={modes}
+                  setForm={setForm}
+                  sendImage={sendImage}
+                  allTags={allTags}
+                  imageTag={imageTag}
+                  resetImageTag={resetImageTag}
+                />
+              )
+              : <PostPreview form={form} modes={modes} allTags={allTags} />}
+            <div className={styles.footer}>
+              <DarkBorderButton content="Cancel" onClick={handleCancel} />
+              {!(post)
               && (
                 <DarkBorderButton
                   content="Save draft"
@@ -311,14 +310,15 @@ const CreatePost: React.FC<ICreatePostProps> = (
                   onClick={() => handleSendForm(true)}
                 />
               )}
-            <DarkButton
-              content={submitButtonName}
-              disabled={preloader.draftButton}
-              loading={preloader.publishButton}
-              onClick={() => handleSendForm(false)}
-            />
-          </div>
-        </form>
+              <DarkButton
+                content={submitButtonName}
+                disabled={preloader.draftButton}
+                loading={preloader.publishButton}
+                onClick={() => handleSendForm(false)}
+              />
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
@@ -327,8 +327,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
 const mapStateToProps: (state) => IState = state => ({
   savingImage: state.createPostReducer.data.savingImage,
   userInfo: extractData(state),
-  isLoading: state.createPostReducer.data.isLoading,
-  isLoaded: state.createPostReducer.data.isLoaded,
+  isLoading: state.createPostReducer.data.postLoading,
   allTags: state.createPostReducer.data.allTags,
   isAuthorized: state.auth.auth.isAuthorized,
   post: state.createPostReducer.data.post,
