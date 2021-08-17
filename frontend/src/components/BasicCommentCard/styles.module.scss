@@ -1,0 +1,130 @@
+.main {
+  font-family: Lato, serif;
+  font-weight: 400;
+  font-size: 0.85em;
+  line-height: 1.05em;
+  font-style: normal;
+  padding-top: 5em;
+  padding-bottom: 5em;
+
+  .commentCounter {
+      padding-bottom: 0.9375em;
+      font-size: 18px;
+      line-height: 22px;
+      color: #353535;
+      font-style: normal;
+      font-weight: bold;
+  }
+}
+
+.buttonSend {
+  border: none !important;
+  width: 88px;
+  height: 43px;
+  background: #DEDEDE !important;
+  border-radius: 5px;
+}
+
+:global(.ui.comments) {
+  max-width: 100% !important;
+  padding-top: 0.8125em;
+}
+
+:global(.actions) {
+  padding-left: 1.375em;
+  padding-bottom: 1.5625em;
+}
+
+.btnReplay {
+  border: 2px solid #14253F;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-family: Lato, sans-serif !important;
+  font-style: normal !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  line-height: 19px !important;
+  color: #14253F !important;
+  width: 66px !important;
+  height: 29px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+:global(.author) {
+  font-family: Lato, sans-serif !important;
+  padding-left: 0.5em;
+  color: #353535 !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
+  font-size: 12px !important;
+  line-height: 14.4px !important;
+}
+
+:global(.date) {
+  font-family: Lato, serif !important;
+  color: rgba(53, 53, 53, 0.4) !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 16.8px !important;
+}
+
+:global(.text) {
+  font-family: Lato, serif !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  line-height: 16.8px !important;
+  color: #353535 !important;
+  padding-bottom: 1.25em !important;
+  padding-left: 1.5625em;
+}
+
+:global(.field) {
+}
+
+.commentInfo {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: left !important;
+  padding-bottom: 1.5625em;
+  padding-left: 1.5625em;
+  padding-top: 1.5625em;
+}
+
+:global(.ui.form textarea) {
+  width: 1130px !important;
+  height: 114px !important;
+  max-height: 100% !important;
+  max-width: 100% !important;
+  background: #F3F9FE !important;
+  border: none !important;
+  border-radius: 5px !important;
+  padding-bottom: 0.9375em !important;
+  resize: none;
+
+  &::placeholder {
+    padding-top: 1.25em;
+    padding-left: 1.375em;
+    font-family: Lato, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #14253F;
+    opacity: 0.4;
+  }
+}
+
+:global(.comment) {
+  margin-top: 1.25em !important;
+  border: 2px solid #F8F8F8 !important;
+  box-sizing: border-box !important;
+  border-radius: 10px !important;
+}
+
+:global(.ui.comments .comment .avatar img) {
+  border-radius: 10em !important;
+}
+
+
