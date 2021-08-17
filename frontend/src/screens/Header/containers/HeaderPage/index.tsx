@@ -53,7 +53,7 @@ const Header: React.FC<IHeaderProps> = (
     }
   }, [currentUser]);
   const [isListOpen, setIsListOpen] = useState(false);
-  const [isSearchInputEmpty, setIsSearchInputEmpty] = useState(false);
+  const [isSearchInputFilled, setIsSearchInputFilled] = useState(false);
   const toggleNotificationList = () => {
     fetchNotificationList(currentUser.id);
     setIsListOpen(!isListOpen);
@@ -69,7 +69,7 @@ const Header: React.FC<IHeaderProps> = (
   };
 
   const handleLinkClick = () => {
-    setIsSearchInputEmpty(false);
+    setIsSearchInputFilled(false);
     searchPostsByElastic('');
     setElasticContent('');
   };
@@ -82,9 +82,9 @@ const Header: React.FC<IHeaderProps> = (
     debounced(event.target.value);
     setElasticContent(event.target.value);
     if (event.target.value) {
-      setIsSearchInputEmpty(true);
+      setIsSearchInputFilled(true);
     } else {
-      setIsSearchInputEmpty(false);
+      setIsSearchInputFilled(false);
     }
   };
 
@@ -118,7 +118,7 @@ const Header: React.FC<IHeaderProps> = (
           <button type="button">
             <SearchSvg />
           </button>
-          {isSearchInputEmpty
+          {isSearchInputFilled
             && (
             <div className={styles.foundPosts}>
               <ul>
