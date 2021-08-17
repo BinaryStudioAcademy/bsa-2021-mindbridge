@@ -135,7 +135,9 @@ const CreatePost: React.FC<ICreatePostProps> = (
   }, [postId]);
 
   useEffect(() => {
-    fetchData(currentUserId);
+    if (currentUserId) {
+      fetchData(currentUserId);
+    }
     fetchTags();
     getPostVersions();
   }, [currentUserId, fetchTags, getPostVersions]);
