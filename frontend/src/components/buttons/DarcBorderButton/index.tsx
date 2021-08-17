@@ -10,6 +10,7 @@ interface IFormButtonProps extends ButtonProps {
 
 const DarkBorderButton = ({ className, content, loading, ...props }: IFormButtonProps) => (
   <Button
+    type="button"
     className={classNames(styles.dark_border_button, className)}
     content={content}
     loading={loading}
