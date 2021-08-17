@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@root/components/ProfileSidebar';
-import HistorySidebar from '@root/components/PostHistorySidebar';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
 import EditSvgPart1 from './svg/editSvgPart1';
@@ -18,7 +17,7 @@ import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import {
   sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine, getPostVersionsRoutine,
-  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine, editPostRoutine
+  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine, editPostRoutine, resetImageTagRoutine
 } from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
@@ -51,6 +50,15 @@ interface IState {
     coverImage: string;
     markdown: string;
   };
+  preloader: {
+    publishButton: boolean;
+    draftButton: boolean;
+  };
+  imageTag: {
+    isPresent: boolean;
+    url: string;
+    preloader: boolean;
+  };
 }
 
 interface IActions {
@@ -63,6 +71,7 @@ interface IActions {
   fetchPost: IBindingCallback1<string>;
   sendPR: IBindingCallback1<object>;
   editPost: IBindingCallback1<object>;
+  resetImageTag: IBindingAction;
 }
 
 const CreatePost: React.FC<ICreatePostProps> = (
@@ -81,7 +90,10 @@ const CreatePost: React.FC<ICreatePostProps> = (
     fetchPost,
     editPost,
     getPostVersions,
-    versionsOfPost
+    versionsOfPost,
+    preloader,
+    imageTag,
+    resetImageTag
   }
 ) => {
   const [modes, setModes] = useState({
@@ -93,7 +105,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
   const [form, setForm] = useState<IForm>({
     coverImage: {
       title: '',
-      url: ''
+      url: null
     },
     title: '',
     content: '',
@@ -130,25 +142,23 @@ const CreatePost: React.FC<ICreatePostProps> = (
   useEffect(() => {
     if (savingImage.isLoaded) {
       if (!savingImage.isInContent) {
-        setForm({
-          ...form,
-          coverImage: {
-            url: savingImage.url,
-            title: savingImage.title
-          }
-        });
-      } else if (modes.htmlMode) {
-        setForm({
-          ...form,
-          content: `${form.content
-          }\n<img  height="" width="" src=${savingImage.url} alt="image" />\n`
-        });
-      } else {
-        setForm({
-          ...form,
-          content: `${form.content
-          }\n![Alt Text](${savingImage.url})\n`
-        });
+        if (savingImage.url !== '0') {
+          setForm({
+            ...form,
+            coverImage: {
+              url: savingImage.url,
+              title: savingImage.title
+            }
+          });
+        } else {
+          setForm({
+            ...form,
+            coverImage: {
+              url: '',
+              title: ''
+            }
+          });
+        }
       }
       resetLoadingImage();
     }
@@ -194,7 +204,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
         author: currentUserId
       };
       sendPost(postOnAdd);
-      handleCancel();
       return;
     }
     if (currentUserId === post.author.id) {
@@ -208,7 +217,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
         draft: isDraft
       };
       editPost(postOnEdit);
-      handleCancel();
       return;
     }
     const postOnPR = {
@@ -222,8 +230,17 @@ const CreatePost: React.FC<ICreatePostProps> = (
       contributorId: currentUserId
     };
     sendPR(postOnPR);
-    handleCancel();
   };
+
+  let submitButtonName = '';
+  if (!post) {
+    submitButtonName = 'Publish';
+  } else if (currentUserId === post.author.id) {
+    submitButtonName = 'Save changes';
+  } else {
+    submitButtonName = 'Create pull request';
+  }
+
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
@@ -240,7 +257,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         {/* <div className={styles.history_sidebar_container}>*/}
         {/*  <HistorySidebar history={versionsOfPost} />*/}
         {/* </div>*/}
-        <div className={styles.create_post_container}>
+        <form className={styles.create_post_container}>
           <div className={styles.header}>
             {modes.htmlMode
               ? <BlueButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />
@@ -303,15 +320,30 @@ const CreatePost: React.FC<ICreatePostProps> = (
                 setForm={setForm}
                 sendImage={sendImage}
                 allTags={allTags}
+                imageTag={imageTag}
+                resetImageTag={resetImageTag}
               />
             )
             : <PostPreview form={form} modes={modes} allTags={allTags} />}
           <div className={styles.footer}>
             <DarkBorderButton content="Cancel" onClick={handleCancel} />
-            <DarkBorderButton content="Save draft" onClick={() => handleSendForm(true)} />
-            <DarkButton content="Publish" onClick={() => handleSendForm(false)} />
+            {!(post)
+              && (
+                <DarkBorderButton
+                  content="Save draft"
+                  disabled={preloader.publishButton}
+                  loading={preloader.draftButton}
+                  onClick={() => handleSendForm(true)}
+                />
+              )}
+            <DarkButton
+              content={submitButtonName}
+              disabled={preloader.draftButton}
+              loading={preloader.publishButton}
+              onClick={() => handleSendForm(false)}
+            />
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
@@ -324,7 +356,9 @@ const mapStateToProps: (state) => IState = state => ({
   isAuthorized: state.auth.auth.isAuthorized,
   post: state.createPostReducer.data.post,
   currentUserId: state.auth.auth.user.id,
-  versionsOfPost: state.createPostReducer.data.versionsOfPost
+  versionsOfPost: state.createPostReducer.data.versionsOfPost,
+  preloader: state.createPostReducer.data.preloader,
+  imageTag: state.createPostReducer.data.imageTag
 });
 
 const mapDispatchToProps: IActions = {
@@ -336,7 +370,8 @@ const mapDispatchToProps: IActions = {
   fetchPost: fetchPostRoutine,
   sendPR: sendPRRoutine,
   editPost: editPostRoutine,
-  getPostVersions: getPostVersionsRoutine
+  getPostVersions: getPostVersionsRoutine,
+  resetImageTag: resetImageTagRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

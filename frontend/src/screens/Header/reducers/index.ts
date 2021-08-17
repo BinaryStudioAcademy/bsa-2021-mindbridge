@@ -12,7 +12,6 @@ export default combineReducers({
   data: headerReducer
 });
 
-const reqs = (state: RootState) => state.headerReducer.requests;
 const data = (state: RootState) => state.headerReducer.data;
 
 /* PlopJS request_extractor placeholder. Do not remove */

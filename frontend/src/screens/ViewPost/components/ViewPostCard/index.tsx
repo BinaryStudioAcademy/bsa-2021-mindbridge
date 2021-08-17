@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, { FunctionComponent } from 'react';
-import { Card, Feed, Container } from 'semantic-ui-react';
+import { Card, Feed } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
 import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
@@ -35,7 +35,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
           </div>
           <img
             className={styles.image}
-            src={post.coverImage}
+            src={post.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'}
             alt="media"
           />
         </div>
