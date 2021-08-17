@@ -2,7 +2,7 @@ import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { INotification } from '@screens/Header/models/INotification';
 import {
   fetchNotificationCountRoutine,
-  fetchNotificationListRoutine,
+  fetchNotificationListRoutine, searchButtonClickedRoutine,
   searchPostsByElasticRoutine
 } from '@screens/Header/routines';
 import { INotificationList } from '@screens/Header/models/INotificationList';
@@ -14,12 +14,14 @@ export interface IHeaderReducerState {
   notificationCount: number;
   notificationList: INotification[];
   posts: IPost[];
+  isSearchBtnClicked: boolean;
 }
 
 const initialState: IHeaderReducerState = {
   notificationCount: 0,
   notificationList: [],
-  posts: []
+  posts: [],
+  isSearchBtnClicked: false
 
 };
 
@@ -32,6 +34,8 @@ export const headerReducer = createReducer(initialState, {
   },
   [searchPostsByElasticRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPostsPayload>) => {
     state.posts = payload.posts;
-    console.log(state.posts);
+  },
+  [searchButtonClickedRoutine.TRIGGER]: state => {
+    state.isSearchBtnClicked = !state.isSearchBtnClicked;
   }
 });
