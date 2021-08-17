@@ -34,11 +34,14 @@ function* watchRegister() {
 }
 
 function* loadUser() {
-  try {
-    const currentUser = yield call(getCurrentUser, { refreshToken: localStorage.getItem(REFRESH_TOKEN) });
-    yield put(loginRoutine.success(currentUser));
-  } catch (ex) {
-    yield put(loginRoutine.failure(ex.message));
+  const token = localStorage.getItem(REFRESH_TOKEN);
+  if (token) {
+    try {
+      const currentUser = yield call(getCurrentUser, { refreshToken: token });
+      yield put(loginRoutine.success(currentUser));
+    } catch (ex) {
+      yield put(loginRoutine.failure(ex.message));
+    }
   }
 }
 
