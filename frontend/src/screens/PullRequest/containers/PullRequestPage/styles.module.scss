@@ -4,7 +4,22 @@
   padding-top: 6rem;
   width: 50rem;
   margin: auto;
+  font-family: Lato;
+  overflow: auto;
 }
 .text_diff{
+}
+
+.field{
+  margin-bottom: 2rem;
+  background-color: rgba(248, 248, 248, 1);
+  border-radius: 0.4rem;
+}
+
+.blue_label{
+  color: rgba(102, 185, 255, 1);
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-bottom: 1rem;
 }
 

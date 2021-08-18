@@ -25,9 +25,12 @@ const Tab = ({ className, previewContent, diffContent }: ITabProps) => {
           onClick={setMode}
           content="See difference"
         />
-        <ColorlessButton className={preview && styles.active} onClick={setMode} content={<ViewSvg />} />
+        <ColorlessButton
+          className={preview && styles.active}
+          onClick={setMode}
+          content="Preview" />
       </div>
-      { preview ? previewContent : diffContent }
+      {preview ? previewContent : diffContent}
     </div>
   );
 };

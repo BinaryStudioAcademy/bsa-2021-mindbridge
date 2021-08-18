@@ -50,13 +50,15 @@ const PullRequest: React.FC<IPullRequestProps> = (
   const diffContent = (
     <div>
       <AuthorAndDate
+        className={styles.field}
         avatar={postPR.contributor.avatar}
         nickname={postPR.contributor.nickname}
         date={postPR.createdAt}
       />
-      <TitleDiff oldTitle={postPR.post.title} newTitle={postPR.title} />
-      <TagsDiff oldTags={postPR.post.tags} newTags={postPR.tags} />
-      <TextDiff className={styles.text_diff} oldText={postPR.post.text} newText={postPR.text} />
+      <TitleDiff className={styles.field} oldTitle={postPR.post.title} newTitle={postPR.title} />
+      <TagsDiff className={styles.field} oldTags={postPR.post.tags} newTags={postPR.tags} />
+      <div className={styles.blue_label}>Changes in content:</div>
+      <TextDiff className={classNames(styles.field, styles.text_diff)} oldText={postPR.post.text} newText={postPR.text} />
     </div>
   );
 
