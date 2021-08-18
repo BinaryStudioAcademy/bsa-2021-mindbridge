@@ -9,8 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Component
@@ -46,13 +48,13 @@ public class JwtProvider {
 		Date date = null;
 		switch (period) {
 		case "30min": {
-			date = Date.from(LocalDateTime.now().plusSeconds(jwtProperties.getSecs_to_expire_access())
-					.toInstant(ZoneOffset.UTC));
+			date = Date.from(ZonedDateTime.now(Clock.systemUTC()).plusSeconds(jwtProperties.getSecs_to_expire_access())
+					.toInstant());
 			break;
 		}
 		case "30days": {
-			date = Date.from(LocalDateTime.now().plusSeconds(jwtProperties.getSecs_to_expire_refresh())
-					.toInstant(ZoneOffset.UTC));
+			date = Date.from(ZonedDateTime.now(Clock.systemUTC()).plusSeconds(jwtProperties.getSecs_to_expire_refresh())
+					.toInstant());
 			break;
 		}
 		}

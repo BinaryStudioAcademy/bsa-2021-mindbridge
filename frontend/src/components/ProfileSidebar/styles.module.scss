@@ -143,3 +143,19 @@
 .invisible{
     display: none;
 }
+
+:global(.ui.floating.dropdown>.menu) {
+  top: 0;
+  left: 3em;
+}
+
+:global(.menu.transition.visible) {
+  border: none !important;
+}
+
+:global(.ui.button.labeled.dropdown) {
+  padding-top: 0.2em !important;
+  svg {
+    width: 100%;
+  }
+}

@@ -139,13 +139,6 @@ const Header: React.FC<IHeaderProps> = (
           onClick={() => handleCreatePostButton()}
           content="Create post"
         />
-        {isAuthorized
-          ? (
-            <button className={styles.header_notification} type="button" onClick={handleOnClickSignOut}>
-              <LogOutSvg />
-            </button>
-          )
-          : null}
       </div>
     </div>
   );
