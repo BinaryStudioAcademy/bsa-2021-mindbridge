@@ -9,8 +9,8 @@
 
   .commentCounter {
       padding-bottom: 0.9375em;
-      font-size: 18px;
-      line-height: 22px;
+      font-size: 1.13em;
+      line-height: 1.375em;
       color: #353535;
       font-style: normal;
       font-weight: bold;
@@ -19,10 +19,13 @@
 
 .buttonSend {
   border: none !important;
-  width: 88px;
-  height: 43px;
+  width: 5.5em;
+  height: 2.6875em;
   background: #DEDEDE !important;
-  border-radius: 5px;
+  border-radius: 0.3125em;
+  font-size: 1.1em !important;
+  line-height: 1.5em;
+  color: #FFFFFF !important;
 }
 
 :global(.ui.comments) {
@@ -35,71 +38,18 @@
   padding-bottom: 1.5625em;
 }
 
-.btnReplay {
-  border: 2px solid #14253F;
-  box-sizing: border-box;
-  border-radius: 5px;
-  font-family: Lato, sans-serif !important;
-  font-style: normal !important;
-  font-weight: bold !important;
-  font-size: 16px !important;
-  line-height: 19px !important;
-  color: #14253F !important;
-  width: 66px !important;
-  height: 29px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-:global(.author) {
-  font-family: Lato, sans-serif !important;
-  padding-left: 0.5em;
-  color: #353535 !important;
-  font-weight: 600 !important;
-  font-style: normal !important;
-  font-size: 12px !important;
-  line-height: 14.4px !important;
-}
-
-:global(.date) {
-  font-family: Lato, serif !important;
-  color: rgba(53, 53, 53, 0.4) !important;
-  font-weight: 400 !important;
-  font-size: 14px !important;
-  line-height: 16.8px !important;
-}
-
-:global(.text) {
-  font-family: Lato, serif !important;
-  font-weight: 500 !important;
-  font-size: 14px !important;
-  line-height: 16.8px !important;
-  color: #353535 !important;
-  padding-bottom: 1.25em !important;
-  padding-left: 1.5625em;
-}
-
 :global(.field) {
-}
 
-.commentInfo {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: left !important;
-  padding-bottom: 1.5625em;
-  padding-left: 1.5625em;
-  padding-top: 1.5625em;
 }
 
 :global(.ui.form textarea) {
-  width: 1130px !important;
-  height: 114px !important;
+  width: 70.625em !important;
+  height: 7.125em !important;
   max-height: 100% !important;
   max-width: 100% !important;
   background: #F3F9FE !important;
   border: none !important;
-  border-radius: 5px !important;
+  border-radius: 0.3125em !important;
   padding-bottom: 0.9375em !important;
   resize: none;
 
@@ -109,22 +59,17 @@
     font-family: Lato, sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 14px;
-    line-height: 17px;
+    font-size: 0.875em;
+    line-height: 1.0625em;
     color: #14253F;
     opacity: 0.4;
   }
 }
 
-:global(.comment) {
-  margin-top: 1.25em !important;
-  border: 2px solid #F8F8F8 !important;
-  box-sizing: border-box !important;
-  border-radius: 10px !important;
-}
-
 :global(.ui.comments .comment .avatar img) {
   border-radius: 10em !important;
 }
+
+
 
 

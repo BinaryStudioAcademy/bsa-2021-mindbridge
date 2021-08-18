@@ -1,5 +1,6 @@
 import { ITag } from '@screens/ViewPost/models/ITag';
 import { IUser } from '@screens/ViewPost/models/IUser';
+import { IComment } from '@screens/ViewPost/models/IComment';
 
 export interface IPost {
   id: string;
@@ -14,4 +15,5 @@ export interface IPost {
   postRating: number;
   avatar: string;
   markdown: boolean;
+  comments: IComment[];
 }

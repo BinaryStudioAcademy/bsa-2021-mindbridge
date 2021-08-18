@@ -1,124 +1,70 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
+import { IComment } from '@screens/ViewPost/models/IComment';
+import CommentWithReplay from '@components/BasicCommentCard/components/Reply';
+
+interface ICommentProps {
+  commentData: IComment[];
+}
+
+const getArrayDepth = arr => {
+  if (Array.isArray(arr)) {
+    return 1 + Math.max(...arr.map(getArrayDepth));
+  }
+  if (arr.comments && arr.comments.length) {
+    return 1 + Math.max(...arr.comments.map(getArrayDepth));
+  }
+  return 0;
+};
 
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/alt-text */
-export const CommentCard = () => (
-  <div className={styles.main}>
-    <p className={styles.commentCounter}> Discussion (58) </p>
-    <form className="ui reply form">
-      <div className="field">
-        <textarea placeholder="Add to the discussion..." />
-      </div>
-      <DarkBorderButton className={styles.buttonSend} content="Send" />
-    </form>
-    <div className="ui comments">
-      <div className="comment">
-        <div className={styles.commentInfo}>
-          <a href="/" className="avatar">
-            <img src="https://i.imgur.com/LaWyPZF.png" />
-          </a>
-          <a href="/" className="author">Jaxson Botosh</a>
-          <DividerSvg />
-          <div className="metadata">
-            <span className="date">2 hour ago</span>
-          </div>
+const CommentCard: FunctionComponent<ICommentProps> = ({ commentData }) => (
+  <div>
+    <div className={styles.main}>
+      <p className={styles.commentCounter}> Discussion (58) </p>
+      <form className="ui reply form">
+        <div className="field">
+          <textarea placeholder="Add to the discussion..." />
         </div>
-        <div className="content">
-          <div className="text">
-            First
-          </div>
-          <div className="actions">
-            <DarkBorderButton className={styles.btnReplay} content="Replay" />
-          </div>
-        </div>
-      </div>
-      <div className="comment">
-        <div className={styles.commentInfo}>
-          <a href="/" className="avatar">
-            <img src="https://i.imgur.com/LaWyPZF.png" />
-          </a>
-          <a href="/" className="author">Kaylynn Philips</a>
-          <DividerSvg />
-          <div className="metadata">
-            <span className="date">3 hour ago</span>
-          </div>
-        </div>
-        <div className="content">
-          <div className="text">
-            Second
-          </div>
-          <div className="actions">
-            <DarkBorderButton className={styles.btnReplay} content="Replay" />
-          </div>
-        </div>
-        <div className="comments">
-          <div className="comment">
-            <div className={styles.commentInfo}>
-              <a href="/" className="avatar">
-                <img src="https://i.imgur.com/LaWyPZF.png" />
-              </a>
-              <a href="/" className="author">Davis Vaccaro</a>
-              <DividerSvg />
-              <div className="metadata">
-                <span className="date">22 min ago</span>
-              </div>
-            </div>
-            <div className="content">
-              <div className="text">
-                First comment
-              </div>
-              <div className="actions">
-                <DarkBorderButton className={styles.btnReplay} content="Replay" />
-              </div>
-            </div>
-          </div>
-          <div className="comments">
+        <DarkBorderButton className={styles.buttonSend} content="Send" />
+      </form>
+      { getArrayDepth(commentData) <= 0 ? (
+        <div className={styles.main}>
+          <div className="ui comments">
             <div className="comment">
               <div className={styles.commentInfo}>
                 <a href="/" className="avatar">
                   <img src="https://i.imgur.com/LaWyPZF.png" />
                 </a>
-                <a href="/" className="author">Talan Rhiel Madsen</a>
+                <a href="/" className="author">Skylar Botosh</a>
                 <DividerSvg />
                 <div className="metadata">
-                  <span className="date">15 min ago</span>
+                  <span className="date">22 min ago</span>
                 </div>
               </div>
               <div className="content">
                 <div className="text">
-                  Comment on first answer
+                  Third
                 </div>
                 <div className="actions">
-                  <DarkBorderButton className={styles.btnReplay} content="Replay" />
+                  <DarkBorderButton className={styles.btnReplay} content="Reply" />
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="comment">
-        <div className={styles.commentInfo}>
-          <a href="/" className="avatar">
-            <img src="https://i.imgur.com/LaWyPZF.png" />
-          </a>
-          <a href="/" className="author">Skylar Botosh</a>
-          <DividerSvg />
-          <div className="metadata">
-            <span className="date">22 min ago</span>
-          </div>
+      ) : (
+        <div className="ui comments">
+          {commentData.map(data => (
+            <CommentWithReplay createdAt={data.createdAt} text={data.text} author={data.author} commentData={data.comments} />
+          ))}
         </div>
-        <div className="content">
-          <div className="text">
-            Third
-          </div>
-          <div className="actions">
-            <DarkBorderButton className={styles.btnReplay} content="Replay" />
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   </div>
 );
+
+export default CommentCard;
