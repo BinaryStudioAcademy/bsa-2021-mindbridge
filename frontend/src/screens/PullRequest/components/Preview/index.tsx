@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import TagsMenu from '@root/screens/ViewPost/components/TagsMenu';
-import PostPreview from '@root/components/PostPreview';
 import TextRender from '@root/components/TextRenderer';
 import { ITag } from '@root/screens/FeedPage/models/ITag';
 
 // eslint-disable-next-line max-len
 interface IPreviewProps {
+  className?: string;
   coverImage: string;
   title: any;
   tags: ITag [],
@@ -15,10 +15,10 @@ interface IPreviewProps {
   text: string
 }
 
-const Preview = ({ coverImage, title, tags, markdown, text }: IPreviewProps) => {
+const Preview = ({ coverImage, title, tags, markdown, text, className }: IPreviewProps) => {
 
   return (
-    <div className={styles.post_preview_container}>
+    <div className={classNames(className, styles.post_preview_container)}>
       {coverImage
         && <img className={styles.coverImage} src={coverImage} alt="cover" />}
       <div className={styles.title}>{title}</div>

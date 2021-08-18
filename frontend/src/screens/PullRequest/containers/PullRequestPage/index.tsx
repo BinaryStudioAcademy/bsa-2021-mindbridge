@@ -10,6 +10,7 @@ import TextDiff from '@root/components/TextDiff';
 import { IPostPR } from '../../models/IPostPR';
 import Tab from '../../components/Tab';
 import Preview from '../../components/Preview';
+import AuthorAndDate from '../../components/AuthorAndDate';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -46,17 +47,11 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   const diffContent = (
     <div>
-      <div className={styles.avatar_and_name_group}>
-        <Link to="/">
-          <img
-            className={styles.avatar}
-            src={postPR.contributor.avatar ?? 'https://i.imgur.com/LaWyPZF.png'}
-            alt="avatar"
-          />
-          <div className={styles.dot} />
-          <span className={styles.user_name}>{postPR.contributor.nickname}</span>
-        </Link>
-      </div>
+      <AuthorAndDate
+        avatar={postPR.contributor.avatar}
+        nickname={postPR.contributor.nickname}
+        date={postPR.createdAt}
+      />
       <h1>Title</h1>
       <div>Old title</div>
       <TextDiff className={styles.text_diff} oldText={postPR.post.text} newText={postPR.text} />

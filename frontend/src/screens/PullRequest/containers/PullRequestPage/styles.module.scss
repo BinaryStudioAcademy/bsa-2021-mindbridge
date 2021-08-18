@@ -9,25 +9,3 @@
   border: solid 1px $dark-grey;
 }
 
-.avatar_and_name_group{
-  a{
-    display: flex;
-  flex-direction: row;
-  }
-}
-
-.dot{
-  width: 6px;
-  height: 6px;
-  background-color: rgba(102, 185, 255, 1);
-  margin-right: 0.6rem;
-  margin-left: 0.4rem;
-  border-radius: 50%;
-  margin-top: 0.3rem;
-}
-
-.avatar{
-  height: 2rem;
-  width: 2rem;
-  border-radius: 50%;
-}

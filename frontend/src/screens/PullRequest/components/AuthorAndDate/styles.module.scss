@@ -1,0 +1,22 @@
+.avatar_and_name_group{
+  a{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.dot{
+  width: 0.4rem;
+  height: 0.4rem;
+  background-color: rgba(102, 185, 255, 1);
+  border-radius: 50%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.avatar{
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+}
