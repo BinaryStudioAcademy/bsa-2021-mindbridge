@@ -1,7 +1,7 @@
 import {
   sendFormRoutine,
   sendNicknameRoutine,
-  sendAvatarRoutine
+  sendAvatarRoutine, sendPasswordRoutine, sendChangePasswordFormRoutine, openPasswordChangeModalRoutine
 } from '@screens/ProfilePage/routines';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
@@ -46,8 +46,42 @@ function* sendAvatar(action) {
   }
 }
 
+function* sendPassword(action) {
+  try {
+    const response = yield call(profilePageService.sendPassword, { endpoint: action.payload.id, payload: action.payload.password });
+    yield put(sendPasswordRoutine.success(response));
+    return response;
+  } catch (error) {
+    yield put(sendPasswordRoutine.failure(error?.message));
+    toastr.error('Error', 'Sending password failed!');
+    return null;
+  }
+}
+
+function* sendChangePasswordForm(action) {
+  try {
+    const isPasswordRight = yield sendPassword(action);
+    if (isPasswordRight) {
+      yield call(profilePageService.sendChangePasswordForm, { endpoint: action.payload.id, payload: action.payload.newPassword });
+      yield put(sendChangePasswordFormRoutine.success(isPasswordRight));
+      yield put(openPasswordChangeModalRoutine.success());
+      toastr.success('Success', 'Password changed successfully!');
+    } else {
+      yield put(sendChangePasswordFormRoutine.success(isPasswordRight));
+      toastr.error('Error', 'Wrong password!');
+    }
+  } catch (error) {
+    yield put(sendChangePasswordFormRoutine.failure(error?.message));
+    toastr.error('Error', 'Sending form failed!');
+  }
+}
+
 function* watchSendFormRequest() {
   yield takeEvery(sendFormRoutine.TRIGGER, sendForm);
+}
+
+function* watchSendChangePasswordFormRequest() {
+  yield takeEvery(sendChangePasswordFormRoutine.TRIGGER, sendChangePasswordForm);
 }
 
 function* watchSendNicknameRequest() {
@@ -61,6 +95,7 @@ function* watchSendAvatarRequest() {
 export default function* defaultProfileSagas() {
   yield all([
     watchSendFormRequest(),
+    watchSendChangePasswordFormRequest(),
     watchSendNicknameRequest(),
     watchSendAvatarRequest()
   ]);

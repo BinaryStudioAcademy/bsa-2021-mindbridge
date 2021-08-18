@@ -74,6 +74,7 @@
     "sockjs-client": "^1.5.1",
     "stomp": "^0.1.1",
     "styled-components": "^4.4.1",
+    "use-debounce": "^7.0.0",
     "yup": "^0.27.0"
   },
   "scripts": {
