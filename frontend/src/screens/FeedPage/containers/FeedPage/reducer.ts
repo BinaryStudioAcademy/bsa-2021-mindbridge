@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { addMorePostsRoutine, fetchDataRoutine } from '@screens/FeedPage/routines';
+import { addMorePostsRoutine, disLikePostRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import { isEmptyArray } from 'formik';
@@ -42,5 +42,41 @@ export const feedPageReducer = createReducer(initialState, {
   },
   [addMorePostsRoutine.TRIGGER]: state => {
     state.loadMore = true;
+  },
+  [likePostRoutine.SUCCESS]: (state, action) => {
+    // state.posts.map(post => (post.id !== action.payload.postId ? post : post
+    // ));
+    const { response } = action.payload;
+    const post = state.posts.find(p => p.id === action.payload.postId);
+    if (action.payload.reactionStatus === true) {
+      if (response === null || response.isFirstReaction === true) {
+        post.likesCount += action.payload.likeQuantity;
+        post.postRating += action.payload.likeQuantity;
+      } else {
+        post.disLikesCount -= 1;
+        post.postRating += 1;
+        post.postRating += action.payload.likeQuantity;
+        post.likesCount += action.payload.likeQuantity;
+      }
+    } else if (response === null || response.isFirstReaction === true) {
+      post.disLikesCount += action.payload.likeQuantity;
+      post.postRating -= action.payload.likeQuantity;
+    } else {
+      post.likesCount -= 1;
+      post.postRating -= 1;
+      post.disLikesCount += action.payload.likeQuantity;
+      post.postRating -= action.payload.likeQuantity;
+    }
+  },
+  [disLikePostRoutine.SUCCESS]: (state, action) => {
+    // const { disLikeResponse } = action.payload;
+    // if (disLikeResponse === null || response.isFirstReaction === true) {
+    //   const p = state.posts.find(post => post.id === action.payload.postId);
+    //   p.disLikesCount += action.payload.likeQuantity;
+    // } else {
+    //   const p = state.posts.find(post => post.id === action.payload.postId);
+    //   p.likesCount -= 1;
+    //   p.disLikesCount += action.payload.likeQuantity;
+    // }
   }
 });

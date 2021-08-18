@@ -76,7 +76,7 @@ const Header: React.FC<IHeaderProps> = (
 
   const debounced = useDebouncedCallback(value => {
     searchPostsByElastic(value);
-  }, 1000);
+  }, 400);
 
   const handleInputContent = (event: any) => {
     debounced(event.target.value);
@@ -84,6 +84,12 @@ const Header: React.FC<IHeaderProps> = (
     if (event.target.value) {
       setIsSearchInputFilled(true);
     } else {
+      setIsSearchInputFilled(false);
+    }
+  };
+
+  const handleBlur = (event: any) => {
+    if (!event.relatedTarget) {
       setIsSearchInputFilled(false);
     }
   };
@@ -112,8 +118,13 @@ const Header: React.FC<IHeaderProps> = (
           <BellSvg />
           <NotificationCount notificationCount={notificationCount} />
         </button>
-        <div className={styles.search_input}>
-          <input type="text" placeholder="Search..." onChange={handleInputContent} value={elasticContent} />
+        <div className={styles.search_input} onBlur={handleBlur}>
+          <input
+            type="text"
+            placeholder="Search..."
+            onChange={handleInputContent}
+            value={elasticContent}
+          />
           <button type="button" className={styles.close_image} onClick={handleLinkClick}>✖</button>
           <button type="button">
             <SearchSvg />

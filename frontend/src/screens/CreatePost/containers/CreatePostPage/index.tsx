@@ -22,6 +22,7 @@ import {
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
+import HistorySidebar from '@components/PostHistorySidebar';
 
 export interface ICreatePostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -242,7 +243,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
   } else {
     submitButtonName = 'Create pull request';
   }
-
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
@@ -255,10 +255,10 @@ const CreatePost: React.FC<ICreatePostProps> = (
             postNotificationCount={userInfo.profile.postsQuantity}
           />
         </div>
-        {/* We need this component only if we edit post*/}
-        {/* <div className={styles.history_sidebar_container}>*/}
-        {/*  <HistorySidebar history={versionsOfPost} />*/}
-        {/* </div>*/}
+        <div className={styles.history_sidebar_container}>
+          {post && post.author.id === currentUserId
+            && <HistorySidebar history={versionsOfPost} />}
+        </div>
         <form className={styles.create_post_container}>
           <div className={styles.header}>
             {modes.htmlMode
