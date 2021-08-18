@@ -6,8 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public interface PostReactionRepository
 		extends JpaRepository<PostReaction, UUID>, JpaSpecificationExecutor<PostReaction> {
@@ -19,4 +18,6 @@ public interface PostReactionRepository
 			"FROM PostReaction r " +
 			"WHERE r.author.id = :userId AND r.post.id = :postId ")
 	Optional<PostReaction> getPostReaction(@Param("userId") UUID userId, @Param("postId") UUID postId);
+
+	List<PostReaction> getPostReactionByAuthorId(UUID id);
 }

@@ -20,14 +20,13 @@ const RatingComponent: FunctionComponent<IRatingIconProps> = ({ postRating, hand
       <svg
         onClick={likePost}
         className={styles.arrowUp}
-        width="15"
+        width="10"
         height="5"
         viewBox="0 0 10 5"
-        fill="none"
-        stroke="#66B9FF"
+        fill="#66B9FF"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path fill="none" fillRule="evenodd" clipRule="evenodd" d="M10 5L5 -4.37114e-07L0 5L10 5Z" />
+        <path fill="#66B9FF" fillRule="evenodd" clipRule="evenodd" d="M10 5L5 -4.37114e-07L0 5L10 5Z" />
       </svg>
       <div className={styles.ratingNumber}>
         <span>{postRating}</span>
