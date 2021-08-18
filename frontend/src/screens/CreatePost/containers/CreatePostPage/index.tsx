@@ -251,6 +251,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
       <div className={styles.form_and_sidebar_container}>
         <div className={styles.profile_sidebar_container}>
           <ProfileSidebar
+            id={userInfo.profile.id}
             userName={userInfo.profile.fullName}
             avatar={userInfo.profile.avatar}
             folloversCount={userInfo.profile.followersQuantity}

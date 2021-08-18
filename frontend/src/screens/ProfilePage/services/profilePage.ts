@@ -15,6 +15,20 @@ const profilePageService = {
     );
     return response;
   },
+  sendChangePasswordForm: async ({ endpoint, payload }) => {
+    const response = await api.post(
+      `/api/user/update/password/${endpoint}`,
+      { data: payload }
+    );
+    return response;
+  },
+  sendPassword: async ({ endpoint, payload }) => {
+    const response = await api.post(
+      `/api/user/check/password/${endpoint}`,
+      { data: payload }
+    );
+    return response;
+  },
   sendAvatar: async ({ endpoint, payload }) => {
     const response = await api.post(
       `/api/image/${endpoint}`,

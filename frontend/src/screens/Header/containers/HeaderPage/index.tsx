@@ -12,8 +12,6 @@ import { extractData } from '@screens/Header/reducers';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
-import LogOutSvg from '@screens/Header/containers/HeaderPage/svg/logOutSvg';
-import { handleOnClickSignOut } from '@helpers/signOut.helper';
 
 export interface IHeaderProps extends IState, IActions {
   isAuthorized: boolean;
@@ -94,13 +92,6 @@ const Header: React.FC<IHeaderProps> = (
           onClick={() => handleCreatePostButton()}
           content="Create post"
         />
-        {isAuthorized
-          ? (
-            <button className={styles.header_notification} type="button" onClick={handleOnClickSignOut}>
-              <LogOutSvg />
-            </button>
-          )
-          : null}
       </div>
     </div>
   );
