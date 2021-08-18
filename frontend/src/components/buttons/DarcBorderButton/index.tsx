@@ -1,20 +1,21 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
+import { Button, ButtonProps } from 'semantic-ui-react';
 
 // eslint-disable-next-line max-len
-interface IFormButtonProps extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+interface IFormButtonProps extends ButtonProps {
   content: any;
 }
 
-const DarkBorderButton = ({ className, content, ...props }: IFormButtonProps) => (
-  <button
+const DarkBorderButton = ({ className, content, loading, ...props }: IFormButtonProps) => (
+  <Button
     type="button"
-    className={classNames(styles.button, className)}
+    className={classNames(styles.dark_border_button, className)}
+    content={content}
+    loading={loading}
     {...props}
-  >
-    {content}
-  </button>
+  />
 );
 
 export default DarkBorderButton;

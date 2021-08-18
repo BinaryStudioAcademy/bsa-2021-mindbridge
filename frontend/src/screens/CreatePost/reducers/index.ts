@@ -6,11 +6,12 @@ import { createPostReducer } from '@screens/CreatePost/containers/CreatePostPage
 import {
   sendPostRoutine, sendImageRoutine, resetLoadingImageRoutine,
   fetchUserProfileRoutine, fetchTagsRoutine, fetchPostRoutine, sendPRRoutine,
-  getPostVersionsRoutine, editPostRoutine
+  getPostVersionsRoutine, editPostRoutine, resetImageTagRoutine
 } from '@screens/CreatePost/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
+  resetImageTagRequest: reducerCreator([resetImageTagRoutine.TRIGGER]),
   fetchTagsRequest: reducerCreator([fetchTagsRoutine.TRIGGER]),
   resetLoadingImageRequest: reducerCreator([resetLoadingImageRoutine.TRIGGER]),
   sendPostRequest: reducerCreator([sendPostRoutine.TRIGGER]),
@@ -31,6 +32,8 @@ const reqs = (state: RootState) => state.createPostReducer.requests;
 const data = (state: RootState) => state.createPostReducer.data;
 
 /* PlopJS request_extractor placeholder. Do not remove */
+export const extractResetImageTagLoading = state => reqs(state).resetImageTagRequest.loading;
+export const extractResetImageTagError = state => reqs(state).resetImageTagRequest.error;
 export const extractFetchTagsLoading = state => reqs(state).fetchTagsRequest.loading;
 export const extractFetchTagsError = state => reqs(state).fetchTagsRequest.error;
 export const extractResetLoadingImageLoading = state => reqs(state).resetLoadingImageRequest.loading;

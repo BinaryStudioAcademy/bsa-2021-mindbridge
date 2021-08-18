@@ -69,10 +69,23 @@
 }
 
 .cardHeader {
+  font-family: Lato, serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 1em;
+  line-height: 1.2em;
   display: flex;
   justify-content: space-between;
   margin-left: 1em;
   padding-right: 1em;
+}
+
+.postName {
+  font-family: Libre Baskerville, serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 1.5em;
+  line-height: 1.86em;
 }
 
 .leftSide {
@@ -92,7 +105,10 @@
   display: flex;
   p {
     font-family: Lato, sans-serif;
-    font-size: 0.85rem;
+    font-size: 1em;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 0.9em;
     color: rgba(53, 53, 53, 0.5);
     padding-left: 0.3em;
   }
@@ -111,8 +127,11 @@
 .post_content {
   padding-top: 0.8rem;
   font-family: Lato, serif !important;
-  font-size: 0.85rem !important;
-  color: rgba(32, 10, 10, 0.5) !important;
+  font-size: 1em !important;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.05em;
+  color: #353535 !important;
   word-wrap: break-word;
   max-height: 4.4rem;
   overflow: hidden;
@@ -121,8 +140,8 @@
   padding-bottom: 4rem;
   *{
     font-family: Lato, serif !important;
-    font-size: 0.85rem !important;
-    color: rgba(32, 10, 10, 0.5) !important;
+    font-size: 1em !important;
+    color: #353535 !important;
     text-overflow: ellipsis;
   }
   img {

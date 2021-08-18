@@ -7,7 +7,6 @@ export interface IForm {
   content: string;
   tags: string[];
   editedTag: string;
-
 }
 
 export interface IModes {
