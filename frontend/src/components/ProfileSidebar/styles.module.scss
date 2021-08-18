@@ -147,11 +147,10 @@
 :global(.ui.floating.dropdown>.menu) {
   top: 0;
   left: 3em;
-  width: 10em;
 }
 
-:global(.ui.menu.transition.visible) {
-  border: none;
+:global(.menu.transition.visible) {
+  border: none !important;
 }
 
 :global(.ui.button.labeled.dropdown) {

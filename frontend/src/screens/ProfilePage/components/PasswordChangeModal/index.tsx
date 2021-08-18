@@ -63,6 +63,7 @@ const PasswordChangeModal: FunctionComponent<IPasswordChangeModalProps> = ({
     if (modalData.isPasswordChangeModalOpen === false) {
       setPasswordChangeForm(initialData);
       setValidationData(validationInitialState);
+      setInputTypes(initialInputTypes);
     }
   }, [modalData.isPasswordChangeModalOpen]);
 

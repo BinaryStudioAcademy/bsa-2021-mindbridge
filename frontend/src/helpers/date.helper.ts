@@ -1,25 +1,25 @@
+import moment from 'moment/moment';
+
 export function getHowLong(date: string) {
-  const currentDate = new Date().getTime();
-  const timeOfAccountCreation = new Date(date);
+  const starts = moment(date);
+  const ends = moment();
 
-  const diff = Math.floor(currentDate - timeOfAccountCreation.getTime());
+  const duration = moment.duration(ends.diff(starts));
 
-  const day = 1000 * 60 * 60 * 24;
-
-  const days = Math.floor(diff / day);
-  const months = Math.floor(days / 31);
-  const years = Math.floor(months / 12);
+  const years = duration.years();
+  const months = duration.months();
+  const days = duration.days();
 
   let message = 'on the MindBridge ';
-  switch (days) {
+
+  switch (years) {
     case 0:
-      message += 'less than 1 day ';
       break;
     case 1:
-      message += `${days} day `;
+      message += `${years} year `;
       break;
     default:
-      message += `${days} days `;
+      message += `${years} years `;
   }
 
   switch (months) {
@@ -32,14 +32,17 @@ export function getHowLong(date: string) {
       message += `${months} months `;
   }
 
-  switch (years) {
+  switch (days) {
     case 0:
+      if (months === 0 && years === 0) {
+        message += 'less than 1 day ';
+      }
       break;
     case 1:
-      message += `${years} year `;
+      message += `${days} day `;
       break;
     default:
-      message += `${years} years `;
+      message += `${days} days `;
   }
 
   return message;

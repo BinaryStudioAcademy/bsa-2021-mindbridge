@@ -63,8 +63,8 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
           button
         >
           <Dropdown.Menu>
-            <Dropdown.Item icon="user circle" text="Profile" onClick={handleProfileButton} />
-            <Dropdown.Item icon="log out" text="Log out" onClick={handleOnClickSignOut} />
+            <Dropdown.Item icon="user circle" text="Edit profile" onClick={handleProfileButton} />
+            <Dropdown.Item icon="log out" text="Sign out" onClick={handleOnClickSignOut} />
           </Dropdown.Menu>
         </Dropdown>
       </div>
