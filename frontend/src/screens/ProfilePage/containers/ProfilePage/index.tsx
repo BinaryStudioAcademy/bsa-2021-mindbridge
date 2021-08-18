@@ -64,7 +64,6 @@ const ProfilePage: React.FC<IProfilePageProps> = (
 ) => {
   const location = useLocation();
   const currentId = location.pathname.substring(6, location.pathname.length);
-  console.log(location);
   return (
     <div>
       { initialData.id !== '' ? (

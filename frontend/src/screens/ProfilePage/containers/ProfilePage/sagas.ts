@@ -61,9 +61,8 @@ function* sendPassword(action) {
 function* sendChangePasswordForm(action) {
   try {
     const isPasswordRight = yield sendPassword(action);
-    console.log(isPasswordRight);
     if (isPasswordRight) {
-      const response = yield call(profilePageService.sendChangePasswordForm, { endpoint: action.payload.id, payload: action.payload.newPassword });
+      yield call(profilePageService.sendChangePasswordForm, { endpoint: action.payload.id, payload: action.payload.newPassword });
       yield put(sendChangePasswordFormRoutine.success(isPasswordRight));
       yield put(openPasswordChangeModalRoutine.success());
       toastr.success('Success', 'Password changed successfully!');

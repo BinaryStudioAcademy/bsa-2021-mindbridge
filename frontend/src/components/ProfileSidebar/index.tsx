@@ -11,7 +11,6 @@ import ContributorsSvg from './svg/contributors';
 import { Link, useHistory } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import { handleOnClickSignOut } from '@helpers/signOut.helper';
-import LogOutSvg from '@screens/Header/containers/HeaderPage/svg/logOutSvg';
 
 export interface IProfileSidebarProps {
 }
