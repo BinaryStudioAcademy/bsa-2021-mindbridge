@@ -15,6 +15,7 @@ import { Popup } from 'semantic-ui-react';
 interface ICreatePostFormProps {
   form: IForm;
   modes: IModes;
+  isCreateForm: boolean;
   setForm: any;
   sendImage: any;
   allTags: [any];
@@ -36,7 +37,7 @@ const checkImageSize = file => {
 };
 
 const CreatePostForm: React.FC<ICreatePostFormProps> = (
-  { form, setForm, sendImage, allTags, imageTag, modes, resetImageTag }
+  { form, setForm, sendImage, allTags, imageTag, modes, resetImageTag, isCreateForm }
 ) => {
   const { getRootProps } = useDropzone({
     disabled: imageTag.preloader,
@@ -132,25 +133,40 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
   }
   return (
     <div {...getRootProps({ className: 'dropzone' })} className={styles.create_post_form}>
-      <label className={styles.file_input_rectangle} htmlFor="image-input-1" onChange={handelCoverFile}>
-        <CoverImageSvg />
-        {!form.coverImage.title
-          ? <span>Add a cover image</span>
-          : (
-            <div>
-              <span>{form.coverImage.title}</span>
-              {form.coverImage.title !== 'loading...'
+      { isCreateForm ? (
+        <label className={styles.file_input_rectangle} htmlFor="image-input-1" onChange={handelCoverFile}>
+          <CoverImageSvg />
+          {!form.coverImage.title
+            ? <span>Add a cover image</span>
+            : (
+              <div>
+                <span>{form.coverImage.title}</span>
+                {form.coverImage.title !== 'loading...'
                 && <button type="button" className={styles.close_image} onClick={closeCoverImage}>✖</button>}
-            </div>
-          )}
-        <input
-          id="image-input-1"
-          disabled={form.coverImage.title !== ''}
-          className={styles.invisible}
-          type="file"
-          accept="image/*"
+              </div>
+            )}
+          <input
+            id="image-input-1"
+            disabled={form.coverImage.title !== ''}
+            className={styles.invisible}
+            type="file"
+            accept="image/*"
+          />
+        </label>
+      ) : (
+        <Popup
+          trigger={(
+            // eslint-disable-next-line jsx-a11y/label-has-associated-control
+            <label className={styles.file_input_rectangle} style={{ cursor: 'not-allowed' }}>
+              <CoverImageSvg />
+              <span>Add a cover image</span>
+            </label>
+        )}
+          content="You can't add a cover image when post was created"
+          on="hover"
+          position="left center"
         />
-      </label>
+      )}
       <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
       <div className={styles.content_input_container}>
         <textarea

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './styles.module.scss';
 import SuggestChangesBtn from '@screens/ViewPost/components/Button/SuggestChangesBtn';
 
-function SuggestChangesCard() {
+function SuggestChangesCard({ postId }) {
   return (
     <div className={styles.back}>
       <span className={styles.title}>
@@ -11,7 +11,7 @@ function SuggestChangesCard() {
       <span className={styles.description}>
         The author will consider your proposal and give an answer soon.
       </span>
-      <SuggestChangesBtn />
+      <SuggestChangesBtn postId={postId} />
     </div>
   );
 }
