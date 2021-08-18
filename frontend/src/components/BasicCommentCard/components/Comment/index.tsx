@@ -4,18 +4,17 @@ import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import React, { FunctionComponent } from 'react';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
-import { IComment } from '@screens/ViewPost/models/IComment';
 
 interface IBasicCommentProps {
   createdAt: string;
   text: string;
   author: IUser;
-  commentData: IComment[];
+
 }
 
-const BasicComment: FunctionComponent<IBasicCommentProps> = ({ commentData, createdAt, text, author }) => (
-  <div className="comment">
-    <div className={styles.commentInfo}>
+const BasicComment: FunctionComponent<IBasicCommentProps> = ({ createdAt, text, author }) => (
+  <div className={styles.basicComment}>
+    <div className={styles.commentAuthor}>
       <a href="/" className="avatar">
         <img alt="avatar" src="https://i.imgur.com/LaWyPZF.png" />
       </a>
@@ -34,7 +33,7 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({ commentData, crea
         { text }
       </div>
       <div className="actions">
-        <DarkBorderButton className={styles.btnReplay} content="Replay" />
+        <DarkBorderButton className={styles.btnReplay} content="Reply" />
       </div>
     </div>
   </div>
