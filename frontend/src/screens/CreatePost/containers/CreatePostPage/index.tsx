@@ -5,14 +5,10 @@ import { connect } from 'react-redux';
 import ProfileSidebar from '@root/components/ProfileSidebar';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
-import EditSvgPart1 from './svg/editSvgPart1';
-import EditSvgPart2 from './svg/editSvgPart2';
-import ViewSvg from './svg/viewSvg';
 import BlueButton from '@root/components/buttons/Blue_button';
 import ColorlessButton from '@root/components/buttons/ColorlessButton';
 import DarkButton from '@root/components/buttons/DarcButton';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
-import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import {
   sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine,
@@ -20,6 +16,10 @@ import {
 } from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
+import EditSvgPart1 from '@screens/CreatePost/containers/CreatePostPage/svg/editSvgPart1';
+import EditSvgPart2 from '@screens/CreatePost/containers/CreatePostPage/svg/editSvgPart2';
+import ViewSvg from '@screens/CreatePost/containers/CreatePostPage/svg/viewSvg';
+import PostPreview from '@components/PostPreview';
 
 export interface ICreatePostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -35,6 +35,7 @@ interface IState {
   userInfo: IStateProfile;
   allTags: [any];
   currentUserId: string;
+  isLoading: boolean;
   preloader: {
     publishButton: boolean;
     draftButton: boolean;
@@ -63,6 +64,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     savingImage,
     userInfo,
     allTags,
+    isLoading,
     currentUserId,
     fetchData,
     fetchTags,
@@ -94,6 +96,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     }
     fetchTags();
   }, [currentUserId, fetchTags]);
+
   useEffect(() => {
     if (savingImage.isLoaded) {
       if (!savingImage.isInContent) {
@@ -165,6 +168,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
       <div className={styles.form_and_sidebar_container}>
         <div className={styles.profile_sidebar_container}>
           <ProfileSidebar
+            id={userInfo.profile.id}
             userName={userInfo.profile.fullName}
             avatar={userInfo.profile.avatar}
             folloversCount={userInfo.profile.followersQuantity}
@@ -172,10 +176,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
             postNotificationCount={userInfo.profile.postsQuantity}
           />
         </div>
-        {/* We need this component only if we edit post*/}
-        {/* <div className={styles.history_sidebar_container}>*/}
-        {/*  <HistorySidebar history={versionsOfPost} />*/}
-        {/* </div>*/}
         <form className={styles.create_post_container}>
           <div className={styles.header}>
             {modes.htmlMode
@@ -198,7 +198,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
                       <EditSvgPart1 />
                       <EditSvgPart2 />
                     </div>
-                  )}
+                )}
                   onClick={changeEditViewMode}
                   className={styles.edit_button}
                 />
@@ -269,6 +269,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
 const mapStateToProps: (state) => IState = state => ({
   savingImage: state.createPostReducer.data.savingImage,
   userInfo: extractData(state),
+  isLoading: state.createPostReducer.data.postLoading,
   allTags: state.createPostReducer.data.allTags,
   isAuthorized: state.auth.auth.isAuthorized,
   currentUserId: state.auth.auth.user.id,

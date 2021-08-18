@@ -39,7 +39,7 @@ const ViewPost: React.FC<IViewPostProps> = (
   useEffect(() => {
     fetchData(id);
     fetchUserProfile(currentUser.id);
-  }, [0, currentUser]);
+  }, [id, currentUser]);
 
   return (
     <div className={styles.viewPost}>
@@ -52,6 +52,7 @@ const ViewPost: React.FC<IViewPostProps> = (
             <div className={styles.suggestChanges}>
               <div className={styles.profileSideBar}>
                 <ProfileSidebar
+                  id={userInfo.id}
                   userName={userInfo.fullName}
                   avatar={userInfo.avatar}
                   folloversCount={userInfo.followersQuantity}
@@ -59,7 +60,10 @@ const ViewPost: React.FC<IViewPostProps> = (
                   postNotificationCount={userInfo.postsQuantity}
                 />
               </div>
-              <SuggestChangesCard postId={data.post.id} />
+              <SuggestChangesCard
+                postId={data.post.id}
+                isAuthor={data.post.author.id === currentUser.id}
+              />
               <div className={styles.tagsSideBar}>
                 <FeedTagsSideBar />
               </div>

@@ -8,12 +8,21 @@ import FavoritesSvg from './svg/favorites';
 import HighlightsSvg from './svg/highlightsSvg';
 import PostsSvg from './svg/posts';
 import ContributorsSvg from './svg/contributors';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { Dropdown } from 'semantic-ui-react';
+import { handleOnClickSignOut } from '@helpers/signOut.helper';
 
 export interface IProfileSidebarProps {
 }
 
-function ProfileSidebar({ avatar, userName, folloversCount, rating, postNotificationCount }) {
+function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNotificationCount }) {
+  const history = useHistory();
+
+  const handleProfileButton = () => {
+    history.push(`/user/${id}`);
+    history.go();
+  };
+
   return (
     <div className={styles.profile_sidebar_container}>
       <div className={styles.top_group}>
@@ -46,9 +55,17 @@ function ProfileSidebar({ avatar, userName, folloversCount, rating, postNotifica
             </div>
           </button>
         </div>
-        <button type="button" className={styles.settings_button}>
-          <SettingsSvg />
-        </button>
+        <Dropdown
+          icon={<SettingsSvg />}
+          floating
+          labeled
+          button
+        >
+          <Dropdown.Menu>
+            <Dropdown.Item icon="user circle" text="Edit profile" onClick={handleProfileButton} />
+            <Dropdown.Item icon="log out" text="Sign out" onClick={handleOnClickSignOut} />
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
       <div className={styles.sidebar_links}>
         <Link to="/">

@@ -1,0 +1,27 @@
+@import "src/styles/common";
+@import "src/screens/ProfilePage/components/ProfileCard/styles.module";
+
+:global(.ui.active.loader).buttonLoader {
+  position: relative;
+  transform: translateX(-50%) translateY(0%);
+  margin: 0.3em 0 0.3em 0;
+}
+
+.passwordWrapper {
+  display: grid;
+  grid-template-columns: 6fr 1fr;
+
+  button {
+    height: 3em;
+  }
+
+  input {
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+}
+
+:global(.ui.right.center.popup) {
+  top: -0.5em !important;
+  left: 5em !important;
+}
