@@ -1,4 +1,4 @@
-import { fetchPrRoutine } from './../../routines/index';
+import { fetchPrRoutine } from '../../routines/index';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPostPR } from '../../models/IPostPR';
 
@@ -7,25 +7,27 @@ export interface IPullRequestReducerState {
 }
 
 const initialState: IPullRequestReducerState = {
-  postPR:{
-  closed: false,
-  contributor: { id: '', nickname: '', avatar: ''},
-  coverImage: '',
-  createdAt: '',
-  deleted: false,
-  id: '',
-  markdown: false,
-  post: {
-    author: { id: '', nickname: '', avatar: '' },
+  postPR: {
+    closed: false,
+    contributor: { id: '', nickname: '', avatar: '' },
     coverImage: '',
+    createdAt: '',
+    deleted: false,
     id: '',
     markdown: false,
+    post: {
+      author: { id: '', nickname: '', avatar: '' },
+      coverImage: '',
+      id: '',
+      markdown: false,
+      text: '',
+      title: '',
+      tags: []
+    },
     text: '',
     title: '',
-  },
-  text: '',
-  title: '',
-  updatedAt: ''
+    updatedAt: '',
+    tags:[]
   }
 };
 

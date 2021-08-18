@@ -7,7 +7,7 @@ import { fetchPrRoutine } from '@screens/PullRequest/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
-  fetchPrRequest: reducerCreator([fetchPrRoutine.TRIGGER]),
+  fetchPrRequest: reducerCreator([fetchPrRoutine.TRIGGER])
 });
 
 export default combineReducers({

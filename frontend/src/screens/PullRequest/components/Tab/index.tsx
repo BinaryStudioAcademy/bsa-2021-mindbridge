@@ -11,22 +11,25 @@ interface ITabProps {
   diffContent: any;
 }
 
-const Tab = ({ className, previewContent, diffContent  }: ITabProps) => {
-  
-const [preview, setPreview] = useState(false);
-const setMode = () =>{
-  setPreview(!preview)
-}
+const Tab = ({ className, previewContent, diffContent }: ITabProps) => {
+  const [preview, setPreview] = useState(false);
+  const setMode = () => {
+    setPreview(!preview);
+  };
 
-return (
-  <div className={classNames(styles.tab, className)}>
-    <div className={styles.buttons}>
-      <ColorlessButton className={classNames(styles.diffButton, !preview && styles.active)} onClick={setMode} content="See difference" />
-      <ColorlessButton className={preview && styles.active} onClick={setMode} content={<ViewSvg />} />
+  return (
+    <div className={classNames(styles.tab, className)}>
+      <div className={styles.buttons}>
+        <ColorlessButton
+          className={classNames(styles.diffButton, !preview && styles.active)}
+          onClick={setMode}
+          content="See difference"
+        />
+        <ColorlessButton className={preview && styles.active} onClick={setMode} content={<ViewSvg />} />
+      </div>
+      { preview ? previewContent : diffContent }
     </div>
-    { preview ? previewContent : diffContent }
-  </div>
-);
-}
+  );
+};
 
 export default Tab;

@@ -7,11 +7,11 @@
 .buttons{
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-end;
   padding-top: 0.8rem;
   padding-bottom: 0.8rem;
   button{
-    margin-right: 0.5rem;
+    margin-left: 0.5rem;
     font-size: 0.9rem;
     font-weight: 600;
     font-family: Lato;

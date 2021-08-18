@@ -5,7 +5,7 @@ import { diffWords } from 'diff';
 interface ITextDiffProps {
   oldText: string;
   newText: string;
-  className: string
+  className: string;
 }
 
 const TextDiff: React.FC<ITextDiffProps> = ({ oldText, newText, className }) => {
