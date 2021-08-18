@@ -12,6 +12,7 @@ import Tab from '../../components/Tab';
 import Preview from '../../components/Preview';
 import AuthorAndDate from '../../components/AuthorAndDate';
 import TitleDiff from '../../components/TitleDiff';
+import TagsDiff from '../../components/TagsDiff';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -54,9 +55,8 @@ const PullRequest: React.FC<IPullRequestProps> = (
         date={postPR.createdAt}
       />
       <TitleDiff oldTitle={postPR.post.title} newTitle={postPR.title} />
+      <TagsDiff oldTags={postPR.post.tags} newTags={postPR.tags} />
       <TextDiff className={styles.text_diff} oldText={postPR.post.text} newText={postPR.text} />
-      <div> New Tags </div>
-      <div> old tags </div>
     </div>
   );
 
