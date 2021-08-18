@@ -27,4 +27,4 @@ const Reply: FunctionComponent<ICommentProps> = ({ author, createdAt, text, repl
   </div>
 );
 
-export default CommentWithReplay;
+export default Reply;

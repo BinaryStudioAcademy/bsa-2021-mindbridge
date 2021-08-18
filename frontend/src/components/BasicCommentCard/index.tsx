@@ -32,4 +32,4 @@ const CommentsFeed: FunctionComponent<ICommentProps> = ({ comments }) => (
   </div>
 );
 
-export default CommentCard;
+export default CommentsFeed;
