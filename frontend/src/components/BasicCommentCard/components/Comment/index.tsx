@@ -1,6 +1,5 @@
 import styles from './styles.module.scss';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
-import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import React, { FunctionComponent } from 'react';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';

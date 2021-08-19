@@ -12,7 +12,7 @@ interface ICommentProps {
   commentRating: number;
 }
 
-const Reply: FunctionComponent<ICommentProps> = ({ author, createdAt, text, replies, commentRating }) => (
+const Reply: FunctionComponent<ICommentProps> = ({ author, createdAt, text, replies }) => (
   <div className={styles.comment}>
     <BasicComment createdAt={createdAt} text={text} author={author} />
     <div className="comments">
