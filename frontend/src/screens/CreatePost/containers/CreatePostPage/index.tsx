@@ -261,7 +261,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         </div>
         {currentUserId === post?.author?.id && (
           <div className={styles.history_sidebar_container}>
-            <HistorySidebar history={versionsOfPost} />
+            <HistorySidebar history={versionsOfPost} postId={postId} />
           </div>
         )}
         {isLoading ? (

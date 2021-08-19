@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
 import { IPostVersions } from '@screens/PostVersions/models/IPostVersions';
-import LinkSvg from '@components/PostHistorySidebar/svg/link';
 
 export interface IProfileSidebarProps {
   history: IPostVersions[];
@@ -28,7 +27,6 @@ const HistorySidebar: FunctionComponent<IProfileSidebarProps> = ({ history, post
       <div className={styles.title}>
         <Link to={`/post/versions/${postId}`}>
           <span>History of your post</span>
-          <LinkSvg />
         </Link>
       </div>
       <div className={styles.history_links}>

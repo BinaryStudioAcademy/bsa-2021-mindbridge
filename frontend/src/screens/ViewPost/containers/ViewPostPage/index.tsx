@@ -14,12 +14,15 @@ import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
-import { fetchUserProfileRoutine } from '@screens/CreatePost/routines';
+import {fetchUserProfileRoutine, getPostVersionsRoutine} from '@screens/CreatePost/routines';
+import HistorySidebar from "@components/PostHistorySidebar";
+import {IPostVersions} from "@screens/CreatePost/models/IPostVersions";
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
   currentUser: ICurrentUser;
   userInfo: IUserProfile;
+  versionsOfPost: IPostVersions[];
 }
 
 interface IState {
@@ -29,16 +32,27 @@ interface IState {
 interface IActions {
   fetchData: IBindingCallback1<string>;
   fetchUserProfile: IBindingCallback1<string>;
+  getPostVersions: IBindingCallback1<string>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
-  { data, fetchData, isAuthorized, currentUser, fetchUserProfile, userInfo }
+  {
+    data,
+    fetchData,
+    isAuthorized,
+    currentUser,
+    fetchUserProfile,
+    userInfo,
+    getPostVersions,
+    versionsOfPost
+  }
 ) => {
   const { id } = useParams();
 
   useEffect(() => {
     fetchData(id);
     fetchUserProfile(currentUser.id);
+    getPostVersions(id);
   }, [id, currentUser]);
 
   return (
@@ -60,6 +74,11 @@ const ViewPost: React.FC<IViewPostProps> = (
                   postNotificationCount={userInfo.postsQuantity}
                 />
               </div>
+              {currentUser.id === data.post?.author?.id && (
+                <div className={styles.history_sidebar_container}>
+                  <HistorySidebar history={versionsOfPost} postId={id} />
+                </div>
+              )}
               <SuggestChangesCard
                 postId={data.post.id}
                 isAuthor={data.post.author.id === currentUser.id}
@@ -86,11 +105,13 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   data: extractData(state),
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
-  userInfo: state.createPostReducer.data.profile
+  userInfo: state.createPostReducer.data.profile,
+  versionsOfPost: state.createPostReducer.data.versionsOfPost
 });
 
 const mapDispatchToProps: IActions = {
   fetchData: fetchDataRoutine,
+  getPostVersions: getPostVersionsRoutine,
   fetchUserProfile: fetchUserProfileRoutine
 };
 

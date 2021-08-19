@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ProfileSidebar from '@components/ProfileSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
-import { fetchUserProfileRoutine } from '@screens/CreatePost/routines';
+import {fetchUserProfileRoutine, getPostVersionsRoutine} from '@screens/CreatePost/routines';
 import { useParams } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
@@ -12,7 +12,6 @@ import { IPostVersions } from '@screens/PostVersions/models/IPostVersions';
 import { IBindingCallback1, IBindingCallback2 } from '@models/Callbacks';
 import PostVersionItem from '@components/PostVersionItem';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { getPostVersionsRoutine } from '@screens/PostVersions/routines';
 
 export interface IPostVersionsProps extends IState, IActions {
 }
@@ -116,8 +115,8 @@ const mapStateToProps: (state) => IState = state => ({
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
   userInfo: state.createPostReducer.data.profile,
-  versionsOfPost: state.postVersionsReducer.data.versionsOfPost,
-  hasMore: state.postVersionsReducer.data.hasMore
+  versionsOfPost: state.createPostReducer.data.versionsOfPost,
+  hasMore: state.createPostReducer.data.hasMore
 });
 
 const mapDispatchToProps: IActions = {
