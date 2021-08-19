@@ -25,6 +25,7 @@ const CommentsFeed: FunctionComponent<ICommentProps> = ({ comments }) => (
             text={comment.text}
             author={comment.author}
             replies={comment.comments}
+            commentRating={comment.rating}
           />
         ))}
       </div>

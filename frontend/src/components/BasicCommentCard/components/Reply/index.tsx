@@ -9,18 +9,20 @@ interface ICommentProps {
   text: string;
   author: IUser;
   replies: IComment[];
+  commentRating: number;
 }
 
-const Reply: FunctionComponent<ICommentProps> = ({ author, createdAt, text, replies }) => (
+const Reply: FunctionComponent<ICommentProps> = ({ author, createdAt, text, replies, commentRating }) => (
   <div className={styles.comment}>
     <BasicComment createdAt={createdAt} text={text} author={author} />
     <div className="comments">
-      {replies.map(e => (
+      {replies.map(comment => (
         <Reply
-          replies={e.comments}
-          author={e.author}
-          createdAt={e.createdAt}
-          text={e.text}
+          replies={comment.comments}
+          author={comment.author}
+          createdAt={comment.createdAt}
+          text={comment.text}
+          commentRating={comment.rating}
         />
       ))}
     </div>

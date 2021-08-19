@@ -1,23 +1,7 @@
 .comment {
   border: 0.125em solid #F8F8F8;
   box-sizing: border-box;
+  margin-bottom: 1em;
   border-radius: 0.625em;
-
-    &:only-child {
-      &:only-child {
-        margin-top: -1em;
-        margin-bottom: -2.6em;
-        border: none;
-        &:last-child {
-          border: none;
-        }
-      }
-    }
-  &:last-child {
-    margin-bottom: -2em;
-  }
 }
 
-:global(.ui.comments .comment .avatar img) {
-  border-radius: 10em !important;
-}

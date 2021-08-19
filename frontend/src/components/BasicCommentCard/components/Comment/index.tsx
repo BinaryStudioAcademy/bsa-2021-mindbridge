@@ -32,9 +32,6 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({ createdAt, text, 
       <div className="text">
         { text }
       </div>
-      <div className="actions">
-        <DarkBorderButton className={styles.btnReplay} content="Reply" />
-      </div>
     </div>
   </div>
 );
