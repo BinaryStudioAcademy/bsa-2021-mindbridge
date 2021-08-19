@@ -1,6 +1,6 @@
 import api from '@helpers/api.helper';
 
-const createPostService = {
+const postPageService = {
   getData: async (id: string) => api.get(`/api/user/${id}`),
   getPostVersions: async () => api.get('/api/post/versions/6dd35066-4b3b-4321-a576-dd249c45603d'),
   sendImage: async (image: FormData) => (
@@ -29,4 +29,4 @@ const createPostService = {
   )
 };
 
-export default createPostService;
+export default postPageService;

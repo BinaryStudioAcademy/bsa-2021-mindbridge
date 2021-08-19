@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
-import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
+import { IPostVersions } from '@screens/PostPage/models/IPostVersions';
 
 export interface IProfileSidebarProps {
   history: IPostVersions[];

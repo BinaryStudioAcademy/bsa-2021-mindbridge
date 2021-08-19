@@ -1,4 +1,4 @@
-@import "../../../../styles/common.sass";
+@import "src/styles/common";
 
 .container {
     height: 100vh;
@@ -46,14 +46,31 @@
         font-weight: 600;
         height: 2.36rem;
     }
+
     .html_button{
         grid-column: 1/2;
         margin-right: 18%;
     }
-    .markdown_button{
-        grid-column: 2/3;
-        width: 6rem;
+
+    .disabled_html_button{
+      cursor: not-allowed;
+      background-color: #f8f8f8;
+      grid-column: 1/2;
+      margin-right: 18%;
     }
+
+    .markdown_button{
+      grid-column: 2/3;
+      width: 6rem;
+    }
+
+    .disabled_markdown_button{
+      cursor: not-allowed;
+      background-color: #f8f8f8;
+      grid-column: 1/2;
+      margin-right: 18%;
+    }
+
     .edit_button{
         grid-column: 4/5;
         width: 2.36rem;
@@ -66,13 +83,13 @@
             grid-template-rows: 1fr;
             svg{
                 grid-row: 1/2;
-                grid-column: 1/2; 
+                grid-column: 1/2;
             }
             :last-child{
                 margin-left: 4px;
-            }  
+            }
         }
-        
+
     }
     .view_button{
         grid-column: 5/6;

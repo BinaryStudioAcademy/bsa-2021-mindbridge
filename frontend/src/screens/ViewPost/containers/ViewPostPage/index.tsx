@@ -13,8 +13,8 @@ import { IData } from '@screens/ViewPost/models/IData';
 import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
-import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
-import { fetchUserProfileRoutine } from '@screens/CreatePost/routines';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -86,7 +86,7 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   data: extractData(state),
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
-  userInfo: state.createPostReducer.data.profile
+  userInfo: state.postPageReducer.data.profile
 });
 
 const mapDispatchToProps: IActions = {

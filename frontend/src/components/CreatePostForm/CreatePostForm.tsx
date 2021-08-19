@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import CoverImageSvg from './svg/coverImageSvg';
-import { IForm, IModes } from '@root/screens/CreatePost/models/IData';
+import { IForm, IModes } from '@root/screens/PostPage/models/IData';
 import { useDropzone } from 'react-dropzone';
 import TagsDropdown from '../TagsDropdown';
 import { toastr } from 'react-redux-toastr';

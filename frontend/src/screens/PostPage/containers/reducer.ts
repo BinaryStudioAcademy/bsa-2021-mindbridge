@@ -5,15 +5,15 @@ import { resetImageTagRoutine,
   sendImageRoutine,
   fetchUserProfileRoutine,
   fetchPostRoutine,
-  getPostVersionsRoutine
-} from '../../routines/index';
+  getPostVersionsRoutine, setLoaderRoutine
+} from '../routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
-import { IPost } from '@screens/CreatePost/models/IPost';
-import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import { IPost } from '@screens/PostPage/models/IPost';
+import { IPostVersions } from '@screens/PostPage/models/IPostVersions';
 
-export interface ICreatePostReducerState {
+export interface IPostPageReducerState {
   savingImage: {
     title: string;
     url: string;
@@ -28,14 +28,15 @@ export interface ICreatePostReducerState {
   profile: IUserProfile;
   versionsOfPost: IPostVersions[];
   allTags: [];
-  post?: IPost;
+  post: IPost;
+  postLoading: boolean;
   preloader: {
     publishButton: boolean;
     draftButton: boolean;
   };
 }
 
-const initialState: ICreatePostReducerState = {
+const initialState: IPostPageReducerState = {
   savingImage: {
     title: '',
     url: '',
@@ -57,13 +58,15 @@ const initialState: ICreatePostReducerState = {
   },
   versionsOfPost: [],
   allTags: [],
+  postLoading: false,
+  post: null,
   preloader: {
     publishButton: false,
     draftButton: false
   }
 };
 
-export const createPostReducer = createReducer(initialState, {
+export const postPageReducer = createReducer(initialState, {
   [sendImageRoutine.SUCCESS]: (state, action) => {
     if (state.imageTag.isPresent) {
       state.imageTag = {
@@ -121,6 +124,9 @@ export const createPostReducer = createReducer(initialState, {
   [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersions]>) => {
     state.versionsOfPost = payload;
   },
+  [setLoaderRoutine.SUCCESS]: (state, { payload }) => {
+    state.postLoading = payload.isLoading;
+  },
   [fetchTagsRoutine.SUCCESS]: (state, action) => {
     state.allTags = action.payload;
   },
@@ -139,6 +145,9 @@ export const createPostReducer = createReducer(initialState, {
       draftButton: false
     };
   },
+  [editPostRoutine.SUCCESS]: state => {
+    state.post = initialState.post;
+  },
   [editPostRoutine.TRIGGER]: (state, action) => {
     state.preloader = {
       publishButton: !action.payload.draft,
@@ -150,6 +159,9 @@ export const createPostReducer = createReducer(initialState, {
       publishButton: false,
       draftButton: false
     };
+  },
+  [sendPRRoutine.SUCCESS]: state => {
+    state.post = initialState.post;
   },
   [sendPRRoutine.TRIGGER]: state => {
     state.preloader = {

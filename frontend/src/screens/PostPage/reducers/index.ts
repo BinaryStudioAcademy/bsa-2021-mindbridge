@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
-import { createPostReducer } from '@screens/CreatePost/containers/CreatePostPage/reducer';
+import { postPageReducer } from '@screens/PostPage/containers/reducer';
 /* PlopJS import placeholder. Do not remove */
 import {
   sendPostRoutine, sendImageRoutine, resetLoadingImageRoutine,
   fetchUserProfileRoutine, fetchTagsRoutine, fetchPostRoutine, sendPRRoutine,
   getPostVersionsRoutine, editPostRoutine, resetImageTagRoutine
-} from '@screens/CreatePost/routines';
+} from '@screens/PostPage/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
@@ -25,11 +25,11 @@ const requests = combineReducers({
 
 export default combineReducers({
   requests,
-  data: createPostReducer
+  data: postPageReducer
 });
 
-const reqs = (state: RootState) => state.createPostReducer.requests;
-const data = (state: RootState) => state.createPostReducer.data;
+const reqs = (state: RootState) => state.postPageReducer.requests;
+const data = (state: RootState) => state.postPageReducer.data;
 
 /* PlopJS request_extractor placeholder. Do not remove */
 export const extractResetImageTagLoading = state => reqs(state).resetImageTagRequest.loading;

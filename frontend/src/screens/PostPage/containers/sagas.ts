@@ -5,10 +5,10 @@ import {
   fetchUserProfileRoutine,
   fetchPostRoutine, sendPRRoutine,
   getPostVersionsRoutine, editPostRoutine, setLoaderRoutine
-} from '../../routines/index';
+} from '../routines/index';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
-import createPostService from '@screens/CreatePost/services/createPost';
+import postPageService from '@screens/PostPage/services/PostPage';
 import { Routine } from 'redux-saga-routines';
 import { history } from '@helpers/history.helper';
 
@@ -16,7 +16,7 @@ function* sendImage(action) {
   const formData = new FormData();
   formData.append('file', action.payload.file);
   try {
-    const response = yield call(createPostService.sendImage, formData);
+    const response = yield call(postPageService.sendImage, formData);
     yield put(sendImageRoutine.success(response));
     toastr.success('Success', 'Image was sent!');
   } catch (error) {
@@ -27,7 +27,7 @@ function* sendImage(action) {
 
 function* sendPost(action) {
   try {
-    const response = yield call(createPostService.sendPost, action.payload);
+    const response = yield call(postPageService.sendPost, action.payload);
     yield put(sendPostRoutine.success(response));
     toastr.success('Success', 'Post was sent!');
     history.push(`/post/${response}`);
@@ -49,7 +49,7 @@ function* watchSendPostRequest() {
 
 function* fetchData(id) {
   try {
-    const response = yield call(createPostService.getData, id.payload);
+    const response = yield call(postPageService.getData, id.payload);
     yield put(fetchUserProfileRoutine.success(response));
   } catch (error) {
     yield put(fetchUserProfileRoutine.failure(error?.message));
@@ -58,7 +58,7 @@ function* fetchData(id) {
 
 export function* getPostVersions() {
   try {
-    const response = yield call(createPostService.getPostVersions);
+    const response = yield call(postPageService.getPostVersions);
     yield put(getPostVersionsRoutine.success(response));
   } catch (ex) {
     yield put(getPostVersionsRoutine.failure(ex.message));
@@ -71,7 +71,7 @@ function* watchPostVersions() {
 
 function* fetchTags() {
   try {
-    const response = yield call(createPostService.getTags);
+    const response = yield call(postPageService.getTags);
     const allTags = [];
     response.forEach(element => {
       const tag = { key: element.id, value: element.id, text: element.name };
@@ -95,7 +95,7 @@ function* watchFetchTagsRequest() {
 function* fetchPost({ payload }: Routine<any>) {
   try {
     yield put(setLoaderRoutine.success({ isLoading: true }));
-    const response = yield call(createPostService.getPost, payload);
+    const response = yield call(postPageService.getPost, payload);
     yield put(setLoaderRoutine.success({ isLoading: false }));
 
     yield put(fetchPostRoutine.success(response));
@@ -112,7 +112,7 @@ function* watchFetchPost() {
 
 function* sendPR({ payload }: Routine<any>) {
   try {
-    const response = yield call(createPostService.sendPR, payload);
+    const response = yield call(postPageService.sendPR, payload);
     yield put(sendPRRoutine.success(response));
     toastr.success('Success', 'Pull request has been created');
     history.push(`/post/${payload.postId}`);
@@ -130,7 +130,7 @@ function* watchSendPR() {
 
 function* editPost({ payload }: Routine<any>) {
   try {
-    const response = yield call(createPostService.editPost, payload);
+    const response = yield call(postPageService.editPost, payload);
     yield put(editPostRoutine.success(response));
     toastr.success('Success', 'Post has been edited');
     history.push(`/post/${payload.postId}`);
@@ -146,7 +146,7 @@ function* watchEditPost() {
   yield takeEvery(editPostRoutine.TRIGGER, editPost);
 }
 
-export default function* defaultPageSagas() {
+export default function* defaultPostPageSagas() {
   yield all([
     watchPostVersions(),
     watchSendImageRequest(),

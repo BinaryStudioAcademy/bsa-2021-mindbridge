@@ -13,8 +13,8 @@ import { IPostList } from '@screens/FeedPage/models/IPostList';
 import LoaderWrapper from '@components/LoaderWrapper';
 import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
-import { fetchUserProfileRoutine } from '@screens/CreatePost/routines';
-import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
+import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -125,7 +125,7 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   loadMore: state.feedPageReducer.data.loadMore,
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
-  userInfo: state.createPostReducer.data.profile
+  userInfo: state.postPageReducer.data.profile
 });
 
 const mapDispatchToProps: IActions = {
