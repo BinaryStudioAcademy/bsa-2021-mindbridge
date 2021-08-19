@@ -1,7 +1,7 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import feedPageService from '@screens/FeedPage/services/feedPage';
 import { toastr } from 'react-redux-toastr';
-import {disLikePostRoutine, fetchDataRoutine, likePostRoutine} from '@screens/FeedPage/routines';
+import { disLikePostRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
 
 function* fetchData(filter) {
   try {

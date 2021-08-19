@@ -13,17 +13,16 @@ import styles from './styles.module.scss';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { Link } from 'react-router-dom';
 import TextRenderer from '../TextRenderer';
+import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 
 interface IPostCardProps {
   post: IPost;
   handleLikePost: any;
   handleDisLikePost: any;
+  userInfo: IUserProfile;
 }
 
-const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, handleDisLikePost }) => {
-  const likePost = () => {
-    handleLikePost(post.id);
-  };
+const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, handleDisLikePost, userInfo }) => {
   const disLikePost = () => {
     handleDisLikePost(post.id);
   };
@@ -45,6 +44,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
                 handleLikePost={handleLikePost}
                 handleDisLikePost={handleDisLikePost}
                 postId={post.id}
+                userInfo={userInfo}
               />
               <FavouriteSvg />
             </div>
@@ -82,12 +82,13 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
             <ViewsSvg />
             <p>{7}</p>
           </div>
-          <div role="button" className={styles.icon} onClick={likePost} tabIndex={0}>
+          {}
+          <div role="button" className={styles.icon}>
             <LikeSvg />
             <p>{post.likesCount}</p>
           </div>
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-          <div role="button" className={styles.icon} onClick={disLikePost} tabIndex={0}>
+          <div role="button" className={styles.icon}>
             <DisLikeSvg />
             <p>{post.disLikesCount}</p>
           </div>

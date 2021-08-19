@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 const LikeSvg: FunctionComponent = () => (
-  <svg className="postIcons" width="13" height="13" viewBox="0 0 13 13" fill="#66B9FF" xmlns="http://www.w3.org/2000/svg">
+  <svg className="postIcons" width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M0.947845 13H2.30201C2.82472 13 3.24993 12.5748 3.24993 12.0521V11.8538C4.06893 12.2709 5.92901 13 8.95422
     13H9.82089C11.077 13 12.1425 12.1019 12.3559 10.8647L12.9626 7.34392C13.0915 6.59262 12.884 5.82887 12.3943

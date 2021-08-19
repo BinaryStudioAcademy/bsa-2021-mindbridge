@@ -1,17 +1,19 @@
-import { resetImageTagRoutine,
+import {
+  resetImageTagRoutine,
   editPostRoutine, sendPostRoutine, sendPRRoutine,
   fetchTagsRoutine,
   resetLoadingImageRoutine,
   sendImageRoutine,
   fetchUserProfileRoutine,
   fetchPostRoutine,
-  getPostVersionsRoutine
+  getPostVersionsRoutine, likePostFrontRoutine
 } from '../../routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 import { IPost } from '@screens/CreatePost/models/IPost';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
+import {likePostRoutine} from "@screens/FeedPage/routines";
 
 export interface ICreatePostReducerState {
   savingImage: {
@@ -53,7 +55,8 @@ const initialState: ICreatePostReducerState = {
     avatar: '',
     postsQuantity: 0,
     followersQuantity: 0,
-    rating: 0
+    rating: 0,
+    userReactions: []
   },
   versionsOfPost: [],
   allTags: [],
@@ -169,5 +172,8 @@ export const createPostReducer = createReducer(initialState, {
       url: '',
       preloader: false
     };
+  },
+  [likePostFrontRoutine.TRIGGER]: state => {
+    state.profile.userReactions[0].liked = false;
   }
 });

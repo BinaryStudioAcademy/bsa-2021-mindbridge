@@ -13,7 +13,7 @@ import { IPostList } from '@screens/FeedPage/models/IPostList';
 import LoaderWrapper from '@components/LoaderWrapper';
 import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
-import { fetchUserProfileRoutine } from '@screens/CreatePost/routines';
+import {fetchUserProfileRoutine, likePostFrontRoutine} from '@screens/CreatePost/routines';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 
 export interface IFeedPageProps extends IState, IActions {
@@ -34,6 +34,7 @@ interface IActions {
   likePost: IBindingCallback1<object>;
   fetchUserProfile: IBindingCallback1<string>;
   setLoadMorePosts: IBindingAction;
+  likePostFront: IBindingAction;
 }
 
 const params = {
@@ -43,7 +44,7 @@ const params = {
 
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
-    isAuthorized, currentUser, fetchUserProfile, userInfo, likePost }
+    isAuthorized, currentUser, fetchUserProfile, userInfo, likePost, likePostFront }
 ) => {
   useEffect(() => {
     fetchData(params);
@@ -51,7 +52,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
       fetchUserProfile(currentUser.id);
     }
   }, [currentUser, fetchUserProfile, fetchData]);
-  const dispatch = useDispatch();
   const handleLoadMorePosts = filtersPayload => {
     fetchData(filtersPayload);
   };
@@ -62,6 +62,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
       userId: currentUser.id,
       liked: true
     };
+    likePostFront();
     likePost(post);
   };
 
@@ -104,6 +105,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
                 handleLikePost={handleLikePost}
                 handleDisLikePost={handleDisLikePost}
                 post={post}
+                userInfo={userInfo}
               />
             ))
           ) : (
@@ -152,7 +154,8 @@ const mapDispatchToProps: IActions = {
   fetchData: fetchDataRoutine,
   setLoadMorePosts: addMorePostsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
-  likePost: likePostRoutine
+  likePost: likePostRoutine,
+  likePostFront: likePostFrontRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);
