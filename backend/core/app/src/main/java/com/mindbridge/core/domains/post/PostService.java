@@ -4,6 +4,7 @@ import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
+import com.mindbridge.core.domains.postVersion.dto.PostVersionsListDto;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
@@ -68,11 +69,6 @@ public class PostService {
 		var pageable = PageRequest.of(from / count, count);
 		return postRepository.getAllPosts(pageable).stream()
 				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
-				.collect(Collectors.toList());
-	}
-
-	public List<PostVersionsListDto> getPostVersions(UUID postId) {
-		return postVersionRepository.getPostVersionByPostId(postId).stream().map(PostVersionsListDto::fromEntity)
 				.collect(Collectors.toList());
 	}
 

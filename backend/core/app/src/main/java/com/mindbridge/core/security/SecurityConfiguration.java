@@ -34,6 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			// the project structure
 			.antMatchers(HttpMethod.GET, "/search/**").permitAll()
 			.antMatchers("/post/**").permitAll()
+			.antMatchers("/postVersion/**").permitAll()
 			.antMatchers("/user/**").permitAll()
 			.antMatchers("/ws/**").permitAll()
 			.antMatchers("/swagger-resources/**").permitAll()
