@@ -26,7 +26,7 @@ interface IState {
 
 interface IActions {
   fetchUserProfile: IBindingCallback1<string>;
-  getPostVersions: IBindingCallback2<string, object>;
+  getPostVersions: IBindingCallback1<object>;
 }
 
 const params = {
@@ -48,15 +48,14 @@ const PostVersions: React.FC<IPostVersionsProps> = (
   const { postId } = useParams();
 
   useEffect(() => {
-    getPostVersions(postId, params);
-  }, [postId]);
-
-  useEffect(() => {
     fetchUserProfile(currentUser.id);
+    getPostVersions({ postId, params });
+    const { from, count } = params;
+    params.from = from + count;
   }, [currentUser]);
 
   const getMorePostVersions = () => {
-    getPostVersions(postId, params);
+    getPostVersions({ postId, params });
     const { from, count } = params;
     params.from = from + count;
   };

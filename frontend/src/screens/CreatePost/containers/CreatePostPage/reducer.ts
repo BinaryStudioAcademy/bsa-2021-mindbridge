@@ -13,6 +13,7 @@ import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 import { IPost } from '@screens/CreatePost/models/IPost';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
+import { isEmptyArray } from 'formik';
 
 export interface ICreatePostReducerState {
   savingImage: {
@@ -28,6 +29,7 @@ export interface ICreatePostReducerState {
   };
   profile: IUserProfile;
   versionsOfPost: IPostVersion[];
+  hasMore: boolean;
   allTags: [];
   post: IPost;
   postLoading: boolean;
@@ -58,6 +60,7 @@ const initialState: ICreatePostReducerState = {
     rating: 0
   },
   versionsOfPost: [],
+  hasMore: false,
   allTags: [],
   postLoading: false,
   post: null,
@@ -123,7 +126,8 @@ export const createPostReducer = createReducer(initialState, {
     state.profile = payload;
   },
   [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersion]>) => {
-    state.versionsOfPost = payload;
+    payload.map(version => state.versionsOfPost.push(version));
+    state.hasMore = !isEmptyArray(payload);
   },
   [setLoaderRoutine.SUCCESS]: (state, { payload }) => {
     state.postLoading = payload.isLoading;

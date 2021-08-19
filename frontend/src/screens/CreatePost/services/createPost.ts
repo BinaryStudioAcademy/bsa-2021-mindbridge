@@ -2,7 +2,7 @@ import api from '@helpers/api.helper';
 
 const createPostService = {
   getData: async (id: string) => api.get(`/api/user/${id}`),
-  getPostVersions: async postId => api.get(`/api/postVersion/all/${postId}`),
+  getPostVersions: async (filter: any) => api.get(`/api/postVersion/all/${filter.postId}`, { params: filter.params }),
   sendImage: async (image: FormData) => (
     api.post('/api/image/save',
       {
