@@ -27,7 +27,7 @@ const initialState: IPullRequestReducerState = {
     text: '',
     title: '',
     updatedAt: '',
-    tags:[]
+    tags: []
   }
 };
 

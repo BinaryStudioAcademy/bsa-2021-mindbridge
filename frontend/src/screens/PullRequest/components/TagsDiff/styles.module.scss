@@ -1,12 +1,28 @@
 .old{
   margin-top: 1rem;
+  button{
+    background-color: rgba(248, 248, 248, 1);
+    color: rgba(53, 53, 53, 0.4) !important;
+  }
+  button:hover{
+    color: black !important;
+  }
+}
+
+.new{
+  button{
+    background: #CEE8FE !important;
+    color: black !important;
+  }
 }
 
 .new, .old{
   span{
-    font-size: 1.5rem;
+    display: block;
+    font-size: 1rem;
     font-weight: bold;
-    color: rgba(102, 185, 255, 1);
+    color: rgba(53, 53, 53, 0.4);
     padding-right: 0.7rem;
+    padding-bottom: 0.4rem;
   }
 }

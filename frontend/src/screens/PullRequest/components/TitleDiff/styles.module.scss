@@ -2,8 +2,11 @@
   font-family: Lato;
   div{
     :first-child{
-      color: rgba(102, 185, 255, 1);
-      padding-right: 0.7rem;
+        display: block;
+        font-size: 1rem;
+        font-weight: bold;
+        color: rgba(53, 53, 53, 0.4);
+        padding-bottom: 0.4rem;
     }
   }
 }

@@ -10,33 +10,30 @@ interface IPreviewProps {
   className?: string;
   coverImage: string;
   title: any;
-  tags: ITag [],
-  markdown: boolean,
-  text: string
+  tags: ITag [];
+  markdown: boolean;
+  text: string;
 }
 
-const Preview = ({ coverImage, title, tags, markdown, text, className }: IPreviewProps) => {
-
-  return (
-    <div className={classNames(className, styles.post_preview_container)}>
-      {coverImage
+const Preview = ({ coverImage, title, tags, markdown, text, className }: IPreviewProps) => (
+  <div className={classNames(className, styles.post_preview_container)}>
+    {coverImage
         && <img className={styles.coverImage} src={coverImage} alt="cover" />}
-      <div className={styles.title}>{title}</div>
-      <div className={styles.btnWrapper}>
-        {tags && tags.map(tag => (
-          <TagsMenu
-            key={tag.id}
-            tag={tag.name}
-          />
-        ))}
-      </div>
-      <TextRender
-        className={styles.content}
-        markdown={markdown}
-        content={text}
-      />
+    <div className={styles.title}>{title}</div>
+    <div className={styles.btnWrapper}>
+      {tags && tags.map(tag => (
+        <TagsMenu
+          key={tag.id}
+          tag={tag.name}
+        />
+      ))}
     </div>
-  )
-}
+    <TextRender
+      className={styles.content}
+      markdown={markdown}
+      content={text}
+    />
+  </div>
+);
 
 export default Preview;

@@ -23,10 +23,10 @@ export interface IPostPR {
     markdown: boolean;
     text: string;
     title: string;
-    tags: ITag []
+    tags: ITag [];
   };
   text: string;
   title: string;
   updatedAt: string;
-  tags: ITag []
+  tags: ITag [];
 }

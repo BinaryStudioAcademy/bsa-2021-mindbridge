@@ -7,19 +7,56 @@
   font-family: Lato;
   overflow: auto;
 }
+
+.diff_container{
+  border: 2px solid #F8F8F8;
+  border-radius: 0 0 0.3rem  0.3rem  ;
+  padding: 1.5rem;
+}
+
+.contributor{
+  padding: 1.5rem;
+  width: 100%;
+  border: 2px solid #F8F8F8;
+  border-radius: 0.3rem 0.3rem 0 0;
+  border-bottom: none;
+  background-color:  #F3F9FE;
+}
+
 .text_diff{
+  text-align: justify;
 }
 
 .field{
   margin-bottom: 2rem;
-  background-color: rgba(248, 248, 248, 1);
-  border-radius: 0.4rem;
 }
 
-.blue_label{
-  color: rgba(102, 185, 255, 1);
-  font-size: 1.5rem;
+.grey_label{
+  display: block;
+  font-size: 1rem;
   font-weight: bold;
-  padding-bottom: 1rem;
+  color: rgba(53, 53, 53, 0.4);
+  padding-bottom: 0.4rem;
 }
+
+.footer{
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  :first-child{
+      margin-left: 0;
+  }
+  button{
+      font-weight: bold !important;
+      height: 2.2rem;
+      min-width: 7rem;
+      margin-left: 0.6rem;
+      margin-right: 0.6rem;
+      font-size: 0.8rem !important;
+  }
+}
+
 

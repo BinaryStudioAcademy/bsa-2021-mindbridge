@@ -1,10 +1,10 @@
+@import "../../../../styles/common.sass";
+
 .avatar_and_name_group{
-  a{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    color: rgba(102, 185, 255, 1);
-  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: rgba(53, 53, 53, 0.4);
 }
 
 .dot{
@@ -20,4 +20,5 @@
   height: 2rem;
   width: 2rem;
   border-radius: 50%;
+  margin-right: 1rem;
 }

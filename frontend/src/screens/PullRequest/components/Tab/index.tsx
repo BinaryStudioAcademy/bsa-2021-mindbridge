@@ -28,7 +28,8 @@ const Tab = ({ className, previewContent, diffContent }: ITabProps) => {
         <ColorlessButton
           className={preview && styles.active}
           onClick={setMode}
-          content="Preview" />
+          content="Preview"
+        />
       </div>
       {preview ? previewContent : diffContent}
     </div>

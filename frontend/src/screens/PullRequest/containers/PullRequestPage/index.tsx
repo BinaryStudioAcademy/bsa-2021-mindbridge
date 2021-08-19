@@ -13,6 +13,9 @@ import Preview from '../../components/Preview';
 import AuthorAndDate from '../../components/AuthorAndDate';
 import TitleDiff from '../../components/TitleDiff';
 import TagsDiff from '../../components/TagsDiff';
+import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
+import DarkButton from '@root/components/buttons/DarcButton';
+import LoaderWrapper from '@root/components/LoaderWrapper';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -30,7 +33,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
   { currentUser, fetchPR, postPR }
 ) => {
   console.log(postPR);
-  console.log(postPR.tags)
+  console.log(postPR.tags);
   const { id } = useParams();
 
   useEffect(() => {
@@ -38,34 +41,63 @@ const PullRequest: React.FC<IPullRequestProps> = (
     fetchPR(id);
   }, [id]);
 
-  const previewContent =
-    <Preview
-      coverImage={postPR.coverImage}
-      title={postPR.title}
-      text={postPR.text}
-      markdown={postPR.markdown}
-      tags={postPR.tags}
-    />
-
-  const diffContent = (
-    <div>
+  const previewContent = (
+    <div >
       <AuthorAndDate
-        className={styles.field}
+        className={styles.contributor}
         avatar={postPR.contributor.avatar}
         nickname={postPR.contributor.nickname}
         date={postPR.createdAt}
+        readTime="2 min" // TODO: add real time
       />
-      <TitleDiff className={styles.field} oldTitle={postPR.post.title} newTitle={postPR.title} />
-      <TagsDiff className={styles.field} oldTags={postPR.post.tags} newTags={postPR.tags} />
-      <div className={styles.blue_label}>Changes in content:</div>
-      <TextDiff className={classNames(styles.field, styles.text_diff)} oldText={postPR.post.text} newText={postPR.text} />
+      <div className={styles.diff_container}>
+        <Preview
+          coverImage={postPR.coverImage}
+          title={postPR.title}
+          text={postPR.text}
+          markdown={postPR.markdown}
+          tags={postPR.tags}
+        />
+      </div>
     </div>
   );
+
+  const diffContent = (
+    <div >
+      <AuthorAndDate
+        className={styles.contributor}
+        avatar={postPR.contributor.avatar}
+        nickname={postPR.contributor.nickname}
+        date={postPR.createdAt}
+        readTime="2 min" // TODO: add real time
+      />
+      <div className={styles.diff_container}>
+        <div className={styles.divider}></div>
+        <TitleDiff className={styles.field} oldTitle={postPR.post.title} newTitle={postPR.title} />
+        <TagsDiff className={styles.field} oldTags={postPR.post.tags} newTags={postPR.tags} />
+        <div className={styles.grey_label}>Changes in content:</div>
+        <TextDiff
+          className={classNames(styles.field, styles.text_diff)}
+          oldText={postPR.post.text}
+          newText={postPR.text}
+        />
+      </div>
+    </div>
+  );
+
+  if (!postPR.title){
+    return (
+      <LoaderWrapper loading={true} />
+    )
+  }
 
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <Tab previewContent={previewContent} diffContent={diffContent} />
-
+      <div className={styles.footer}>
+        <DarkBorderButton content="Deny" />
+        <DarkButton content="Accept" />
+      </div>
     </div>
   );
 };
