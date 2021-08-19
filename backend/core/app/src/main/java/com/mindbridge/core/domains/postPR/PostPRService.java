@@ -1,6 +1,5 @@
 package com.mindbridge.core.domains.postPR;
 
-import com.mindbridge.core.domains.post.PostMapper;
 import com.mindbridge.core.domains.postPR.dto.CreatePostPRDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
 import com.mindbridge.data.domains.postPR.PostPRRepository;
@@ -39,5 +38,11 @@ public class PostPRService {
 
 	public PostPRDetailsDto getPR(UUID id) {
 		return postPRRepository.findById(id).map(PostPRMapper.MAPPER::postPRToPostPRDetailsDto).orElseThrow();
+	}
+
+	public UUID closePR(UUID id){
+		postPRRepository.setPRClosed(id);
+		PostPR postPR = postPRRepository.findById(id).orElseThrow();
+		return postPR.getPost().getId();
 	}
 }

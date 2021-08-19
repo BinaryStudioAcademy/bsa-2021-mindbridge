@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
-import { IBindingCallback1 } from '@root/models/Callbacks';
-import { fetchPrRoutine } from '../../routines';
+import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
+import { closePrRoutine, fetchPrRoutine, resetFailSendingDataRoutine } from '../../routines';
 import TextDiff from '@root/components/TextDiff';
 import { IPostPR } from '../../models/IPostPR';
 import Tab from '../../components/Tab';
@@ -23,23 +23,42 @@ export interface IPullRequestProps extends IState, IActions {
 interface IState {
   currentUser: ICurrentUser;
   postPR: IPostPR;
+  failSendingDada: boolean;
 }
 
 interface IActions {
   fetchPR: IBindingCallback1<string>;
+  closePR: IBindingCallback1<string>;
+  resetFailSendingDada: IBindingAction;
 }
 
 const PullRequest: React.FC<IPullRequestProps> = (
-  { currentUser, fetchPR, postPR }
+  { currentUser, fetchPR, closePR, resetFailSendingDada, postPR, failSendingDada }
 ) => {
   console.log(postPR);
   console.log(postPR.tags);
   const { id } = useParams();
 
+  const [preloader, setPreloader] = useState({ firstButton: false, secondButton: false});
+
   useEffect(() => {
-    console.log(id);
     fetchPR(id);
   }, [id]);
+
+  useEffect(() => {
+    if(failSendingDada){
+      setPreloader({firstButton: false, secondButton: false});
+      resetFailSendingDada();
+    }
+  }); 
+
+  const handleClosePR = () => {
+    setPreloader({
+      ...preloader,
+      firstButton: true
+    });
+    closePR(postPR.id);
+  }
 
   const previewContent = (
     <div >
@@ -95,8 +114,8 @@ const PullRequest: React.FC<IPullRequestProps> = (
     <div className={classNames('content_wrapper', styles.container)}>
       <Tab previewContent={previewContent} diffContent={diffContent} />
       <div className={styles.footer}>
-        <DarkBorderButton content="Deny" />
-        <DarkButton content="Accept" />
+        <DarkBorderButton loading={preloader.firstButton} content="Deny" onClick={handleClosePR}/>
+        <DarkButton loading={preloader.secondButton} content="Accept" />
       </div>
     </div>
   );
@@ -104,11 +123,14 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
 const mapStateToProps: (state) => IState = state => ({
   currentUser: state.auth.auth.user,
-  postPR: state.pullRequestReducer.data.postPR
+  postPR: state.pullRequestReducer.data.postPR,
+  failSendingDada: state.pullRequestReducer.data.failSendingData
 });
 
 const mapDispatchToProps: IActions = {
-  fetchPR: fetchPrRoutine
+  fetchPR: fetchPrRoutine,
+  closePR: closePrRoutine,
+  resetFailSendingDada: resetFailSendingDataRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PullRequest);
