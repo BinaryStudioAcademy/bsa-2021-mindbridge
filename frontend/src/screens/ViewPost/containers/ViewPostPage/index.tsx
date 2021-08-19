@@ -52,7 +52,7 @@ const ViewPost: React.FC<IViewPostProps> = (
   useEffect(() => {
     fetchData(id);
     fetchUserProfile(currentUser.id);
-    getPostVersions({postId: id});
+    getPostVersions({ postId: id });
   }, [id, currentUser]);
 
   return (

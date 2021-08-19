@@ -119,7 +119,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     if (postId) {
       fetchPost(postId);
     }
-    getPostVersions({postId});
+    getPostVersions({ postId });
   }, [postId, fetchPost]);
 
   useEffect(() => {
