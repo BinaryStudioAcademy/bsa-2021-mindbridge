@@ -32,7 +32,7 @@ interface IState {
 interface IActions {
   fetchData: IBindingCallback1<string>;
   fetchUserProfile: IBindingCallback1<string>;
-  getPostVersions: IBindingCallback1<string>;
+  getPostVersions: IBindingCallback1<object>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -52,7 +52,7 @@ const ViewPost: React.FC<IViewPostProps> = (
   useEffect(() => {
     fetchData(id);
     fetchUserProfile(currentUser.id);
-    getPostVersions(id);
+    getPostVersions({postId: id});
   }, [id, currentUser]);
 
   return (

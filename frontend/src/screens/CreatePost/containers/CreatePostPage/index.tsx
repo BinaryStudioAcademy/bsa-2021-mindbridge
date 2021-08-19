@@ -66,7 +66,7 @@ interface IActions {
   sendPost: IBindingCallback1<object>;
   resetLoadingImage: IBindingAction;
   fetchData: IBindingCallback1<string>;
-  getPostVersions: IBindingCallback1<string>;
+  getPostVersions: IBindingCallback1<object>;
   fetchTags: IBindingAction;
   fetchPost: IBindingCallback1<string>;
   sendPR: IBindingCallback1<object>;
@@ -119,7 +119,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     if (postId) {
       fetchPost(postId);
     }
-    getPostVersions(postId);
+    getPostVersions({postId});
   }, [postId, fetchPost]);
 
   useEffect(() => {
@@ -219,6 +219,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         markdown: modes.markdownMode,
         tags: form.tags,
         postId,
+        editorId: currentUserId,
         draft: isDraft
       };
       editPost(postOnEdit);
