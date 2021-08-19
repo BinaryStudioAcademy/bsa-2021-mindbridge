@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import ProfileSidebar from '@components/ProfileSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
-import {fetchUserProfileRoutine, getPostVersionsRoutine} from '@screens/CreatePost/routines';
+import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/CreatePost/routines';
 import { useParams } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
-import { IPostVersions } from '@screens/PostVersions/models/IPostVersions';
+import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { IBindingCallback1, IBindingCallback2 } from '@models/Callbacks';
 import PostVersionItem from '@components/PostVersionItem';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -20,7 +20,7 @@ interface IState {
   isAuthorized: boolean;
   currentUser: ICurrentUser;
   userInfo: IUserProfile;
-  versionsOfPost: IPostVersions[];
+  versionsOfPost: IPostVersion[];
   hasMore: boolean;
 }
 

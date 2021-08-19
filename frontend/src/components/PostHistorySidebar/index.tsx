@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
-import { IPostVersions } from '@screens/PostVersions/models/IPostVersions';
+import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 
 export interface IProfileSidebarProps {
-  history: IPostVersions[];
+  history: IPostVersion[];
   postId: string;
 }
 
@@ -22,6 +22,7 @@ const HistorySidebar: FunctionComponent<IProfileSidebarProps> = ({ history, post
       </div>
     );
   });
+
   return (
     <div className={styles.history_sidebar_container}>
       <div className={styles.title}>

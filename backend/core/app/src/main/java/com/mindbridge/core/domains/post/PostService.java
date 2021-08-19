@@ -75,6 +75,7 @@ public class PostService {
 	public UUID editPost(EditPostDto editPostDto) {
 		var currentPost = postRepository.getOne(editPostDto.getPostId());
 		var postVersion = PostMapper.MAPPER.postToPostVersion(currentPost);
+		postVersion.setAuthor(currentPost.getAuthor());
 		postVersionRepository.save(postVersion);
 		currentPost.setTitle(editPostDto.getTitle());
 		currentPost.setText(editPostDto.getText());

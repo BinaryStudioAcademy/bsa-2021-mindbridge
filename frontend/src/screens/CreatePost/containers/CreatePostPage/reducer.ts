@@ -11,6 +11,7 @@ import { resetImageTagRoutine,
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 import { IPost } from '@screens/CreatePost/models/IPost';
+import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 
 export interface ICreatePostReducerState {
@@ -26,7 +27,7 @@ export interface ICreatePostReducerState {
     preloader: boolean;
   };
   profile: IUserProfile;
-  versionsOfPost: IPostVersions[];
+  versionsOfPost: IPostVersion[];
   allTags: [];
   post: IPost;
   postLoading: boolean;
@@ -121,7 +122,7 @@ export const createPostReducer = createReducer(initialState, {
   [fetchUserProfileRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
     state.profile = payload;
   },
-  [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersions]>) => {
+  [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersion]>) => {
     state.versionsOfPost = payload;
   },
   [setLoaderRoutine.SUCCESS]: (state, { payload }) => {

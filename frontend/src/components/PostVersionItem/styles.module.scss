@@ -1,0 +1,53 @@
+.versionItem {
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.88rem;
+  color: rgba(53, 53, 53, 0.4);
+  height: 5rem;
+  border: 2px solid #F8F8F8;
+  border-bottom: none;
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(206, 206, 206, 0.1);
+  }
+  &:last-child {
+    border-bottom: 2px solid #F8F8F8;
+  }
+
+  img {
+    height: 2.5rem !important;
+    width: 2.5rem !important;
+    margin-right: 0.5rem !important;
+  }
+
+  .userName{
+
+    padding-left: 1.5rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    span {
+      font-family: Lato, serif;
+      font-weight: 500;
+      font-size: 1rem;
+      color: #353535;
+      margin-top: -2px;
+    }
+
+    &:hover span {
+      color: #66B9FF;
+    }
+  }
+
+  .another {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+}
+

@@ -16,8 +16,6 @@ import { extractData } from '@screens/Header/reducers';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
-import LogOutSvg from '@screens/Header/containers/HeaderPage/svg/logOutSvg';
-import { handleOnClickSignOut } from '@helpers/signOut.helper';
 import { IPost } from '@screens/Header/models/IPost';
 import FoundPostsList from '@components/FoundPostsList';
 import { useDebouncedCallback } from 'use-debounce';

@@ -14,15 +14,15 @@ import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
-import {fetchUserProfileRoutine, getPostVersionsRoutine} from '@screens/CreatePost/routines';
-import HistorySidebar from "@components/PostHistorySidebar";
-import {IPostVersions} from "@screens/CreatePost/models/IPostVersions";
+import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/CreatePost/routines';
+import HistorySidebar from '@components/PostHistorySidebar';
+import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
   currentUser: ICurrentUser;
   userInfo: IUserProfile;
-  versionsOfPost: IPostVersions[];
+  versionsOfPost: IPostVersion[];
 }
 
 interface IState {
@@ -74,15 +74,15 @@ const ViewPost: React.FC<IViewPostProps> = (
                   postNotificationCount={userInfo.postsQuantity}
                 />
               </div>
+              <SuggestChangesCard
+                postId={data.post.id}
+                isAuthor={data.post.author.id === currentUser.id}
+              />
               {currentUser.id === data.post?.author?.id && (
                 <div className={styles.history_sidebar_container}>
                   <HistorySidebar history={versionsOfPost} postId={id} />
                 </div>
               )}
-              <SuggestChangesCard
-                postId={data.post.id}
-                isAuthor={data.post.author.id === currentUser.id}
-              />
               <div className={styles.tagsSideBar}>
                 <FeedTagsSideBar />
               </div>

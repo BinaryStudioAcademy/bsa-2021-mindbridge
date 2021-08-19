@@ -18,9 +18,9 @@ import {
 } from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
-import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 import LoaderWrapper from '@components/LoaderWrapper';
 import HistorySidebar from '@components/PostHistorySidebar';
+import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 
 export interface ICreatePostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -34,7 +34,7 @@ interface IState {
     isInContent: boolean;
   };
   userInfo: IStateProfile;
-  versionsOfPost: IPostVersions[];
+  versionsOfPost: IPostVersion[];
   allTags: [any];
   currentUserId: string;
   isLoading: boolean;
@@ -66,7 +66,7 @@ interface IActions {
   sendPost: IBindingCallback1<object>;
   resetLoadingImage: IBindingAction;
   fetchData: IBindingCallback1<string>;
-  getPostVersions: IBindingAction;
+  getPostVersions: IBindingCallback1<string>;
   fetchTags: IBindingAction;
   fetchPost: IBindingCallback1<string>;
   sendPR: IBindingCallback1<object>;
@@ -119,6 +119,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     if (postId) {
       fetchPost(postId);
     }
+    getPostVersions(postId);
   }, [postId, fetchPost]);
 
   useEffect(() => {
@@ -141,7 +142,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
       fetchData(currentUserId);
     }
     fetchTags();
-    getPostVersions();
   }, [currentUserId, fetchTags, getPostVersions]);
 
   useEffect(() => {
