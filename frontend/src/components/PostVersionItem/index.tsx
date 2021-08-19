@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
@@ -18,20 +19,22 @@ const PostVersionItem: FunctionComponent<IPostVersionItemProps> = ({ postVersion
     history.go();
   };
 
+  const handleClick = e => {
+    e.stopPropagation();
+  };
+
   return (
-    <div className={styles.versionItem}>
-      <Link to={`/user/${postVersion.author?.id}`} className={styles.userName}>
+    <div className={styles.versionItem} onClick={goToVersion}>
+      <Link onClick={e => handleClick(e)} to={`/user/${postVersion.author?.id}`} className={styles.userName}>
         <Image
           src={postVersion.author?.avatar ?? 'https://i.imgur.com/LaWyPZF.png'}
           avatar
           size="small"
         />
-        <span>{postVersion.author?.nickname}</span>
-        <DividerSvg />
+        {postVersion.author?.nickname}
       </Link>
-      <div role="button" tabIndex={0} className={styles.another} onClick={goToVersion}>
-        <span className={styles.postHeaderInfo}>{postVersion.createdAt}</span>
-      </div>
+      <DividerSvg />
+      <span className={styles.postHeaderInfo}>{postVersion.createdAt}</span>
     </div>
   );
 };

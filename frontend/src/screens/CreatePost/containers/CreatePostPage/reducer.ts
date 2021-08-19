@@ -29,7 +29,6 @@ export interface ICreatePostReducerState {
   };
   profile: IUserProfile;
   versionsOfPost: IPostVersion[];
-  hasMore: boolean;
   allTags: [];
   post: IPost;
   postLoading: boolean;
@@ -60,7 +59,6 @@ const initialState: ICreatePostReducerState = {
     rating: 0
   },
   versionsOfPost: [],
-  hasMore: false,
   allTags: [],
   postLoading: false,
   post: null,
@@ -127,7 +125,6 @@ export const createPostReducer = createReducer(initialState, {
   },
   [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersion]>) => {
     payload.map(version => state.versionsOfPost.push(version));
-    state.hasMore = !isEmptyArray(payload);
   },
   [setLoaderRoutine.SUCCESS]: (state, { payload }) => {
     state.postLoading = payload.isLoading;

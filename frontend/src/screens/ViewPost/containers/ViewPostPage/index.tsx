@@ -50,10 +50,13 @@ const ViewPost: React.FC<IViewPostProps> = (
   const { id } = useParams();
 
   useEffect(() => {
-    fetchData(id);
     fetchUserProfile(currentUser.id);
+  }, [currentUser]);
+
+  useEffect(() => {
+    fetchData(id);
     getPostVersions({ postId: id });
-  }, [id, currentUser]);
+  }, [id]);
 
   return (
     <div className={styles.viewPost}>

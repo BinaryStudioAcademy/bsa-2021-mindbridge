@@ -1,24 +1,25 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { Routine } from 'redux-saga-routines';
-import { getPostVersionsRoutine } from '@screens/PostVersions/routines';
 import postVersionService from '@screens/PostVersions/services/postVersion';
+import { fetchPostTitleRoutine } from '@screens/PostVersions/routines';
+import { toastr } from 'react-redux-toastr';
 
-export function* getPostVersions({ payload }: Routine<any>) {
+function* fetchPostTitle({ payload }: Routine<any>) {
   try {
-    console.log(payload);
-    const response = yield call(postVersionService.getPostVersions, payload);
-    yield put(getPostVersionsRoutine.success(response));
-  } catch (ex) {
-    yield put(getPostVersionsRoutine.failure(ex.message));
+    const response = yield call(postVersionService.getPostTitle, payload);
+    yield put(fetchPostTitleRoutine.success(response));
+  } catch (e) {
+    yield put(fetchPostTitleRoutine.failure(e?.message));
+    toastr.error('Error', 'Loading post title failed!');
   }
 }
 
-function* watchPostVersions() {
-  yield takeEvery(getPostVersionsRoutine.TRIGGER, getPostVersions);
+function* watchFetchPostTitle() {
+  yield takeEvery(fetchPostTitleRoutine.TRIGGER, fetchPostTitle);
 }
 
 export default function* postVersionsPageSagas() {
   yield all([
-    watchPostVersions()
+    watchFetchPostTitle()
   ]);
 }

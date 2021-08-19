@@ -96,4 +96,8 @@ public class PostService {
 		return savedPost.getId();
 	}
 
+	public String getTitleOfPost (UUID id) {
+		return postRepository.getTitleById(id);
+	}
+
 }

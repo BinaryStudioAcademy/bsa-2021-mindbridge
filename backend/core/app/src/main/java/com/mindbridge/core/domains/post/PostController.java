@@ -48,4 +48,9 @@ public class PostController {
 		return postService.getAllPosts(from, count);
 	}
 
+	@GetMapping("/title/{id}")
+	public String getTitle(@PathVariable UUID id) {
+		return postService.getTitleOfPost(id);
+	}
+
 }

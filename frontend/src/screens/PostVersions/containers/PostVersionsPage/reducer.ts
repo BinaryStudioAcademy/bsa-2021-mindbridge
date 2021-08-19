@@ -1,21 +1,16 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { getPostVersionsRoutine } from '@screens/PostVersions/routines';
-import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
-import { isEmptyArray } from 'formik';
+import { fetchPostTitleRoutine } from '@screens/PostVersions/routines';
 
 export interface IPostVersionsReducerState {
-  versionsOfPost: IPostVersion[];
-  hasMore: boolean;
+  postTitle: string;
 }
 
 const initialState: IPostVersionsReducerState = {
-  versionsOfPost: [],
-  hasMore: true
+  postTitle: ''
 };
 
 export const postVersionsReducer = createReducer(initialState, {
-  [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersion]>) => {
-    payload.map(version => state.versionsOfPost.push(version));
-    state.hasMore = !isEmptyArray(payload);
+  [fetchPostTitleRoutine.SUCCESS]: (state, { payload }: PayloadAction<string>) => {
+    state.postTitle = payload;
   }
 });

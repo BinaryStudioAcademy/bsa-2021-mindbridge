@@ -7,15 +7,21 @@
   height: 5rem;
   border: 2px solid #F8F8F8;
   border-bottom: none;
-  display: grid;
-  grid-template-columns: 1fr 6fr;
+  display: flex;
+  align-items: center;
 
   &:hover {
     cursor: pointer;
     background-color: rgba(206, 206, 206, 0.1);
   }
+
+  &:first-child {
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+
   &:last-child {
     border-bottom: 2px solid #F8F8F8;
+    border-radius: 0 0 0.5rem 0.5rem;
   }
 
   img {
@@ -25,29 +31,18 @@
   }
 
   .userName{
-
     padding-left: 1.5rem;
-    height: 100%;
     display: flex;
     align-items: center;
+    font-family: Lato, serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #353535;
+    margin-top: -2px;
 
-    span {
-      font-family: Lato, serif;
-      font-weight: 500;
-      font-size: 1rem;
-      color: #353535;
-      margin-top: -2px;
-    }
-
-    &:hover span {
+    &:hover {
       color: #66B9FF;
     }
-  }
-
-  .another {
-    height: 100%;
-    display: flex;
-    align-items: center;
   }
 }
 

@@ -16,7 +16,7 @@ const HistorySidebar: FunctionComponent<IProfileSidebarProps> = ({ history, post
   const links = [];
   history.forEach(version => {
     links.push(
-      <div className={styles.link}>
+      <div key={version.id} className={styles.link}>
         <div className={styles.dot} />
         <Link to={`/postVersion/${version.id}`}>{version.createdAt}</Link>
       </div>

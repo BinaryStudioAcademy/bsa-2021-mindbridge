@@ -9,9 +9,10 @@ import { useParams } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
-import { IBindingCallback1, IBindingCallback2 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1, IBindingCallback2 } from '@models/Callbacks';
 import PostVersionItem from '@components/PostVersionItem';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { fetchPostTitleRoutine } from '@screens/PostVersions/routines';
 
 export interface IPostVersionsProps extends IState, IActions {
 }
@@ -21,69 +22,62 @@ interface IState {
   currentUser: ICurrentUser;
   userInfo: IUserProfile;
   versionsOfPost: IPostVersion[];
-  hasMore: boolean;
+  postTitle: string;
 }
 
 interface IActions {
   fetchUserProfile: IBindingCallback1<string>;
   getPostVersions: IBindingCallback1<object>;
+  fetchPostTitle: IBindingCallback1<string>;
 }
 
 const params = {
   from: 0,
-  count: 10
+  count: 50
 };
 
 const PostVersions: React.FC<IPostVersionsProps> = (
   {
     isAuthorized,
-    hasMore,
     currentUser,
     userInfo,
     versionsOfPost,
     getPostVersions,
-    fetchUserProfile
+    fetchUserProfile,
+    fetchPostTitle,
+    postTitle
   }
 ) => {
   const { postId } = useParams();
 
   useEffect(() => {
-    fetchUserProfile(currentUser.id);
     getPostVersions({ postId, params });
-    const { from, count } = params;
-    params.from = from + count;
-  }, [currentUser]);
+    fetchPostTitle(postId);
+  }, [postId]);
 
-  const getMorePostVersions = () => {
-    getPostVersions({ postId, params });
-    const { from, count } = params;
-    params.from = from + count;
-  };
+  useEffect(() => {
+    if (currentUser.id) {
+      fetchUserProfile(currentUser.id);
+    }
+  }, [currentUser]);
 
   return (
     <div className={styles.postVersions}>
       <div className={styles.main}>
-        <InfiniteScroll
-          style={{ overflow: 'none' }}
-          dataLength={versionsOfPost.length}
-          next={getMorePostVersions}
-          hasMore={hasMore}
-          loader={' '}
-          scrollThreshold={0.9}
-        >
-          {versionsOfPost ? (
-            versionsOfPost.map(version => (
-              <PostVersionItem
-                key={version.id}
-                postVersion={version}
-              />
-            ))
-          ) : (
-            <p>
-              🔍 Seems like there are no post versions...
-            </p>
-          )}
-        </InfiniteScroll>
+        <h3>Versions of your post</h3>
+        <p>{`"${postTitle}"`}</p>
+        {versionsOfPost ? (
+          versionsOfPost.map(version => (
+            <PostVersionItem
+              key={version.id}
+              postVersion={version}
+            />
+          ))
+        ) : (
+          <p>
+            🔍 Seems like there are no post versions...
+          </p>
+        )}
       </div>
       <div className={styles.sidebar}>
         <div className={styles.feedPageSidebars}>
@@ -115,11 +109,12 @@ const mapStateToProps: (state) => IState = state => ({
   currentUser: state.auth.auth.user,
   userInfo: state.createPostReducer.data.profile,
   versionsOfPost: state.createPostReducer.data.versionsOfPost,
-  hasMore: state.createPostReducer.data.hasMore
+  postTitle: state.postVersionsReducer.data.postTitle
 });
 
 const mapDispatchToProps: IActions = {
   getPostVersions: getPostVersionsRoutine,
+  fetchPostTitle: fetchPostTitleRoutine,
   fetchUserProfile: fetchUserProfileRoutine
 };
 
