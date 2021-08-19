@@ -10,7 +10,6 @@ import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
 import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
 import { IPost } from '@screens/ViewPost/models/IPost';
 import TextRenderer from '@root/components/TextRenderer';
-import CommentsFeed from '@components/BasicCommentCard';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -60,9 +59,6 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
         content={post.text}
       />
     </Card.Content>
-    <div>
-      <CommentsFeed comments={post.comments} />
-    </div>
   </Card>
 );
 
