@@ -1,4 +1,4 @@
-import { closePrRoutine } from './../../routines/index';
+import { closePrRoutine, acceptPrRoutine } from './../../routines/index';
 import { toastr } from 'react-redux-toastr';
 import { fetchPrRoutine } from '../../routines/index';
 import { all, takeEvery, put, call } from 'redux-saga/effects';
@@ -17,13 +17,22 @@ function* fetchPR(action) {
 
 function* putClosedPR(action) {
   try {
-    const response = yield call(pullRequestService.putClosedPR, action.payload);
+    const response = yield call(pullRequestService.putClosedPR, action.payload.id);
     yield put(closePrRoutine.success(response));
-    throw new console.error();
-    
-    history.push(`/post/${response}`);
+    history.push(`/post/${action.payload.post.id}`);
   } catch (error) {
     yield put(closePrRoutine.failure(error?.message));
+    toastr.error('Error', 'Sending data failed');
+  }
+}
+
+function* putAcceptedPR(action) {
+  try {
+    const response = yield call(pullRequestService.putAcceptedPR, action.payload.id);
+    yield put(acceptPrRoutine.success(response));
+    history.push(`/post/${action.payload.post.id}`);
+  } catch (error) {
+    yield put(acceptPrRoutine.failure(error?.message));
     toastr.error('Error', 'Sending data failed');
   }
 }
@@ -36,9 +45,14 @@ function* watchClosePrRequest() {
   yield takeEvery(closePrRoutine.TRIGGER, putClosedPR);
 }
 
+function* watchAcceptPrRequest() {
+  yield takeEvery( acceptPrRoutine.TRIGGER, putAcceptedPR);
+}
+
 export default function* pullRequestPageSagas() {
   yield all([
     watchGetPrRequest(),
-    watchClosePrRequest()
+    watchClosePrRequest(),
+    watchAcceptPrRequest()
   ]);
 }

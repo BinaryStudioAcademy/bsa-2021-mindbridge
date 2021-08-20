@@ -2,7 +2,6 @@ package com.mindbridge.core.domains.postPR;
 
 import com.mindbridge.core.domains.postPR.dto.CreatePostPRDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
-import com.mindbridge.data.domains.postPR.model.PostPR;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +36,13 @@ public class PostPRController {
 	}
 
 	@PutMapping("/close/{id}")
-	public String closePR(@PathVariable UUID id){
-		return postPRService.closePR(id).toString();
+	public void closePR(@PathVariable UUID id) {
+		postPRService.closePR(id);
+	}
+
+	@PutMapping("accept/{id}")
+	public void acceptPR(@PathVariable UUID id) {
+		postPRService.acceptPR(id);
+		postPRService.closePR(id);
 	}
 }

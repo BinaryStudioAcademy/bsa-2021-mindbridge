@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
-import { closePrRoutine, fetchPrRoutine, resetFailSendingDataRoutine } from '../../routines';
+import { acceptPrRoutine, closePrRoutine, fetchPrRoutine, resetFailSendingDataRoutine } from '../../routines';
 import TextDiff from '@root/components/TextDiff';
 import { IPostPR } from '../../models/IPostPR';
 import Tab from '../../components/Tab';
@@ -28,12 +28,13 @@ interface IState {
 
 interface IActions {
   fetchPR: IBindingCallback1<string>;
-  closePR: IBindingCallback1<string>;
+  closePR: IBindingCallback1<IPostPR>;
   resetFailSendingDada: IBindingAction;
+  acceptPR: IBindingCallback1<IPostPR>;
 }
 
 const PullRequest: React.FC<IPullRequestProps> = (
-  { currentUser, fetchPR, closePR, resetFailSendingDada, postPR, failSendingDada }
+  { currentUser, fetchPR, closePR, acceptPR, resetFailSendingDada, postPR, failSendingDada }
 ) => {
   console.log(postPR);
   console.log(postPR.tags);
@@ -57,7 +58,15 @@ const PullRequest: React.FC<IPullRequestProps> = (
       ...preloader,
       firstButton: true
     });
-    closePR(postPR.id);
+    closePR(postPR);
+  }
+
+  const handleAcceptPR = () => {
+    setPreloader({
+      ...preloader,
+      secondButton: true
+    });
+    acceptPR(postPR);
   }
 
   const previewContent = (
@@ -114,8 +123,14 @@ const PullRequest: React.FC<IPullRequestProps> = (
     <div className={classNames('content_wrapper', styles.container)}>
       <Tab previewContent={previewContent} diffContent={diffContent} />
       <div className={styles.footer}>
-        <DarkBorderButton loading={preloader.firstButton} content="Deny" onClick={handleClosePR}/>
-        <DarkButton loading={preloader.secondButton} content="Accept" />
+        <DarkBorderButton 
+        loading={preloader.firstButton} 
+        content="Deny" 
+        onClick={handleClosePR}/>
+        <DarkButton 
+        loading={preloader.secondButton} 
+        content="Accept"
+        onClick={handleAcceptPR} />
       </div>
     </div>
   );
@@ -130,7 +145,8 @@ const mapStateToProps: (state) => IState = state => ({
 const mapDispatchToProps: IActions = {
   fetchPR: fetchPrRoutine,
   closePR: closePrRoutine,
-  resetFailSendingDada: resetFailSendingDataRoutine
+  resetFailSendingDada: resetFailSendingDataRoutine,
+  acceptPR: acceptPrRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PullRequest);

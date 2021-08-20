@@ -30,7 +30,7 @@ const Preview = ({ coverImage, title, tags, markdown, text, className }: IPrevie
     </div>
     <TextRender
       className={styles.content}
-      markdown={markdown}
+      markdown={!markdown}
       content={text}
     />
   </div>
