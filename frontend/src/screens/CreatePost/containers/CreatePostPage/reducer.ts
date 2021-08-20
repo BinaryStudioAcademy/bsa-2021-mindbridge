@@ -6,9 +6,9 @@ import {
   sendImageRoutine,
   fetchUserProfileRoutine,
   fetchPostRoutine,
-  getPostVersionsRoutine, 
+  getPostVersionsRoutine,
   setLoaderRoutine,
-  likePostViewRoutine, 
+  likePostViewRoutine,
   disLikePostViewRoutine
 } from '../../routines/index';
 
