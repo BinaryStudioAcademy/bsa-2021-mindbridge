@@ -21,6 +21,9 @@ import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 import LoaderWrapper from '@components/LoaderWrapper';
 import HistorySidebar from '@components/PostHistorySidebar';
+import EditSvgPart1 from './svg/editSvgPart1';
+import EditSvgPart2 from './svg/editSvgPart2';
+import ViewSvg from './svg/viewSvg';
 
 export interface ICreatePostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -283,7 +286,47 @@ const CreatePost: React.FC<ICreatePostProps> = (
                     className={styles.markdown_button}
                   />
                 )}
-            </div>
+                {modes.editMode
+              ? (
+                <BlueButton
+                  content={(
+                    <div>
+                      <EditSvgPart1 />
+                      <EditSvgPart2 />
+                    </div>
+                  )}
+                  onClick={changeEditViewMode}
+                  className={styles.edit_button}
+                />
+              )
+              : (
+                <ColorlessButton
+                  content={(
+                    <div>
+                      <EditSvgPart1 />
+                      <EditSvgPart2 />
+                    </div>
+                  )}
+                  onClick={changeEditViewMode}
+                  className={styles.edit_button}
+                />
+              )}
+            {modes.viewMode
+              ? (
+                <BlueButton
+                  content={<ViewSvg />}
+                  className={classNames(styles.view_button)}
+                  onClick={changeEditViewMode}
+                />
+              )
+              : (
+                <ColorlessButton
+                  content={<ViewSvg />}
+                  className={classNames(styles.view_button)}
+                  onClick={changeEditViewMode}
+                />
+              )}
+          </div>
             {modes.editMode
               ? (
                 <CreatePostForm

@@ -11,26 +11,58 @@ interface ITagsDiffProps {
   newTags: ITag[];
 }
 
-const TagsDiff = ({ className, oldTags, newTags }: ITagsDiffProps) => (
-  <div className={classNames(className, styles.tagsDiff)}>
-    <div className={styles.new}>
-      <span>New tags:</span>
-      {newTags && newTags.map(tag => (
-        <TagsMenu
-          key={tag.id}
-          tag={tag.name}
-        />
-      ))}
-    </div>
-    <div className={styles.old}>
-      <span>Old tags:</span>
-      {oldTags && oldTags.map(tag => (
-        <TagsMenu
-          key={tag.id}
-          tag={tag.name}
-        />
-      ))}
-    </div>
-  </div>
-);
+const isEqual = (oldTags, newTags) => 
+{
+  if(oldTags.length != newTags.length)
+    return false;
+  oldTags.forEach(element1 => {
+    newTags.forEach(element2 => {
+      if(element1.id !== element2.id){
+        return false;
+      } return true;
+    })
+  });
+  return true;
+}
+
+const TagsDiff = ({ className, oldTags, newTags }: ITagsDiffProps) => {
+  if (isEqual(oldTags, newTags)) {
+    return (
+      <div className={classNames(className, styles.tagsDiff)}>
+        <div className={styles.new}>
+          <span>Tags:</span>
+          {newTags && newTags.map(tag => (
+            <TagsMenu
+              key={tag.id}
+              tag={tag.name}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className={classNames(className, styles.tagsDiff)}>
+        <div className={styles.new}>
+          <span>New tags:</span>
+          {newTags && newTags.map(tag => (
+            <TagsMenu
+              key={tag.id}
+              tag={tag.name}
+            />
+          ))}
+        </div>
+        <div className={styles.old}>
+          <span>Old tags:</span>
+          {oldTags && oldTags.map(tag => (
+            <TagsMenu
+              key={tag.id}
+              tag={tag.name}
+            />
+          ))}
+        </div>
+      </div>
+    )
+  }
+}
 export default TagsDiff;
