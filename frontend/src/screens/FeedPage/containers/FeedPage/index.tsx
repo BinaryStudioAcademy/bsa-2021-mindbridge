@@ -124,6 +124,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
           <div className={styles.logInSideBar}>
             {isAuthorized ? (
               <ProfileSidebar
+                id={userInfo.id}
                 userName={userInfo.fullName}
                 avatar={userInfo.avatar}
                 folloversCount={userInfo.followersQuantity}

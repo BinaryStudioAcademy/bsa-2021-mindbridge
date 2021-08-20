@@ -7,6 +7,7 @@
   object-fit: cover;
   width: 84%;
   max-width: 100em;
+  min-height: 42em;
   margin: 0 0px -2em 15%;
   box-shadow: none;
   content: inherit;
@@ -54,13 +55,6 @@
   font-size: 1.5em;
   line-height: 1.5em;
   color: #353535;
-}
-
-.nickname {
-  font-weight: normal;
-  font-size: 1.2em;
-  line-height: 1.2em;
-  color: #66B9FF;
 }
 
 .period {
@@ -181,7 +175,7 @@
 .disableFormButton button {
   cursor: not-allowed;
   pointer-events: none;
-  background: #8c8c8c99;
+  background: #bcbec0;
   border-color: transparent;
 }
 
@@ -189,4 +183,11 @@
   position: relative;
   transform: translateX(-50%) translateY(0%);
   margin: 0.3em 0 0.3em 0;
+}
+
+.separatorLine {
+  height: 1px;
+  width: 100%;
+  background-color: #E5E5E5;
+  margin: 1.2rem 0;
 }

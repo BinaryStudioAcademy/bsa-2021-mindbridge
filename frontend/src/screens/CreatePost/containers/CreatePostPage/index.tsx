@@ -6,9 +6,6 @@ import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@root/components/ProfileSidebar';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
-import EditSvgPart1 from './svg/editSvgPart1';
-import EditSvgPart2 from './svg/editSvgPart2';
-import ViewSvg from './svg/viewSvg';
 import BlueButton from '@root/components/buttons/Blue_button';
 import ColorlessButton from '@root/components/buttons/ColorlessButton';
 import DarkButton from '@root/components/buttons/DarcButton';
@@ -22,6 +19,7 @@ import {
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
+import LoaderWrapper from '@components/LoaderWrapper';
 import HistorySidebar from '@components/PostHistorySidebar';
 
 export interface ICreatePostProps extends IState, IActions {
@@ -39,6 +37,7 @@ interface IState {
   versionsOfPost: IPostVersions[];
   allTags: [any];
   currentUserId: string;
+  isLoading: boolean;
   post?: {
     id: string;
     author: any;
@@ -84,6 +83,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     savingImage,
     userInfo,
     allTags,
+    isLoading,
     post,
     currentUserId,
     fetchData,
@@ -113,8 +113,13 @@ const CreatePost: React.FC<ICreatePostProps> = (
     tags: [],
     editedTag: ''
   });
-
   const { postId } = useParams();
+
+  useEffect(() => {
+    if (postId) {
+      fetchPost(postId);
+    }
+  }, [postId, fetchPost]);
 
   useEffect(() => {
     if (post) {
@@ -132,16 +137,13 @@ const CreatePost: React.FC<ICreatePostProps> = (
   }, [post]);
 
   useEffect(() => {
-    fetchPost(postId);
-  }, [postId]);
-
-  useEffect(() => {
     if (currentUserId) {
       fetchData(currentUserId);
     }
     fetchTags();
     getPostVersions();
   }, [currentUserId, fetchTags, getPostVersions]);
+
   useEffect(() => {
     if (savingImage.isLoaded) {
       if (!savingImage.isInContent) {
@@ -238,7 +240,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
   let submitButtonName = '';
   if (!post) {
     submitButtonName = 'Publish';
-  } else if (currentUserId === post.author.id) {
+  } else if (currentUserId === post?.author?.id) {
     submitButtonName = 'Save changes';
   } else {
     submitButtonName = 'Create pull request';
@@ -248,6 +250,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
       <div className={styles.form_and_sidebar_container}>
         <div className={styles.profile_sidebar_container}>
           <ProfileSidebar
+            id={userInfo.profile.id}
             userName={userInfo.profile.fullName}
             avatar={userInfo.profile.avatar}
             folloversCount={userInfo.profile.followersQuantity}
@@ -255,81 +258,47 @@ const CreatePost: React.FC<ICreatePostProps> = (
             postNotificationCount={userInfo.profile.postsQuantity}
           />
         </div>
-        <div className={styles.history_sidebar_container}>
-          {post && post.author.id === currentUserId
-            && <HistorySidebar history={versionsOfPost} />}
-        </div>
-        <form className={styles.create_post_container}>
-          <div className={styles.header}>
-            {modes.htmlMode
-              ? <BlueButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />
-              : <ColorlessButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />}
-            {modes.markdownMode
-              ? <BlueButton content="Markdown" onClick={changeHtmlMarkdownMode} className={styles.markdown_button} />
-              : (
-                <ColorlessButton
-                  content="Markdown"
-                  onClick={changeHtmlMarkdownMode}
-                  className={styles.markdown_button}
-                />
-              )}
+        {currentUserId === post?.author?.id && (
+          <div className={styles.history_sidebar_container}>
+            <HistorySidebar history={versionsOfPost} />
+          </div>
+        )}
+        {isLoading ? (
+          <form className={styles.create_post_container}>
+            <LoaderWrapper loading={isLoading} />
+          </form>
+        ) : (
+          <form className={styles.create_post_container}>
+            <div className={styles.header}>
+              {modes.htmlMode
+                ? <BlueButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />
+                : <ColorlessButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />}
+              {modes.markdownMode
+                ? <BlueButton content="Markdown" onClick={changeHtmlMarkdownMode} className={styles.markdown_button} />
+                : (
+                  <ColorlessButton
+                    content="Markdown"
+                    onClick={changeHtmlMarkdownMode}
+                    className={styles.markdown_button}
+                  />
+                )}
+            </div>
             {modes.editMode
               ? (
-                <BlueButton
-                  content={(
-                    <div>
-                      <EditSvgPart1 />
-                      <EditSvgPart2 />
-                    </div>
-                  )}
-                  onClick={changeEditViewMode}
-                  className={styles.edit_button}
+                <CreatePostForm
+                  form={form}
+                  modes={modes}
+                  setForm={setForm}
+                  sendImage={sendImage}
+                  allTags={allTags}
+                  imageTag={imageTag}
+                  resetImageTag={resetImageTag}
                 />
               )
-              : (
-                <ColorlessButton
-                  content={(
-                    <div>
-                      <EditSvgPart1 />
-                      <EditSvgPart2 />
-                    </div>
-                  )}
-                  onClick={changeEditViewMode}
-                  className={styles.edit_button}
-                />
-              )}
-            {modes.viewMode
-              ? (
-                <BlueButton
-                  content={<ViewSvg />}
-                  className={classNames(styles.view_button)}
-                  onClick={changeEditViewMode}
-                />
-              )
-              : (
-                <ColorlessButton
-                  content={<ViewSvg />}
-                  className={classNames(styles.view_button)}
-                  onClick={changeEditViewMode}
-                />
-              )}
-          </div>
-          {modes.editMode
-            ? (
-              <CreatePostForm
-                form={form}
-                modes={modes}
-                setForm={setForm}
-                sendImage={sendImage}
-                allTags={allTags}
-                imageTag={imageTag}
-                resetImageTag={resetImageTag}
-              />
-            )
-            : <PostPreview form={form} modes={modes} allTags={allTags} />}
-          <div className={styles.footer}>
-            <DarkBorderButton content="Cancel" onClick={handleCancel} />
-            {!(post)
+              : <PostPreview form={form} modes={modes} allTags={allTags} />}
+            <div className={styles.footer}>
+              <DarkBorderButton content="Cancel" onClick={handleCancel} />
+              {!(post)
               && (
                 <DarkBorderButton
                   content="Save draft"
@@ -338,14 +307,15 @@ const CreatePost: React.FC<ICreatePostProps> = (
                   onClick={() => handleSendForm(true)}
                 />
               )}
-            <DarkButton
-              content={submitButtonName}
-              disabled={preloader.draftButton}
-              loading={preloader.publishButton}
-              onClick={() => handleSendForm(false)}
-            />
-          </div>
-        </form>
+              <DarkButton
+                content={submitButtonName}
+                disabled={preloader.draftButton}
+                loading={preloader.publishButton}
+                onClick={() => handleSendForm(false)}
+              />
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
@@ -354,6 +324,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
 const mapStateToProps: (state) => IState = state => ({
   savingImage: state.createPostReducer.data.savingImage,
   userInfo: extractData(state),
+  isLoading: state.createPostReducer.data.postLoading,
   allTags: state.createPostReducer.data.allTags,
   isAuthorized: state.auth.auth.isAuthorized,
   post: state.createPostReducer.data.post,

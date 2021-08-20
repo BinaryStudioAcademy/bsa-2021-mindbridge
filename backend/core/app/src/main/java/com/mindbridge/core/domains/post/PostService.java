@@ -76,7 +76,7 @@ public class PostService {
 				.collect(Collectors.toList());
 	}
 
-	public void editPost(EditPostDto editPostDto) {
+	public UUID editPost(EditPostDto editPostDto) {
 		var currentPost = postRepository.getOne(editPostDto.getPostId());
 		var postVersion = PostMapper.MAPPER.postToPostVersion(currentPost);
 		postVersionRepository.save(postVersion);
@@ -87,7 +87,7 @@ public class PostService {
 		currentPost.setDraft(editPostDto.getDraft());
 		currentPost.setTags(new HashSet<>(tagRepository.findAllById(editPostDto.getTags())));
 
-		postRepository.save(currentPost);
+		return postRepository.save(currentPost).getId();
 	}
 
 	public UUID savePost(CreatePostDto createPostDto) {
