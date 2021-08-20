@@ -16,6 +16,7 @@ import TagsDiff from '../../components/TagsDiff';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import DarkButton from '@root/components/buttons/DarcButton';
 import LoaderWrapper from '@root/components/LoaderWrapper';
+import CloseSvg from '@root/components/CreatePostForm/svg/closeSvg';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -80,8 +81,29 @@ const PullRequest: React.FC<IPullRequestProps> = (
       readTime="2 min" // TODO: add real time
     />
 
+  const buttons =
+    <div className={styles.footer}>
+      <DarkBorderButton
+        loading={preloader.firstButton}
+        disabled={preloader.firstButton || preloader.secondButton}
+        content="Deny"
+        onClick={handleClosePR} />
+      <DarkButton
+        loading={preloader.secondButton}
+        disabled={preloader.firstButton || preloader.secondButton}
+        content="Accept"
+        onClick={handleAcceptPR} />
+    </div>
+
+  const prIsClosed = 
+  <div className={styles.pr_is_closed}>
+    <div className={styles.round_image}>✖</div>
+    <span>Pull request is closed</span>
+  </div>
+
   const previewContent = (
     <div >
+      {postPR.closed && prIsClosed}
       {contributor}
       <div className={styles.diff_container}>
         <Preview
@@ -97,6 +119,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   const diffContent = (
     <div >
+      {postPR.closed && prIsClosed}
       {contributor}
       <div className={styles.diff_container}>
         <div className={styles.divider}></div>
@@ -121,18 +144,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <Tab previewContent={previewContent} diffContent={diffContent} />
-      <div className={styles.footer}>
-        <DarkBorderButton
-          loading={preloader.firstButton}
-          disabled={preloader.firstButton || preloader.secondButton}
-          content="Deny"
-          onClick={handleClosePR} />
-        <DarkButton
-          loading={preloader.secondButton}
-          disabled={preloader.firstButton || preloader.secondButton}
-          content="Accept"
-          onClick={handleAcceptPR} />
-      </div>
+      {!postPR.closed && buttons} 
     </div>
   );
 };
