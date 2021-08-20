@@ -20,7 +20,6 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
 
   const handleProfileButton = () => {
     history.push('/profile');
-    history.go();
   };
 
   return (
