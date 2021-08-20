@@ -4,7 +4,7 @@ import {
   sendPostRoutine,
   fetchUserProfileRoutine,
   fetchPostRoutine, sendPRRoutine,
-  getPostVersionsRoutine, editPostRoutine
+  getPostVersionsRoutine, editPostRoutine, setLoaderRoutine
 } from '../../routines/index';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
@@ -94,10 +94,13 @@ function* watchFetchTagsRequest() {
 
 function* fetchPost({ payload }: Routine<any>) {
   try {
+    yield put(setLoaderRoutine.success({ isLoading: true }));
     const response = yield call(createPostService.getPost, payload);
+    yield put(setLoaderRoutine.success({ isLoading: false }));
 
     yield put(fetchPostRoutine.success(response));
   } catch (error) {
+    yield put(setLoaderRoutine.success({ isLoading: false, isLoaded: null }));
     yield put(fetchPostRoutine.failure(error?.message));
     toastr.error('Error', 'Loading post failed');
   }
@@ -110,8 +113,9 @@ function* watchFetchPost() {
 function* sendPR({ payload }: Routine<any>) {
   try {
     const response = yield call(createPostService.sendPR, payload);
-
     yield put(sendPRRoutine.success(response));
+    toastr.success('Success', 'Pull request has been created');
+    history.push(`/post/${payload.postId}`);
   } catch (error) {
     yield put(sendPRRoutine.failure(error?.message));
     toastr.error('Error', 'Loading PR failed');
@@ -127,8 +131,9 @@ function* watchSendPR() {
 function* editPost({ payload }: Routine<any>) {
   try {
     const response = yield call(createPostService.editPost, payload);
-    history.push(`/post/${payload.postId}`);
     yield put(editPostRoutine.success(response));
+    toastr.success('Success', 'Post has been edited');
+    history.push(`/post/${payload.postId}`);
   } catch (error) {
     yield put(editPostRoutine.failure(error?.message));
     toastr.error('Error', 'Editing post failed');

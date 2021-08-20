@@ -37,8 +37,8 @@ public class PostController {
 	}
 
 	@PutMapping("/edit")
-	public void editPost(@RequestBody EditPostDto editPostDto) {
-		postService.editPost(editPostDto);
+	public UUID editPost(@RequestBody EditPostDto editPostDto) {
+		return postService.editPost(editPostDto);
 	}
 
 	@GetMapping("/all")

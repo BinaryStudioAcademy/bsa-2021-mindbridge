@@ -47,40 +47,46 @@ function handleApiCallError(error: AxiosError): void {
 
 const refreshTokens = async () => {
   const refreshToken = localStorage.getItem(REFRESH_TOKEN);
-  const response = await axios('/api/auth/refresh', { data: { refreshToken } });
-  return response.data;
+  try {
+    const response = await axios('/api/auth/refresh', { data: { refreshToken }, method: 'POST' });
+    localStorage.setItem(ACCESS_TOKEN, response.data.accessToken);
+    localStorage.setItem(REFRESH_TOKEN, response.data.refreshToken);
+  } catch (e) {
+    if (e.response.status === 401) {
+      handleOnClickSignOut();
+    } else {
+      handleApiCallError(e);
+      throw new Error('Unhandled error');
+    }
+  }
 };
 
 const callApi = async (path: string, config: AxiosRequestConfig): Promise<any> => {
   const token = localStorage.getItem(ACCESS_TOKEN);
 
-  const newConfig = {
-    ...config,
-    headers: {
-      authorization: `Bearer ${token}`
-    }
-  };
-  try {
-    const response = await axios(path, token ? newConfig : config);
-    if (response.status === 401 && localStorage.getItem(REFRESH_TOKEN)) {
-      const tokenRefreshResponse = await refreshTokens();
-
-      if (tokenRefreshResponse.accessToken) {
-        localStorage.setItem(ACCESS_TOKEN, tokenRefreshResponse.accessToken);
-        localStorage.setItem(REFRESH_TOKEN, tokenRefreshResponse.refreshToken);
-        const updatedConfig = {
-          ...config,
-          headers: {
-            authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
-          }
-        };
-        return (await axios(path, updatedConfig)).data;
+  if (token) {
+    try {
+      return (await axios(path, { ...config, headers: { authorization: `Bearer ${token}` } })).data;
+    } catch (e) {
+      if (e.response.status === 401) {
+        await refreshTokens();
+        return (await axios(path,
+          { ...config,
+            headers: {
+              authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+          })).data;
       }
+      handleApiCallError(e);
+      throw new Error('Unhandled error');
     }
-    return response.data;
-  } catch (e) {
-    handleApiCallError(e);
-    throw new Error('Unhandled error');
+  } else {
+    try {
+      return (await axios(path, config)).data;
+    } catch (e) {
+      handleApiCallError(e);
+      throw new Error('Unhandled error');
+    }
   }
 };
 

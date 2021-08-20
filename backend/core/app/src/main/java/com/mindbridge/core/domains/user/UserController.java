@@ -33,14 +33,25 @@ public class UserController {
 
 	@PostMapping("/check/nickname")
 	public boolean checkUserNickname(@RequestBody String nickname) {
-		System.out.println(nickname);
 		String nick = nickname.substring(0, nickname.length()-1);
 		return userService.checkNickname(nick);
 	}
 
+	@PostMapping("/check/password/{id}")
+	public boolean checkUserPassword(@PathVariable UUID id, @RequestBody String password) {
+		System.out.println(password);
+		return userService.checkPassword(id, password);
+	}
+
 	@PostMapping("/update/avatar/{id}")
-	public void checkUserNickname(@PathVariable UUID id, @RequestBody String url) {
-		userService.updateUserAvatarById(id, url);
+	public UserDto updateUserAvatar(@PathVariable UUID id, @RequestBody String url) {
+		return userService.updateUserAvatarById(id, url);
+	}
+
+	@PostMapping("/update/password/{id}")
+	public UserDto updateUserPassword(@PathVariable UUID id, @RequestBody String newPassword) {
+		System.out.println(newPassword);
+		return userService.updateUserPasswordById(id, newPassword);
 	}
 
 }
