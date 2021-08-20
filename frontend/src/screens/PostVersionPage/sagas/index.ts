@@ -1,8 +1,8 @@
 import { all } from 'redux-saga/effects';
-import postVersionPagePageSagas from '@screens/PostVersionPage/containers/PostVersionPagePage/sagas';
+import postVersionPageSagas from '@screens/PostVersionPage/containers/PostVersionPage/sagas';
 
-export default function* postVersionPageSagas() {
+export default function* postVersionSagas() {
   yield all([
-    postVersionPagePageSagas()
+    postVersionPageSagas()
   ]);
 }

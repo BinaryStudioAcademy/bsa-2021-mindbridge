@@ -52,4 +52,7 @@ public class PostController {
 		return postService.getPostVersions(id);
 	}
 
+	@GetMapping("version/{id}")
+	public PostVersionDetailsDto getPostVersion(@PathVariable UUID id) {return postService.getPostVersion(id);}
+
 }

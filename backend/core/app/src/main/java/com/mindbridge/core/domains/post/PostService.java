@@ -9,6 +9,7 @@ import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
 
+import java.util.Collections;
 import java.util.HashSet;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,8 +43,8 @@ public class PostService {
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService,
-			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-			PostVersionRepository postVersionRepository, ElasticService elasticService) {
+					   PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
+					   PostVersionRepository postVersionRepository, ElasticService elasticService) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
@@ -67,13 +68,14 @@ public class PostService {
 	public List<PostsListDetailsDto> getAllPosts(Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 		return postRepository.getAllPosts(pageable).stream()
-				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
-				.collect(Collectors.toList());
+			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+			.collect(Collectors.toList());
 	}
 
 	public List<PostVersionsListDto> getPostVersions(UUID postId) {
+
 		return postVersionRepository.getPostVersionByPostId(postId).stream().map(PostVersionsListDto::fromEntity)
-				.collect(Collectors.toList());
+			.collect(Collectors.toList());
 	}
 
 	public UUID editPost(EditPostDto editPostDto) {
@@ -99,4 +101,15 @@ public class PostService {
 		return savedPost.getId();
 	}
 
+	public PostVersionDetailsDto getPostVersion(UUID id) {
+		var postVersion = postVersionRepository.findById(id);
+		var versions = postVersionRepository.getPostVersionByPostId(postVersion.get().getPost().getId());
+		var indexOfVersion = versions.indexOf(postVersion.get());
+//		if (indexOfVersion == versions.size() - 1) {
+//			return postVersionRepository.findById(id).map(PostVersionMapper.MAPPER::PostVersionToPostVersionDetailsDto).orElseThrow();
+//		}
+		var returnPostVersion = postVersion.map(PostVersionMapper.MAPPER::PostVersionToPreLastPostVersionDetailsDto).orElseThrow();
+		returnPostVersion.setPost(PostVersionMapper.MAPPER.PostVersionToPostVersionDetailsDto(versions.get(indexOfVersion + 1)));
+		return returnPostVersion;
+	}
 }

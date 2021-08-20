@@ -18,6 +18,7 @@ import Header from '@screens/Header/containers/HeaderPage';
 import PrivateRoute from '@components/PrivateRoute';
 import { NotFoundPage } from '@screens/NotFound/containers/NotFoundPage';
 import PullRequestPage from '@root/screens/PullRequest/containers/PullRequestPage';
+import PostVersionPage from '@screens/PostVersionPage/containers/PostVersionPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -59,6 +60,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/user/:userId" component={ProfilePage} />
         <PublicRoute exact path="/post/:id" component={Default} />
         <PublicRoute exact path="/pr/:id" component={PullRequestPage} />
+        <PublicRoute exact path="/post/version/:id" component={PostVersionPage} />
         <PublicRoute exact path="/create/post" component={CreatePostPage} />
         <PublicRoute exact path="/post/edit/:postId" component={CreatePostPage} />
         <PublicRoute component={NotFoundPage} />

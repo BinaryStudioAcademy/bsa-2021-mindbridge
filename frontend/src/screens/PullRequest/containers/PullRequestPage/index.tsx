@@ -146,9 +146,13 @@ const PullRequest: React.FC<IPullRequestProps> = (
     );
   }
 
+  const handleSeeDifference = () => {
+    console.log();
+  };
+
   return (
     <div className={classNames('content_wrapper', styles.container)}>
-      <Tab previewContent={previewContent} diffContent={diffContent} />
+      <Tab previewContent={previewContent} diffContent={diffContent} setShowDifference={handleSeeDifference} />
       {!postPR.closed && buttons}
     </div>
   );
