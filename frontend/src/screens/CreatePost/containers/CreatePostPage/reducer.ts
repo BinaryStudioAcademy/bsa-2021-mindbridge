@@ -6,14 +6,13 @@ import {
   sendImageRoutine,
   fetchUserProfileRoutine,
   fetchPostRoutine,
-  getPostVersionsRoutine, likePostFrontRoutine
+  getPostVersionsRoutine, likePostViewRoutine, disLikePostViewRoutine
 } from '../../routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 import { IPost } from '@screens/CreatePost/models/IPost';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
-import {likePostRoutine} from "@screens/FeedPage/routines";
 
 export interface ICreatePostReducerState {
   savingImage: {
@@ -173,7 +172,28 @@ export const createPostReducer = createReducer(initialState, {
       preloader: false
     };
   },
-  [likePostFrontRoutine.TRIGGER]: state => {
-    state.profile.userReactions[0].liked = false;
+  [likePostViewRoutine.TRIGGER]: (state, action) => {
+    if (state.profile.id) {
+      const postReaction = state.profile.userReactions.find(post => post.postId === action.payload);
+      if (postReaction && postReaction.liked === false) {
+        postReaction.liked = true;
+      } else if (postReaction) {
+        postReaction.postId = undefined;
+      } else {
+        state.profile.userReactions.push({ postId: action.payload, liked: true });
+      }
+    }
+  },
+  [disLikePostViewRoutine.TRIGGER]: (state, action) => {
+    if (state.profile.id) {
+      const postReaction = state.profile.userReactions.find(post => post.postId === action.payload);
+      if (postReaction && postReaction.liked === true) {
+        postReaction.liked = false;
+      } else if (postReaction) {
+        postReaction.postId = undefined;
+      } else {
+        state.profile.userReactions.push({ postId: action.payload, liked: false });
+      }
+    }
   }
 });

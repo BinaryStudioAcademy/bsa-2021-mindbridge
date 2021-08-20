@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import PostCard from '@components/PostCard';
 import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
@@ -13,7 +13,7 @@ import { IPostList } from '@screens/FeedPage/models/IPostList';
 import LoaderWrapper from '@components/LoaderWrapper';
 import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
-import {fetchUserProfileRoutine, likePostFrontRoutine} from '@screens/CreatePost/routines';
+import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/CreatePost/routines';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 
 export interface IFeedPageProps extends IState, IActions {
@@ -34,7 +34,8 @@ interface IActions {
   likePost: IBindingCallback1<object>;
   fetchUserProfile: IBindingCallback1<string>;
   setLoadMorePosts: IBindingAction;
-  likePostFront: IBindingAction;
+  likePostView: IBindingCallback1<string>;
+  disLikePostView: IBindingCallback1<string>;
 }
 
 const params = {
@@ -44,7 +45,8 @@ const params = {
 
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
-    isAuthorized, currentUser, fetchUserProfile, userInfo, likePost, likePostFront }
+    isAuthorized, currentUser, fetchUserProfile, userInfo, likePost, likePostView,
+    disLikePostView }
 ) => {
   useEffect(() => {
     fetchData(params);
@@ -62,7 +64,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
       userId: currentUser.id,
       liked: true
     };
-    likePostFront();
+    likePostView(postId);
     likePost(post);
   };
 
@@ -72,6 +74,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
       userId: currentUser.id,
       liked: false
     };
+    disLikePostView(postId);
     likePost(post);
   };
 
@@ -155,7 +158,8 @@ const mapDispatchToProps: IActions = {
   setLoadMorePosts: addMorePostsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
   likePost: likePostRoutine,
-  likePostFront: likePostFrontRoutine
+  likePostView: likePostViewRoutine,
+  disLikePostView: disLikePostViewRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);

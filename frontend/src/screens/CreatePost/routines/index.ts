@@ -14,4 +14,5 @@ export const fetchPostRoutine = createCreatePostRoutine('FETCH_POST');
 export const sendPRRoutine = createCreatePostRoutine('SEND_PR');
 export const getPostVersionsRoutine = createCreatePostRoutine('GET_POST_VERSIONS');
 export const editPostRoutine = createCreatePostRoutine('EDIT_POST');
-export const likePostFrontRoutine = createCreatePostRoutine('LIKE_POST_FRONT');
+export const likePostViewRoutine = createCreatePostRoutine('LIKE_POST_FRONT');
+export const disLikePostViewRoutine = createCreatePostRoutine('DISLIKE_POST_FRONT_ROUTINE');

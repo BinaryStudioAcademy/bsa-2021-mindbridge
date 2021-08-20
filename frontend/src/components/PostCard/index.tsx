@@ -22,83 +22,88 @@ interface IPostCardProps {
   userInfo: IUserProfile;
 }
 
-const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, handleDisLikePost, userInfo }) => {
-  const disLikePost = () => {
-    handleDisLikePost(post.id);
-  };
-
-  return (
-    <Card className={styles.postCard}>
-      <Card.Content>
-        <Feed>
-          <div className={styles.cardHeader}>
-            <PostHeaderInformation
-              date={post.createdAt}
-              timeRead="7 min read"
-              authorName={post.authorName}
-              avatar={post.avatar}
+const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, handleDisLikePost, userInfo }) => (
+  <Card className={styles.postCard}>
+    <Card.Content>
+      <Feed>
+        <div className={styles.cardHeader}>
+          <PostHeaderInformation
+            date={post.createdAt}
+            timeRead="7 min read"
+            authorName={post.authorName}
+            avatar={post.avatar}
+          />
+          <div className={styles.leftSide}>
+            <RatingComponent
+              postRating={post.postRating}
+              handleLikePost={handleLikePost}
+              handleDisLikePost={handleDisLikePost}
+              postId={post.id}
+              userInfo={userInfo}
+              arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
+                  && postReaction.liked)
+                ? ('#8AC858'
+                ) : (
+                  '#66B9FF'
+                )}
+              arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
+                  && !postReaction.liked)
+                ? ('#F75C48'
+                ) : (
+                  '#66B9FF'
+                )}
             />
-            <div className={styles.leftSide}>
-              <RatingComponent
-                postRating={post.postRating}
-                handleLikePost={handleLikePost}
-                handleDisLikePost={handleDisLikePost}
-                postId={post.id}
-                userInfo={userInfo}
-              />
-              <FavouriteSvg />
-            </div>
-          </div>
-        </Feed>
-        <Card.Description>
-          <Image
-            floated="right"
-            size="mini"
-            src={post.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'}
-          />
-          <Link to={`/post/${post.id}`} className={styles.postName}>{post.title}</Link>
-          <TextRenderer
-            className={styles.post_content}
-            markdown={post.markdown}
-            content={post.text}
-          />
-          <div className={styles.btnWrapper}>
-            {post.tags.map(tag => (
-              <TagsMenu
-                key={tag.id}
-                tag={tag.name}
-              />
-            ))}
-          </div>
-        </Card.Description>
-      </Card.Content>
-      <Card.Content extra className={styles.extraContent}>
-        <div className={styles.postIcons}>
-          <div className={styles.icon}>
-            <CommentSvg />
-            <p>{post.commentsCount}</p>
-          </div>
-          <div className={styles.icon}>
-            <ViewsSvg />
-            <p>{7}</p>
-          </div>
-          {}
-          <div role="button" className={styles.icon}>
-            <LikeSvg />
-            <p>{post.likesCount}</p>
-          </div>
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-          <div role="button" className={styles.icon}>
-            <DisLikeSvg />
-            <p>{post.disLikesCount}</p>
-          </div>
-          <div className={styles.icon}>
-            <ShareSvg />
+            <FavouriteSvg />
           </div>
         </div>
-      </Card.Content>
-    </Card>
-  );
-};
+      </Feed>
+      <Card.Description>
+        <Image
+          floated="right"
+          size="mini"
+          src={post.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'}
+        />
+        <Link to={`/post/${post.id}`} className={styles.postName}>{post.title}</Link>
+        <TextRenderer
+          className={styles.post_content}
+          markdown={post.markdown}
+          content={post.text}
+        />
+        <div className={styles.btnWrapper}>
+          {post.tags.map(tag => (
+            <TagsMenu
+              key={tag.id}
+              tag={tag.name}
+            />
+          ))}
+        </div>
+      </Card.Description>
+    </Card.Content>
+    <Card.Content extra className={styles.extraContent}>
+      <div className={styles.postIcons}>
+        <div className={styles.icon}>
+          <CommentSvg />
+          <p>{post.commentsCount}</p>
+        </div>
+        <div className={styles.icon}>
+          <ViewsSvg />
+          <p>{7}</p>
+        </div>
+        {}
+        <div role="button" className={styles.icon}>
+          <LikeSvg />
+          <p>{post.likesCount}</p>
+        </div>
+        <div role="button" className={styles.icon}>
+          <DisLikeSvg />
+          <p>{post.disLikesCount}</p>
+        </div>
+        <div className={styles.icon}>
+          <ShareSvg />
+        </div>
+      </div>
+    </Card.Content>
+  </Card>
+);
 
 export default PostCard;

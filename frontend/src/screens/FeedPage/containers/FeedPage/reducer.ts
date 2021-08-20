@@ -44,39 +44,26 @@ export const feedPageReducer = createReducer(initialState, {
     state.loadMore = true;
   },
   [likePostRoutine.SUCCESS]: (state, action) => {
-    // state.posts.map(post => (post.id !== action.payload.postId ? post : post
-    // ));
-    const { response } = action.payload;
-    const post = state.posts.find(p => p.id === action.payload.postId);
-    if (action.payload.reactionStatus === true) {
+    const { response, postId, reactionStatus } = action.payload;
+    const post = state.posts.find(p => p.id === postId);
+    if (reactionStatus === true) {
       if (response === null || response.isFirstReaction === true) {
-        post.likesCount += action.payload.likeQuantity;
-        post.postRating += action.payload.likeQuantity;
+        post.likesCount += action.payload.difference;
+        post.postRating += action.payload.difference;
       } else {
-        post.disLikesCount -= 1;
-        post.postRating += 1;
-        post.postRating += action.payload.likeQuantity;
-        post.likesCount += action.payload.likeQuantity;
+        post.disLikesCount -= action.payload.difference;
+        post.postRating += action.payload.difference;
+        post.postRating += action.payload.difference;
+        post.likesCount += action.payload.difference;
       }
     } else if (response === null || response.isFirstReaction === true) {
-      post.disLikesCount += action.payload.likeQuantity;
-      post.postRating -= action.payload.likeQuantity;
+      post.disLikesCount += action.payload.difference;
+      post.postRating -= action.payload.difference;
     } else {
-      post.likesCount -= 1;
-      post.postRating -= 1;
-      post.disLikesCount += action.payload.likeQuantity;
-      post.postRating -= action.payload.likeQuantity;
+      post.likesCount -= action.payload.difference;
+      post.postRating -= action.payload.difference;
+      post.disLikesCount += action.payload.difference;
+      post.postRating -= action.payload.difference;
     }
-  },
-  [disLikePostRoutine.SUCCESS]: (state, action) => {
-    // const { disLikeResponse } = action.payload;
-    // if (disLikeResponse === null || response.isFirstReaction === true) {
-    //   const p = state.posts.find(post => post.id === action.payload.postId);
-    //   p.disLikesCount += action.payload.likeQuantity;
-    // } else {
-    //   const p = state.posts.find(post => post.id === action.payload.postId);
-    //   p.likesCount -= 1;
-    //   p.disLikesCount += action.payload.likeQuantity;
-    // }
   }
 });

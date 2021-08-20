@@ -17,14 +17,13 @@ function* fetchData(filter) {
 function* likePost(action) {
   try {
     const response = yield call(feedPageService.likePost, action.payload);
-    const post = {
+    const postReaction = {
       response,
-      likeQuantity: response?.id ? 1 : -1,
+      difference: response?.id ? 1 : -1,
       postId: action.payload.postId,
       reactionStatus: action.payload.liked
     };
-    yield put(likePostRoutine.success(post));
-    toastr.success('Success', 'You liked the post');
+    yield put(likePostRoutine.success(postReaction));
   } catch (error) {
     yield put(likePostRoutine.failure(error?.message));
     toastr.error('Error', 'Like post failed');
@@ -41,7 +40,6 @@ function* disLikePost(action) {
       reactionStatus: action.payload.liked
     };
     yield put(disLikePostRoutine.success(post));
-    toastr.success('Success', 'You dislike the post');
   } catch (error) {
     yield put(disLikePostRoutine.failure(error?.message));
     toastr.error('Error', 'Dislike post failed');

@@ -125,7 +125,8 @@ const Header: React.FC<IHeaderProps> = (
             onChange={handleInputContent}
             value={elasticContent}
           />
-          <button type="button" className={styles.close_image} onClick={handleLinkClick}>✖</button>
+          {isSearchInputFilled
+          && <button type="button" className={styles.close_image} onClick={handleLinkClick}>✖</button>}
           <button type="button">
             <SearchSvg />
           </button>
