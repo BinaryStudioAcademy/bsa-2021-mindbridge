@@ -9,7 +9,7 @@ import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
 import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
 import { IPost } from '@screens/ViewPost/models/IPost';
 import TextRenderer from '@root/components/TextRenderer';
-import EditSvg from "@screens/ViewPost/components/svgs/SvgComponents/editSvg";
+import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
 
 interface IViewPostCardProps {
@@ -17,7 +17,6 @@ interface IViewPostCardProps {
   isAuthor: boolean;
 }
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor }) => {
-
   const history = useHistory();
 
   const goToEdit = () => {
@@ -44,7 +43,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor })
                 <ShareSvg />
               </div>
               {isAuthor && (
-                <div className={styles.bgCircle} onClick={goToEdit}>
+                <div role="button" tabIndex={0} className={styles.bgCircle} onKeyDown={goToEdit} onClick={goToEdit}>
                   <EditSvg />
                 </div>
               )}

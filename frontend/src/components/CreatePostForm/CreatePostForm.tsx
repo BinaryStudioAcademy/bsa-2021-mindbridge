@@ -184,7 +184,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
         trigger={(
           <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
         )}
-        content={"Title is required"}
+        content="Title is required"
         open={!form.title && isTitleEmpty}
         position="left center"
       />
@@ -199,7 +199,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
             />
           </div>
         )}
-        content={"Content is required"}
+        content="Content is required"
         open={!form.content && isContentEmpty}
         position="left center"
       />
