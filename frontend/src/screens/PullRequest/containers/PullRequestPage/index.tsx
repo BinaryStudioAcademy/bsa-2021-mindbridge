@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
-import { acceptPrRoutine, closePrRoutine, fetchPrRoutine, resetFailSendingDataRoutine } from '../../routines';
+import { acceptPrRoutine, closePrRoutine, fetchPrRoutine, resetEndSendingDataRoutine } from '../../routines';
 import TextDiff from '@root/components/TextDiff';
 import { IPostPR } from '../../models/IPostPR';
 import Tab from '../../components/Tab';
@@ -23,18 +23,18 @@ export interface IPullRequestProps extends IState, IActions {
 interface IState {
   currentUser: ICurrentUser;
   postPR: IPostPR;
-  failSendingDada: boolean;
+  endSendingDada: boolean;
 }
 
 interface IActions {
   fetchPR: IBindingCallback1<string>;
   closePR: IBindingCallback1<IPostPR>;
-  resetFailSendingDada: IBindingAction;
+  resetEndSendingDada: IBindingAction;
   acceptPR: IBindingCallback1<IPostPR>;
 }
 
 const PullRequest: React.FC<IPullRequestProps> = (
-  { currentUser, fetchPR, closePR, acceptPR, resetFailSendingDada, postPR, failSendingDada }
+  { currentUser, fetchPR, closePR, acceptPR, resetEndSendingDada, postPR, endSendingDada }
 ) => {
   console.log(postPR);
   console.log(postPR.tags);
@@ -47,9 +47,9 @@ const PullRequest: React.FC<IPullRequestProps> = (
   }, [id]);
 
   useEffect(() => {
-    if(failSendingDada){
+    if(endSendingDada){
       setPreloader({firstButton: false, secondButton: false});
-      resetFailSendingDada();
+      resetEndSendingDada();
     }
   }); 
 
@@ -125,10 +125,12 @@ const PullRequest: React.FC<IPullRequestProps> = (
       <div className={styles.footer}>
         <DarkBorderButton 
         loading={preloader.firstButton} 
+        disabled={preloader.firstButton || preloader.secondButton}
         content="Deny" 
         onClick={handleClosePR}/>
         <DarkButton 
         loading={preloader.secondButton} 
+        disabled={preloader.firstButton || preloader.secondButton}
         content="Accept"
         onClick={handleAcceptPR} />
       </div>
@@ -139,13 +141,13 @@ const PullRequest: React.FC<IPullRequestProps> = (
 const mapStateToProps: (state) => IState = state => ({
   currentUser: state.auth.auth.user,
   postPR: state.pullRequestReducer.data.postPR,
-  failSendingDada: state.pullRequestReducer.data.failSendingData
+  endSendingDada: state.pullRequestReducer.data.endSendingData
 });
 
 const mapDispatchToProps: IActions = {
   fetchPR: fetchPrRoutine,
   closePR: closePrRoutine,
-  resetFailSendingDada: resetFailSendingDataRoutine,
+  resetEndSendingDada: resetEndSendingDataRoutine,
   acceptPR: acceptPrRoutine
 };
 

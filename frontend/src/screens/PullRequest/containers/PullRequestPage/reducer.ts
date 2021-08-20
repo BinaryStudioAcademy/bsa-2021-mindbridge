@@ -1,11 +1,11 @@
-import { closePrRoutine, resetFailSendingDataRoutine } from './../../routines/index';
+import { acceptPrRoutine, closePrRoutine, resetEndSendingDataRoutine } from './../../routines/index';
 import { fetchPrRoutine } from '../../routines/index';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPostPR } from '../../models/IPostPR';
 
 export interface IPullRequestReducerState {
   postPR: IPostPR;
-  failSendingData: boolean;
+  endSendingData: boolean;
 }
 
 const initialState: IPullRequestReducerState = {
@@ -31,17 +31,20 @@ const initialState: IPullRequestReducerState = {
     updatedAt: '',
     tags: []
   },
-  failSendingData: false
+  endSendingData: false
 };
 
 export const pullRequestReducer = createReducer(initialState, {
   [fetchPrRoutine.SUCCESS]: (state, action) => {
     state.postPR = action.payload;
   },
-  [closePrRoutine.FAILURE]: (state) => {
-    state.failSendingData = true;
+  [closePrRoutine.FULFILL]: (state) => {
+    state.endSendingData = true;
   },
-  [resetFailSendingDataRoutine.TRIGGER]: (state) => {
-    state.failSendingData = false;
+  [acceptPrRoutine.FULFILL]: (state) => {
+    state.endSendingData = true;
+  },
+  [resetEndSendingDataRoutine.TRIGGER]: (state) => {
+    state.endSendingData = false;
   }
 });
