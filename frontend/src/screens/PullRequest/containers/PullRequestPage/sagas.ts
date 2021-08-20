@@ -1,6 +1,5 @@
-import { closePrRoutine, acceptPrRoutine } from './../../routines/index';
+import { closePrRoutine, acceptPrRoutine, fetchPrRoutine } from '../../routines/index';
 import { toastr } from 'react-redux-toastr';
-import { fetchPrRoutine } from '../../routines/index';
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import pullRequestService from '../../services';
 import { history } from '@helpers/history.helper';
@@ -35,7 +34,7 @@ function* putAcceptedPR(action) {
   } catch (error) {
     yield put(acceptPrRoutine.failure(error?.message));
     toastr.error('Error', 'Sending data failed');
-  }finally {
+  } finally {
     yield put(acceptPrRoutine.fulfill());
   }
 }
@@ -49,7 +48,7 @@ function* watchClosePrRequest() {
 }
 
 function* watchAcceptPrRequest() {
-  yield takeEvery( acceptPrRoutine.TRIGGER, putAcceptedPR);
+  yield takeEvery(acceptPrRoutine.TRIGGER, putAcceptedPR);
 }
 
 export default function* pullRequestPageSagas() {

@@ -23,13 +23,20 @@ const AuthorAndDate = ({ avatar, nickname, lastName, firstName, className, date,
       alt="avatar"
     />
     {firstName
-      && 
+      && (
       <div className={styles.avatar_and_name_group}>
-        <span className={styles.user_name}>{firstName} {lastName}</span>
+        <span className={styles.user_name}>
+          {firstName}
+          {' '}
+          {lastName}
+        </span>
         <div className={styles.dot} />
       </div>
-    }
-    <span className={styles.user_name}>@{nickname}</span>
+      )}
+    <span className={styles.user_name}>
+      @
+      {nickname}
+    </span>
     <div className={styles.dot} />
     <span className={styles.date}>{timeToLocal(date)}</span>
     <div className={styles.dot} />

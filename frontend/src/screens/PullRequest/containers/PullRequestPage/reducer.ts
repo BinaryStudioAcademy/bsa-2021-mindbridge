@@ -1,5 +1,4 @@
-import { acceptPrRoutine, closePrRoutine, resetEndSendingDataRoutine } from './../../routines/index';
-import { fetchPrRoutine } from '../../routines/index';
+import { acceptPrRoutine, closePrRoutine, resetEndSendingDataRoutine, fetchPrRoutine } from '../../routines/index';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPostPR } from '../../models/IPostPR';
 
@@ -38,13 +37,13 @@ export const pullRequestReducer = createReducer(initialState, {
   [fetchPrRoutine.SUCCESS]: (state, action) => {
     state.postPR = action.payload;
   },
-  [closePrRoutine.FULFILL]: (state) => {
+  [closePrRoutine.FULFILL]: state => {
     state.endSendingData = true;
   },
-  [acceptPrRoutine.FULFILL]: (state) => {
+  [acceptPrRoutine.FULFILL]: state => {
     state.endSendingData = true;
   },
-  [resetEndSendingDataRoutine.TRIGGER]: (state) => {
+  [resetEndSendingDataRoutine.TRIGGER]: state => {
     state.endSendingData = false;
   }
 });

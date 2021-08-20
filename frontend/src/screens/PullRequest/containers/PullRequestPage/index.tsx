@@ -60,7 +60,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
       firstButton: true
     });
     closePR(postPR);
-  }
+  };
 
   const handleAcceptPR = () => {
     setPreloader({
@@ -68,9 +68,9 @@ const PullRequest: React.FC<IPullRequestProps> = (
       secondButton: true
     });
     acceptPR(postPR);
-  }
+  };
 
-  const contributor =
+  const contributor = (
     <AuthorAndDate
       className={styles.contributor}
       avatar={postPR.contributor.avatar}
@@ -78,31 +78,36 @@ const PullRequest: React.FC<IPullRequestProps> = (
       lastName={postPR.contributor.lastName}
       firstName={postPR.contributor.firstName}
       date={postPR.createdAt}
-      readTime="2 min" // TODO: add real time
+      readTime="2 min"
     />
+  );
 
-  const buttons =
+  const buttons = (
     <div className={styles.footer}>
       <DarkBorderButton
         loading={preloader.firstButton}
         disabled={preloader.firstButton || preloader.secondButton}
         content="Deny"
-        onClick={handleClosePR} />
+        onClick={handleClosePR}
+      />
       <DarkButton
         loading={preloader.secondButton}
         disabled={preloader.firstButton || preloader.secondButton}
         content="Accept"
-        onClick={handleAcceptPR} />
+        onClick={handleAcceptPR}
+      />
     </div>
+  );
 
-  const prIsClosed = 
-  <div className={styles.pr_is_closed}>
-    <div className={styles.round_image}>✖</div>
-    <span>Pull request is closed</span>
-  </div>
+  const prIsClosed = (
+    <div className={styles.pr_is_closed}>
+      <div className={styles.round_image}>✖</div>
+      <span>Pull request is closed</span>
+    </div>
+  );
 
   const previewContent = (
-    <div >
+    <div>
       {postPR.closed && prIsClosed}
       {contributor}
       <div className={styles.diff_container}>
@@ -118,11 +123,11 @@ const PullRequest: React.FC<IPullRequestProps> = (
   );
 
   const diffContent = (
-    <div >
+    <div>
       {postPR.closed && prIsClosed}
       {contributor}
       <div className={styles.diff_container}>
-        <div className={styles.divider}></div>
+        <div className={styles.divider} />
         <TitleDiff className={styles.field} oldTitle={postPR.post.title} newTitle={postPR.title} />
         <TagsDiff className={styles.field} oldTags={postPR.post.tags} newTags={postPR.tags} />
         <div className={styles.grey_label}>Changes in content:</div>
@@ -137,14 +142,14 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   if (!postPR.title) {
     return (
-      <LoaderWrapper loading={true} />
-    )
+      <LoaderWrapper loading />
+    );
   }
 
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <Tab previewContent={previewContent} diffContent={diffContent} />
-      {!postPR.closed && buttons} 
+      {!postPR.closed && buttons}
     </div>
   );
 };
