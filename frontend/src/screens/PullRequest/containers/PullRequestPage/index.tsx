@@ -16,7 +16,6 @@ import TagsDiff from '../../components/TagsDiff';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import DarkButton from '@root/components/buttons/DarcButton';
 import LoaderWrapper from '@root/components/LoaderWrapper';
-import CloseSvg from '@root/components/CreatePostForm/svg/closeSvg';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -101,7 +100,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   const prIsClosed = (
     <div className={styles.pr_is_closed}>
-      <div className={styles.round_image}>✖</div>
+      <div className={styles.round_image}>✔</div>
       <span>Pull request is closed</span>
     </div>
   );
