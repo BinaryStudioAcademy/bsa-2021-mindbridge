@@ -64,8 +64,8 @@ const PostVersions: React.FC<IPostVersionsProps> = (
   return (
     <div className={styles.postVersions}>
       <div className={styles.main}>
-        <h3>Versions of your post</h3>
-        <p>{`"${postTitle}"`}</p>
+        <h3>Versions of post</h3>
+        <h2 className={styles.postName}>{postTitle}</h2>
         {versionsOfPost ? (
           versionsOfPost.map(version => (
             <PostVersionItem

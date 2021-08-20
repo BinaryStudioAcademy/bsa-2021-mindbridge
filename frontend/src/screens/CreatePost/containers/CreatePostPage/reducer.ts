@@ -124,6 +124,7 @@ export const createPostReducer = createReducer(initialState, {
     state.profile = payload;
   },
   [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersion]>) => {
+    state.versionsOfPost = [];
     payload.map(version => state.versionsOfPost.push(version));
   },
   [setLoaderRoutine.SUCCESS]: (state, { payload }) => {
