@@ -50,7 +50,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
           ))}
         </div>
         <div className={styles.cardHeader}>
-          <PostInformation firstName={post.author.firstName} lastName={post.author.lastName} date={post.createdAt} avatar={post.author.avatar} />
+          <PostInformation id={post.author.id} firstName={post.author.firstName} lastName={post.author.lastName} date={post.createdAt} avatar={post.author.avatar} />
         </div>
       </Feed>
       <TextRenderer

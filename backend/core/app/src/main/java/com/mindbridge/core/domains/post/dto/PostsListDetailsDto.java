@@ -20,6 +20,8 @@ public class PostsListDetailsDto {
 
 	private String text;
 
+	private String authorId;
+
 	private String authorName;
 
 	private String createdAt;
@@ -44,7 +46,7 @@ public class PostsListDetailsDto {
 
 	public static PostsListDetailsDto fromEntity(Post post, PostsReactionsQueryResult postsReactionsQueryResult) {
 		return PostsListDetailsDto.builder().id(post.getId().toString()).title(post.getTitle()).text(post.getText())
-				.authorName(post.getAuthor().getFullName()).createdAt(getDate(post.getCreatedAt()))
+				.authorId(post.getAuthor().getId().toString()).authorName(post.getAuthor().getFullName()).createdAt(getDate(post.getCreatedAt()))
 				.commentsCount(post.getComments().size())
 				.tags(post.getTags().stream().map(TagDto::fromEntity).collect(Collectors.toList()))
 				.likesCount(postsReactionsQueryResult.likeCount).disLikesCount(postsReactionsQueryResult.disLikeCount)

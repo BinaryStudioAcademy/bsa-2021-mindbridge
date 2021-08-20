@@ -6,6 +6,7 @@ import Default from 'screens/Default/containers/DefaultPage';
 import CreatePostPage from '@root/screens/CreatePost/containers/CreatePostPage';
 import FeedPage from '@screens/FeedPage/containers/FeedPage';
 import ProfilePage from '@screens/ProfilePage/containers/ProfilePage';
+import PublicProfilePage from '@screens/ProfilePage/containers/PublicProfilePage';
 import ViewPost from '@screens/ViewPost/containers/ViewPostPage';
 import LoginPage from 'screens/Login/containers/LoginPage';
 import RegistrationPage from 'screens/Login/containers/RegisterPage';
@@ -55,7 +56,8 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/oauth2/resolve" component={oauth2handler} />
         <PublicRoute exact path="/post/:id" component={ViewPost} />
         <PublicRoute exact path="/create/post" component={CreatePostPage} />
-        <PublicRoute exact path="/user/:userId" component={ProfilePage} />
+        <PublicRoute exact path="/profile" component={ProfilePage} />
+        <PublicRoute exact path="/user/:userId" component={PublicProfilePage} />
         <PublicRoute exact path="/post/:id" component={Default} />
         <PublicRoute exact path="/create/post" component={CreatePostPage} />
         <PublicRoute exact path="/post/edit/:postId" component={CreatePostPage} />

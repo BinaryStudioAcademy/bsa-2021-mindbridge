@@ -24,6 +24,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
       <Feed>
         <div className={styles.cardHeader}>
           <PostHeaderInformation
+            authorId={post.authorId}
             date={post.createdAt}
             timeRead="7 min read"
             authorName={post.authorName}

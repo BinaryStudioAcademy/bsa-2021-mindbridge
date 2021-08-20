@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface PostPRRepository extends JpaRepository<PostPR, UUID>, JpaSpecificationExecutor<PostPR> {
 
+	int countPostPRByContributorId(UUID id);
 }
