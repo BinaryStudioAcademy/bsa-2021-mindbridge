@@ -40,18 +40,18 @@ const PullRequest: React.FC<IPullRequestProps> = (
   console.log(postPR.tags);
   const { id } = useParams();
 
-  const [preloader, setPreloader] = useState({ firstButton: false, secondButton: false});
+  const [preloader, setPreloader] = useState({ firstButton: false, secondButton: false });
 
   useEffect(() => {
     fetchPR(id);
   }, [id]);
 
   useEffect(() => {
-    if(endSendingDada){
-      setPreloader({firstButton: false, secondButton: false});
+    if (endSendingDada) {
+      setPreloader({ firstButton: false, secondButton: false });
       resetEndSendingDada();
     }
-  }); 
+  });
 
   const handleClosePR = () => {
     setPreloader({
@@ -69,15 +69,20 @@ const PullRequest: React.FC<IPullRequestProps> = (
     acceptPR(postPR);
   }
 
+  const contributor =
+    <AuthorAndDate
+      className={styles.contributor}
+      avatar={postPR.contributor.avatar}
+      nickname={postPR.contributor.nickname}
+      lastName={postPR.contributor.lastName}
+      firstName={postPR.contributor.firstName}
+      date={postPR.createdAt}
+      readTime="2 min" // TODO: add real time
+    />
+
   const previewContent = (
     <div >
-      <AuthorAndDate
-        className={styles.contributor}
-        avatar={postPR.contributor.avatar}
-        nickname={postPR.contributor.nickname}
-        date={postPR.createdAt}
-        readTime="2 min" // TODO: add real time
-      />
+      {contributor}
       <div className={styles.diff_container}>
         <Preview
           coverImage={postPR.coverImage}
@@ -92,13 +97,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   const diffContent = (
     <div >
-      <AuthorAndDate
-        className={styles.contributor}
-        avatar={postPR.contributor.avatar}
-        nickname={postPR.contributor.nickname}
-        date={postPR.createdAt}
-        readTime="2 min" // TODO: add real time
-      />
+      {contributor}
       <div className={styles.diff_container}>
         <div className={styles.divider}></div>
         <TitleDiff className={styles.field} oldTitle={postPR.post.title} newTitle={postPR.title} />
@@ -113,7 +112,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
     </div>
   );
 
-  if (!postPR.title){
+  if (!postPR.title) {
     return (
       <LoaderWrapper loading={true} />
     )
@@ -123,16 +122,16 @@ const PullRequest: React.FC<IPullRequestProps> = (
     <div className={classNames('content_wrapper', styles.container)}>
       <Tab previewContent={previewContent} diffContent={diffContent} />
       <div className={styles.footer}>
-        <DarkBorderButton 
-        loading={preloader.firstButton} 
-        disabled={preloader.firstButton || preloader.secondButton}
-        content="Deny" 
-        onClick={handleClosePR}/>
-        <DarkButton 
-        loading={preloader.secondButton} 
-        disabled={preloader.firstButton || preloader.secondButton}
-        content="Accept"
-        onClick={handleAcceptPR} />
+        <DarkBorderButton
+          loading={preloader.firstButton}
+          disabled={preloader.firstButton || preloader.secondButton}
+          content="Deny"
+          onClick={handleClosePR} />
+        <DarkButton
+          loading={preloader.secondButton}
+          disabled={preloader.firstButton || preloader.secondButton}
+          content="Accept"
+          onClick={handleAcceptPR} />
       </div>
     </div>
   );

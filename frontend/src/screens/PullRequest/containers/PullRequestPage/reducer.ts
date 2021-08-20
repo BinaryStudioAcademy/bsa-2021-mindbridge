@@ -11,14 +11,14 @@ export interface IPullRequestReducerState {
 const initialState: IPullRequestReducerState = {
   postPR: {
     closed: false,
-    contributor: { id: '', nickname: '', avatar: '' },
+    contributor: { id: '', nickname: '', avatar: '', lastName: '', firstName: '' },
     coverImage: '',
     createdAt: '',
     deleted: false,
     id: '',
     markdown: false,
     post: {
-      author: { id: '', nickname: '', avatar: '' },
+      author: { id: '', nickname: '', avatar: '', lastName: '', firstName: '' },
       coverImage: '',
       id: '',
       markdown: false,

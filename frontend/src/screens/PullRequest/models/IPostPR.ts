@@ -1,23 +1,16 @@
 import { ITag } from '@root/screens/FeedPage/models/ITag';
+import { IUser } from './IUser';
 
 export interface IPostPR {
   closed: boolean;
-  contributor: {
-    id: string;
-    nickname: string;
-    avatar: string;
-    };
+  contributor: IUser;
   coverImage: string;
   createdAt: string;
   deleted: boolean;
   id: string;
   markdown: boolean;
   post: {
-    author: {
-      id: string;
-      nickname: string;
-      avatar: string;
-      };
+    author: IUser;
     coverImage: string;
     id: string;
     markdown: boolean;
