@@ -25,6 +25,8 @@ interface ICreatePostFormProps {
     preloader: boolean;
   };
   resetImageTag: IBindingAction;
+  isTitleEmpty: boolean;
+  isContentEmpty: boolean;
 }
 
 const checkImageSize = file => {
@@ -37,7 +39,18 @@ const checkImageSize = file => {
 };
 
 const CreatePostForm: React.FC<ICreatePostFormProps> = (
-  { form, setForm, sendImage, allTags, imageTag, modes, resetImageTag, isCreateForm }
+  {
+    form,
+    setForm,
+    sendImage,
+    allTags,
+    imageTag,
+    modes,
+    resetImageTag,
+    isCreateForm,
+    isTitleEmpty,
+    isContentEmpty
+  }
 ) => {
   const { getRootProps } = useDropzone({
     disabled: imageTag.preloader,
@@ -167,15 +180,30 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
           position="left center"
         />
       )}
-      <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
-      <div className={styles.content_input_container}>
-        <textarea
-          className={styles.content_input}
-          value={form.content}
-          onChange={handleContent}
-          placeholder="Write your post content"
-        />
-      </div>
+      <Popup
+        trigger={(
+          <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
+        )}
+        content={"Title is required"}
+        open={!form.title && isTitleEmpty}
+        position="left center"
+      />
+      <Popup
+        trigger={(
+          <div className={styles.content_input_container}>
+            <textarea
+              className={styles.content_input}
+              value={form.content}
+              onChange={handleContent}
+              placeholder="Write your post content"
+            />
+          </div>
+        )}
+        content={"Content is required"}
+        open={!form.content && isContentEmpty}
+        position="left center"
+      />
+
       {dropzoneOrTag}
       <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
     </div>

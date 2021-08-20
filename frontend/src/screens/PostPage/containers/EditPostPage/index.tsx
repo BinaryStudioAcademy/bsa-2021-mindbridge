@@ -116,6 +116,8 @@ const EditPost: React.FC<IEditPostProps> = (
     tags: [],
     editedTag: ''
   });
+  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
+  const [isContentEmpty, setIsContentEmpty] = useState(false);
 
   const { postId } = useParams();
 
@@ -182,18 +184,25 @@ const EditPost: React.FC<IEditPostProps> = (
   };
   const handleCancel = () => {
     setForm({
+      ...form,
+      title: post.title,
+      content: post.text,
+      tags: Array.from(post.tags.map(tag => tag.id)),
       coverImage: {
         title: '',
-        url: ''
-      },
-      title: '',
-      content: '',
-      tags: [],
-      editedTag: ''
+        url: post.coverImage
+      }
     });
   };
 
   const handleSendForm = isDraft => {
+    if (!form.title || !form.content) {
+      setIsTitleEmpty(!form.title);
+      setIsContentEmpty(!form.content);
+      return;
+    }
+    setIsContentEmpty(false);
+    setIsTitleEmpty(false);
     if (currentUserId === post.author.id) {
       const postOnEdit = {
         title: form.title,
@@ -240,14 +249,14 @@ const EditPost: React.FC<IEditPostProps> = (
             rating={userInfo.profile.rating}
             postNotificationCount={userInfo.profile.postsQuantity}
           />
+          {
+            currentUserId === post?.author?.id && (
+              <div className={styles.history_sidebar_container}>
+                <HistorySidebar history={versionsOfPost} />
+              </div>
+            )
+          }
         </div>
-        {
-          currentUserId === post?.author?.id && (
-            <div className={styles.history_sidebar_container}>
-              <HistorySidebar history={versionsOfPost} />
-            </div>
-          )
-        }
         {
           isLoading ? (
             <form className={styles.create_post_container}>
@@ -345,6 +354,8 @@ const EditPost: React.FC<IEditPostProps> = (
                     allTags={allTags}
                     imageTag={imageTag}
                     resetImageTag={resetImageTag}
+                    isTitleEmpty={isTitleEmpty}
+                    isContentEmpty={isContentEmpty}
                   />
                 )
                 : <PostPreview form={form} modes={modes} allTags={allTags} />}

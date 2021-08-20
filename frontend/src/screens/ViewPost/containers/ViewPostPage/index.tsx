@@ -44,7 +44,10 @@ const ViewPost: React.FC<IViewPostProps> = (
   return (
     <div className={styles.viewPost}>
       <div className={styles.main}>
-        <ViewPostCard post={data.post} />
+        <ViewPostCard
+          post={data.post}
+          isAuthor={data.post.author.id === currentUser.id}
+        />
       </div>
       <div className={styles.sidebar}>
         <div className={styles.viewPostSideBar}>
@@ -60,10 +63,12 @@ const ViewPost: React.FC<IViewPostProps> = (
                   postNotificationCount={userInfo.postsQuantity}
                 />
               </div>
-              <SuggestChangesCard
-                postId={data.post.id}
-                isAuthor={data.post.author.id === currentUser.id}
-              />
+              {data.post.author.id !== currentUser.id && (
+                <SuggestChangesCard
+                  postId={data.post.id}
+                  isAuthor={data.post.author.id === currentUser.id}
+                />
+              )}
               <div className={styles.tagsSideBar}>
                 <FeedTagsSideBar />
               </div>
