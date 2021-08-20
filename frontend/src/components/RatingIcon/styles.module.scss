@@ -1,15 +1,15 @@
 @import "../../styles/common.sass";
 
 .arrowDown {
-  margin-left: 13px;
-  margin-top: 4px;
+  margin-left: 1rem;
+  margin-top: 0.29rem;
   fill: #66B9FF;
   cursor: pointer;
 }
 
 .arrowUp {
-  margin-left: 13px;
-  margin-bottom: 4px;
+  margin-left: 1rem;
+  margin-bottom: 0.29rem;
   margin-top: -0.4em;
   fill: #66B9FF;
   cursor: pointer;
@@ -21,7 +21,7 @@
 }
 
 .ratingNumber {
-  width: 40px;
+  width: 2.9rem;
   text-align: center;
   font-family: Lato, sans-serif;
   font-size: 0.88em;
@@ -33,7 +33,7 @@
   display: flex;
   flex-direction: column;
   margin-right: 1em;
-  margin-top: 6px;
+  margin-top: 0.43rem;
 }
 
 .arrowUpDiv {

@@ -90,11 +90,11 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
           <p>{7}</p>
         </div>
         {}
-        <div role="button" className={styles.icon}>
+        <div className={styles.icon}>
           <LikeSvg />
           <p>{post.likesCount}</p>
         </div>
-        <div role="button" className={styles.icon}>
+        <div className={styles.icon}>
           <DisLikeSvg />
           <p>{post.disLikesCount}</p>
         </div>
