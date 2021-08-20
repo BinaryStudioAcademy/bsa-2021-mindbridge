@@ -15,21 +15,6 @@
   cursor: pointer;
 }
 
-.arrowLike {
-  margin-left: 13px;
-  margin-bottom: 4px;
-  margin-top: -0.4em;
-  cursor: pointer;
-  fill: #8AC858;
-}
-
-.arrowDisLike {
-  margin-left: 13px;
-  margin-top: 4px;
-  cursor: pointer;
-  fill: #F75C48;
-}
-
 .arrowDown:hover,
 .arrowUp:hover {
   fill: $dark-grey;
