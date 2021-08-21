@@ -15,11 +15,14 @@ import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
+import HistorySidebar from '@components/PostHistorySidebar';
+import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
   currentUser: ICurrentUser;
   userInfo: IUserProfile;
+  versionsOfPost: IPostVersion[];
 }
 
 interface IState {
@@ -29,17 +32,31 @@ interface IState {
 interface IActions {
   fetchData: IBindingCallback1<string>;
   fetchUserProfile: IBindingCallback1<string>;
+  getPostVersions: IBindingCallback1<object>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
-  { data, fetchData, isAuthorized, currentUser, fetchUserProfile, userInfo }
+  {
+    data,
+    fetchData,
+    isAuthorized,
+    currentUser,
+    fetchUserProfile,
+    userInfo,
+    getPostVersions,
+    versionsOfPost
+  }
 ) => {
   const { id } = useParams();
 
   useEffect(() => {
-    fetchData(id);
     fetchUserProfile(currentUser.id);
-  }, [id, currentUser]);
+  }, [currentUser]);
+
+  useEffect(() => {
+    fetchData(id);
+    getPostVersions({ postId: id });
+  }, [id]);
 
   return (
     <div className={styles.viewPost}>
@@ -68,6 +85,10 @@ const ViewPost: React.FC<IViewPostProps> = (
                   postId={data.post.id}
                   isAuthor={data.post.author.id === currentUser.id}
                 />
+              {currentUser.id === data.post?.author?.id && (
+                <div className={styles.history_sidebar_container}>
+                  <HistorySidebar history={versionsOfPost} postId={id} />
+                </div>
               )}
               <div className={styles.tagsSideBar}>
                 <FeedTagsSideBar />
@@ -92,10 +113,12 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
   userInfo: state.postPageReducer.data.profile
+  versionsOfPost: state.createPostReducer.data.versionsOfPost
 });
 
 const mapDispatchToProps: IActions = {
   fetchData: fetchDataRoutine,
+  getPostVersions: getPostVersionsRoutine,
   fetchUserProfile: fetchUserProfileRoutine
 };
 

@@ -8,6 +8,9 @@ import {
   fetchUserProfileRoutine, fetchTagsRoutine, fetchPostRoutine, sendPRRoutine,
   getPostVersionsRoutine, editPostRoutine, resetImageTagRoutine
 } from '@screens/PostPage/routines';
+import {
+  likePostViewRoutine, disLikePostViewRoutine
+} from '@screens/CreatePost/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
@@ -20,7 +23,9 @@ const requests = combineReducers({
   fetchPostRequest: reducerCreator[fetchPostRoutine.TRIGGER],
   sendPRRequest: reducerCreator[sendPRRoutine.TRIGGER],
   editPostRequest: reducerCreator[editPostRoutine.TRIGGER],
-  getPostVersionsRequest: reducerCreator[getPostVersionsRoutine.TRIGGER]
+  getPostVersionsRequest: reducerCreator[getPostVersionsRoutine.TRIGGER],
+  likePostFrontRequest: reducerCreator[likePostViewRoutine.TRIGGER],
+  disLikePostRequest: reducerCreator[disLikePostViewRoutine.TRIGGER]
 });
 
 export default combineReducers({

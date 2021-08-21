@@ -16,8 +16,6 @@ import { extractData } from '@screens/Header/reducers';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
-import LogOutSvg from '@screens/Header/containers/HeaderPage/svg/logOutSvg';
-import { handleOnClickSignOut } from '@helpers/signOut.helper';
 import { IPost } from '@screens/Header/models/IPost';
 import FoundPostsList from '@components/FoundPostsList';
 import { useDebouncedCallback } from 'use-debounce';
@@ -53,7 +51,7 @@ const Header: React.FC<IHeaderProps> = (
     }
   }, [currentUser]);
   const [isListOpen, setIsListOpen] = useState(false);
-  const [isSearchInputEmpty, setIsSearchInputEmpty] = useState(false);
+  const [isSearchInputFilled, setIsSearchInputFilled] = useState(false);
   const toggleNotificationList = () => {
     fetchNotificationList(currentUser.id);
     setIsListOpen(!isListOpen);
@@ -69,22 +67,28 @@ const Header: React.FC<IHeaderProps> = (
   };
 
   const handleLinkClick = () => {
-    setIsSearchInputEmpty(false);
+    setIsSearchInputFilled(false);
     searchPostsByElastic('');
     setElasticContent('');
   };
 
   const debounced = useDebouncedCallback(value => {
     searchPostsByElastic(value);
-  }, 1000);
+  }, 400);
 
   const handleInputContent = (event: any) => {
     debounced(event.target.value);
     setElasticContent(event.target.value);
     if (event.target.value) {
-      setIsSearchInputEmpty(true);
+      setIsSearchInputFilled(true);
     } else {
-      setIsSearchInputEmpty(false);
+      setIsSearchInputFilled(false);
+    }
+  };
+
+  const handleBlur = (event: any) => {
+    if (!event.relatedTarget) {
+      setIsSearchInputFilled(false);
     }
   };
 
@@ -112,13 +116,19 @@ const Header: React.FC<IHeaderProps> = (
           <BellSvg />
           <NotificationCount notificationCount={notificationCount} />
         </button>
-        <div className={styles.search_input}>
-          <input type="text" placeholder="Search..." onChange={handleInputContent} value={elasticContent} />
-          <button type="button" className={styles.close_image} onClick={handleLinkClick}>✖</button>
+        <div className={styles.search_input} onBlur={handleBlur}>
+          <input
+            type="text"
+            placeholder="Search..."
+            onChange={handleInputContent}
+            value={elasticContent}
+          />
+          {isSearchInputFilled
+          && <button type="button" className={styles.close_image} onClick={handleLinkClick}>✖</button>}
           <button type="button">
             <SearchSvg />
           </button>
-          {isSearchInputEmpty
+          {isSearchInputFilled
             && (
             <div className={styles.foundPosts}>
               <ul>

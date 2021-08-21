@@ -21,4 +21,5 @@ public class EditPostDto {
 
 	private Set<UUID> tags;
 
+	private UUID editorId;
 }

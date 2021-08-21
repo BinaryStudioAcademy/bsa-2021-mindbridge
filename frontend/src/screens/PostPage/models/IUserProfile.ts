@@ -1,3 +1,5 @@
+import { IUserReactions } from '@screens/CreatePost/models/IUserReactions';
+
 export interface IUserProfile {
   id: string;
   fullName: string;
@@ -5,4 +7,5 @@ export interface IUserProfile {
   postsQuantity: number;
   followersQuantity: number;
   rating: number;
+  userReactions: IUserReactions[];
 }

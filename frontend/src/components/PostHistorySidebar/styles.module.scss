@@ -5,35 +5,62 @@
     padding: 1.5rem;
     padding-left: 1.9rem;
     border-radius: 0.5rem;
+    margin-bottom: 2em;
     a:hover{
         cursor: pointer;
     }
 }
+.sidebar_links{
+  display: flex;
+  flex-direction: column;
+  padding-top: 1.3rem;
+  padding-left: 1.45rem;
+  :first-child{
+    margin-top: 0;
+  }
 
+}
 .title{
-    font-size: 0.9rem;
-    color: $dark-grey;
-    font-family: Lato;
-    font-style: normal;
-    font-weight: bold;
+    a {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        svg {
+            width: 2rem;
+        }
+      span {
+          font-size: 0.9rem;
+          color: $dark-grey;
+          font-family: Lato;
+          font-style: normal;
+          font-weight: bold;
+      }
+
+      &:hover span {
+        color: #66B9FF;
+      }
+    }
 }
 
 .history_links{
     display: flex;
     flex-direction: column;
     .link{
-        margin-top: 1.4rem;
+        margin-top: 1rem;
         display: flex;
         flex-direction: row;
         align-items: center;
         align-content: center;
-        a{
+        a {
             margin-left: 0.5rem;
             font-size: 0.7rem;
             color: $dark-grey;
             font-family: Lato;
             font-style: normal;
         }
+      &:hover a {
+        color: #66B9FF;
+      }
     }
 }
 
