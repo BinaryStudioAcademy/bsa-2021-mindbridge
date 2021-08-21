@@ -106,8 +106,8 @@ const PostVersions: React.FC<IPostVersionsProps> = (
 const mapStateToProps: (state) => IState = state => ({
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
-  userInfo: state.createPostReducer.data.profile,
-  versionsOfPost: state.createPostReducer.data.versionsOfPost,
+  userInfo: state.postPageReducer.data.profile,
+  versionsOfPost: state.postPageReducer.data.versionsOfPost,
   postTitle: state.postVersionsReducer.data.postTitle
 });
 

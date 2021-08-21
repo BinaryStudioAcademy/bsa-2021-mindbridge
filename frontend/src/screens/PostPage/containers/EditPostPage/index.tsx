@@ -210,6 +210,7 @@ const EditPost: React.FC<IEditPostProps> = (
         markdown: modes.markdownMode,
         tags: form.tags,
         postId,
+        editorId: currentUserId,
         draft: isDraft
       };
       editPost(postOnEdit);
@@ -251,7 +252,7 @@ const EditPost: React.FC<IEditPostProps> = (
           {
             currentUserId === post?.author?.id && (
               <div className={styles.history_sidebar_container}>
-                <HistorySidebar history={versionsOfPost} />
+                <HistorySidebar history={versionsOfPost} postId={postId} />
               </div>
             )
           }
