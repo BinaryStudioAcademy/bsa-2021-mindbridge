@@ -18,9 +18,9 @@ import {
 } from '../../routines';
 import { extractData } from '@screens/CreatePost/reducers';
 import { IStateProfile } from '@screens/CreatePost/models/IStateProfile';
-import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
 import LoaderWrapper from '@components/LoaderWrapper';
 import HistorySidebar from '@components/PostHistorySidebar';
+import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 
 export interface ICreatePostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -34,7 +34,7 @@ interface IState {
     isInContent: boolean;
   };
   userInfo: IStateProfile;
-  versionsOfPost: IPostVersions[];
+  versionsOfPost: IPostVersion[];
   allTags: [any];
   currentUserId: string;
   isLoading: boolean;
@@ -66,7 +66,7 @@ interface IActions {
   sendPost: IBindingCallback1<object>;
   resetLoadingImage: IBindingAction;
   fetchData: IBindingCallback1<string>;
-  getPostVersions: IBindingAction;
+  getPostVersions: IBindingCallback1<object>;
   fetchTags: IBindingAction;
   fetchPost: IBindingCallback1<string>;
   sendPR: IBindingCallback1<object>;
@@ -119,6 +119,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
     if (postId) {
       fetchPost(postId);
     }
+    getPostVersions({ postId });
   }, [postId, fetchPost]);
 
   useEffect(() => {
@@ -141,7 +142,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
       fetchData(currentUserId);
     }
     fetchTags();
-    getPostVersions();
   }, [currentUserId, fetchTags, getPostVersions]);
 
   useEffect(() => {
@@ -219,6 +219,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         markdown: modes.markdownMode,
         tags: form.tags,
         postId,
+        editorId: currentUserId,
         draft: isDraft
       };
       editPost(postOnEdit);
@@ -261,7 +262,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         </div>
         {currentUserId === post?.author?.id && (
           <div className={styles.history_sidebar_container}>
-            <HistorySidebar history={versionsOfPost} />
+            <HistorySidebar history={versionsOfPost} postId={postId} />
           </div>
         )}
         {isLoading ? (

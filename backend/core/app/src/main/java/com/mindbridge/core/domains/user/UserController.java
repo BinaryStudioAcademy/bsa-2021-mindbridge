@@ -39,7 +39,6 @@ public class UserController {
 
 	@PostMapping("/check/password/{id}")
 	public boolean checkUserPassword(@PathVariable UUID id, @RequestBody String password) {
-		System.out.println(password);
 		return userService.checkPassword(id, password);
 	}
 
@@ -50,7 +49,6 @@ public class UserController {
 
 	@PostMapping("/update/password/{id}")
 	public UserDto updateUserPassword(@PathVariable UUID id, @RequestBody String newPassword) {
-		System.out.println(newPassword);
 		return userService.updateUserPasswordById(id, newPassword);
 	}
 
