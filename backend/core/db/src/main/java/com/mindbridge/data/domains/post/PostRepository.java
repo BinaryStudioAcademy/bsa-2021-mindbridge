@@ -29,4 +29,7 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 	@Query("select p from Post p where p.deleted = false and p.author.id = :userId")
 	List<Post> getPostsByAuthorId(UUID userId);
 
+	@Query("select p.title from Post p where p.id = :id")
+	String getTitleById(UUID id);
+
 }

@@ -6,16 +6,13 @@ const FeedTagsSideBar: FunctionComponent = () => {
   const tags = [{ id: 1, name: 'IT' }, { id: 2, name: 'Code' }, { id: 3, name: 'Humor' }, { id: 4, name: 'Work' },
     { id: 5, name: 'Tech' }, { id: 6, name: 'API' }, { id: 7, name: 'React' }, { id: 8, name: 'Sport' },
     { id: 9, name: 'Books' }, { id: 10, name: 'Self' }, { id: 11, name: 'Fitness' }];
-  const handleClick = (event: any) => {
-    console.log(event.target.value);
-  };
   return (
     <div className={styles.tagsSideBar}>
       <div className={styles.title}>
         Search by tags
       </div>
       <div className={styles.searchInput}>
-        <input type="text" placeholder="Search..." onChange={handleClick} />
+        <input type="text" placeholder="Search..." />
         <button type="button">
           <SvgSearch />
         </button>
