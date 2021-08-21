@@ -1,7 +1,7 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import feedPageService from '@screens/FeedPage/services/feedPage';
 import { toastr } from 'react-redux-toastr';
-import { fetchDataRoutine } from '@screens/FeedPage/routines';
+import { disLikePostRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
 
 function* fetchData(filter) {
   try {
@@ -14,12 +14,53 @@ function* fetchData(filter) {
   }
 }
 
+function* likePost(action) {
+  try {
+    const response = yield call(feedPageService.likePost, action.payload);
+    const postReaction = {
+      response,
+      difference: response?.id ? 1 : -1,
+      postId: action.payload.postId,
+      reactionStatus: action.payload.liked
+    };
+    yield put(likePostRoutine.success(postReaction));
+  } catch (error) {
+    yield put(likePostRoutine.failure(error?.message));
+    toastr.error('Error', 'Like post failed');
+  }
+}
+
+function* disLikePost(action) {
+  try {
+    const response = yield call(feedPageService.likePost, action.payload);
+    const post = {
+      response,
+      disLikeQuantity: response?.id ? 1 : -1,
+      postId: action.payload.postId,
+      reactionStatus: action.payload.liked
+    };
+    yield put(disLikePostRoutine.success(post));
+  } catch (error) {
+    yield put(disLikePostRoutine.failure(error?.message));
+    toastr.error('Error', 'Dislike post failed');
+  }
+}
+
 function* watchGetDataRequest() {
   yield takeEvery(fetchDataRoutine.TRIGGER, fetchData);
 }
 
+function* watchLikePost() {
+  yield takeEvery(likePostRoutine.TRIGGER, likePost);
+}
+
+function* watchDisLikePost() {
+  yield takeEvery(disLikePostRoutine.TRIGGER, disLikePost);
+}
 export default function* feedPageSagas() {
   yield all([
-    watchGetDataRequest()
+    watchGetDataRequest(),
+    watchLikePost(),
+    watchDisLikePost()
   ]);
 }

@@ -4,6 +4,7 @@ import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
+import com.mindbridge.core.domains.postVersion.dto.PostVersionsListDto;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
@@ -71,14 +72,10 @@ public class PostService {
 				.collect(Collectors.toList());
 	}
 
-	public List<PostVersionsListDto> getPostVersions(UUID postId) {
-		return postVersionRepository.getPostVersionByPostId(postId).stream().map(PostVersionsListDto::fromEntity)
-				.collect(Collectors.toList());
-	}
-
 	public UUID editPost(EditPostDto editPostDto) {
 		var currentPost = postRepository.getOne(editPostDto.getPostId());
 		var postVersion = PostMapper.MAPPER.postToPostVersion(currentPost);
+		postVersion.setAuthor(userRepository.findById(editPostDto.getEditorId()).orElseThrow());
 		postVersionRepository.save(postVersion);
 		currentPost.setTitle(editPostDto.getTitle());
 		currentPost.setText(editPostDto.getText());
@@ -97,6 +94,10 @@ public class PostService {
 		var savedPost = postRepository.save(post);
 		elasticService.put(savedPost);
 		return savedPost.getId();
+	}
+
+	public String getTitleOfPost (UUID id) {
+		return postRepository.getTitleById(id);
 	}
 
 }

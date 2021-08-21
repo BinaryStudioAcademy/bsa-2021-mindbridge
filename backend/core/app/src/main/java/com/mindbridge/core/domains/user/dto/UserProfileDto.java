@@ -1,8 +1,11 @@
 package com.mindbridge.core.domains.user.dto;
 
+import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
+import com.mindbridge.data.domains.postReaction.model.PostReaction;
+import lombok.Builder;
 import lombok.Data;
 
-import java.util.UUID;
+import java.util.*;
 
 @Data
 public class UserProfileDto {
@@ -20,5 +23,7 @@ public class UserProfileDto {
 	private int followersQuantity;
 
 	private int rating;
+
+	private List<UserReactionsDto> userReactions;
 
 }

@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { addMorePostsRoutine, fetchDataRoutine } from '@screens/FeedPage/routines';
+import { addMorePostsRoutine, disLikePostRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import { isEmptyArray } from 'formik';
@@ -42,5 +42,28 @@ export const feedPageReducer = createReducer(initialState, {
   },
   [addMorePostsRoutine.TRIGGER]: state => {
     state.loadMore = true;
+  },
+  [likePostRoutine.SUCCESS]: (state, action) => {
+    const { response, postId, reactionStatus } = action.payload;
+    const post = state.posts.find(p => p.id === postId);
+    if (reactionStatus === true) {
+      if (response === null || response.isFirstReaction === true) {
+        post.likesCount += action.payload.difference;
+        post.postRating += action.payload.difference;
+      } else {
+        post.disLikesCount -= action.payload.difference;
+        post.postRating += action.payload.difference;
+        post.postRating += action.payload.difference;
+        post.likesCount += action.payload.difference;
+      }
+    } else if (response === null || response.isFirstReaction === true) {
+      post.disLikesCount += action.payload.difference;
+      post.postRating -= action.payload.difference;
+    } else {
+      post.likesCount -= action.payload.difference;
+      post.postRating -= action.payload.difference;
+      post.disLikesCount += action.payload.difference;
+      post.postRating -= action.payload.difference;
+    }
   }
 });
