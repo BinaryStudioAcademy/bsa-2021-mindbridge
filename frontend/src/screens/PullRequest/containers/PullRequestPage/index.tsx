@@ -42,6 +42,10 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   const [preloader, setPreloader] = useState({ firstButton: false, secondButton: false });
 
+  const [seeDiff, setSeeDiff] = useState(false);
+
+  const [closed, setClosed] = useState(postPR.closed);
+
   useEffect(() => {
     fetchPR(id);
   }, [id]);
@@ -52,6 +56,8 @@ const PullRequest: React.FC<IPullRequestProps> = (
       resetEndSendingDada();
     }
   });
+
+  useEffect(() => {setClosed(true)}, [closePrRoutine.SUCCESS])
 
   const handleClosePR = () => {
     setPreloader({
@@ -67,6 +73,10 @@ const PullRequest: React.FC<IPullRequestProps> = (
       secondButton: true
     });
     acceptPR(postPR);
+  };
+
+  const handleCheckbox = () => {
+    setSeeDiff(!seeDiff);
   };
 
   const contributor = (
@@ -114,7 +124,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
           coverImage={postPR.coverImage}
           title={postPR.title}
           text={postPR.text}
-          markdown={postPR.markdown}
+          markdown={postPR.post.markdown}
           tags={postPR.tags}
         />
       </div>
@@ -123,7 +133,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   const diffContent = (
     <div>
-      {postPR.closed && prIsClosed}
+      {closed && prIsClosed}
       {contributor}
       <div className={styles.diff_container}>
         <div className={styles.divider} />
@@ -139,6 +149,24 @@ const PullRequest: React.FC<IPullRequestProps> = (
     </div>
   );
 
+  const raw = (
+    <div>
+      {closed && prIsClosed}
+      {contributor}
+      <div className={styles.diff_container}>
+        <div className={styles.divider} />
+        <TitleDiff className={styles.field} oldTitle={postPR.title} newTitle={postPR.title} />
+        <TagsDiff className={styles.field} oldTags={postPR.tags} newTags={postPR.tags} />
+        <div className={styles.grey_label}>Content:</div>
+        <TextDiff
+          className={classNames(styles.field, styles.text_diff)}
+          oldText={postPR.text}
+          newText={postPR.text}
+        />
+      </div>
+    </div>
+  );
+
   if (!postPR.title) {
     return (
       <LoaderWrapper loading />
@@ -147,7 +175,12 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   return (
     <div className={classNames('content_wrapper', styles.container)}>
-      <Tab previewContent={previewContent} diffContent={diffContent} />
+      <Tab 
+      previewContent={previewContent} 
+      diffContent={seeDiff ? diffContent : raw} 
+      handleCheckbox={handleCheckbox}
+      seeDiff={seeDiff}
+      />
       {!postPR.closed && buttons}
     </div>
   );

@@ -19,19 +19,18 @@ const TitleDiff = ({ className, oldTitle, newTitle }: ITitleDiffProps) => {
         </div>
       </div>
     );
-  } else {
-    return (
-      <div className={classNames(className, styles.titleDiff)}>
-        <div className={styles.new}>
-          <span>New title:</span>
-          <span>{newTitle}</span>
-        </div>
-        <div className={styles.old}>
-          <span>Old title:</span>
-          <span>{oldTitle}</span>
-        </div>
-      </div>
-    )
   }
-}
-  export default TitleDiff;
+  return (
+    <div className={classNames(className, styles.titleDiff)}>
+      <div className={styles.new}>
+        <span>New title:</span>
+        <span>{newTitle}</span>
+      </div>
+      <div className={styles.old}>
+        <span>Old title:</span>
+        <span>{oldTitle}</span>
+      </div>
+    </div>
+  );
+};
+export default TitleDiff;

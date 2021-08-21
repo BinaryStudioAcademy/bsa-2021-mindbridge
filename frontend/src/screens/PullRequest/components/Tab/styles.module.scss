@@ -8,9 +8,10 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  align-items: center;
   padding-top: 0.8rem;
   padding-bottom: 0.8rem;
-  button{
+  button, .see_diff{
     margin-left: 1rem;
     font-size: 0.9rem;
     font-weight: 600;
@@ -20,5 +21,35 @@
   .diffButton{
     padding-left: 0.8rem;
     padding-right: 0.8rem;
+  }
+  .see_diff{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1rem;
+  }
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  input[type="checkbox"] + div {
+    min-height: 2.36rem;
+    min-width: 2.36rem;
+    border: solid 1px $dark-grey;
+    border-radius: 0.3rem;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+
+  input[type="checkbox"]:checked + div{
+    background-color: $light-blue;
+    color: $dark-grey;
   }
 }

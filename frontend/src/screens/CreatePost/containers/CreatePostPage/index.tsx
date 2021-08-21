@@ -219,7 +219,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
         title: form.title,
         text: form.content,
         coverImage: form.coverImage.url,
-        markdown: modes.markdownMode,
+        markdown: post.markdown,
         tags: form.tags,
         postId,
         draft: isDraft
@@ -231,7 +231,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
       title: form.title,
       text: form.content,
       coverImage: form.coverImage.url,
-      markdown: modes.markdownMode,
+      markdown: post.markdown,
       author: currentUserId,
       tags: form.tags,
       postId,
@@ -286,47 +286,47 @@ const CreatePost: React.FC<ICreatePostProps> = (
                     className={styles.markdown_button}
                   />
                 )}
-                {modes.editMode
-              ? (
-                <BlueButton
-                  content={(
-                    <div>
-                      <EditSvgPart1 />
-                      <EditSvgPart2 />
-                    </div>
+              {modes.editMode
+                ? (
+                  <BlueButton
+                    content={(
+                      <div>
+                        <EditSvgPart1 />
+                        <EditSvgPart2 />
+                      </div>
                   )}
-                  onClick={changeEditViewMode}
-                  className={styles.edit_button}
-                />
-              )
-              : (
-                <ColorlessButton
-                  content={(
-                    <div>
-                      <EditSvgPart1 />
-                      <EditSvgPart2 />
-                    </div>
+                    onClick={changeEditViewMode}
+                    className={styles.edit_button}
+                  />
+                )
+                : (
+                  <ColorlessButton
+                    content={(
+                      <div>
+                        <EditSvgPart1 />
+                        <EditSvgPart2 />
+                      </div>
                   )}
-                  onClick={changeEditViewMode}
-                  className={styles.edit_button}
-                />
-              )}
-            {modes.viewMode
-              ? (
-                <BlueButton
-                  content={<ViewSvg />}
-                  className={classNames(styles.view_button)}
-                  onClick={changeEditViewMode}
-                />
-              )
-              : (
-                <ColorlessButton
-                  content={<ViewSvg />}
-                  className={classNames(styles.view_button)}
-                  onClick={changeEditViewMode}
-                />
-              )}
-          </div>
+                    onClick={changeEditViewMode}
+                    className={styles.edit_button}
+                  />
+                )}
+              {modes.viewMode
+                ? (
+                  <BlueButton
+                    content={<ViewSvg />}
+                    className={classNames(styles.view_button)}
+                    onClick={changeEditViewMode}
+                  />
+                )
+                : (
+                  <ColorlessButton
+                    content={<ViewSvg />}
+                    className={classNames(styles.view_button)}
+                    onClick={changeEditViewMode}
+                  />
+                )}
+            </div>
             {modes.editMode
               ? (
                 <CreatePostForm
