@@ -1,0 +1,75 @@
+@import "../../styles/common.sass";
+
+.contributions_sidebar_container {
+  background-color: $background-card;
+  padding: 1.5rem;
+  padding-left: 1.9rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2em;
+  a:hover{
+    cursor: pointer;
+  }
+}
+.sidebar_links {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1.3rem;
+  padding-left: 1.45rem;
+
+  :first-child{
+    margin-top: 0;
+  }
+
+}
+.title {
+  a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 1.2rem;
+    color: $dark-grey;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: bold;
+
+    &:hover span {
+      color: #66B9FF;
+    }
+  }
+}
+
+.pull_request_links {
+  display: flex;
+  flex-direction: column;
+
+  .link {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+
+    a {
+      font-size: 1rem;
+      color: rgba(53, 53, 53, 0.4);
+      font-family: Lato;
+      font-style: normal;
+
+      &:hover {
+        color: #66B9FF;
+      }
+    }
+
+    .userName {
+      color: $dark-grey;
+    }
+  }
+}
+
+.dot {
+  margin: 0 0.7rem;
+  width: 6px;
+  height: 6px;
+  background-color: rgba(102, 185, 255, 1);
+  border-radius: 50%;
+}

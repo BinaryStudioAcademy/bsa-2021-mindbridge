@@ -17,12 +17,16 @@ import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/CreatePost/routines';
 import HistorySidebar from '@components/PostHistorySidebar';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
+import ContributionsSidebar from '@components/ContributionsSidebar';
+import { fetchPostContributionsRoutine } from '@screens/PostVersions/routines';
+import { IContribution } from '@screens/ViewPost/models/IContribution';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
   currentUser: ICurrentUser;
   userInfo: IUserProfile;
   versionsOfPost: IPostVersion[];
+  contributionsOfPost: IContribution[];
 }
 
 interface IState {
@@ -33,6 +37,7 @@ interface IActions {
   fetchData: IBindingCallback1<string>;
   fetchUserProfile: IBindingCallback1<string>;
   getPostVersions: IBindingCallback1<object>;
+  fetchPostContributions: IBindingCallback1<object>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -44,7 +49,9 @@ const ViewPost: React.FC<IViewPostProps> = (
     fetchUserProfile,
     userInfo,
     getPostVersions,
-    versionsOfPost
+    versionsOfPost,
+    fetchPostContributions,
+    contributionsOfPost
   }
 ) => {
   const { id } = useParams();
@@ -56,6 +63,7 @@ const ViewPost: React.FC<IViewPostProps> = (
   useEffect(() => {
     fetchData(id);
     getPostVersions({ postId: id });
+    fetchPostContributions({ postId: id });
   }, [id]);
 
   return (
@@ -67,7 +75,7 @@ const ViewPost: React.FC<IViewPostProps> = (
         <div className={styles.viewPostSideBar}>
           {isAuthorized ? (
             <div className={styles.suggestChanges}>
-              <div className={styles.profileSideBar}>
+              {/* <div className={styles.profileSideBar}>
                 <ProfileSidebar
                   id={userInfo.id}
                   userName={userInfo.fullName}
@@ -80,12 +88,15 @@ const ViewPost: React.FC<IViewPostProps> = (
               <SuggestChangesCard
                 postId={data.post.id}
                 isAuthor={data.post.author.id === currentUser.id}
-              />
+              />*/}
               {currentUser.id === data.post?.author?.id && (
                 <div className={styles.history_sidebar_container}>
                   <HistorySidebar history={versionsOfPost} postId={id} />
                 </div>
               )}
+              <div className={styles.contributions_sidebar_container}>
+                <ContributionsSidebar contributions={contributionsOfPost} postId={data.post.id} />
+              </div>
               <div className={styles.tagsSideBar}>
                 <FeedTagsSideBar />
               </div>
@@ -109,12 +120,14 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
   userInfo: state.createPostReducer.data.profile,
-  versionsOfPost: state.createPostReducer.data.versionsOfPost
+  versionsOfPost: state.createPostReducer.data.versionsOfPost,
+  contributionsOfPost: state.postVersionsReducer.data.postContributions
 });
 
 const mapDispatchToProps: IActions = {
   fetchData: fetchDataRoutine,
   getPostVersions: getPostVersionsRoutine,
+  fetchPostContributions: fetchPostContributionsRoutine,
   fetchUserProfile: fetchUserProfileRoutine
 };
 
