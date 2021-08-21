@@ -13,9 +13,8 @@ import { IPostList } from '@screens/FeedPage/models/IPostList';
 import LoaderWrapper from '@components/LoaderWrapper';
 import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
-import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
+import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { disLikePostViewRoutine, likePostViewRoutine } from '@screens/CreatePost/routines';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;

@@ -58,7 +58,7 @@ function* fetchData(id) {
 
 export function* getPostVersions({ payload }: Routine<any>) {
   try {
-    const response = yield call(postPageService.getPostVersions);
+    const response = yield call(postPageService.getPostVersions, payload);
     yield put(getPostVersionsRoutine.success(response));
   } catch (ex) {
     yield put(getPostVersionsRoutine.failure(ex.message));

@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import style from './styles.module.scss';
 
 /* eslint-disable max-len */
 const EditSvg: FunctionComponent = () => (

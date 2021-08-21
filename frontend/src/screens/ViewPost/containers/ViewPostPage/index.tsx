@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
+import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
 import HistorySidebar from '@components/PostHistorySidebar';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 
@@ -85,6 +85,7 @@ const ViewPost: React.FC<IViewPostProps> = (
                   postId={data.post.id}
                   isAuthor={data.post.author.id === currentUser.id}
                 />
+              )}
               {currentUser.id === data.post?.author?.id && (
                 <div className={styles.history_sidebar_container}>
                   <HistorySidebar history={versionsOfPost} postId={id} />
@@ -112,8 +113,8 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   data: extractData(state),
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
-  userInfo: state.postPageReducer.data.profile
-  versionsOfPost: state.createPostReducer.data.versionsOfPost
+  userInfo: state.postPageReducer.data.profile,
+  versionsOfPost: state.postPageReducer.data.versionsOfPost
 });
 
 const mapDispatchToProps: IActions = {

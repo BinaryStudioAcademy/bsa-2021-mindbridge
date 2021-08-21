@@ -6,11 +6,8 @@ import { postPageReducer } from '@screens/PostPage/containers/reducer';
 import {
   sendPostRoutine, sendImageRoutine, resetLoadingImageRoutine,
   fetchUserProfileRoutine, fetchTagsRoutine, fetchPostRoutine, sendPRRoutine,
-  getPostVersionsRoutine, editPostRoutine, resetImageTagRoutine
+  getPostVersionsRoutine, editPostRoutine, resetImageTagRoutine, likePostViewRoutine, disLikePostViewRoutine
 } from '@screens/PostPage/routines';
-import {
-  likePostViewRoutine, disLikePostViewRoutine
-} from '@screens/CreatePost/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */

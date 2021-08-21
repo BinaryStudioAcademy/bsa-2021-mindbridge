@@ -14,4 +14,6 @@ export const fetchPostRoutine = postPageRoutine('FETCH_POST');
 export const sendPRRoutine = postPageRoutine('SEND_PR');
 export const getPostVersionsRoutine = postPageRoutine('GET_POST_VERSIONS');
 export const editPostRoutine = postPageRoutine('EDIT_POST');
+export const likePostViewRoutine = postPageRoutine('LIKE_POST_FRONT');
+export const disLikePostViewRoutine = postPageRoutine('DISLIKE_POST_FRONT_ROUTINE');
 export const setLoaderRoutine = postPageRoutine('SET_LOADER');

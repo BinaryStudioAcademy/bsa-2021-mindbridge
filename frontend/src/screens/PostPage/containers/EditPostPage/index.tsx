@@ -21,11 +21,10 @@ import {
 } from '../../routines';
 import { extractData } from '@screens/PostPage/reducers';
 import { IStateProfile } from '@screens/PostPage/models/IStateProfile';
-import { IPostVersions } from '@screens/PostPage/models/IPostVersions';
 import HistorySidebar from '@components/PostHistorySidebar';
 import { Popup } from 'semantic-ui-react';
 import LoaderWrapper from '@components/LoaderWrapper';
-import { postPageReducer } from '@screens/PostPage/containers/reducer';
+import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 
 export interface IEditPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -39,7 +38,7 @@ interface IState {
     isInContent: boolean;
   };
   userInfo: IStateProfile;
-  versionsOfPost: IPostVersions[];
+  versionsOfPost: IPostVersion[];
   allTags: [any];
   currentUserId: string;
   isLoading: boolean;
