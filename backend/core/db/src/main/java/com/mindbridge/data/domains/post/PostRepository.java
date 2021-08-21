@@ -29,4 +29,7 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 	@Query("select p from Post p where p.author.id = :userId order by p.createdAt desc ")
 	List<Post> getFirstPostTitles(UUID userId, Pageable pageable);
 
+	@Query("select p.title from Post p where p.id = :id")
+	String getTitleById(UUID id);
+
 }

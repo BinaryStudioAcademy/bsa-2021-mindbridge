@@ -1,17 +1,23 @@
-import { resetImageTagRoutine,
+import {
+  resetImageTagRoutine,
   editPostRoutine, sendPostRoutine, sendPRRoutine,
   fetchTagsRoutine,
   resetLoadingImageRoutine,
   sendImageRoutine,
   fetchUserProfileRoutine,
   fetchPostRoutine,
-  getPostVersionsRoutine, setLoaderRoutine
+  getPostVersionsRoutine,
+  setLoaderRoutine,
+  likePostViewRoutine,
+  disLikePostViewRoutine
 } from '../../routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 import { IPost } from '@screens/CreatePost/models/IPost';
+import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
+import { isEmptyArray } from 'formik';
 
 export interface ICreatePostReducerState {
   savingImage: {
@@ -26,7 +32,7 @@ export interface ICreatePostReducerState {
     preloader: boolean;
   };
   profile: IUserProfile;
-  versionsOfPost: IPostVersions[];
+  versionsOfPost: IPostVersion[];
   allTags: [];
   post: IPost;
   postLoading: boolean;
@@ -54,7 +60,8 @@ const initialState: ICreatePostReducerState = {
     avatar: '',
     postsQuantity: 0,
     followersQuantity: 0,
-    rating: 0
+    rating: 0,
+    userReactions: []
   },
   versionsOfPost: [],
   allTags: [],
@@ -121,8 +128,9 @@ export const createPostReducer = createReducer(initialState, {
   [fetchUserProfileRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
     state.profile = payload;
   },
-  [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersions]>) => {
-    state.versionsOfPost = payload;
+  [getPostVersionsRoutine.SUCCESS]: (state, { payload }: PayloadAction<[IPostVersion]>) => {
+    state.versionsOfPost = [];
+    payload.map(version => state.versionsOfPost.push(version));
   },
   [setLoaderRoutine.SUCCESS]: (state, { payload }) => {
     state.postLoading = payload.isLoading;
@@ -181,5 +189,29 @@ export const createPostReducer = createReducer(initialState, {
       url: '',
       preloader: false
     };
+  },
+  [likePostViewRoutine.TRIGGER]: (state, action) => {
+    if (state.profile.id) {
+      const postReaction = state.profile.userReactions.find(post => post.postId === action.payload);
+      if (postReaction && postReaction.liked === false) {
+        postReaction.liked = true;
+      } else if (postReaction) {
+        postReaction.postId = undefined;
+      } else {
+        state.profile.userReactions.push({ postId: action.payload, liked: true });
+      }
+    }
+  },
+  [disLikePostViewRoutine.TRIGGER]: (state, action) => {
+    if (state.profile.id) {
+      const postReaction = state.profile.userReactions.find(post => post.postId === action.payload);
+      if (postReaction && postReaction.liked === true) {
+        postReaction.liked = false;
+      } else if (postReaction) {
+        postReaction.postId = undefined;
+      } else {
+        state.profile.userReactions.push({ postId: action.payload, liked: false });
+      }
+    }
   }
 });

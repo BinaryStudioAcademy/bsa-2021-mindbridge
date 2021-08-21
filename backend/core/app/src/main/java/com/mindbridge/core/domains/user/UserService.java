@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.user;
 
 import com.mindbridge.data.domains.post.dto.PostTitleDto;
+import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
 import com.mindbridge.core.domains.user.dto.UserDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDataDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDto;
@@ -15,6 +16,7 @@ import com.mindbridge.data.domains.follower.FollowerRepository;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postPR.PostPRRepository;
+import com.mindbridge.data.domains.postReaction.PostReactionRepository;
 import com.mindbridge.data.domains.user.UserRepository;
 import com.mindbridge.data.domains.user.model.User;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +52,8 @@ public class UserService implements UserDetailsService {
 
 	private final PasswordEncoder passwordEncoder;
 
+	private final PostReactionRepository postReactionRepository;
+
 	private final Random random = new Random();
 
 	public static final String PHONE_REGEX = "^\\d{10}$";
@@ -59,10 +63,13 @@ public class UserService implements UserDetailsService {
 	@Lazy
 	@Autowired
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-					   CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository, PostPRRepository postPRRepository) {
+					   CommentRepository commentRepository, FollowerRepository followerRepository,
+					   PostRepository postRepository, PostPRRepository postPRRepository,
+					   PostReactionRepository postReactionRepository) {
 		this.userRepository = userRepository;
 		this.commentRepository = commentRepository;
 		this.postPRRepository = postPRRepository;
+		this.postReactionRepository = postReactionRepository;
 		this.passwordEncoder = new PasswordConfig().passwordEncoder();
 		this.followerRepository = followerRepository;
 		this.postRepository = postRepository;
@@ -71,10 +78,12 @@ public class UserService implements UserDetailsService {
 	public UserProfileDto getUserProfileInformation(UUID userId) {
 		var user = UserMapper.MAPPER.userToUserProfileDto(userRepository.findById(userId).
 			orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found.")));
+		var userReactions = postReactionRepository.getPostReactionByAuthorId(userId);
 		List<Post> top5Posts = postRepository.getFirstPostTitles(userId, PageRequest.of(0,5));
 		user.setCommentsQuantity(commentRepository.countCommentByAuthorId(userId));
 		user.setPostsQuantity(postRepository.countPostByAuthorId(userId));
 		user.setContributionsQuantity(postPRRepository.countPostPRByContributorId(userId));
+		user.setUserReactions(userReactions.stream().map(UserReactionsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
 		user.setRating(random.nextInt(100));

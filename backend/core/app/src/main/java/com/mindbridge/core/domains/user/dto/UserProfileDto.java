@@ -6,6 +6,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
+import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
 
 @Data
 public class UserProfileDto {
@@ -35,4 +36,7 @@ public class UserProfileDto {
 	private List<PostTitleDto> lastArticleTitles;
 
 	private Timestamp createdAt;
+
+	private List<UserReactionsDto> userReactions;
+
 }
