@@ -18,7 +18,7 @@ const toPrettyHtml = diffs => {
     const op = diffs[x][0];
     const data = diffs[x][1];
     const text = data.replace(patternAmp, '&amp;').replace(patternLt, '&lt;')
-      .replace(patternGt, '&gt;').replace(patternPara, '&para;<br>');
+      .replace(patternGt, '&gt;').replace(patternPara, '<br>');
     switch (op) {
       case DiffMatchPatch.DIFF_INSERT:
         html[x] = `<ins style="background:#e6ffec; color: #29813f; text-decoration: none;">${text}</ins>`;
