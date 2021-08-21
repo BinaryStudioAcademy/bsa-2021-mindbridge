@@ -17,8 +17,7 @@ interface IPreviewProps {
 
 const Preview = ({ coverImage, title, tags, markdown, text, className }: IPreviewProps) => (
   <div className={classNames(className, styles.post_preview_container)}>
-    {coverImage
-        && <img className={styles.coverImage} src={coverImage} alt="cover" />}
+    <img className={styles.coverImage} src={coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'} alt="cover" />
     <div className={styles.title}>{title}</div>
     <div className={styles.btnWrapper}>
       {tags && tags.map(tag => (

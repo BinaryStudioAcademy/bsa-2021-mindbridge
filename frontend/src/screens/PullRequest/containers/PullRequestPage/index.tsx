@@ -44,8 +44,6 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   const [seeDiff, setSeeDiff] = useState(false);
 
-  const [closed, setClosed] = useState(postPR.closed);
-
   useEffect(() => {
     fetchPR(id);
   }, [id]);
@@ -56,8 +54,6 @@ const PullRequest: React.FC<IPullRequestProps> = (
       resetEndSendingDada();
     }
   });
-
-  useEffect(() => {setClosed(true)}, [closePrRoutine.SUCCESS])
 
   const handleClosePR = () => {
     setPreloader({
@@ -87,11 +83,14 @@ const PullRequest: React.FC<IPullRequestProps> = (
       lastName={postPR.contributor.lastName}
       firstName={postPR.contributor.firstName}
       date={postPR.createdAt}
+      id={postPR.contributor.id}
       readTime="2 min"
     />
   );
 
-  const buttons = (
+  let buttons;
+  if(postPR.post.author.id === currentUser.id) {
+    buttons = (
     <div className={styles.footer}>
       <DarkBorderButton
         loading={preloader.firstButton}
@@ -107,6 +106,18 @@ const PullRequest: React.FC<IPullRequestProps> = (
       />
     </div>
   );
+} else if(postPR.contributor.id === currentUser.id){
+  buttons = (
+    <div className={styles.footer}>
+      <DarkBorderButton
+        loading={preloader.firstButton}
+        disabled={preloader.firstButton || preloader.secondButton}
+        content="Close"
+        onClick={handleClosePR}
+      />
+    </div>
+  )
+}
 
   const prIsClosed = (
     <div className={styles.pr_is_closed}>
@@ -133,7 +144,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   const diffContent = (
     <div>
-      {closed && prIsClosed}
+      {postPR.closed && prIsClosed}
       {contributor}
       <div className={styles.diff_container}>
         <div className={styles.divider} />
@@ -151,7 +162,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   const raw = (
     <div>
-      {closed && prIsClosed}
+      {postPR.closed && prIsClosed}
       {contributor}
       <div className={styles.diff_container}>
         <div className={styles.divider} />
