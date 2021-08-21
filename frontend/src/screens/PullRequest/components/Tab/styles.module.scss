@@ -48,7 +48,7 @@
     cursor: pointer;
   }
 
-  input[type="checkbox"]:checked + div{
+  input[type="checkbox"]:checked + div {
     background-color: $light-blue;
     color: $dark-grey;
   }

@@ -9,7 +9,6 @@ interface ITextDiffProps {
   className: string;
 }
 
-
 const toPrettyHtml = diffs => {
   const html = [];
   const patternAmp = /&/g;

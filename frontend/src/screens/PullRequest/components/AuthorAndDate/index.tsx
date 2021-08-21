@@ -16,7 +16,10 @@ interface IAuthorAndDateProps {
   id: string;
 }
 
-const AuthorAndDate = ({ avatar, nickname, lastName, firstName, className, date, readTime, id }: IAuthorAndDateProps) => (
+const AuthorAndDate = (
+  { avatar, nickname, lastName, firstName, className, date, readTime, id }:
+  IAuthorAndDateProps
+) => (
   <div className={classNames(className, styles.avatar_and_name_group)}>
     <Link to={`/user/${id}`} className={styles.avatar_and_name_group}>
       <img

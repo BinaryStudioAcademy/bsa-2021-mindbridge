@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import { acceptPrRoutine, closePrRoutine, fetchPrRoutine, resetEndSendingDataRoutine } from '../../routines';
@@ -89,35 +89,35 @@ const PullRequest: React.FC<IPullRequestProps> = (
   );
 
   let buttons;
-  if(postPR.post.author.id === currentUser.id) {
+  if (postPR.post.author.id === currentUser.id) {
     buttons = (
-    <div className={styles.footer}>
-      <DarkBorderButton
-        loading={preloader.firstButton}
-        disabled={preloader.firstButton || preloader.secondButton}
-        content="Deny"
-        onClick={handleClosePR}
-      />
-      <DarkButton
-        loading={preloader.secondButton}
-        disabled={preloader.firstButton || preloader.secondButton}
-        content="Accept"
-        onClick={handleAcceptPR}
-      />
-    </div>
-  );
-} else if(postPR.contributor.id === currentUser.id){
-  buttons = (
-    <div className={styles.footer}>
-      <DarkBorderButton
-        loading={preloader.firstButton}
-        disabled={preloader.firstButton || preloader.secondButton}
-        content="Close"
-        onClick={handleClosePR}
-      />
-    </div>
-  )
-}
+      <div className={styles.footer}>
+        <DarkBorderButton
+          loading={preloader.firstButton}
+          disabled={preloader.firstButton || preloader.secondButton}
+          content="Deny"
+          onClick={handleClosePR}
+        />
+        <DarkButton
+          loading={preloader.secondButton}
+          disabled={preloader.firstButton || preloader.secondButton}
+          content="Accept"
+          onClick={handleAcceptPR}
+        />
+      </div>
+    );
+  } else if (postPR.contributor.id === currentUser.id) {
+    buttons = (
+      <div className={styles.footer}>
+        <DarkBorderButton
+          loading={preloader.firstButton}
+          disabled={preloader.firstButton || preloader.secondButton}
+          content="Close"
+          onClick={handleClosePR}
+        />
+      </div>
+    );
+  }
 
   const prIsClosed = (
     <div className={styles.pr_is_closed}>
@@ -186,11 +186,11 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   return (
     <div className={classNames('content_wrapper', styles.container)}>
-      <Tab 
-      previewContent={previewContent} 
-      diffContent={seeDiff ? diffContent : raw} 
-      handleCheckbox={handleCheckbox}
-      seeDiff={seeDiff}
+      <Tab
+        previewContent={previewContent}
+        diffContent={seeDiff ? diffContent : raw}
+        handleCheckbox={handleCheckbox}
+        seeDiff={seeDiff}
       />
       {!postPR.closed && buttons}
     </div>
