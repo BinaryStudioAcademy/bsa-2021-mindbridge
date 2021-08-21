@@ -20,6 +20,7 @@
     "d3blackbox": "^1.2.0",
     "debounce": "^1.2.0",
     "diff": "^4.0.2",
+    "diff-match-patch": "^1.0.5",
     "dotenv": "^8.2.0",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
