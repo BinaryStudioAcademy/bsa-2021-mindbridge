@@ -58,7 +58,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/create/post" component={CreatePostPage} />
         <PublicRoute exact path="/user/:userId" component={ProfilePage} />
         <PublicRoute exact path="/post/:id" component={Default} />
-        <PublicRoute exact path="/pr/:id" component={PullRequestPage} />
+        <PublicRoute exact path="/pullRequest/:id" component={PullRequestPage} />
         <PublicRoute exact path="/create/post" component={CreatePostPage} />
         <PublicRoute exact path="/post/edit/:postId" component={CreatePostPage} />
         <PublicRoute component={NotFoundPage} />
