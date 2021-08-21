@@ -246,7 +246,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
   } else {
     submitButtonName = 'Create pull request';
   }
-
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
