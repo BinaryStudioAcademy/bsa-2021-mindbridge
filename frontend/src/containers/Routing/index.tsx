@@ -3,7 +3,8 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import LoaderWrapper from 'components/LoaderWrapper';
 import PublicRoute from 'components/PublicRoute';
 import Default from 'screens/Default/containers/DefaultPage';
-import CreatePostPage from '@root/screens/CreatePost/containers/CreatePostPage';
+import CreatePostPage from '@root/screens/PostPage/containers/CreatePostPage';
+import EditPostPage from '@root/screens/PostPage/containers/EditPostPage';
 import FeedPage from '@screens/FeedPage/containers/FeedPage';
 import ProfilePage from '@screens/ProfilePage/containers/ProfilePage';
 import PublicProfilePage from '@screens/ProfilePage/containers/PublicProfilePage';
@@ -61,7 +62,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/user/:userId" component={PublicProfilePage} />
         <PublicRoute exact path="/post/:id" component={Default} />
         <PublicRoute exact path="/create/post" component={CreatePostPage} />
-        <PublicRoute exact path="/post/edit/:postId" component={CreatePostPage} />
+        <PublicRoute exact path="/post/edit/:postId" component={EditPostPage} />
         <PublicRoute exact path="/post/versions/:postId" component={PostVersions} />
         <PublicRoute component={NotFoundPage} />
 
