@@ -16,4 +16,5 @@ public interface PostPRRepository extends JpaRepository<PostPR, UUID>, JpaSpecif
 	@Query("update PostPR pr set pr.closed = true where pr.id = :id")
 	void setPRClosed(@Param("id") UUID id);
 
+	int countPostPRByContributorId(UUID id);
 }

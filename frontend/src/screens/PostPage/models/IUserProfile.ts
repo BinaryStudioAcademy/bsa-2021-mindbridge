@@ -1,4 +1,4 @@
-import { IUserReactions } from '@screens/CreatePost/models/IUserReactions';
+import { IUserReactions } from '@screens/PostPage/models/IUserReactions';
 
 export interface IUserProfile {
   id: string;

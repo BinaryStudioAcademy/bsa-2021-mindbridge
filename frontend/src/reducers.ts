@@ -4,7 +4,7 @@ import { reducer as toastr } from 'react-redux-toastr';
 import pullRequestReducer from '@screens/PullRequest/reducers';
 import postVersionsReducer from '@screens/PostVersions/reducers';
 import headerReducer from '@screens/Header/reducers';
-import createPostReducer from '@screens/CreatePost/reducers';
+import postPageReducer from '@screens/PostPage/reducers';
 import feedPageReducer from '@screens/FeedPage/reducers';
 import defaultReducer from '@screens/Default/reducers';
 import auth from '@screens/Login/reducers';
@@ -17,7 +17,7 @@ export default combineReducers({
   pullRequestReducer,
   postVersionsReducer,
   headerReducer,
-  createPostReducer,
+  postPageReducer,
   feedPageReducer,
   profilePageReducer,
   viewPostReducer,

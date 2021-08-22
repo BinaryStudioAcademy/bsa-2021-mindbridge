@@ -13,7 +13,7 @@ import styles from './styles.module.scss';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { Link } from 'react-router-dom';
 import TextRenderer from '../TextRenderer';
-import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 
 interface IPostCardProps {
   post: IPost;
@@ -28,6 +28,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
       <Feed>
         <div className={styles.cardHeader}>
           <PostHeaderInformation
+            authorId={post.authorId}
             date={post.createdAt}
             timeRead="7 min read"
             authorName={post.authorName}

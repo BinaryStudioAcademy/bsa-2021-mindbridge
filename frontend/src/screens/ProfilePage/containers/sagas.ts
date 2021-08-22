@@ -1,7 +1,11 @@
 import {
   sendFormRoutine,
   sendNicknameRoutine,
-  sendAvatarRoutine, sendPasswordRoutine, sendChangePasswordFormRoutine, openPasswordChangeModalRoutine
+  sendAvatarRoutine,
+  sendPasswordRoutine,
+  sendChangePasswordFormRoutine,
+  openPasswordChangeModalRoutine,
+  fetchUserRoutine
 } from '@screens/ProfilePage/routines';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
@@ -9,6 +13,15 @@ import profilePageService from '@screens/ProfilePage/services/profilePage';
 import { updateUserAvatar, updateUserRoutine } from '@screens/Login/routines';
 
 /* eslint-disable max-len*/
+
+function* fetchUserData(action) {
+  try {
+    const response = yield call(profilePageService.getUser, { endpoint: action.payload });
+    yield put(fetchUserRoutine.success(response));
+  } catch (error) {
+    yield put(fetchUserRoutine.failure(error?.message));
+  }
+}
 function* sendForm(action) {
   try {
     const response = yield call(profilePageService.sendForm, { endpoint: action.payload.id, payload: action.payload });
@@ -76,6 +89,10 @@ function* sendChangePasswordForm(action) {
   }
 }
 
+function* watchFetchUserDataRequest() {
+  yield takeEvery(fetchUserRoutine.TRIGGER, fetchUserData);
+}
+
 function* watchSendFormRequest() {
   yield takeEvery(sendFormRoutine.TRIGGER, sendForm);
 }
@@ -94,6 +111,7 @@ function* watchSendAvatarRequest() {
 
 export default function* defaultProfileSagas() {
   yield all([
+    watchFetchUserDataRequest(),
     watchSendFormRequest(),
     watchSendChangePasswordFormRequest(),
     watchSendNicknameRequest(),
