@@ -15,4 +15,5 @@ public interface PostVersionMapper {
 
 	@Mapping(target = "post", ignore = true)
 	PostVersionDetailsDto PostVersionToPreLastPostVersionDetailsDto(PostVersion postVersion);
+
 }

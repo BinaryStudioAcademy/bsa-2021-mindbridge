@@ -33,17 +33,17 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
     fetchPostVersion(id);
   }, [id]);
 
-  // const contributor = (
-  //   <AuthorAndDate
-  //     className={styles.contributor}
-  //     avatar={postVersion.post.author.avatar}
-  //     nickname={postVersion.post.author.nickname}
-  //     lastName={postVersion.post.author.lastName}
-  //     firstName={postVersion.post.author.firstName}
-  //     date={postVersion.createdAt}
-  //     readTime="2 min"
-  //   />
-  // );
+  const contributor = (
+    <AuthorAndDate
+      className={styles.contributor}
+      avatar={postVersion.author.avatar}
+      nickname={postVersion.author.nickname}
+      lastName={postVersion.author.lastName}
+      firstName={postVersion.author.firstName}
+      date={postVersion.createdAt}
+      readTime="2 min"
+    />
+  );
 
   const handleSeeDifference = () => {
     setSeeDifference(!seeDifference);
@@ -51,7 +51,7 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
 
   const previewContent = (
     <div>
-      {/* {contributor}*/}
+      {contributor}
       <div className={styles.diff_container}>
         <Preview
           coverImage={postVersion.coverImage}
@@ -66,23 +66,23 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
 
   const diffContent = (
     <div>
-      {/* {contributor}*/}
+      {contributor}
       <div className={styles.diff_container}>
         <div className={styles.divider} />
         <TitleDiff
           className={styles.field}
-          oldTitle={postVersion.post ? (postVersion.post.title) : (postVersion.title)}
+          oldTitle={postVersion.preVersion ? (postVersion.preVersion.title) : (postVersion.title)}
           newTitle={postVersion.title}
         />
         <TagsDiff
           className={styles.field}
-          oldTags={postVersion.post ? (postVersion.post.tags) : (postVersion.tags)}
+          oldTags={postVersion.preVersion ? (postVersion.preVersion.tags) : (postVersion.tags)}
           newTags={postVersion.tags}
         />
         <div className={styles.grey_label}>Changes in content:</div>
         <TextDiff
           className={classNames(styles.field, styles.text_diff)}
-          oldText={seeDifference && postVersion.post ? (postVersion.post.text) : (postVersion.text)}
+          oldText={seeDifference && postVersion.preVersion ? (postVersion.preVersion.text) : (postVersion.text)}
           newText={postVersion.text}
         />
       </div>

@@ -29,14 +29,10 @@ public class EditPostDto {
 	private UUID editorId;
 
 	public static EditPostDto fromPostPR(PostPR postPR) {
-		return builder().coverImage(postPR.getCoverImage())
-			.draft(postPR.getPost().getDraft())
-			.markdown(postPR.getMarkdown())
-			.postId(postPR.getPost().getId())
-			.tags(postPR.getTags().stream().map(BaseEntity::getId).collect(Collectors.toSet()))
-			.text(postPR.getText())
-			.title(postPR.getTitle())
-			.editorId(postPR.getContributor().getId())
-			.build();
+		return builder().coverImage(postPR.getCoverImage()).draft(postPR.getPost().getDraft())
+				.markdown(postPR.getMarkdown()).postId(postPR.getPost().getId())
+				.tags(postPR.getTags().stream().map(BaseEntity::getId).collect(Collectors.toSet()))
+				.text(postPR.getText()).title(postPR.getTitle()).editorId(postPR.getContributor().getId()).build();
 	}
+
 }

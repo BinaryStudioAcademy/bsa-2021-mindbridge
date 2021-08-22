@@ -53,7 +53,8 @@ public class UserService implements UserDetailsService {
 	@Lazy
 	@Autowired
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-					   FollowerRepository followerRepository, PostRepository postRepository, PostReactionRepository postReactionRepository) {
+			FollowerRepository followerRepository, PostRepository postRepository,
+			PostReactionRepository postReactionRepository) {
 		this.userRepository = userRepository;
 		this.postReactionRepository = postReactionRepository;
 		this.passwordEncoder = new PasswordConfig().passwordEncoder();
@@ -100,7 +101,7 @@ public class UserService implements UserDetailsService {
 
 	public UserDto updateUserById(UUID id, UserProfileDataDto userProfileData) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		user.setNickname(userProfileData.getNickname());
 		user.setFirstName(userProfileData.getFirstName());
 		user.setLastName(userProfileData.getLastName());
@@ -115,14 +116,14 @@ public class UserService implements UserDetailsService {
 
 	public boolean checkPassword(UUID id, String password) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		return passwordEncoder.matches(password.substring(0, password.length() - 1), user.getPassword());
 	}
 
 	public UserDto updateUserAvatarById(UUID id, String url) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
-		String result = URLDecoder.decode( url, StandardCharsets.UTF_8);
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+		String result = URLDecoder.decode(url, StandardCharsets.UTF_8);
 		String rigth_url = result.substring(0, result.length() - 1);
 		user.setAvatar(rigth_url);
 		userRepository.save(user);
@@ -132,10 +133,11 @@ public class UserService implements UserDetailsService {
 
 	public UserDto updateUserPasswordById(UUID id, String newPassword) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		user.setPassword(passwordEncoder.encode(newPassword.substring(0, newPassword.length() - 1)));
 		userRepository.save(user);
 
 		return loadUserDtoByEmail(user.getEmail());
 	}
+
 }

@@ -15,5 +15,4 @@ public interface PostVersionRepository extends JpaRepository<PostVersion, UUID>,
 
 	List<PostVersion> getPostVersionsByPostId(UUID postId, Pageable pageable);
 
-
 }

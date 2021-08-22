@@ -7,7 +7,7 @@ export interface IPostVersion {
   deleted: boolean;
   id: string;
   markdown: boolean;
-  post: {
+  preVersion: {
     author: IUser;
     coverImage: string;
     id: string;
@@ -16,6 +16,7 @@ export interface IPostVersion {
     title: string;
     tags: ITag [];
   };
+  author: IUser;
   text: string;
   title: string;
   updatedAt: string;

@@ -44,8 +44,8 @@ public class PostService {
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService,
-					   PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-					   PostVersionRepository postVersionRepository, ElasticService elasticService) {
+			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
+			PostVersionRepository postVersionRepository, ElasticService elasticService) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
@@ -69,8 +69,8 @@ public class PostService {
 	public List<PostsListDetailsDto> getAllPosts(Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 		return postRepository.getAllPosts(pageable).stream()
-			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
-			.collect(Collectors.toList());
+				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+				.collect(Collectors.toList());
 	}
 
 	public UUID editPost(EditPostDto editPostDto) {
@@ -97,7 +97,7 @@ public class PostService {
 		return savedPost.getId();
 	}
 
-	public String getTitleOfPost (UUID id) {
+	public String getTitleOfPost(UUID id) {
 		return postRepository.getTitleById(id);
 	}
 

@@ -1,6 +1,7 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { fetchPostVersionRoutine } from '@screens/PostVersionPage/routines';
 import { IPostVersion } from '@screens/PostVersionPage/models/IPostVersion';
+import { IUser } from '@screens/PullRequest/models/IUser';
 
 export interface IPostVersionPageReducerState {
   postVersion: IPostVersion;
@@ -13,7 +14,7 @@ const initialState: IPostVersionPageReducerState = {
     deleted: false,
     id: '',
     markdown: false,
-    post: {
+    preVersion: {
       author: { id: '', nickname: '', avatar: '', lastName: '', firstName: '' },
       coverImage: '',
       id: '',
@@ -22,6 +23,7 @@ const initialState: IPostVersionPageReducerState = {
       title: '',
       tags: []
     },
+    author: { id: '', nickname: '', avatar: '', lastName: '', firstName: '' },
     text: '',
     title: '',
     updatedAt: '',

@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface PostPRRepository extends JpaRepository<PostPR, UUID>, JpaSpecificationExecutor<PostPR> {
+
 	@Transactional
 	@Modifying
 	@Query("update PostPR pr set pr.closed = true where pr.id = :id")

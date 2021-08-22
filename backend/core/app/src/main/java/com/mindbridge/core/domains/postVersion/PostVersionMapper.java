@@ -1,6 +1,6 @@
 package com.mindbridge.core.domains.postVersion;
 
-import com.mindbridge.core.domains.post.dto.PostVersionDetailsDto;
+import com.mindbridge.core.domains.postVersion.dto.PostVersionDetailsDto;
 import com.mindbridge.core.domains.postVersion.dto.PostVersionsListDto;
 import com.mindbridge.data.domains.postVersion.model.PostVersion;
 import org.mapstruct.Mapper;
@@ -14,9 +14,10 @@ public interface PostVersionMapper {
 
 	PostVersionsListDto postVersionToPostVersionList(PostVersion postVersion);
 
-	@Mapping(target = "post", ignore = true)
+	@Mapping(target = "preVersion", ignore = true)
 	PostVersionDetailsDto PostVersionToPostVersionDetailsDto(PostVersion postVersion);
 
-	@Mapping(target = "post", ignore = true)
+	@Mapping(target = "preVersion", ignore = true)
 	PostVersionDetailsDto PostVersionToPreLastPostVersionDetailsDto(PostVersion postVersion);
+
 }
