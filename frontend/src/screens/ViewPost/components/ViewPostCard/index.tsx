@@ -65,6 +65,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor })
           </div>
           <div className={styles.cardHeader}>
             <PostInformation
+              id={post.author.id}
               firstName={post.author.firstName}
               lastName={post.author.lastName}
               date={post.createdAt}
