@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
-import { fetchDataRoutine } from '@screens/ViewPost/routines';
+import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine } from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import SuggestChangesCard from '@screens/ViewPost/components/SuggestChangesCard';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
@@ -14,7 +14,8 @@ import { useParams } from 'react-router-dom';
 import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
+import { fetchUserProfileRoutine, getPostVersionsRoutine, disLikePostViewRoutine, likePostViewRoutine }
+  from '@screens/PostPage/routines';
 import HistorySidebar from '@components/PostHistorySidebar';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { useScroll } from '@helpers/scrollPosition.helper';
@@ -38,6 +39,9 @@ interface IActions {
   fetchData: IBindingCallback1<string>;
   fetchUserProfile: IBindingCallback1<string>;
   getPostVersions: IBindingCallback1<object>;
+  leaveReaction: IBindingCallback1<object>;
+  likePostView: IBindingCallback1<string>;
+  disLikePostView: IBindingCallback1<string>;
   fetchPostContributions: IBindingCallback1<object>;
 }
 
@@ -51,6 +55,9 @@ const ViewPost: React.FC<IViewPostProps> = (
     userInfo,
     getPostVersions,
     versionsOfPost,
+    leaveReaction,
+    likePostView,
+    disLikePostView,
     fetchPostContributions,
     contributionsOfPost
   }
@@ -74,6 +81,25 @@ const ViewPost: React.FC<IViewPostProps> = (
     fetchPostContributions({ postId: id });
   }, [id]);
 
+  const handleLikePost = postId => {
+    const post = {
+      postId,
+      userId: currentUser.id,
+      liked: true
+    };
+    likePostView(postId);
+    leaveReaction(post);
+  };
+
+  const handleDisLikePost = postId => {
+    const post = {
+      postId,
+      userId: currentUser.id,
+      liked: false
+    };
+    disLikePostView(postId);
+    leaveReaction(post);
+  };
   useEffect(() => {
     const offset = sidebar.current.offsetTop;
     const height = sidebar.current.offsetHeight;
@@ -105,6 +131,9 @@ const ViewPost: React.FC<IViewPostProps> = (
       <div className={styles.main}>
         <ViewPostCard
           post={data.post}
+          handleLikePost={handleLikePost}
+          handleDisLikePost={handleDisLikePost}
+          userInfo={userInfo}
           isAuthor={data.post.author.id === currentUser.id}
         />
       </div>
@@ -166,8 +195,11 @@ const mapStateToProps: (state: RootState) => IState = state => ({
 const mapDispatchToProps: IActions = {
   fetchData: fetchDataRoutine,
   getPostVersions: getPostVersionsRoutine,
-  fetchPostContributions: fetchPostContributionsRoutine,
-  fetchUserProfile: fetchUserProfileRoutine
+  fetchUserProfile: fetchUserProfileRoutine,
+  leaveReaction: leaveReactionOnPostViewPageRoutine,
+  likePostView: likePostViewRoutine,
+  disLikePostView: disLikePostViewRoutine,
+  fetchPostContributions: fetchPostContributionsRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);
