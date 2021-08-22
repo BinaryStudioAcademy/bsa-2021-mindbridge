@@ -10,7 +10,13 @@ interface ICommentProps {
 
 const CommentsFeed: FunctionComponent<ICommentProps> = ({ comments }) => (
   <div className={styles.main}>
-    <p className={styles.commentCounter}> Discussion (58) </p>
+    <p className={styles.commentCounter}>
+      {' '}
+      Discussion (
+      {comments.length}
+      )
+      {' '}
+    </p>
     <form className="ui reply form">
       <div className="field">
         <textarea placeholder="Add to the discussion..." />
@@ -24,7 +30,6 @@ const CommentsFeed: FunctionComponent<ICommentProps> = ({ comments }) => (
             createdAt={comment.createdAt}
             text={comment.text}
             author={comment.author}
-            replies={comment.comments}
             commentRating={comment.rating}
           />
         ))}

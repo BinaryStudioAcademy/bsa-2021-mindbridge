@@ -1,3 +1,5 @@
+@import "../../styles/common.sass";
+
 .main {
   font-family: Lato, serif;
   font-weight: 400;
@@ -8,12 +10,45 @@
   padding-bottom: 5em;
 
   .commentCounter {
-      padding-bottom: 1.075rem;
-      font-size: 1.2857142857142858rem;
-      line-height: 1.375em;
-      color: #353535;
+    padding-bottom: 0.9375em;
+    font-size: 1.2857em;
+    line-height: 1.375em;
+    color: #353535;
+    font-style: normal;
+    font-weight: bold;
+  }
+
+  :global(.ui.comments) {
+    max-width: 100% !important;
+    padding-top: 0.8125em;
+  }
+
+
+  input:focus, textarea:focus {
+    box-shadow:0 0 0.5em 0.2em  $light-blue !important;
+  }
+
+  :global(.ui.form textarea) {
+    padding-top: 1.4285em;
+    padding-left: 1.375em;
+    height: 7.125em !important;
+    max-height: 100% !important;
+    max-width: 100% !important;
+    background: #F3F9FE !important;
+    border: none;
+    border-radius: 0.3125em !important;
+    padding-bottom: 0.9375em !important;
+    resize: none;
+
+    &::placeholder {
+      font-family: Lato, sans-serif;
       font-style: normal;
-      font-weight: bold;
+      font-weight: normal;
+      font-size: 0.875em;
+      line-height: 1.0625em;
+      color: #14253F;
+      opacity: 0.4;
+    }
   }
 }
 
@@ -23,47 +58,12 @@
   height: 2.6875em;
   background: #DEDEDE !important;
   border-radius: 0.3125em;
-  font-size: 1.143em !important;
+  font-size: 1.1em !important;
   line-height: 1.5em;
   color: #FFFFFF !important;
 }
 
-:global(.ui.comments) {
-  margin-top: 2.35em !important;
-  max-width: 100% !important;
-  padding-top: 0.8125em;
-}
 
-:global(.actions) {
-  padding-left: 1.375em;
-  padding-bottom: 1.5625em;
-}
 
-:global(.field) {
-  margin-bottom: 1.075em !important;
-}
-
-:global(.ui.form textarea) {
-  width: 70.625em !important;
-  height: 7.125em !important;
-  max-height: 100% !important;
-  max-width: 100% !important;
-  background: #F3F9FE !important;
-  border: none !important;
-  border-radius: 0.3125em !important;
-  resize: none;
-
-  &::placeholder {
-    padding-top: 1.25em;
-    padding-left: 1.375em;
-    font-family: Lato, sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 0.875em;
-    line-height: 1.0625em;
-    color: #14253F;
-    opacity: 0.4;
-  }
-}
 
 
