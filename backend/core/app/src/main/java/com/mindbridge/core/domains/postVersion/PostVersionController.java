@@ -28,6 +28,6 @@ public class PostVersionController {
 		return postVersionService.getAllVersionsByPostId(id, from, count);
 	}
 
-	@GetMapping("version/{id}")
+	@GetMapping("/{id}")
 	public PostVersionDetailsDto getPostVersion(@PathVariable UUID id) {return postVersionService.getPostVersion(id);}
 }

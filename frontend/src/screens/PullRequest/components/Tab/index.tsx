@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import ViewSvg from '@root/screens/CreatePost/containers/CreatePostPage/svg/viewSvg';
@@ -10,23 +10,31 @@ interface ITabProps {
   className?: string;
   previewContent: any;
   diffContent: any;
-  setShowDifference: any;
+  seeDiff?: boolean;
+  handleSeeDifference?: MouseEventHandler<HTMLSpanElement>;
 }
 
-const Tab = ({ className, previewContent, diffContent, setShowDifference }: ITabProps) => {
+const Tab = ({ className, previewContent, diffContent, seeDiff, handleSeeDifference }: ITabProps) => {
   const [preview, setPreview] = useState(false);
   const setMode = () => {
     setPreview(!preview);
   };
 
-  const handleClickButton = () => {
-    setShowDifference();
-  };
-
   return (
     <div className={classNames(styles.tab, className)}>
       <div className={styles.buttons}>
-        <input type="checkbox" className={styles.seeDiff} onChange={handleClickButton} />
+        {handleSeeDifference
+        && (
+          <div className={styles.see_diff}>
+            <div className={styles.see_diff}>See difference</div>
+            <span>
+              <input type="checkbox" checked={seeDiff} />
+              {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions,
+              jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+              <div onClick={handleSeeDifference}>✔</div>
+            </span>
+          </div>
+        )}
         <ColorlessButton
           className={classNames(styles.diffButton, !preview && styles.active)}
           onClick={setMode}

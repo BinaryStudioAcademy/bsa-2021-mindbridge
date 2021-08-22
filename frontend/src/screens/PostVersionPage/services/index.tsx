@@ -1,7 +1,7 @@
 import api from '@helpers/api.helper';
 
 const postVersionService = {
-  getVersion: async (id: string) => api.get(`/api/post/version/${id}`)
+  getVersion: async (id: string) => api.get(`/api/postVersion/${id}`)
 };
 
 export default postVersionService;
