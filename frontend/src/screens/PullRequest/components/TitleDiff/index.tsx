@@ -9,16 +9,28 @@ interface ITitleDiffProps {
   newTitle: string;
 }
 
-const TitleDiff = ({ className, oldTitle, newTitle }: ITitleDiffProps) => (
-  <div className={classNames(className, styles.titleDiff)}>
-    <div className={styles.new}>
-      <span>New title:</span>
-      <span>{newTitle}</span>
+const TitleDiff = ({ className, oldTitle, newTitle }: ITitleDiffProps) => {
+  if (oldTitle === newTitle) {
+    return (
+      <div className={classNames(className, styles.titleDiff)}>
+        <div className={styles.new}>
+          <span>Title:</span>
+          <span>{newTitle}</span>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className={classNames(className, styles.titleDiff)}>
+      <div className={styles.new}>
+        <span>New title:</span>
+        <span>{newTitle}</span>
+      </div>
+      <div className={styles.old}>
+        <span>Old title:</span>
+        <span>{oldTitle}</span>
+      </div>
     </div>
-    <div className={styles.old}>
-      <span>Old title:</span>
-      <span>{oldTitle}</span>
-    </div>
-  </div>
-);
+  );
+};
 export default TitleDiff;

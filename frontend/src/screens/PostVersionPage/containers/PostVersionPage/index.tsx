@@ -69,13 +69,21 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
       {/* {contributor}*/}
       <div className={styles.diff_container}>
         <div className={styles.divider} />
-        <TitleDiff className={styles.field} oldTitle={postVersion.post.title} newTitle={postVersion.title} />
-        <TagsDiff className={styles.field} oldTags={postVersion.post.tags} newTags={postVersion.tags} />
+        <TitleDiff
+          className={styles.field}
+          oldTitle={postVersion.post ? (postVersion.post.title) : (postVersion.title)}
+          newTitle={postVersion.title}
+        />
+        <TagsDiff
+          className={styles.field}
+          oldTags={postVersion.post ? (postVersion.post.tags) : (postVersion.tags)}
+          newTags={postVersion.tags}
+        />
         <div className={styles.grey_label}>Changes in content:</div>
         <TextDiff
           className={classNames(styles.field, styles.text_diff)}
-          oldText={postVersion.text}
-          newText={seeDifference ? (postVersion.post.text) : (postVersion.text)}
+          oldText={seeDifference && postVersion.post ? (postVersion.post.text) : (postVersion.text)}
+          newText={postVersion.text}
         />
       </div>
     </div>

@@ -105,9 +105,9 @@ public class PostService {
 		var postVersion = postVersionRepository.findById(id);
 		var versions = postVersionRepository.getPostVersionByPostId(postVersion.get().getPost().getId());
 		var indexOfVersion = versions.indexOf(postVersion.get());
-//		if (indexOfVersion == versions.size() - 1) {
-//			return postVersionRepository.findById(id).map(PostVersionMapper.MAPPER::PostVersionToPostVersionDetailsDto).orElseThrow();
-//		}
+		if (indexOfVersion == versions.size() - 1) {
+			return postVersion.map(PostVersionMapper.MAPPER::PostVersionToPreLastPostVersionDetailsDto).orElseThrow();
+		}
 		var returnPostVersion = postVersion.map(PostVersionMapper.MAPPER::PostVersionToPreLastPostVersionDetailsDto).orElseThrow();
 		returnPostVersion.setPost(PostVersionMapper.MAPPER.PostVersionToPostVersionDetailsDto(versions.get(indexOfVersion + 1)));
 		return returnPostVersion;
