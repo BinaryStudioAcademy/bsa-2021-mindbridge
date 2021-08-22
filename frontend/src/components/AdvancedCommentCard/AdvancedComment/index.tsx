@@ -1,12 +1,13 @@
 import styles from './styles.module.scss';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
-import RatingComponent from '@components/RatingIcon';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
-import ShareSvg from '@components/FeedSvgComponents/shareSvg';
+import UpToParentCommentSvg from '@components/AdvancedCommentCard/svg/UpToParentCommentSvg';
+import ShareCommentSvg from '@components/AdvancedCommentCard/svg/shareCommentSvg';
+import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -15,36 +16,70 @@ interface IBasicCommentProps {
   commentRating: number;
 }
 
-const BasicComment: FunctionComponent<IBasicCommentProps> = ({ createdAt, text, author, commentRating }) => (
-  <div className={styles.basicComment}>
-    <div className={styles.commentLeftAction}>
-      <RatingComponent postRating={commentRating} />
-      <LinkSvg />
-      <ShareSvg />
-    </div>
-    <div className={styles.commentAuthor}>
-      <a href="/" className="avatar">
-        <img alt="avatar" src="https://i.imgur.com/LaWyPZF.png" />
-      </a>
-      <a href="/" className="author">
-        {author.lastName}
-        {' '}
-        {author.lastName}
-      </a>
-      <DividerSvg />
-      <div className="metadata">
-        <span className="date">{ moment(createdAt).fromNow() }</span>
+const AdvancedComment: FunctionComponent<IBasicCommentProps> = (
+  { createdAt, text, author, commentRating }
+) => {
+  const [disabled, setDisabled] = useState(false);
+
+  return (
+    <div className={styles.advancedComment}>
+      <div className={styles.header}>
+        <div className={styles.commentAuthor}>
+          <a href="/" className="avatar">
+            <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
+          </a>
+          <a href="/" className="author">
+            {author.lastName}
+            {' '}
+            {author.lastName}
+          </a>
+          <DividerSvg />
+          <div className="metadata">
+            <span className="date">{moment(createdAt).fromNow()}</span>
+          </div>
+        </div>
+        <div className={styles.commentRightAction}>
+          <RatingComponent postRating={commentRating} />
+          {/* <RatingComponent*/}
+          {/*  postRating={commentRating}*/}
+          {/*  handleDisLikePost={handleDisLikePost}*/}
+          {/*  handleLikePost={handleLikePost}*/}
+          {/*  postId={commentId}*/}
+          {/*  userInfo={userInfo}*/}
+          {/*  arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === commentId*/}
+          {/*    && !postReaction.liked)*/}
+          {/*    ? ('#F75C48'*/}
+          {/*    ) : (*/}
+          {/*      '#66B9FF'*/}
+          {/*    )}*/}
+          {/*  arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === commentId*/}
+          {/*    && postReaction.liked)*/}
+          {/*    ? ('#8AC858'*/}
+          {/*    ) : (*/}
+          {/*      '#66B9FF'*/}
+          {/*    )}*/}
+          {/*/ >*/}
+          <UpToParentCommentSvg />
+          <LinkSvg />
+          <ShareCommentSvg />
+        </div>
       </div>
-    </div>
-    <div className="content">
       <div className="text">
-        { text }
+        {text}
       </div>
       <div className="actions">
-        <DarkBorderButton className={styles.btnReplay} content="Reply" />
+        <DarkBorderButton className={styles.btnReplay} content="Reply" onClick={() => setDisabled(!disabled)} />
       </div>
+      {disabled ? (
+        <div className={styles.replayBlock}>
+          <textarea placeholder="Feel free..." className={styles.replyText} />
+          <div className="actions">
+            <DarkBorderButton className={styles.sendCommentBtn} content="Send" />
+          </div>
+        </div>
+      ) : (<div style={{ display: 'none' }} />) }
     </div>
-  </div>
-);
+  );
+};
 
-export default BasicComment;
+export default AdvancedComment;

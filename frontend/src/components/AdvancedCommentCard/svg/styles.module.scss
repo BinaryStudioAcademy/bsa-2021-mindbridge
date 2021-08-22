@@ -1,6 +1,17 @@
 .top {
-  margin-top: 0.6em;
-  padding-left: -1em;
-  padding-right: 0.5em;
   cursor: pointer;
 }
+
+.close {
+  transform: rotate(180deg);
+}
+
+.shareSvg {
+  cursor: pointer;
+}
+
+.upToPatent {
+  margin-left: -1em;
+  cursor: pointer;
+}
+

@@ -1,9 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import styles from './styles.module.scss';
-import BasicComment from '@components/BasicCommentCard/components/Comment';
 import AdvancedComment from '@components/AdvancedCommentCard/AdvancedComment';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import ArrowCloseComment from '@components/AdvancedCommentCard/svg/ArrowCloseComment';
+import { Collapse } from 'react-collapse';
 
 interface ICommentProps {
   createdAt: string;
@@ -13,21 +15,46 @@ interface ICommentProps {
   commentRating: number;
 }
 
-const Reply: FunctionComponent<ICommentProps> = ({ author, createdAt, text, replies, commentRating }) => (
-  <div className={styles.comment}>
-    <AdvancedComment createdAt={createdAt} text={text} author={author} commentRating={commentRating} />
-    <div className="comments">
-      {replies.map(comment => (
-        <Reply
-          replies={comment.comments}
-          author={comment.author}
-          createdAt={comment.createdAt}
-          text={comment.text}
-          commentRating={comment.rating}
-        />
-      ))}
+const Reply: React.FC<ICommentProps> = (
+  { author, createdAt, text, replies, commentRating }
+) => {
+  const [disabled, setDisabled] = useState(false);
+
+  const style = {
+    transform: disabled ? 'rotate(-90deg)' : '',
+    transition: 'transform 300ms ease'
+  };
+
+  return (
+    <div className={styles.comment}>
+      {replies.length > 0 ? (
+        <button id="button" className={styles.inputBtn} type="button" onClick={() => setDisabled(!disabled)}>
+          <div style={style}><ArrowCloseComment /></div>
+        </button>
+      ) : (<div style={{ display: 'none' }} />)}
+      <AdvancedComment
+        createdAt={createdAt}
+        text={text}
+        author={author}
+        commentRating={commentRating}
+      />
+      {replies.length > 0 ? (
+        <Collapse isOpened={!disabled}>
+          <div className="comments">
+            {replies.map(comment => (
+              <Reply
+                replies={comment.comments}
+                author={comment.author}
+                createdAt={comment.createdAt}
+                text={comment.text}
+                commentRating={comment.rating}
+              />
+            ))}
+          </div>
+        </Collapse>
+      ) : (<div style={{ display: 'none' }} />)}
     </div>
-  </div>
-);
+  );
+};
 
 export default Reply;

@@ -2,24 +2,47 @@
   border: 0.125em solid #F8F8F8;
   box-sizing: border-box;
   border-radius: 0.625em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 
     &:only-child {
+      .upToParent {
+        visibility: hidden;
+      }
+      .inputBtn {
+        display: none;
+      }
       &:only-child {
-        margin-top: -1em;
-        margin-bottom: -2.6em;
         border: none;
+        margin-top: -1em;
+        margin-bottom: -1.8em;
         &:last-child {
-          border: none;
+          &:last-child {
+
+          }
         }
       }
     }
   &:last-child {
-    margin-bottom: -2em;
+    margin-top: 1.428em;
+    padding-bottom: -1em;
   }
 }
 
-:global(.ui.comments .comment .avatar img) {
-  border-radius: 10em !important;
-  width: 1.5625em;
-  height: 1.5625em;
+.inputBtn {
+  float: left;
+  justify-items: center;
+  align-items: center;
+  border: 0.0714em solid #EEEEEE;
+  box-sizing: border-box;
+  border-radius: 0.1428em;
+  background: none;
+  margin-top: 2.3em;
 }
+
+
+:global(.ReactCollapse--collapse) {
+    transition: height 700ms !important;
+}
+
+

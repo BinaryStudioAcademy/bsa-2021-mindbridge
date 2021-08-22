@@ -1,7 +1,15 @@
 import React, { FunctionComponent } from 'react';
+import styles from './styles.module.scss';
 
-const ShareSvg: FunctionComponent = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+const ShareCommentSvg: FunctionComponent = () => (
+  <svg
+    className={styles.shareSvg}
+    width="15"
+    height="15"
+    viewBox="0 0 15 15"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M11.217 9.90366C10.6828 9.90366 10.2014 10.111 9.83595 10.4448L4.82842 7.52465C4.86706 7.36652 4.89167
     7.20137 4.89167 7.03269C4.89167 6.86402 4.86706 6.69887 4.82842 6.54074L9.78324 3.64866C10.1592 4.00008 10.6618
@@ -16,4 +24,4 @@ const ShareSvg: FunctionComponent = () => (
   </svg>
 );
 
-export default ShareSvg;
+export default ShareCommentSvg;
