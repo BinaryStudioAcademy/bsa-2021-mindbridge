@@ -56,7 +56,8 @@ const initialState: ICreatePostReducerState = {
   },
   profile: {
     id: '',
-    fullName: '',
+    fullName: undefined,
+    nickname: undefined,
     avatar: '',
     postsQuantity: 0,
     followersQuantity: 0,

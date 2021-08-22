@@ -62,8 +62,12 @@ public class UserService implements UserDetailsService {
 	}
 
 	public UserProfileDto getUserProfileInformation(UUID userId) {
-		var user = UserMapper.MAPPER.userToUserProfileDto(userRepository.findById(userId).orElseThrow());
+		var foundUser = userRepository.findById(userId).orElseThrow();
+		var user = UserMapper.MAPPER.userToUserProfileDto(foundUser);
 		var userReactions = postReactionRepository.getPostReactionByAuthorId(userId);
+		if (foundUser.getFirstName() != null) {
+			user.setFullName(foundUser.getFullName());
+		}
 		user.setUserReactions(userReactions.stream().map(UserReactionsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setRating(random.nextInt(100));

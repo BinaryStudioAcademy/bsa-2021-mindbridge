@@ -15,6 +15,7 @@ import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/CreatePost/routines';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
+import { loadCurrentUserRoutine, loginRoutine } from '@screens/Login/routines';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -36,6 +37,7 @@ interface IActions {
   setLoadMorePosts: IBindingAction;
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
+  loadUser: IBindingAction;
 }
 
 const params = {
@@ -46,18 +48,19 @@ const params = {
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
     isAuthorized, currentUser, fetchUserProfile, userInfo, likePost, likePostView,
-    disLikePostView }
+    disLikePostView, loadUser }
 ) => {
   useEffect(() => {
-    fetchData(params);
     if (currentUser) {
       fetchUserProfile(currentUser.id);
+      fetchData(params);
+    } else {
+      loadUser();
     }
-  }, [currentUser, fetchUserProfile, fetchData]);
+  }, [currentUser, fetchUserProfile, loadUser, fetchData]);
   const handleLoadMorePosts = filtersPayload => {
     fetchData(filtersPayload);
   };
-
   const handleLikePost = postId => {
     const post = {
       postId,
@@ -125,7 +128,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
             {isAuthorized ? (
               <ProfileSidebar
                 id={userInfo.id}
-                userName={userInfo.fullName}
+                userName={userInfo.fullName ?? userInfo.nickname}
                 avatar={userInfo.avatar}
                 folloversCount={userInfo.followersQuantity}
                 rating={userInfo.rating}
@@ -160,7 +163,8 @@ const mapDispatchToProps: IActions = {
   fetchUserProfile: fetchUserProfileRoutine,
   likePost: likePostRoutine,
   likePostView: likePostViewRoutine,
-  disLikePostView: disLikePostViewRoutine
+  disLikePostView: disLikePostViewRoutine,
+  loadUser: loadCurrentUserRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);

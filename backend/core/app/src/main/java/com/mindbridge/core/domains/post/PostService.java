@@ -10,6 +10,7 @@ import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
 
+import java.util.Collections;
 import java.util.HashSet;
 
 import lombok.extern.slf4j.Slf4j;
@@ -96,7 +97,7 @@ public class PostService {
 		return savedPost.getId();
 	}
 
-	public String getTitleOfPost (UUID id) {
+	public String getTitleOfPost(UUID id) {
 		return postRepository.getTitleById(id);
 	}
 
