@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
@@ -17,6 +17,7 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
 import HistorySidebar from '@components/PostHistorySidebar';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
+import { useScroll } from '@helpers/scrollPosition.helper';
 import ContributionsSidebar from '@components/ContributionsSidebar';
 import { fetchPostContributionsRoutine } from '@screens/PostVersions/routines';
 import { IContribution } from '@screens/ViewPost/models/IContribution';
@@ -55,6 +56,13 @@ const ViewPost: React.FC<IViewPostProps> = (
   }
 ) => {
   const { id } = useParams();
+  const [sidebarStyles, setSidebarStyles] = useState({
+    top: 0,
+    position: 'fixed' as any
+  });
+  const [isScrolled, setIsScrolled] = useState(false);
+  const scroll = useScroll();
+  const sidebar = useRef(null);
 
   useEffect(() => {
     fetchUserProfile(currentUser.id);
@@ -66,6 +74,32 @@ const ViewPost: React.FC<IViewPostProps> = (
     fetchPostContributions({ postId: id });
   }, [id]);
 
+  useEffect(() => {
+    const offset = sidebar.current.offsetTop;
+    const height = sidebar.current.offsetHeight;
+
+    if (scroll.direction === 'up') {
+      if (isScrolled && window.scrollY - height > 0) {
+        setIsScrolled(false);
+        setSidebarStyles({
+          top: window.scrollY - height,
+          position: 'absolute' as any
+        });
+      } else if (window.scrollY < offset) {
+        setSidebarStyles({
+          top: 100,
+          position: 'fixed' as any
+        });
+      }
+    } else {
+      setSidebarStyles({
+        ...sidebarStyles,
+        position: 'absolute' as any
+      });
+      setIsScrolled(true);
+    }
+  }, [scroll]);
+
   return (
     <div className={styles.viewPost}>
       <div className={styles.main}>
@@ -75,7 +109,7 @@ const ViewPost: React.FC<IViewPostProps> = (
         />
       </div>
       <div className={styles.sidebar}>
-        <div className={styles.viewPostSideBar}>
+        <div ref={sidebar} className={styles.viewPostSideBar} style={sidebarStyles}>
           {isAuthorized ? (
             <div className={styles.suggestChanges}>
               <div className={styles.profileSideBar}>
