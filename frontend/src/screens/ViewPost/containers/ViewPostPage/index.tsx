@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
@@ -17,8 +17,8 @@ import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/CreatePost/routines';
 import HistorySidebar from '@components/PostHistorySidebar';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
-import {useScroll} from "@helpers/scrollPosition.helper";
-import {off} from "react-use/lib/util";
+import { useScroll } from '@helpers/scrollPosition.helper';
+import { off } from 'react-use/lib/util';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -52,10 +52,11 @@ const ViewPost: React.FC<IViewPostProps> = (
   const { id } = useParams();
   const [sidebarStyles, setSidebarStyles] = useState({
     top: 0,
-    position: 'absolute' as any
+    position: 'fixed' as any
   });
   const [isScrolled, setIsScrolled] = useState(false);
   const scroll = useScroll();
+  const sidebar = useRef(null);
 
   useEffect(() => {
     fetchUserProfile(currentUser.id);
@@ -67,29 +68,27 @@ const ViewPost: React.FC<IViewPostProps> = (
   }, [id]);
 
   useEffect(() => {
-    const offset = document.getElementById('sidebar').offsetTop;
-    const height = document.getElementById('sidebar').offsetHeight;
+    const offset = sidebar.current.offsetTop;
+    const height = sidebar.current.offsetHeight;
 
     if (scroll.direction === 'up') {
-      if (isScrolled) {
+      if (isScrolled && window.scrollY - height > 0) {
         setIsScrolled(false);
         setSidebarStyles({
           top: window.scrollY - height,
           position: 'absolute' as any
         });
-      } else {
-        if (window.scrollY < offset) {
-          setSidebarStyles({
-            top: 100,
-            position: 'fixed' as any
-          })
-        }
+      } else if (window.scrollY < offset) {
+        setSidebarStyles({
+          top: 100,
+          position: 'fixed' as any
+        });
       }
     } else {
       setSidebarStyles({
         ...sidebarStyles,
         position: 'absolute' as any
-      })
+      });
       setIsScrolled(true);
     }
   }, [scroll]);
@@ -100,7 +99,7 @@ const ViewPost: React.FC<IViewPostProps> = (
         <ViewPostCard post={data.post} />
       </div>
       <div className={styles.sidebar}>
-        <div id={"sidebar"} className={styles.viewPostSideBar} style={sidebarStyles}>
+        <div ref={sidebar} className={styles.viewPostSideBar} style={sidebarStyles}>
           {isAuthorized ? (
             <div className={styles.suggestChanges}>
               <div className={styles.profileSideBar}>
