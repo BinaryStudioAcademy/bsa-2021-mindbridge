@@ -1,7 +1,9 @@
 import React from 'react';
 import { Form, FormInputProps, Popup } from 'semantic-ui-react';
+import styles from './styles.module.scss';
 
 export interface IInputPopupProps extends FormInputProps {
+  styleType?: string;
   isValueValid: boolean;
   errorMessage: string;
   id?: string;
@@ -9,6 +11,7 @@ export interface IInputPopupProps extends FormInputProps {
 
 const InputPopup: React.FC<IInputPopupProps> = (
   {
+    styleType,
     isValueValid,
     setValue,
     validateValue,
@@ -27,6 +30,7 @@ const InputPopup: React.FC<IInputPopupProps> = (
 
   return (
     <Popup
+      className={styleType === 'passwordPopup' ? styles.passwordPopup : null}
       content={errorMessage}
       position="right center"
       open={!isValueValid}

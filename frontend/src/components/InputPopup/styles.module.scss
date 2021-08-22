@@ -1,0 +1,6 @@
+@import "src/styles/common";
+
+:global(.ui.popup).passwordPopup {
+  top: -0.5em !important;
+  left: 5em !important;
+}

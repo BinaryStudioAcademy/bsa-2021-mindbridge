@@ -19,15 +19,14 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
   const history = useHistory();
 
   const handleProfileButton = () => {
-    history.push(`/user/${id}`);
-    history.go();
+    history.push('/profile');
   };
 
   return (
     <div className={styles.profile_sidebar_container}>
       <div className={styles.top_group}>
         <div className={styles.avatar_and_name_group}>
-          <Link to="/">
+          <Link to={`/user/${id}`}>
             <img
               className={styles.avatar}
               src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'}

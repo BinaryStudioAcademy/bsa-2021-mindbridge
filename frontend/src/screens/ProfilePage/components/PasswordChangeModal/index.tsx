@@ -124,6 +124,7 @@ const PasswordChangeModal: FunctionComponent<IPasswordChangeModalProps> = ({
           >
             <div className={styles.passwordWrapper}>
               <InputPopup
+                styleType="passwordPopup"
                 id="current_password"
                 type={inputTypes.passwordInputType}
                 placeholder="Enter your current password"
@@ -140,6 +141,7 @@ const PasswordChangeModal: FunctionComponent<IPasswordChangeModalProps> = ({
             </div>
             <div className={styles.passwordWrapper}>
               <InputPopup
+                styleType="passwordPopup"
                 id="new_password"
                 type={inputTypes.newPasswordInputType}
                 placeholder="Enter a new password"
@@ -156,6 +158,7 @@ const PasswordChangeModal: FunctionComponent<IPasswordChangeModalProps> = ({
             </div>
             <div className={styles.passwordWrapper}>
               <InputPopup
+                styleType="passwordPopup"
                 id="confirm_password"
                 type={inputTypes.repeatPasswordInputType}
                 placeholder="Confirm new password"
