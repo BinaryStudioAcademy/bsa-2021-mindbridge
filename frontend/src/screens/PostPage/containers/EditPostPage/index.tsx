@@ -52,7 +52,7 @@ interface IState {
       name: string;
     }];
     coverImage: string;
-    markdown: string;
+    markdown: boolean;
   };
   preloader: {
     publishButton: boolean;
@@ -131,6 +131,11 @@ const EditPost: React.FC<IEditPostProps> = (
           title: '',
           url: post.coverImage
         }
+      });
+      setModes({
+        ...modes,
+        htmlMode: !post.markdown,
+        markdownMode: post.markdown
       });
     }
   }, [post]);
