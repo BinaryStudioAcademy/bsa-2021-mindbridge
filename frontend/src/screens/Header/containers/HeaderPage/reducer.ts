@@ -32,6 +32,5 @@ export const headerReducer = createReducer(initialState, {
   },
   [searchPostsByElasticRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPostsPayload>) => {
     state.posts = payload.posts;
-    console.log(state.posts);
   }
 });

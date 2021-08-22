@@ -3,6 +3,7 @@ import { reducer as toastr } from 'react-redux-toastr';
 /* PlopJS import placeholder. Do not remove */
 import postVersionPageReducer from '@screens/PostVersionPage/reducers';
 import pullRequestReducer from '@screens/PullRequest/reducers';
+import postVersionsReducer from '@screens/PostVersions/reducers';
 import headerReducer from '@screens/Header/reducers';
 import createPostReducer from '@screens/CreatePost/reducers';
 import feedPageReducer from '@screens/FeedPage/reducers';
@@ -16,6 +17,7 @@ export default combineReducers({
   /* PlopJS reducer placeholder. Do not remove */
   postVersionPageReducer,
   pullRequestReducer,
+  postVersionsReducer,
   headerReducer,
   createPostReducer,
   feedPageReducer,
