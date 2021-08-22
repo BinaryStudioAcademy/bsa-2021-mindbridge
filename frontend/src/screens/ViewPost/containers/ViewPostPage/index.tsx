@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
