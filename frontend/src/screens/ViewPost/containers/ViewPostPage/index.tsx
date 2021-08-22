@@ -75,7 +75,7 @@ const ViewPost: React.FC<IViewPostProps> = (
         <div className={styles.viewPostSideBar}>
           {isAuthorized ? (
             <div className={styles.suggestChanges}>
-              {/* <div className={styles.profileSideBar}>
+              <div className={styles.profileSideBar}>
                 <ProfileSidebar
                   id={userInfo.id}
                   userName={userInfo.fullName}
@@ -88,7 +88,7 @@ const ViewPost: React.FC<IViewPostProps> = (
               <SuggestChangesCard
                 postId={data.post.id}
                 isAuthor={data.post.author.id === currentUser.id}
-              />*/}
+              />
               {currentUser.id === data.post?.author?.id && (
                 <div className={styles.history_sidebar_container}>
                   <HistorySidebar history={versionsOfPost} postId={id} />
