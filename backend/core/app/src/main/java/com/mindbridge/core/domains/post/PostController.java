@@ -53,7 +53,4 @@ public class PostController {
 		return postService.getTitleOfPost(id);
 	}
 
-	@GetMapping("version/{id}")
-	public PostVersionDetailsDto getPostVersion(@PathVariable UUID id) {return postService.getPostVersion(id);}
-
 }
