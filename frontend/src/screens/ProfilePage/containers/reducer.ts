@@ -3,7 +3,7 @@ import {
   sendNicknameRoutine,
   sendFormRoutine,
   sendAvatarRoutine,
-  openPasswordChangeModalRoutine, sendChangePasswordFormRoutine
+  openPasswordChangeModalRoutine, sendChangePasswordFormRoutine, fetchUserRoutine
 } from '@screens/ProfilePage/routines';
 import { IDataProfile } from '@screens/ProfilePage/models/IDataProfile';
 
@@ -13,7 +13,23 @@ const initialState: IDataProfile = {
   isFormLoaded: true,
   isChangePasswordFormLoaded: true,
   isNicknameLoaded: true,
+  isUserLoaded: true,
+  isUserIdValid: true,
   isPasswordChangeModalOpen: false,
+  user: {
+    id: '',
+    firstName: '',
+    lastName: '',
+    nickname: '',
+    avatar: '',
+    rating: 0,
+    commentsQuantity: 0,
+    postsQuantity: 0,
+    contributionsQuantity: 0,
+    followersQuantity: 0,
+    lastArticleTitles: [{ id: '', title: '' }],
+    createdAt: ''
+  },
   savingAvatar: {
     url: '',
     isLoaded: true
@@ -21,6 +37,18 @@ const initialState: IDataProfile = {
 };
 
 export const profilePageReducer = createReducer(initialState, {
+  [fetchUserRoutine.TRIGGER]: state => {
+    state.isUserLoaded = false;
+  },
+  [fetchUserRoutine.SUCCESS]: (state, action) => {
+    state.user = action.payload;
+    state.isUserIdValid = true;
+    state.isUserLoaded = true;
+  },
+  [fetchUserRoutine.FAILURE]: state => {
+    state.isUserLoaded = true;
+    state.isUserIdValid = false;
+  },
   [sendNicknameRoutine.TRIGGER]: state => {
     state.isNicknameLoaded = false;
   },
