@@ -36,8 +36,6 @@ interface IActions {
 const PullRequest: React.FC<IPullRequestProps> = (
   { currentUser, fetchPR, closePR, acceptPR, resetEndSendingDada, postPR, endSendingDada }
 ) => {
-  console.log(postPR);
-  console.log(postPR.tags);
   const { id } = useParams();
 
   const [preloader, setPreloader] = useState({ firstButton: false, secondButton: false });
