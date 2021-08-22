@@ -1,0 +1,26 @@
+.titleDiff{
+  font-family: Lato;
+  div{
+    :first-child{
+        display: block;
+        font-size: 1rem;
+        font-weight: bold;
+        color: rgba(53, 53, 53, 0.4);
+        padding-bottom: 0.4rem;
+    }
+  }
+}
+
+.new{
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: rgba(53, 53, 53, 1);
+  line-height: 1em;
+}
+
+.old{
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgba(53, 53, 53, 1);
+}

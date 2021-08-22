@@ -9,12 +9,21 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface PostPRRepository extends JpaRepository<PostPR, UUID>, JpaSpecificationExecutor<PostPR> {
+
+	@Transactional
+	@Modifying
+	@Query("update PostPR pr set pr.closed = true where pr.id = :id")
+	void setPRClosed(@Param("id") UUID id);
 
 	@Query("SELECT pr from PostPR pr where pr.deleted = false and pr.post.id = :postId order by pr.createdAt desc")
 	List<PostPR> getPostPRByPostId(UUID postId, Pageable pageable);
 
 	int countPostPRByContributorId(UUID id);
-  
+
 }
