@@ -49,9 +49,9 @@ public class PostPRController {
 		postPRService.closePR(id);
 
 	@GetMapping("/all/{id}")
-	public List<PostPRListDto> getPostPRs(@PathVariable UUID id,
-											   @RequestParam(defaultValue = "0") Integer from,
-											   @RequestParam(defaultValue = "4") Integer count) {
+	public List<PostPRListDto> getPostPRs(@PathVariable UUID id, @RequestParam(defaultValue = "0") Integer from,
+			@RequestParam(defaultValue = "4") Integer count) {
 		return postPRService.getPostPRByPostId(id, from, count);
 	}
+
 }

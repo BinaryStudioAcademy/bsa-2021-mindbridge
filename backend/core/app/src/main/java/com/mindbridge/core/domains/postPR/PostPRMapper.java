@@ -23,4 +23,5 @@ public interface PostPRMapper {
 
 	@Mapping(source = "contributor", target = "author")
 	PostPRListDto postPRToPostPRList(PostPR postPR);
+
 }

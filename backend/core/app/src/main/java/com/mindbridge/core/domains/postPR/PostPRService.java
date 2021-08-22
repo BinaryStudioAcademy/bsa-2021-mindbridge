@@ -33,8 +33,7 @@ public class PostPRService {
 
 	@Lazy
 	@Autowired
-	public PostPRService(PostPRRepository postPRRepository, TagRepository tagRepository,
-		PostService postService) {
+	public PostPRService(PostPRRepository postPRRepository, TagRepository tagRepository, PostService postService) {
 		this.postPRRepository = postPRRepository;
 		this.tagRepository = tagRepository;
 		this.postService = postService;
@@ -49,8 +48,7 @@ public class PostPRService {
 	}
 
 	public PostPRDetailsDto getPR(UUID id) {
-		return postPRRepository.findById(id).map(PostPRMapper.MAPPER::postPRToPostPRDetailsDto)
-			.orElseThrow();
+		return postPRRepository.findById(id).map(PostPRMapper.MAPPER::postPRToPostPRDetailsDto).orElseThrow();
 	}
 
 	public void closePR(UUID id) {
@@ -62,11 +60,11 @@ public class PostPRService {
 		EditPostDto editPostDto = EditPostDto.fromPostPR(postPR);
 		postService.editPost(editPostDto);
 	}
+
 	public List<PostPRListDto> getPostPRByPostId(UUID id, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
-		return postPRRepository.getPostPRByPostId(id, pageable).stream()
-			.map(PostPRMapper.MAPPER::postPRToPostPRList)
-			.collect(Collectors.toList());
+		return postPRRepository.getPostPRByPostId(id, pageable).stream().map(PostPRMapper.MAPPER::postPRToPostPRList)
+				.collect(Collectors.toList());
 	}
 
 }

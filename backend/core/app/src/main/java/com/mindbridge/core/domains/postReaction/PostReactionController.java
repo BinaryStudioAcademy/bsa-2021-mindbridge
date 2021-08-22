@@ -14,6 +14,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/postreaction")
 public class PostReactionController {
+
 	@Autowired
 	private PostReactionService postReactionService;
 
@@ -21,4 +22,5 @@ public class PostReactionController {
 	public Optional<ResponsePostReactionDto> setReaction(@RequestBody ReceivedPostReactionDto postReaction) {
 		return postReactionService.setReaction(postReaction);
 	}
+
 }
