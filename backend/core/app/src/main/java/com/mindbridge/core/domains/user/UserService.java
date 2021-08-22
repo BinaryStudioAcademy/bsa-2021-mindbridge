@@ -1,5 +1,7 @@
 package com.mindbridge.core.domains.user;
 
+import com.mindbridge.data.domains.post.dto.PostTitleDto;
+import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
 import com.mindbridge.core.domains.user.dto.UserDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDataDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDto;
@@ -9,13 +11,18 @@ import com.mindbridge.core.exceptions.custom.NicknameNotFoundException;
 import com.mindbridge.core.security.PasswordConfig;
 import com.mindbridge.core.security.auth.UserPrincipal;
 import com.mindbridge.core.security.auth.dto.RegistrationRequest;
+import com.mindbridge.data.domains.comment.CommentRepository;
 import com.mindbridge.data.domains.follower.FollowerRepository;
 import com.mindbridge.data.domains.post.PostRepository;
+import com.mindbridge.data.domains.post.model.Post;
+import com.mindbridge.data.domains.postPR.PostPRRepository;
+import com.mindbridge.data.domains.postReaction.PostReactionRepository;
 import com.mindbridge.data.domains.user.UserRepository;
 import com.mindbridge.data.domains.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,8 +31,10 @@ import org.springframework.stereotype.Service;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -33,11 +42,17 @@ public class UserService implements UserDetailsService {
 
 	private final UserRepository userRepository;
 
+	private final CommentRepository commentRepository;
+
 	private final FollowerRepository followerRepository;
 
 	private final PostRepository postRepository;
 
+	private final PostPRRepository postPRRepository;
+
 	private final PasswordEncoder passwordEncoder;
+
+	private final PostReactionRepository postReactionRepository;
 
 	private final Random random = new Random();
 
@@ -48,16 +63,29 @@ public class UserService implements UserDetailsService {
 	@Lazy
 	@Autowired
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-			FollowerRepository followerRepository, PostRepository postRepository) {
+					   CommentRepository commentRepository, FollowerRepository followerRepository,
+					   PostRepository postRepository, PostPRRepository postPRRepository,
+					   PostReactionRepository postReactionRepository) {
 		this.userRepository = userRepository;
+		this.commentRepository = commentRepository;
+		this.postPRRepository = postPRRepository;
+		this.postReactionRepository = postReactionRepository;
 		this.passwordEncoder = new PasswordConfig().passwordEncoder();
 		this.followerRepository = followerRepository;
 		this.postRepository = postRepository;
 	}
 
 	public UserProfileDto getUserProfileInformation(UUID userId) {
-		var user = UserMapper.MAPPER.userToUserProfileDto(userRepository.findById(userId).orElseThrow());
+		var user = UserMapper.MAPPER.userToUserProfileDto(userRepository.findById(userId).
+			orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found.")));
+		var userReactions = postReactionRepository.getPostReactionByAuthorId(userId);
+		List<Post> top5Posts = postRepository.getFirstPostTitles(userId, PageRequest.of(0,5));
+		user.setCommentsQuantity(commentRepository.countCommentByAuthorId(userId));
+		user.setPostsQuantity(postRepository.countPostByAuthorId(userId));
+		user.setContributionsQuantity(postPRRepository.countPostPRByContributorId(userId));
+		user.setUserReactions(userReactions.stream().map(UserReactionsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
+		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
 		user.setRating(random.nextInt(100));
 		return user;
 	}

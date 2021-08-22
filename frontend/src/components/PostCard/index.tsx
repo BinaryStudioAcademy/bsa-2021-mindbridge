@@ -13,24 +13,47 @@ import styles from './styles.module.scss';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { Link } from 'react-router-dom';
 import TextRenderer from '../TextRenderer';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 
 interface IPostCardProps {
   post: IPost;
+  handleLikePost: any;
+  handleDisLikePost: any;
+  userInfo: IUserProfile;
 }
 
-const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
+const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, handleDisLikePost, userInfo }) => (
   <Card className={styles.postCard}>
     <Card.Content>
       <Feed>
         <div className={styles.cardHeader}>
           <PostHeaderInformation
+            authorId={post.authorId}
             date={post.createdAt}
             timeRead="7 min read"
             authorName={post.authorName}
             avatar={post.avatar}
           />
           <div className={styles.leftSide}>
-            <RatingComponent postRating={post.postRating} />
+            <RatingComponent
+              postRating={post.postRating}
+              handleLikePost={handleLikePost}
+              handleDisLikePost={handleDisLikePost}
+              postId={post.id}
+              userInfo={userInfo}
+              arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
+                  && postReaction.liked)
+                ? ('#8AC858'
+                ) : (
+                  '#66B9FF'
+                )}
+              arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
+                  && !postReaction.liked)
+                ? ('#F75C48'
+                ) : (
+                  '#66B9FF'
+                )}
+            />
             <FavouriteSvg />
           </div>
         </div>
@@ -67,6 +90,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post }) => (
           <ViewsSvg />
           <p>{7}</p>
         </div>
+        {}
         <div className={styles.icon}>
           <LikeSvg />
           <p>{post.likesCount}</p>
