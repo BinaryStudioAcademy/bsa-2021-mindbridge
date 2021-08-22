@@ -35,7 +35,7 @@ public class PostVersionService {
 		var indexOfVersion = allPostVersions.indexOf(postVersion.get());
 		if (indexOfVersion == allPostVersions.size() - 1) {
 			var postVersionDetailsDto = postVersion
-					.map(PostVersionMapper.MAPPER::PostVersionToPreLastPostVersionDetailsDto).orElseThrow();
+					.map(PostVersionMapper.MAPPER::PostVersionToPostVersionDetailsDto).orElseThrow();
 			postVersionDetailsDto.setAuthor(UserMapper.MAPPER.userToUserDto(postVersion.get().getPost().getAuthor()));
 			return postVersionDetailsDto;
 		}
