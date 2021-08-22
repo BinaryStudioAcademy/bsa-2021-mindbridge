@@ -3,25 +3,49 @@ import React, { FunctionComponent } from 'react';
 import { Card, Feed } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
-import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
+import RatingComponent from '@components/RatingIcon';
 import TagsMenu from '@screens/ViewPost/components/TagsMenu';
 import FavouriteSvg from '@screens/ViewPost/components/svgs/SvgComponents/favouriteSvg';
 import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
 import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
 import { IPost } from '@screens/ViewPost/models/IPost';
 import TextRenderer from '@root/components/TextRenderer';
+import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 
 interface IViewPostCardProps {
   post: IPost;
+  handleLikePost: any;
+  handleDisLikePost: any;
+  userInfo: IUserProfile;
 }
-const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post }) => (
+const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, handleLikePost, handleDisLikePost, userInfo }) => (
   <Card className={styles.viewCard}>
     <Card.Content>
       <Feed>
         <div className={styles.gridColumn}>
           <div className={styles.leftSide}>
             <div className={styles.backgroundRatingCircle}>
-              <RatingComponent postRating={post.rating} />
+              <div className={styles.ratingComponent}>
+                <RatingComponent
+                  postRating={post.rating}
+                  handleLikePost={handleLikePost}
+                  handleDisLikePost={handleDisLikePost}
+                  postId={post.id}
+                  userInfo={userInfo}
+                  arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
+                    && postReaction.liked)
+                    ? ('#8AC858'
+                    ) : (
+                      '#66B9FF'
+                    )}
+                  arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
+                    && !postReaction.liked)
+                    ? ('#F75C48'
+                    ) : (
+                      '#66B9FF'
+                    )}
+                />
+              </div>
             </div>
             <div className={styles.backgroundFavouriteCircle}>
               <FavouriteSvg />
