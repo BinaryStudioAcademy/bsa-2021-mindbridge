@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
@@ -17,6 +17,8 @@ import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/CreatePost/routines';
 import HistorySidebar from '@components/PostHistorySidebar';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
+import {useScroll} from "@helpers/scrollPosition.helper";
+import {off} from "react-use/lib/util";
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -48,6 +50,12 @@ const ViewPost: React.FC<IViewPostProps> = (
   }
 ) => {
   const { id } = useParams();
+  const [sidebarStyles, setSidebarStyles] = useState({
+    top: 0,
+    position: 'absolute' as any
+  });
+  const [isScrolled, setIsScrolled] = useState(false);
+  const scroll = useScroll();
 
   useEffect(() => {
     fetchUserProfile(currentUser.id);
@@ -58,13 +66,41 @@ const ViewPost: React.FC<IViewPostProps> = (
     getPostVersions({ postId: id });
   }, [id]);
 
+  useEffect(() => {
+    const offset = document.getElementById('sidebar').offsetTop;
+    const height = document.getElementById('sidebar').offsetHeight;
+
+    if (scroll.direction === 'up') {
+      if (isScrolled) {
+        setIsScrolled(false);
+        setSidebarStyles({
+          top: window.scrollY - height,
+          position: 'absolute' as any
+        });
+      } else {
+        if (window.scrollY < offset) {
+          setSidebarStyles({
+            top: 100,
+            position: 'fixed' as any
+          })
+        }
+      }
+    } else {
+      setSidebarStyles({
+        ...sidebarStyles,
+        position: 'absolute' as any
+      })
+      setIsScrolled(true);
+    }
+  }, [scroll]);
+
   return (
     <div className={styles.viewPost}>
       <div className={styles.main}>
         <ViewPostCard post={data.post} />
       </div>
       <div className={styles.sidebar}>
-        <div className={styles.viewPostSideBar}>
+        <div id={"sidebar"} className={styles.viewPostSideBar} style={sidebarStyles}>
           {isAuthorized ? (
             <div className={styles.suggestChanges}>
               <div className={styles.profileSideBar}>
