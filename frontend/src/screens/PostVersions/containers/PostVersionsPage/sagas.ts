@@ -16,7 +16,6 @@ function* fetchPostTitle({ payload }: Routine<any>) {
 
 function* fetchPostContributions({ payload }: Routine<any>) {
   try {
-    console.log(payload);
     const response = yield call(postVersionService.getPostContributions, payload);
     yield put(fetchPostContributionsRoutine.success(response));
   } catch (e) {

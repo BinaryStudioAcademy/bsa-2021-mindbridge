@@ -24,7 +24,7 @@ const ContributionsSidebar: FunctionComponent<IContributionsSidebarProps> = ({ c
           {`${contribution.author.firstName} ${contribution.author.lastName} ${contribution.author.nickname}`}
         </Link>
         <div className={styles.dot} />
-        <Link to={`/contribution/${contribution.id}`}>{contribution.createdAt}</Link>
+        <Link to={`/postContribution/${contribution.id}`}>{contribution.createdAt}</Link>
       </div>
     );
   });
