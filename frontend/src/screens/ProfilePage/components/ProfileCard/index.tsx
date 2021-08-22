@@ -2,9 +2,9 @@
 import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { Form } from 'semantic-ui-react';
 import styles from './styles.module.scss';
-import EditSvg from '@screens/ProfilePage/containers/ProfilePage/svg/editSvg';
+import EditSvg from '@screens/ProfilePage/components/svg/editSvg';
 import FormButton from '@components/FormButton';
-import PencilSvg from '@screens/ProfilePage/containers/ProfilePage/svg/pencilSvg';
+import PencilSvg from '@screens/ProfilePage/components/svg/pencilSvg';
 import { getHowLong } from '@helpers/date.helper';
 import {
   isValidNameSurname,
@@ -147,8 +147,19 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
     }
   };
 
+  const setDafaultState = () => {
+    setProfileData(initialState);
+    setUserForm(initialData);
+    setValidationData(validationInitialState);
+    setIsPressEdit(false);
+    setImgToSave(null);
+    setCanChangeNick(true);
+    setIsSubmitBlocked(false);
+  };
+
   const handleChangePasswordClick = () => {
     openPasswordChangeModal(true);
+    setDafaultState();
   };
 
   const handleSaveClick = () => {
