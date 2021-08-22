@@ -47,6 +47,7 @@ public class PostPRController {
 	public void acceptPR(@PathVariable UUID id) {
 		postPRService.acceptPR(id);
 		postPRService.closePR(id);
+	}
 
 	@GetMapping("/all/{id}")
 	public List<PostPRListDto> getPostPRs(@PathVariable UUID id, @RequestParam(defaultValue = "0") Integer from,
