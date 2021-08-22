@@ -9,7 +9,7 @@ import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
 import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
 import { IPost } from '@screens/ViewPost/models/IPost';
 import TextRenderer from '@root/components/TextRenderer';
-import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
 
@@ -20,7 +20,8 @@ interface IViewPostCardProps {
   handleDisLikePost: any;
   userInfo: IUserProfile;
 }
-const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor,  handleLikePost, handleDisLikePost, userInfo }) => {
+const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, handleLikePost,
+  handleDisLikePost, userInfo }) => {
   const history = useHistory();
 
   const goToEdit = () => {
@@ -34,27 +35,27 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor,  
           <div className={styles.gridColumn}>
             <div className={styles.leftSide}>
               <div className={styles.bgCircle}>
-              <div className={styles.ratingComponent}>
-                <RatingComponent
-                  postRating={post.rating}
-                  handleLikePost={handleLikePost}
-                  handleDisLikePost={handleDisLikePost}
-                  postId={post.id}
-                  userInfo={userInfo}
-                  arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
+                <div className={styles.ratingComponent}>
+                  <RatingComponent
+                    postRating={post.rating}
+                    handleLikePost={handleLikePost}
+                    handleDisLikePost={handleDisLikePost}
+                    postId={post.id}
+                    userInfo={userInfo}
+                    arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
                     && postReaction.liked)
-                    ? ('#8AC858'
-                    ) : (
-                      '#66B9FF'
-                    )}
-                  arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
+                      ? ('#8AC858'
+                      ) : (
+                        '#66B9FF'
+                      )}
+                    arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
                     && !postReaction.liked)
-                    ? ('#F75C48'
-                    ) : (
-                      '#66B9FF'
-                    )}
-                />
-              </div>
+                      ? ('#F75C48'
+                      ) : (
+                        '#66B9FF'
+                      )}
+                  />
+                </div>
               </div>
               <div className={styles.bgCircle}>
                 <FavouriteSvg />
