@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import CoverImageSvg from './svg/coverImageSvg';
-import { IForm, IModes } from '@root/screens/CreatePost/models/IData';
+import { IForm, IModes } from '@root/screens/PostPage/models/IData';
 import { useDropzone } from 'react-dropzone';
 import TagsDropdown from '../TagsDropdown';
 import { toastr } from 'react-redux-toastr';
@@ -15,6 +15,7 @@ import { Popup } from 'semantic-ui-react';
 interface ICreatePostFormProps {
   form: IForm;
   modes: IModes;
+  isCreateForm: boolean;
   setForm: any;
   sendImage: any;
   allTags: [any];
@@ -24,6 +25,8 @@ interface ICreatePostFormProps {
     preloader: boolean;
   };
   resetImageTag: IBindingAction;
+  isTitleEmpty: boolean;
+  isContentEmpty: boolean;
 }
 
 const checkImageSize = file => {
@@ -36,7 +39,18 @@ const checkImageSize = file => {
 };
 
 const CreatePostForm: React.FC<ICreatePostFormProps> = (
-  { form, setForm, sendImage, allTags, imageTag, modes, resetImageTag }
+  {
+    form,
+    setForm,
+    sendImage,
+    allTags,
+    imageTag,
+    modes,
+    resetImageTag,
+    isCreateForm,
+    isTitleEmpty,
+    isContentEmpty
+  }
 ) => {
   const { getRootProps } = useDropzone({
     disabled: imageTag.preloader,
@@ -132,34 +146,64 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
   }
   return (
     <div {...getRootProps({ className: 'dropzone' })} className={styles.create_post_form}>
-      <label className={styles.file_input_rectangle} htmlFor="image-input-1" onChange={handelCoverFile}>
-        <CoverImageSvg />
-        {!form.coverImage.title
-          ? <span>Add a cover image</span>
-          : (
-            <div>
-              <span>{form.coverImage.title}</span>
-              {form.coverImage.title !== 'loading...'
+      { isCreateForm ? (
+        <label className={styles.file_input_rectangle} htmlFor="image-input-1" onChange={handelCoverFile}>
+          <CoverImageSvg />
+          {!form.coverImage.title
+            ? <span>Add a cover image</span>
+            : (
+              <div>
+                <span>{form.coverImage.title}</span>
+                {form.coverImage.title !== 'loading...'
                 && <button type="button" className={styles.close_image} onClick={closeCoverImage}>✖</button>}
-            </div>
-          )}
-        <input
-          id="image-input-1"
-          disabled={form.coverImage.title !== ''}
-          className={styles.invisible}
-          type="file"
-          accept="image/*"
+              </div>
+            )}
+          <input
+            id="image-input-1"
+            disabled={form.coverImage.title !== ''}
+            className={styles.invisible}
+            type="file"
+            accept="image/*"
+          />
+        </label>
+      ) : (
+        <Popup
+          trigger={(
+            // eslint-disable-next-line jsx-a11y/label-has-associated-control
+            <label className={styles.file_input_rectangle} style={{ cursor: 'not-allowed' }}>
+              <CoverImageSvg />
+              <span>Add a cover image</span>
+            </label>
+        )}
+          content="You can't add a cover image when post was created"
+          on="hover"
+          position="left center"
         />
-      </label>
-      <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
-      <div className={styles.content_input_container}>
-        <textarea
-          className={styles.content_input}
-          value={form.content}
-          onChange={handleContent}
-          placeholder="Write your post content"
-        />
-      </div>
+      )}
+      <Popup
+        trigger={(
+          <input type="text" value={form.title} onChange={handleTitle} placeholder="Enter the title of the article" />
+        )}
+        content="Title is required"
+        open={!form.title && isTitleEmpty}
+        position="left center"
+      />
+      <Popup
+        trigger={(
+          <div className={styles.content_input_container}>
+            <textarea
+              className={styles.content_input}
+              value={form.content}
+              onChange={handleContent}
+              placeholder="Write your post content"
+            />
+          </div>
+        )}
+        content="Content is required"
+        open={!form.content && isContentEmpty}
+        position="left center"
+      />
+
       {dropzoneOrTag}
       <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
     </div>

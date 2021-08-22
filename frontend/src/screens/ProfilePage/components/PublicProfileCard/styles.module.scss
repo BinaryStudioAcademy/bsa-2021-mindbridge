@@ -1,0 +1,87 @@
+@import "src/styles/common";
+@import "../ProfileCard/styles.module";
+
+.inputWrp {
+  justify-content: space-between;
+  text-align: center;
+  button {
+    width: 8em;
+    height: 3em;
+    line-height: 0;
+    font-weight: bold;
+    font-size: 0.85rem;
+    min-width: 6rem;
+    border: solid 2px $dark-grey;
+    border-radius: 5px;
+  }
+}
+
+.headerTextWrp {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+  .nickname {
+    font-weight: normal;
+    font-size: 1.2em;
+    line-height: 0.4em;
+    color: #AEAEAE;
+  }
+
+  .period {
+    margin-top: 1.5em;
+  }
+}
+
+.statWrp {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 1.6em 0 1.6em 0;
+  justify-content: space-between;
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.statCell {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  .statNumber {
+    font-weight: bold;
+    font-size: 1.3em;
+  }
+
+  span {
+    display: block;
+    padding-left: 0.5em;
+    font-size: 0.9em;
+  }
+}
+
+.articlesWrp {
+  padding-top: 1.6em;
+}
+
+.subTitle {
+  display: block;
+  font-weight: bold;
+  font-size: 1em;
+  line-height: 1.3em;
+  color: #353535;
+  margin-bottom: 1.3em;
+}
+
+.articleTitle {
+  display: block;
+  margin-bottom: 0.4em;
+  color: #66B9FF;
+}
+
+.articleTitle:hover {
+  color: #353535;
+}
+
+.dark_button:hover {
+  background-color: rgba(0,0,0,0);
+  color: $dark-grey;
+}

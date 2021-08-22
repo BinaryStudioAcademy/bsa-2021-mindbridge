@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles.module.scss';
-import { IForm, IModes } from '@root/screens/CreatePost/models/IData';
+import { IForm, IModes } from '@root/screens/PostPage/models/IData';
 import TagsMenu from '@root/screens/ViewPost/components/TagsMenu';
 import TextRender from '../TextRenderer';
 

@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { RootState } from '@root/store';
 import { postVersionsReducer } from '@screens/PostVersions/containers/PostVersionsPage/reducer';
 import { reducerCreator } from '@helpers/reducer.helper';
 import { fetchPostContributionsRoutine, fetchPostTitleRoutine } from '@screens/PostVersions/routines';

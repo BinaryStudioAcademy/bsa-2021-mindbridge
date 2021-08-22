@@ -4,24 +4,28 @@ import { Image } from 'semantic-ui-react';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import FollowBtn from '@screens/ViewPost/components/Button/FollowBtn/FollowBtn';
 import { timeToLocal } from '@helpers/dataTimeToLocalData';
+import { Link } from 'react-router-dom';
 
 interface IPostInformationProps {
+  id: string;
   date: string;
   firstName: string;
   lastName: string;
   avatar: string;
 }
 
-const PostInformation: FunctionComponent<IPostInformationProps> = ({ firstName, lastName, date, avatar }) => (
+const PostInformation: FunctionComponent<IPostInformationProps> = ({ id, firstName, lastName, date, avatar }) => (
   <div className={styles.postHeaderInfo}>
-    <div className={styles.userBlock}>
-      <Image src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'} avatar size="big" />
-      <div className={styles.userName}>
-        { firstName }
-        {' '}
-        { lastName }
+    <Link to={`/user/${id}`}>
+      <div className={styles.userBlock}>
+        <Image src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'} avatar size="big" />
+        <div className={styles.userName}>
+          { firstName }
+          {' '}
+          { lastName }
+        </div>
       </div>
-    </div>
+    </Link>
     <FollowBtn />
     <DividerSvg />
     <span className={styles.additionalInformation}>

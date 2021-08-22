@@ -39,7 +39,6 @@ function* searchPostsByElastic({ payload }: Routine<any>) {
     const posts = {
       posts: response
     };
-    console.log(posts);
     yield put(searchPostsByElasticRoutine.success(posts));
   } catch (error) {
     yield put(searchPostsByElasticRoutine.failure(error?.message));
