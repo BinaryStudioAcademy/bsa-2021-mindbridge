@@ -21,7 +21,6 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor })
 
   const goToEdit = () => {
     history.push(`/post/edit/${post.id}`);
-    history.go();
   };
 
   return (
