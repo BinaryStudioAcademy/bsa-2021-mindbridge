@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 import ProfileSidebar from '@components/ProfileSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/CreatePost/routines';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
-import { IBindingAction, IBindingCallback1, IBindingCallback2 } from '@models/Callbacks';
+import { IBindingCallback1 } from '@models/Callbacks';
 import PostVersionItem from '@components/PostVersionItem';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { fetchPostTitleRoutine } from '@screens/PostVersions/routines';
+import { fetchPostContributionsRoutine, fetchPostTitleRoutine } from '@screens/PostVersions/routines';
+import { IContribution } from '@screens/ViewPost/models/IContribution';
 
 export interface IPostVersionsProps extends IState, IActions {
 }
@@ -22,6 +22,7 @@ interface IState {
   currentUser: ICurrentUser;
   userInfo: IUserProfile;
   versionsOfPost: IPostVersion[];
+  contributionsOfPost: IContribution[];
   postTitle: string;
 }
 
@@ -29,6 +30,7 @@ interface IActions {
   fetchUserProfile: IBindingCallback1<string>;
   getPostVersions: IBindingCallback1<object>;
   fetchPostTitle: IBindingCallback1<string>;
+  fetchPostContributions: IBindingCallback1<object>;
 }
 
 const params = {
@@ -45,14 +47,24 @@ const PostVersions: React.FC<IPostVersionsProps> = (
     getPostVersions,
     fetchUserProfile,
     fetchPostTitle,
+    fetchPostContributions,
+    contributionsOfPost,
     postTitle
   }
 ) => {
   const { postId } = useParams();
+  const location = useLocation();
+  const [isVersions, setIsVersions] = useState(true);
 
   useEffect(() => {
-    getPostVersions({ postId, params });
     fetchPostTitle(postId);
+    if (location.pathname.includes('versions')) {
+      setIsVersions(true);
+      getPostVersions({ postId, params });
+    } else {
+      setIsVersions(false);
+      fetchPostContributions({ postId, params });
+    }
   }, [postId]);
 
   useEffect(() => {
@@ -64,18 +76,32 @@ const PostVersions: React.FC<IPostVersionsProps> = (
   return (
     <div className={styles.postVersions}>
       <div className={styles.main}>
-        <h3>Versions of post</h3>
+        <h3>
+          {isVersions ? 'Versions' : 'Contributions'}
+          {' '}
+          of post
+        </h3>
         <h2 className={styles.postName}>{postTitle}</h2>
-        {versionsOfPost ? (
+        {isVersions ? (
           versionsOfPost.map(version => (
             <PostVersionItem
               key={version.id}
               postVersion={version}
+              isVersion
             />
           ))
         ) : (
+          contributionsOfPost.map(version => (
+            <PostVersionItem
+              key={version.id}
+              postVersion={version}
+              isVersion
+            />
+          ))
+        )}
+        {!versionsOfPost && !contributionsOfPost && (
           <p>
-            🔍 Seems like there are no post versions...
+            🔍 Seems like there are no result...
           </p>
         )}
       </div>
@@ -109,12 +135,14 @@ const mapStateToProps: (state) => IState = state => ({
   currentUser: state.auth.auth.user,
   userInfo: state.createPostReducer.data.profile,
   versionsOfPost: state.createPostReducer.data.versionsOfPost,
-  postTitle: state.postVersionsReducer.data.postTitle
+  postTitle: state.postVersionsReducer.data.postTitle,
+  contributionsOfPost: state.postVersionsReducer.data.postContributions
 });
 
 const mapDispatchToProps: IActions = {
   getPostVersions: getPostVersionsRoutine,
   fetchPostTitle: fetchPostTitleRoutine,
+  fetchPostContributions: fetchPostContributionsRoutine,
   fetchUserProfile: fetchUserProfileRoutine
 };
 
