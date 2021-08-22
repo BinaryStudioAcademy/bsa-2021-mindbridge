@@ -4,6 +4,7 @@ import com.mindbridge.core.domains.post.PostService;
 import com.mindbridge.core.domains.post.dto.EditPostDto;
 import com.mindbridge.core.domains.postPR.dto.CreatePostPRDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
+import com.mindbridge.core.domains.postPR.dto.PostPRListDto;
 import com.mindbridge.data.domains.postPR.PostPRRepository;
 import com.mindbridge.data.domains.postPR.model.PostPR;
 import com.mindbridge.data.domains.tag.TagRepository;
@@ -12,7 +13,13 @@ import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -55,4 +62,11 @@ public class PostPRService {
 		EditPostDto editPostDto = EditPostDto.fromPostPR(postPR);
 		postService.editPost(editPostDto);
 	}
+	public List<PostPRListDto> getPostPRByPostId(UUID id, Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+		return postPRRepository.getPostPRByPostId(id, pageable).stream()
+			.map(PostPRMapper.MAPPER::postPRToPostPRList)
+			.collect(Collectors.toList());
+	}
+
 }

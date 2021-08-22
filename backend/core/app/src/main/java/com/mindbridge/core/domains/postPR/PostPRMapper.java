@@ -2,6 +2,7 @@ package com.mindbridge.core.domains.postPR;
 
 import com.mindbridge.core.domains.postPR.dto.CreatePostPRDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
+import com.mindbridge.core.domains.postPR.dto.PostPRListDto;
 import com.mindbridge.data.domains.postPR.model.PostPR;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,4 +21,6 @@ public interface PostPRMapper {
 
 	PostPRDetailsDto postPRToPostPRDetailsDto(PostPR postPR);
 
+	@Mapping(source = "contributor", target = "author")
+	PostPRListDto postPRToPostPRList(PostPR postPR);
 }

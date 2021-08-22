@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.mindbridge.core.domains.postPR.dto.PostPRListDto;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("postPR")
@@ -44,5 +47,11 @@ public class PostPRController {
 	public void acceptPR(@PathVariable UUID id) {
 		postPRService.acceptPR(id);
 		postPRService.closePR(id);
+
+	@GetMapping("/all/{id}")
+	public List<PostPRListDto> getPostPRs(@PathVariable UUID id,
+											   @RequestParam(defaultValue = "0") Integer from,
+											   @RequestParam(defaultValue = "4") Integer count) {
+		return postPRService.getPostPRByPostId(id, from, count);
 	}
 }
