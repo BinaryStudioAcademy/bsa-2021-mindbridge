@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.module.scss';
+import styles from '../styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import ProfileCard from '@screens/ProfilePage/components/ProfileCard';
@@ -12,8 +12,6 @@ import {
 } from '@screens/ProfilePage/routines';
 import { RootState } from '@root/store';
 import PasswordChangeModal from '@screens/ProfilePage/components/PasswordChangeModal';
-import { useLocation } from 'react-use';
-import { NotFoundPage } from '@screens/NotFound/containers/NotFoundPage';
 import LoaderWrapper from '@components/LoaderWrapper';
 
 export interface IProfileFormRequest {
@@ -61,45 +59,36 @@ const ProfilePage: React.FC<IProfilePageProps> = (
     sendNickname,
     openPasswordChangeModal
   }
-) => {
-  const location = useLocation();
-  const currentId = location.pathname.substring(6, location.pathname.length);
-  return (
-    <div>
-      { initialData.id !== '' ? (
-        <div>
-          { currentId === initialData.id ? (
-            <div className={styles.profilePage}>
-              <PasswordChangeModal
-                userId={initialData.id}
-                openPasswordChangeModal={openPasswordChangeModal}
-                sendChangePasswordForm={sendChangePasswordForm}
-                modalInitialState={modalInitialState}
-              />
-              <div className={styles.main}>
-                {/* eslint-disable-next-line max-len */}
-                <ProfileCard
-                  initialData={initialData}
-                  initialState={initialState}
-                  sendForm={sendForm}
-                  sendAvatar={sendAvatar}
-                  sendNickname={sendNickname}
-                  openPasswordChangeModal={openPasswordChangeModal}
-                />
-              </div>
-              <div className={styles.sidebar}>
-                <div className={styles.tagsSideBar}>
-                  <FeedTagsSideBar />
-                </div>
-              </div>
-            </div>
-          ) : <NotFoundPage /> }
+) => (
+  <div>
+    { initialData.id !== '' ? (
+      <div className={styles.profilePage}>
+        <PasswordChangeModal
+          userId={initialData.id}
+          openPasswordChangeModal={openPasswordChangeModal}
+          sendChangePasswordForm={sendChangePasswordForm}
+          modalInitialState={modalInitialState}
+        />
+        <div className={styles.main}>
+          {/* eslint-disable-next-line max-len */}
+          <ProfileCard
+            initialData={initialData}
+            initialState={initialState}
+            sendForm={sendForm}
+            sendAvatar={sendAvatar}
+            sendNickname={sendNickname}
+            openPasswordChangeModal={openPasswordChangeModal}
+          />
         </div>
-      )
-        : <LoaderWrapper loading />}
-    </div>
-  );
-};
+        <div className={styles.sidebar}>
+          <div className={styles.tagsSideBar}>
+            <FeedTagsSideBar />
+          </div>
+        </div>
+      </div>
+    ) : <LoaderWrapper loading /> }
+  </div>
+);
 
 const mapStateToProps = (state: RootState) => {
   const { user } = state.auth.auth;

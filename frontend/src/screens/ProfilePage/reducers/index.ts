@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
-import { profilePageReducer } from '@screens/ProfilePage/containers/ProfilePage/reducer';
+import { profilePageReducer } from '@screens/ProfilePage/containers/reducer';
 import { sendFormRoutine, sendNicknameRoutine } from '@screens/ProfilePage/routines';
 
 const requests = combineReducers({

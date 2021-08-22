@@ -1,6 +1,12 @@
 import api from '@helpers/api.helper';
 
 const profilePageService = {
+  getUser: async ({ endpoint }) => {
+    const response = await api.get(
+      `/api/user/${endpoint}`
+    );
+    return response;
+  },
   sendForm: async ({ endpoint, payload }) => {
     const response = await api.post(
       `/api/user/update/${endpoint}`,

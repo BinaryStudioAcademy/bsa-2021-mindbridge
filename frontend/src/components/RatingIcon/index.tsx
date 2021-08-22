@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
-import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 
 interface IRatingIconProps {
   postRating: number;

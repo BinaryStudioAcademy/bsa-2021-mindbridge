@@ -4,15 +4,14 @@ import { connect } from 'react-redux';
 import ProfileSidebar from '@components/ProfileSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
-import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/CreatePost/routines';
 import { useParams } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
-import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
-import { IBindingAction, IBindingCallback1, IBindingCallback2 } from '@models/Callbacks';
+import { IBindingCallback1 } from '@models/Callbacks';
 import PostVersionItem from '@components/PostVersionItem';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { fetchPostTitleRoutine } from '@screens/PostVersions/routines';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
 
 export interface IPostVersionsProps extends IState, IActions {
 }
@@ -107,8 +106,8 @@ const PostVersions: React.FC<IPostVersionsProps> = (
 const mapStateToProps: (state) => IState = state => ({
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
-  userInfo: state.createPostReducer.data.profile,
-  versionsOfPost: state.createPostReducer.data.versionsOfPost,
+  userInfo: state.postPageReducer.data.profile,
+  versionsOfPost: state.postPageReducer.data.versionsOfPost,
   postTitle: state.postVersionsReducer.data.postTitle
 });
 

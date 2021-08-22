@@ -14,4 +14,6 @@ public interface CommentRepository extends JpaRepository<Comment, UUID>, JpaSpec
 	@Query("select c from Comment c where c.post.id = :id")
 	List<Comment> findAllByPostId(@Param("id") UUID id);
 
+	int countCommentByAuthorId(UUID id);
+
 }
