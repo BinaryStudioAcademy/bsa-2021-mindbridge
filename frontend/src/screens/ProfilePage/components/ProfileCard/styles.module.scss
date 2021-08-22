@@ -3,10 +3,9 @@
 .viewCard {
   display: flex;
   flex-direction: row;
-  align-items: center;
   object-fit: cover;
   width: 84%;
-  max-width: 100em;
+  max-width: 150em;
   min-height: 42em;
   margin: 0 0px -2em 15%;
   box-shadow: none;
@@ -23,6 +22,11 @@
   margin: 3em 5em 3em 5em;
   grid-gap: 2em;
   grid-template-columns: 0.6fr 2fr;
+
+  span {
+    font-family: Lato, serif;
+    font-style: normal;
+  }
 }
 
 .avatarWrp {
@@ -42,12 +46,7 @@
   flex-direction: column;
   padding-bottom: 1.5em;
   border-bottom: 1px solid #E5E5E5;
-  margin-top: 0.3em;
-}
-
-.header span {
-  font-family: Lato, serif;
-  font-style: normal;
+  margin-top: 0.7em;
 }
 
 .name {
@@ -70,10 +69,15 @@
     font-family: 'Lato', serif;
   }
 
+  :global(.ui.loading.icon.input) {
+    i {
+      height: 3.5em !important;
+    }
+  }
+
   .title {
     color: #66B9FF;
     margin-bottom: 1rem;
-    font-family: 'Montserrat', serif !important;
     font-weight: 600;
     text-align: center;
   }
@@ -112,15 +116,19 @@
   }
 }
 
+.imgContainer {
+  position: relative;
+  width: 10em;
+  height: 10em;
+}
+
 .overlay {
   border-radius: 50%;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
-  right: 0.6em;
-  width: 10em;
-  height: 10em;
+  right: 0;
   margin: 0 auto;
   opacity: 0;
   transition: .3s ease;
@@ -144,12 +152,6 @@
 
 .file_input_rectangle {
   cursor: pointer;
-}
-
-.imgContainer {
-  position: relative;
-  width: 100%;
-  max-width: 400px;
 }
 
 .inputWrp {
