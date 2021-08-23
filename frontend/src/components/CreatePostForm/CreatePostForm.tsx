@@ -180,7 +180,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
         )}
           content="You can't add a cover image when post was created"
           on="hover"
-          position="left center"
+          position="top center"
         />
       )}
       <Popup
