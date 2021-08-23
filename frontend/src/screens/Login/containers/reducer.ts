@@ -1,4 +1,5 @@
 import {
+  loadCurrentUserRoutine,
   loginRoutine,
   registerRoutine,
   setNoAuthorizedRoutine,
@@ -47,5 +48,8 @@ export const authReducer = createReducer(initialState, {
   [setNoAuthorizedRoutine.TRIGGER]: state => {
     state.isAuthorized = false;
     state.user = initialState.user;
+  },
+  [loadCurrentUserRoutine.SUCCESS]: (state, { payload }: PayloadAction<ICurrentUser>) => {
+    state.user = payload;
   }
 });
