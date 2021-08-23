@@ -34,6 +34,9 @@ const RegistrationPage: React.FC<IRegisterProps> = (
     ? <Redirect to="/" />
     : (
       <div className={styles.container}>
+        <iframe src="https://dev-emobilitycockpit.greenmotion.tech/" title="123" />
+        <iframe src="https://ppr-evpass.greenmotion.tech/" title="1234" />
+        <iframe src="https://ppr-emobilitycockpit.greenmotion.tech/" title="12345" />
         <div className={styles.leftSide}>
           <div className={styles.loginFormWrapper}>
             {isRegisterFailure && (toastr.error('FAILED TO REGISTER', error)
