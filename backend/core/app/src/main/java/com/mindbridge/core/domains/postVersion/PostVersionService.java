@@ -1,6 +1,5 @@
 package com.mindbridge.core.domains.postVersion;
 
-import com.mindbridge.core.domains.post.PostMapper;
 import com.mindbridge.core.domains.postVersion.dto.PostVersionDetailsDto;
 import com.mindbridge.core.domains.postVersion.dto.PostVersionsListDto;
 import com.mindbridge.core.domains.user.UserMapper;

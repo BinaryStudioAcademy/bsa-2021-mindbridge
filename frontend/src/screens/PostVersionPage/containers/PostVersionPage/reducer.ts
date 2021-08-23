@@ -8,27 +8,7 @@ export interface IPostVersionPageReducerState {
 }
 
 const initialState: IPostVersionPageReducerState = {
-  postVersion: {
-    coverImage: '',
-    createdAt: '',
-    deleted: false,
-    id: '',
-    markdown: false,
-    preVersion: {
-      author: { id: '', nickname: '', avatar: '', lastName: '', firstName: '' },
-      coverImage: '',
-      id: '',
-      markdown: false,
-      text: '',
-      title: '',
-      tags: []
-    },
-    author: { id: '', nickname: '', avatar: '', lastName: '', firstName: '' },
-    text: '',
-    title: '',
-    updatedAt: '',
-    tags: []
-  }
+  postVersion: undefined
 };
 
 export const postVersionPageReducer = createReducer(initialState, {
