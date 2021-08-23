@@ -59,10 +59,8 @@ const Header: React.FC<IHeaderProps> = (
   const handleCreatePostButton = () => {
     if (isAuthorized) {
       history.push('/create/post');
-      history.go();
     } else {
       history.push('/login');
-      history.go();
     }
   };
 

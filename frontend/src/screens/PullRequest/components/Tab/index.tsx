@@ -30,7 +30,7 @@ const Tab = ({ className, previewContent, diffContent, seeDiff, handleCheckbox }
               <input type="checkbox" checked={seeDiff} />
               {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions,
               jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-              <div onClick={handleCheckbox}>✔</div>
+              <div onClick={handleCheckbox} />
             </span>
           </div>
           )}

@@ -2,6 +2,8 @@ package com.mindbridge.data.domains.postPR;
 
 import com.mindbridge.data.domains.postPR.model.PostPR;
 import com.mindbridge.data.domains.postVersion.model.PostVersion;
+import com.mindbridge.data.domains.tag.model.Tag;
+import java.util.Set;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -20,6 +22,16 @@ public interface PostPRRepository extends JpaRepository<PostPR, UUID>, JpaSpecif
 	@Modifying
 	@Query("update PostPR pr set pr.closed = true where pr.id = :id")
 	void setPRClosed(@Param("id") UUID id);
+
+	@Transactional
+	@Modifying
+	@Query("update PostPR pr "
+		+ "set pr.title = :title, "
+		+ "pr.text = :text "
+		+ "where pr.id = :id")
+	void updatePR(@Param("id") UUID id,
+		@Param("title") String title,
+	@Param("text") String text);
 
 	@Query("SELECT pr from PostPR pr where pr.deleted = false and pr.post.id = :postId order by pr.createdAt desc")
 	List<PostPR> getPostPRByPostId(UUID postId, Pageable pageable);

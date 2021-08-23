@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.postPR;
 
 import com.mindbridge.core.domains.postPR.dto.CreatePostPRDto;
+import com.mindbridge.core.domains.postPR.dto.EditPostPRDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,11 @@ public class PostPRController {
 	public void acceptPR(@PathVariable UUID id) {
 		postPRService.acceptPR(id);
 		postPRService.closePR(id);
+	}
+
+	@PostMapping("/edit")
+	public void editPR(@RequestBody EditPostPRDto editPostPRDto) {
+		postPRService.editPR(editPostPRDto);
 	}
 
 	@GetMapping("/all/{id}")
