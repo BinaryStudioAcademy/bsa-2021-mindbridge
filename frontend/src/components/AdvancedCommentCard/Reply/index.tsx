@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import styles from './styles.module.scss';
@@ -8,40 +8,47 @@ import ArrowCloseComment from '@components/AdvancedCommentCard/svg/ArrowCloseCom
 import { Collapse } from 'react-collapse';
 
 interface ICommentProps {
-  createdAt: string;
   text: string;
   author: IUser;
   replies: IComment[];
+  createdAt: string;
   commentRating: number;
-  shouldRender: boolean;
+  shouldRenderUpToParent: boolean;
+  shouldRenderArrowCloseComment: boolean;
 }
 
 const Reply: React.FC<ICommentProps> = (
-  { author, createdAt, text, replies, commentRating, shouldRender }
+  {
+    text,
+    author,
+    replies,
+    createdAt,
+    commentRating,
+    shouldRenderUpToParent,
+    shouldRenderArrowCloseComment
+  }
 ) => {
-  const [disabled, setDisabled] = useState(false);
+  const closeCommentRef = useRef(true);
+  const [isOpened, setIsOpened] = useState(closeCommentRef.current);
 
-  const style = {
-    transform: disabled ? 'rotate(-90deg)' : '',
-    transition: 'transform 300ms ease'
+  const handle = () => {
+    setIsOpened(!isOpened);
   };
 
   return (
     <div className={styles.comment}>
-      {replies.length > 0 ? (
-        <button id="button" className={styles.inputBtn} type="button" onClick={() => setDisabled(!disabled)}>
-          <div style={style}><ArrowCloseComment /></div>
-        </button>
-      ) : (<div style={{ display: 'none' }} />)}
       <AdvancedComment
         createdAt={createdAt}
         text={text}
         author={author}
         commentRating={commentRating}
-        setShouldRender={shouldRender}
+        setShouldRender={shouldRenderUpToParent}
+        ref={closeCommentRef}
+        handle={handle}
+        shouldRenderArrowCloseComment={shouldRenderArrowCloseComment}
       />
-      {replies.length > 0 ? (
-        <Collapse isOpened={!disabled}>
+      {replies.length > 0 && (
+        <Collapse isOpened={isOpened}>
           <div className="comments">
             {replies.map(comment => (
               <Reply
@@ -50,12 +57,13 @@ const Reply: React.FC<ICommentProps> = (
                 createdAt={comment.createdAt}
                 text={comment.text}
                 commentRating={comment.rating}
-                shouldRender={!(replies.length === 0)}
+                shouldRenderUpToParent={!(replies.length === 0)}
+                shouldRenderArrowCloseComment={(replies.length === 0)}
               />
             ))}
           </div>
         </Collapse>
-      ) : (<div style={{ display: 'none' }} />)}
+      )}
     </div>
   );
 };
