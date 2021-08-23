@@ -51,9 +51,9 @@ const FeedPage: React.FC<IFeedPageProps> = (
     disLikePostView, loadUser }
 ) => {
   useEffect(() => {
+    fetchData(params);
     if (currentUser) {
       fetchUserProfile(currentUser.id);
-      fetchData(params);
     } else {
       loadUser();
     }
@@ -88,7 +88,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
     handleLoadMorePosts(params);
   };
 
-  if (dataLoading === true && loadMore === false) {
+  if (dataLoading === true && loadMore === false && !currentUser) {
     return (
       <LoaderWrapper loading={dataLoading} />
     );
@@ -154,7 +154,7 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   loadMore: state.feedPageReducer.data.loadMore,
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
-  userInfo: state.postPageReducer.data.profile
+  userInfo: state.postPageReducer.data.profile,
 });
 
 const mapDispatchToProps: IActions = {
