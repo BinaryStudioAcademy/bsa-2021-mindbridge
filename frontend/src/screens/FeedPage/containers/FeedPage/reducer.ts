@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { addMorePostsRoutine, disLikePostRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
+import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import { isEmptyArray } from 'formik';
@@ -17,6 +17,7 @@ const initialState: IFeedPageReducerState = {
     text: '',
     authorId: '',
     authorName: '',
+    nickname: '',
     commentsCount: 0,
     likesCount: 0,
     disLikesCount: 0,
