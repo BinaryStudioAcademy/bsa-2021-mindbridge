@@ -248,7 +248,7 @@ const EditPost: React.FC<IEditPostProps> = (
         <div className={styles.profile_sidebar_container}>
           <ProfileSidebar
             id={userInfo.profile.id}
-            userName={userInfo.profile.fullName}
+            userName={userInfo.profile.fullName ?? userInfo.profile.nickname}
             avatar={userInfo.profile.avatar}
             folloversCount={userInfo.profile.followersQuantity}
             rating={userInfo.profile.rating}
@@ -276,7 +276,7 @@ const EditPost: React.FC<IEditPostProps> = (
                       content={changeModeWarning}
                       on="hover"
                       pinned
-                      position="left center"
+                      position="top center"
                       trigger={(
                         <ColorlessButton
                           content="HTML"
