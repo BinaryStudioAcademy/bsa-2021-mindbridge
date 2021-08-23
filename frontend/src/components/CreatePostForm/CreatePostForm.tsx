@@ -105,7 +105,10 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
   const closeCoverImage = () => {
     setForm({
       ...form,
-      coverImage: ''
+      coverImage: {
+        url: '',
+        title: ''
+      }
     });
   };
 
