@@ -35,6 +35,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
             author={comment.author}
             replies={comment.comments}
             commentRating={comment.rating}
+            shouldRender={false}
           />
         ))}
       </div>

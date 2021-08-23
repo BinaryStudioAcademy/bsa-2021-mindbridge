@@ -14,12 +14,14 @@ interface IBasicCommentProps {
   text: string;
   author: IUser;
   commentRating: number;
+  setShouldRender: boolean;
 }
 
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = (
-  { createdAt, text, author, commentRating }
+  { createdAt, text, author, commentRating, setShouldRender }
 ) => {
   const [disabled, setDisabled] = useState(false);
+  const [shouldRender] = useState(setShouldRender);
 
   return (
     <div className={styles.advancedComment}>
@@ -29,7 +31,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = (
             <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
           </a>
           <a href="/" className="author">
-            {author.lastName}
+            {author.firstName}
             {' '}
             {author.lastName}
           </a>
@@ -59,7 +61,8 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = (
           {/*      '#66B9FF'*/}
           {/*    )}*/}
           {/*/ >*/}
-          <UpToParentCommentSvg />
+          { shouldRender
+            && <UpToParentCommentSvg />}
           <LinkSvg />
           <ShareCommentSvg />
         </div>

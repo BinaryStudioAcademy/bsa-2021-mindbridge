@@ -18,7 +18,7 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({ createdAt, text, 
           <img alt="avatar" src="https://i.imgur.com/LaWyPZF.png" />
         </a>
         <a href="/" className="author">
-          {author.lastName}
+          {author.firstName}
           {' '}
           {author.lastName}
         </a>

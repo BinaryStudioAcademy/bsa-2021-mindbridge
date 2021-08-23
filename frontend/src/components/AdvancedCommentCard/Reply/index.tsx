@@ -13,10 +13,11 @@ interface ICommentProps {
   author: IUser;
   replies: IComment[];
   commentRating: number;
+  shouldRender: boolean;
 }
 
 const Reply: React.FC<ICommentProps> = (
-  { author, createdAt, text, replies, commentRating }
+  { author, createdAt, text, replies, commentRating, shouldRender }
 ) => {
   const [disabled, setDisabled] = useState(false);
 
@@ -37,6 +38,7 @@ const Reply: React.FC<ICommentProps> = (
         text={text}
         author={author}
         commentRating={commentRating}
+        setShouldRender={shouldRender}
       />
       {replies.length > 0 ? (
         <Collapse isOpened={!disabled}>
@@ -48,6 +50,7 @@ const Reply: React.FC<ICommentProps> = (
                 createdAt={comment.createdAt}
                 text={comment.text}
                 commentRating={comment.rating}
+                shouldRender={!(replies.length === 0)}
               />
             ))}
           </div>
