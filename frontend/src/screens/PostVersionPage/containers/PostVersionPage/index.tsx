@@ -36,6 +36,7 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
   const contributor = (
     <AuthorAndDate
       className={styles.contributor}
+      id={postVersion.author.id}
       avatar={postVersion.author.avatar}
       nickname={postVersion.author.nickname}
       lastName={postVersion.author.lastName}
@@ -89,12 +90,29 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
     </div>
   );
 
+  const raw = (
+    <div>
+      {contributor}
+      <div className={styles.diff_container}>
+        <div className={styles.divider} />
+        <TitleDiff className={styles.field} oldTitle={postVersion.title} newTitle={postVersion.title} />
+        <TagsDiff className={styles.field} oldTags={postVersion.tags} newTags={postVersion.tags} />
+        <div className={styles.grey_label}>Content:</div>
+        <TextDiff
+          className={classNames(styles.field, styles.text_diff)}
+          oldText={postVersion.text}
+          newText={postVersion.text}
+        />
+      </div>
+    </div>
+  );
+
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <Tab
         previewContent={previewContent}
-        diffContent={diffContent}
-        handleSeeDifference={handleSeeDifference}
+        diffContent={seeDifference ? diffContent : raw}
+        handleCheckbox={handleSeeDifference}
         seeDiff={seeDifference}
       />
     </div>
