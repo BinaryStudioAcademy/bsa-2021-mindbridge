@@ -75,9 +75,12 @@ public class UserService implements UserDetailsService {
 	}
 
 	public UserProfileDto getUserProfileInformation(UUID userId) {
-		var user = UserMapper.MAPPER.userToUserProfileDto(userRepository.findById(userId)
-				.orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found.")));
+		var foundUser = userRepository.findById(userId).orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found."));
+		var user = UserMapper.MAPPER.userToUserProfileDto(foundUser);
 		var userReactions = postReactionRepository.getPostReactionByAuthorId(userId);
+		if (foundUser.getFirstName() != null) {
+			user.setFullName(foundUser.getFullName());
+		}
 		List<Post> top5Posts = postRepository.getFirstPostTitles(userId, PageRequest.of(0, 5));
 		user.setCommentsQuantity(commentRepository.countCommentByAuthorId(userId));
 		user.setPostsQuantity(postRepository.countPostByAuthorId(userId));

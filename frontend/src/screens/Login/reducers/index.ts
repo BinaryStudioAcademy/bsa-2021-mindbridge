@@ -1,13 +1,14 @@
 import { combineReducers } from 'redux';
 import { reducerCreator } from '@helpers/reducer.helper';
-import { loginRoutine, registerRoutine } from '../routines/index';
+import { loadCurrentUserRoutine, loginRoutine, registerRoutine } from '../routines/index';
 import { authReducer } from '@screens/Login/containers/reducer';
 /* PlopJS import placeholder. Do not remove */
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
   loginRequest: reducerCreator([loginRoutine.TRIGGER, loginRoutine.SUCCESS]),
-  registerRequest: reducerCreator([registerRoutine.TRIGGER])
+  registerRequest: reducerCreator([registerRoutine.TRIGGER]),
+  loadCurrentUser: reducerCreator([loadCurrentUserRoutine.TRIGGER])
 });
 
 export default combineReducers({
