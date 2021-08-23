@@ -154,7 +154,7 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   loadMore: state.feedPageReducer.data.loadMore,
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
-  userInfo: state.postPageReducer.data.profile,
+  userInfo: state.postPageReducer.data.profile
 });
 
 const mapDispatchToProps: IActions = {
