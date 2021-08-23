@@ -187,7 +187,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
         url: postPR.coverImage
       }
     });
-    history.push(`/pullRequest/${postPR.id}`)
+    history.push(`/pullRequest/${postPR.id}`);
   };
 
   const handleSendForm = () => {

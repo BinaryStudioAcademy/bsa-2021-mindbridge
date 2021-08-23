@@ -1,5 +1,4 @@
-import { editPrRoutine } from './../../routines/index';
-import { closePrRoutine, acceptPrRoutine, fetchPrRoutine } from '../../routines/index';
+import { editPrRoutine, closePrRoutine, acceptPrRoutine, fetchPrRoutine } from '../../routines/index';
 import { toastr } from 'react-redux-toastr';
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import pullRequestService from '../../services';

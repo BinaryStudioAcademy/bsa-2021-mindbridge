@@ -3,12 +3,12 @@ import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
 import { pullRequestReducer } from '@screens/PullRequest/containers/PullRequestPage/reducer';
 /* PlopJS import placeholder. Do not remove */
-import { editPrRoutine } from '@screens/PullRequest/routines';
 import {
   acceptPrRoutine,
   resetEndSendingDataRoutine,
   closePrRoutine,
-  fetchPrRoutine }
+  fetchPrRoutine,
+  editPrRoutine }
   from '@screens/PullRequest/routines';
 
 const requests = combineReducers({

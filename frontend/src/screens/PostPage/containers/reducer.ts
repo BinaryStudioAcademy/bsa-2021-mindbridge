@@ -1,4 +1,4 @@
-import { acceptPrRoutine, fetchPrRoutine, editPrRoutine } from './../../PullRequest/routines/index';
+import { acceptPrRoutine, fetchPrRoutine, editPrRoutine } from '../../PullRequest/routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
@@ -90,7 +90,7 @@ const initialState: IPostPageReducerState = {
     title: '',
     updatedAt: '',
     tags: []
-  },
+  }
 };
 
 export const postPageReducer = createReducer(initialState, {
