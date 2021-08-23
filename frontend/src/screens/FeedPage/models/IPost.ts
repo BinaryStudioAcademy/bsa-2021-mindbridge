@@ -6,6 +6,7 @@ export interface IPost {
   text: string;
   authorId: string;
   authorName: string;
+  nickname: string;
   commentsCount: number;
   likesCount: number;
   disLikesCount: number;

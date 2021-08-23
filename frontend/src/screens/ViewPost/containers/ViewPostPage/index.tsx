@@ -144,7 +144,7 @@ const ViewPost: React.FC<IViewPostProps> = (
               <div className={styles.profileSideBar}>
                 <ProfileSidebar
                   id={userInfo.id}
-                  userName={userInfo.fullName}
+                  userName={userInfo.fullName ?? userInfo.nickname}
                   avatar={userInfo.avatar}
                   folloversCount={userInfo.followersQuantity}
                   rating={userInfo.rating}

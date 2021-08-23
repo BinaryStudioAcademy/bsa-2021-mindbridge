@@ -87,7 +87,7 @@ const PostVersions: React.FC<IPostVersionsProps> = (
             <PostVersionItem
               key={version.id}
               postVersion={version}
-              isVersion
+              isVersion={isVersions}
             />
           ))
         ) : (
@@ -95,7 +95,7 @@ const PostVersions: React.FC<IPostVersionsProps> = (
             <PostVersionItem
               key={version.id}
               postVersion={version}
-              isVersion
+              isVersion={isVersions}
             />
           ))
         )}
