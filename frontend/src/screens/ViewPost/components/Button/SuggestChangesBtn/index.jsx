@@ -8,7 +8,6 @@ const SuggestChangesBtn = ({ postId, isAuthor }) => {
 
   const handleGoToLink = () => {
     history.push(`/post/edit/${postId}`);
-    history.go();
   };
 
   return (

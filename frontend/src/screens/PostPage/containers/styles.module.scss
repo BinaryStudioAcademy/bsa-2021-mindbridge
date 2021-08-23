@@ -13,21 +13,21 @@
 
 .form_and_sidebar_container{
     height: 100%;
-    width: 63rem;
+    width: 80rem;
     margin: auto;
     margin-top: 8rem;
 }
 
 .profile_sidebar_container {
-    margin-left: 45rem;
+    width: 28rem;
+    margin-left: 52rem;
     position: fixed;
 }
 
 .create_post_container{
     position: relative;
-    width: 43.5rem;
+    width: 50rem;
     height: 48rem;
-    z-index: 100;
     padding-bottom: 2rem;
     button{
         font-family: lato;

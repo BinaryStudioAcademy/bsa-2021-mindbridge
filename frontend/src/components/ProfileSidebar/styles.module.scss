@@ -1,8 +1,6 @@
 @import "../../styles/common.sass";
 
 .profile_sidebar_container {
-    height: 21rem;
-    width: 25.8rem;
     margin-bottom: 2rem;
     background-color: $background-card;
     border-radius: 0.5rem;
@@ -12,13 +10,13 @@
 }
 
 .top_group{
-    height: 5.5rem;
     display: grid;
     grid-template-columns: 1.8rem 1fr 1fr 4rem;
     grid-template-rows: 2.2fr 1fr;
     border-bottom: solid 2px rgba(172, 186, 215, 0.2);
     padding-left: 1.8rem;
     padding-top: 1.8rem;
+    padding-bottom: 1rem;
 }
 
 .avatar_and_name_group{
@@ -34,14 +32,14 @@
 
         span{
             margin-left: 0.6rem;
-            margin-top: 0.3rem;
+            line-height: 2.8rem;
             color: $dark-grey;
-            font-size: 0.95rem;
+            font-size: 1.14rem;
             font-family: Lato;
         }
         .avatar{
-            height: 2rem;
-            width: 2rem;
+            height: 2.8rem;
+            width: 2.8rem;
             border-radius: 50%;
         }
     }
@@ -51,6 +49,7 @@
     grid-row: 2/3;
     grid-column: 2/5;
     display: flex;
+    align-items: center;
     flex-direction: row;
     padding-top: 0.3rem;
     padding-left: 0.8rem;
@@ -58,31 +57,26 @@
 
 .following, .rating {
     height: 1.2rem;
-
-    justify-content: left;
-    vertical-align: middle;
+    align-items: center;
     display: flex;
-    flex-direction: row;
     color: rgba(172, 186, 215, 1);
-    padding: 0;
     background-color: rgba(0, 0, 0, 0);
-    div{
+    div {
         margin-left: 0.5rem;
         margin-right: 0.3rem;
         padding-top: 0.1rem;
         font-family: Lato;
-        font-size: 0.7rem;
+        font-size: 1rem;
     }
 }
 
 .dot{
-    width: 6px;
-    height: 6px;
+    width: 0.5rem;
+    height: 0.5rem;
     background-color: rgba(102, 185, 255, 1);
     margin-right: 0.6rem;
     margin-left: 0.4rem;
     border-radius: 50%;
-    margin-top: 0.3rem;
 }
 
 .settings_button{
@@ -96,14 +90,13 @@
 .sidebar_links{
     display: flex;
     flex-direction: column;
-    padding-top: 1.3rem;
-    padding-left: 1.45rem;
+    padding: 1rem 1.45rem 2.5rem 1.45rem;
     :first-child{
         margin-top: 0;
     }
     a{
         display: flex;
-        margin-top: 1.4rem;
+        margin-top: 1.9rem;
         flex-direction: row;
         align-items: center;
         svg{
@@ -111,7 +104,7 @@
         }
         span{
             margin-left: 0.35rem;
-            font-size: 0.9rem;
+            font-size: 1.285rem;
             color: $dark-grey;
             font-family: Lato;
             font-style: normal;
