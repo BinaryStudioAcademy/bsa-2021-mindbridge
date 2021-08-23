@@ -35,11 +35,9 @@ public class ImageService {
 		}
 		UUID uuid = UUID.randomUUID();
 
-		BlobClient blobClient = new BlobClientBuilder()
-			.endpoint(blobUrl + "/"
-				+ uuid + "?" + blobKey)
-			.buildClient();
+		BlobClient blobClient = new BlobClientBuilder().endpoint(blobUrl + "/" + uuid + "?" + blobKey).buildClient();
 		blobClient.upload(BinaryData.fromBytes(byteFile));
 		return Optional.of(blobClient.getBlobUrl());
 	}
+
 }

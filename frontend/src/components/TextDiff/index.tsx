@@ -6,6 +6,7 @@ import parse from 'html-react-parser';
 interface ITextDiffProps {
   oldText: string;
   newText: string;
+  className: string;
 }
 
 const toPrettyHtml = diffs => {

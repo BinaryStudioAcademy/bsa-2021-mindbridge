@@ -23,4 +23,5 @@ public interface PostMapper {
 
 	@Mapping(source = "id", target = "post.id")
 	PostVersion postToPostVersion(Post post);
+
 }

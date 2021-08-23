@@ -23,7 +23,7 @@ public class PostVersionService {
 	public List<PostVersionsListDto> getAllVersionsByPostId(UUID id, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 		return postVersionRepository.getPostVersionByPostId(id, pageable).stream()
-			.map(PostVersionMapper.MAPPER::postVersionToPostVersionList)
-			.collect(Collectors.toList());
+				.map(PostVersionMapper.MAPPER::postVersionToPostVersionList).collect(Collectors.toList());
 	}
+
 }
