@@ -276,7 +276,7 @@ const EditPost: React.FC<IEditPostProps> = (
                       content={changeModeWarning}
                       on="hover"
                       pinned
-                      position="left center"
+                      position="top center"
                       trigger={(
                         <ColorlessButton
                           content="HTML"
