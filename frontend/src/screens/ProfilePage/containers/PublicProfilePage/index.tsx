@@ -11,11 +11,15 @@ import { useLocation } from 'react-use';
 import { NotFoundPage } from '@screens/NotFound/containers/NotFoundPage';
 import LoaderWrapper from '@components/LoaderWrapper';
 import PublicProfileCard from '@screens/ProfilePage/components/PublicProfileCard';
+import ProfileSidebar from '@components/ProfileSidebar';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 
 export interface IPublicProfilePageProps extends IState, IActions {
   userProfileData: any;
   isUserLoaded: boolean;
   isUserIdValid: boolean;
+  isAuthorized: boolean;
+  currentUserInfo: IUserProfile;
 }
 
 interface IState {
@@ -29,7 +33,9 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
   { fetchUserData,
     userProfileData,
     isUserLoaded,
-    isUserIdValid
+    isUserIdValid,
+    isAuthorized,
+    currentUserInfo
   }
 ) => {
   const location = useLocation();
@@ -49,6 +55,19 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
                 <PublicProfileCard user={userProfileData} isUserLoaded={isUserLoaded} />
               </div>
               <div className={styles.sidebar}>
+                {isAuthorized
+                  && (
+                  <div className={styles.profileSideBar}>
+                    <ProfileSidebar
+                      id={currentUserInfo.id}
+                      userName={currentUserInfo.fullName ?? currentUserInfo.nickname}
+                      avatar={currentUserInfo.avatar}
+                      folloversCount={currentUserInfo.followersQuantity}
+                      rating={currentUserInfo.rating}
+                      postNotificationCount={currentUserInfo.postsQuantity}
+                    />
+                  </div>
+                  )}
                 <div className={styles.tagsSideBar}>
                   <FeedTagsSideBar />
                 </div>
@@ -67,7 +86,9 @@ const mapStateToProps = (state: RootState) => {
   return ({
     userProfileData: data.user,
     isUserLoaded: data.isUserLoaded,
-    isUserIdValid: data.isUserIdValid
+    isUserIdValid: data.isUserIdValid,
+    isAuthorized: state.auth.auth.isAuthorized,
+    currentUserInfo: state.postPageReducer.data.profile
   });
 };
 
