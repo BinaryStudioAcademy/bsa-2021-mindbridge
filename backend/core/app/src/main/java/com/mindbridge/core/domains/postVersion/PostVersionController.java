@@ -22,8 +22,8 @@ public class PostVersionController {
 
 	@GetMapping("/all/{id}")
 	public List<PostVersionsListDto> getAllVersions(@PathVariable UUID id,
-													@RequestParam(defaultValue = "0") Integer from,
-													@RequestParam(defaultValue = "5") Integer count) {
+			@RequestParam(defaultValue = "0") Integer from, @RequestParam(defaultValue = "5") Integer count) {
 		return postVersionService.getAllVersionsByPostId(id, from, count);
 	}
+
 }

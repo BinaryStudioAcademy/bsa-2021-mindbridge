@@ -9,14 +9,18 @@ import { Link, useHistory } from 'react-router-dom';
 
 export interface IPostVersionItemProps {
   postVersion: IPostVersion;
+  isVersion: boolean;
 }
 
-const PostVersionItem: FunctionComponent<IPostVersionItemProps> = ({ postVersion }) => {
+const PostVersionItem: FunctionComponent<IPostVersionItemProps> = ({ postVersion, isVersion }) => {
   const history = useHistory();
 
   const goToVersion = () => {
-    history.push(`/postVersion/${postVersion.id}`);
-    history.go();
+    if (isVersion) {
+      history.push(`/postVersion/${postVersion.id}`);
+    } else {
+      history.push(`/pullRequest/${postVersion.id}`);
+    }
   };
 
   const handleClick = e => {
