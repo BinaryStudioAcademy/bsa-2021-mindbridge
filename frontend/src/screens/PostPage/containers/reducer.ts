@@ -1,25 +1,20 @@
-import {
-  resetImageTagRoutine,
-  editPostRoutine, sendPostRoutine, sendPRRoutine,
-  fetchTagsRoutine,
-  resetLoadingImageRoutine,
-  sendImageRoutine,
-  fetchUserProfileRoutine,
-  fetchPostRoutine,
-  getPostVersionsRoutine,
-  setLoaderRoutine,
-  likePostViewRoutine,
-  disLikePostViewRoutine
-} from '../../routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { IUserProfile } from '@screens/CreatePost/models/IUserProfile';
-import { IPost } from '@screens/CreatePost/models/IPost';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
-import { IPostVersions } from '@screens/CreatePost/models/IPostVersions';
-import { isEmptyArray } from 'formik';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import { IPost } from '@screens/PostPage/models/IPost';
+import {
+  disLikePostViewRoutine,
+  editPostRoutine,
+  fetchPostRoutine,
+  fetchTagsRoutine,
+  fetchUserProfileRoutine,
+  getPostVersionsRoutine, likePostViewRoutine, resetImageTagRoutine,
+  resetLoadingImageRoutine,
+  sendImageRoutine, sendPostRoutine, sendPRRoutine, setLoaderRoutine
+} from '@screens/PostPage/routines';
 
-export interface ICreatePostReducerState {
+export interface IPostPageReducerState {
   savingImage: {
     title: string;
     url: string;
@@ -42,7 +37,7 @@ export interface ICreatePostReducerState {
   };
 }
 
-const initialState: ICreatePostReducerState = {
+const initialState: IPostPageReducerState = {
   savingImage: {
     title: '',
     url: '',
@@ -73,7 +68,7 @@ const initialState: ICreatePostReducerState = {
   }
 };
 
-export const createPostReducer = createReducer(initialState, {
+export const postPageReducer = createReducer(initialState, {
   [sendImageRoutine.SUCCESS]: (state, action) => {
     if (state.imageTag.isPresent) {
       state.imageTag = {

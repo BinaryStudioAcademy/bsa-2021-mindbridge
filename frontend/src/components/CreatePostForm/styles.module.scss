@@ -78,6 +78,10 @@
   display: none;
 }
 
+.invisible_disable{
+  cursor: not-allowed;
+}
+
 .close_image{
   background-color: rgba(0, 0, 0, 0);
   color: rgba(20, 37, 63, 0.4);

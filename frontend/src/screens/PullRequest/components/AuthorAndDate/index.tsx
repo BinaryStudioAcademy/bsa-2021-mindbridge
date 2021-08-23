@@ -13,30 +13,36 @@ interface IAuthorAndDateProps {
   firstName: string;
   date: string;
   readTime: string;
+  id: string;
 }
 
-const AuthorAndDate = ({ avatar, nickname, lastName, firstName, className, date, readTime }: IAuthorAndDateProps) => (
+const AuthorAndDate = (
+  { avatar, nickname, lastName, firstName, className, date, readTime, id }:
+  IAuthorAndDateProps
+) => (
   <div className={classNames(className, styles.avatar_and_name_group)}>
-    <img
-      className={styles.avatar}
-      src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'}
-      alt="avatar"
-    />
-    {firstName
-      && (
-      <div className={styles.avatar_and_name_group}>
-        <span className={styles.user_name}>
-          {firstName}
-          {' '}
-          {lastName}
-        </span>
-        <div className={styles.dot} />
-      </div>
-      )}
-    <span className={styles.user_name}>
-      @
-      {nickname}
-    </span>
+    <Link to={`/user/${id}`} className={styles.avatar_and_name_group}>
+      <img
+        className={styles.avatar}
+        src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'}
+        alt="avatar"
+      />
+      {firstName
+        && (
+          <div className={styles.avatar_and_name_group}>
+            <span className={styles.user_name}>
+              {firstName}
+              {' '}
+              {lastName}
+            </span>
+            <div className={styles.dot} />
+          </div>
+        )}
+      <span className={styles.user_name}>
+        @
+        {nickname}
+      </span>
+    </Link>
     <div className={styles.dot} />
     <span className={styles.date}>{timeToLocal(date)}</span>
     <div className={styles.dot} />

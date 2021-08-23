@@ -1,6 +1,7 @@
 import React from 'react';
-import classNames from 'classnames';
-import { diffWords } from 'diff';
+
+import DiffMatchPatch from 'diff-match-patch';
+import parse from 'html-react-parser';
 
 interface ITextDiffProps {
   oldText: string;
@@ -8,37 +9,41 @@ interface ITextDiffProps {
   className: string;
 }
 
-const TextDiff: React.FC<ITextDiffProps> = ({ oldText, newText, className }) => {
-  const diff = diffWords(oldText, newText);
-
-  const result = diff.map(part => {
-    let spanStyle: { color: string; backgroundColor: string; textDecoration: string };
-    if (part.added) {
-      spanStyle = {
-        color: '#29813f',
-        backgroundColor: '#e6ffec',
-        textDecoration: 'none'
-      };
-    } else if (part.removed) {
-      spanStyle = {
-        color: '#c5272d',
-        backgroundColor: '#feeeef',
-        textDecoration: 'line-through'
-      };
+const toPrettyHtml = diffs => {
+  const html = [];
+  const patternAmp = /&/g;
+  const patternLt = /</g;
+  const patternGt = />/g;
+  const patternPara = /\n/g;
+  for (let x = 0; x < diffs.length; x += 1) {
+    const op = diffs[x][0];
+    const data = diffs[x][1];
+    const text = data.replace(patternAmp, '&amp;').replace(patternLt, '&lt;')
+      .replace(patternGt, '&gt;').replace(patternPara, '<br>');
+    switch (op) {
+      case DiffMatchPatch.DIFF_INSERT:
+        html[x] = `<ins style="background:#e6ffec; color: #29813f; text-decoration: none;">${text}</ins>`;
+        break;
+      case DiffMatchPatch.DIFF_DELETE:
+        html[x] = `<del style="background:#feeeef; color: #c5272d;">${text}</del>`;
+        break;
+      case DiffMatchPatch.DIFF_EQUAL:
+        html[x] = `<span>${text}</span>`;
+        break;
+      default: break;
     }
-    return React.createElement(
-      'span',
-      { style: spanStyle },
-      part.value
-    );
-  });
+  }
+  return html.join('');
+};
 
-  return (
-    React.createElement(
-      'div',
-      { className: classNames('diff-result', className) },
-      result
-    ));
+const TextDiff: React.FC<ITextDiffProps> = ({ oldText, newText }) => {
+  const dmp = new DiffMatchPatch();
+  const diff = dmp.diff_main(oldText, newText);
+  dmp.diff_cleanupSemantic(diff);
+
+  const result = toPrettyHtml(diff);
+
+  return <div>{parse(result)}</div>;
 };
 
 export default TextDiff;

@@ -10,6 +10,7 @@ import lombok.Data;
 
 @Data
 public class PostPRDetailsDto {
+
 	private UUID id;
 
 	private Date createdAt;
@@ -33,4 +34,5 @@ public class PostPRDetailsDto {
 	private Boolean deleted;
 
 	private Set<TagDto> tags;
+
 }

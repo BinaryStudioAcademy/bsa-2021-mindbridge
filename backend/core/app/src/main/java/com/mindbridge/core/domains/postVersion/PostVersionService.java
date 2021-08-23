@@ -26,7 +26,7 @@ public class PostVersionService {
 	public List<PostVersionsListDto> getAllVersionsByPostId(UUID id, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 		return postVersionRepository.getPostVersionsByPostId(id, pageable).stream()
-				.map(PostVersionMapper.MAPPER::postVersionToPostVersionList).collect(Collectors.toList());
+			.map(PostVersionMapper.MAPPER::postVersionToPostVersionList).collect(Collectors.toList());
 	}
 
 	public PostVersionDetailsDto getPostVersion(UUID id) {
@@ -46,5 +46,4 @@ public class PostVersionService {
 		postVersionDetailsDto.setAuthor(UserMapper.MAPPER.userToUserDto(postVersion.get().getPost().getAuthor()));
 		return postVersionDetailsDto;
 	}
-
 }

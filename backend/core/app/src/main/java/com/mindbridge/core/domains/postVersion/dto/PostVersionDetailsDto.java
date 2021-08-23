@@ -33,5 +33,4 @@ public class PostVersionDetailsDto {
 	private Boolean deleted;
 
 	private Set<TagDto> tags;
-
 }

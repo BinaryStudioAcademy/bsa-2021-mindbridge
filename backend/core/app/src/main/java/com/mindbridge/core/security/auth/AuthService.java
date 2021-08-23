@@ -45,7 +45,7 @@ public class AuthService {
 	public TokensWithUser performLogin(AuthRequest authRequest) {
 		var userDetails = userService.loadUserByEmail(authRequest.getEmail());
 		if (passwordsDontMatch(authRequest.getPassword(), userDetails.getPassword())) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid password");
 		}
 
 		var tokens = AuthResponse.of(jwtProvider.generateToken(userDetails, "30min"),

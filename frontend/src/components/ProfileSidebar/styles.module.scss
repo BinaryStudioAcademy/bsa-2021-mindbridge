@@ -3,6 +3,7 @@
 .profile_sidebar_container {
     height: 21rem;
     width: 25.8rem;
+    margin-bottom: 2rem;
     background-color: $background-card;
     border-radius: 0.5rem;
     a:hover{
@@ -30,9 +31,10 @@
         vertical-align: middle;
         display: flex;
         flex-direction: row;
+
         span{
             margin-left: 0.6rem;
-            margin-top: 0.5rem;
+            margin-top: 0.3rem;
             color: $dark-grey;
             font-size: 0.95rem;
             font-family: Lato;

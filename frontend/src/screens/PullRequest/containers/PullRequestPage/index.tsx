@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import { acceptPrRoutine, closePrRoutine, fetchPrRoutine, resetEndSendingDataRoutine } from '../../routines';
@@ -16,7 +16,6 @@ import TagsDiff from '../../components/TagsDiff';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import DarkButton from '@root/components/buttons/DarcButton';
 import LoaderWrapper from '@root/components/LoaderWrapper';
-import CloseSvg from '@root/components/CreatePostForm/svg/closeSvg';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -37,11 +36,11 @@ interface IActions {
 const PullRequest: React.FC<IPullRequestProps> = (
   { currentUser, fetchPR, closePR, acceptPR, resetEndSendingDada, postPR, endSendingDada }
 ) => {
-  console.log(postPR);
-  console.log(postPR.tags);
   const { id } = useParams();
 
   const [preloader, setPreloader] = useState({ firstButton: false, secondButton: false });
+
+  const [seeDiff, setSeeDiff] = useState(false);
 
   useEffect(() => {
     fetchPR(id);
@@ -70,6 +69,10 @@ const PullRequest: React.FC<IPullRequestProps> = (
     acceptPR(postPR);
   };
 
+  const handleCheckbox = () => {
+    setSeeDiff(!seeDiff);
+  };
+
   const contributor = (
     <AuthorAndDate
       className={styles.contributor}
@@ -78,30 +81,45 @@ const PullRequest: React.FC<IPullRequestProps> = (
       lastName={postPR.contributor.lastName}
       firstName={postPR.contributor.firstName}
       date={postPR.createdAt}
+      id={postPR.contributor.id}
       readTime="2 min"
     />
   );
 
-  const buttons = (
-    <div className={styles.footer}>
-      <DarkBorderButton
-        loading={preloader.firstButton}
-        disabled={preloader.firstButton || preloader.secondButton}
-        content="Deny"
-        onClick={handleClosePR}
-      />
-      <DarkButton
-        loading={preloader.secondButton}
-        disabled={preloader.firstButton || preloader.secondButton}
-        content="Accept"
-        onClick={handleAcceptPR}
-      />
-    </div>
-  );
+  let buttons;
+  if (postPR.post.author.id === currentUser.id) {
+    buttons = (
+      <div className={styles.footer}>
+        <DarkBorderButton
+          loading={preloader.firstButton}
+          disabled={preloader.firstButton || preloader.secondButton}
+          content="Deny"
+          onClick={handleClosePR}
+        />
+        <DarkButton
+          loading={preloader.secondButton}
+          disabled={preloader.firstButton || preloader.secondButton}
+          content="Accept"
+          onClick={handleAcceptPR}
+        />
+      </div>
+    );
+  } else if (postPR.contributor.id === currentUser.id) {
+    buttons = (
+      <div className={styles.footer}>
+        <DarkBorderButton
+          loading={preloader.firstButton}
+          disabled={preloader.firstButton || preloader.secondButton}
+          content="Close"
+          onClick={handleClosePR}
+        />
+      </div>
+    );
+  }
 
   const prIsClosed = (
     <div className={styles.pr_is_closed}>
-      <div className={styles.round_image}>✖</div>
+      <div className={styles.round_image}>✔</div>
       <span>Pull request is closed</span>
     </div>
   );
@@ -115,7 +133,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
           coverImage={postPR.coverImage}
           title={postPR.title}
           text={postPR.text}
-          markdown={postPR.markdown}
+          markdown={postPR.post.markdown}
           tags={postPR.tags}
         />
       </div>
@@ -140,19 +158,38 @@ const PullRequest: React.FC<IPullRequestProps> = (
     </div>
   );
 
+  const raw = (
+    <div>
+      {postPR.closed && prIsClosed}
+      {contributor}
+      <div className={styles.diff_container}>
+        <div className={styles.divider} />
+        <TitleDiff className={styles.field} oldTitle={postPR.title} newTitle={postPR.title} />
+        <TagsDiff className={styles.field} oldTags={postPR.tags} newTags={postPR.tags} />
+        <div className={styles.grey_label}>Content:</div>
+        <TextDiff
+          className={classNames(styles.field, styles.text_diff)}
+          oldText={postPR.text}
+          newText={postPR.text}
+        />
+      </div>
+    </div>
+  );
+
   if (!postPR.title) {
     return (
       <LoaderWrapper loading />
     );
   }
 
-  const handleSeeDifference = () => {
-    console.log();
-  };
-
   return (
     <div className={classNames('content_wrapper', styles.container)}>
-      <Tab previewContent={previewContent} diffContent={diffContent} handleSeeDifference={handleSeeDifference} />
+      <Tab
+        previewContent={previewContent}
+        diffContent={seeDiff ? diffContent : raw}
+        handleCheckbox={handleCheckbox}
+        seeDiff={seeDiff}
+      />
       {!postPR.closed && buttons}
     </div>
   );

@@ -37,8 +37,14 @@ export const pullRequestReducer = createReducer(initialState, {
   [fetchPrRoutine.SUCCESS]: (state, action) => {
     state.postPR = action.payload;
   },
+  [closePrRoutine.SUCCESS]: state => {
+    state.postPR.closed = true;
+  },
   [closePrRoutine.FULFILL]: state => {
     state.endSendingData = true;
+  },
+  [acceptPrRoutine.SUCCESS]: state => {
+    state.postPR.closed = true;
   },
   [acceptPrRoutine.FULFILL]: state => {
     state.endSendingData = true;
