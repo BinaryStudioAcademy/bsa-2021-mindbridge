@@ -30,20 +30,18 @@ public class PostVersionService {
 	}
 
 	public PostVersionDetailsDto getPostVersion(UUID id) {
-		var postVersion = postVersionRepository.findById(id);
-		var allPostVersions = postVersionRepository.getPostVersionByPostId(postVersion.get().getPost().getId());
-		var indexOfVersion = allPostVersions.indexOf(postVersion.get());
+		var postVersion = postVersionRepository.findById(id).orElseThrow();
+		var allPostVersions = postVersionRepository.getPostVersionByPostId(postVersion.getPost().getId());
+		var indexOfVersion = allPostVersions.indexOf(postVersion);
 		if (indexOfVersion == allPostVersions.size() - 1) {
-			var postVersionDetailsDto = postVersion
-					.map(PostVersionMapper.MAPPER::PostVersionToPostVersionDetailsDto).orElseThrow();
-			postVersionDetailsDto.setAuthor(UserMapper.MAPPER.userToUserDto(postVersion.get().getPost().getAuthor()));
+			var postVersionDetailsDto = PostVersionMapper.MAPPER.PostVersionToPostVersionDetailsDto(postVersion);
+			postVersionDetailsDto.setAuthor(UserMapper.MAPPER.userToUserDto(postVersion.getPost().getAuthor()));
 			return postVersionDetailsDto;
 		}
-		var postVersionDetailsDto = postVersion.map(PostVersionMapper.MAPPER::PostVersionToPostVersionDetailsDto)
-				.orElseThrow();
+		var postVersionDetailsDto = PostVersionMapper.MAPPER.PostVersionToPostVersionDetailsDto(postVersion);
 		postVersionDetailsDto.setPreVersion(
 				PostVersionMapper.MAPPER.PostVersionToPostVersionDetailsDto(allPostVersions.get(indexOfVersion + 1)));
-		postVersionDetailsDto.setAuthor(UserMapper.MAPPER.userToUserDto(postVersion.get().getPost().getAuthor()));
+		postVersionDetailsDto.setAuthor(UserMapper.MAPPER.userToUserDto(postVersion.getPost().getAuthor()));
 		return postVersionDetailsDto;
 	}
 }

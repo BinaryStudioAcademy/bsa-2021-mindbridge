@@ -11,7 +11,7 @@ import Preview from '@screens/PullRequest/components/Preview';
 import TitleDiff from '@screens/PullRequest/components/TitleDiff';
 import TagsDiff from '@screens/PullRequest/components/TagsDiff';
 import TextDiff from '@components/TextDiff';
-import Tab from '@screens/PullRequest/components/Tab';
+import Tab from '@screens/PostVersionPage/components/Tab';
 
 export interface IPostVersionPageProps extends IState, IActions {
 }
@@ -114,6 +114,7 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
         diffContent={seeDifference ? diffContent : raw}
         handleCheckbox={handleSeeDifference}
         seeDiff={seeDifference}
+        isCheckboxShown={!!postVersion.preVersion}
       />
     </div>
   );
