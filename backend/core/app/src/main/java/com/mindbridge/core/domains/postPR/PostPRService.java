@@ -3,6 +3,7 @@ package com.mindbridge.core.domains.postPR;
 import com.mindbridge.core.domains.post.PostService;
 import com.mindbridge.core.domains.post.dto.EditPostDto;
 import com.mindbridge.core.domains.postPR.dto.CreatePostPRDto;
+import com.mindbridge.core.domains.postPR.dto.EditPostPRDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRListDto;
 import com.mindbridge.data.domains.postPR.PostPRRepository;
@@ -67,4 +68,9 @@ public class PostPRService {
 				.collect(Collectors.toList());
 	}
 
+	public void editPR(EditPostPRDto editPR) {
+		postPRRepository.updatePR(editPR.getId(), editPR.getTitle(), editPR.getText());
+		tagRepository.deleteAllByPostPrId(editPR.getId());
+		editPR.getTags().forEach(tagId -> tagRepository.saveTagToPr(editPR.getId(), tagId));
+	}
 }

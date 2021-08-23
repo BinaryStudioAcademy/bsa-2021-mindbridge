@@ -16,6 +16,7 @@ import TagsDiff from '../../components/TagsDiff';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import DarkButton from '@root/components/buttons/DarcButton';
 import LoaderWrapper from '@root/components/LoaderWrapper';
+import { history } from '@helpers/history.helper';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -69,6 +70,10 @@ const PullRequest: React.FC<IPullRequestProps> = (
     acceptPR(postPR);
   };
 
+  const handleEditPR = () => {
+    history.push(`/pullRequest/edit/${postPR.id}`);
+  };
+
   const handleCheckbox = () => {
     setSeeDiff(!seeDiff);
   };
@@ -112,6 +117,12 @@ const PullRequest: React.FC<IPullRequestProps> = (
           disabled={preloader.firstButton || preloader.secondButton}
           content="Close"
           onClick={handleClosePR}
+        />
+        <DarkButton
+          loading={preloader.secondButton}
+          disabled={preloader.firstButton || preloader.secondButton}
+          content="Edit"
+          onClick={handleEditPR}
         />
       </div>
     );

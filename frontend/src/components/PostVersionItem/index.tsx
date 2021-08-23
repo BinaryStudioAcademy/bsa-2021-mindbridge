@@ -19,7 +19,7 @@ const PostVersionItem: FunctionComponent<IPostVersionItemProps> = ({ postVersion
     if (isVersion) {
       history.push(`/postVersion/${postVersion.id}`);
     } else {
-      history.push(`/postContribution/${postVersion.id}`);
+      history.push(`/pullRequest/${postVersion.id}`);
     }
   };
 

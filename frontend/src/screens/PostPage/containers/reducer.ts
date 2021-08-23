@@ -1,3 +1,4 @@
+import { acceptPrRoutine, fetchPrRoutine, editPrRoutine } from '../../PullRequest/routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
@@ -13,6 +14,7 @@ import {
   resetLoadingImageRoutine,
   sendImageRoutine, sendPostRoutine, sendPRRoutine, setLoaderRoutine
 } from '@screens/PostPage/routines';
+import { IPostPR } from '@root/screens/PullRequest/models/IPostPR';
 
 export interface IPostPageReducerState {
   savingImage: {
@@ -35,6 +37,7 @@ export interface IPostPageReducerState {
     publishButton: boolean;
     draftButton: boolean;
   };
+  postPR: IPostPR;
 }
 
 const initialState: IPostPageReducerState = {
@@ -65,6 +68,28 @@ const initialState: IPostPageReducerState = {
   preloader: {
     publishButton: false,
     draftButton: false
+  },
+  postPR: {
+    closed: false,
+    contributor: { id: '', nickname: '', avatar: '', lastName: '', firstName: '' },
+    coverImage: '',
+    createdAt: '',
+    deleted: false,
+    id: '',
+    markdown: false,
+    post: {
+      author: { id: '', nickname: '', avatar: '', lastName: '', firstName: '' },
+      coverImage: '',
+      id: '',
+      markdown: false,
+      text: '',
+      title: '',
+      tags: []
+    },
+    text: '',
+    title: '',
+    updatedAt: '',
+    tags: []
   }
 };
 
@@ -178,6 +203,18 @@ export const postPageReducer = createReducer(initialState, {
       draftButton: false
     };
   },
+  [editPrRoutine.TRIGGER]: state => {
+    state.preloader = {
+      publishButton: true,
+      draftButton: false
+    };
+  },
+  [editPrRoutine.FULFILL]: state => {
+    state.preloader = {
+      publishButton: false,
+      draftButton: false
+    };
+  },
   [resetImageTagRoutine.TRIGGER]: state => {
     state.imageTag = {
       isPresent: false,
@@ -208,5 +245,8 @@ export const postPageReducer = createReducer(initialState, {
         state.profile.userReactions.push({ postId: action.payload, liked: false });
       }
     }
+  },
+  [fetchPrRoutine.SUCCESS]: (state, action) => {
+    state.postPR = action.payload;
   }
 });

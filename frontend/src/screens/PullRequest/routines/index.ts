@@ -5,6 +5,7 @@ import { createRoutine } from 'redux-saga-routines';
 const createPullRequestRoutine = <T extends unknown>(actionName: string) => createRoutine<T>(`PULL_REQUEST:${actionName}`);
 
 /* PlopJS routine placeholder. Do not remove */
+export const editPrRoutine = createPullRequestRoutine('EDIT_PR');
 export const acceptPrRoutine = createPullRequestRoutine('ACCEPT_PR');
 export const resetEndSendingDataRoutine = createPullRequestRoutine('RESET_FAIL_SENDING_DATA');
 export const closePrRoutine = createPullRequestRoutine('CLOSE_PR');
