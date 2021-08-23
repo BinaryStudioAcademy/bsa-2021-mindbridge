@@ -1,3 +1,4 @@
+import { editPrRoutine } from './../../routines/index';
 import { closePrRoutine, acceptPrRoutine, fetchPrRoutine } from '../../routines/index';
 import { toastr } from 'react-redux-toastr';
 import { all, takeEvery, put, call } from 'redux-saga/effects';
@@ -39,6 +40,20 @@ function* putAcceptedPR(action) {
   }
 }
 
+function* postEditedPR(action) {
+  try {
+    const response = yield call(pullRequestService.postEditedPR, action.payload);
+    yield put(editPrRoutine.success(response));
+    toastr.success('Success', 'Pull request is saved')
+    history.push(`/pullRequest/${action.payload.id}`);
+  } catch (error) {
+    yield put(editPrRoutine.failure(error?.message));
+    toastr.error('Error', 'Sending data failed');
+  } finally {
+    yield put(editPrRoutine.fulfill());
+  }
+}
+
 function* watchGetPrRequest() {
   yield takeEvery(fetchPrRoutine.TRIGGER, fetchPR);
 }
@@ -51,10 +66,15 @@ function* watchAcceptPrRequest() {
   yield takeEvery(acceptPrRoutine.TRIGGER, putAcceptedPR);
 }
 
+function* watchEditPrRequest() {
+  yield takeEvery(editPrRoutine.TRIGGER, postEditedPR);
+}
+
 export default function* pullRequestPageSagas() {
   yield all([
     watchGetPrRequest(),
     watchClosePrRequest(),
-    watchAcceptPrRequest()
+    watchAcceptPrRequest(),
+    watchEditPrRequest()
   ]);
 }

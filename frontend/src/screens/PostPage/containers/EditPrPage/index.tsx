@@ -26,7 +26,8 @@ import { Popup } from 'semantic-ui-react';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { IPostPR } from '@root/screens/PullRequest/models/IPostPR';
-import { fetchPrRoutine } from '@root/screens/PullRequest/routines';
+import { editPrRoutine, fetchPrRoutine } from '@root/screens/PullRequest/routines';
+import { history } from '@root/helpers/history.helper';
 
 export interface IEditPrProps extends IState, IActions {
   isAuthorized: boolean;
@@ -63,7 +64,7 @@ interface IActions {
   getPostVersions: IBindingAction;
   fetchTags: IBindingAction;
   fetchPostPR: IBindingCallback1<string>;
-  sendPR: IBindingCallback1<object>;
+  editPR: IBindingCallback1<object>;
   editPost: IBindingCallback1<object>;
   resetImageTag: IBindingAction;
 }
@@ -86,7 +87,8 @@ const EditPrPage: React.FC<IEditPrProps> = (
     preloader,
     imageTag,
     resetImageTag,
-    postPR
+    postPR,
+    editPR
   }
 ) => {
   const [modes, setModes] = useState({
@@ -185,20 +187,28 @@ const EditPrPage: React.FC<IEditPrProps> = (
         url: postPR.coverImage
       }
     });
+    history.push(`/pullRequest/${postPR.id}`)
   };
 
   const handleSendForm = () => {
-    const prOnSave = {
+    const prOnEdit = {
       id: postPR.id,
       title: form.title,
       text: form.content,
       tags: form.tags
     };
+    editPR(prOnEdit);
   };
 
   const changeModeWarning = 'You can\'t change the edit mode when post was created';
 
   const submitButtonName = 'Save pull request';
+
+  if (!postPR.title) {
+    return (
+      <LoaderWrapper loading />
+    );
+  }
 
   return (
     <div className={classNames('content_wrapper', styles.container)}>
@@ -316,7 +326,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
                 )
                 : <PostPreview form={form} modes={modes} allTags={allTags} />}
               <div className={styles.footer}>
-                <DarkBorderButton content="Cancel" onClick={handleCancel} />
+                <DarkBorderButton content="Cancel edition" onClick={handleCancel} />
                 <DarkButton
                   content={submitButtonName}
                   disabled={preloader.draftButton}
@@ -351,7 +361,7 @@ const mapDispatchToProps: IActions = {
   fetchData: fetchUserProfileRoutine,
   fetchTags: fetchTagsRoutine,
   fetchPostPR: fetchPrRoutine,
-  sendPR: sendPRRoutine,
+  editPR: editPrRoutine,
   editPost: editPostRoutine,
   getPostVersions: getPostVersionsRoutine,
   resetImageTag: resetImageTagRoutine

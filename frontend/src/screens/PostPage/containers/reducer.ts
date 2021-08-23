@@ -1,4 +1,4 @@
-import { acceptPrRoutine, fetchPrRoutine } from './../../PullRequest/routines/index';
+import { acceptPrRoutine, fetchPrRoutine, editPrRoutine } from './../../PullRequest/routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
@@ -198,6 +198,18 @@ export const postPageReducer = createReducer(initialState, {
     };
   },
   [sendPRRoutine.FULFILL]: state => {
+    state.preloader = {
+      publishButton: false,
+      draftButton: false
+    };
+  },
+  [editPrRoutine.TRIGGER]: state => {
+    state.preloader = {
+      publishButton: true,
+      draftButton: false
+    };
+  },
+  [editPrRoutine.FULFILL]: state => {
     state.preloader = {
       publishButton: false,
       draftButton: false
