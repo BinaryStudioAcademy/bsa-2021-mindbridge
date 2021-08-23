@@ -10,7 +10,7 @@ export const NAME_MESSAGE = `Name must be 1-30 symbols ${LATIN_LETTER_ONLY}.`;
 export const SURNAME_MESSAGE = `Surname must be 1-30 symbols ${LATIN_LETTER_ONLY}.`;
 
 /* eslint-disable max-len */
-const emailRegex = /^(([^<>()-[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
+const emailRegex = /^(([!#$%&'*+-/=?^_`{|A-Za-z0-9]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|((?![-])([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
 const passwordRegex = /^(?=^.{5,32}$)(?=\S+$).+$/;
 const userNameSurnameRegex = /^[A-Za-z]+(-[A-Za-z]+)*$/;
 const userNicknameRegex = /^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$/;

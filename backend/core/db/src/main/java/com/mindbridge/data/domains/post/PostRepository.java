@@ -2,18 +2,13 @@ package com.mindbridge.data.domains.post;
 
 import com.mindbridge.data.domains.post.dto.PostsReactionsQueryResult;
 import com.mindbridge.data.domains.post.model.Post;
-import com.mindbridge.data.domains.user.model.User;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Collection;
-import java.util.Optional;
-import java.util.UUID;
-
 import java.util.List;
+import java.util.UUID;
 
 public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificationExecutor<Post> {
 
@@ -28,5 +23,13 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 
 	@Query("select p from Post p where p.deleted = false and p.author.id = :userId")
 	List<Post> getPostsByAuthorId(UUID userId);
+
+	int countPostByAuthorId(UUID id);
+
+	@Query("select p from Post p where p.author.id = :userId order by p.createdAt desc ")
+	List<Post> getFirstPostTitles(UUID userId, Pageable pageable);
+
+	@Query("select p.title from Post p where p.id = :id")
+	String getTitleById(UUID id);
 
 }

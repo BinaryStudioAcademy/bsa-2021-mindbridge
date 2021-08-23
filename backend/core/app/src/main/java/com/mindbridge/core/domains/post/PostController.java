@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.post.dto.*;
+import com.mindbridge.core.domains.postVersion.dto.PostVersionsListDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +38,8 @@ public class PostController {
 	}
 
 	@PutMapping("/edit")
-	public void editPost(@RequestBody EditPostDto editPostDto) {
-		postService.editPost(editPostDto);
+	public UUID editPost(@RequestBody EditPostDto editPostDto) {
+		return postService.editPost(editPostDto);
 	}
 
 	@GetMapping("/all")
@@ -47,9 +48,9 @@ public class PostController {
 		return postService.getAllPosts(from, count);
 	}
 
-	@GetMapping("/versions/{id}")
-	public List<PostVersionsListDto> getPostVersions(@PathVariable UUID id) {
-		return postService.getPostVersions(id);
+	@GetMapping("/title/{id}")
+	public String getTitle(@PathVariable UUID id) {
+		return postService.getTitleOfPost(id);
 	}
 
 }

@@ -1,6 +1,12 @@
 import api from '@helpers/api.helper';
 
 const profilePageService = {
+  getUser: async ({ endpoint }) => {
+    const response = await api.get(
+      `/api/user/${endpoint}`
+    );
+    return response;
+  },
   sendForm: async ({ endpoint, payload }) => {
     const response = await api.post(
       `/api/user/update/${endpoint}`,
@@ -11,6 +17,20 @@ const profilePageService = {
   sendNickname: async ({ endpoint, payload }) => {
     const response = await api.post(
       `/api/user/check/${endpoint}`,
+      { data: payload }
+    );
+    return response;
+  },
+  sendChangePasswordForm: async ({ endpoint, payload }) => {
+    const response = await api.post(
+      `/api/user/update/password/${endpoint}`,
+      { data: payload }
+    );
+    return response;
+  },
+  sendPassword: async ({ endpoint, payload }) => {
+    const response = await api.post(
+      `/api/user/check/password/${endpoint}`,
       { data: payload }
     );
     return response;

@@ -3,10 +3,10 @@
 .viewCard {
   display: flex;
   flex-direction: row;
-  align-items: center;
   object-fit: cover;
   width: 84%;
-  max-width: 100em;
+  max-width: 150em;
+  min-height: 42em;
   margin: 0 0px -2em 15%;
   box-shadow: none;
   content: inherit;
@@ -22,6 +22,11 @@
   margin: 3em 5em 3em 5em;
   grid-gap: 2em;
   grid-template-columns: 0.6fr 2fr;
+
+  span {
+    font-family: Lato, serif;
+    font-style: normal;
+  }
 }
 
 .avatarWrp {
@@ -41,12 +46,7 @@
   flex-direction: column;
   padding-bottom: 1.5em;
   border-bottom: 1px solid #E5E5E5;
-  margin-top: 0.3em;
-}
-
-.header span {
-  font-family: Lato, serif;
-  font-style: normal;
+  margin-top: 0.7em;
 }
 
 .name {
@@ -54,13 +54,6 @@
   font-size: 1.5em;
   line-height: 1.5em;
   color: #353535;
-}
-
-.nickname {
-  font-weight: normal;
-  font-size: 1.2em;
-  line-height: 1.2em;
-  color: #66B9FF;
 }
 
 .period {
@@ -76,10 +69,15 @@
     font-family: 'Lato', serif;
   }
 
+  :global(.ui.loading.icon.input) {
+    i {
+      height: 3.5em !important;
+    }
+  }
+
   .title {
     color: #66B9FF;
     margin-bottom: 1rem;
-    font-family: 'Montserrat', serif !important;
     font-weight: 600;
     text-align: center;
   }
@@ -118,15 +116,19 @@
   }
 }
 
+.imgContainer {
+  position: relative;
+  width: 10em;
+  height: 10em;
+}
+
 .overlay {
   border-radius: 50%;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
-  right: 0.6em;
-  width: 10em;
-  height: 10em;
+  right: 0;
   margin: 0 auto;
   opacity: 0;
   transition: .3s ease;
@@ -152,12 +154,6 @@
   cursor: pointer;
 }
 
-.imgContainer {
-  position: relative;
-  width: 100%;
-  max-width: 400px;
-}
-
 .inputWrp {
   display: flex;
 }
@@ -181,7 +177,7 @@
 .disableFormButton button {
   cursor: not-allowed;
   pointer-events: none;
-  background: #8c8c8c99;
+  background: #bcbec0;
   border-color: transparent;
 }
 
@@ -189,4 +185,11 @@
   position: relative;
   transform: translateX(-50%) translateY(0%);
   margin: 0.3em 0 0.3em 0;
+}
+
+.separatorLine {
+  height: 1px;
+  width: 100%;
+  background-color: #E5E5E5;
+  margin: 1.2rem 0;
 }

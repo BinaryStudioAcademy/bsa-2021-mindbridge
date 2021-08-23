@@ -6,3 +6,5 @@ const createFeedPageRoutine = <T extends unknown>(actionName: string) => createR
 /* PlopJS routine placeholder. Do not remove */
 export const fetchDataRoutine = createFeedPageRoutine('FETCH_DATA');
 export const addMorePostsRoutine = createFeedPageRoutine('ADD_MORE_POSTS');
+export const likePostRoutine = createFeedPageRoutine('LIKE_POST_ROUTINE');
+export const disLikePostRoutine = createFeedPageRoutine('DISLIKE_POST_ROUTINE');

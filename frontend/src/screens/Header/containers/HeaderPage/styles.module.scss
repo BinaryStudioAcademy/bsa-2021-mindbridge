@@ -90,7 +90,7 @@
     grid-row: 1/2;
   }
   input::placeholder{
-    font-family: lato;
+    font-family: lato, sans-serif;
   }
   button{
     background-color: #F8F8F8;
@@ -101,6 +101,33 @@
   }
   button:hover{
     opacity: 1;
+  }
+  .close_image {
+    color: #14253F;
+    margin-left: -1.2rem;
+    width: 1.3em;
+    opacity: 0.4;
+  }
+  .foundPosts {
+    position: absolute;
+    width: 18.7em;
+    border-radius: 0.32em;
+    margin-top: 3em;
+    height: 16em;
+    border: 0.5px solid #F8F8F8;
+    box-shadow: 0px 4px 6px rgba(189, 189, 189, 8%);
+    background: #FFFFFF;
+    font-family: Lato, sans-serif;
+    font-size: 0.86rem;
+    overflow-y: scroll;
+    .foundPostLink {
+      text-decoration: none;
+      color: #353535 !important;
+    }
+
+    li:hover {
+      background-color: #F8F8F8;
+    }
   }
 }
 

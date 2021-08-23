@@ -1,0 +1,3 @@
+[submodule "bsa-2021-mindbridge-docs"]
+	path = docs
+	url = https://github.com/Quipex/bsa-2021-mindbridge-docs

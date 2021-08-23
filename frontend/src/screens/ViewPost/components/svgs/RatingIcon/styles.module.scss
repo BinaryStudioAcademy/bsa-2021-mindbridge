@@ -1,17 +1,5 @@
+.arrowUp,
 .arrowDown {
-  position: absolute;
-  top: 77%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  fill: #66B9FF;
-  cursor: pointer;
-}
-
-.arrowUp {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   fill: #66B9FF;
   cursor: pointer;
 }
@@ -22,11 +10,6 @@
 }
 
 .ratingNumber {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40px;
   text-align: center;
   font-family: Lato, sans-serif;
   font-size: 0.88em;
@@ -37,5 +20,8 @@
 .ratingElement {
   display: flex;
   flex-direction: column;
-  margin-right: 1em;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 1px;
 }
