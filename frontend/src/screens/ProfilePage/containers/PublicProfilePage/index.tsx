@@ -13,6 +13,7 @@ import LoaderWrapper from '@components/LoaderWrapper';
 import PublicProfileCard from '@screens/ProfilePage/components/PublicProfileCard';
 import ProfileSidebar from '@components/ProfileSidebar';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import FeedLogInSidebar from '@components/FeedLogInSidebar';
 
 export interface IPublicProfilePageProps extends IState, IActions {
   userProfileData: any;
@@ -56,17 +57,21 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
               </div>
               <div className={styles.sidebar}>
                 {isAuthorized
-                  && (
-                  <div className={styles.profileSideBar}>
-                    <ProfileSidebar
-                      id={currentUserInfo.id}
-                      userName={currentUserInfo.fullName ?? currentUserInfo.nickname}
-                      avatar={currentUserInfo.avatar}
-                      folloversCount={currentUserInfo.followersQuantity}
-                      rating={currentUserInfo.rating}
-                      postNotificationCount={currentUserInfo.postsQuantity}
-                    />
-                  </div>
+                  ? (
+                    <div className={styles.profileSideBar}>
+                      <ProfileSidebar
+                        id={currentUserInfo.id}
+                        userName={currentUserInfo.fullName ?? currentUserInfo.nickname}
+                        avatar={currentUserInfo.avatar}
+                        folloversCount={currentUserInfo.followersQuantity}
+                        rating={currentUserInfo.rating}
+                        postNotificationCount={currentUserInfo.postsQuantity}
+                      />
+                    </div>
+                  ) : (
+                    <div className={styles.logInSideBar}>
+                      <FeedLogInSidebar />
+                    </div>
                   )}
                 <div className={styles.tagsSideBar}>
                   <FeedTagsSideBar />
