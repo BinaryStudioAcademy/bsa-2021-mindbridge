@@ -19,6 +19,7 @@ function* putClosedPR(action) {
   try {
     const response = yield call(pullRequestService.putClosedPR, action.payload.id);
     yield put(closePrRoutine.success(response));
+    toastr.success('Success', 'Pull request is closed');
   } catch (error) {
     yield put(closePrRoutine.failure(error?.message));
     toastr.error('Error', 'Sending data failed');
@@ -31,6 +32,7 @@ function* putAcceptedPR(action) {
   try {
     const response = yield call(pullRequestService.putAcceptedPR, action.payload.id);
     yield put(acceptPrRoutine.success(response));
+    toastr.success('Success', 'Pull request is accepted');
     history.push(`/post/${action.payload.post.id}`);
   } catch (error) {
     yield put(acceptPrRoutine.failure(error?.message));
@@ -44,7 +46,7 @@ function* postEditedPR(action) {
   try {
     const response = yield call(pullRequestService.postEditedPR, action.payload);
     yield put(editPrRoutine.success(response));
-    toastr.success('Success', 'Pull request is saved')
+    toastr.success('Success', 'Pull request is saved');
     history.push(`/pullRequest/${action.payload.id}`);
   } catch (error) {
     yield put(editPrRoutine.failure(error?.message));
