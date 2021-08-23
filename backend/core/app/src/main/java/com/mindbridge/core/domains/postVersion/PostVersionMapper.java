@@ -11,4 +11,5 @@ public interface PostVersionMapper {
 	PostVersionMapper MAPPER = Mappers.getMapper(PostVersionMapper.class);
 
 	PostVersionsListDto postVersionToPostVersionList(PostVersion postVersion);
+
 }

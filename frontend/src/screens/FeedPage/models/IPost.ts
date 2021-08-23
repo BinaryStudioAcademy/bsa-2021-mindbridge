@@ -4,6 +4,7 @@ export interface IPost {
   id: string;
   title: string;
   text: string;
+  authorId: string;
   authorName: string;
   nickname: string;
   commentsCount: number;

@@ -25,10 +25,6 @@
   display: flex;
 }
 
-.leftSide {
-  position: absolute;
-}
-
 .postName {
   margin: 3rem 0 0 0.8rem;
   font-family: Libre Baskerville, sans-serif;
@@ -57,48 +53,28 @@
   background: #C4C4C4;
 }
 
-.backgroundRatingCircle {
-  position: relative;
-  width: 45px;
-  height: 45px;
-  top: 40%;
-  left: 55%;
-  transform: translate(-20%, 180%);
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.9);
+.leftSide {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  gap: 1rem;
+  margin-left: 1.5rem;
 }
 
-.backgroundFavouriteCircle {
-  position: relative;
+.bgCircle {
   width: 45px;
   height: 45px;
-  top: 55%;
-  left: 55%;
-  transform: translate(-20%, 200%);
   border-radius: 30px;
   background: rgba(255, 255, 255, 0.9);
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-.backgroundCommentCircle {
-  position: relative;
-  width: 45px;
-  height: 45px;
-  top: 55%;
-  left: 55%;
-  transform: translate(-20%, 220%);
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.backgroundShareCircle {
-  position: relative;
-  width: 45px;
-  height: 45px;
-  top: 55%;
-  left: 55%;
-  transform: translate(-20%, 240%);
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.9);
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .icon {
@@ -106,6 +82,11 @@
   margin-top: 1rem;
   cursor: pointer;
   object-fit: inherit;
+}
+
+.ratingComponent {
+  padding-top: 0.0125rem;
+  padding-left: 1rem;
 }
 
 

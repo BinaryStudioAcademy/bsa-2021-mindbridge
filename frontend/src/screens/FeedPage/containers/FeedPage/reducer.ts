@@ -15,6 +15,7 @@ const initialState: IFeedPageReducerState = {
     id: '',
     title: '',
     text: '',
+    authorId: '',
     authorName: '',
     nickname: '',
     commentsCount: 0,

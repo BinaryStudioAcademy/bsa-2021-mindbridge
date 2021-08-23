@@ -12,7 +12,10 @@ public interface UserMapper {
 	UserMapper MAPPER = Mappers.getMapper(UserMapper.class);
 
 	@Mapping(target = "postsQuantity", ignore = true)
+	@Mapping(target = "commentsQuantity", ignore = true)
+	@Mapping(target = "contributionsQuantity", ignore = true)
 	@Mapping(target = "followersQuantity", ignore = true)
+	@Mapping(target = "lastArticleTitles", ignore = true)
 	@Mapping(target = "rating", ignore = true)
 	@Mapping(target = "fullName", ignore = true)
 	public abstract UserProfileDto userToUserProfileDto(User user);

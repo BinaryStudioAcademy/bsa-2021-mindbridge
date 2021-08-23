@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.user;
 
+import com.mindbridge.data.domains.post.dto.PostTitleDto;
 import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
 import com.mindbridge.core.domains.user.dto.UserDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDataDto;
@@ -10,14 +11,18 @@ import com.mindbridge.core.exceptions.custom.NicknameNotFoundException;
 import com.mindbridge.core.security.PasswordConfig;
 import com.mindbridge.core.security.auth.UserPrincipal;
 import com.mindbridge.core.security.auth.dto.RegistrationRequest;
+import com.mindbridge.data.domains.comment.CommentRepository;
 import com.mindbridge.data.domains.follower.FollowerRepository;
 import com.mindbridge.data.domains.post.PostRepository;
+import com.mindbridge.data.domains.post.model.Post;
+import com.mindbridge.data.domains.postPR.PostPRRepository;
 import com.mindbridge.data.domains.postReaction.PostReactionRepository;
 import com.mindbridge.data.domains.user.UserRepository;
 import com.mindbridge.data.domains.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,6 +31,7 @@ import org.springframework.stereotype.Service;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -36,9 +42,13 @@ public class UserService implements UserDetailsService {
 
 	private final UserRepository userRepository;
 
+	private final CommentRepository commentRepository;
+
 	private final FollowerRepository followerRepository;
 
 	private final PostRepository postRepository;
+
+	private final PostPRRepository postPRRepository;
 
 	private final PasswordEncoder passwordEncoder;
 
@@ -53,8 +63,11 @@ public class UserService implements UserDetailsService {
 	@Lazy
 	@Autowired
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-					   FollowerRepository followerRepository, PostRepository postRepository, PostReactionRepository postReactionRepository) {
+			CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository,
+			PostPRRepository postPRRepository, PostReactionRepository postReactionRepository) {
 		this.userRepository = userRepository;
+		this.commentRepository = commentRepository;
+		this.postPRRepository = postPRRepository;
 		this.postReactionRepository = postReactionRepository;
 		this.passwordEncoder = new PasswordConfig().passwordEncoder();
 		this.followerRepository = followerRepository;
@@ -62,14 +75,19 @@ public class UserService implements UserDetailsService {
 	}
 
 	public UserProfileDto getUserProfileInformation(UUID userId) {
-		var foundUser = userRepository.findById(userId).orElseThrow();
+		var foundUser = userRepository.findById(userId).orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found."));
 		var user = UserMapper.MAPPER.userToUserProfileDto(foundUser);
 		var userReactions = postReactionRepository.getPostReactionByAuthorId(userId);
 		if (foundUser.getFirstName() != null) {
 			user.setFullName(foundUser.getFullName());
 		}
+		List<Post> top5Posts = postRepository.getFirstPostTitles(userId, PageRequest.of(0, 5));
+		user.setCommentsQuantity(commentRepository.countCommentByAuthorId(userId));
+		user.setPostsQuantity(postRepository.countPostByAuthorId(userId));
+		user.setContributionsQuantity(postPRRepository.countPostPRByContributorId(userId));
 		user.setUserReactions(userReactions.stream().map(UserReactionsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
+		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
 		user.setRating(random.nextInt(100));
 		return user;
 	}
@@ -104,7 +122,7 @@ public class UserService implements UserDetailsService {
 
 	public UserDto updateUserById(UUID id, UserProfileDataDto userProfileData) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		user.setNickname(userProfileData.getNickname());
 		user.setFirstName(userProfileData.getFirstName());
 		user.setLastName(userProfileData.getLastName());
@@ -119,14 +137,14 @@ public class UserService implements UserDetailsService {
 
 	public boolean checkPassword(UUID id, String password) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		return passwordEncoder.matches(password.substring(0, password.length() - 1), user.getPassword());
 	}
 
 	public UserDto updateUserAvatarById(UUID id, String url) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
-		String result = URLDecoder.decode( url, StandardCharsets.UTF_8);
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+		String result = URLDecoder.decode(url, StandardCharsets.UTF_8);
 		String rigth_url = result.substring(0, result.length() - 1);
 		user.setAvatar(rigth_url);
 		userRepository.save(user);
@@ -136,10 +154,11 @@ public class UserService implements UserDetailsService {
 
 	public UserDto updateUserPasswordById(UUID id, String newPassword) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		user.setPassword(passwordEncoder.encode(newPassword.substring(0, newPassword.length() - 1)));
 		userRepository.save(user);
 
 		return loadUserDtoByEmail(user.getEmail());
 	}
+
 }

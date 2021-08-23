@@ -16,9 +16,7 @@ public class UserReactionsDto {
 	private Boolean liked;
 
 	public static UserReactionsDto fromEntity(PostReaction postReaction) {
-		return UserReactionsDto.builder()
-			.postId(postReaction.getPost().getId())
-			.liked(postReaction.getLiked())
-			.build();
+		return UserReactionsDto.builder().postId(postReaction.getPost().getId()).liked(postReaction.getLiked()).build();
 	}
+
 }

@@ -9,7 +9,8 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface PostReactionMapper {
-	PostReactionMapper MAPPER = Mappers.getMapper( PostReactionMapper.class );
+
+	PostReactionMapper MAPPER = Mappers.getMapper(PostReactionMapper.class);
 
 	@Mapping(source = "userId", target = "author.id")
 	@Mapping(source = "postId", target = "post.id")
@@ -17,4 +18,5 @@ public interface PostReactionMapper {
 	@Mapping(target = "createdAt", ignore = true)
 	@Mapping(target = "updatedAt", ignore = true)
 	PostReaction dtoToPostReaction(ReceivedPostReactionDto postReactionDto);
+
 }

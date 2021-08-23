@@ -40,12 +40,9 @@ public class RegistrationRequest {
 	private String password;
 
 	@JsonCreator
-	public RegistrationRequest(
-		@JsonProperty("email") String email,
-		@JsonProperty("name") String name,
-		@JsonProperty("nickname") String nickname,
-		@JsonProperty("password") String password,
-		@JsonProperty("surname") String surname) {
+	public RegistrationRequest(@JsonProperty("email") String email, @JsonProperty("name") String name,
+			@JsonProperty("nickname") String nickname, @JsonProperty("password") String password,
+			@JsonProperty("surname") String surname) {
 		this.email = email.toLowerCase();
 		this.name = name;
 		this.nickname = nickname;

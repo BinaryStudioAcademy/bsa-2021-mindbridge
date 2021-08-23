@@ -37,14 +37,15 @@ public class RestExceptionHandler extends AbstractExceptionHandler {
 
 	@ExceptionHandler(IdNotFoundException.class)
 	public ApiError handleIdNotFoundException(IdNotFoundException exception, HttpServletRequest request,
-												 HttpServletResponse response) {
+			HttpServletResponse response) {
 		return setResponseStatusAndReturnError(exception, "id-not-found", HttpStatus.NOT_FOUND, request, response);
 	}
 
 	@ExceptionHandler(NicknameNotFoundException.class)
 	public ApiError handleNicknameNotFoundException(NicknameNotFoundException exception, HttpServletRequest request,
-											  HttpServletResponse response) {
-		return setResponseStatusAndReturnError(exception, "nickname-not-found", HttpStatus.NOT_FOUND, request, response);
+			HttpServletResponse response) {
+		return setResponseStatusAndReturnError(exception, "nickname-not-found", HttpStatus.NOT_FOUND, request,
+				response);
 	}
 
 	@ExceptionHandler(UserAlreadyExistException.class)
@@ -62,8 +63,10 @@ public class RestExceptionHandler extends AbstractExceptionHandler {
 	}
 
 	@ExceptionHandler(JwtException.class)
-	public ApiError handleJwtException(JwtException exception, HttpServletRequest request, HttpServletResponse response) {
-		return setResponseStatusAndReturnError(exception, exception.getCode(), HttpStatus.UNAUTHORIZED, request, response);
+	public ApiError handleJwtException(JwtException exception, HttpServletRequest request,
+			HttpServletResponse response) {
+		return setResponseStatusAndReturnError(exception, exception.getCode(), HttpStatus.UNAUTHORIZED, request,
+				response);
 	}
 
 	@ExceptionHandler(Exception.class)
