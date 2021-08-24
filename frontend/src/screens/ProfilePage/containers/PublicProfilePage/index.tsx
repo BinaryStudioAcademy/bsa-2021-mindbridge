@@ -41,9 +41,9 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
 
   return (
     <div>
-      { isUserLoaded ? (
+      {isUserLoaded ? (
         <div>
-          { isUserIdValid ? (
+          {isUserIdValid ? (
             <div className={styles.profilePage}>
               <div className={styles.main}>
                 <PublicProfileCard user={userProfileData} isUserLoaded={isUserLoaded} />
@@ -54,10 +54,14 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
                 </div>
               </div>
             </div>
-          ) : <NotFoundPage /> }
+          ) : <NotFoundPage />}
         </div>
       )
-        : <LoaderWrapper loading />}
+        : (
+          <div className={styles.profilePage}>
+            <LoaderWrapper loading />
+          </div>
+        )}
     </div>
   );
 };
