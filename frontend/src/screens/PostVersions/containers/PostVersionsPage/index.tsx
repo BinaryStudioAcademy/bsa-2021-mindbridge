@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
-import ProfileSidebar from '@components/ProfileSidebar';
-import FeedTagsSideBar from '@components/FeedTagsSideBar';
-import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import { useParams, useLocation } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
@@ -13,6 +10,7 @@ import { fetchPostContributionsRoutine, fetchPostTitleRoutine } from '@screens/P
 import { IContribution } from '@screens/ViewPost/models/IContribution';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
+import Sidebar from '@screens/Sidebar/containers/SidebarPage';
 
 export interface IPostVersionsProps extends IState, IActions {
 }
@@ -40,9 +38,7 @@ const params = {
 
 const PostVersions: React.FC<IPostVersionsProps> = (
   {
-    isAuthorized,
     currentUser,
-    userInfo,
     versionsOfPost,
     getPostVersions,
     fetchUserProfile,
@@ -52,20 +48,20 @@ const PostVersions: React.FC<IPostVersionsProps> = (
     postTitle
   }
 ) => {
-  const { postId } = useParams();
+  const { id } = useParams();
   const location = useLocation();
   const [isVersions, setIsVersions] = useState(true);
 
   useEffect(() => {
-    fetchPostTitle(postId);
+    fetchPostTitle(id);
     if (location.pathname.includes('versions')) {
       setIsVersions(true);
-      getPostVersions({ postId, params });
+      getPostVersions({ postId: id, params });
     } else {
       setIsVersions(false);
-      fetchPostContributions({ postId, params });
+      fetchPostContributions({ postId: id, params });
     }
-  }, [postId]);
+  }, [id]);
 
   useEffect(() => {
     if (currentUser.id) {
@@ -105,27 +101,7 @@ const PostVersions: React.FC<IPostVersionsProps> = (
           </p>
         )}
       </div>
-      <div className={styles.sidebar}>
-        <div className={styles.feedPageSidebars}>
-          <div className={styles.logInSideBar}>
-            {isAuthorized ? (
-              <ProfileSidebar
-                id={userInfo.id}
-                userName={userInfo.fullName}
-                avatar={userInfo.avatar}
-                folloversCount={userInfo.followersQuantity}
-                rating={userInfo.rating}
-                postNotificationCount={userInfo.postsQuantity}
-              />
-            ) : (
-              <FeedLogInSidebar />
-            )}
-          </div>
-          <div className={styles.tagsSideBar}>
-            <FeedTagsSideBar />
-          </div>
-        </div>
-      </div>
+      <Sidebar />
     </div>
   );
 };

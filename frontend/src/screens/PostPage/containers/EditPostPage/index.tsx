@@ -21,7 +21,6 @@ import {
 } from '../../routines';
 import { extractData } from '@screens/PostPage/reducers';
 import { IStateProfile } from '@screens/PostPage/models/IStateProfile';
-import HistorySidebar from '@components/PostHistorySidebar';
 import { Popup } from 'semantic-ui-react';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
@@ -93,7 +92,6 @@ const EditPost: React.FC<IEditPostProps> = (
     fetchPost,
     editPost,
     getPostVersions,
-    versionsOfPost,
     preloader,
     imageTag,
     resetImageTag
@@ -118,7 +116,7 @@ const EditPost: React.FC<IEditPostProps> = (
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isContentEmpty, setIsContentEmpty] = useState(false);
 
-  const { postId } = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     if (post) {
@@ -141,10 +139,10 @@ const EditPost: React.FC<IEditPostProps> = (
   }, [post]);
 
   useEffect(() => {
-    if (postId) {
-      fetchPost(postId);
+    if (id) {
+      fetchPost(id);
     }
-  }, [postId, fetchPost]);
+  }, [id, fetchPost]);
 
   useEffect(() => {
     if (currentUserId) {
@@ -214,7 +212,7 @@ const EditPost: React.FC<IEditPostProps> = (
         coverImage: form.coverImage.url,
         markdown: modes.markdownMode,
         tags: form.tags,
-        postId,
+        postId: id,
         editorId: currentUserId,
         draft: isDraft
       };
@@ -228,7 +226,7 @@ const EditPost: React.FC<IEditPostProps> = (
       markdown: modes.markdownMode,
       author: currentUserId,
       tags: form.tags,
-      postId,
+      postId: id,
       contributorId: currentUserId
     };
     sendPR(postOnPR);
@@ -254,13 +252,6 @@ const EditPost: React.FC<IEditPostProps> = (
             rating={userInfo.profile.rating}
             postNotificationCount={userInfo.profile.postsQuantity}
           />
-          {
-            currentUserId === post?.author?.id && (
-              <div className={styles.history_sidebar_container}>
-                <HistorySidebar history={versionsOfPost} postId={postId} />
-              </div>
-            )
-          }
         </div>
         {
           isLoading ? (

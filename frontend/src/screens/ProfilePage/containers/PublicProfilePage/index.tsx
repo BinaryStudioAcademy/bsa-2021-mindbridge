@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
-import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import {
   fetchUserRoutine
 } from '@screens/ProfilePage/routines';
@@ -11,6 +10,7 @@ import { useLocation } from 'react-use';
 import { NotFoundPage } from '@screens/NotFound/containers/NotFoundPage';
 import LoaderWrapper from '@components/LoaderWrapper';
 import PublicProfileCard from '@screens/ProfilePage/components/PublicProfileCard';
+import Sidebar from '@screens/Sidebar/containers/SidebarPage';
 
 export interface IPublicProfilePageProps extends IState, IActions {
   userProfileData: any;
@@ -48,11 +48,7 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
               <div className={styles.main}>
                 <PublicProfileCard user={userProfileData} isUserLoaded={isUserLoaded} />
               </div>
-              <div className={styles.sidebar}>
-                <div className={styles.tagsSideBar}>
-                  <FeedTagsSideBar />
-                </div>
-              </div>
+              <Sidebar />
             </div>
           ) : <NotFoundPage /> }
         </div>

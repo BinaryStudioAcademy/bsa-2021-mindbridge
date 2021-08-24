@@ -7,15 +7,13 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { RootState } from '@root/store';
 import { extractData, extractFetchDataLoading } from '@screens/FeedPage/reducers';
 import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
-import FeedLogInSidebar from '@components/FeedLogInSidebar';
-import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import LoaderWrapper from '@components/LoaderWrapper';
-import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import Sidebar from '@screens/Sidebar/containers/SidebarPage';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -47,7 +45,7 @@ const params = {
 
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
-    isAuthorized, currentUser, fetchUserProfile, userInfo, likePost, likePostView,
+    currentUser, fetchUserProfile, userInfo, likePost, likePostView,
     disLikePostView, loadUser }
 ) => {
   useEffect(() => {
@@ -94,55 +92,37 @@ const FeedPage: React.FC<IFeedPageProps> = (
     );
   }
   return (
-    <div className={styles.feedPage}>
-      <div className={styles.main}>
-        <InfiniteScroll
-          style={{ overflow: 'none' }}
-          dataLength={data.posts.length}
-          next={getMorePosts}
-          hasMore={hasMore}
-          loader={' '}
-          scrollThreshold={0.9}
-        >
-          {data.posts[0].id ? (
-            data.posts.map(post => (
-              <PostCard
-                key={post.id}
-                handleLikePost={handleLikePost}
-                handleDisLikePost={handleDisLikePost}
-                post={post}
-                userInfo={userInfo}
-              />
-            ))
-          ) : (
-            <p>
-              🔍 Seems like there are no posts...
-              Please try another query
-            </p>
-          )}
-        </InfiniteScroll>
-      </div>
-      <div className={styles.sidebar}>
-        <div className={styles.feedPageSidebars}>
-          <div className={styles.logInSideBar}>
-            {isAuthorized ? (
-              <ProfileSidebar
-                id={userInfo.id}
-                userName={userInfo.fullName ?? userInfo.nickname}
-                avatar={userInfo.avatar}
-                folloversCount={userInfo.followersQuantity}
-                rating={userInfo.rating}
-                postNotificationCount={userInfo.postsQuantity}
-              />
+    <div className={styles.wrapper}>
+      <div className={styles.feedPage}>
+        <div className={styles.main}>
+          <InfiniteScroll
+            style={{ overflow: 'none' }}
+            dataLength={data.posts.length}
+            next={getMorePosts}
+            hasMore={hasMore}
+            loader={' '}
+            scrollThreshold={0.9}
+          >
+            {data.posts[0].id ? (
+              data.posts.map(post => (
+                <PostCard
+                  key={post.id}
+                  handleLikePost={handleLikePost}
+                  handleDisLikePost={handleDisLikePost}
+                  post={post}
+                  userInfo={userInfo}
+                />
+              ))
             ) : (
-              <FeedLogInSidebar />
+              <p>
+                🔍 Seems like there are no posts...
+                Please try another query
+              </p>
             )}
-          </div>
-          <div className={styles.tagsSideBar}>
-            <FeedTagsSideBar />
-          </div>
+          </InfiniteScroll>
         </div>
       </div>
+      <Sidebar />
     </div>
   );
 };

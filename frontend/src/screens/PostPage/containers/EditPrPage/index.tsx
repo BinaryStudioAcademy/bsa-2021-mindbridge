@@ -17,11 +17,10 @@ import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import {
   sendImageRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine, getPostVersionsRoutine,
-  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine, editPostRoutine, resetImageTagRoutine
+  fetchTagsRoutine, editPostRoutine, resetImageTagRoutine
 } from '../../routines';
 import { extractData } from '@screens/PostPage/reducers';
 import { IStateProfile } from '@screens/PostPage/models/IStateProfile';
-import HistorySidebar from '@components/PostHistorySidebar';
 import { Popup } from 'semantic-ui-react';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
@@ -81,9 +80,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
     fetchData,
     fetchTags,
     fetchPostPR,
-    editPost,
     getPostVersions,
-    versionsOfPost,
     preloader,
     imageTag,
     resetImageTag,

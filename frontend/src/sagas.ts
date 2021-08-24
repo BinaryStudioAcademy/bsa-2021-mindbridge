@@ -9,6 +9,7 @@ import viewPostSagas from '@screens/ViewPost/sagas';
 import profilePageSagas from '@screens/ProfilePage/sagas';
 import pullRequestSagas from './screens/PullRequest/sagas';
 import postVersionsPageSagas from '@screens/PostVersions/containers/PostVersionsPage/sagas';
+import sidebarSagas from '@screens/Sidebar/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -21,6 +22,7 @@ export default function* rootSaga() {
     viewPostSagas(),
     loginSagas(),
     defaultSagas(),
-    postVersionsPageSagas()
+    postVersionsPageSagas(),
+    sidebarSagas()
   ]);
 }

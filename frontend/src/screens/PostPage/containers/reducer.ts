@@ -1,4 +1,4 @@
-import { acceptPrRoutine, fetchPrRoutine, editPrRoutine } from '../../PullRequest/routines/index';
+import { fetchPrRoutine, editPrRoutine } from '../../PullRequest/routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';

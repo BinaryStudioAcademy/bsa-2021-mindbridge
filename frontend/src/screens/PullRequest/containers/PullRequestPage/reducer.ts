@@ -1,5 +1,5 @@
 import { acceptPrRoutine, closePrRoutine, resetEndSendingDataRoutine, fetchPrRoutine } from '../../routines/index';
-import { createReducer, PayloadAction } from '@reduxjs/toolkit';
+import { createReducer } from '@reduxjs/toolkit';
 import { IPostPR } from '../../models/IPostPR';
 
 export interface IPullRequestReducerState {
