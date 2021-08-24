@@ -136,7 +136,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
           <div className={styles.round_image}>✖</div>
           <span>Pull request is closed</span>
         </div>
-      )
+      );
       break;
     case PrState.accepted:
       prState = (
@@ -144,13 +144,15 @@ const PullRequest: React.FC<IPullRequestProps> = (
           <div className={styles.round_image}>✔</div>
           <span>Pull request is accepted</span>
         </div>
-      )
+      );
       break;
     case PrState.open:
       prState = null;
       break;
+    default:
+      prState = null;
   }
-  
+
   const previewContent = (
     <div>
       {prState}
