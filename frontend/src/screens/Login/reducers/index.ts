@@ -24,4 +24,3 @@ const data = (state: RootState) => state.auth.auth;
 export const extractCurrentUserLoading = state => reqs(state).loadCurrentUserRequest.loading;
 export const extractCurrentUserError = state => reqs(state).loadCurrentUserRequest.error;
 
-
