@@ -16,11 +16,5 @@ export default combineReducers({
   auth: authReducer,
   requests
 });
-
-const reqs = (state: RootState) => state.auth.requests;
-const data = (state: RootState) => state.auth.auth;
-
 /* PlopJS request_extractor placeholder. Do not remove */
-export const extractCurrentUserLoading = state => reqs(state).loadCurrentUserRequest.loading;
-export const extractCurrentUserError = state => reqs(state).loadCurrentUserRequest.error;
 
