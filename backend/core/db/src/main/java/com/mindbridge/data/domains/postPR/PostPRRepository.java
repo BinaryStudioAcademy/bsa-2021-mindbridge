@@ -20,7 +20,7 @@ public interface PostPRRepository extends JpaRepository<PostPR, UUID>, JpaSpecif
 
 	@Transactional
 	@Modifying
-	@Query("update PostPR pr set pr.closed = true where pr.id = :id")
+	@Query("update PostPR pr set pr.state = 'closed' where pr.id = :id")
 	void setPRClosed(@Param("id") UUID id);
 
 	@Transactional
