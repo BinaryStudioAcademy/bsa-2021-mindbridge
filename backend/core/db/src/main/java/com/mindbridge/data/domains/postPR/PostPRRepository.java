@@ -25,13 +25,8 @@ public interface PostPRRepository extends JpaRepository<PostPR, UUID>, JpaSpecif
 
 	@Transactional
 	@Modifying
-	@Query("update PostPR pr "
-		+ "set pr.title = :title, "
-		+ "pr.text = :text "
-		+ "where pr.id = :id")
-	void updatePR(@Param("id") UUID id,
-		@Param("title") String title,
-	@Param("text") String text);
+	@Query("update PostPR pr " + "set pr.title = :title, " + "pr.text = :text " + "where pr.id = :id")
+	void updatePR(@Param("id") UUID id, @Param("title") String title, @Param("text") String text);
 
 	@Query("SELECT pr from PostPR pr where pr.deleted = false and pr.post.id = :postId order by pr.createdAt desc")
 	List<PostPR> getPostPRByPostId(UUID postId, Pageable pageable);
