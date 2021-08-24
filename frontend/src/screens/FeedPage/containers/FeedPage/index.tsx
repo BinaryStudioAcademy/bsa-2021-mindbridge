@@ -88,7 +88,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
     handleLoadMorePosts(params);
   };
 
-  if (dataLoading === true && loadMore === false && !currentUser) {
+  if ((dataLoading === true && loadMore === false) || !currentUser) {
     return (
       <LoaderWrapper loading={dataLoading} />
     );
