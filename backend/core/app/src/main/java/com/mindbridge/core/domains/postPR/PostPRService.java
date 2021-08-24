@@ -61,6 +61,7 @@ public class PostPRService {
 		PostPR postPR = postPRRepository.getOne(id);
 		EditPostDto editPostDto = EditPostDto.fromPostPR(postPR);
 		postService.editPost(editPostDto);
+		postPRRepository.setPRAccepted(id);
 	}
 
 	public List<PostPRListDto> getPostPRByPostId(UUID id, Integer from, Integer count) {

@@ -25,6 +25,11 @@ public interface PostPRRepository extends JpaRepository<PostPR, UUID>, JpaSpecif
 
 	@Transactional
 	@Modifying
+	@Query("update PostPR pr set pr.state = 'accepted' where pr.id = :id")
+	void setPRAccepted(@Param("id") UUID id);
+
+	@Transactional
+	@Modifying
 	@Query("update PostPR pr "
 		+ "set pr.title = :title, "
 		+ "pr.text = :text "
