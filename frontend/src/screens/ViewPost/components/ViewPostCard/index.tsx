@@ -3,7 +3,7 @@ import { Card, Feed } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
 import RatingComponent from '@components/RatingIcon';
-import TagsMenu from '@screens/ViewPost/components/TagsMenu';
+import TagsMenu from '@components/TagComponent';
 import FavouriteSvg from '@screens/ViewPost/components/svgs/SvgComponents/favouriteSvg';
 import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
 import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
