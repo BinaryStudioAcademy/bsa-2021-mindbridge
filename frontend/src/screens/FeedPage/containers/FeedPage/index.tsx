@@ -88,11 +88,12 @@ const FeedPage: React.FC<IFeedPageProps> = (
     handleLoadMorePosts(params);
   };
 
-  if ((dataLoading === true && loadMore === false) || !currentUser) {
+  if ((dataLoading && !loadMore) || (!userInfo.id && isAuthorized)) {
     return (
       <LoaderWrapper loading={dataLoading} />
     );
   }
+
   return (
     <div className={styles.feedPage}>
       <div className={styles.main}>
