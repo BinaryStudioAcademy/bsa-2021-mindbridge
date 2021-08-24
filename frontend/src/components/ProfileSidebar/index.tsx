@@ -88,7 +88,7 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
             </div>
           </div>
         </Link>
-        <Link to="/">
+        <Link to="/my/contributions">
           <ContributorsSvg />
           <span>Your contributions</span>
         </Link>

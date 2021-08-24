@@ -22,6 +22,7 @@ import { NotFoundPage } from '@screens/NotFound/containers/NotFoundPage';
 import PullRequestPage from '@root/screens/PullRequest/containers/PullRequestPage';
 import PostVersions from '@screens/PostVersions/containers/PostVersionsPage';
 import EditPrPage from '@root/screens/PostPage/containers/EditPrPage';
+import MyContributionsPage from '@root/screens/PostVersions/containers/MyContributionsPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -69,6 +70,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/post/edit/:postId" component={EditPostPage} />
         <PublicRoute exact path="/post/versions/:postId" component={PostVersions} />
         <PublicRoute exact path="/post/contributions/:postId" component={PostVersions} />
+        <PublicRoute exact path="/my/contributions" component={MyContributionsPage} />
         <PublicRoute component={NotFoundPage} />
 
         <div>
