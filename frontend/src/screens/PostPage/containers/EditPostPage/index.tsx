@@ -198,7 +198,7 @@ const EditPost: React.FC<IEditPostProps> = (
         url: post.coverImage
       }
     });
-    history.push(`/post/${post.id}`)
+    history.push(`/post/${post.id}`);
   };
 
   const handleSendForm = isDraft => {
