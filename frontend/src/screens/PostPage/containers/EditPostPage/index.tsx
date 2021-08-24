@@ -25,6 +25,7 @@ import HistorySidebar from '@components/PostHistorySidebar';
 import { Popup } from 'semantic-ui-react';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
+import { history } from '@helpers/history.helper';
 
 export interface IEditPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -197,6 +198,7 @@ const EditPost: React.FC<IEditPostProps> = (
         url: post.coverImage
       }
     });
+    history.push(`/post/${post.id}`)
   };
 
   const handleSendForm = isDraft => {
