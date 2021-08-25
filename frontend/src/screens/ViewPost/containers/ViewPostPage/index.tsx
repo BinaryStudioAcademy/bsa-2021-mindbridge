@@ -4,7 +4,12 @@ import styles from './styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
-import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine } from '@screens/ViewPost/routines';
+import {
+  fetchDataRoutine,
+  leaveReactionOnPostViewPageRoutine,
+  sendCommentRoutine,
+  sendReplyRoutine
+} from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import SuggestChangesCard from '@screens/ViewPost/components/SuggestChangesCard';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
@@ -22,6 +27,7 @@ import { useScroll } from '@helpers/scrollPosition.helper';
 import ContributionsSidebar from '@components/ContributionsSidebar';
 import { fetchPostContributionsRoutine } from '@screens/PostVersions/routines';
 import { IContribution } from '@screens/ViewPost/models/IContribution';
+import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -43,11 +49,15 @@ interface IActions {
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
   fetchPostContributions: IBindingCallback1<object>;
+  sendComment: IBindingCallback1<object>;
+  sendReply: IBindingCallback1<object>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
   {
     data,
+    sendComment,
+    sendReply,
     fetchData,
     isAuthorized,
     currentUser,
@@ -100,6 +110,7 @@ const ViewPost: React.FC<IViewPostProps> = (
     disLikePostView(postId);
     leaveReaction(post);
   };
+
   useEffect(() => {
     const offset = sidebar.current.offsetTop;
     const height = sidebar.current.offsetHeight;
@@ -135,6 +146,9 @@ const ViewPost: React.FC<IViewPostProps> = (
           handleDisLikePost={handleDisLikePost}
           userInfo={userInfo}
           isAuthor={data.post.author.id === currentUser.id}
+          sendComment={sendComment}
+          sendReply={sendReply}
+          isAuthorized={isAuthorized}
         />
       </div>
       <div className={styles.sidebar}>
@@ -193,6 +207,8 @@ const mapStateToProps: (state: RootState) => IState = state => ({
 });
 
 const mapDispatchToProps: IActions = {
+  sendComment: sendCommentRoutine,
+  sendReply: sendReplyRoutine,
   fetchData: fetchDataRoutine,
   getPostVersions: getPostVersionsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,

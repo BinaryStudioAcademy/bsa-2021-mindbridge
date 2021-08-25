@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Card, Feed } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
@@ -12,6 +12,9 @@ import TextRenderer from '@root/components/TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
+import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
+import { IComment } from '@screens/ViewPost/models/IComment';
+import { text } from 'd3';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -19,9 +22,22 @@ interface IViewPostCardProps {
   handleLikePost: any;
   handleDisLikePost: any;
   userInfo: IUserProfile;
+  sendComment: any;
+  sendReply: any;
+  isAuthorized: boolean;
 }
-const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, handleLikePost,
-  handleDisLikePost, userInfo }) => {
+const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
+  {
+    sendComment,
+    post,
+    isAuthor,
+    handleLikePost,
+    handleDisLikePost,
+    userInfo,
+    sendReply,
+    isAuthorized
+  }
+) => {
   const history = useHistory();
 
   const goToEdit = () => {
@@ -104,6 +120,16 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
           content={post.text}
         />
       </Card.Content>
+      <div>
+        <AdvancedCommentsFeed
+          comments={post.comments}
+          sendComment={sendComment}
+          sendReply={sendReply}
+          postId={post.id}
+          userId={userInfo.id}
+          isAuthorized={isAuthorized}
+        />
+      </div>
     </Card>
   );
 };
