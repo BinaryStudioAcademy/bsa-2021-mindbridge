@@ -160,5 +160,4 @@ public class UserService implements UserDetailsService {
 
 		return loadUserDtoByEmail(user.getEmail());
 	}
-
 }

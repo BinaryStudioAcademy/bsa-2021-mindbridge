@@ -56,11 +56,17 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 
 	private void createNewUser(OAuth2UserInfo oAuth2UserInfo) {
 		User newUser = new User();
-		newUser.setNickname(oAuth2UserInfo.getNickname());
+		newUser.setNickname(getNicknameFromEmail(oAuth2UserInfo.getEmail()));
 		newUser.setEmail(oAuth2UserInfo.getEmail());
 		newUser.setAvatar(oAuth2UserInfo.getAvatarUrl());
 		newUser.setEmailVerified(true);
+		newUser.setFirstName(oAuth2UserInfo.getFirstName());
+		newUser.setLastName(oAuth2UserInfo.getLastName());
 		userRepository.save(newUser);
+	}
+
+	public String getNicknameFromEmail(String email) {
+		return email.substring(0, email.indexOf('@'));
 	}
 
 }
