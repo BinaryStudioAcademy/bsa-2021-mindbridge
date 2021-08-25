@@ -1,3 +1,5 @@
+@import "../../styles/common.sass";
+
 .versionItem {
   font-family: Lato, sans-serif;
   font-style: normal;
@@ -5,12 +7,29 @@
   font-size: 0.88rem;
   color: rgba(53, 53, 53, 0.4);
   height: 5rem;
+  width: 100%;
   border: 2px solid #F8F8F8;
   border-bottom: none;
   display: flex;
   align-items: center;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  justify-content: space-between;
+  div{
+    display: flex;
+    align-items: center;
+  }
+
+  .left{
+    width: 87%;
+  }
+
+  .postHeaderInfo{
+    max-width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
   &:hover {
     cursor: pointer;
@@ -25,4 +44,30 @@
     border-bottom: 2px solid #F8F8F8;
     border-radius: 0 0 0.5rem 0.5rem;
   }
+
+}
+
+.round_image{
+  height: 2rem;
+  width: 2rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+  color: white;
+  font-weight: bolder;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: $light-blue;
+}
+
+.popup{
+  margin-left: -1rem !important;
+}
+
+.dot{
+  min-height: 0.3rem;
+  min-width: 0.3rem;
 }

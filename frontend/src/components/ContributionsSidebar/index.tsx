@@ -15,18 +15,18 @@ const ContributionsSidebar: FunctionComponent<IContributionsSidebarProps> = ({ c
 
   const links = [];
   contributions.forEach(contribution => {
-      links.push(
-        <div key={contribution.id} className={styles.link}>
-          <Link
-            to={`/user/${contribution.author.id}`}
-            className={styles.userName}
-          >
-            {`${contribution.author.firstName} ${contribution.author.lastName} ${contribution.author.nickname}`}
-          </Link>
-          <div className={styles.dot} />
-          <Link to={`/pullRequest/${contribution.id}`}>{contribution.createdAt}</Link>
-        </div>
-      );
+    links.push(
+      <div key={contribution.id} className={styles.link}>
+        <Link
+          to={`/user/${contribution.author.id}`}
+          className={styles.userName}
+        >
+          {`${contribution.author.firstName} ${contribution.author.lastName} ${contribution.author.nickname}`}
+        </Link>
+        <div className={styles.dot} />
+        <Link to={`/pullRequest/${contribution.id}`}>{contribution.createdAt}</Link>
+      </div>
+    );
   });
 
   return (

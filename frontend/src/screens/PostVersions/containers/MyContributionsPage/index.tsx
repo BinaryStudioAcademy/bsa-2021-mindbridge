@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import styles from '../PostVersionsPage/styles.module.scss';
+import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 import ProfileSidebar from '@components/ProfileSidebar';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';

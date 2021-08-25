@@ -1,4 +1,4 @@
-import { IPostPR } from './../../../PullRequest/models/IPostPR';
+import { IPostPR } from '../../../PullRequest/models/IPostPR';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { fetchMyPullRequestsRoutine } from '@root/screens/PullRequest/routines';
 import { fetchPostContributionsRoutine, fetchPostTitleRoutine } from '@screens/PostVersions/routines';
