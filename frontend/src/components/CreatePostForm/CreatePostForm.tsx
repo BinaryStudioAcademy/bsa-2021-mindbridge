@@ -96,13 +96,12 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
   };
 
   const handleTags = (event: any, data: any) => {
-    if (data.value.length > 5) {
-      data.value.shift();
+    if (data.value.length <= 5) {
+      setForm({
+        ...form,
+        tags: data.value
+      });
     }
-    setForm({
-      ...form,
-      tags: data.value
-    });
   };
 
   const closeCoverImage = () => {
