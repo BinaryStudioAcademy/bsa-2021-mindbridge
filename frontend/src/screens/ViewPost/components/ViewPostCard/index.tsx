@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Card, Feed } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
@@ -12,6 +12,9 @@ import TextRenderer from '@root/components/TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
+import TextSelector from 'text-selection-react';
+import GetCursorPosition from 'cursor-position';
+import HighlightComponent from '@components/HighlightComponent';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -23,14 +26,31 @@ interface IViewPostCardProps {
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, handleLikePost,
   handleDisLikePost, userInfo }) => {
   const history = useHistory();
-
+  const [xPos, setXPos] = useState(0);
+  const [yPos, setYPos] = useState(0);
   const goToEdit = () => {
     history.push(`/post/edit/${post.id}`);
   };
 
+  // document.addEventListener('mousemove', () => {
+  //   const { x, y } = GetCursorPosition();
+  //   console.log(x, y);
+  // });
+
+  const handleMouseUp = () => {
+    console.log(`Selected text: ${window.getSelection().toString()}`);
+    const { x, y } = GetCursorPosition();
+    setXPos(x);
+    setYPos(y);
+    console.log(x, y);
+  };
   return (
     <Card className={styles.viewCard}>
       <Card.Content>
+        <HighlightComponent
+          top={xPos}
+          left={yPos}
+        />
         <Feed>
           <div className={styles.gridColumn}>
             <div className={styles.leftSide}>
@@ -98,11 +118,24 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
             />
           </div>
         </Feed>
-        <TextRenderer
-          className={styles.content}
-          markdown={post.markdown}
-          content={post.text}
-        />
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+        <div onMouseUp={handleMouseUp}>
+          <TextRenderer
+            className={styles.content}
+            markdown={post.markdown}
+            content={post.text}
+          />
+          {/* <TextSelector*/}
+          {/*  events={[*/}
+          {/*    {*/}
+          {/*      text: 'Submit',*/}
+          {/*      handler: () => { console.log('Hello'); }*/}
+          {/*    }*/}
+          {/*  ]}*/}
+          {/*  color="yellow"*/}
+          {/*  colorText*/}
+          {/*/ >*/}
+        </div>
       </Card.Content>
     </Card>
   );

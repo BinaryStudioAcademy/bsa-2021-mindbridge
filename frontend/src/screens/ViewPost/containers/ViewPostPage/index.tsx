@@ -22,6 +22,7 @@ import { useScroll } from '@helpers/scrollPosition.helper';
 import ContributionsSidebar from '@components/ContributionsSidebar';
 import { fetchPostContributionsRoutine } from '@screens/PostVersions/routines';
 import { IContribution } from '@screens/ViewPost/models/IContribution';
+import TextSelector from 'text-selection-react';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -80,7 +81,6 @@ const ViewPost: React.FC<IViewPostProps> = (
     getPostVersions({ postId: id });
     fetchPostContributions({ postId: id });
   }, [id]);
-
   const handleLikePost = postId => {
     const post = {
       postId,
@@ -126,6 +126,9 @@ const ViewPost: React.FC<IViewPostProps> = (
     }
   }, [scroll]);
 
+  // document.onmouseup = () => {
+  //   console.log(window.getSelection().toString());
+  // };
   return (
     <div className={styles.viewPost}>
       <div className={styles.main}>
