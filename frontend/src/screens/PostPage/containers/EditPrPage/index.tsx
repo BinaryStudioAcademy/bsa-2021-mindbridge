@@ -109,6 +109,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
   });
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isContentEmpty, setIsContentEmpty] = useState(false);
+  const [changesExist, setChangesExist] = useState(false);
 
   const { id } = useParams();
 
@@ -137,14 +138,6 @@ const EditPrPage: React.FC<IEditPrProps> = (
   }, [id]);
 
   useEffect(() => {
-    if (currentUserId) {
-      fetchData(currentUserId);
-    }
-    fetchTags();
-    getPostVersions();
-  }, [currentUserId, fetchTags, getPostVersions]);
-
-  useEffect(() => {
     if (savingImage.isLoaded) {
       if (!savingImage.isInContent) {
         if (savingImage.url !== '0') {
@@ -169,6 +162,14 @@ const EditPrPage: React.FC<IEditPrProps> = (
     }
   });
 
+  const changeForm = data => {
+    setForm(data);
+    setChangesExist(!(data.title === postPR.title &&
+      data.content === postPR.text &&
+      data.tags.join() === Array.from(postPR.tags.map(tag => tag.id)).join() &&
+      data.coverImage.url === postPR.coverImage))
+  };
+
   const changeEditViewMode = () => {
     setModes({
       ...modes,
@@ -191,6 +192,13 @@ const EditPrPage: React.FC<IEditPrProps> = (
   };
 
   const handleSendForm = () => {
+    if (!form.title || !form.content) {
+      setIsTitleEmpty(!form.title);
+      setIsContentEmpty(!form.content);
+      return;
+    }
+    setIsContentEmpty(false);
+    setIsTitleEmpty(false);
     const prOnEdit = {
       id: postPR.id,
       title: form.title,
@@ -315,7 +323,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
                     isCreateForm={false}
                     form={form}
                     modes={modes}
-                    setForm={setForm}
+                    setForm={changeForm}
                     sendImage={sendImage}
                     allTags={allTags}
                     imageTag={imageTag}
@@ -329,7 +337,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
                 <DarkBorderButton content="Cancel edition" onClick={handleCancel} />
                 <DarkButton
                   content={submitButtonName}
-                  disabled={preloader.draftButton}
+                  disabled={preloader.draftButton || !changesExist}
                   loading={preloader.publishButton}
                   onClick={() => handleSendForm()}
                 />
