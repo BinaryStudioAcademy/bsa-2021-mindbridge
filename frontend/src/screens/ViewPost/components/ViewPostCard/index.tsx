@@ -42,7 +42,6 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
     const { x, y } = GetCursorPosition();
     setXPos(x);
     setYPos(y);
-    console.log(x, y);
   };
   return (
     <Card className={styles.viewCard}>
