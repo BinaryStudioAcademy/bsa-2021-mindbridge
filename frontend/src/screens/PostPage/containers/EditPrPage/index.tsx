@@ -210,16 +210,6 @@ const EditPrPage: React.FC<IEditPrProps> = (
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
-        <div className={styles.profile_sidebar_container}>
-          <ProfileSidebar
-            id={userInfo.profile.id}
-            userName={userInfo.profile.fullName ?? userInfo.profile.nickname}
-            avatar={userInfo.profile.avatar}
-            folloversCount={userInfo.profile.followersQuantity}
-            rating={userInfo.profile.rating}
-            postNotificationCount={userInfo.profile.postsQuantity}
-          />
-        </div>
         {
           isLoading ? (
             <form className={styles.create_post_container}>

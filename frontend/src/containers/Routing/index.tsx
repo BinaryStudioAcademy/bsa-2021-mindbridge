@@ -22,6 +22,7 @@ import { NotFoundPage } from '@screens/NotFound/containers/NotFoundPage';
 import PullRequestPage from '@root/screens/PullRequest/containers/PullRequestPage';
 import PostVersions from '@screens/PostVersions/containers/PostVersionsPage';
 import EditPrPage from '@root/screens/PostPage/containers/EditPrPage';
+import { checkHeaderShown } from '@helpers/headerBlackList.hepler';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -38,11 +39,6 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
     });
   });
 
-  const checkHeaderShown = () => {
-    const headerBlackList = ['/login', '/registration'];
-
-    return headerBlackList.every(item => !history.location.pathname.startsWith(item));
-  };
   const [isHeaderShown, setIsHeaderShown] = useState(checkHeaderShown());
   history.listen(() => {
     setIsHeaderShown(checkHeaderShown());

@@ -1,9 +1,3 @@
-.wrapper {
-  padding: 9.2rem 10% 0 10%;
-  display: grid;
-  grid-template-columns: 2.3fr 1fr;
-  gap: 2rem;
-}
 .feedPage {
   height: 100vh;
 }
@@ -13,19 +7,6 @@
   min-width: 43.75em;
 }
 
-.sidebar {
-  margin-top: 5.8em;
-  grid-area: sidebar;
-
-  .feedPageSidebars {
-    position: fixed;
-  }
-
-  .logInSideBar {
-    margin-top: 2.7vw;
-    margin-bottom: 2em;
-  }
-}
 
 
 

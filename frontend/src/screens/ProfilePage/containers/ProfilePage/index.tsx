@@ -12,7 +12,6 @@ import {
 import { RootState } from '@root/store';
 import PasswordChangeModal from '@screens/ProfilePage/components/PasswordChangeModal';
 import LoaderWrapper from '@components/LoaderWrapper';
-import Sidebar from '@screens/Sidebar/containers/SidebarPage';
 
 export interface IProfileFormRequest {
   id: string;
@@ -80,7 +79,6 @@ const ProfilePage: React.FC<IProfilePageProps> = (
             openPasswordChangeModal={openPasswordChangeModal}
           />
         </div>
-        <Sidebar />
       </div>
     ) : <LoaderWrapper loading /> }
   </div>

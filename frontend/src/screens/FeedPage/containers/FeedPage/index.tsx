@@ -13,7 +13,6 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import Sidebar from '@screens/Sidebar/containers/SidebarPage';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -92,37 +91,34 @@ const FeedPage: React.FC<IFeedPageProps> = (
     );
   }
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.feedPage}>
-        <div className={styles.main}>
-          <InfiniteScroll
-            style={{ overflow: 'none' }}
-            dataLength={data.posts.length}
-            next={getMorePosts}
-            hasMore={hasMore}
-            loader={' '}
-            scrollThreshold={0.9}
-          >
-            {data.posts[0].id ? (
-              data.posts.map(post => (
-                <PostCard
-                  key={post.id}
-                  handleLikePost={handleLikePost}
-                  handleDisLikePost={handleDisLikePost}
-                  post={post}
-                  userInfo={userInfo}
-                />
-              ))
-            ) : (
-              <p>
-                🔍 Seems like there are no posts...
-                Please try another query
-              </p>
-            )}
-          </InfiniteScroll>
-        </div>
+    <div className={styles.feedPage}>
+      <div className={styles.main}>
+        <InfiniteScroll
+          style={{ overflow: 'none' }}
+          dataLength={data.posts.length}
+          next={getMorePosts}
+          hasMore={hasMore}
+          loader={' '}
+          scrollThreshold={0.9}
+        >
+          {data.posts[0].id ? (
+            data.posts.map(post => (
+              <PostCard
+                key={post.id}
+                handleLikePost={handleLikePost}
+                handleDisLikePost={handleDisLikePost}
+                post={post}
+                userInfo={userInfo}
+              />
+            ))
+          ) : (
+            <p>
+              🔍 Seems like there are no posts...
+              Please try another query
+            </p>
+          )}
+        </InfiniteScroll>
       </div>
-      <Sidebar />
     </div>
   );
 };

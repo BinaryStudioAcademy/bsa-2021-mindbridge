@@ -10,7 +10,6 @@ import { fetchPostContributionsRoutine, fetchPostTitleRoutine } from '@screens/P
 import { IContribution } from '@screens/ViewPost/models/IContribution';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
-import Sidebar from '@screens/Sidebar/containers/SidebarPage';
 
 export interface IPostVersionsProps extends IState, IActions {
 }
@@ -71,37 +70,34 @@ const PostVersions: React.FC<IPostVersionsProps> = (
 
   return (
     <div className={styles.postVersions}>
-      <div className={styles.main}>
-        <h3>
-          {isVersions ? 'Versions' : 'Contributions'}
-          {' '}
-          of post
-        </h3>
-        <h2 className={styles.postName}>{postTitle}</h2>
-        {isVersions ? (
-          versionsOfPost.map(version => (
-            <PostVersionItem
-              key={version.id}
-              postVersion={version}
-              isVersion={isVersions}
-            />
-          ))
-        ) : (
-          contributionsOfPost.map(version => (
-            <PostVersionItem
-              key={version.id}
-              postVersion={version}
-              isVersion={isVersions}
-            />
-          ))
-        )}
-        {!versionsOfPost && !contributionsOfPost && (
-          <p>
-            🔍 Seems like there are no result...
-          </p>
-        )}
-      </div>
-      <Sidebar />
+      <h3>
+        {isVersions ? 'Versions' : 'Contributions'}
+        {' '}
+        of post
+      </h3>
+      <h2 className={styles.postName}>{postTitle}</h2>
+      {isVersions ? (
+        versionsOfPost.map(version => (
+          <PostVersionItem
+            key={version.id}
+            postVersion={version}
+            isVersion={isVersions}
+          />
+        ))
+      ) : (
+        contributionsOfPost.map(version => (
+          <PostVersionItem
+            key={version.id}
+            postVersion={version}
+            isVersion={isVersions}
+          />
+        ))
+      )}
+      {!versionsOfPost && !contributionsOfPost && (
+        <p>
+          🔍 Seems like there are no result...
+        </p>
+      )}
     </div>
   );
 };

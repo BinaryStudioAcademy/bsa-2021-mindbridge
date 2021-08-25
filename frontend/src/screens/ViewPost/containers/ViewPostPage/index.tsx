@@ -12,7 +12,6 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { disLikePostViewRoutine, likePostViewRoutine }
   from '@screens/PostPage/routines';
-import Sidebar from '@screens/Sidebar/containers/SidebarPage';
 
 export interface IViewPostProps extends IState, IActions {
   userInfo: IUserProfile;
@@ -68,19 +67,16 @@ const ViewPost: React.FC<IViewPostProps> = (
   };
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.viewPost}>
-        <div className={styles.main}>
-          <ViewPostCard
-            post={data.post}
-            handleLikePost={handleLikePost}
-            handleDisLikePost={handleDisLikePost}
-            userInfo={userInfo}
-            isAuthor={data.post.author.id === currentUser.id}
-          />
-        </div>
+    <div className={styles.viewPost}>
+      <div className={styles.main}>
+        <ViewPostCard
+          post={data.post}
+          handleLikePost={handleLikePost}
+          handleDisLikePost={handleDisLikePost}
+          userInfo={userInfo}
+          isAuthor={data.post.author.id === currentUser.id}
+        />
       </div>
-      <Sidebar />
     </div>
   );
 };
