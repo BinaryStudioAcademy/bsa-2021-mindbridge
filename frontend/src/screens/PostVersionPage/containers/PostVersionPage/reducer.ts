@@ -1,7 +1,6 @@
-import { createReducer, PayloadAction } from '@reduxjs/toolkit';
+import { createReducer } from '@reduxjs/toolkit';
 import { fetchPostVersionRoutine } from '@screens/PostVersionPage/routines';
 import { IPostVersion } from '@screens/PostVersionPage/models/IPostVersion';
-import { IUser } from '@screens/PullRequest/models/IUser';
 
 export interface IPostVersionPageReducerState {
   postVersion: IPostVersion;

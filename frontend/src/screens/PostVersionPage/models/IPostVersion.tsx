@@ -8,7 +8,6 @@ export interface IPostVersion {
   id: string;
   markdown: boolean;
   preVersion: {
-    author: IUser;
     coverImage: string;
     id: string;
     markdown: boolean;

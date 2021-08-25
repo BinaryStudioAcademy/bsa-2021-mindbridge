@@ -36,7 +36,7 @@ const Tab = ({ className, previewContent, diffContent, seeDiff, handleCheckbox, 
                 <div onClick={handleCheckbox} />
               </span>
             ) : (
-              <div className={styles.noVersions}>no earlier versions</div>
+              <div className={styles.noVersions}>this is first version</div>
             )}
         </div>
         )}

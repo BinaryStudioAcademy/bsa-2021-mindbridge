@@ -34,16 +34,18 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
   }, [id]);
 
   const contributor = (
-    <AuthorAndDate
-      className={styles.contributor}
-      id={postVersion.author.id}
-      avatar={postVersion.author.avatar}
-      nickname={postVersion.author.nickname}
-      lastName={postVersion.author.lastName}
-      firstName={postVersion.author.firstName}
-      date={postVersion.createdAt}
-      readTime="2 min"
-    />
+    postVersion && (
+      <AuthorAndDate
+        className={styles.contributor}
+        id={postVersion.author.id}
+        avatar={postVersion.author.avatar}
+        nickname={postVersion.author.nickname}
+        lastName={postVersion.author.lastName}
+        firstName={postVersion.author.firstName}
+        date={postVersion.createdAt}
+        readTime="2 min"
+      />
+    )
   );
 
   const handleSeeDifference = () => {
@@ -54,6 +56,8 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
     <div>
       {contributor}
       <div className={styles.diff_container}>
+        {postVersion
+        && (
         <Preview
           coverImage={postVersion.coverImage}
           title={postVersion.title}
@@ -61,6 +65,7 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
           markdown={postVersion.markdown}
           tags={postVersion.tags}
         />
+        )}
       </div>
     </div>
   );
@@ -68,6 +73,8 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
   const diffContent = (
     <div>
       {contributor}
+      {postVersion
+      && (
       <div className={styles.diff_container}>
         <div className={styles.divider} />
         <TitleDiff
@@ -87,12 +94,15 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
           newText={postVersion.text}
         />
       </div>
+      )}
     </div>
   );
 
   const raw = (
     <div>
       {contributor}
+      {postVersion
+      && (
       <div className={styles.diff_container}>
         <div className={styles.divider} />
         <TitleDiff className={styles.field} oldTitle={postVersion.title} newTitle={postVersion.title} />
@@ -104,6 +114,7 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
           newText={postVersion.text}
         />
       </div>
+      )}
     </div>
   );
 
@@ -114,7 +125,7 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
         diffContent={seeDifference ? diffContent : raw}
         handleCheckbox={handleSeeDifference}
         seeDiff={seeDifference}
-        isCheckboxShown={!!postVersion.preVersion}
+        isCheckboxShown={postVersion ? (!!postVersion.preVersion) : false}
       />
     </div>
   );
