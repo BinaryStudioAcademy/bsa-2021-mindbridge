@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Card, Feed } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
-import RatingComponent from '@components/RatingIcon';
+import RatingComponent from '../svgs/RatingIcon';
 import TagsMenu from '@components/TagComponent';
 import FavouriteSvg from '@screens/ViewPost/components/svgs/SvgComponents/favouriteSvg';
 import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
@@ -44,13 +44,13 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
                       postId={post.id}
                       userInfo={userInfo}
                       arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                    && postReaction.liked)
+                        && postReaction.liked)
                         ? ('#8AC858'
                         ) : (
                           '#66B9FF'
                         )}
                       arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                    && !postReaction.liked)
+                        && !postReaction.liked)
                         ? ('#F75C48'
                         ) : (
                           '#66B9FF'
