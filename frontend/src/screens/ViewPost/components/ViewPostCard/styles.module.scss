@@ -3,10 +3,24 @@
   justify-content: space-between;
   width: 85%;
   max-width: 100%;
-  margin: 3.8vw 0px -2em 15%;
-  padding-top: 1.5em;
+  margin: 3.8vw 0px -2em 13%;
+  padding-top: 3.5714rem;
   box-shadow: none;
   max-height: 28rem;
+}
+
+.postBody {
+  margin-left: 10.3rem;
+}
+
+.cardContent {
+  width: 81em;
+  border: 2px solid #F8F8F8;
+  box-sizing: border-box;
+}
+
+:global(.ui.card>:only-child) {
+  border-radius: 10px !important;
 }
 
 .btnWrapper {
@@ -42,6 +56,7 @@
   line-height: 145%;
   font-style: normal;
   font-weight: 400;
+  width: 61rem;
 }
 
 .image {
