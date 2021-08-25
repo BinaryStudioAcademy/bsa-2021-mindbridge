@@ -13,6 +13,7 @@ import { fetchPostContributionsRoutine, fetchPostTitleRoutine } from '@screens/P
 import { IContribution } from '@screens/ViewPost/models/IContribution';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
+import { PrState } from '@root/screens/PullRequest/models/IPostPR';
 
 export interface IPostVersionsProps extends IState, IActions {
 }
@@ -55,6 +56,7 @@ const PostVersions: React.FC<IPostVersionsProps> = (
   const { postId } = useParams();
   const location = useLocation();
   const [isVersions, setIsVersions] = useState(true);
+  const [seeOpenPRs, setSeeOpenPRs] = useState(true);
 
   useEffect(() => {
     fetchPostTitle(postId);
@@ -73,6 +75,35 @@ const PostVersions: React.FC<IPostVersionsProps> = (
     }
   }, [currentUser]);
 
+  const handleCheckbox = () => {
+    setSeeOpenPRs(!seeOpenPRs);
+  };
+
+  const contributionsList = [];
+  seeOpenPRs ? (
+    contributionsOfPost.forEach(contribution => {
+      if (contribution.state === PrState.open) {
+        contributionsList.push
+          (
+            <PostVersionItem
+              key={contribution.id}
+              postVersion={contribution}
+              isVersion={isVersions}
+            />
+          )
+      }
+    })
+  ) : contributionsOfPost.forEach(contribution => {
+    contributionsList.push(
+      <PostVersionItem
+        key={contribution.id}
+        postVersion={contribution}
+        isVersion={isVersions}
+      />
+    )
+  }
+  )
+
   return (
     <div className={styles.postVersions}>
       <div className={styles.main}>
@@ -82,6 +113,15 @@ const PostVersions: React.FC<IPostVersionsProps> = (
           of post
         </h3>
         <h2 className={styles.postName}>{postTitle}</h2>
+        {!isVersions &&
+          <div className={styles.see_open}>
+            <input type="checkbox" checked={seeOpenPRs} />
+            {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions,
+              jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+            <div onClick={handleCheckbox} />
+            <div className={styles.checkbox_label}>Show only open pull requests</div>
+          </div>
+        }
         {isVersions ? (
           versionsOfPost.map(version => (
             <PostVersionItem
@@ -90,15 +130,8 @@ const PostVersions: React.FC<IPostVersionsProps> = (
               isVersion={isVersions}
             />
           ))
-        ) : (
-          contributionsOfPost.map(version => (
-            <PostVersionItem
-              key={version.id}
-              postVersion={version}
-              isVersion={isVersions}
-            />
-          ))
-        )}
+        ) : contributionsList
+        }
         {!versionsOfPost && !contributionsOfPost && (
           <p>
             🔍 Seems like there are no result...
