@@ -164,10 +164,10 @@ const EditPrPage: React.FC<IEditPrProps> = (
 
   const changeForm = data => {
     setForm(data);
-    setChangesExist(!(data.title === postPR.title &&
-      data.content === postPR.text &&
-      data.tags.join() === Array.from(postPR.tags.map(tag => tag.id)).join() &&
-      data.coverImage.url === postPR.coverImage))
+    setChangesExist(!(data.title === postPR.title
+      && data.content === postPR.text
+      && data.tags.join() === Array.from(postPR.tags.map(tag => tag.id)).join()
+      && data.coverImage.url === postPR.coverImage));
   };
 
   const changeEditViewMode = () => {

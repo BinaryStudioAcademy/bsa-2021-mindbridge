@@ -182,10 +182,10 @@ const EditPost: React.FC<IEditPostProps> = (
 
   const changeForm = data => {
     setForm(data);
-    setChangesExist(!(data.title === post.title &&
-      data.content === post.text &&
-      data.tags.join() === Array.from(post.tags.map(tag => tag.id)).join() &&
-      data.coverImage.url === post.coverImage))
+    setChangesExist(!(data.title === post.title
+      && data.content === post.text
+      && data.tags.join() === Array.from(post.tags.map(tag => tag.id)).join()
+      && data.coverImage.url === post.coverImage));
   };
 
   const changeEditViewMode = () => {
