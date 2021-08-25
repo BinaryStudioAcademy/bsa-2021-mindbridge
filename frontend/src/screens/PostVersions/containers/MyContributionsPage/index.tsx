@@ -6,10 +6,11 @@ import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IBindingCallback1 } from '@models/Callbacks';
-import PostVersionItem from '@components/PostVersionItem';
-import { IContribution } from '@screens/ViewPost/models/IContribution';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
+import { IPostPR } from '@root/screens/PullRequest/models/IPostPR';
+import { fetchMyPullRequestsRoutine } from '@root/screens/PullRequest/routines';
+import MyContributionItem from '@root/components/MyContributionsItem';
 
 export interface IMyContributionsProps extends IState, IActions {
 }
@@ -18,11 +19,12 @@ interface IState {
   isAuthorized: boolean;
   currentUser: ICurrentUser;
   userInfo: IUserProfile;
-  contributionsOfPost: IContribution[];
+  contributionsOfAuthor: IPostPR[];
 }
 
 interface IActions {
   fetchUserProfile: IBindingCallback1<string>;
+  fetchMyPRs: IBindingCallback1<string>;
 }
 
 const params = {
@@ -36,12 +38,14 @@ const MyContributions: React.FC<IMyContributionsProps> = (
     currentUser,
     userInfo,
     fetchUserProfile,
-    contributionsOfPost,
+    contributionsOfAuthor,
+    fetchMyPRs
   }
 ) => {
   useEffect(() => {
     if (currentUser.id) {
       fetchUserProfile(currentUser.id);
+      fetchMyPRs(currentUser.id);
     }
   }, [currentUser]);
 
@@ -49,18 +53,17 @@ const MyContributions: React.FC<IMyContributionsProps> = (
     <div className={styles.postVersions}>
       <div className={styles.main}>
         <h3>
-          My contributions
+          Your contributions
         </h3>
         {
-          contributionsOfPost.map(version => (
-            <PostVersionItem
-              key={version.id}
-              postVersion={version}
-              isVersion={false}
+          contributionsOfAuthor.map(contribution => (
+            <MyContributionItem
+              key={contribution.id}
+              contribution={contribution}
             />
           ))
         }
-        {!contributionsOfPost && (
+        {!contributionsOfAuthor && (
           <p>
             🔍 Seems like there are no result...
           </p>
@@ -94,14 +97,15 @@ const MyContributions: React.FC<IMyContributionsProps> = (
 const mapStateToProps: (state) => IState = state => ({
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
-  contributionsOfPost: state.postVersionsReducer.data.postContributions,
+  contributionsOfAuthor: state.postVersionsReducer.data.authorContributions,
   userInfo: state.postPageReducer.data.profile,
   versionsOfPost: state.postPageReducer.data.versionsOfPost,
   postTitle: state.postVersionsReducer.data.postTitle
 });
 
 const mapDispatchToProps: IActions = {
-  fetchUserProfile: fetchUserProfileRoutine
+  fetchUserProfile: fetchUserProfileRoutine,
+  fetchMyPRs: fetchMyPullRequestsRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyContributions);

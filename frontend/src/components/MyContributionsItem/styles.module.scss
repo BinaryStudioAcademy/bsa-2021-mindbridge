@@ -1,0 +1,28 @@
+.versionItem {
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.88rem;
+  color: rgba(53, 53, 53, 0.4);
+  height: 5rem;
+  border: 2px solid #F8F8F8;
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(206, 206, 206, 0.1);
+  }
+
+  &:first-of-type {
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+
+  &:last-child {
+    border-bottom: 2px solid #F8F8F8;
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+}

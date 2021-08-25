@@ -75,4 +75,11 @@ public class PostPRService {
 		tagRepository.deleteAllByPostPrId(editPR.getId());
 		editPR.getTags().forEach(tagId -> tagRepository.saveTagToPr(editPR.getId(), tagId));
 	}
+
+	public List<PostPRDetailsDto> getPostPRByUserId(UUID id, Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+		return postPRRepository.getPostPRByUserId(id, pageable).stream()
+			.map(PostPRMapper.MAPPER::postPRToPostPRDetailsDto)
+			.collect(Collectors.toList());
+	}
 }
