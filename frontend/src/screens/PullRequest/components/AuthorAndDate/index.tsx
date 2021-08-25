@@ -30,10 +30,10 @@ const AuthorAndDate = (
           {nickname}
         </span>
       </div>
-      {/*<span className={styles.user_name}>*/}
+      {/* <span className={styles.user_name}>*/}
       {/*  @*/}
       {/*  {nickname}*/}
-      {/*</span>*/}
+      {/* </span>*/}
     </Link>
     <div className={styles.dot} />
     <span className={styles.date}>{timeToLocal(date)}</span>
