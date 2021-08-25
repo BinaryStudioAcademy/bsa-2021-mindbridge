@@ -43,7 +43,6 @@ public interface PostPRRepository extends JpaRepository<PostPR, UUID>, JpaSpecif
 	@Query("SELECT pr from PostPR pr "
 		+ "where pr.deleted = false "
 		+ "and pr.post.id = :postId "
-		+ "and pr.state= 'open' "
 		+ "order by pr.createdAt desc")
 	List<PostPR> getPostPRByPostId(UUID postId, Pageable pageable);
 
