@@ -1,31 +1,40 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { IComment } from '@screens/ViewPost/models/IComment';
+import React, { useRef, useState } from 'react';
+import { IComments } from '@screens/ViewPost/models/IComments';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import styles from './styles.module.scss';
 import AdvancedComment from '@components/AdvancedCommentCard/AdvancedComment';
-import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import ArrowCloseComment from '@components/AdvancedCommentCard/svg/ArrowCloseComment';
-import { Collapse } from 'react-collapse';
 
 interface ICommentProps {
   text: string;
   author: IUser;
-  replies: IComment[];
+  replies: IComments[];
   createdAt: string;
   commentRating: number;
   shouldRenderUpToParent: boolean;
   shouldRenderArrowCloseComment: boolean;
+  sendComment: any;
+  userId: string;
+  postId: string;
+  commentId: string;
+  sendReply: any;
+  isAuthorized: boolean;
 }
 
 const Reply: React.FC<ICommentProps> = (
   {
+    commentId,
+    userId,
+    postId,
     text,
+    sendComment,
     author,
     replies,
     createdAt,
     commentRating,
     shouldRenderUpToParent,
-    shouldRenderArrowCloseComment
+    shouldRenderArrowCloseComment,
+    sendReply,
+    isAuthorized
   }
 ) => {
   const closeCommentRef = useRef(true);
@@ -46,23 +55,36 @@ const Reply: React.FC<ICommentProps> = (
         ref={closeCommentRef}
         handle={handle}
         shouldRenderArrowCloseComment={shouldRenderArrowCloseComment}
+        sendReply={sendReply}
+        userId={userId}
+        postId={postId}
+        commentId={commentId}
+        isAuthorized={isAuthorized}
       />
       {replies.length > 0 && (
-        <Collapse isOpened={isOpened}>
-          <div className="comments">
-            {replies.map(comment => (
-              <Reply
-                replies={comment.comments}
-                author={comment.author}
-                createdAt={comment.createdAt}
-                text={comment.text}
-                commentRating={comment.rating}
-                shouldRenderUpToParent={!(replies.length === 0)}
-                shouldRenderArrowCloseComment={(replies.length === 0)}
-              />
-            ))}
-          </div>
-        </Collapse>
+        <div>
+          { isOpened && (
+            <div className="comments">
+              {replies.map(comment => (
+                <Reply
+                  replies={comment.comments}
+                  author={comment.author}
+                  createdAt={comment.createdAt}
+                  text={comment.text}
+                  commentRating={comment.rating}
+                  shouldRenderUpToParent={!(replies.length === 0)}
+                  shouldRenderArrowCloseComment={(replies.length === 0)}
+                  userId={userId}
+                  postId={postId}
+                  sendComment={sendComment}
+                  commentId={comment.id}
+                  sendReply={sendReply}
+                  isAuthorized={isAuthorized}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

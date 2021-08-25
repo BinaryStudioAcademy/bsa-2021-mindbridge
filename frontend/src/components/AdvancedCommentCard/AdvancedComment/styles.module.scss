@@ -48,12 +48,12 @@
       margin-left: -2.25em;
       margin-right: 0.6em;
       display: flex;
-      justify-items: center;
-      align-items: center;
-      border: 0.02em solid #EEEEEE;
-      box-sizing: border-box;
-      border-radius: 0.1428em;
+      align-content: center;
+      justify-content: center;
       background: none;
+      border: 1px solid #EEEEEE;
+      box-sizing: border-box;
+      border-radius: 2px;
     }
 
     .commentAuthor {
@@ -82,7 +82,6 @@
           line-height: 1.05em !important;
         }
       }
-
 
       :global(#divider) {
         margin-left: 0.7857em;

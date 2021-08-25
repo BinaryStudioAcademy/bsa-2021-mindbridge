@@ -6,13 +6,17 @@
   margin-bottom: 1em;
 
     &:only-child {
+      border: none;
       &:only-child {
         border: none;
         margin-top: -1em;
         margin-bottom: -1.8em;
         &:last-child {
+          border: none;
+          display: block;
           &:last-child {
-
+            border: none;
+            display: block;
           }
         }
       }
@@ -25,7 +29,7 @@
 
 
 :global(.ReactCollapse--collapse) {
-    transition: height 700ms !important;
+    transition: ease 500ms !important;
 }
 
 

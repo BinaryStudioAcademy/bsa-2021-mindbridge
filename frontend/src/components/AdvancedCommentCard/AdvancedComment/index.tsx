@@ -9,6 +9,7 @@ import UpToParentCommentSvg from '@components/AdvancedCommentCard/svg/UpToParent
 import ShareCommentSvg from '@components/AdvancedCommentCard/svg/shareCommentSvg';
 import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 import ArrowCloseComment from '@components/AdvancedCommentCard/svg/ArrowCloseComment';
+import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -19,10 +20,29 @@ interface IBasicCommentProps {
   ref: any;
   handle: any;
   shouldRenderArrowCloseComment: boolean;
+  sendReply: any;
+  userId: string;
+  postId: string;
+  commentId: string;
+  isAuthorized: boolean;
 }
 
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
-  { createdAt, text, author, commentRating, setShouldRender, ref, handle, shouldRenderArrowCloseComment }
+  {
+    userId,
+    postId,
+    createdAt,
+    text,
+    author,
+    commentRating,
+    setShouldRender,
+    ref,
+    handle,
+    shouldRenderArrowCloseComment,
+    sendReply,
+    commentId,
+    isAuthorized
+  }
 ) => {
   const [disabled, setDisabled] = useState(false);
   const [rotateArrowHook, setRotateArrowHook] = useState(false);
@@ -38,22 +58,46 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     setRotateArrowHook(!rotateArrowHook);
   };
 
+  const [newReply, setNewReply] = useState<ICommentReply>({
+    author: '',
+    postId: '',
+    replyCommentId: '',
+    text: ''
+  });
+
+  const handleNewReply = (event: any) => {
+    setNewReply({
+      ...newReply,
+      text: event.target.value
+    });
+  };
+
+  const handleSendReply = () => {
+    if (newReply.text.trim().length) {
+      const addComment = {
+        text: newReply.text,
+        author: userId,
+        postId,
+        replyCommentId: commentId
+      };
+      sendReply(addComment);
+    }
+  };
+
   return (
     <div className={styles.advancedComment}>
       <div className={styles.header}>
         { shouldRenderArrowCloseComment && (
           <button ref={ref} id="button" className={styles.closeCommentBtn} type="button" onClick={() => handleClick()}>
-            <div style={rotateArrow}><ArrowCloseComment /></div>
+            <div className={styles.arrowClose} style={rotateArrow}><ArrowCloseComment /></div>
           </button>
         )}
         <div className={styles.commentAuthor}>
-          <a href="/" className="avatar">
+          <a href={`/user/${author.id}`} className="avatar">
             <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
           </a>
-          <a href="/" className="author">
-            {author.firstName}
-            {' '}
-            {author.lastName}
+          <a href={`/user/${author.id}`} className="author">
+            {author.nickname ?? (`${author.firstName} ${author.lastName}`) }
           </a>
           <DividerSvg />
           <div className="metadata">
@@ -90,15 +134,28 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
       <div className="text">
         {text}
       </div>
-      <div className="actions">
-        <DarkBorderButton className={styles.btnReplay} content="Reply" onClick={() => setDisabled(!disabled)} />
-      </div>
-      {disabled && (
-        <div className={styles.replayBlock}>
-          <textarea placeholder="Feel free..." className={styles.replyText} />
+      { isAuthorized && (
+        <div>
           <div className="actions">
-            <DarkBorderButton className={styles.sendCommentBtn} content="Send" />
+            <DarkBorderButton className={styles.btnReplay} content="Reply" onClick={() => setDisabled(!disabled)} />
           </div>
+          {disabled && (
+          <div className={styles.replayBlock}>
+            <textarea
+              value={newReply.text}
+              onChange={handleNewReply}
+              placeholder="Feel free..."
+              className={styles.replyText}
+            />
+            <div className="actions">
+              <DarkBorderButton
+                onClick={handleSendReply}
+                className={styles.sendCommentBtn}
+                content="Send"
+              />
+            </div>
+          </div>
+          )}
         </div>
       ) }
     </div>
