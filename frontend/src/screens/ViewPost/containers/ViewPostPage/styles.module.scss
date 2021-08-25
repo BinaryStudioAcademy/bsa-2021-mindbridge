@@ -1,5 +1,5 @@
 .viewPost {
-  height: 101vhs;
+  height: 100%;
   display: grid;
   grid-template-columns: 1fr 550px;
   grid-template-areas:
@@ -7,7 +7,6 @@
 ;
   grid-gap: 1rem;
   grid-row-gap: 0;
-  height: 101vh;
 }
 
 
