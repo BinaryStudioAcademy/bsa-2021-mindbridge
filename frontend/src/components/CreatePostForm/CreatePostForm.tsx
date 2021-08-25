@@ -96,6 +96,9 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
   };
 
   const handleTags = (event: any, data: any) => {
+    if (data.value.length > 5) {
+      data.value.shift();
+    }
     setForm({
       ...form,
       tags: data.value
