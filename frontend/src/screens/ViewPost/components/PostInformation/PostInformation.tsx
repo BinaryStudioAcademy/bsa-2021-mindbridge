@@ -9,20 +9,17 @@ import { Link } from 'react-router-dom';
 interface IPostInformationProps {
   id: string;
   date: string;
-  firstName: string;
-  lastName: string;
+  nickname: string;
   avatar: string;
 }
 
-const PostInformation: FunctionComponent<IPostInformationProps> = ({ id, firstName, lastName, date, avatar }) => (
+const PostInformation: FunctionComponent<IPostInformationProps> = ({ id, nickname, date, avatar }) => (
   <div className={styles.postHeaderInfo}>
     <Link to={`/user/${id}`}>
       <div className={styles.userBlock}>
         <Image src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'} avatar size="big" />
         <div className={styles.userName}>
-          { firstName }
-          {' '}
-          { lastName }
+          { nickname }
         </div>
       </div>
     </Link>
