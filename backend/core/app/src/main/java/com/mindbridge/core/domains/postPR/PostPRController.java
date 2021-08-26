@@ -59,5 +59,4 @@ public class PostPRController {
 			@RequestParam(defaultValue = "4") Integer count) {
 		return postPRService.getPostPRByPostId(id, from, count);
 	}
-
 }

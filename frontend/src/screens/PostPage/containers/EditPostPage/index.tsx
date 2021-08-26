@@ -25,6 +25,7 @@ import HistorySidebar from '@components/PostHistorySidebar';
 import { Popup } from 'semantic-ui-react';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
+import { history } from '@helpers/history.helper';
 
 export interface IEditPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -42,7 +43,7 @@ interface IState {
   allTags: [any];
   currentUserId: string;
   isLoading: boolean;
-  post?: {
+  post: {
     id: string;
     author: any;
     title: string;
@@ -117,6 +118,7 @@ const EditPost: React.FC<IEditPostProps> = (
   });
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isContentEmpty, setIsContentEmpty] = useState(false);
+  const [changesExist, setChangesExist] = useState(false);
 
   const { postId } = useParams();
 
@@ -179,6 +181,14 @@ const EditPost: React.FC<IEditPostProps> = (
     }
   });
 
+  const changeForm = data => {
+    setForm(data);
+    setChangesExist(!(data.title === post.title
+      && data.content === post.text
+      && data.tags.join() === Array.from(post.tags.map(tag => tag.id)).join()
+      && data.coverImage.url === post.coverImage));
+  };
+
   const changeEditViewMode = () => {
     setModes({
       ...modes,
@@ -197,6 +207,7 @@ const EditPost: React.FC<IEditPostProps> = (
         url: post.coverImage
       }
     });
+    history.push(`/post/${post.id}`);
   };
 
   const handleSendForm = isDraft => {
@@ -354,7 +365,7 @@ const EditPost: React.FC<IEditPostProps> = (
                     isCreateForm={false}
                     form={form}
                     modes={modes}
-                    setForm={setForm}
+                    setForm={changeForm}
                     sendImage={sendImage}
                     allTags={allTags}
                     imageTag={imageTag}
@@ -368,7 +379,7 @@ const EditPost: React.FC<IEditPostProps> = (
                 <DarkBorderButton content="Cancel" onClick={handleCancel} />
                 <DarkButton
                   content={submitButtonName}
-                  disabled={preloader.draftButton}
+                  disabled={preloader.draftButton || !changesExist}
                   loading={preloader.publishButton}
                   onClick={() => handleSendForm(false)}
                 />

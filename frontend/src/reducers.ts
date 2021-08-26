@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as toastr } from 'react-redux-toastr';
 /* PlopJS import placeholder. Do not remove */
+import postVersionPageReducer from '@screens/PostVersionPage/reducers';
 import pullRequestReducer from '@screens/PullRequest/reducers';
 import postVersionsReducer from '@screens/PostVersions/reducers';
 import headerReducer from '@screens/Header/reducers';
@@ -14,6 +15,7 @@ import viewPostReducer from '@screens/ViewPost/reducers';
 export default combineReducers({
   toastr,
   /* PlopJS reducer placeholder. Do not remove */
+  postVersionPageReducer,
   pullRequestReducer,
   postVersionsReducer,
   headerReducer,
