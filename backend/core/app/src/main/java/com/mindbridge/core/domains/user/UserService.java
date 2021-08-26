@@ -75,7 +75,8 @@ public class UserService implements UserDetailsService {
 	}
 
 	public UserProfileDto getUserProfileInformation(UUID userId) {
-		var foundUser = userRepository.findById(userId).orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found."));
+		var foundUser = userRepository.findById(userId)
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found."));
 		var user = UserMapper.MAPPER.userToUserProfileDto(foundUser);
 		var userReactions = postReactionRepository.getPostReactionByAuthorId(userId);
 		if (foundUser.getFirstName() != null) {
