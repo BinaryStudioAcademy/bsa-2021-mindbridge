@@ -20,12 +20,12 @@ interface IViewPostCardProps {
   handleLikePost: any;
   handleDisLikePost: any;
   userInfo: IUserProfile;
+  handleSaveHighlight: any;
 }
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, handleLikePost,
-  handleDisLikePost, userInfo }) => {
+  handleDisLikePost, userInfo, handleSaveHighlight }) => {
   const history = useHistory();
   const [xStart, setXStart] = useState(0);
-  const [xEnd, setXEnd] = useState(0);
   const [xPos, setXPos] = useState(0);
   const [yStart, setYStart] = useState(0);
   const [yPos, setYPos] = useState(0);
@@ -40,14 +40,13 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
       setIsPopUpShown(false);
     } else {
       setYPos(yStart);
-      const dist = (xStart - 98) + (x - xStart) / 2;
-      console.log(dist);
-      setXPos(dist);
+      setXPos((xStart - 98) + (x - xStart) / 2);
       setIsPopUpShown(true);
     }
   };
 
   const handleClosePopUp = () => {
+    handleSaveHighlight(window.getSelection().toString());
     setIsPopUpShown(false);
   };
 
@@ -56,6 +55,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
     setXStart(x);
     setYStart(y);
   };
+
   return (
     <Card className={styles.viewCard}>
       <div className={styles.cardContent}>

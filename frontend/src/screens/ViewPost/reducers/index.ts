@@ -3,12 +3,13 @@ import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
 import { viewPostReducer } from '@screens/ViewPost/containers/ViewPostPage/reducer';
 /* PlopJS import placeholder. Do not remove */
-import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine } from '@screens/ViewPost/routines';
+import {fetchDataRoutine, leaveReactionOnPostViewPageRoutine, saveHighlightRoutine} from '@screens/ViewPost/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
   fetchDataRequest: reducerCreator([fetchDataRoutine.TRIGGER]),
-  leaveReactionOnPostViewPageRequest: reducerCreator([leaveReactionOnPostViewPageRoutine.TRIGGER])
+  leaveReactionOnPostViewPageRequest: reducerCreator([leaveReactionOnPostViewPageRoutine.TRIGGER]),
+  saveHighlightRequest: reducerCreator([saveHighlightRoutine.TRIGGER])
 });
 
 export default combineReducers({

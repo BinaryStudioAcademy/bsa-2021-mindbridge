@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
-import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine } from '@screens/ViewPost/routines';
+import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine, saveHighlightRoutine } from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import { IData } from '@screens/ViewPost/models/IData';
 import { useParams } from 'react-router-dom';
@@ -12,13 +12,6 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { disLikePostViewRoutine, likePostViewRoutine }
   from '@screens/PostPage/routines';
-import HistorySidebar from '@components/PostHistorySidebar';
-import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
-import { useScroll } from '@helpers/scrollPosition.helper';
-import ContributionsSidebar from '@components/ContributionsSidebar';
-import { fetchPostContributionsRoutine } from '@screens/PostVersions/routines';
-import { IContribution } from '@screens/ViewPost/models/IContribution';
-import TextSelector from 'text-selection-react';
 
 export interface IViewPostProps extends IState, IActions {
   userInfo: IUserProfile;
@@ -34,6 +27,7 @@ interface IActions {
   leaveReaction: IBindingCallback1<object>;
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
+  saveHighlight: IBindingCallback1<object>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -44,7 +38,8 @@ const ViewPost: React.FC<IViewPostProps> = (
     userInfo,
     leaveReaction,
     likePostView,
-    disLikePostView
+    disLikePostView,
+    saveHighlight
   }
 ) => {
   const { postId } = useParams();
@@ -63,6 +58,15 @@ const ViewPost: React.FC<IViewPostProps> = (
     leaveReaction(post);
   };
 
+  const handleSaveHighlight = content => {
+    const highlight = {
+      authorId: currentUser.id,
+      postId,
+      text: content
+    };
+    saveHighlight(highlight);
+  };
+
   const handleDisLikePost = id => {
     const post = {
       postId: id,
@@ -73,9 +77,6 @@ const ViewPost: React.FC<IViewPostProps> = (
     leaveReaction(post);
   };
 
-  // document.onmouseup = () => {
-  //   console.log(window.getSelection().toString());
-  // };
   return (
     <div className={styles.viewPost}>
       <div className={styles.main}>
@@ -85,6 +86,7 @@ const ViewPost: React.FC<IViewPostProps> = (
           handleDisLikePost={handleDisLikePost}
           userInfo={userInfo}
           isAuthor={data.post.author.id === currentUser.id}
+          handleSaveHighlight={handleSaveHighlight}
         />
       </div>
     </div>
@@ -101,7 +103,8 @@ const mapDispatchToProps: IActions = {
   fetchData: fetchDataRoutine,
   leaveReaction: leaveReactionOnPostViewPageRoutine,
   likePostView: likePostViewRoutine,
-  disLikePostView: disLikePostViewRoutine
+  disLikePostView: disLikePostViewRoutine,
+  saveHighlight: saveHighlightRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);

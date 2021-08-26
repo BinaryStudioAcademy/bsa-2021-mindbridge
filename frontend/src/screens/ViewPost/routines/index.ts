@@ -6,4 +6,5 @@ const createViewPostRoutine = <T extends unknown>(actionName: string) => createR
 /* PlopJS routine placeholder. Do not remove */
 export const fetchDataRoutine = createViewPostRoutine('FETCH_DATA');
 export const leaveReactionOnPostViewPageRoutine = createViewPostRoutine('LEAVE_REACTION_ON_POST_VIEW_PAGE_ROUTINE');
+export const saveHighlightRoutine = createViewPostRoutine('SAVE_HIGHLIGHT_ROUTINE');
 
