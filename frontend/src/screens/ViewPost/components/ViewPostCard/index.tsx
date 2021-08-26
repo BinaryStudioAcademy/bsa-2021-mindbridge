@@ -12,6 +12,7 @@ import TextRenderer from '@root/components/TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
+import readingTime from 'reading-time';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -95,6 +96,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
                 nickname={post.author.nickname}
                 date={post.createdAt}
                 avatar={post.author.avatar}
+                readTime={readingTime(post.text).text}
               />
             </div>
           </Feed>
