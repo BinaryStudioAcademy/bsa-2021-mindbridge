@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Card, Feed } from 'semantic-ui-react';
+import { Button, Card, Feed, Popup } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
 import RatingComponent from '@components/RatingIcon';
@@ -28,6 +28,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
   const history = useHistory();
   const [xPos, setXPos] = useState(0);
   const [yPos, setYPos] = useState(0);
+  const [isPopUpShown, setIsPopUpShown] = useState(false);
   const goToEdit = () => {
     history.push(`/post/edit/${post.id}`);
   };
@@ -36,9 +37,16 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
   //   const { x, y } = GetCursorPosition();
   //   console.log(x, y);
   // });
-
   const handleMouseUp = () => {
     console.log(`Selected text: ${window.getSelection().toString()}`);
+    setIsPopUpShown(true);
+  };
+
+  const handleClosePopUp = () => {
+    setIsPopUpShown(false);
+  };
+
+  const handleMouseDown = () => {
     const { x, y } = GetCursorPosition();
     setXPos(x);
     setYPos(y);
@@ -46,10 +54,6 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
   return (
     <Card className={styles.viewCard}>
       <Card.Content>
-        <HighlightComponent
-          top={xPos}
-          left={yPos}
-        />
         <Feed>
           <div className={styles.gridColumn}>
             <div className={styles.leftSide}>
@@ -118,21 +122,24 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
           </div>
         </Feed>
         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-        <div onMouseUp={handleMouseUp}>
-          <TextRenderer
-            className={styles.content}
-            markdown={post.markdown}
-            content={post.text}
+        <div onMouseUp={handleMouseUp} onMouseDown={handleMouseDown}>
+          <Popup
+            open={isPopUpShown}
+            style={{ top: `${0}px`, left: '0px' }}
+            position="top center"
+            content={<Button color="green" content="Confirm the launch" onClick={handleClosePopUp} />}
+            trigger={(
+              <TextRenderer
+                className={styles.content}
+                markdown={post.markdown}
+                content={post.text}
+              />
+            )}
           />
-          {/* <TextSelector*/}
-          {/*  events={[*/}
-          {/*    {*/}
-          {/*      text: 'Submit',*/}
-          {/*      handler: () => { console.log('Hello'); }*/}
-          {/*    }*/}
-          {/*  ]}*/}
-          {/*  color="yellow"*/}
-          {/*  colorText*/}
+          {/* <TextRenderer*/}
+          {/*  className={styles.content}*/}
+          {/*  markdown={post.markdown}*/}
+          {/*  content={post.text}*/}
           {/*/ >*/}
         </div>
       </Card.Content>
