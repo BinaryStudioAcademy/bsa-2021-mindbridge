@@ -20,6 +20,7 @@ import Header from '@screens/Header/containers/HeaderPage';
 import PrivateRoute from '@components/PrivateRoute';
 import { NotFoundPage } from '@screens/NotFound/containers/NotFoundPage';
 import PullRequestPage from '@root/screens/PullRequest/containers/PullRequestPage';
+import PostVersionPage from '@screens/PostVersionPage/containers/PostVersionPage';
 import PostVersions from '@screens/PostVersions/containers/PostVersionsPage';
 import EditPrPage from '@root/screens/PostPage/containers/EditPrPage';
 import { checkHeaderShown } from '@helpers/headerBlackList.hepler';

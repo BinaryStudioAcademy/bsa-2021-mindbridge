@@ -73,4 +73,5 @@ public class PostPRService {
 		tagRepository.deleteAllByPostPrId(editPR.getId());
 		editPR.getTags().forEach(tagId -> tagRepository.saveTagToPr(editPR.getId(), tagId));
 	}
+
 }
