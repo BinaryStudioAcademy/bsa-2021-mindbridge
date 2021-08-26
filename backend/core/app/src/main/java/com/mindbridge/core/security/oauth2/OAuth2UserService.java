@@ -24,7 +24,6 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		var oAuth2User = super.loadUser(userRequest);
-
 		processUser(userRequest, oAuth2User);
 		return oAuth2User;
 	}
@@ -32,7 +31,6 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 	private void processUser(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
 		OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory
 				.getOAuth2UserInfo(userRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
-
 		if (StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
 			throw new OAuth2NotFoundException("Email not found from OAuth2 provider.");
 		}
@@ -56,11 +54,17 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 
 	private void createNewUser(OAuth2UserInfo oAuth2UserInfo) {
 		User newUser = new User();
-		newUser.setNickname(oAuth2UserInfo.getNickname());
+		newUser.setNickname(getNicknameFromEmail(oAuth2UserInfo.getEmail()));
 		newUser.setEmail(oAuth2UserInfo.getEmail());
 		newUser.setAvatar(oAuth2UserInfo.getAvatarUrl());
 		newUser.setEmailVerified(true);
+		newUser.setFirstName(oAuth2UserInfo.getFirstName());
+		newUser.setLastName(oAuth2UserInfo.getLastName());
 		userRepository.save(newUser);
+	}
+
+	public String getNicknameFromEmail(String email) {
+		return email.substring(0, email.indexOf('@'));
 	}
 
 }

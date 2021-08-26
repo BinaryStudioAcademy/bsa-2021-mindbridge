@@ -88,11 +88,12 @@ const FeedPage: React.FC<IFeedPageProps> = (
     handleLoadMorePosts(params);
   };
 
-  if (dataLoading === true && loadMore === false && !currentUser) {
+  if ((dataLoading && !loadMore) || (!userInfo.id && isAuthorized)) {
     return (
       <LoaderWrapper loading={dataLoading} />
     );
   }
+
   return (
     <div className={styles.feedPage}>
       <div className={styles.main}>
@@ -128,7 +129,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
             {isAuthorized ? (
               <ProfileSidebar
                 id={userInfo.id}
-                userName={userInfo.fullName ?? userInfo.nickname}
+                userName={userInfo.nickname}
                 avatar={userInfo.avatar}
                 folloversCount={userInfo.followersQuantity}
                 rating={userInfo.rating}
