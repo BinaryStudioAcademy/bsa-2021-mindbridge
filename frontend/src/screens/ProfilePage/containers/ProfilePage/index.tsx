@@ -60,7 +60,7 @@ const ProfilePage: React.FC<IProfilePageProps> = (
   }
 ) => (
   <div>
-    { initialData.id !== '' ? (
+    {initialData.id !== '' ? (
       <div className={styles.profilePage}>
         <PasswordChangeModal
           userId={initialData.id}
@@ -80,7 +80,11 @@ const ProfilePage: React.FC<IProfilePageProps> = (
           />
         </div>
       </div>
-    ) : <LoaderWrapper loading /> }
+    ) : (
+      <div className={styles.profilePage}>
+        <LoaderWrapper loading />
+      </div>
+    )}
   </div>
 );
 
