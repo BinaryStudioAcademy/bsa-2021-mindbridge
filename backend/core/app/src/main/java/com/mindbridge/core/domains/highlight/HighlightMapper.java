@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.highlight;
 
+import com.mindbridge.core.domains.highlight.dto.HighlightsDetailsDto;
 import com.mindbridge.core.domains.highlight.dto.SavaHighlightDto;
 import com.mindbridge.data.domains.highlight.model.Highlight;
 import org.mapstruct.Mapper;
@@ -14,4 +15,8 @@ public interface HighlightMapper {
 	@Mapping(source = "authorId", target = "user.id")
 	@Mapping(source = "postId", target = "post.id")
 	Highlight saveHighlightDtoToHighlight(SavaHighlightDto savaHighlightDto);
+
+	@Mapping(source = "user.id", target = "userId")
+	@Mapping(source = "post.id", target = "postId")
+	HighlightsDetailsDto fromHighlightToHighlightDetailsDto(Highlight highlight);
 }

@@ -107,5 +107,17 @@
   margin-top: -0.8571rem;
 }
 
+:global(i.icon.quote.left) {
+  color: cornflowerblue;
+}
+
+:global(.ui.top.center.popup:before) {
+  background-color: rgb(244, 249, 255);
+}
+
+:global(.ui.icon.button, .ui.icon.buttons .button) {
+  background-color: rgb(244, 249, 255);
+}
+
 
 

@@ -1,11 +1,12 @@
 package com.mindbridge.core.domains.highlight;
 
+import com.mindbridge.core.domains.highlight.dto.HighlightsDetailsDto;
 import com.mindbridge.core.domains.highlight.dto.SavaHighlightDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("highlight")
@@ -22,5 +23,10 @@ public class HighlightController {
 	@PostMapping("/save")
 	public UUID saveHighlight(@RequestBody SavaHighlightDto highlightDto) {
 		return highlightService.save(highlightDto);
+	}
+
+	@GetMapping("/all")
+	public List<HighlightsDetailsDto> getHighlights() {
+		return highlightService.getAllHighlights();
 	}
 }

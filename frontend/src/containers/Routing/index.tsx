@@ -24,6 +24,7 @@ import PostVersionPage from '@screens/PostVersionPage/containers/PostVersionPage
 import PostVersions from '@screens/PostVersions/containers/PostVersionsPage';
 import EditPrPage from '@root/screens/PostPage/containers/EditPrPage';
 import { checkHeaderShown } from '@helpers/headerBlackList.hepler';
+import HighlightsPage from '@screens/HighlightsPage/containers/HighlightsPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -64,6 +65,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/post/edit/:id" component={EditPostPage} />
         <PublicRoute exact path="/post/versions/:id" component={PostVersions} />
         <PublicRoute exact path="/post/contributions/:id" component={PostVersions} />
+        <PublicRoute exact path="/highlights" component={HighlightsPage} />
         <PublicRoute component={NotFoundPage} />
 
         <div>

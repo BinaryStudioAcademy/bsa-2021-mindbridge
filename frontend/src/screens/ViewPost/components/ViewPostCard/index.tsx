@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Button, Card, Feed, Popup } from 'semantic-ui-react';
+import { Button, Card, Feed, Icon, Popup } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
 import RatingComponent from '../svgs/RatingIcon';
@@ -36,11 +36,12 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
 
   const handleMouseUp = () => {
     const { x } = GetCursorPosition({ scroll: true });
-    if (!window.getSelection().toString()) {
+    if (!window.getSelection().toString().trim()) {
       setIsPopUpShown(false);
+      console.log(window.getSelection().toString().trim());
     } else {
       setYPos(yStart);
-      setXPos((xStart - 98) + (x - xStart) / 2);
+      setXPos((xStart - 23) + (x - xStart) / 2);
       setIsPopUpShown(true);
     }
   };
@@ -130,9 +131,19 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
           <div className={styles.postBody} onMouseUp={handleMouseUp} onMouseDown={handleMouseDown}>
             <Popup
               open={isPopUpShown}
-              style={{ transform: `translate3d(${xPos}px, ${yPos - 85}px, 0px)` }}
+              style={{ transform: `translate3d(${xPos}px, ${yPos - 60}px, 0px)`,
+                backgroundColor: '#f4f9ff',
+                cursor: 'pointer',
+                padding: '0'
+              }}
               position="top center"
-              content={<Button color="green" content="Confirm the launch" onClick={handleClosePopUp} />}
+              content={(
+                <Button
+                  style={{ backgroundColor: '#f4f9ff' }}
+                  icon="quote left"
+                  onClick={() => handleClosePopUp()}
+                />
+)}
               pinned
               trigger={(
                 <TextRenderer
