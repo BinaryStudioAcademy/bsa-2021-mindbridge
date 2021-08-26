@@ -63,8 +63,8 @@ public class UserService implements UserDetailsService {
 	@Lazy
 	@Autowired
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-			CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository,
-			PostPRRepository postPRRepository, PostReactionRepository postReactionRepository) {
+					   CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository,
+					   PostPRRepository postPRRepository, PostReactionRepository postReactionRepository) {
 		this.userRepository = userRepository;
 		this.commentRepository = commentRepository;
 		this.postPRRepository = postPRRepository;
@@ -94,7 +94,7 @@ public class UserService implements UserDetailsService {
 
 	public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
 		User user = userRepository.findByEmail(email)
-				.orElseThrow(() -> new EmailNotFoundException("User with email : " + email + " not found."));
+			.orElseThrow(() -> new EmailNotFoundException("User with email : " + email + " not found."));
 		return new UserPrincipal(user);
 	}
 
@@ -116,13 +116,13 @@ public class UserService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
 		User user = userRepository.findByNickname(nickname)
-				.orElseThrow(() -> new NicknameNotFoundException("User with nickname : " + nickname + " not found."));
+			.orElseThrow(() -> new NicknameNotFoundException("User with nickname : " + nickname + " not found."));
 		return new UserPrincipal(user);
 	}
 
 	public UserDto updateUserById(UUID id, UserProfileDataDto userProfileData) {
 		User user = userRepository.findById(id)
-				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		user.setNickname(userProfileData.getNickname());
 		user.setFirstName(userProfileData.getFirstName());
 		user.setLastName(userProfileData.getLastName());
@@ -137,13 +137,13 @@ public class UserService implements UserDetailsService {
 
 	public boolean checkPassword(UUID id, String password) {
 		User user = userRepository.findById(id)
-				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		return passwordEncoder.matches(password.substring(0, password.length() - 1), user.getPassword());
 	}
 
 	public UserDto updateUserAvatarById(UUID id, String url) {
 		User user = userRepository.findById(id)
-				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		String result = URLDecoder.decode(url, StandardCharsets.UTF_8);
 		String rigth_url = result.substring(0, result.length() - 1);
 		user.setAvatar(rigth_url);
@@ -154,7 +154,7 @@ public class UserService implements UserDetailsService {
 
 	public UserDto updateUserPasswordById(UUID id, String newPassword) {
 		User user = userRepository.findById(id)
-				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		user.setPassword(passwordEncoder.encode(newPassword.substring(0, newPassword.length() - 1)));
 		userRepository.save(user);
 
