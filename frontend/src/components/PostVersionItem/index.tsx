@@ -17,7 +17,7 @@ const PostVersionItem: FunctionComponent<IPostVersionItemProps> = ({ postVersion
 
   const goToVersion = () => {
     if (isVersion) {
-      history.push(`/postVersion/${postVersion.id}`);
+      history.push(`/post/version/${postVersion.id}`);
     } else {
       history.push(`/pullRequest/${postVersion.id}`);
     }

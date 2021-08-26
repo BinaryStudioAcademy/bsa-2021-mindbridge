@@ -11,7 +11,6 @@ import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
 
-import java.util.Collections;
 import java.util.HashSet;
 
 import lombok.extern.slf4j.Slf4j;
@@ -95,7 +94,7 @@ public class PostService {
 		post.setTags(tags);
 		var savedPost = postRepository.save(post);
 		postReactionService.setReaction(new ReceivedPostReactionDto(savedPost.getId(), createPostDto.getAuthor(), true));
-		//elasticService.put(savedPost);
+		elasticService.put(savedPost);
 		return savedPost.getId();
 	}
 

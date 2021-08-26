@@ -1,0 +1,23 @@
+{
+    "name": "autotest",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "./node_modules/.bin/wdio wdio.conf.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@wdio/cli": "^7.7.7",
+        "chai": "^4.3.4",
+        "Faker": "^0.7.2"
+    },
+    "devDependencies": {
+        "@wdio/local-runner": "^7.10.0",
+        "@wdio/mocha-framework": "^7.10.0",
+        "@wdio/spec-reporter": "^7.10.0",
+        "chromedriver": "^92.0.1",
+        "wdio-chromedriver-service": "^7.2.0"
+    }
+}

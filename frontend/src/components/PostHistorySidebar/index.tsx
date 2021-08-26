@@ -18,7 +18,7 @@ const HistorySidebar: FunctionComponent<IProfileSidebarProps> = ({ history, post
     links.push(
       <div key={version.id} className={styles.link}>
         <div className={styles.dot} />
-        <Link to={`/postVersion/${version.id}`}>{version.createdAt}</Link>
+        <Link to={`/post/version/${version.id}`}>{version.createdAt}</Link>
       </div>
     );
   });
