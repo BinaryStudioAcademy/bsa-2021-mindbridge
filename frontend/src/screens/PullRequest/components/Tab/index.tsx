@@ -14,14 +14,15 @@ interface ITabProps {
 
 const Tab = ({ className, previewContent, diffContent, seeDiff, handleCheckbox }: ITabProps) => {
   const [preview, setPreview] = useState(false);
+  const [isCheckboxShowed, setIsCheckboxShowed] = useState(true);
   const setMode = () => {
     setPreview(!preview);
+    setIsCheckboxShowed(!isCheckboxShowed);
   };
-
   return (
     <div className={classNames(styles.tab, className)}>
       <div className={styles.buttons}>
-        {handleCheckbox
+        {handleCheckbox && isCheckboxShowed
           && (
           <div className={styles.see_diff}>
             <div className={styles.see_diff}>See difference</div>

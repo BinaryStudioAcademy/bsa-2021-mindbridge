@@ -1,12 +1,9 @@
 @import "../../../../styles/common.sass";
 
 .container {
-  padding-top: 6rem;
   padding-bottom: 2rem;
-  width: 50rem;
-  margin: auto;
   font-family: Lato;
-  overflow: auto;
+  height: 100vh;
 }
 
 .diff_container{
@@ -26,7 +23,7 @@
 .pr_is_closed, .pr_is_accepted{
   padding: 1.5rem;
   width: 100%;
-  border: 2px solid #F8F8F8;
+  border: 2px solid rgba(46, 164, 79, 0.4);
   border-radius: 1rem 1rem 1rem 1rem;
   display: flex;
   flex-direction: row;
@@ -85,7 +82,6 @@
       font-weight: bold !important;
       height: 2.2rem;
       min-width: 7rem;
-      font-size: 0.8rem !important;
   }
 }
 

@@ -23,6 +23,7 @@ import PullRequestPage from '@root/screens/PullRequest/containers/PullRequestPag
 import PostVersions from '@screens/PostVersions/containers/PostVersionsPage';
 import EditPrPage from '@root/screens/PostPage/containers/EditPrPage';
 import MyContributionsPage from '@root/screens/PostVersions/containers/MyContributionsPage';
+import { checkHeaderShown } from '@helpers/headerBlackList.hepler';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -39,13 +40,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
     });
   });
 
-  const checkHeaderShown = () => {
-    const headerBlackList = ['/login', '/registration'];
-
-    return headerBlackList.every(item => !history.location.pathname.startsWith(item));
-  };
   const [isHeaderShown, setIsHeaderShown] = useState(checkHeaderShown());
-
   history.listen(() => {
     setIsHeaderShown(checkHeaderShown());
   });
@@ -59,11 +54,10 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/login" component={LoginPage} />
         <PublicRoute exact path="/registration" component={RegistrationPage} />
         <PublicRoute exact path="/oauth2/resolve" component={oauth2handler} />
-        <PublicRoute exact path="/post/:id" component={ViewPost} />
+        <PublicRoute exact path="/post/:postId" component={ViewPost} />
         <PublicRoute exact path="/create/post" component={CreatePostPage} />
         <PublicRoute exact path="/profile" component={ProfilePage} />
         <PublicRoute exact path="/user/:userId" component={PublicProfilePage} />
-        <PublicRoute exact path="/post/:id" component={Default} />
         <PublicRoute exact path="/pullRequest/:id" component={PullRequestPage} />
         <PublicRoute exact path="/pullRequest/edit/:id" component={EditPrPage} />
         <PublicRoute exact path="/create/post" component={CreatePostPage} />
@@ -76,11 +70,6 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <div>
           <LoaderWrapper loading={isLoading}>
             <Switch>
-              {/* <PrivateRoute
-              exact
-              path="/private"
-              component={Private}
-            /> */}
               <PrivateRoute exact path="/create/post" component={CreatePostPage} />
               <Route path="/*">
                 <Redirect to="/public" />
