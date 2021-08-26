@@ -224,7 +224,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
         <div className={styles.profile_sidebar_container}>
           <ProfileSidebar
             id={userInfo.profile.id}
-            userName={userInfo.profile.fullName ?? userInfo.profile.nickname}
+            userName={userInfo.profile.nickname}
             avatar={userInfo.profile.avatar}
             folloversCount={userInfo.profile.followersQuantity}
             rating={userInfo.profile.rating}
