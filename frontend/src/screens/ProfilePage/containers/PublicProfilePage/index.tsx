@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
-import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import {
   fetchUserRoutine
 } from '@screens/ProfilePage/routines';
@@ -54,28 +53,6 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
             <div className={styles.profilePage}>
               <div className={styles.main}>
                 <PublicProfileCard user={userProfileData} isUserLoaded={isUserLoaded} />
-              </div>
-              <div className={styles.sidebar}>
-                {isAuthorized
-                  ? (
-                    <div className={styles.profileSideBar}>
-                      <ProfileSidebar
-                        id={currentUserInfo.id}
-                        userName={currentUserInfo.fullName ?? currentUserInfo.nickname}
-                        avatar={currentUserInfo.avatar}
-                        folloversCount={currentUserInfo.followersQuantity}
-                        rating={currentUserInfo.rating}
-                        postNotificationCount={currentUserInfo.postsQuantity}
-                      />
-                    </div>
-                  ) : (
-                    <div className={styles.logInSideBar}>
-                      <FeedLogInSidebar />
-                    </div>
-                  )}
-                <div className={styles.tagsSideBar}>
-                  <FeedTagsSideBar />
-                </div>
               </div>
             </div>
           ) : <NotFoundPage />}

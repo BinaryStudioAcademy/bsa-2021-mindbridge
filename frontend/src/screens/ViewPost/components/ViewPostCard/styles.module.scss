@@ -1,12 +1,13 @@
 :global(.ui.card).viewCard {
   display: flex;
   justify-content: space-between;
-  width: 85%;
   max-width: 100%;
-  margin: 3.8vw 0px -2em 13%;
-  padding-top: 3.5714rem;
   box-shadow: none;
   max-height: 28rem;
+  width: 100%;
+}
+:global(.ui.card>.content) {
+  padding: 0;
 }
 
 .postBody {

@@ -17,11 +17,10 @@ import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import {
   sendImageRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine, getPostVersionsRoutine,
-  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine, editPostRoutine, resetImageTagRoutine
+  fetchTagsRoutine, editPostRoutine, resetImageTagRoutine
 } from '../../routines';
 import { extractData } from '@screens/PostPage/reducers';
 import { IStateProfile } from '@screens/PostPage/models/IStateProfile';
-import HistorySidebar from '@components/PostHistorySidebar';
 import { Popup } from 'semantic-ui-react';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
@@ -81,9 +80,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
     fetchData,
     fetchTags,
     fetchPostPR,
-    editPost,
     getPostVersions,
-    versionsOfPost,
     preloader,
     imageTag,
     resetImageTag,
@@ -221,16 +218,6 @@ const EditPrPage: React.FC<IEditPrProps> = (
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
-        <div className={styles.profile_sidebar_container}>
-          <ProfileSidebar
-            id={userInfo.profile.id}
-            userName={userInfo.profile.nickname}
-            avatar={userInfo.profile.avatar}
-            folloversCount={userInfo.profile.followersQuantity}
-            rating={userInfo.profile.rating}
-            postNotificationCount={userInfo.profile.postsQuantity}
-          />
-        </div>
         {
           isLoading ? (
             <form className={styles.create_post_container}>

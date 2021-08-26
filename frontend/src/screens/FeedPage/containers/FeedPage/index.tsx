@@ -7,11 +7,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { RootState } from '@root/store';
 import { extractData, extractFetchDataLoading } from '@screens/FeedPage/reducers';
 import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
-import FeedLogInSidebar from '@components/FeedLogInSidebar';
-import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import LoaderWrapper from '@components/LoaderWrapper';
-import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
@@ -47,8 +44,8 @@ const params = {
 
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
-    isAuthorized, currentUser, fetchUserProfile, userInfo, likePost, likePostView,
-    disLikePostView, loadUser }
+    currentUser, fetchUserProfile, userInfo, likePost, likePostView,
+    disLikePostView, loadUser, isAuthorized }
 ) => {
   useEffect(() => {
     fetchData(params);
@@ -122,27 +119,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
             </p>
           )}
         </InfiniteScroll>
-      </div>
-      <div className={styles.sidebar}>
-        <div className={styles.feedPageSidebars}>
-          <div className={styles.logInSideBar}>
-            {isAuthorized ? (
-              <ProfileSidebar
-                id={userInfo.id}
-                userName={userInfo.nickname}
-                avatar={userInfo.avatar}
-                folloversCount={userInfo.followersQuantity}
-                rating={userInfo.rating}
-                postNotificationCount={userInfo.postsQuantity}
-              />
-            ) : (
-              <FeedLogInSidebar />
-            )}
-          </div>
-          <div className={styles.tagsSideBar}>
-            <FeedTagsSideBar />
-          </div>
-        </div>
       </div>
     </div>
   );

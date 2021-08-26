@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
-import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import ProfileCard from '@screens/ProfilePage/components/ProfileCard';
 import {
   openPasswordChangeModalRoutine,
@@ -79,11 +78,6 @@ const ProfilePage: React.FC<IProfilePageProps> = (
             sendNickname={sendNickname}
             openPasswordChangeModal={openPasswordChangeModal}
           />
-        </div>
-        <div className={styles.sidebar}>
-          <div className={styles.tagsSideBar}>
-            <FeedTagsSideBar />
-          </div>
         </div>
       </div>
     ) : (

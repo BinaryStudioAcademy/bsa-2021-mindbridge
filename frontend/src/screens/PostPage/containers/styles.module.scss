@@ -1,28 +1,18 @@
 @import "src/styles/common";
 
-.container {
-    height: 100vh;
-    padding-top: 8rem;
-    padding-bottom: 2rem;
-    font-family: Lato;
+.header_container{
+    position: fixed;
+    width: 100%;
+    z-index: 200;
 }
 
 .form_and_sidebar_container{
     height: 100%;
-    width: 80rem;
     margin: auto;
-}
-
-.profile_sidebar_container {
-    width: 28rem;
-    margin-left: 52rem;
-    position: fixed;
 }
 
 .create_post_container{
     position: relative;
-    width: 50rem;
-    height: 48rem;
     padding-bottom: 2rem;
     button{
         font-family: lato;
