@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { ACCESS_TOKEN } from '@screens/Login/constants/auth_constants';
-import {checkSidebarShown} from "@helpers/sidebarBlackList.helper";
-import {history} from "@helpers/history.helper";
-import Sidebar from "@screens/Sidebar/containers/SidebarPage";
+import { checkSidebarShown } from '@helpers/sidebarBlackList.helper';
+import { history } from '@helpers/history.helper';
+import Sidebar from '@screens/Sidebar/containers/SidebarPage';
 import styles from './styles.module.scss';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -33,11 +33,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
               <Sidebar />
             </div>
           );
-        } else {
-          return (
-            <Component {...props} />
-          );
         }
+        return (
+          <Component {...props} />
+        );
       }}
     />
   );

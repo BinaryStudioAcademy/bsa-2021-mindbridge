@@ -45,7 +45,7 @@ const params = {
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
     currentUser, fetchUserProfile, userInfo, likePost, likePostView,
-    disLikePostView, loadUser }
+    disLikePostView, loadUser, isAuthorized }
 ) => {
   useEffect(() => {
     fetchData(params);
