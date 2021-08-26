@@ -11,9 +11,10 @@ interface IPostInformationProps {
   date: string;
   nickname: string;
   avatar: string;
+  readTime: string;
 }
 
-const PostInformation: FunctionComponent<IPostInformationProps> = ({ id, nickname, date, avatar }) => (
+const PostInformation: FunctionComponent<IPostInformationProps> = ({ id, nickname, date, avatar, readTime }) => (
   <div className={styles.postHeaderInfo}>
     <Link to={`/user/${id}`}>
       <div className={styles.userBlock}>
@@ -30,7 +31,7 @@ const PostInformation: FunctionComponent<IPostInformationProps> = ({ id, nicknam
     </span>
     <DividerSvg />
     <span className={styles.additionalInformation}>
-      7 min
+      {readTime}
     </span>
   </div>
 );

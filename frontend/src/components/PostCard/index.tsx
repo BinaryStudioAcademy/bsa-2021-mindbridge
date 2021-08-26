@@ -14,6 +14,7 @@ import { IPost } from '@screens/FeedPage/models/IPost';
 import { Link } from 'react-router-dom';
 import TextRenderer from '../TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import readingTime from 'reading-time';
 
 interface IPostCardProps {
   post: IPost;
@@ -30,7 +31,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
           <PostHeaderInformation
             authorId={post.authorId}
             date={post.createdAt}
-            timeRead="7 min read"
+            timeRead={readingTime(post.text).text}
             authorName={post.nickname}
             avatar={post.avatar}
           />
