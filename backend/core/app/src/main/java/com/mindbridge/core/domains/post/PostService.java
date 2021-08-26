@@ -4,6 +4,8 @@ import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
+import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
+import com.mindbridge.core.domains.postVersion.dto.PostVersionsListDto;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
@@ -91,6 +93,7 @@ public class PostService {
 		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
 		post.setTags(tags);
 		var savedPost = postRepository.save(post);
+		postReactionService.setReaction(new ReceivedPostReactionDto(savedPost.getId(), createPostDto.getAuthor(), true));
 		elasticService.put(savedPost);
 		return savedPost.getId();
 	}
