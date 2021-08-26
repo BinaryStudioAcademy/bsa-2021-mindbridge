@@ -42,7 +42,7 @@ interface IState {
   allTags: [any];
   currentUserId: string;
   isLoading: boolean;
-  post?: {
+  post: {
     id: string;
     author: any;
     title: string;
@@ -116,6 +116,7 @@ const EditPost: React.FC<IEditPostProps> = (
   });
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isContentEmpty, setIsContentEmpty] = useState(false);
+  const [changesExist, setChangesExist] = useState(false);
 
   const { id } = useParams();
 
@@ -177,6 +178,14 @@ const EditPost: React.FC<IEditPostProps> = (
       resetLoadingImage();
     }
   });
+
+  const changeForm = data => {
+    setForm(data);
+    setChangesExist(!(data.title === post.title
+      && data.content === post.text
+      && data.tags.join() === Array.from(post.tags.map(tag => tag.id)).join()
+      && data.coverImage.url === post.coverImage));
+  };
 
   const changeEditViewMode = () => {
     setModes({
@@ -337,7 +346,7 @@ const EditPost: React.FC<IEditPostProps> = (
                     isCreateForm={false}
                     form={form}
                     modes={modes}
-                    setForm={setForm}
+                    setForm={changeForm}
                     sendImage={sendImage}
                     allTags={allTags}
                     imageTag={imageTag}
@@ -351,7 +360,7 @@ const EditPost: React.FC<IEditPostProps> = (
                 <DarkBorderButton content="Cancel" onClick={handleCancel} />
                 <DarkButton
                   content={submitButtonName}
-                  disabled={preloader.draftButton}
+                  disabled={preloader.draftButton || !changesExist}
                   loading={preloader.publishButton}
                   onClick={() => handleSendForm(false)}
                 />
