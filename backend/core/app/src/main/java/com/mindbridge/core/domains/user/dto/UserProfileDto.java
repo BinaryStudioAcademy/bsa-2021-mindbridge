@@ -23,7 +23,7 @@ public class UserProfileDto {
 
 	private String avatar;
 
-	private int rating;
+	private long rating;
 
 	private int commentsQuantity;
 

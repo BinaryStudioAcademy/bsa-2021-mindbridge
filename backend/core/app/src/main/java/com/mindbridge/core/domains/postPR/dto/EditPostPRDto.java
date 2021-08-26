@@ -7,8 +7,13 @@ import lombok.Data;
 
 @Data
 public class EditPostPRDto {
+
 	private UUID id;
+
 	private String title;
+
 	private String text;
+
 	private Set<UUID> tags;
+
 }

@@ -17,11 +17,10 @@ import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import {
   sendImageRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine, getPostVersionsRoutine,
-  fetchTagsRoutine, fetchPostRoutine, sendPRRoutine, editPostRoutine, resetImageTagRoutine
+  fetchTagsRoutine, editPostRoutine, resetImageTagRoutine
 } from '../../routines';
 import { extractData } from '@screens/PostPage/reducers';
 import { IStateProfile } from '@screens/PostPage/models/IStateProfile';
-import HistorySidebar from '@components/PostHistorySidebar';
 import { Popup } from 'semantic-ui-react';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
@@ -81,9 +80,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
     fetchData,
     fetchTags,
     fetchPostPR,
-    editPost,
     getPostVersions,
-    versionsOfPost,
     preloader,
     imageTag,
     resetImageTag,
@@ -109,6 +106,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
   });
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isContentEmpty, setIsContentEmpty] = useState(false);
+  const [changesExist, setChangesExist] = useState(false);
 
   const { id } = useParams();
 
@@ -137,14 +135,6 @@ const EditPrPage: React.FC<IEditPrProps> = (
   }, [id]);
 
   useEffect(() => {
-    if (currentUserId) {
-      fetchData(currentUserId);
-    }
-    fetchTags();
-    getPostVersions();
-  }, [currentUserId, fetchTags, getPostVersions]);
-
-  useEffect(() => {
     if (savingImage.isLoaded) {
       if (!savingImage.isInContent) {
         if (savingImage.url !== '0') {
@@ -169,6 +159,14 @@ const EditPrPage: React.FC<IEditPrProps> = (
     }
   });
 
+  const changeForm = data => {
+    setForm(data);
+    setChangesExist(!(data.title === postPR.title
+      && data.content === postPR.text
+      && data.tags.join() === Array.from(postPR.tags.map(tag => tag.id)).join()
+      && data.coverImage.url === postPR.coverImage));
+  };
+
   const changeEditViewMode = () => {
     setModes({
       ...modes,
@@ -191,6 +189,13 @@ const EditPrPage: React.FC<IEditPrProps> = (
   };
 
   const handleSendForm = () => {
+    if (!form.title || !form.content) {
+      setIsTitleEmpty(!form.title);
+      setIsContentEmpty(!form.content);
+      return;
+    }
+    setIsContentEmpty(false);
+    setIsTitleEmpty(false);
     const prOnEdit = {
       id: postPR.id,
       title: form.title,
@@ -213,16 +218,6 @@ const EditPrPage: React.FC<IEditPrProps> = (
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
-        <div className={styles.profile_sidebar_container}>
-          <ProfileSidebar
-            id={userInfo.profile.id}
-            userName={userInfo.profile.fullName ?? userInfo.profile.nickname}
-            avatar={userInfo.profile.avatar}
-            folloversCount={userInfo.profile.followersQuantity}
-            rating={userInfo.profile.rating}
-            postNotificationCount={userInfo.profile.postsQuantity}
-          />
-        </div>
         {
           isLoading ? (
             <form className={styles.create_post_container}>
@@ -315,7 +310,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
                     isCreateForm={false}
                     form={form}
                     modes={modes}
-                    setForm={setForm}
+                    setForm={changeForm}
                     sendImage={sendImage}
                     allTags={allTags}
                     imageTag={imageTag}
@@ -329,7 +324,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
                 <DarkBorderButton content="Cancel edition" onClick={handleCancel} />
                 <DarkButton
                   content={submitButtonName}
-                  disabled={preloader.draftButton}
+                  disabled={preloader.draftButton || !changesExist}
                   loading={preloader.publishButton}
                   onClick={() => handleSendForm()}
                 />

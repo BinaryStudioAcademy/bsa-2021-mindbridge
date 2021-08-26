@@ -1,10 +1,5 @@
 @import "src/styles/common";
 
-.container {
-    height: 100vh;
-    overflow-y: scroll;
-}
-
 .header_container{
     position: fixed;
     width: 100%;
@@ -13,21 +8,11 @@
 
 .form_and_sidebar_container{
     height: 100%;
-    width: 80rem;
     margin: auto;
-    margin-top: 8rem;
-}
-
-.profile_sidebar_container {
-    width: 28rem;
-    margin-left: 52rem;
-    position: fixed;
 }
 
 .create_post_container{
     position: relative;
-    width: 50rem;
-    height: 48rem;
     padding-bottom: 2rem;
     button{
         font-family: lato;
@@ -120,7 +105,6 @@
         min-width: 7rem;
         margin-left: 0.6rem;
         margin-right: 0.6rem;
-        font-size: 0.8rem !important;
     }
 }
 

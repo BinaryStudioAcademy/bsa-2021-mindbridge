@@ -31,7 +31,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
             authorId={post.authorId}
             date={post.createdAt}
             timeRead="7 min read"
-            authorName={post.authorName}
+            authorName={post.nickname}
             avatar={post.avatar}
           />
           <div className={styles.leftSide}>

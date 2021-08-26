@@ -1,4 +1,4 @@
-import { acceptPrRoutine, fetchPrRoutine, editPrRoutine } from '../../PullRequest/routines/index';
+import { fetchPrRoutine, editPrRoutine } from '../../PullRequest/routines/index';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
@@ -14,7 +14,7 @@ import {
   resetLoadingImageRoutine,
   sendImageRoutine, sendPostRoutine, sendPRRoutine, setLoaderRoutine
 } from '@screens/PostPage/routines';
-import { IPostPR } from '@root/screens/PullRequest/models/IPostPR';
+import { IPostPR, PrState } from '@root/screens/PullRequest/models/IPostPR';
 
 export interface IPostPageReducerState {
   savingImage: {
@@ -71,7 +71,7 @@ const initialState: IPostPageReducerState = {
     draftButton: false
   },
   postPR: {
-    closed: false,
+    state: PrState.closed,
     contributor: { id: '', nickname: '', avatar: '', lastName: '', firstName: '' },
     coverImage: '',
     createdAt: '',

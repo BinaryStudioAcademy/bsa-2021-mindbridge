@@ -47,7 +47,6 @@ public class PostPRController {
 	@PutMapping("accept/{id}")
 	public void acceptPR(@PathVariable UUID id) {
 		postPRService.acceptPR(id);
-		postPRService.closePR(id);
 	}
 
 	@PostMapping("/edit")

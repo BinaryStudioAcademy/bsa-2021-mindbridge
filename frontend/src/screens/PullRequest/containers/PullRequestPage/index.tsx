@@ -7,7 +7,7 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import { acceptPrRoutine, closePrRoutine, fetchPrRoutine, resetEndSendingDataRoutine } from '../../routines';
 import TextDiff from '@root/components/TextDiff';
-import { IPostPR } from '../../models/IPostPR';
+import { IPostPR, PrState } from '../../models/IPostPR';
 import Tab from '../../components/Tab';
 import Preview from '../../components/Preview';
 import AuthorAndDate from '../../components/AuthorAndDate';
@@ -83,8 +83,6 @@ const PullRequest: React.FC<IPullRequestProps> = (
       className={styles.contributor}
       avatar={postPR.contributor.avatar}
       nickname={postPR.contributor.nickname}
-      lastName={postPR.contributor.lastName}
-      firstName={postPR.contributor.firstName}
       date={postPR.createdAt}
       id={postPR.contributor.id}
       readTime="2 min"
@@ -128,16 +126,34 @@ const PullRequest: React.FC<IPullRequestProps> = (
     );
   }
 
-  const prIsClosed = (
-    <div className={styles.pr_is_closed}>
-      <div className={styles.round_image}>✔</div>
-      <span>Pull request is closed</span>
-    </div>
-  );
+  let prState;
+  switch (postPR.state) {
+    case PrState.closed:
+      prState = (
+        <div className={styles.pr_is_closed}>
+          <div className={styles.round_image}>✖</div>
+          <span>Pull request is closed</span>
+        </div>
+      );
+      break;
+    case PrState.accepted:
+      prState = (
+        <div className={styles.pr_is_accepted}>
+          <div className={styles.round_image}>✔</div>
+          <span>Pull request is accepted</span>
+        </div>
+      );
+      break;
+    case PrState.open:
+      prState = null;
+      break;
+    default:
+      prState = null;
+  }
 
   const previewContent = (
     <div>
-      {postPR.closed && prIsClosed}
+      {prState}
       {contributor}
       <div className={styles.diff_container}>
         <Preview
@@ -153,7 +169,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   const diffContent = (
     <div>
-      {postPR.closed && prIsClosed}
+      {prState}
       {contributor}
       <div className={styles.diff_container}>
         <div className={styles.divider} />
@@ -171,7 +187,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   const raw = (
     <div>
-      {postPR.closed && prIsClosed}
+      {prState}
       {contributor}
       <div className={styles.diff_container}>
         <div className={styles.divider} />
@@ -201,7 +217,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
         handleCheckbox={handleCheckbox}
         seeDiff={seeDiff}
       />
-      {!postPR.closed && buttons}
+      {postPR.state === PrState.open && buttons}
     </div>
   );
 };
