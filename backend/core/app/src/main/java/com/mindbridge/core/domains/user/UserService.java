@@ -90,7 +90,7 @@ public class UserService implements UserDetailsService {
 		user.setUserReactions(userReactions.stream().map(UserReactionsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
-		long rating = postReactionRepository.calcUserPostRating(userId) + commentReactionRepository.calcUserCommentRating(userId) / 2;
+		long rating = postReactionRepository.calcUserPostRating(userId) + (commentReactionRepository.calcUserCommentRating(userId) / 2);
 		user.setRating(rating);
 		return user;
 	}
