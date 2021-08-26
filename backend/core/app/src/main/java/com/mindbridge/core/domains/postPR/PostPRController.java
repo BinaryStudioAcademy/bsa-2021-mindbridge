@@ -47,7 +47,6 @@ public class PostPRController {
 	@PutMapping("accept/{id}")
 	public void acceptPR(@PathVariable UUID id) {
 		postPRService.acceptPR(id);
-		postPRService.closePR(id);
 	}
 
 	@PostMapping("/edit")
@@ -60,4 +59,5 @@ public class PostPRController {
 			@RequestParam(defaultValue = "4") Integer count) {
 		return postPRService.getPostPRByPostId(id, from, count);
 	}
+
 }

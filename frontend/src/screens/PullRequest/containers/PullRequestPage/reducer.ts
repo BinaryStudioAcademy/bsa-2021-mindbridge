@@ -1,6 +1,6 @@
 import { acceptPrRoutine, closePrRoutine, resetEndSendingDataRoutine, fetchPrRoutine } from '../../routines/index';
-import { createReducer } from '@reduxjs/toolkit';
-import { IPostPR } from '../../models/IPostPR';
+import { createReducer, PayloadAction } from '@reduxjs/toolkit';
+import { IPostPR, PrState } from '../../models/IPostPR';
 
 export interface IPullRequestReducerState {
   postPR: IPostPR;
@@ -9,7 +9,7 @@ export interface IPullRequestReducerState {
 
 const initialState: IPullRequestReducerState = {
   postPR: {
-    closed: false,
+    state: PrState.closed,
     contributor: { id: '', nickname: '', avatar: '', lastName: '', firstName: '' },
     coverImage: '',
     createdAt: '',
@@ -38,13 +38,13 @@ export const pullRequestReducer = createReducer(initialState, {
     state.postPR = action.payload;
   },
   [closePrRoutine.SUCCESS]: state => {
-    state.postPR.closed = true;
+    state.postPR.state = PrState.closed;
   },
   [closePrRoutine.FULFILL]: state => {
     state.endSendingData = true;
   },
   [acceptPrRoutine.SUCCESS]: state => {
-    state.postPR.closed = true;
+    state.postPR.state = PrState.closed;
   },
   [acceptPrRoutine.FULFILL]: state => {
     state.endSendingData = true;
