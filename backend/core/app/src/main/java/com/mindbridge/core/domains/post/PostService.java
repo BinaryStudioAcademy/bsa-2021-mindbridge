@@ -93,7 +93,7 @@ public class PostService {
 		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
 		post.setTags(tags);
 		var savedPost = postRepository.save(post);
-		//elasticService.put(savedPost);
+		// elasticService.put(savedPost);
 		return savedPost.getId();
 	}
 
