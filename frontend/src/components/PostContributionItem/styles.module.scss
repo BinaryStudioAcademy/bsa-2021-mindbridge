@@ -1,3 +1,5 @@
+@import "../../styles/common.sass";
+
 .versionItem {
   font-family: Lato, sans-serif;
   font-style: normal;
@@ -49,5 +51,14 @@
     &:hover {
       color: #66B9FF;
     }
+  }
+
+  .state{
+    background-color: $light-blue;
+    color: #7780a1;
+    padding: 1rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    border-radius: 0.8rem/50%;
   }
 }

@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
-import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { Image } from 'semantic-ui-react';
 import DividerSvg from '@components/FeedSvgComponents/dividerSvg';
 import { Link, useHistory } from 'react-router-dom';
@@ -37,7 +36,7 @@ const PostContributionItem: FunctionComponent<IPostContributionItemProps> = ({ p
         <DividerSvg />
         <span className={styles.postHeaderInfo}>{postContribution.createdAt}</span>
       </div>
-      <div>{postContribution.state}</div>
+      <div className={styles.state}>{postContribution.state}</div>
     </div>
   );
 };

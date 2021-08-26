@@ -19,6 +19,7 @@ import LoaderWrapper from '@root/components/LoaderWrapper';
 import { history } from '@helpers/history.helper';
 import ClosedPRSvg from '@root/components/MyContributionsItem/svg/closedPrSvg';
 import OpenSvg from '@root/components/MyContributionsItem/svg/openSvg';
+import GoBackButton from '@root/components/buttons/GoBackButton';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -94,9 +95,11 @@ const PullRequest: React.FC<IPullRequestProps> = (
   );
 
   let buttons;
+
   if (postPR.post.author.id === currentUser.id) {
     buttons = (
       <div className={styles.footer}>
+        <GoBackButton />
         <DarkBorderButton
           loading={preloader.firstButton}
           disabled={preloader.firstButton || preloader.secondButton}
@@ -114,6 +117,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
   } else if (postPR.contributor.id === currentUser.id) {
     buttons = (
       <div className={styles.footer}>
+        <GoBackButton />
         <DarkBorderButton
           loading={preloader.firstButton}
           disabled={preloader.firstButton || preloader.secondButton}
@@ -126,6 +130,20 @@ const PullRequest: React.FC<IPullRequestProps> = (
           content="Edit"
           onClick={handleEditPR}
         />
+      </div>
+    );
+  } else {
+    buttons = (
+      <div className={styles.footer}>
+        <GoBackButton />
+      </div>
+    );
+  }
+
+  if (postPR.state !== PrState.open) {
+    buttons = (
+      <div className={styles.footer}>
+        <GoBackButton />
       </div>
     );
   }
@@ -221,7 +239,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
         handleCheckbox={handleCheckbox}
         seeDiff={seeDiff}
       />
-      {postPR.state === PrState.open && buttons}
+      {buttons}
     </div>
   );
 };
