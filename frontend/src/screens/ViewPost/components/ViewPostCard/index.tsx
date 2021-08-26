@@ -12,9 +12,7 @@ import TextRenderer from '@root/components/TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
-import TextSelector from 'text-selection-react';
 import GetCursorPosition from 'cursor-position';
-import HighlightComponent from '@components/HighlightComponent';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -26,20 +24,27 @@ interface IViewPostCardProps {
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, handleLikePost,
   handleDisLikePost, userInfo }) => {
   const history = useHistory();
+  const [xStart, setXStart] = useState(0);
+  const [xEnd, setXEnd] = useState(0);
   const [xPos, setXPos] = useState(0);
+  const [yStart, setYStart] = useState(0);
   const [yPos, setYPos] = useState(0);
   const [isPopUpShown, setIsPopUpShown] = useState(false);
   const goToEdit = () => {
     history.push(`/post/edit/${post.id}`);
   };
 
-  // document.addEventListener('mousemove', () => {
-  //   const { x, y } = GetCursorPosition();
-  //   console.log(x, y);
-  // });
   const handleMouseUp = () => {
-    console.log(`Selected text: ${window.getSelection().toString()}`);
-    setIsPopUpShown(true);
+    const { x } = GetCursorPosition({ scroll: true });
+    if (!window.getSelection().toString()) {
+      setIsPopUpShown(false);
+    } else {
+      setYPos(yStart);
+      const dist = (xStart - 98) + (x - xStart) / 2;
+      console.log(dist);
+      setXPos(dist);
+      setIsPopUpShown(true);
+    }
   };
 
   const handleClosePopUp = () => {
@@ -47,9 +52,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
   };
 
   const handleMouseDown = () => {
-    const { x, y } = GetCursorPosition();
-    setXPos(x);
-    setYPos(y);
+    const { x, y } = GetCursorPosition({ scroll: true });
+    setXStart(x);
+    setYStart(y);
   };
   return (
     <Card className={styles.viewCard}>
@@ -125,9 +130,10 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
         <div onMouseUp={handleMouseUp} onMouseDown={handleMouseDown}>
           <Popup
             open={isPopUpShown}
-            style={{ top: `${0}px`, left: '0px' }}
+            style={{ transform: `translate3d(${xPos}px, ${yPos - 85}px, 0px)` }}
             position="top center"
             content={<Button color="green" content="Confirm the launch" onClick={handleClosePopUp} />}
+            pinned
             trigger={(
               <TextRenderer
                 className={styles.content}
