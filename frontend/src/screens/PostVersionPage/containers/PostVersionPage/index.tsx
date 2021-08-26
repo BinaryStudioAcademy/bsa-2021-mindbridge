@@ -40,8 +40,6 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
         id={postVersion.author.id}
         avatar={postVersion.author.avatar}
         nickname={postVersion.author.nickname}
-        lastName={postVersion.author.lastName}
-        firstName={postVersion.author.firstName}
         date={postVersion.createdAt}
         readTime="2 min"
       />
