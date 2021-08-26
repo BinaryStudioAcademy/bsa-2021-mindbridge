@@ -25,13 +25,23 @@ const MyContributionItem: FunctionComponent<IMyContributionsItemProps> = ({ cont
   let stateImg;
   switch (contribution.state) {
     case PrState.closed:
-      stateImg = <div className={styles.round_image}><ClosedPRSvg /></div>
+      stateImg = <div className={styles.round_image}><ClosedPRSvg /></div>;
       break;
     case PrState.accepted:
-      stateImg = <div className={styles.round_image}><AcceptedSvg /> </div>
+      stateImg = (
+        <div className={styles.round_image}>
+          <AcceptedSvg />
+          {' '}
+        </div>
+      );
       break;
     case PrState.open:
-      stateImg = <div className={styles.round_image}><OpenSvg /> </div>
+      stateImg = (
+        <div className={styles.round_image}>
+          <OpenSvg />
+          {' '}
+        </div>
+      );
       break;
     default:
       stateImg = null;

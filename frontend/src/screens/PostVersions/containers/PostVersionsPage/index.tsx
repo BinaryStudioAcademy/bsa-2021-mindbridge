@@ -80,29 +80,30 @@ const PostVersions: React.FC<IPostVersionsProps> = (
   };
 
   const contributionsList = [];
-  seeOpenPRs ? (
+
+  if (seeOpenPRs) {
     contributionsOfPost.forEach(contribution => {
       if (contribution.state === PrState.open) {
-        contributionsList.push
-          (
-            <PostVersionItem
-              key={contribution.id}
-              postVersion={contribution}
-              isVersion={isVersions}
-            />
-          )
+        contributionsList.push(
+          <PostVersionItem
+            key={contribution.id}
+            postVersion={contribution}
+            isVersion={isVersions}
+          />
+        );
       }
-    })
-  ) : contributionsOfPost.forEach(contribution => {
-    contributionsList.push(
-      <PostVersionItem
-        key={contribution.id}
-        postVersion={contribution}
-        isVersion={isVersions}
-      />
-    )
+    });
+  } else {
+    contributionsOfPost.forEach(contribution => {
+      contributionsList.push(
+        <PostVersionItem
+          key={contribution.id}
+          postVersion={contribution}
+          isVersion={isVersions}
+        />
+      );
+    });
   }
-  )
 
   return (
     <div className={styles.postVersions}>
@@ -113,7 +114,8 @@ const PostVersions: React.FC<IPostVersionsProps> = (
           of post
         </h3>
         <h2 className={styles.postName}>{postTitle}</h2>
-        {!isVersions &&
+        {!isVersions
+          && (
           <div className={styles.see_open}>
             <input type="checkbox" checked={seeOpenPRs} />
             {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions,
@@ -121,7 +123,7 @@ const PostVersions: React.FC<IPostVersionsProps> = (
             <div onClick={handleCheckbox} />
             <div className={styles.checkbox_label}>Show only open pull requests</div>
           </div>
-        }
+          )}
         {isVersions ? (
           versionsOfPost.map(version => (
             <PostVersionItem
@@ -130,8 +132,7 @@ const PostVersions: React.FC<IPostVersionsProps> = (
               isVersion={isVersions}
             />
           ))
-        ) : contributionsList
-        }
+        ) : contributionsList}
         {!versionsOfPost && !contributionsOfPost && (
           <p>
             🔍 Seems like there are no result...
