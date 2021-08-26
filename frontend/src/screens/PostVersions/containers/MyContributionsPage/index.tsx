@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
-import ProfileSidebar from '@components/ProfileSidebar';
-import FeedTagsSideBar from '@components/FeedTagsSideBar';
-import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
@@ -68,27 +65,6 @@ const MyContributions: React.FC<IMyContributionsProps> = (
             🔍 Seems like there are no result...
           </p>
         )}
-      </div>
-      <div className={styles.sidebar}>
-        <div className={styles.feedPageSidebars}>
-          <div className={styles.logInSideBar}>
-            {isAuthorized ? (
-              <ProfileSidebar
-                id={userInfo.id}
-                userName={userInfo.fullName}
-                avatar={userInfo.avatar}
-                folloversCount={userInfo.followersQuantity}
-                rating={userInfo.rating}
-                postNotificationCount={userInfo.postsQuantity}
-              />
-            ) : (
-              <FeedLogInSidebar />
-            )}
-          </div>
-          <div className={styles.tagsSideBar}>
-            <FeedTagsSideBar />
-          </div>
-        </div>
       </div>
     </div>
   );

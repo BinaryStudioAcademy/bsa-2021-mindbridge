@@ -1,22 +1,15 @@
 .postVersions {
-  height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 550px;
-  grid-template-areas:
-      "main sidebar"
-;
-  grid-gap: 1rem;
-  grid-row-gap: 0;
-}
-.main {
-  margin-top: 8.8em;
-  margin-bottom: 4.8em;
-  grid-area: main;
   min-width: 43.75em;
-  margin-left: 10rem;
 
   h3 {
     margin-bottom: 1.5rem;
+  }
+  .postName {
+    margin: 1rem 0 0.8rem 0;
+    font-family: Libre Baskerville, sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 120%;
   }
 }
 
@@ -33,6 +26,3 @@
     margin-bottom: 2em;
   }
 }
-
-
-
