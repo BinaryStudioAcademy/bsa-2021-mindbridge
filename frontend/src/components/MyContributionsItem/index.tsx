@@ -9,7 +9,6 @@ import { timeToLocal } from '@helpers/dataTimeToLocalData';
 import AcceptedSvg from './svg/acceptedSvg';
 import ClosedPRSvg from './svg/closedPrSvg';
 import OpenSvg from './svg/openSvg';
-import { Popup } from 'semantic-ui-react';
 
 export interface IMyContributionsItemProps {
   contribution: IPostPR;
@@ -55,7 +54,7 @@ const MyContributionItem: FunctionComponent<IMyContributionsItemProps> = ({ cont
         <div className={styles.dot}><DividerSvg /></div>
         <span className={styles.postHeaderInfo}>{contribution.title}</span>
       </div>
-      <div>{contribution.state}</div>
+      <div className={styles.state}>{contribution.state}</div>
     </div>
   );
 };
