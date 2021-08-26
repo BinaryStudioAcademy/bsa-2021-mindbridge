@@ -14,6 +14,7 @@ import { IContribution } from '@screens/ViewPost/models/IContribution';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
 import { PrState } from '@root/screens/PullRequest/models/IPostPR';
+import PostContributionItem from '@root/components/PostContributionItem';
 
 export interface IPostVersionsProps extends IState, IActions {
 }
@@ -85,10 +86,9 @@ const PostVersions: React.FC<IPostVersionsProps> = (
     contributionsOfPost.forEach(contribution => {
       if (contribution.state === PrState.open) {
         contributionsList.push(
-          <PostVersionItem
+          <PostContributionItem
             key={contribution.id}
-            postVersion={contribution}
-            isVersion={isVersions}
+            postContribution={contribution}
           />
         );
       }
@@ -96,11 +96,10 @@ const PostVersions: React.FC<IPostVersionsProps> = (
   } else {
     contributionsOfPost.forEach(contribution => {
       contributionsList.push(
-        <PostVersionItem
-          key={contribution.id}
-          postVersion={contribution}
-          isVersion={isVersions}
-        />
+        <PostContributionItem
+            key={contribution.id}
+            postContribution={contribution}
+          />
       );
     });
   }
@@ -129,7 +128,6 @@ const PostVersions: React.FC<IPostVersionsProps> = (
             <PostVersionItem
               key={version.id}
               postVersion={version}
-              isVersion={isVersions}
             />
           ))
         ) : contributionsList}
