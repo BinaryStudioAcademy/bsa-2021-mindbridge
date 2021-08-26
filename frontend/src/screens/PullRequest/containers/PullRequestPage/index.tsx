@@ -17,6 +17,8 @@ import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import DarkButton from '@root/components/buttons/DarcButton';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 import { history } from '@helpers/history.helper';
+import ClosedPRSvg from '@root/components/MyContributionsItem/svg/closedPrSvg';
+import OpenSvg from '@root/components/MyContributionsItem/svg/openSvg';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -115,7 +117,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
         <DarkBorderButton
           loading={preloader.firstButton}
           disabled={preloader.firstButton || preloader.secondButton}
-          content="Close"
+          content="Close PR"
           onClick={handleClosePR}
         />
         <DarkButton
@@ -133,7 +135,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
     case PrState.closed:
       prState = (
         <div className={styles.pr_is_closed}>
-          <div className={styles.round_image}>✖</div>
+          <div className={styles.round_image}><ClosedPRSvg /></div>
           <span>Pull request is closed</span>
         </div>
       );
@@ -141,7 +143,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
     case PrState.accepted:
       prState = (
         <div className={styles.pr_is_accepted}>
-          <div className={styles.round_image}>✔</div>
+          <div className={styles.round_image}><OpenSvg /></div>
           <span>Pull request is accepted</span>
         </div>
       );

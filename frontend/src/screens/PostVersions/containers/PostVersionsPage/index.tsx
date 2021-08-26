@@ -97,9 +97,9 @@ const PostVersions: React.FC<IPostVersionsProps> = (
     contributionsOfPost.forEach(contribution => {
       contributionsList.push(
         <PostContributionItem
-            key={contribution.id}
-            postContribution={contribution}
-          />
+          key={contribution.id}
+          postContribution={contribution}
+        />
       );
     });
   }

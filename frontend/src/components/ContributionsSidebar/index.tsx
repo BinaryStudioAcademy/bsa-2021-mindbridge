@@ -23,7 +23,8 @@ const ContributionsSidebar: FunctionComponent<IContributionsSidebarProps> = ({ c
             to={`/user/${contribution.author.id}`}
             className={styles.userName}
           >
-            @{contribution.author.nickname}
+            @
+            {contribution.author.nickname}
           </Link>
           <div className={styles.dot} />
           <Link to={`/pullRequest/${contribution.id}`}>{contribution.createdAt}</Link>
