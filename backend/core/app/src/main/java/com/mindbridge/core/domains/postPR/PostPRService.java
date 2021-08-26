@@ -8,6 +8,7 @@ import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRListDto;
 import com.mindbridge.data.domains.postPR.PostPRRepository;
 import com.mindbridge.data.domains.postPR.model.PostPR;
+import com.mindbridge.data.domains.postPR.model.PostPR.State;
 import com.mindbridge.data.domains.tag.TagRepository;
 import java.util.HashSet;
 import java.util.UUID;
@@ -44,7 +45,7 @@ public class PostPRService {
 		var postPR = PostPRMapper.MAPPER.createPostPRDtoToPostPr(createPostPRDto);
 		var tags = new HashSet<>(tagRepository.findAllById(createPostPRDto.getTags()));
 		postPR.setTags(tags);
-
+		postPR.setState(State.open);
 		postPRRepository.save(postPR);
 	}
 
@@ -60,6 +61,7 @@ public class PostPRService {
 		PostPR postPR = postPRRepository.getOne(id);
 		EditPostDto editPostDto = EditPostDto.fromPostPR(postPR);
 		postService.editPost(editPostDto);
+		postPRRepository.setPRAccepted(id);
 	}
 
 	public List<PostPRListDto> getPostPRByPostId(UUID id, Integer from, Integer count) {
