@@ -97,6 +97,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
                 date={post.createdAt}
                 avatar={post.author.avatar}
                 readTime={readingTime(post.text).text}
+                draft={post.draft}
               />
             </div>
           </Feed>

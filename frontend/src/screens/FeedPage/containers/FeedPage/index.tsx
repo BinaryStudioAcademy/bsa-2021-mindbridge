@@ -87,7 +87,9 @@ const FeedPage: React.FC<IFeedPageProps> = (
 
   if ((dataLoading && !loadMore) || (!userInfo.id && isAuthorized)) {
     return (
-      <LoaderWrapper loading={dataLoading} />
+      <div>
+        <LoaderWrapper loading={dataLoading} />
+      </div>
     );
   }
 

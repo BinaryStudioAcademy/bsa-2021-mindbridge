@@ -1,0 +1,34 @@
+.draftItem {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid #F8F8F8;
+  margin-bottom: 1rem;
+}
+.upper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  .leftSide {
+    display: flex;
+    align-items: center;
+
+    a {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 20rem;
+    }
+
+  }
+
+  img {
+    max-height: 4rem;
+    border-radius: 0.5rem;
+  }
+}
