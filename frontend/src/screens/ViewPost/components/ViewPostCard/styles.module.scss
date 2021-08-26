@@ -10,14 +10,28 @@
   padding: 0;
 }
 
+.postBody {
+  margin-left: 10.3rem;
+}
+
+.cardContent {
+  width: 81em;
+  border: 2px solid #F8F8F8;
+  box-sizing: border-box;
+}
+
+:global(.ui.card>:only-child) {
+  border-radius: 10px !important;
+}
+
 .btnWrapper {
-  margin: 1em 0 1.5em 1em;
+  margin: 1em 0 1.5em 2.875rem;
 }
 
 .cardHeader {
   display: flex;
   justify-content: space-between;
-  margin-left: 1em;
+  margin-left: 2.875rem;
   padding-right: 1em;
 }
 
@@ -27,11 +41,12 @@
 }
 
 .postName {
-  margin: 3rem 0 0 0.8rem;
+  margin: 3rem 0 0 2.875rem;
   font-family: Libre Baskerville, sans-serif;
   font-weight: bold;
   font-size: 40px;
   line-height: 120%;
+  color: #353535;
 }
 
 .content {
@@ -42,6 +57,7 @@
   line-height: 145%;
   font-style: normal;
   font-weight: 400;
+  width: 61rem;
   margin-bottom: 15vh;
 }
 
@@ -87,8 +103,7 @@
 }
 
 .ratingComponent {
-  padding-top: 0.0125rem;
-  padding-left: 1rem;
+  margin-top: -0.8571rem;
 }
 
 
