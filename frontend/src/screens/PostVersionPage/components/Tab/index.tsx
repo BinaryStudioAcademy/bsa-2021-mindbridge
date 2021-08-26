@@ -10,9 +10,10 @@ interface ITabProps {
   diffContent: any;
   seeDiff?: boolean;
   handleCheckbox?: MouseEventHandler<HTMLSpanElement>;
+  isCheckboxShown: boolean;
 }
 
-const Tab = ({ className, previewContent, diffContent, seeDiff, handleCheckbox }: ITabProps) => {
+const Tab = ({ className, previewContent, diffContent, seeDiff, handleCheckbox, isCheckboxShown }: ITabProps) => {
   const [preview, setPreview] = useState(false);
   const [isCheckboxShowed, setIsCheckboxShowed] = useState(true);
   const setMode = () => {
@@ -23,17 +24,22 @@ const Tab = ({ className, previewContent, diffContent, seeDiff, handleCheckbox }
     <div className={classNames(styles.tab, className)}>
       <div className={styles.buttons}>
         {handleCheckbox && isCheckboxShowed
-          && (
-          <div className={styles.see_diff}>
-            <div className={styles.see_diff}>See difference</div>
-            <span>
-              <input type="checkbox" checked={seeDiff} />
-              {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions,
-              jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-              <div onClick={handleCheckbox} />
-            </span>
-          </div>
-          )}
+        && (
+        <div className={styles.see_diff}>
+          <div className={styles.see_diff}>{isCheckboxShown ? ('See difference') : ('')}</div>
+          {isCheckboxShown
+            ? (
+              <span>
+                <input type="checkbox" checked={seeDiff} />
+                {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions,
+                jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+                <div onClick={handleCheckbox} />
+              </span>
+            ) : (
+              <div className={styles.noVersions}>this is first version</div>
+            )}
+        </div>
+        )}
         <ColorlessButton
           className={classNames(styles.diffButton, !preview && styles.active)}
           onClick={setMode}
