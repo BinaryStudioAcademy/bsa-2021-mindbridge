@@ -96,10 +96,12 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
   };
 
   const handleTags = (event: any, data: any) => {
-    setForm({
-      ...form,
-      tags: data.value
-    });
+    if (data.value.length <= 5) {
+      setForm({
+        ...form,
+        tags: data.value
+      });
+    }
   };
 
   const closeCoverImage = () => {
@@ -208,7 +210,14 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
       />
 
       {dropzoneOrTag}
-      <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
+      <Popup
+        trigger={(
+          <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
+        )}
+        content="Max amount of tags has reached"
+        open={form.tags.length === 5}
+        position="left center"
+      />
     </div>
   );
 };
