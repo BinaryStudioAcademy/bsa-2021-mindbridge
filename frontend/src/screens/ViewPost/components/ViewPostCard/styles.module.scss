@@ -1,13 +1,16 @@
-:global(.ui.card).viewCard {
-  display: flex;
-  justify-content: space-between;
-  max-width: 100%;
-  box-shadow: none;
-  max-height: 28rem;
-  width: 100%;
-}
-:global(.ui.card>.content) {
-  padding: 0;
+.container {
+  :global(.ui.card).viewCard {
+    display: flex;
+    justify-content: space-between;
+    max-width: 100%;
+    box-shadow: none;
+    width: 100%;
+    margin-bottom: 15vh;
+  }
+
+  :global(.ui.card>:only-child) {
+    border-radius: 10px !important;
+  }
 }
 
 .postBody {
@@ -18,10 +21,6 @@
   width: 81em;
   border: 2px solid #F8F8F8;
   box-sizing: border-box;
-}
-
-:global(.ui.card>:only-child) {
-  border-radius: 10px !important;
 }
 
 .btnWrapper {
@@ -58,7 +57,6 @@
   font-style: normal;
   font-weight: 400;
   width: 61rem;
-  margin-bottom: 15vh;
 }
 
 .image {
