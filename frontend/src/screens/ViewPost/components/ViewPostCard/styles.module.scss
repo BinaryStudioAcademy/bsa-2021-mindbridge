@@ -6,6 +6,7 @@
     box-shadow: none;
     max-height: 28rem;
     width: 100%;
+    margin-bottom: 15vh;
   }
 
   :global(.ui.card>:only-child) {
@@ -57,7 +58,6 @@
   font-style: normal;
   font-weight: 400;
   width: 61rem;
-  margin-bottom: 15vh;
 }
 
 .image {
