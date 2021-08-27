@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Card, Feed } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
@@ -14,7 +14,6 @@ import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
 import readingTime from 'reading-time';
 import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
-import { IComment } from '@screens/ViewPost/models/IComment';
 
 interface IViewPostCardProps {
   post: IPost;

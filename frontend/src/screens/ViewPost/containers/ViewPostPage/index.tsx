@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
@@ -17,13 +17,6 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { disLikePostViewRoutine, likePostViewRoutine }
   from '@screens/PostPage/routines';
-import HistorySidebar from '@components/PostHistorySidebar';
-import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
-import { useScroll } from '@helpers/scrollPosition.helper';
-import ContributionsSidebar from '@components/ContributionsSidebar';
-import { fetchPostContributionsRoutine } from '@screens/PostVersions/routines';
-import { IContribution } from '@screens/ViewPost/models/IContribution';
-import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 
 export interface IViewPostProps extends IState, IActions {
