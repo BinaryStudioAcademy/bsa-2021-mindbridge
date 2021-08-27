@@ -4,6 +4,7 @@ import com.mindbridge.core.domains.comment.dto.CommentDto;
 import com.mindbridge.core.domains.comment.dto.CreateCommentDto;
 import com.mindbridge.core.domains.comment.dto.ReplyCommentDto;
 import com.mindbridge.data.domains.comment.CommentRepository;
+import com.mindbridge.data.domains.comment.model.Comment;
 import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
