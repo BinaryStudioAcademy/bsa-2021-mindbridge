@@ -1,6 +1,7 @@
 .container {
-  :global(.ui.card:last-child) {
-    margin-bottom: 10px;
-    box-shadow: rgb(230, 230, 230);
+  .pageTitle {
+    color: #353535;
+    font-family: 'Lato', sans-serif;
+    font-size: 2rem;
   }
 }

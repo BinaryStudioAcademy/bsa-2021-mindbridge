@@ -1,11 +1,11 @@
 .container {
   :global(.ui.card) {
-    margin-bottom: 10px;
-    box-shadow: rgb(230, 230, 230) 0px 1px 4px;
+    box-shadow: rgb(230, 230, 230) 0 1px 4px;
     border: 1px solid rgba(230, 230, 230, 1);
     min-width: 50rem;
     min-height: 10rem;
     padding-bottom: 1rem;
+    margin-top: 2em;
   }
 
   .quoteText {
@@ -25,5 +25,6 @@
   .arrowDown {
     text-align: -webkit-right;
     padding-right: 1rem;
+    cursor: pointer;
   }
 }

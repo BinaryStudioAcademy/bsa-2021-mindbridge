@@ -27,6 +27,9 @@ const HighlightsPage: React.FC<IHighlightsProps> = (
   }, []);
   return (
     <div className={classNames('content_wrapper', styles.container)}>
+      <div className={styles.pageTitle}>
+        Your highlights
+      </div>
       {highlights
           && highlights.map(highlight => (
             <HighlightCard key={highlight.id} highlight={highlight} />))}

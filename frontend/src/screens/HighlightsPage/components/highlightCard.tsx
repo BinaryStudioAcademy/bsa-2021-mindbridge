@@ -26,7 +26,7 @@ const HighlightCard: FunctionComponent<IHighlightCardProps> = ({ highlight }) =>
             onOpen={() => setOpen(true)}
             open={open}
             position="bottom center"
-            style={{ left: '23.1rem', top: '-0.7rem' }}
+            style={{ left: '23.1rem', top: '-0.7rem', cursor: 'pointer' }}
             trigger={(
               <div className={styles.arrowDown}>
                 <svg width="21" height="21" viewBox="0 0 21 21" className="jh">
