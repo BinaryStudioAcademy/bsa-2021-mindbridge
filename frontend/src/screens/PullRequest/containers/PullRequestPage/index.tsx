@@ -225,8 +225,8 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   if (!postPR.title) {
     return (
-      <div>
-        <LoaderWrapper loading />
+      <div className={classNames('content_wrapper', styles.container)}>
+        <LoaderWrapper className={styles.loader} loading />
       </div>
     );
   }

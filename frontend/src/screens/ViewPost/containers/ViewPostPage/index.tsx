@@ -12,6 +12,7 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { disLikePostViewRoutine, likePostViewRoutine }
   from '@screens/PostPage/routines';
+import LoaderWrapper from '@root/components/LoaderWrapper';
 
 export interface IViewPostProps extends IState, IActions {
   userInfo: IUserProfile;
@@ -65,6 +66,16 @@ const ViewPost: React.FC<IViewPostProps> = (
     disLikePostView(id);
     leaveReaction(post);
   };
+
+  if (!data.post.id) {
+    return (
+      <div className={styles.viewPost}>
+        <div className={styles.main}>
+          <LoaderWrapper className={styles.loader} loading />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.viewPost}>
