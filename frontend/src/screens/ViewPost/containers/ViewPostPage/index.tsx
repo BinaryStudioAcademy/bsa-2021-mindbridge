@@ -34,7 +34,6 @@ interface IActions {
   leaveReaction: IBindingCallback1<object>;
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
-  fetchPostContributions: IBindingCallback1<object>;
   sendComment: IBindingCallback1<object>;
   sendReply: IBindingCallback1<object>;
 }
@@ -49,7 +48,8 @@ const ViewPost: React.FC<IViewPostProps> = (
     userInfo,
     leaveReaction,
     likePostView,
-    disLikePostView
+    disLikePostView,
+    isAuthorized
   }
 ) => {
   const { postId } = useParams();

@@ -7,7 +7,6 @@ import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
 import UpToParentCommentSvg from '@components/AdvancedCommentCard/svg/UpToParentCommentSvg';
 import ShareCommentSvg from '@components/AdvancedCommentCard/svg/shareCommentSvg';
-import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 import ArrowCloseComment from '@components/AdvancedCommentCard/svg/ArrowCloseComment';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
@@ -125,7 +124,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           </div>
         </div>
         <div className={styles.commentRightAction}>
-          <RatingComponent postRating={commentRating ?? 0} />
+
           { shouldRender
           && (
           <a href={`#${parentCommentId}`} data-tooltip="Up to main comment">
