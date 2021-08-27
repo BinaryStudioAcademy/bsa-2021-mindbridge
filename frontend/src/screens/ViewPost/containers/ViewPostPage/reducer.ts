@@ -14,7 +14,7 @@ const initialState: IViewPostReducerState = {
     text: '',
     commentsCount: 0,
     rating: 0,
-    tags: [{ id: '', name: '' }],
+    tags: [],
     createdAt: '',
     postRating: 0,
     avatar: '',
