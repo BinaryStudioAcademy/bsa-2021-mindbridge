@@ -75,9 +75,11 @@ public class PostService {
 
 	public UUID editPost(EditPostDto editPostDto) {
 		var currentPost = postRepository.getOne(editPostDto.getPostId());
-		var postVersion = PostMapper.MAPPER.postToPostVersion(currentPost);
-		postVersion.setAuthor(userRepository.findById(editPostDto.getEditorId()).orElseThrow());
-		postVersionRepository.save(postVersion);
+		if (!editPostDto.getDraft()) {
+			var postVersion = PostMapper.MAPPER.postToPostVersion(currentPost);
+			postVersion.setAuthor(userRepository.findById(editPostDto.getEditorId()).orElseThrow());
+			postVersionRepository.save(postVersion);
+		}
 		currentPost.setTitle(editPostDto.getTitle());
 		currentPost.setText(editPostDto.getText());
 		currentPost.setMarkdown(editPostDto.getMarkdown());
@@ -94,12 +96,20 @@ public class PostService {
 		post.setTags(tags);
 		var savedPost = postRepository.save(post);
 		postReactionService.setReaction(new ReceivedPostReactionDto(savedPost.getId(), createPostDto.getAuthor(), true));
-		elasticService.put(savedPost);
+		if (!savedPost.getDraft()) {
+			elasticService.put(savedPost);
+		}
 		return savedPost.getId();
 	}
 
 	public String getTitleOfPost(UUID id) {
 		return postRepository.getTitleById(id);
+	}
+
+	public List<DraftsListDto> getAllDrafts(UUID userId) {
+		return postRepository.getDraftsByUser(userId).stream()
+			.map(PostMapper.MAPPER::postToDraftDto)
+			.collect(Collectors.toList());
 	}
 
 }
