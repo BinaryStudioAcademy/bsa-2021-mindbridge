@@ -27,12 +27,9 @@ const HighlightsPage: React.FC<IHighlightsProps> = (
   }, []);
   return (
     <div className={classNames('content_wrapper', styles.container)}>
-      <Card>
-        <CardContent className={styles.highlightCard}>
-          {highlights[0]
-          && <HighlightCard highlight={highlights[0]} /> }
-        </CardContent>
-      </Card>
+      {highlights
+          && highlights.map(highlight => (
+            <HighlightCard key={highlight.id} highlight={highlight} />))}
     </div>
   );
 };

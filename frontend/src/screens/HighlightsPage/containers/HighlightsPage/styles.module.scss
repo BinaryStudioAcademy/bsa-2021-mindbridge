@@ -1,5 +1,6 @@
 .container {
   :global(.ui.card:last-child) {
     margin-bottom: 10px;
+    box-shadow: rgb(230, 230, 230);
   }
 }

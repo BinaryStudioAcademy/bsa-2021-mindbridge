@@ -6,12 +6,11 @@ export interface IHighlightsReducerState {
 }
 
 const initialState: IHighlightsReducerState = {
-  highlights: []
+  highlights: undefined
 };
 
 export const highlightsReducer = createReducer(initialState, {
   [fetchHighlightsRoutine.SUCCESS]: (state, { payload }: PayloadAction<any>) => {
     state.highlights = payload;
-    console.log(payload);
   }
 });
