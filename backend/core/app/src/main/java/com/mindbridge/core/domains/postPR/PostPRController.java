@@ -47,7 +47,6 @@ public class PostPRController {
 	@PutMapping("accept/{id}")
 	public void acceptPR(@PathVariable UUID id) {
 		postPRService.acceptPR(id);
-		postPRService.closePR(id);
 	}
 
 	@PostMapping("/edit")
@@ -59,6 +58,12 @@ public class PostPRController {
 	public List<PostPRListDto> getPostPRs(@PathVariable UUID id, @RequestParam(defaultValue = "0") Integer from,
 			@RequestParam(defaultValue = "4") Integer count) {
 		return postPRService.getPostPRByPostId(id, from, count);
+	}
+
+	@GetMapping("/byUser/{id}")
+	public List<PostPRDetailsDto> getPostPRsByUser(@PathVariable UUID id,
+			@RequestParam(defaultValue = "0") Integer from, @RequestParam(defaultValue = "4") Integer count) {
+		return postPRService.getPostPRByUserId(id, from, count);
 	}
 
 }

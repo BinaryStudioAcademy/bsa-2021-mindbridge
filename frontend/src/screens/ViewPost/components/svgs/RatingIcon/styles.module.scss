@@ -24,4 +24,10 @@
   justify-content: center;
   height: 100%;
   gap: 1px;
+  margin-top: 0.7857rem;
+}
+
+.ratingArrowUp, .ratingArrowDown {
+  display: inline-grid;
+  padding: 0.1429rem;
 }

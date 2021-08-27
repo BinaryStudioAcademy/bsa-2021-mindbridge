@@ -1,4 +1,11 @@
-import { editPrRoutine, closePrRoutine, acceptPrRoutine, fetchPrRoutine } from '../../routines/index';
+import {
+  fetchMyPullRequestsRoutine,
+  editPrRoutine,
+  closePrRoutine,
+  acceptPrRoutine,
+  fetchPrRoutine
+}
+  from '../../routines/index';
 import { toastr } from 'react-redux-toastr';
 import { all, takeEvery, put, call } from 'redux-saga/effects';
 import pullRequestService from '../../services';
@@ -55,6 +62,18 @@ function* postEditedPR(action) {
   }
 }
 
+function* fetchMyPRs(action) {
+  try {
+    const response = yield call(pullRequestService.fetchMyPRs, action.payload);
+    yield put(fetchMyPullRequestsRoutine.success(response));
+  } catch (error) {
+    yield put(fetchMyPullRequestsRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading data failed');
+  } finally {
+    yield put(fetchMyPullRequestsRoutine.fulfill());
+  }
+}
+
 function* watchGetPrRequest() {
   yield takeEvery(fetchPrRoutine.TRIGGER, fetchPR);
 }
@@ -71,11 +90,16 @@ function* watchEditPrRequest() {
   yield takeEvery(editPrRoutine.TRIGGER, postEditedPR);
 }
 
+function* watchFetchMyPullRequestsRequest() {
+  yield takeEvery(fetchMyPullRequestsRoutine.TRIGGER, fetchMyPRs);
+}
+
 export default function* pullRequestPageSagas() {
   yield all([
     watchGetPrRequest(),
     watchClosePrRequest(),
     watchAcceptPrRequest(),
-    watchEditPrRequest()
+    watchEditPrRequest(),
+    watchFetchMyPullRequestsRequest()
   ]);
 }

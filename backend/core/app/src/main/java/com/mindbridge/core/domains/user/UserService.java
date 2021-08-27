@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.user;
 
+import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
 import com.mindbridge.data.domains.post.dto.PostTitleDto;
 import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
 import com.mindbridge.core.domains.user.dto.UserDto;
@@ -54,6 +55,8 @@ public class UserService implements UserDetailsService {
 
 	private final PostReactionRepository postReactionRepository;
 
+	private final CommentReactionRepository commentReactionRepository;
+
 	private final Random random = new Random();
 
 	public static final String PHONE_REGEX = "^\\d{10}$";
@@ -64,7 +67,7 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
 			CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository,
-			PostPRRepository postPRRepository, PostReactionRepository postReactionRepository) {
+			PostPRRepository postPRRepository, PostReactionRepository postReactionRepository, CommentReactionRepository commentReactionRepository) {
 		this.userRepository = userRepository;
 		this.commentRepository = commentRepository;
 		this.postPRRepository = postPRRepository;
@@ -72,15 +75,14 @@ public class UserService implements UserDetailsService {
 		this.passwordEncoder = new PasswordConfig().passwordEncoder();
 		this.followerRepository = followerRepository;
 		this.postRepository = postRepository;
+		this.commentReactionRepository = commentReactionRepository;
 	}
 
 	public UserProfileDto getUserProfileInformation(UUID userId) {
-		var foundUser = userRepository.findById(userId).orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found."));
+		var foundUser = userRepository.findById(userId)
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found."));
 		var user = UserMapper.MAPPER.userToUserProfileDto(foundUser);
 		var userReactions = postReactionRepository.getPostReactionByAuthorId(userId);
-		if (foundUser.getFirstName() != null) {
-			user.setFullName(foundUser.getFullName());
-		}
 		List<Post> top5Posts = postRepository.getFirstPostTitles(userId, PageRequest.of(0, 5));
 		user.setCommentsQuantity(commentRepository.countCommentByAuthorId(userId));
 		user.setPostsQuantity(postRepository.countPostByAuthorId(userId));
@@ -88,7 +90,8 @@ public class UserService implements UserDetailsService {
 		user.setUserReactions(userReactions.stream().map(UserReactionsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
-		user.setRating(random.nextInt(100));
+		long rating = postReactionRepository.calcUserPostRating(userId) + (commentReactionRepository.calcUserCommentRating(userId) / 2);
+		user.setRating(rating);
 		return user;
 	}
 
@@ -160,5 +163,4 @@ public class UserService implements UserDetailsService {
 
 		return loadUserDtoByEmail(user.getEmail());
 	}
-
 }

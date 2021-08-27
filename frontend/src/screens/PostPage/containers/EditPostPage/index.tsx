@@ -21,10 +21,10 @@ import {
 } from '../../routines';
 import { extractData } from '@screens/PostPage/reducers';
 import { IStateProfile } from '@screens/PostPage/models/IStateProfile';
-import HistorySidebar from '@components/PostHistorySidebar';
 import { Popup } from 'semantic-ui-react';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
+import { history } from '@helpers/history.helper';
 
 export interface IEditPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -42,7 +42,7 @@ interface IState {
   allTags: [any];
   currentUserId: string;
   isLoading: boolean;
-  post?: {
+  post: {
     id: string;
     author: any;
     title: string;
@@ -53,6 +53,7 @@ interface IState {
     }];
     coverImage: string;
     markdown: boolean;
+    draft: boolean;
   };
   preloader: {
     publishButton: boolean;
@@ -83,17 +84,13 @@ const EditPost: React.FC<IEditPostProps> = (
     sendPR,
     resetLoadingImage,
     savingImage,
-    userInfo,
     allTags,
     isLoading,
     post,
     currentUserId,
-    fetchData,
     fetchTags,
     fetchPost,
     editPost,
-    getPostVersions,
-    versionsOfPost,
     preloader,
     imageTag,
     resetImageTag
@@ -117,8 +114,9 @@ const EditPost: React.FC<IEditPostProps> = (
   });
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isContentEmpty, setIsContentEmpty] = useState(false);
+  const [changesExist, setChangesExist] = useState(false);
 
-  const { postId } = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     if (post) {
@@ -141,18 +139,14 @@ const EditPost: React.FC<IEditPostProps> = (
   }, [post]);
 
   useEffect(() => {
-    if (postId) {
-      fetchPost(postId);
+    if (id) {
+      fetchPost(id);
     }
-  }, [postId, fetchPost]);
+  }, [id, fetchPost]);
 
   useEffect(() => {
-    if (currentUserId) {
-      fetchData(currentUserId);
-    }
     fetchTags();
-    getPostVersions();
-  }, [currentUserId, fetchTags, getPostVersions]);
+  }, [fetchTags]);
 
   useEffect(() => {
     if (savingImage.isLoaded) {
@@ -179,6 +173,14 @@ const EditPost: React.FC<IEditPostProps> = (
     }
   });
 
+  const changeForm = data => {
+    setForm(data);
+    setChangesExist(!(data.title === post.title
+      && data.content === post.text
+      && data.tags.join() === Array.from(post.tags.map(tag => tag.id)).join()
+      && data.coverImage.url === post.coverImage));
+  };
+
   const changeEditViewMode = () => {
     setModes({
       ...modes,
@@ -197,6 +199,7 @@ const EditPost: React.FC<IEditPostProps> = (
         url: post.coverImage
       }
     });
+    history.push(`/post/${post.id}`);
   };
 
   const handleSendForm = isDraft => {
@@ -214,7 +217,7 @@ const EditPost: React.FC<IEditPostProps> = (
         coverImage: form.coverImage.url,
         markdown: modes.markdownMode,
         tags: form.tags,
-        postId,
+        postId: id,
         editorId: currentUserId,
         draft: isDraft
       };
@@ -228,7 +231,7 @@ const EditPost: React.FC<IEditPostProps> = (
       markdown: modes.markdownMode,
       author: currentUserId,
       tags: form.tags,
-      postId,
+      postId: id,
       contributorId: currentUserId
     };
     sendPR(postOnPR);
@@ -245,23 +248,6 @@ const EditPost: React.FC<IEditPostProps> = (
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
-        <div className={styles.profile_sidebar_container}>
-          <ProfileSidebar
-            id={userInfo.profile.id}
-            userName={userInfo.profile.fullName ?? userInfo.profile.nickname}
-            avatar={userInfo.profile.avatar}
-            folloversCount={userInfo.profile.followersQuantity}
-            rating={userInfo.profile.rating}
-            postNotificationCount={userInfo.profile.postsQuantity}
-          />
-          {
-            currentUserId === post?.author?.id && (
-              <div className={styles.history_sidebar_container}>
-                <HistorySidebar history={versionsOfPost} postId={postId} />
-              </div>
-            )
-          }
-        </div>
         {
           isLoading ? (
             <form className={styles.create_post_container}>
@@ -354,7 +340,7 @@ const EditPost: React.FC<IEditPostProps> = (
                     isCreateForm={false}
                     form={form}
                     modes={modes}
-                    setForm={setForm}
+                    setForm={changeForm}
                     sendImage={sendImage}
                     allTags={allTags}
                     imageTag={imageTag}
@@ -368,10 +354,18 @@ const EditPost: React.FC<IEditPostProps> = (
                 <DarkBorderButton content="Cancel" onClick={handleCancel} />
                 <DarkButton
                   content={submitButtonName}
-                  disabled={preloader.draftButton}
+                  disabled={preloader.draftButton || !changesExist}
                   loading={preloader.publishButton}
-                  onClick={() => handleSendForm(false)}
+                  onClick={() => handleSendForm(post?.draft)}
                 />
+                {post?.draft && (
+                  <DarkButton
+                    content="Publish"
+                    disabled={preloader.draftButton}
+                    loading={preloader.publishButton}
+                    onClick={() => handleSendForm(!post.draft)}
+                  />
+                )}
               </div>
             </form>
           )

@@ -11,6 +11,8 @@ import java.util.*;
 public interface PostVersionRepository extends JpaRepository<PostVersion, UUID>, JpaSpecificationExecutor<PostVersion> {
 
 	@Query("SELECT pv from PostVersion pv where pv.deleted = false and pv.post.id = :postId order by pv.createdAt desc")
-	List<PostVersion> getPostVersionByPostId(UUID postId, Pageable pageable);
+	List<PostVersion> getPostVersionByPostId(UUID postId);
+
+	List<PostVersion> getPostVersionsByPostId(UUID postId, Pageable pageable);
 
 }

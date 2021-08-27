@@ -89,5 +89,4 @@ const Reply: React.FC<ICommentProps> = (
     </div>
   );
 };
-
 export default Reply;
