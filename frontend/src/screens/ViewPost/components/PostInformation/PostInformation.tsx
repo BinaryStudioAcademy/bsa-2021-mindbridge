@@ -5,24 +5,32 @@ import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerS
 import FollowBtn from '@screens/ViewPost/components/Button/FollowBtn/FollowBtn';
 import { timeToLocal } from '@helpers/dataTimeToLocalData';
 import { Link } from 'react-router-dom';
+import DraftLabel from '@components/DraftLabel';
 
 interface IPostInformationProps {
   id: string;
   date: string;
-  firstName: string;
-  lastName: string;
+  nickname: string;
   avatar: string;
+  readTime: string;
+  draft: boolean;
 }
 
-const PostInformation: FunctionComponent<IPostInformationProps> = ({ id, firstName, lastName, date, avatar }) => (
+const PostInformation: FunctionComponent<IPostInformationProps> = (
+  { id,
+    nickname,
+    date,
+    avatar,
+    draft,
+    readTime
+  }
+) => (
   <div className={styles.postHeaderInfo}>
     <Link to={`/user/${id}`}>
       <div className={styles.userBlock}>
         <Image src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'} avatar size="big" />
         <div className={styles.userName}>
-          { firstName }
-          {' '}
-          { lastName }
+          { nickname }
         </div>
       </div>
     </Link>
@@ -33,8 +41,12 @@ const PostInformation: FunctionComponent<IPostInformationProps> = ({ id, firstNa
     </span>
     <DividerSvg />
     <span className={styles.additionalInformation}>
-      7 min
+      {readTime}
     </span>
+    {draft && [
+      <DividerSvg />,
+      <DraftLabel />
+    ]}
   </div>
 );
 

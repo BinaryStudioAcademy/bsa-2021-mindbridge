@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.postPR.dto;
 
 import com.mindbridge.core.domains.user.dto.UserShortDto;
+import com.mindbridge.data.domains.postPR.model.PostPR.State;
 import lombok.Data;
 
 import java.util.UUID;
@@ -13,5 +14,7 @@ public class PostPRListDto {
 	private String createdAt;
 
 	private UserShortDto author;
+
+	private State state;
 
 }

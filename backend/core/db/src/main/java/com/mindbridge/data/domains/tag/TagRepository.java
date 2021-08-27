@@ -18,13 +18,13 @@ public interface TagRepository extends JpaRepository<Tag, UUID>, JpaSpecificatio
 
 	@Transactional
 	@Modifying
-	@Query(value = "Delete from post_pr2tag "
-		+ "where post_pr_id = :id", nativeQuery = true)
+	@Query(value = "Delete from post_pr2tag " + "where post_pr_id = :id", nativeQuery = true)
 	void deleteAllByPostPrId(UUID id);
 
 	@Transactional
 	@Modifying
-	@Query(value = "INSERT INTO post_pr2tag( post_pr_id, tag_id ) "
-		+ "VALUES ( :postPrId, :tagId ) ", nativeQuery = true)
+	@Query(value = "INSERT INTO post_pr2tag( post_pr_id, tag_id ) " + "VALUES ( :postPrId, :tagId ) ",
+			nativeQuery = true)
 	void saveTagToPr(UUID postPrId, UUID tagId);
+
 }

@@ -8,11 +8,14 @@ import {
   resetEndSendingDataRoutine,
   closePrRoutine,
   fetchPrRoutine,
-  editPrRoutine }
+  editPrRoutine,
+  fetchMyPullRequestsRoutine
+}
   from '@screens/PullRequest/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
+  fetchMyPullRequestsRequest: reducerCreator([fetchMyPullRequestsRoutine.TRIGGER]),
   editPrRequest: reducerCreator([editPrRoutine.TRIGGER]),
   acceptPrRequest: reducerCreator([acceptPrRoutine.TRIGGER]),
   resetEndSendingDataRequest: reducerCreator([resetEndSendingDataRoutine.TRIGGER]),
@@ -29,6 +32,8 @@ const reqs = (state: RootState) => state.pullRequestReducer.requests;
 const data = (state: RootState) => state.pullRequestReducer.data;
 
 /* PlopJS request_extractor placeholder. Do not remove */
+export const extractFetchMyPullRequestsLoading = state => reqs(state).fetchMyPullRequestsRequest.loading;
+export const extractFetchMyPullRequestsError = state => reqs(state).fetchMyPullRequestsRequest.error;
 export const extractEditPrLoading = state => reqs(state).editPrRequest.loading;
 export const extractEditPrError = state => reqs(state).editPrRequest.error;
 export const extractAcceptPrLoading = state => reqs(state).acceptPrRequest.loading;

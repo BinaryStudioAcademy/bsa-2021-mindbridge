@@ -4,6 +4,7 @@ import com.mindbridge.core.domains.postPR.dto.CreatePostPRDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRListDto;
 import com.mindbridge.data.domains.postPR.model.PostPR;
+import com.mindbridge.data.domains.postPR.model.PostPR.State;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -15,7 +16,7 @@ public interface PostPRMapper {
 
 	@Mapping(source = "postId", target = "post.id")
 	@Mapping(source = "contributorId", target = "contributor.id")
-	@Mapping(target = "closed", constant = "false")
+	@Mapping(target = "state", ignore = true)
 	@Mapping(target = "tags", ignore = true)
 	PostPR createPostPRDtoToPostPr(CreatePostPRDto createPostPRDto);
 

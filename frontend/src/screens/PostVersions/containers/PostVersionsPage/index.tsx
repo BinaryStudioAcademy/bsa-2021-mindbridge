@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
-import ProfileSidebar from '@components/ProfileSidebar';
-import FeedTagsSideBar from '@components/FeedTagsSideBar';
-import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import { useParams, useLocation } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
@@ -13,6 +10,8 @@ import { fetchPostContributionsRoutine, fetchPostTitleRoutine } from '@screens/P
 import { IContribution } from '@screens/ViewPost/models/IContribution';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
+import { PrState } from '@root/screens/PullRequest/models/IPostPR';
+import PostContributionItem from '@root/components/PostContributionItem';
 
 export interface IPostVersionsProps extends IState, IActions {
 }
@@ -40,9 +39,7 @@ const params = {
 
 const PostVersions: React.FC<IPostVersionsProps> = (
   {
-    isAuthorized,
     currentUser,
-    userInfo,
     versionsOfPost,
     getPostVersions,
     fetchUserProfile,
@@ -52,26 +49,55 @@ const PostVersions: React.FC<IPostVersionsProps> = (
     postTitle
   }
 ) => {
-  const { postId } = useParams();
+  const { id } = useParams();
   const location = useLocation();
   const [isVersions, setIsVersions] = useState(true);
+  const [seeOpenPRs, setSeeOpenPRs] = useState(true);
 
   useEffect(() => {
-    fetchPostTitle(postId);
+    fetchPostTitle(id);
     if (location.pathname.includes('versions')) {
       setIsVersions(true);
-      getPostVersions({ postId, params });
+      getPostVersions({ postId: id, params });
     } else {
       setIsVersions(false);
-      fetchPostContributions({ postId, params });
+      fetchPostContributions({ postId: id, params });
     }
-  }, [postId]);
+  }, [id]);
 
   useEffect(() => {
     if (currentUser.id) {
       fetchUserProfile(currentUser.id);
     }
   }, [currentUser]);
+
+  const handleCheckbox = () => {
+    setSeeOpenPRs(!seeOpenPRs);
+  };
+
+  const contributionsList = [];
+
+  if (seeOpenPRs) {
+    contributionsOfPost.forEach(contribution => {
+      if (contribution.state === PrState.open) {
+        contributionsList.push(
+          <PostContributionItem
+            key={contribution.id}
+            postContribution={contribution}
+          />
+        );
+      }
+    });
+  } else {
+    contributionsOfPost.forEach(contribution => {
+      contributionsList.push(
+        <PostContributionItem
+          key={contribution.id}
+          postContribution={contribution}
+        />
+      );
+    });
+  }
 
   return (
     <div className={styles.postVersions}>
@@ -82,49 +108,29 @@ const PostVersions: React.FC<IPostVersionsProps> = (
           of post
         </h3>
         <h2 className={styles.postName}>{postTitle}</h2>
+        {!isVersions
+          && (
+          <div className={styles.see_open}>
+            <input type="checkbox" checked={seeOpenPRs} />
+            {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions,
+              jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+            <div onClick={handleCheckbox} />
+            <div className={styles.checkbox_label}>Show only open pull requests</div>
+          </div>
+          )}
         {isVersions ? (
           versionsOfPost.map(version => (
             <PostVersionItem
               key={version.id}
               postVersion={version}
-              isVersion={isVersions}
             />
           ))
-        ) : (
-          contributionsOfPost.map(version => (
-            <PostVersionItem
-              key={version.id}
-              postVersion={version}
-              isVersion={isVersions}
-            />
-          ))
-        )}
+        ) : contributionsList}
         {!versionsOfPost && !contributionsOfPost && (
           <p>
             🔍 Seems like there are no result...
           </p>
         )}
-      </div>
-      <div className={styles.sidebar}>
-        <div className={styles.feedPageSidebars}>
-          <div className={styles.logInSideBar}>
-            {isAuthorized ? (
-              <ProfileSidebar
-                id={userInfo.id}
-                userName={userInfo.fullName}
-                avatar={userInfo.avatar}
-                folloversCount={userInfo.followersQuantity}
-                rating={userInfo.rating}
-                postNotificationCount={userInfo.postsQuantity}
-              />
-            ) : (
-              <FeedLogInSidebar />
-            )}
-          </div>
-          <div className={styles.tagsSideBar}>
-            <FeedTagsSideBar />
-          </div>
-        </div>
       </div>
     </div>
   );
