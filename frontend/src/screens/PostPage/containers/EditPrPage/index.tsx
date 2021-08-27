@@ -211,7 +211,9 @@ const EditPrPage: React.FC<IEditPrProps> = (
 
   if (!postPR.title) {
     return (
-      <LoaderWrapper loading />
+      <div>
+        <LoaderWrapper loading />
+      </div>
     );
   }
 

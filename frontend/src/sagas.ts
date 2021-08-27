@@ -11,6 +11,7 @@ import pullRequestSagas from './screens/PullRequest/sagas';
 import postVersionSagas from '@screens/PostVersionPage/sagas';
 import postVersionsPageSagas from '@screens/PostVersions/containers/PostVersionsPage/sagas';
 import sidebarSagas from '@screens/Sidebar/sagas';
+import draftsSagas from '@screens/Drafts/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -25,6 +26,7 @@ export default function* rootSaga() {
     loginSagas(),
     defaultSagas(),
     postVersionsPageSagas(),
-    sidebarSagas()
+    sidebarSagas(),
+    draftsSagas()
   ]);
 }
