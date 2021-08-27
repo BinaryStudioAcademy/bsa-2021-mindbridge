@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Card, CardContent, Popup } from 'semantic-ui-react';
 import styles from './styles.module.scss';
+import { Link } from 'react-router-dom';
 
 interface IHighlightCardProps {
   highlight: any;
@@ -12,12 +13,16 @@ const HighlightCard: FunctionComponent<IHighlightCardProps> = ({ highlight }) =>
     <div className={styles.container}>
       <Card>
         <CardContent className={styles.highlightCard}>
-          <div className={styles.postTitle}>
-            {highlight.postTitle}
+          <div className={styles.postHeader}>
+            From
+            {' '}
+            <Link to={`/post/${highlight.postId}`}><span className={styles.title}>{highlight.postTitle}</span></Link>
           </div>
-          <div className={styles.quoteText}>
-            {highlight.text}
-          </div>
+          <Link to={`/post/${highlight.postId}`}>
+            <div className={styles.quoteText}>
+              {highlight.text}
+            </div>
+          </Link>
           <Popup
             content="Unhighlight"
             eventsEnabled={eventsEnabled}
