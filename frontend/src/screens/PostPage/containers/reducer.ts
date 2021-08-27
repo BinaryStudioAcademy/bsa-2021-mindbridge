@@ -1,5 +1,4 @@
 import { fetchPrRoutine, editPrRoutine } from '../../PullRequest/routines/index';
-
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
@@ -60,7 +59,8 @@ const initialState: IPostPageReducerState = {
     postsQuantity: 0,
     followersQuantity: 0,
     rating: 0,
-    userReactions: []
+    userReactions: [],
+    userReactionsComments: []
   },
   versionsOfPost: [],
   allTags: [],

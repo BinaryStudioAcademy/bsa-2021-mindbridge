@@ -11,6 +11,8 @@ import ArrowCloseComment from '@components/AdvancedCommentCard/svg/ArrowCloseCom
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
+import { IBindingCallback1 } from '@models/Callbacks';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -29,6 +31,8 @@ interface IBasicCommentProps {
   userInfo: IUserProfile;
   postAuthorId: string;
   parentCommentId: string;
+  handleLikeComment: any;
+  handleDislikeComment: any;
 }
 
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
@@ -48,7 +52,9 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     commentId,
     isAuthorized,
     parentCommentId,
-    postAuthorId
+    postAuthorId,
+    handleLikeComment,
+    handleDislikeComment
   }
 ) => {
   const [disabled, setDisabled] = useState(false);
@@ -124,7 +130,27 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           </div>
         </div>
         <div className={styles.commentRightAction}>
-
+          <RatingComponent
+            postRating={commentRating}
+            handleDisLikePost={handleDislikeComment}
+            handleLikePost={handleLikeComment}
+            postId={commentId}
+            userInfo={userInfo}
+            arrowDownColor={userInfo.userReactionsComments
+              .find(commentReaction => commentReaction.commentId === commentId
+              && !commentReaction.liked)
+              ? ('#F75C48'
+              ) : (
+                '#66B9FF'
+              )}
+            arrowUpColor={userInfo.userReactionsComments
+              .find(commentReaction => commentReaction.commentId === commentId
+              && commentReaction.liked)
+              ? ('#8AC858'
+              ) : (
+                '#66B9FF'
+              )}
+          />
           { shouldRender
           && (
           <a href={`#${parentCommentId}`} data-tooltip="Up to main comment">

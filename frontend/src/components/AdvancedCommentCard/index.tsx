@@ -5,6 +5,7 @@ import { IComments } from '@screens/ViewPost/models/IComments';
 import Reply from '@components/AdvancedCommentCard/Reply';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import { IBindingCallback1 } from '@models/Callbacks';
 
 interface ICommentProps {
   comments: IComments[];
@@ -14,6 +15,8 @@ interface ICommentProps {
   sendReply: any;
   isAuthorized: boolean;
   postAuthorId: string;
+  handleLikeComment: any;
+  handleDislikeComment: any;
 }
 
 const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
@@ -24,7 +27,9 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
     postId,
     sendReply,
     isAuthorized,
-    postAuthorId
+    postAuthorId,
+    handleLikeComment,
+    handleDislikeComment
   }
 ) => {
   const [newComment, setNewComment] = useState<IComment>({
@@ -108,6 +113,8 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
               userInfo={userInfo}
               shouldRenderBorder
               parentCommentId={comment.id}
+              handleDislikeComment={handleDislikeComment}
+              handleLikeComment={handleLikeComment}
             />
           ))}
         </div>

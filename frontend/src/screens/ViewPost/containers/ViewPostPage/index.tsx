@@ -5,8 +5,9 @@ import { IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
 import {
-  fetchDataRoutine,
-  leaveReactionOnPostViewPageRoutine,
+  dislikeCommentRoutine,
+  fetchDataRoutine, leaveReactionOnCommentRoutine,
+  leaveReactionOnPostViewPageRoutine, likeCommentRoutine,
   sendCommentRoutine,
   sendReplyRoutine
 } from '@screens/ViewPost/routines';
@@ -36,6 +37,9 @@ interface IActions {
   disLikePostView: IBindingCallback1<string>;
   sendComment: IBindingCallback1<object>;
   sendReply: IBindingCallback1<object>;
+  likeComment: IBindingCallback1<string>;
+  dislikeComment: IBindingCallback1<string>;
+  leaveReactionOnComment: IBindingCallback1<object>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -49,7 +53,10 @@ const ViewPost: React.FC<IViewPostProps> = (
     leaveReaction,
     likePostView,
     disLikePostView,
-    isAuthorized
+    isAuthorized,
+    likeComment,
+    dislikeComment,
+    leaveReactionOnComment
   }
 ) => {
   const { postId } = useParams();
@@ -78,6 +85,26 @@ const ViewPost: React.FC<IViewPostProps> = (
     leaveReaction(post);
   };
 
+  const handleLikeComment = id => {
+    const comment = {
+      commentId: id,
+      userId: currentUser.id,
+      liked: true
+    };
+    likeComment(id);
+    leaveReactionOnComment(comment);
+  };
+
+  const handleDisLikeComment = id => {
+    const comment = {
+      commentId: id,
+      userId: currentUser.id,
+      liked: false
+    };
+    dislikeComment(id);
+    leaveReactionOnComment(comment);
+  };
+
   if (!data.post.id) {
     return (
       <div className={styles.viewPost}>
@@ -95,6 +122,8 @@ const ViewPost: React.FC<IViewPostProps> = (
           post={data.post}
           handleLikePost={handleLikePost}
           handleDisLikePost={handleDisLikePost}
+          handleLikeComment={handleLikeComment}
+          handleDislikeComment={handleDisLikeComment}
           userInfo={userInfo}
           isAuthor={data.post.author.id === currentUser.id}
           sendComment={sendComment}
@@ -116,10 +145,13 @@ const mapStateToProps: (state: RootState) => IState = state => ({
 const mapDispatchToProps: IActions = {
   sendComment: sendCommentRoutine,
   sendReply: sendReplyRoutine,
+  likeComment: likeCommentRoutine,
+  dislikeComment: dislikeCommentRoutine,
   fetchData: fetchDataRoutine,
   leaveReaction: leaveReactionOnPostViewPageRoutine,
   likePostView: likePostViewRoutine,
-  disLikePostView: disLikePostViewRoutine
+  disLikePostView: disLikePostViewRoutine,
+  leaveReactionOnComment: leaveReactionOnCommentRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);

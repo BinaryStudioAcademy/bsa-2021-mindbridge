@@ -2,8 +2,9 @@ import { all, call, put, takeEvery } from 'redux-saga/effects';
 import viewPageService from '@screens/ViewPost/services/viewPage';
 import { toastr } from 'react-redux-toastr';
 import {
+  dislikeCommentRoutine,
   fetchDataRoutine,
-  leaveReactionOnPostViewPageRoutine,
+  leaveReactionOnPostViewPageRoutine, likeCommentRoutine,
   sendCommentRoutine,
   sendReplyRoutine
 } from '@screens/ViewPost/routines';
@@ -60,6 +61,48 @@ function* sendReply(action) {
   }
 }
 
+function* likeComment(action) {
+  try {
+    const response = yield call(viewPageService.leaveReactionOnComment, action.payload);
+    const commentReaction = {
+      response,
+      difference: response?.id ? 1 : -1,
+      commentId: action.payload.commentId,
+      reactionStatus: action.payload.liked
+    };
+    yield put(likeCommentRoutine.success(commentReaction));
+    toastr.success('Success', 'Like comment success');
+  } catch (error) {
+    yield put(likeCommentRoutine.failure(error?.message));
+    toastr.error('Error', 'Like comment failad');
+  }
+}
+
+function* dislikeComment(action) {
+  try {
+    const response = yield call(viewPageService.leaveReactionOnComment, action.payload);
+    const commentReaction = {
+      response,
+      difference: response?.id ? 1 : -1,
+      commentId: action.payload.commentId,
+      reactionStatus: action.payload.liked
+    };
+    yield put(dislikeCommentRoutine.success(commentReaction));
+    toastr.success('Success', 'Dislike comment success');
+  } catch (error) {
+    yield put(dislikeCommentRoutine.failure(error?.message));
+    toastr.error('Error', 'dislike comment failad');
+  }
+}
+
+function* watchLikeCommentRequest() {
+  yield takeEvery(likeCommentRoutine.TRIGGER, likeComment);
+}
+
+function* watchDislikeCommentRequest() {
+  yield takeEvery(dislikeCommentRoutine.TRIGGER, dislikeComment);
+}
+
 function* watchSendCommentRequest() {
   yield takeEvery(sendCommentRoutine.TRIGGER, sendComment);
 }
@@ -80,7 +123,9 @@ export default function* viewPostPageSagas() {
     watchDataRequest(),
     watchLeaveReactionOnPost(),
     watchSendCommentRequest(),
-    watchSendReplyRequest()
+    watchSendReplyRequest(),
+    watchLikeCommentRequest(),
+    watchDislikeCommentRequest()
   ]);
 }
 

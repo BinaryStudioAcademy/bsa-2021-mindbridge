@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 import AdvancedComment from '@components/AdvancedCommentCard/AdvancedComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { Comment } from 'semantic-ui-react';
+import { IBindingCallback1 } from '@models/Callbacks';
 
 interface ICommentProps {
   text: string;
@@ -24,6 +25,8 @@ interface ICommentProps {
   shouldRenderBorder: boolean;
   parentCommentId: string;
   postAuthorId: string;
+  handleLikeComment: any;
+  handleDislikeComment: any;
 }
 
 const Reply: React.FC<ICommentProps> = (
@@ -44,7 +47,9 @@ const Reply: React.FC<ICommentProps> = (
     sendReply,
     isAuthorized,
     parentCommentId,
-    postAuthorId
+    postAuthorId,
+    handleLikeComment,
+    handleDislikeComment
   }
 ) => {
   const closeCommentRef = useRef(true);
@@ -73,6 +78,8 @@ const Reply: React.FC<ICommentProps> = (
         userInfo={userInfo}
         parentCommentId={parentCommentId}
         postAuthorId={postAuthorId}
+        handleLikeComment={handleLikeComment}
+        handleDislikeComment={handleDislikeComment}
       />
       {replies.length > 0 && (
         <div>
@@ -99,6 +106,8 @@ const Reply: React.FC<ICommentProps> = (
                       shouldRenderBorder={false}
                       parentCommentId={parentCommentId}
                       postAuthorId={postAuthorId}
+                      handleDislikeComment={handleDislikeComment}
+                      handleLikeComment={handleLikeComment}
                     />
                   ))}
                 </Comment.Group>

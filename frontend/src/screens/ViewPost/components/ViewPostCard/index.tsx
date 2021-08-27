@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Card, Feed } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
@@ -24,6 +24,8 @@ interface IViewPostCardProps {
   sendComment: any;
   sendReply: any;
   isAuthorized: boolean;
+  handleLikeComment: any;
+  handleDislikeComment: any;
 }
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
   {
@@ -34,7 +36,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
     handleDisLikePost,
     userInfo,
     sendReply,
-    isAuthorized
+    isAuthorized,
+    handleLikeComment,
+    handleDislikeComment
   }
 ) => {
   const history = useHistory();
@@ -125,6 +129,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
             </div>
           </Card.Content>
         </div>
+        {/* <BasicCommentsFeed comments={post.comments} />*/}
         <AdvancedCommentsFeed
           comments={post.comments}
           sendComment={sendComment}
@@ -133,6 +138,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
           postAuthorId={post.author.id}
           userInfo={userInfo}
           isAuthorized={isAuthorized}
+          handleDislikeComment={handleDislikeComment}
+          handleLikeComment={handleLikeComment}
         />
       </Card>
     </div>

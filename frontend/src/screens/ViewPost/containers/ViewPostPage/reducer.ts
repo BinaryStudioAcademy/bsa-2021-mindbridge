@@ -1,18 +1,22 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import {
+  dislikeCommentRoutine,
   fetchDataRoutine,
-  leaveReactionOnPostViewPageRoutine,
+  leaveReactionOnPostViewPageRoutine, likeCommentRoutine,
   sendCommentRoutine,
   sendReplyRoutine
 } from '@screens/ViewPost/routines';
 import { IPost } from '../../models/IPost';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
+import { disLikePostViewRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 
 export interface IViewPostReducerState {
   post: IPost;
   comment: IComment;
   reply: ICommentReply;
+  profile: IUserProfile;
 }
 
 const initialState: IViewPostReducerState = {
@@ -46,6 +50,17 @@ const initialState: IViewPostReducerState = {
     replyCommentId: '',
     avatar: null,
     nickname: ''
+  },
+  profile: {
+    id: '',
+    fullName: undefined,
+    nickname: undefined,
+    avatar: '',
+    postsQuantity: 0,
+    followersQuantity: 0,
+    rating: 0,
+    userReactions: [],
+    userReactionsComments: []
   }
 };
 
@@ -88,5 +103,29 @@ export const viewPostReducer = createReducer(initialState, {
     };
     const message = findById(action.payload.comment.id, state.post.comments);
     message.comments.unshift(action.payload);
+  },
+  [likeCommentRoutine.TRIGGER]: (state, action) => {
+    if (state.profile.id) {
+      const commentReaction = state.profile.userReactionsComments.find(comment => comment.commentId === action.payload);
+      if (commentReaction && commentReaction.liked === false) {
+        commentReaction.liked = true;
+      } else if (commentReaction) {
+        commentReaction.commentId = undefined;
+      } else {
+        state.profile.userReactionsComments.push({ commentId: action.payload, liked: true });
+      }
+    }
+  },
+  [dislikeCommentRoutine.TRIGGER]: (state, action) => {
+    if (state.profile.id) {
+      const commentReaction = state.profile.userReactionsComments.find(comment => comment.commentId === action.payload);
+      if (commentReaction && commentReaction.liked === true) {
+        commentReaction.liked = false;
+      } else if (commentReaction) {
+        commentReaction.commentId = undefined;
+      } else {
+        state.profile.userReactionsComments.push({ commentId: action.payload, liked: false });
+      }
+    }
   }
 });
