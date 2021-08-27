@@ -1,6 +1,8 @@
 package com.mindbridge.core.domains.comment;
 
 import com.mindbridge.core.domains.comment.dto.CommentDto;
+import com.mindbridge.core.domains.comment.dto.CreateCommentDto;
+import com.mindbridge.core.domains.comment.dto.ReplyCommentDto;
 import com.mindbridge.data.domains.comment.CommentRepository;
 import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -8,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,6 +44,16 @@ public class CommentService {
 			}
 		});
 		return comments;
+	}
+
+	public Comment addComment(CreateCommentDto comment) {
+		var commentToDto = CommentMapper.MAPPER.createCommentDtoToComment(comment);
+		return commentRepository.save(commentToDto);
+	}
+
+	public Comment addReplyToComment(ReplyCommentDto reply) {
+		var commentDtoToReply = CommentMapper.MAPPER.replyToCommentDtoToComment(reply);
+		return commentRepository.save(commentDtoToReply);
 	}
 
 }
