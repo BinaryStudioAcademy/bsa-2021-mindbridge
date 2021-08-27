@@ -65,12 +65,6 @@ const PostVersions: React.FC<IPostVersionsProps> = (
     }
   }, [id]);
 
-  useEffect(() => {
-    if (currentUser.id) {
-      fetchUserProfile(currentUser.id);
-    }
-  }, [currentUser]);
-
   const handleCheckbox = () => {
     setSeeOpenPRs(!seeOpenPRs);
   };

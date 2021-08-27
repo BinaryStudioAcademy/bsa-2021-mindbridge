@@ -67,6 +67,12 @@ const Sidebar: React.FC<ISidebarProps> = (
   }, [currentUser, loadCurrentUser]);
 
   useEffect(() => {
+    if (currentUser.id) {
+      fetchUserProfile(currentUser.id);
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
     if (postId) {
       getPostVersions({ postId });
       fetchPostContributions({ postId });
