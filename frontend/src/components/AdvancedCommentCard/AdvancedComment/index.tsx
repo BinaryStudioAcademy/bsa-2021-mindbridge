@@ -105,26 +105,6 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           </div>
         </div>
         <div className={styles.commentRightAction}>
-          <RatingComponent postRating={commentRating} />
-          {/* <RatingComponent*/}
-          {/*  postRating={commentRating}*/}
-          {/*  handleDisLikePost={handleDisLikePost}*/}
-          {/*  handleLikePost={handleLikePost}*/}
-          {/*  postId={commentId}*/}
-          {/*  userInfo={userInfo}*/}
-          {/*  arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === commentId*/}
-          {/*    && !postReaction.liked)*/}
-          {/*    ? ('#F75C48'*/}
-          {/*    ) : (*/}
-          {/*      '#66B9FF'*/}
-          {/*    )}*/}
-          {/*  arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === commentId*/}
-          {/*    && postReaction.liked)*/}
-          {/*    ? ('#8AC858'*/}
-          {/*    ) : (*/}
-          {/*      '#66B9FF'*/}
-          {/*    )}*/}
-          {/*/ >*/}
           { shouldRender
             && <UpToParentCommentSvg />}
           <LinkSvg />
