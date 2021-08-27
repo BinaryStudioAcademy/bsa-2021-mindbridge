@@ -3,32 +3,41 @@
   border-radius: 0.5rem;
   border: 2px solid #F8F8F8;
   margin-bottom: 1rem;
-}
-.upper {
+  position: relative;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 
-  div {
+  .upper {
     display: flex;
-    align-items: center;
-  }
+    align-items: flex-start;
+    gap: 1rem;
+    flex-direction: column;
+    justify-content: space-between;
 
-  .leftSide {
-    display: flex;
-    align-items: center;
-
-    a {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      max-width: 20rem;
+    div {
+      display: flex;
+      align-items: center;
     }
 
+    .leftSide {
+      display: flex;
+      align-items: center;
+
+      a {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        max-width: 20rem;
+      }
+
+    }
   }
 
   img {
+    display: block;
     max-height: 4rem;
     border-radius: 0.5rem;
   }
 }
+

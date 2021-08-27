@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 import { IDraft } from '@screens/Drafts/models/IDraft';
-import { Image } from 'semantic-ui-react';
+import { Image, Label } from 'semantic-ui-react';
 import DividerSvg from '@components/FeedSvgComponents/dividerSvg';
 import TagsMenu from '@components/TagComponent';
 import { ITag } from '@screens/FeedPage/models/ITag';
@@ -26,26 +26,23 @@ const DraftListItem: FunctionComponent<IDraftListItemProps> = (
   }
 ) => (
   <div className={styles.draftItem}>
+    <DraftLabel />
     <div className={styles.upper}>
       <div className={styles.leftSide}>
         <Link to={`/post/${id}`}>{title}</Link>
         <DividerSvg />
         <span className={styles.createdAt}>{createdAt}</span>
       </div>
-      <div>
-        <DraftLabel />
-        <DividerSvg />
-        <img src={coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'} alt="Preview" />
+      <div className={styles.btnWrapper}>
+        {tags.map(tag => (
+          <TagsMenu
+            key={tag.id}
+            tag={tag.name}
+          />
+        ))}
       </div>
     </div>
-    <div className={styles.btnWrapper}>
-      {tags.map(tag => (
-        <TagsMenu
-          key={tag.id}
-          tag={tag.name}
-        />
-      ))}
-    </div>
+    <img src={coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'} alt="Preview" />
   </div>
 );
 
