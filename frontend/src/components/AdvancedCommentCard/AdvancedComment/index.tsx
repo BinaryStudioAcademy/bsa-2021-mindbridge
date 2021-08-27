@@ -57,8 +57,8 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   const [shouldRender] = useState(setShouldRender);
 
   const rotateArrow = {
-    width: '10px',
-    height: '10px',
+    width: '0.7142em',
+    height: '0.7142em',
     transform: rotateArrowHook && 'rotate(180deg)',
     transition: 'transform 300ms ease'
   };

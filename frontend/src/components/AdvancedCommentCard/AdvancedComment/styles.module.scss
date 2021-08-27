@@ -53,11 +53,11 @@
       justify-items: center;
       background: none;
       box-sizing: border-box;
-      border-radius: 2px;
+      border-radius: 0.14285em;
 
       .arrowClose {
-        width: 10px;
-        height: 8px;
+        width: 0.7142em;
+        height: 0.5714em;
         display: flex;
         align-items: center;
         justify-items: center;
@@ -208,7 +208,7 @@
 
 @keyframes hide{
   0%{
-    box-shadow: 10px 10px 48px -3px #8cbcf6;
+    box-shadow: 0.7142em 0.7142em 3.4285em -0.2142em #8cbcf6;
   }
   100%{
     box-shadow: none;
