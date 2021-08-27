@@ -33,7 +33,7 @@ public class UserController {
 
 	@PostMapping("/check/nickname")
 	public boolean checkUserNickname(@RequestBody String nickname) {
-		String nick = nickname.substring(0, nickname.length()-1);
+		String nick = nickname.substring(0, nickname.length() - 1);
 		return userService.checkNickname(nick);
 	}
 

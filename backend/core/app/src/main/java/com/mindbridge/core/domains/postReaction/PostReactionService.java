@@ -15,6 +15,7 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class PostReactionService {
+
 	@Autowired
 	private final PostReactionRepository postReactionRepository;
 
@@ -37,38 +38,24 @@ public class PostReactionService {
 			if (react.getLiked() == postReaction.getLiked()) {
 				postReactionRepository.deleteById(react.getId());
 				return Optional.empty();
-			} else {
+			}
+			else {
 				react.setLiked(postReaction.getLiked());
 				var result = postReactionRepository.save(react);
 				var post = postService.getPostById(result.getPost().getId());
-				return Optional.of(
-					ResponsePostReactionDto
-							.builder()
-							.id(result.getId())
-							.liked(result.getLiked())
-							.userId(result.getAuthor().getId())
-							.postId(post.getId())
-							.authorId(post.getAuthor().getId())
-							.isFirstReaction(false)
-							.build()
-				);
+				return Optional.of(ResponsePostReactionDto.builder().id(result.getId()).liked(result.getLiked())
+						.userId(result.getAuthor().getId()).postId(post.getId()).authorId(post.getAuthor().getId())
+						.isFirstReaction(false).build());
 			}
 		}
 		else {
 			var postReact = PostReactionMapper.MAPPER.dtoToPostReaction(postReaction);
 			var result = postReactionRepository.save(postReact);
 			var post = postService.getPostById(result.getPost().getId());
-			return Optional.of(
-				ResponsePostReactionDto
-						.builder()
-						.id(result.getId())
-						.liked(result.getLiked())
-						.userId(result.getAuthor().getId())
-						.postId(post.getId())
-						.authorId(post.getAuthor().getId())
-						.isFirstReaction(true)
-						.build()
-			);
+			return Optional.of(ResponsePostReactionDto.builder().id(result.getId()).liked(result.getLiked())
+					.userId(result.getAuthor().getId()).postId(post.getId()).authorId(post.getAuthor().getId())
+					.isFirstReaction(true).build());
 		}
 	}
+
 }

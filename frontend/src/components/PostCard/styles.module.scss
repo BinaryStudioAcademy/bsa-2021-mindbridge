@@ -1,8 +1,7 @@
 :global(.ui.card).postCard {
-  width: 83%;
+  width: 100%;
   min-height: 20rem;
   max-width: 83em;
-  margin: 2.8vw 0px -2em 15%;
   padding-top: 1.5em;
   border: 2px solid #F8F8F8;
   border-radius: 10px;
@@ -51,6 +50,7 @@
   color:rgba(102, 122, 175, 0.5);
   background-color: rgb(244, 249, 255);
   margin-right: 0.94rem;
+  margin-bottom: 1rem;
 }
 
 :global(.ui.primary.button):hover {

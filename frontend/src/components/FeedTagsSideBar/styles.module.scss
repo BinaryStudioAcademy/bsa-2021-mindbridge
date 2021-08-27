@@ -3,21 +3,19 @@
 .tagsSideBar {
   display: flex;
   flex-direction: column;
-  grid-gap: 0.8em;
-  height: 19em;
-  width: 25.8em;
+  grid-gap: 1.4em;
   background-color: $background-card;
-  padding: 2em 2.43em 2.3em 2.43em;
+  padding: 2.28rem;
   border-radius: 0.5em;
+  max-width: 26em;
 }
 
 .title {
   font-family: Lato, serif;
   font-weight: bold;
-  font-size: 1.13rem;
+  font-size: 1.285rem;
   color: $dark-grey;
   line-height: 1.4rem;
-  margin-top: .7em;
 }
 
 .searchInput{
@@ -40,6 +38,8 @@
   }
   input::placeholder{
     font-family: lato, serif;
+    font-size: 0.85rem;
+    color: rgba(20, 37, 63, 0.4);
   }
   button{
     background-color: #FFFFFF;
@@ -68,7 +68,7 @@
 }
 
 .tag {
-  padding: 7px;
+  padding: 0.2857rem 0.5rem 0.2857rem 0.5rem;
   font-size: 0.88rem;
   font-family: Lato, serif;
   color:rgba(102, 122, 175, 0.5);

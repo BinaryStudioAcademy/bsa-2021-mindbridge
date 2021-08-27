@@ -15,4 +15,5 @@ public class PostTitleDto {
 	public static PostTitleDto fromEntity(Post post) {
 		return PostTitleDto.builder().id(post.getId().toString()).title(post.getTitle()).build();
 	}
+
 }

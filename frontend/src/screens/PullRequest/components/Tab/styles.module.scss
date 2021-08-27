@@ -1,0 +1,55 @@
+@import '../../../../styles/common_variables.sass';
+
+.active{
+  background-color: $light-blue;
+}
+
+.buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  button, .see_diff{
+    margin-left: 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: Lato;
+    height: 2.36rem;
+  }
+  .diffButton{
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+  .see_diff{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 0.5rem;
+  }
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  input[type="checkbox"] + div {
+    height: 1.18rem;
+    width: 1.18rem;
+    border: solid 1.5px rgba(102, 185, 255, 1);
+    border-radius: 0.2rem;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7rem;
+    cursor: pointer;
+  }
+
+  input[type="checkbox"]:checked + div {
+    background-color: rgba(102, 185, 255, 1);
+    color: $dark-grey;
+  }
+}

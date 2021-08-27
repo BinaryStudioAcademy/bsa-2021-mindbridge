@@ -1,10 +1,5 @@
 @import "src/styles/common";
 
-.container {
-    height: 100vh;
-    overflow-y: scroll;
-}
-
 .header_container{
     position: fixed;
     width: 100%;
@@ -13,21 +8,11 @@
 
 .form_and_sidebar_container{
     height: 100%;
-    width: 63rem;
     margin: auto;
-    margin-top: 8rem;
-}
-
-.profile_sidebar_container {
-    margin-left: 45rem;
-    position: fixed;
 }
 
 .create_post_container{
     position: relative;
-    width: 43.5rem;
-    height: 48rem;
-    z-index: 100;
     padding-bottom: 2rem;
     button{
         font-family: lato;
@@ -38,7 +23,7 @@
 .header{
     grid-row: 1/2;
     display: grid;
-    grid-template-columns: 2fr 2fr 10fr 1fr 1fr;
+    grid-template-columns: 2fr 2fr 10fr 1fr 0.6fr;
     align-content:flex-start;
     margin-bottom: 0.8rem;
     button {
@@ -49,14 +34,14 @@
 
     .html_button{
         grid-column: 1/2;
-        margin-right: 18%;
+        margin-right: 1rem;
     }
 
     .disabled_html_button{
       cursor: not-allowed;
       background-color: #f8f8f8;
       grid-column: 1/2;
-      margin-right: 18%;
+      margin-right: 1rem;
     }
 
     .markdown_button{
@@ -68,7 +53,6 @@
       cursor: not-allowed;
       background-color: #f8f8f8;
       grid-column: 1/2;
-      margin-right: 18%;
     }
 
     .edit_button{
@@ -76,8 +60,10 @@
         width: 2.36rem;
         margin-right: 0.4rem;
         padding: 0;
+        display: flex;
+        justify-self: flex-end;
+        justify-content: center;
         div{
-            padding-left: 15%;
             display: grid;
             grid-template-columns: 1fr;
             grid-template-rows: 1fr;
@@ -95,6 +81,10 @@
         grid-column: 5/6;
         width: 2.36rem;
         padding: 0;
+        display: flex;
+        justify-self: flex-end;
+        justify-content: center;
+        align-content: center;
         svg{
             height: 1.6rem;
             width: 1.6rem;
@@ -120,7 +110,6 @@
         min-width: 7rem;
         margin-left: 0.6rem;
         margin-right: 0.6rem;
-        font-size: 0.8rem !important;
     }
 }
 

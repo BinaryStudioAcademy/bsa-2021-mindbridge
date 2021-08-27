@@ -28,24 +28,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.headers().frameOptions().sameOrigin().and().cors().and().sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable().formLogin().disable()
-			.httpBasic().disable().authorizeRequests().antMatchers("/auth/**", "/oauth2/**").permitAll()
-			// TODO: this is an example reference. Delete after getting familiar with
-			// the project structure
-			.antMatchers(HttpMethod.GET, "/search/**").permitAll()
-			.antMatchers("/post/**").permitAll()
-			.antMatchers("/postVersion/**").permitAll()
-			.antMatchers("/user/**").permitAll()
-			.antMatchers("/ws/**").permitAll()
-			.antMatchers("/swagger-resources/**").permitAll()
-			.antMatchers("/v2/api-docs").permitAll()
-			.antMatchers("/swagger-ui.html").permitAll()
-			.antMatchers("/webjars/**").permitAll()
-			.antMatchers("/data/**").permitAll()
-			.antMatchers("/tag/**").permitAll()
-			.antMatchers("/image/**").permitAll()
-			.antMatchers("/notification/**")
-			.permitAll().anyRequest().authenticated().and();
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable().formLogin().disable()
+				.httpBasic().disable().authorizeRequests().antMatchers("/auth/**", "/oauth2/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/search/**").permitAll().antMatchers(HttpMethod.GET, "/post/**")
+				.permitAll().antMatchers("/postVersion/**").permitAll().antMatchers("/user/**").permitAll()
+				.antMatchers("/ws/**").permitAll().antMatchers("/swagger-resources/**").permitAll()
+				.antMatchers("/v2/api-docs").permitAll().antMatchers("/swagger-ui.html").permitAll()
+				.antMatchers("/webjars/**").permitAll().antMatchers("/data/**").permitAll().antMatchers("/tag/**")
+				.permitAll().antMatchers("/image/**").permitAll().antMatchers("/notification/**").permitAll()
+				.anyRequest().authenticated().and();
 
 		applyOAuth2Config(http);
 
@@ -88,8 +79,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		config.addAllowedOrigin("http://localhost:3000");
 		config.addAllowedOrigin("http://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com");
 		config.addAllowedOrigin("https://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com");
-		config.addAllowedOrigin("http://mindbridge.westeurope.azurecontainer.io");
-		config.addAllowedOrigin("https://mindbridge.westeurope.azurecontainer.io");
+		config.addAllowedOrigin("http://mindbridge.westeurope.cloudapp.azure.com");
+		config.addAllowedOrigin("https://mindbridge.westeurope.cloudapp.azure.com");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
 		source.registerCorsConfiguration("/**", config);

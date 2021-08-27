@@ -9,12 +9,14 @@
   display: flex;
   align-items: center;
   flex-direction: row;
+  grid-gap: 0.3571rem;
 }
 
 .userBlock {
   display: flex;
   flex-direction: row;
   align-items: center;
+  grid-gap: 0.3571rem;
 }
 
 .additionalInformation {
@@ -24,4 +26,11 @@
   opacity: 0.4;
 }
 
-
+.draftLabel {
+  display: block;
+  border-radius: 50%;
+  border: 1px solid #4d515a;
+  background: #6e7781;
+  padding: 0.5rem 1rem;
+  color: #ffffff;
+}

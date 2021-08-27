@@ -2,6 +2,9 @@ insert into tags
 (id, name)
 values
 ('1d54cf59-ec61-47e8-8560-2e7fb142e40b', 'Android'),
+('b280ecd5-243f-4b55-ba4e-4777ef49453b', 'Java'),
+('a099b732-23ba-49aa-9b94-a9541b1c18b7', 'JavaScript'),
+('b6c3b74f-b7e6-4718-92fc-e9491ee51d0b', '.NET'),
 ('32621d60-5290-423f-be89-a312f115fac7', 'Spring'),
 ('1d532f84-39a5-4e51-a34a-6b342c137e09', 'Swing'),
 ('e6f95ebf-60e7-4dbd-8bc2-7565ab2fdc85', 'Eclipse'),
@@ -112,6 +115,7 @@ values
 ('89237d9b-add3-4691-a6dd-a626c3ec9305', 'JetBrains'),
 ('8c5204f1-b99f-4182-b2db-4e118d4985c8', 'SciPy'),
 ('f1d03b57-4246-4302-a0dd-2a2c3cd70abc', 'Information'),
+('6b1a086a-6fc9-426e-9514-ac67d508fb7c', 'Science'),
 ('f61df32d-0a85-467e-a81c-7f834dfe270f', 'Solutions'),
 ('c35e41b3-4e5f-40c2-b3da-d4eb0039d4e3', 'Time'),
 ('5fbf1ee8-93d7-4874-b7fd-ee0c446e4944', 'Internet'),

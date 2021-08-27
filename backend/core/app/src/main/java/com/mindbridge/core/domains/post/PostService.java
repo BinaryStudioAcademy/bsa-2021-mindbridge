@@ -4,6 +4,7 @@ import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
+import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
 import com.mindbridge.core.domains.postVersion.dto.PostVersionsListDto;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
@@ -74,9 +75,11 @@ public class PostService {
 
 	public UUID editPost(EditPostDto editPostDto) {
 		var currentPost = postRepository.getOne(editPostDto.getPostId());
-		var postVersion = PostMapper.MAPPER.postToPostVersion(currentPost);
-		postVersion.setAuthor(userRepository.findById(editPostDto.getEditorId()).orElseThrow());
-		postVersionRepository.save(postVersion);
+		if (!editPostDto.getDraft()) {
+			var postVersion = PostMapper.MAPPER.postToPostVersion(currentPost);
+			postVersion.setAuthor(userRepository.findById(editPostDto.getEditorId()).orElseThrow());
+			postVersionRepository.save(postVersion);
+		}
 		currentPost.setTitle(editPostDto.getTitle());
 		currentPost.setText(editPostDto.getText());
 		currentPost.setMarkdown(editPostDto.getMarkdown());
@@ -92,12 +95,21 @@ public class PostService {
 		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
 		post.setTags(tags);
 		var savedPost = postRepository.save(post);
-		elasticService.put(savedPost);
+		postReactionService.setReaction(new ReceivedPostReactionDto(savedPost.getId(), createPostDto.getAuthor(), true));
+		if (!savedPost.getDraft()) {
+			elasticService.put(savedPost);
+		}
 		return savedPost.getId();
 	}
 
-	public String getTitleOfPost (UUID id) {
+	public String getTitleOfPost(UUID id) {
 		return postRepository.getTitleById(id);
+	}
+
+	public List<DraftsListDto> getAllDrafts(UUID userId) {
+		return postRepository.getDraftsByUser(userId).stream()
+			.map(PostMapper.MAPPER::postToDraftDto)
+			.collect(Collectors.toList());
 	}
 
 }

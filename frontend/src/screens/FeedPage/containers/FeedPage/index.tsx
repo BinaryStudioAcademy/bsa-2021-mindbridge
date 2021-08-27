@@ -7,12 +7,10 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { RootState } from '@root/store';
 import { extractData, extractFetchDataLoading } from '@screens/FeedPage/reducers';
 import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
-import FeedLogInSidebar from '@components/FeedLogInSidebar';
-import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import LoaderWrapper from '@components/LoaderWrapper';
-import ProfileSidebar from '@components/ProfileSidebar';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
+import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 
@@ -36,6 +34,7 @@ interface IActions {
   setLoadMorePosts: IBindingAction;
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
+  loadUser: IBindingAction;
 }
 
 const params = {
@@ -45,19 +44,15 @@ const params = {
 
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
-    isAuthorized, currentUser, fetchUserProfile, userInfo, likePost, likePostView,
-    disLikePostView }
+    currentUser, userInfo, likePost, likePostView,
+    disLikePostView, isAuthorized }
 ) => {
   useEffect(() => {
     fetchData(params);
-    if (currentUser) {
-      fetchUserProfile(currentUser.id);
-    }
-  }, [currentUser, fetchUserProfile, fetchData]);
+  }, [fetchData]);
   const handleLoadMorePosts = filtersPayload => {
     fetchData(filtersPayload);
   };
-
   const handleLikePost = postId => {
     const post = {
       postId,
@@ -85,11 +80,16 @@ const FeedPage: React.FC<IFeedPageProps> = (
     handleLoadMorePosts(params);
   };
 
-  if (dataLoading === true && loadMore === false) {
+  if (dataLoading && !loadMore) {
     return (
-      <LoaderWrapper loading={dataLoading} />
+      <div className={styles.feedPage}>
+        <div className={styles.main}>
+          <LoaderWrapper className={styles.loader} loading={dataLoading} />
+        </div>
+      </div>
     );
   }
+
   return (
     <div className={styles.feedPage}>
       <div className={styles.main}>
@@ -119,27 +119,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
           )}
         </InfiniteScroll>
       </div>
-      <div className={styles.sidebar}>
-        <div className={styles.feedPageSidebars}>
-          <div className={styles.logInSideBar}>
-            {isAuthorized ? (
-              <ProfileSidebar
-                id={userInfo.id}
-                userName={userInfo.fullName}
-                avatar={userInfo.avatar}
-                folloversCount={userInfo.followersQuantity}
-                rating={userInfo.rating}
-                postNotificationCount={userInfo.postsQuantity}
-              />
-            ) : (
-              <FeedLogInSidebar />
-            )}
-          </div>
-          <div className={styles.tagsSideBar}>
-            <FeedTagsSideBar />
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
@@ -160,7 +139,8 @@ const mapDispatchToProps: IActions = {
   fetchUserProfile: fetchUserProfileRoutine,
   likePost: likePostRoutine,
   likePostView: likePostViewRoutine,
-  disLikePostView: disLikePostViewRoutine
+  disLikePostView: disLikePostViewRoutine,
+  loadUser: loadCurrentUserRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);

@@ -20,4 +20,7 @@ public abstract class OAuth2UserInfo {
 
 	public abstract String getAvatarUrl();
 
+	public abstract String getFirstName();
+
+	public abstract String getLastName();
 }

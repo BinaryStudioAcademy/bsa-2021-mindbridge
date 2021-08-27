@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.user;
 
+import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
 import com.mindbridge.data.domains.post.dto.PostTitleDto;
 import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
 import com.mindbridge.core.domains.user.dto.UserDto;
@@ -54,6 +55,8 @@ public class UserService implements UserDetailsService {
 
 	private final PostReactionRepository postReactionRepository;
 
+	private final CommentReactionRepository commentReactionRepository;
+
 	private final Random random = new Random();
 
 	public static final String PHONE_REGEX = "^\\d{10}$";
@@ -63,9 +66,8 @@ public class UserService implements UserDetailsService {
 	@Lazy
 	@Autowired
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-					   CommentRepository commentRepository, FollowerRepository followerRepository,
-					   PostRepository postRepository, PostPRRepository postPRRepository,
-					   PostReactionRepository postReactionRepository) {
+			CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository,
+			PostPRRepository postPRRepository, PostReactionRepository postReactionRepository, CommentReactionRepository commentReactionRepository) {
 		this.userRepository = userRepository;
 		this.commentRepository = commentRepository;
 		this.postPRRepository = postPRRepository;
@@ -73,20 +75,23 @@ public class UserService implements UserDetailsService {
 		this.passwordEncoder = new PasswordConfig().passwordEncoder();
 		this.followerRepository = followerRepository;
 		this.postRepository = postRepository;
+		this.commentReactionRepository = commentReactionRepository;
 	}
 
 	public UserProfileDto getUserProfileInformation(UUID userId) {
-		var user = UserMapper.MAPPER.userToUserProfileDto(userRepository.findById(userId).
-			orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found.")));
+		var foundUser = userRepository.findById(userId)
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found."));
+		var user = UserMapper.MAPPER.userToUserProfileDto(foundUser);
 		var userReactions = postReactionRepository.getPostReactionByAuthorId(userId);
-		List<Post> top5Posts = postRepository.getFirstPostTitles(userId, PageRequest.of(0,5));
+		List<Post> top5Posts = postRepository.getFirstPostTitles(userId, PageRequest.of(0, 5));
 		user.setCommentsQuantity(commentRepository.countCommentByAuthorId(userId));
 		user.setPostsQuantity(postRepository.countPostByAuthorId(userId));
 		user.setContributionsQuantity(postPRRepository.countPostPRByContributorId(userId));
 		user.setUserReactions(userReactions.stream().map(UserReactionsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
-		user.setRating(random.nextInt(100));
+		long rating = postReactionRepository.calcUserPostRating(userId) + (commentReactionRepository.calcUserCommentRating(userId) / 2);
+		user.setRating(rating);
 		return user;
 	}
 
@@ -120,7 +125,7 @@ public class UserService implements UserDetailsService {
 
 	public UserDto updateUserById(UUID id, UserProfileDataDto userProfileData) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		user.setNickname(userProfileData.getNickname());
 		user.setFirstName(userProfileData.getFirstName());
 		user.setLastName(userProfileData.getLastName());
@@ -135,14 +140,14 @@ public class UserService implements UserDetailsService {
 
 	public boolean checkPassword(UUID id, String password) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		return passwordEncoder.matches(password.substring(0, password.length() - 1), user.getPassword());
 	}
 
 	public UserDto updateUserAvatarById(UUID id, String url) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
-		String result = URLDecoder.decode( url, StandardCharsets.UTF_8);
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+		String result = URLDecoder.decode(url, StandardCharsets.UTF_8);
 		String rigth_url = result.substring(0, result.length() - 1);
 		user.setAvatar(rigth_url);
 		userRepository.save(user);
@@ -152,7 +157,7 @@ public class UserService implements UserDetailsService {
 
 	public UserDto updateUserPasswordById(UUID id, String newPassword) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		user.setPassword(passwordEncoder.encode(newPassword.substring(0, newPassword.length() - 1)));
 		userRepository.save(user);
 

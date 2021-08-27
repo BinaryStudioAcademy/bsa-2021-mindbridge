@@ -1,6 +1,6 @@
 .btnFollow {
   object-fit: cover;
-  width: 4rem;
+  width: 4.7143rem;
   height: 2rem;
   align-items: flex-start;
   position: relative;
@@ -9,9 +9,12 @@
   border: 1px solid #14253F;
   box-sizing: border-box;
   border-radius: 5px;
+  padding: 0.2857rem 0.5rem 0.2857rem 0.5rem;
 }
 .btnFollow p {
   color: white;
+  font-size: 1.1429rem;
+  line-height: 1.3571rem;
   font-family: Lato, sans-serif;
   font-style: normal;
   font-weight: normal;

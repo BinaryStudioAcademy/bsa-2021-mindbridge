@@ -16,7 +16,6 @@ const PostVersionItem: FunctionComponent<IPostVersionItemProps> = ({ postVersion
 
   const goToVersion = () => {
     history.push(`/postVersion/${postVersion.id}`);
-    history.go();
   };
 
   const handleClick = e => {

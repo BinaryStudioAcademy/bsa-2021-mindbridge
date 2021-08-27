@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.post.dto.CreatePostDto;
+import com.mindbridge.core.domains.post.dto.DraftsListDto;
 import com.mindbridge.core.domains.post.dto.PostDetailsDto;
 import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postVersion.model.PostVersion;
@@ -23,4 +24,6 @@ public interface PostMapper {
 
 	@Mapping(source = "id", target = "post.id")
 	PostVersion postToPostVersion(Post post);
+
+	DraftsListDto postToDraftDto(Post post);
 }
