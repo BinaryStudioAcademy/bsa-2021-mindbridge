@@ -57,4 +57,8 @@ public class CommentService {
 		return commentRepository.save(commentDtoToReply);
 	}
 
+	public CommentDto getCommentById(UUID id) {
+		var comment = commentRepository.findById(id).map(CommentMapper.MAPPER::commentToCommentDto).orElseThrow();
+		return comment;
+	}
 }
