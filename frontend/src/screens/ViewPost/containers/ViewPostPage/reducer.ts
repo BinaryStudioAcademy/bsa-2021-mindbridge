@@ -70,7 +70,6 @@ export const viewPostReducer = createReducer(initialState, {
   },
   [sendCommentRoutine.SUCCESS]: (state, action) => {
     state.comment = initialState.comment;
-    console.log(action.payload);
     state.post.comments.unshift(action.payload);
   },
   [sendReplyRoutine.SUCCESS]: (state, action) => {

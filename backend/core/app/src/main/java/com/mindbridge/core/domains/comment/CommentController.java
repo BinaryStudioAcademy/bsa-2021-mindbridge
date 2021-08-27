@@ -21,12 +21,12 @@ public class CommentController {
 	}
 
 
-	@PutMapping("/add")
+	@PostMapping("/add")
 	public Comment addComment(@RequestBody CreateCommentDto comment) {
 		return commentService.addComment(comment);
 	}
 
-	@PutMapping("/reply")
+	@PostMapping("/reply")
 	public Comment addReplyToComment(@RequestBody ReplyCommentDto reply) {
 		return commentService.addReplyToComment(reply);
 	}
