@@ -24,7 +24,7 @@ import PostVersions from '@screens/PostVersions/containers/PostVersionsPage';
 import EditPrPage from '@root/screens/PostPage/containers/EditPrPage';
 import MyContributionsPage from '@root/screens/PostVersions/containers/MyContributionsPage';
 import { checkHeaderShown } from '@helpers/headerBlackList.hepler';
-import PostVersionPage from "@screens/PostVersionPage/containers/PostVersionPage";
+import PostVersionPage from '@screens/PostVersionPage/containers/PostVersionPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
