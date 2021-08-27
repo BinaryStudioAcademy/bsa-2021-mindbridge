@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
-import { IComments } from '@screens/ViewPost/models/IComments';
 import Reply from '@components/BasicCommentCard/components/Reply';
+import { IComments } from '@screens/ViewPost/models/IComments';
 
 interface ICommentProps {
   comments: IComments[];
 }
 
-const CommentsFeed: FunctionComponent<ICommentProps> = ({ comments }) => (
+const BasicCommentsFeed: FunctionComponent<ICommentProps> = ({ comments }) => (
   <div className={styles.main}>
     <p className={styles.commentCounter}>
       {' '}
@@ -38,4 +38,4 @@ const CommentsFeed: FunctionComponent<ICommentProps> = ({ comments }) => (
   </div>
 );
 
-export default CommentsFeed;
+export default BasicCommentsFeed;
