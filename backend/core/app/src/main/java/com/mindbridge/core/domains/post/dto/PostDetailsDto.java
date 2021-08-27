@@ -35,4 +35,6 @@ public class PostDetailsDto {
 
 	private Boolean markdown;
 
+	private Boolean draft;
+
 }
