@@ -11,4 +11,5 @@ public class HighlightsDetailsDto {
 	private String text;
 	private UUID postId;
 	private UUID userId;
+	private String postTitle;
 }

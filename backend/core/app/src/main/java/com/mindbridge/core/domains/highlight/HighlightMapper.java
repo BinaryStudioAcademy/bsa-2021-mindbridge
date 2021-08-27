@@ -18,5 +18,6 @@ public interface HighlightMapper {
 
 	@Mapping(source = "user.id", target = "userId")
 	@Mapping(source = "post.id", target = "postId")
+	@Mapping(source = "post.title", target = "postTitle")
 	HighlightsDetailsDto fromHighlightToHighlightDetailsDto(Highlight highlight);
 }
