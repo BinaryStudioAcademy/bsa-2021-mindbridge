@@ -3,7 +3,7 @@ import {
   sendNicknameRoutine,
   sendFormRoutine,
   sendAvatarRoutine,
-  openPasswordChangeModalRoutine, sendChangePasswordFormRoutine, fetchUserRoutine
+  openPasswordChangeModalRoutine, sendChangePasswordFormRoutine, fetchUserRoutine, deleteAvatarRoutine
 } from '@screens/ProfilePage/routines';
 import { IDataProfile } from '@screens/ProfilePage/models/IDataProfile';
 
@@ -95,5 +95,15 @@ export const profilePageReducer = createReducer(initialState, {
   },
   [openPasswordChangeModalRoutine.SUCCESS]: state => {
     state.isPasswordChangeModalOpen = false;
+  },
+  [deleteAvatarRoutine.TRIGGER]: state => {
+    state.savingAvatar.isLoaded = false;
+  },
+  [deleteAvatarRoutine.SUCCESS]: state => {
+    state.savingAvatar.url = '';
+    state.savingAvatar.isLoaded = true;
+  },
+  [deleteAvatarRoutine.FAILURE]: state => {
+    state.savingAvatar.isLoaded = true;
   }
 });
