@@ -91,7 +91,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
         <div className={styles.main}>
           <LoaderWrapper className={styles.loader} loading={dataLoading} />
         </div>
-      </div >
+      </div>
     );
   }
 

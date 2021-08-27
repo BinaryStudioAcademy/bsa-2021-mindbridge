@@ -23,7 +23,7 @@
 .header{
     grid-row: 1/2;
     display: grid;
-    grid-template-columns: 2fr 2fr 10fr 1fr 1fr;
+    grid-template-columns: 2fr 2fr 10fr 1fr 0.6fr;
     align-content:flex-start;
     margin-bottom: 0.8rem;
     button {
@@ -34,14 +34,14 @@
 
     .html_button{
         grid-column: 1/2;
-        margin-right: 18%;
+        margin-right: 1rem;
     }
 
     .disabled_html_button{
       cursor: not-allowed;
       background-color: #f8f8f8;
       grid-column: 1/2;
-      margin-right: 18%;
+      margin-right: 1rem;
     }
 
     .markdown_button{
@@ -53,7 +53,6 @@
       cursor: not-allowed;
       background-color: #f8f8f8;
       grid-column: 1/2;
-      margin-right: 18%;
     }
 
     .edit_button{
@@ -61,8 +60,10 @@
         width: 2.36rem;
         margin-right: 0.4rem;
         padding: 0;
+        display: flex;
+        justify-self: flex-end;
+        justify-content: center;
         div{
-            padding-left: 15%;
             display: grid;
             grid-template-columns: 1fr;
             grid-template-rows: 1fr;
@@ -80,6 +81,10 @@
         grid-column: 5/6;
         width: 2.36rem;
         padding: 0;
+        display: flex;
+        justify-self: flex-end;
+        justify-content: center;
+        align-content: center;
         svg{
             height: 1.6rem;
             width: 1.6rem;

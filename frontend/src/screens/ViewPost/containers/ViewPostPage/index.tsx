@@ -67,11 +67,11 @@ const ViewPost: React.FC<IViewPostProps> = (
     leaveReaction(post);
   };
 
-  if(!data.post.id){
+  if (!data.post.id) {
     return (
       <div className={styles.viewPost}>
         <div className={styles.main}>
-          <LoaderWrapper className={styles.loader} loading={true} />
+          <LoaderWrapper className={styles.loader} loading />
         </div>
       </div>
     );
