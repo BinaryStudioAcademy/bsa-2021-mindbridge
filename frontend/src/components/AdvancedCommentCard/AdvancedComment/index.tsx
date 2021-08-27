@@ -10,6 +10,8 @@ import ShareCommentSvg from '@components/AdvancedCommentCard/svg/shareCommentSvg
 import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 import ArrowCloseComment from '@components/AdvancedCommentCard/svg/ArrowCloseComment';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -25,11 +27,15 @@ interface IBasicCommentProps {
   postId: string;
   commentId: string;
   isAuthorized: boolean;
+  userInfo: IUserProfile;
+  postAuthorId: string;
+  parentCommentId: string;
 }
 
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
   {
     userId,
+    userInfo,
     postId,
     createdAt,
     text,
@@ -41,7 +47,9 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     shouldRenderArrowCloseComment,
     sendReply,
     commentId,
-    isAuthorized
+    isAuthorized,
+    parentCommentId,
+    postAuthorId
   }
 ) => {
   const [disabled, setDisabled] = useState(false);
@@ -49,7 +57,9 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   const [shouldRender] = useState(setShouldRender);
 
   const rotateArrow = {
-    transform: rotateArrowHook && 'rotate(90deg)',
+    width: '10px',
+    height: '10px',
+    transform: rotateArrowHook && 'rotate(180deg)',
     transition: 'transform 300ms ease'
   };
 
@@ -62,7 +72,9 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     author: '',
     postId: '',
     replyCommentId: '',
-    text: ''
+    text: '',
+    avatar: null,
+    nickname: ''
   });
 
   const handleNewReply = (event: any) => {
@@ -78,14 +90,19 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
         text: newReply.text,
         author: userId,
         postId,
-        replyCommentId: commentId
+        replyCommentId: commentId,
+        avatar: userInfo.avatar,
+        nickname: userInfo.nickname
       };
       sendReply(addComment);
+      setDisabled(false);
     }
   };
 
+  const checkAuthorPost = (authorPostId, userID) => authorPostId === userID;
+
   return (
-    <div className={styles.advancedComment}>
+    <div id={commentId} className={styles.advancedComment}>
       <div className={styles.header}>
         { shouldRenderArrowCloseComment && (
           <button ref={ref} id="button" className={styles.closeCommentBtn} type="button" onClick={() => handleClick()}>
@@ -96,8 +113,11 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           <a href={`/user/${author.id}`} className="avatar">
             <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
           </a>
-          <a href={`/user/${author.id}`} className="author">
-            {author.nickname ?? (`${author.firstName} ${author.lastName}`) }
+          <a
+            href={`/user/${author.id}`}
+            className={(checkAuthorPost(postAuthorId, author.id)) ? styles.postAuthor : styles.author}
+          >
+            <p>{author.nickname}</p>
           </a>
           <DividerSvg />
           <div className="metadata">
@@ -105,30 +125,23 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           </div>
         </div>
         <div className={styles.commentRightAction}>
-          <RatingComponent postRating={commentRating} />
-          {/* <RatingComponent*/}
-          {/*  postRating={commentRating}*/}
-          {/*  handleDisLikePost={handleDisLikePost}*/}
-          {/*  handleLikePost={handleLikePost}*/}
-          {/*  postId={commentId}*/}
-          {/*  userInfo={userInfo}*/}
-          {/*  arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === commentId*/}
-          {/*    && !postReaction.liked)*/}
-          {/*    ? ('#F75C48'*/}
-          {/*    ) : (*/}
-          {/*      '#66B9FF'*/}
-          {/*    )}*/}
-          {/*  arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === commentId*/}
-          {/*    && postReaction.liked)*/}
-          {/*    ? ('#8AC858'*/}
-          {/*    ) : (*/}
-          {/*      '#66B9FF'*/}
-          {/*    )}*/}
-          {/*/ >*/}
+          <RatingComponent postRating={commentRating ?? 0} />
           { shouldRender
-            && <UpToParentCommentSvg />}
-          <LinkSvg />
-          <ShareCommentSvg />
+          && (
+          <a href={`#${parentCommentId}`} data-tooltip="Up to main comment">
+            <UpToParentCommentSvg />
+          </a>
+          )}
+          <span>
+            <CopyToClipboard text={`localhost:3000/post/${postId}#${commentId}`}>
+              <button style={{ background: 'none' }} data-tooltip="Copy link" type="button">
+                <LinkSvg />
+              </button>
+            </CopyToClipboard>
+          </span>
+          <a href="/" data-tooltip="Share comment">
+            <ShareCommentSvg />
+          </a>
         </div>
       </div>
       <div className="text">

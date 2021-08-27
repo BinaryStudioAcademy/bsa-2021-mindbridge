@@ -13,8 +13,6 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
 import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
-import { IComment } from '@screens/ViewPost/models/IComment';
-import { text } from 'd3';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -126,7 +124,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
           sendComment={sendComment}
           sendReply={sendReply}
           postId={post.id}
-          userId={userInfo.id}
+          postAuthorId={post.author.id}
+          userInfo={userInfo}
           isAuthorized={isAuthorized}
         />
       </div>

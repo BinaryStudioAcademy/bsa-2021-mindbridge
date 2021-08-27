@@ -3,4 +3,6 @@ export interface ICommentReply {
   postId: string;
   author: string;
   replyCommentId: string;
+  avatar: null;
+  nickname: '';
 }

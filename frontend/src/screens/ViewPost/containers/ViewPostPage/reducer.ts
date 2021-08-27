@@ -34,13 +34,17 @@ const initialState: IViewPostReducerState = {
   comment: {
     text: '',
     author: '',
-    postId: ''
+    postId: '',
+    avatar: null,
+    nickname: ''
   },
   reply: {
     text: '',
     author: '',
     postId: '',
-    replyCommentId: ''
+    replyCommentId: '',
+    avatar: null,
+    nickname: ''
   }
 };
 
@@ -66,8 +70,23 @@ export const viewPostReducer = createReducer(initialState, {
   },
   [sendCommentRoutine.SUCCESS]: (state, action) => {
     state.comment = initialState.comment;
+    console.log(action.payload);
+    state.post.comments.unshift(action.payload);
   },
-  [sendReplyRoutine.SUCCESS]: state => {
+  [sendReplyRoutine.SUCCESS]: (state, action) => {
     state.reply = initialState.reply;
+
+    const findById = (id, comments, idx = 0) => {
+      const item = comments[idx];
+
+      if (!item) return null;
+      if (item.id === id) return item;
+
+      const newComments = item.comments.length ? [...comments, ...item.comments] : comments;
+
+      return findById(id, newComments, idx + 1);
+    };
+    const message = findById(action.payload.comment.id, state.post.comments);
+    message.comments.unshift(action.payload);
   }
 });
