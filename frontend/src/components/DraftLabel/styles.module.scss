@@ -1,0 +1,26 @@
+.draftLabel {
+  position: absolute;
+  top: 2px;
+  right: -18px;
+  display: block;
+  background-color: #cee8fe;
+  color: #7780a1;
+  padding: 1rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  border-radius: 0.4rem 0 0 0.4rem;
+
+  &:after {
+    top: 100%;
+    width: 0;
+    height: 0;
+    position: absolute;
+    content: '';
+    left: auto;
+    right: 0;
+    border-style: solid;
+    border-width: 1.2em 1.2em 0 0;
+    border-color: transparent;
+    border-top-color: #a7d5fc;
+  }
+}
