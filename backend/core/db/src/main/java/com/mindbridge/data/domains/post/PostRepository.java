@@ -18,7 +18,7 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 			+ "FROM Post p where p.id = :id")
 	PostsReactionsQueryResult getAllReactionsOnPost(UUID id);
 
-	@Query("select p from Post p where p.deleted = false order by p.createdAt desc ")
+	@Query("select p from Post p where p.deleted = false and p.draft = false order by p.createdAt desc ")
 	List<Post> getAllPosts(Pageable pageable);
 
 	@Query("select p from Post p where p.deleted = false and p.author.id = :userId")
@@ -32,4 +32,6 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 	@Query("select p.title from Post p where p.id = :id")
 	String getTitleById(UUID id);
 
+	@Query("SELECT p FROM Post p WHERE p.deleted = false AND p.author.id = :userId and p.draft = true")
+	List<Post> getDraftsByUser(UUID userId);
 }

@@ -15,5 +15,6 @@ export interface IPost {
   postRating: number;
   avatar: string;
   markdown: boolean;
+  draft: boolean;
   comments: IComments[];
 }

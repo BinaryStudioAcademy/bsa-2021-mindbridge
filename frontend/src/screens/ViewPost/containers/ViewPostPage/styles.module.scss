@@ -1,47 +1,8 @@
-.viewPost {
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 550px;
-  grid-template-areas:
-      "main sidebar"
-;
-  grid-gap: 1rem;
-  grid-row-gap: 0;
-}
-
-
 .main {
+  margin-bottom: 4.8em;
   grid-area: main;
-  min-width: 100%;
+  min-width: 43.75em;
+  .loader{
+  margin-left: -13%;
+  }
 }
-
-.sidebar {
-  margin-top: 6.6rem;
-  display: flex;
-  flex-direction: column;
-  grid-area: sidebar;
-  position: relative;
-
-  .logInSideBar {
-    margin-bottom: 2em;
-  }
-
-  .suggestChanges {
-    margin-bottom: 2em;
-
-    .tagsSideBar {
-      margin-top: 2em;
-    }
-  }
-
-  .tagsSideBar {
-    margin-top: 2em;
-  }
-
-  .profileSideBar {
-    margin-bottom: 2em;
-  }
-
-}
-
-
