@@ -13,10 +13,12 @@ import { fetchPostContributionsRoutine } from '@screens/PostVersions/routines';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { IContribution } from '@screens/ViewPost/models/IContribution';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { useParams } from 'react-router-dom';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IPost } from '@screens/ViewPost/models/IPost';
+import { REFRESH_TOKEN } from '@screens/Login/constants/auth_constants';
+import { loadCurrentUserRoutine } from '@screens/Login/routines';
 
 export interface ISidebarProps extends IState, IActions {
 }
@@ -34,6 +36,7 @@ interface IActions {
   fetchPostContributions: IBindingCallback1<object>;
   fetchUserProfile: IBindingCallback1<string>;
   getPostVersions: IBindingCallback1<object>;
+  loadCurrentUser: IBindingAction;
 }
 
 const Sidebar: React.FC<ISidebarProps> = (
@@ -46,7 +49,8 @@ const Sidebar: React.FC<ISidebarProps> = (
     getPostVersions,
     currentUser,
     userInfo,
-    post
+    post,
+    loadCurrentUser
   }
 ) => {
   const { postId } = useParams();
@@ -57,8 +61,10 @@ const Sidebar: React.FC<ISidebarProps> = (
   const sidebar = useRef(null);
 
   useEffect(() => {
-    fetchUserProfile(currentUser.id);
-  }, [currentUser]);
+    if (localStorage.getItem(REFRESH_TOKEN) && !currentUser) {
+      loadCurrentUser();
+    }
+  }, [currentUser, loadCurrentUser]);
 
   useEffect(() => {
     if (postId) {
@@ -99,14 +105,25 @@ const Sidebar: React.FC<ISidebarProps> = (
         {isAuthorized ? (
           <div className={styles.suggestChanges}>
             <div className={styles.profileSideBar}>
-              <ProfileSidebar
-                id={userInfo.id}
-                userName={userInfo.fullName ?? userInfo.nickname}
-                avatar={userInfo.avatar}
-                folloversCount={userInfo.followersQuantity}
-                rating={userInfo.rating}
-                postNotificationCount={userInfo.postsQuantity}
-              />
+              {currentUser ? (
+                <ProfileSidebar
+                  id={currentUser.id}
+                  userName={currentUser.nickname}
+                  avatar={currentUser.avatar}
+                  folloversCount={0}
+                  rating={0}
+                  postNotificationCount={0}
+                />
+              ) : (
+                <ProfileSidebar
+                  id=""
+                  userName=""
+                  avatar=""
+                  folloversCount={0}
+                  rating={0}
+                  postNotificationCount={0}
+                />
+              )}
             </div>
             {postId && (
               <div className={styles.contributions_sidebar_container}>
@@ -153,7 +170,8 @@ const mapStateToProps: (state) => IState = state => ({
 const mapDispatchToProps: IActions = {
   getPostVersions: getPostVersionsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
-  fetchPostContributions: fetchPostContributionsRoutine
+  fetchPostContributions: fetchPostContributionsRoutine,
+  loadCurrentUser: loadCurrentUserRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
