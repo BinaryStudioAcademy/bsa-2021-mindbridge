@@ -24,16 +24,9 @@ interface IActions {
   fetchMyPRs: IBindingCallback1<string>;
 }
 
-const params = {
-  from: 0,
-  count: 50
-};
-
 const MyContributions: React.FC<IMyContributionsProps> = (
   {
-    isAuthorized,
     currentUser,
-    userInfo,
     fetchUserProfile,
     contributionsOfAuthor,
     fetchMyPRs

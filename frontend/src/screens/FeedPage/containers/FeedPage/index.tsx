@@ -82,7 +82,11 @@ const FeedPage: React.FC<IFeedPageProps> = (
 
   if (dataLoading && !loadMore) {
     return (
-      <LoaderWrapper loading={dataLoading} />
+      <div className={styles.feedPage}>
+        <div className={styles.main}>
+          <LoaderWrapper className={styles.loader} loading={dataLoading} />
+        </div>
+      </div>
     );
   }
 
