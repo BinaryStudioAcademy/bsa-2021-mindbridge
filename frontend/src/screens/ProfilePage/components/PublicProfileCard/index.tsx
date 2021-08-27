@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import FormButton from '@components/FormButton';
 import { getHowLong } from '@helpers/date.helper';
 import LoaderWrapper from '@components/LoaderWrapper';
 import RatingSvg from '@screens/ProfilePage/components/svg/ratingSvg';

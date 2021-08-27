@@ -90,7 +90,7 @@ const RegistrationForm: FunctionComponent<IRegisterForm> = ({
         <InputPopup
           id="name"
           type="text"
-          label="FirstName"
+          label="First Name"
           placeholder="Enter your first name"
           setValue={setName}
           validateValue={validateName}
@@ -100,7 +100,7 @@ const RegistrationForm: FunctionComponent<IRegisterForm> = ({
         <InputPopup
           id="surname"
           type="text"
-          label="LastName"
+          label="Last Name"
           placeholder="Enter your last name"
           setValue={setSurname}
           validateValue={validateSurname}

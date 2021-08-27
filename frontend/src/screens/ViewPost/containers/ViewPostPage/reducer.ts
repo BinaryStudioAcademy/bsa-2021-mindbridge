@@ -28,6 +28,7 @@ const initialState: IViewPostReducerState = {
     postRating: 0,
     avatar: null,
     markdown: false,
+    draft: false,
     author: { id: '', firstName: '', lastName: '', avatar: null, nickname: '' },
     comments: []
   },
