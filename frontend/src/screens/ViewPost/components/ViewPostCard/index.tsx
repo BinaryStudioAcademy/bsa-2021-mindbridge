@@ -13,6 +13,7 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
 import GetCursorPosition from 'cursor-position';
+import Highlighter from 'web-highlighter';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -45,7 +46,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
       }
     }
   };
-
+  const highlighter = new Highlighter();
   const handleClosePopUp = () => {
     handleSaveHighlight(window.getSelection().toString());
     setIsPopUpShown(false);
