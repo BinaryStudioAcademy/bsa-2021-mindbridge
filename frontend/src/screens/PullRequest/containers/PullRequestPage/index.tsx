@@ -179,9 +179,13 @@ const PullRequest: React.FC<IPullRequestProps> = (
         <Preview
           coverImage={postPR.coverImage}
           title={postPR.title}
+          oldTitle={postPR.post.title}
           text={postPR.text}
+          oldText={postPR.post.text}
           markdown={postPR.post.markdown}
           tags={postPR.tags}
+          oldTags={postPR.post.tags}
+          seeDiff={seeDiff}
         />
       </div>
     </div>
