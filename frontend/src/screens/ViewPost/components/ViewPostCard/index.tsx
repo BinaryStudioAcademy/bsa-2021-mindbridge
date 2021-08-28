@@ -25,9 +25,7 @@ interface IViewPostCardProps {
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, handleLikePost,
   handleDisLikePost, userInfo, handleSaveHighlight }) => {
   const history = useHistory();
-  const [xStart, setXStart] = useState(0);
   const [xPos, setXPos] = useState(0);
-  const [yStart, setYStart] = useState(0);
   const [yPos, setYPos] = useState(0);
   const [isPopUpShown, setIsPopUpShown] = useState(false);
   const goToEdit = () => {
@@ -35,26 +33,22 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
   };
 
   const handleMouseUp = () => {
-    const { x } = GetCursorPosition({ scroll: true });
+    const { x, y } = GetCursorPosition({ scroll: true });
     if (!window.getSelection().toString().trim()) {
       setIsPopUpShown(false);
-      console.log(window.getSelection().toString().trim());
     } else {
-      setYPos(yStart);
-      setXPos((xStart - 23) + (x - xStart) / 2);
-      setIsPopUpShown(true);
+      const elements = Array.prototype.slice.call(window.getSelection().getRangeAt(0).cloneContents().children);
+      if (!elements.find(element => element.localName === 'br')) {
+        setYPos(y);
+        setXPos(x - 25);
+        setIsPopUpShown(true);
+      }
     }
   };
 
   const handleClosePopUp = () => {
     handleSaveHighlight(window.getSelection().toString());
     setIsPopUpShown(false);
-  };
-
-  const handleMouseDown = () => {
-    const { x, y } = GetCursorPosition({ scroll: true });
-    setXStart(x);
-    setYStart(y);
   };
 
   return (
@@ -128,7 +122,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
             </div>
           </Feed>
           {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-          <div className={styles.postBody} onMouseUp={handleMouseUp} onMouseDown={handleMouseDown}>
+          <div className={styles.postBody} onMouseUp={handleMouseUp}>
             <Popup
               open={isPopUpShown}
               style={{ transform: `translate3d(${xPos}px, ${yPos - 60}px, 0px)`,
