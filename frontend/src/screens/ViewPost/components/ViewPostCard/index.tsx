@@ -29,6 +29,11 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
   const [xPos, setXPos] = useState(0);
   const [yPos, setYPos] = useState(0);
   const [isPopUpShown, setIsPopUpShown] = useState(false);
+  const highlighter = new Highlighter({
+    style: {
+      className: styles.highlightWrapper
+    }
+  });
   const goToEdit = () => {
     history.push(`/post/edit/${post.id}`);
   };
@@ -46,9 +51,10 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
       }
     }
   };
-  const highlighter = new Highlighter();
   const handleClosePopUp = () => {
+    highlighter.fromRange(window.getSelection().getRangeAt(0));
     handleSaveHighlight(window.getSelection().toString());
+    window.getSelection().removeAllRanges();
     setIsPopUpShown(false);
   };
 
