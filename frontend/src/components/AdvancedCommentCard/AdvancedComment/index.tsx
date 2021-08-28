@@ -131,31 +131,33 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
         </div>
         <div className={styles.commentRightAction}>
           { userInfo.id !== author.id && (
-            <RatingComponent
-              postRating={commentRating}
-              handleDisLikePost={handleDislikeComment}
-              handleLikePost={handleLikeComment}
-              postId={commentId}
-              userInfo={userInfo}
-              arrowUpColor={userInfo.userReactionsComments
-                .find(commentReaction => commentReaction.commentId === commentId
+            <div className={styles.ratingComponent}>
+              <RatingComponent
+                postRating={commentRating}
+                handleDisLikePost={handleDislikeComment}
+                handleLikePost={handleLikeComment}
+                postId={commentId}
+                userInfo={userInfo}
+                arrowUpColor={userInfo.userReactionsComments
+                  .find(commentReaction => commentReaction.commentId === commentId
                 && commentReaction.liked)
-                ? ('#8AC858'
-                ) : (
-                  '#66B9FF'
-                )}
-              arrowDownColor={userInfo.userReactionsComments
-                .find(commentReaction => commentReaction.commentId === commentId
+                  ? ('#8AC858'
+                  ) : (
+                    '#66B9FF'
+                  )}
+                arrowDownColor={userInfo.userReactionsComments
+                  .find(commentReaction => commentReaction.commentId === commentId
                 && !commentReaction.liked)
-                ? ('#F75C48'
-                ) : (
-                  '#66B9FF'
-                )}
-            />
+                  ? ('#F75C48'
+                  ) : (
+                    '#66B9FF'
+                  )}
+              />
+            </div>
           )}
           { shouldRender
           && (
-          <a href={`#${parentCommentId}`} title="Up to main comment">
+          <a href={`#${parentCommentId}`} data-tooltip="Up to main comment">
             <UpToParentCommentSvg />
           </a>
           )}

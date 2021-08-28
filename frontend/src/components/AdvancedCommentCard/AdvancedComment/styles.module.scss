@@ -27,6 +27,16 @@
     margin-left: -1.4em;
   }
 
+  :global([data-tooltip]) {
+    &::before{
+      opacity: 0;
+    }
+    &:hover::after {
+      transition: 0s;
+      transition-delay:1s;
+    }
+  }
+
   :global(.text) {
     font-family: Lato, sans-serif !important;
     font-style: normal;
@@ -71,17 +81,18 @@
 
       .postAuthor {
         font-family: Lato, sans-serif;
-        color: #353535;
+        color: white;
         font-weight: 500;
         font-style: normal;
         font-size: 0.8571em;
         line-height: 1.0285em;
-        background: #dee7f8;
+        background: #14253F;
+        border: 0.07142em solid #14253F;
+        box-sizing: border-box;
+        border-radius: 0.3571em;
+        padding-right: 0.3571em;
+        padding-left: 0.3571em;
 
-        &:hover {
-          color: #353535;
-          background: #dee7f8;
-        }
       }
 
       .author {
@@ -131,12 +142,14 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-items: center;
       margin-left: auto;
       gap: 1em;
       margin-right: 1.8371em;
 
-      #ratingElement {
-        margin-right: 0;
+      .ratingComponent {
+        padding-right: 0.2em;
+        margin-top: -0.7857rem;
       }
     }
   }
@@ -157,15 +170,14 @@
   }
 
   .replyText {
-    height: 4.2857em;
-    width: 80.7142em;
-    max-height: 100%;
-    max-width: 99%;
+    min-height: 4.1428em;
+    min-width: 98%;
     background: $background-card;
     border-radius: 0 0 0.3571em 0.3571em;
     padding-top: 1.4285em;
     padding-bottom: 1.5em;
     padding-left: 1.5714em;
+    resize: vertical;
 
     &::placeholder {
       font-family: Lato, sans-serif !important;
