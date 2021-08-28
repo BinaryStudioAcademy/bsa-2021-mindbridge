@@ -2,11 +2,13 @@ import React from 'react';
 
 import DiffMatchPatch from 'diff-match-patch';
 import parse from 'html-react-parser';
+import styles from './styles.module.scss';
+import classNames from 'classnames';
 
 interface ITextDiffProps {
   oldText: string;
   newText: string;
-  className: string;
+  className?: string;
 }
 
 const toPrettyHtml = diffs => {
@@ -36,14 +38,14 @@ const toPrettyHtml = diffs => {
   return html.join('');
 };
 
-const TextDiff: React.FC<ITextDiffProps> = ({ oldText, newText }) => {
+const TextDiff: React.FC<ITextDiffProps> = ({ oldText, newText, className }) => {
   const dmp = new DiffMatchPatch();
   const diff = dmp.diff_main(oldText, newText);
   dmp.diff_cleanupSemantic(diff);
 
   const result = toPrettyHtml(diff);
 
-  return <div>{parse(result)}</div>;
+  return <div className={classNames(styles.textDiff, className)}>{parse(result)}</div>;
 };
 
 export default TextDiff;
