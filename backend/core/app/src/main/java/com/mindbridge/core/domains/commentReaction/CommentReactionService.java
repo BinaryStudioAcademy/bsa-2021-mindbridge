@@ -26,7 +26,6 @@ public class CommentReactionService {
 
 	public Optional<ResponseCommentReactionDto> setReaction(ReceivedCommentReactionDto commentReactionDto) {
 		var reaction = commentReactionRepository.getCommentReaction(commentReactionDto.getUserId(), commentReactionDto.getCommentId());
-		System.out.println(reaction);
 		if (reaction.isPresent()) {
 			var react = reaction.get();
 			if(react.getLiked() == commentReactionDto.getLiked()) {
