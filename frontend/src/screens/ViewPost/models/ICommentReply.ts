@@ -5,4 +5,5 @@ export interface ICommentReply {
   replyCommentId: string;
   avatar: string;
   nickname: '';
+  rating: number;
 }

@@ -37,7 +37,8 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
     author: '',
     postId: '',
     avatar: null,
-    nickname: ''
+    nickname: '',
+    rating: 0
   });
 
   const handleNewComment = (event: any) => {

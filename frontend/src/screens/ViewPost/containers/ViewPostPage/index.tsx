@@ -5,9 +5,8 @@ import { IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
 import {
-  dislikeCommentRoutine,
   fetchDataRoutine, leaveReactionOnCommentRoutine,
-  leaveReactionOnPostViewPageRoutine, likeCommentRoutine,
+  leaveReactionOnPostViewPageRoutine,
   sendCommentRoutine,
   sendReplyRoutine
 } from '@screens/ViewPost/routines';
@@ -16,7 +15,7 @@ import { IData } from '@screens/ViewPost/models/IData';
 import { useParams } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { disLikePostViewRoutine, likePostViewRoutine }
+import { disLikeCommentViewRoutine, disLikePostViewRoutine, likeCommentViewRoutine, likePostViewRoutine }
   from '@screens/PostPage/routines';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 
@@ -145,12 +144,12 @@ const mapStateToProps: (state: RootState) => IState = state => ({
 const mapDispatchToProps: IActions = {
   sendComment: sendCommentRoutine,
   sendReply: sendReplyRoutine,
-  likeComment: likeCommentRoutine,
-  dislikeComment: dislikeCommentRoutine,
   fetchData: fetchDataRoutine,
   leaveReaction: leaveReactionOnPostViewPageRoutine,
   likePostView: likePostViewRoutine,
   disLikePostView: disLikePostViewRoutine,
+  likeComment: likeCommentViewRoutine,
+  dislikeComment: disLikeCommentViewRoutine,
   leaveReactionOnComment: leaveReactionOnCommentRoutine
 };
 

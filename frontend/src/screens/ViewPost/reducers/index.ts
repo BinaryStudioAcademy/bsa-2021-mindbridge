@@ -4,7 +4,7 @@ import { reducerCreator } from '@helpers/reducer.helper';
 import { viewPostReducer } from '@screens/ViewPost/containers/ViewPostPage/reducer';
 /* PlopJS import placeholder. Do not remove */
 import {
-  fetchDataRoutine,
+  fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine,
   sendCommentRoutine,
   sendReplyRoutine
@@ -15,7 +15,8 @@ const requests = combineReducers({
   fetchDataRequest: reducerCreator([fetchDataRoutine.TRIGGER]),
   leaveReactionOnPostViewPageRequest: reducerCreator([leaveReactionOnPostViewPageRoutine.TRIGGER]),
   sendCommentRequest: reducerCreator([sendCommentRoutine.TRIGGER]),
-  sendReplyRequest: reducerCreator([sendReplyRoutine.TRIGGER])
+  sendReplyRequest: reducerCreator([sendReplyRoutine.TRIGGER]),
+  leaveReactionOnCommentRequest: reducerCreator([leaveReactionOnCommentRoutine.TRIGGER])
 });
 
 export default combineReducers({

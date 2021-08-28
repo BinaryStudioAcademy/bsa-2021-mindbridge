@@ -12,8 +12,6 @@ import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
-import { IBindingCallback1 } from '@models/Callbacks';
-import RatingIcon from '@components/AdvancedCommentCard/svg/RatingIcon';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -80,7 +78,8 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     replyCommentId: '',
     text: '',
     avatar: null,
-    nickname: ''
+    nickname: '',
+    rating: 0
   });
 
   const handleNewReply = (event: any) => {
@@ -132,23 +131,23 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
         </div>
         <div className={styles.commentRightAction}>
           { userInfo.id !== author.id && (
-            <RatingIcon
+            <RatingComponent
               postRating={commentRating}
-              handleDisLikeComment={handleDislikeComment}
-              handleLikeComment={handleLikeComment}
-              commentId={commentId}
+              handleDisLikePost={handleDislikeComment}
+              handleLikePost={handleLikeComment}
+              postId={commentId}
               userInfo={userInfo}
-              arrowDownColor={userInfo.userReactionsComments
+              arrowUpColor={userInfo.userReactionsComments
                 .find(commentReaction => commentReaction.commentId === commentId
-                  && !commentReaction.liked)
-                ? ('#F75C48'
+                && commentReaction.liked)
+                ? ('#8AC858'
                 ) : (
                   '#66B9FF'
                 )}
-              arrowUpColor={userInfo.userReactionsComments
+              arrowDownColor={userInfo.userReactionsComments
                 .find(commentReaction => commentReaction.commentId === commentId
-                  && commentReaction.liked)
-                ? ('#8AC858'
+                && !commentReaction.liked)
+                ? ('#F75C48'
                 ) : (
                   '#66B9FF'
                 )}
@@ -156,7 +155,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           )}
           { shouldRender
           && (
-          <a href={`#${parentCommentId}`} data-tooltip="Up to main comment">
+          <a href={`#${parentCommentId}`} title="Up to main comment">
             <UpToParentCommentSvg />
           </a>
           )}
@@ -188,6 +187,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
               placeholder="Feel free..."
               className={styles.replyText}
             />
+
             <div className="actions">
               <DarkBorderButton
                 onClick={handleSendReply}

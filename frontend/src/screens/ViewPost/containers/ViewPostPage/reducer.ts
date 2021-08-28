@@ -1,22 +1,18 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import {
-  dislikeCommentRoutine,
-  fetchDataRoutine,
-  leaveReactionOnPostViewPageRoutine, likeCommentRoutine,
+  fetchDataRoutine, leaveReactionOnCommentRoutine,
+  leaveReactionOnPostViewPageRoutine,
   sendCommentRoutine,
   sendReplyRoutine
 } from '@screens/ViewPost/routines';
 import { IPost } from '../../models/IPost';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
-import { disLikePostViewRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
-import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 
 export interface IViewPostReducerState {
   post: IPost;
   comment: IComment;
   reply: ICommentReply;
-  profile: IUserProfile;
 }
 
 const initialState: IViewPostReducerState = {
@@ -41,7 +37,8 @@ const initialState: IViewPostReducerState = {
     author: '',
     postId: '',
     avatar: null,
-    nickname: ''
+    nickname: '',
+    rating: 0
   },
   reply: {
     text: '',
@@ -49,19 +46,20 @@ const initialState: IViewPostReducerState = {
     postId: '',
     replyCommentId: '',
     avatar: null,
-    nickname: ''
-  },
-  profile: {
-    id: '',
-    fullName: undefined,
-    nickname: undefined,
-    avatar: '',
-    postsQuantity: 0,
-    followersQuantity: 0,
-    rating: 0,
-    userReactions: [],
-    userReactionsComments: []
+    nickname: '',
+    rating: 0
   }
+};
+
+const findById = (id, comments, idx = 0) => {
+  const item = comments[idx];
+
+  if (!item) return null;
+  if (item.id === id) return item;
+
+  const newComments = item.comments.length ? [...comments, ...item.comments] : comments;
+
+  return findById(id, newComments, idx + 1);
 };
 
 export const viewPostReducer = createReducer(initialState, {
@@ -90,42 +88,25 @@ export const viewPostReducer = createReducer(initialState, {
   },
   [sendReplyRoutine.SUCCESS]: (state, action) => {
     state.reply = initialState.reply;
-
-    const findById = (id, comments, idx = 0) => {
-      const item = comments[idx];
-
-      if (!item) return null;
-      if (item.id === id) return item;
-
-      const newComments = item.comments.length ? [...comments, ...item.comments] : comments;
-
-      return findById(id, newComments, idx + 1);
-    };
     const message = findById(action.payload.comment.id, state.post.comments);
     message.comments.unshift(action.payload);
   },
-  [likeCommentRoutine.TRIGGER]: (state, action) => {
-    if (state.profile.id) {
-      const commentReaction = state.profile.userReactionsComments.find(comment => comment.commentId === action.payload);
-      if (commentReaction && commentReaction.liked === false) {
-        commentReaction.liked = true;
-      } else if (commentReaction) {
-        commentReaction.commentId = undefined;
+
+  [leaveReactionOnCommentRoutine.SUCCESS]: (state, action) => {
+    const { response, reactionStatus } = action.payload;
+    const message = findById(action.payload.commentId, state.post.comments);
+    if (reactionStatus === true) {
+      if (response === null || response.isFirstReaction === true) {
+        message.rating += action.payload.difference;
       } else {
-        state.profile.userReactionsComments.push({ commentId: action.payload, liked: true });
+        message.rating += action.payload.difference;
+        message.rating += action.payload.difference;
       }
-    }
-  },
-  [dislikeCommentRoutine.TRIGGER]: (state, action) => {
-    if (state.profile.id) {
-      const commentReaction = state.profile.userReactionsComments.find(comment => comment.commentId === action.payload);
-      if (commentReaction && commentReaction.liked === true) {
-        commentReaction.liked = false;
-      } else if (commentReaction) {
-        commentReaction.commentId = undefined;
-      } else {
-        state.profile.userReactionsComments.push({ commentId: action.payload, liked: false });
-      }
+    } else if (response === null || response.isFirstReaction === true) {
+      message.rating -= action.payload.difference;
+    } else {
+      message.rating -= action.payload.difference;
+      message.rating -= action.payload.difference;
     }
   }
 });

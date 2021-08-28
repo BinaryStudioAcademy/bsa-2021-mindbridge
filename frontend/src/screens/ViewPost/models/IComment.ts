@@ -4,4 +4,5 @@ export interface IComment {
   author: string;
   avatar: null;
   nickname: '';
+  rating: number;
 }

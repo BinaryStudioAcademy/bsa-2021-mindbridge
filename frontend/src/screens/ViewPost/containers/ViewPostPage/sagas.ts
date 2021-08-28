@@ -2,9 +2,8 @@ import { all, call, put, takeEvery } from 'redux-saga/effects';
 import viewPageService from '@screens/ViewPost/services/viewPage';
 import { toastr } from 'react-redux-toastr';
 import {
-  dislikeCommentRoutine,
-  fetchDataRoutine,
-  leaveReactionOnPostViewPageRoutine, likeCommentRoutine,
+  fetchDataRoutine, leaveReactionOnCommentRoutine,
+  leaveReactionOnPostViewPageRoutine,
   sendCommentRoutine,
   sendReplyRoutine
 } from '@screens/ViewPost/routines';
@@ -61,46 +60,25 @@ function* sendReply(action) {
   }
 }
 
-function* likeComment(action) {
+function* leaveCommentReaction(action) {
   try {
-    const response = yield call(viewPageService.leaveReactionOnComment, action.payload);
+    const response = yield call(viewPageService.leaveReactionComment, action.payload);
     const commentReaction = {
       response,
       difference: response?.id ? 1 : -1,
       commentId: action.payload.commentId,
       reactionStatus: action.payload.liked
     };
-    yield put(likeCommentRoutine.success(commentReaction));
-    toastr.success('Success', 'Like comment success');
+    yield put(leaveReactionOnCommentRoutine.success(commentReaction));
+    toastr.success('Success', 'Leave reaction on comment success');
   } catch (error) {
-    yield put(likeCommentRoutine.failure(error?.message));
-    toastr.error('Error', 'Like comment failad');
+    yield put(leaveReactionOnCommentRoutine.failure(error?.message));
+    toastr.error('Error', 'Leave reaction on comment failed');
   }
 }
 
-function* dislikeComment(action) {
-  try {
-    const response = yield call(viewPageService.leaveReactionOnComment, action.payload);
-    const commentReaction = {
-      response,
-      difference: response?.id ? 1 : -1,
-      commentId: action.payload.commentId,
-      reactionStatus: action.payload.liked
-    };
-    yield put(dislikeCommentRoutine.success(commentReaction));
-    toastr.success('Success', 'Dislike comment success');
-  } catch (error) {
-    yield put(dislikeCommentRoutine.failure(error?.message));
-    toastr.error('Error', 'dislike comment failad');
-  }
-}
-
-function* watchLikeCommentRequest() {
-  yield takeEvery(likeCommentRoutine.TRIGGER, likeComment);
-}
-
-function* watchDislikeCommentRequest() {
-  yield takeEvery(dislikeCommentRoutine.TRIGGER, dislikeComment);
+function* watchLeaveCommentReaction() {
+  yield takeEvery(leaveReactionOnCommentRoutine.TRIGGER, leaveCommentReaction);
 }
 
 function* watchSendCommentRequest() {
@@ -124,8 +102,7 @@ export default function* viewPostPageSagas() {
     watchLeaveReactionOnPost(),
     watchSendCommentRequest(),
     watchSendReplyRequest(),
-    watchLikeCommentRequest(),
-    watchDislikeCommentRequest()
+    watchLeaveCommentReaction()
   ]);
 }
 
