@@ -24,6 +24,8 @@ import PostVersions from '@screens/PostVersions/containers/PostVersionsPage';
 import EditPrPage from '@root/screens/PostPage/containers/EditPrPage';
 import MyContributionsPage from '@root/screens/PostVersions/containers/MyContributionsPage';
 import { checkHeaderShown } from '@helpers/headerBlackList.hepler';
+import PostVersionPage from '@screens/PostVersionPage/containers/PostVersionPage';
+import Drafts from '@screens/Drafts/containers/DraftsPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -31,7 +33,7 @@ export interface IRoutingProps {
 
 const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
   React.useEffect(() => {
-    const stompClient = Stomp.over(() => new SockJS('/api/ws'));
+    const stompClient = Stomp.over(() => new SockJS('/ws'));
     stompClient.reconnectDelay = 10000;
     stompClient.connect({}, () => {
       stompClient.subscribe('/topic/greeting', () => {
@@ -62,9 +64,11 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/pullRequest/edit/:id" component={EditPrPage} />
         <PublicRoute exact path="/create/post" component={CreatePostPage} />
         <PublicRoute exact path="/post/edit/:id" component={EditPostPage} />
+        <PublicRoute exact path="/postVersion/:id" component={PostVersionPage} />
         <PublicRoute exact path="/post/versions/:id" component={PostVersions} />
         <PublicRoute exact path="/post/contributions/:id" component={PostVersions} />
         <PublicRoute exact path="/my/contributions" component={MyContributionsPage} />
+        <PublicRoute exact path="/drafts" component={Drafts} />
         <PublicRoute component={NotFoundPage} />
 
         <div>

@@ -6,4 +6,5 @@ export interface IPost {
   markdown: boolean;
   coverImage: string;
   tags: [];
+  draft: boolean;
 }
