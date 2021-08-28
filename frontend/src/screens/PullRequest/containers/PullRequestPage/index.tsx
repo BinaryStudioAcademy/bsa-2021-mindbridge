@@ -20,6 +20,8 @@ import { history } from '@helpers/history.helper';
 import ClosedPRSvg from '@root/components/MyContributionsItem/svg/closedPrSvg';
 import OpenSvg from '@root/components/MyContributionsItem/svg/openSvg';
 import GoBackButton from '@root/components/buttons/GoBackButton';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -214,11 +216,13 @@ const PullRequest: React.FC<IPullRequestProps> = (
         <TitleDiff className={styles.field} oldTitle={postPR.title} newTitle={postPR.title} />
         <TagsDiff className={styles.field} oldTags={postPR.tags} newTags={postPR.tags} />
         <div className={styles.grey_label}>Content:</div>
-        <TextDiff
-          className={classNames(styles.field, styles.text_diff)}
-          oldText={postPR.text}
-          newText={postPR.text}
-        />
+        <SyntaxHighlighter
+          lineProps={{style: {wordBreak: 'break-all', whiteSpace: 'pre-wrap'}}}
+          wrapLines={true} 
+          language="markdown"
+          style={a11yLight}>
+          {postPR.text}
+        </SyntaxHighlighter>
       </div>
     </div>
   );
