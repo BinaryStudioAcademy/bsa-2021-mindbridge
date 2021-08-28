@@ -60,6 +60,7 @@
     "react-scripts": "^3.4.3",
     "react-select": "^3.0.8",
     "react-select-country-list": "^2.2.1",
+    "react-syntax-highlighter": "^15.4.4",
     "react-tag-autocomplete": "^6.1.0",
     "react-textarea-autosize": "^8.2.0",
     "react-use": "^15.3.4",
