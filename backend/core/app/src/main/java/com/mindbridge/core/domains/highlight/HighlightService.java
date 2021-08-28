@@ -27,9 +27,8 @@ public class HighlightService {
 		return savedHighlight.getId();
 	}
 
-	public List<HighlightsDetailsDto> getAllHighlights() {
-		var highlights = highlightRepository.findAll();
-		System.out.println(highlights);
+	public List<HighlightsDetailsDto> getAllHighlights(UUID userId) {
+		var highlights = highlightRepository.getAllByUserId(userId);
 		return highlights.stream().map(HighlightMapper.MAPPER::fromHighlightToHighlightDetailsDto).collect(Collectors.toList());
 	}
 }

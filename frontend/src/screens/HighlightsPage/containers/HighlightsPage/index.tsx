@@ -2,29 +2,31 @@ import React, { useEffect } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { Card, CardContent } from 'semantic-ui-react';
-import { IBindingAction } from '@models/Callbacks';
+import { IBindingCallback1 } from '@models/Callbacks';
 import { fetchHighlightsRoutine } from '@screens/HighlightsPage/routines';
-import { highlightsReducer } from '@screens/HighlightsPage/containers/HighlightsPage/reducer';
 import HighlightCard from '@screens/HighlightsPage/components/highlightCard';
+import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 
 export interface IHighlightsProps extends IState, IActions {
 }
 
 interface IState {
   highlights: any;
+  currentUser: ICurrentUser;
 }
 
 interface IActions {
-  fetchHighlights: IBindingAction;
+  fetchHighlights: IBindingCallback1<string>;
 }
 
 const HighlightsPage: React.FC<IHighlightsProps> = (
-  { fetchHighlights, highlights }
+  { fetchHighlights, highlights, currentUser }
 ) => {
   useEffect(() => {
-    fetchHighlights();
-  }, []);
+    if (currentUser.id) {
+      fetchHighlights(currentUser.id);
+    }
+  }, [currentUser, fetchHighlights]);
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.pageTitle}>
@@ -38,7 +40,8 @@ const HighlightsPage: React.FC<IHighlightsProps> = (
 };
 
 const mapStateToProps: (state) => IState = state => ({
-  highlights: state.highlightsReducer.data.highlights
+  highlights: state.highlightsReducer.data.highlights,
+  currentUser: state.auth.auth.user
 });
 
 const mapDispatchToProps: IActions = {

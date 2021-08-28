@@ -25,8 +25,8 @@ public class HighlightController {
 		return highlightService.save(highlightDto);
 	}
 
-	@GetMapping("/all")
-	public List<HighlightsDetailsDto> getHighlights() {
-		return highlightService.getAllHighlights();
+	@GetMapping("/all/{id}")
+	public List<HighlightsDetailsDto> getHighlights(@PathVariable UUID id) {
+		return highlightService.getAllHighlights(id);
 	}
 }
