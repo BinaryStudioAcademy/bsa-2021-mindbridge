@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,4 +21,6 @@ public interface CommentReactionRepository
 
 	@Query("SELECT c " + "FROM CommentReaction c " + "WHERE c.author.id= :userId AND c.comment.id = :commentId ")
 	Optional<CommentReaction> getCommentReaction(UUID userId, UUID commentId);
+
+	List<CommentReaction> getCommentReactionByAuthorId(UUID id);
 }

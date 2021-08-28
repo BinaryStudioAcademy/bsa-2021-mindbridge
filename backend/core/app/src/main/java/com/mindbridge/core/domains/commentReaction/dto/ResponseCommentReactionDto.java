@@ -20,4 +20,5 @@ public class ResponseCommentReactionDto {
 	private UUID authorId;
 
 	private Boolean isFirstReaction;
+
 }
