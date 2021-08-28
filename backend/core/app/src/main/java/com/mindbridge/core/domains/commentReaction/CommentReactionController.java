@@ -19,6 +19,7 @@ public class CommentReactionController {
 
 	@PutMapping
 	public Optional<ResponseCommentReactionDto> setReaction(@RequestBody ReceivedCommentReactionDto commentReactionDto) {
+		System.out.println(commentReactionDto);
 		return commentReactionService.setReaction(commentReactionDto);
 	}
 }

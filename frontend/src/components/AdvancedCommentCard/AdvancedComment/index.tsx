@@ -13,6 +13,7 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 import { IBindingCallback1 } from '@models/Callbacks';
+import RatingIcon from '@components/AdvancedCommentCard/svg/RatingIcon';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -130,27 +131,29 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           </div>
         </div>
         <div className={styles.commentRightAction}>
-          <RatingComponent
-            postRating={commentRating}
-            handleDisLikePost={handleDislikeComment}
-            handleLikePost={handleLikeComment}
-            postId={commentId}
-            userInfo={userInfo}
-            arrowDownColor={userInfo.userReactionsComments
-              .find(commentReaction => commentReaction.commentId === commentId
-              && !commentReaction.liked)
-              ? ('#F75C48'
-              ) : (
-                '#66B9FF'
-              )}
-            arrowUpColor={userInfo.userReactionsComments
-              .find(commentReaction => commentReaction.commentId === commentId
-              && commentReaction.liked)
-              ? ('#8AC858'
-              ) : (
-                '#66B9FF'
-              )}
-          />
+          { userInfo.id !== author.id && (
+            <RatingIcon
+              postRating={commentRating}
+              handleDisLikeComment={handleDislikeComment}
+              handleLikeComment={handleLikeComment}
+              commentId={commentId}
+              userInfo={userInfo}
+              arrowDownColor={userInfo.userReactionsComments
+                .find(commentReaction => commentReaction.commentId === commentId
+                  && !commentReaction.liked)
+                ? ('#F75C48'
+                ) : (
+                  '#66B9FF'
+                )}
+              arrowUpColor={userInfo.userReactionsComments
+                .find(commentReaction => commentReaction.commentId === commentId
+                  && commentReaction.liked)
+                ? ('#8AC858'
+                ) : (
+                  '#66B9FF'
+                )}
+            />
+          )}
           { shouldRender
           && (
           <a href={`#${parentCommentId}`} data-tooltip="Up to main comment">
