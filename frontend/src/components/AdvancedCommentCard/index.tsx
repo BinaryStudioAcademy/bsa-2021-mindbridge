@@ -9,14 +9,14 @@ import { IBindingCallback1 } from '@models/Callbacks';
 
 interface ICommentProps {
   comments: IComments[];
-  sendComment: any;
+  sendComment: IBindingCallback1<object>;
+  sendReply: IBindingCallback1<object>;
   userInfo: IUserProfile;
   postId: string;
-  sendReply: any;
   isAuthorized: boolean;
   postAuthorId: string;
-  handleLikeComment: any;
-  handleDislikeComment: any;
+  handleLikeComment: IBindingCallback1<string>;
+  handleDislikeComment: IBindingCallback1<string>;
 }
 
 const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
@@ -62,61 +62,65 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
   };
   return (
     <div className={styles.advancedCommentFeed}>
-      <p className={styles.commentCounter}>
-        Discussion (
-        {comments.length}
-        )
-      </p>
-      {isAuthorized ? (
-        <form className="ui reply form">
-          <div className="field">
-            <textarea
-              value={newComment.text}
-              onChange={handleNewComment}
-              placeholder="Add to the discussion..."
+        <p className={styles.commentCounter}>
+          Discussion (
+          {comments.length}
+          )
+        </p>
+        {isAuthorized ? (
+          <form className="ui reply form">
+            <div className="field">
+              <textarea
+                value={newComment.text}
+                onChange={handleNewComment}
+                placeholder="Add to the discussion..."
+              />
+            </div>
+            <DarkBorderButton
+              onClick={handleSendComment}
+              className={styles.buttonSend}
+              content="Send"
             />
+          </form>
+
+
+        ) : (
+          <div className={styles.nonAuthorizedHeading}>
+            <p>
+              You must be
+              {' '}
+              <a href="/login">logged in</a>
+              {' '}
+              to post or reply a comment.
+            </p>
           </div>
-          <DarkBorderButton
-            onClick={handleSendComment}
-            className={styles.buttonSend}
-            content="Send"
-          />
-        </form>
-      ) : (
-        <div className={styles.nonAuthorizedHeading}>
-          <p>
-            You must be
-            {' '}
-            <a href="/login">logged in</a>
-            {' '}
-            to post or reply a comment.
-          </p>
-        </div>
-      )}
-      <div className="ui comments">
-        <div className="comment">
-          {comments.map(comment => (
-            <Reply
-              postAuthorId={postAuthorId}
-              createdAt={comment.createdAt}
-              text={comment.text}
-              author={comment.author}
-              replies={comment.comments}
-              commentRating={comment.rating}
-              shouldRenderUpToParent={false}
-              shouldRenderArrowCloseComment={comment.comments.length > 0}
-              sendComment={sendComment}
-              postId={postId}
-              commentId={comment.id}
-              sendReply={sendReply}
-              isAuthorized={isAuthorized}
-              userInfo={userInfo}
-              shouldRenderBorder
-              parentCommentId={comment.id}
-              handleDislikeComment={handleDislikeComment}
-              handleLikeComment={handleLikeComment}
-            />
-          ))}
+        )}
+      <div>
+        <div className="ui comments">
+          <div className="comment">
+            {comments.map(comment => (
+              <Reply
+                postAuthorId={postAuthorId}
+                createdAt={comment.createdAt}
+                text={comment.text}
+                author={comment.author}
+                replies={comment.comments}
+                commentRating={comment.rating}
+                shouldRenderUpToParent={false}
+                shouldRenderArrowCloseComment={comment.comments.length > 0}
+                sendComment={sendComment}
+                postId={postId}
+                commentId={comment.id}
+                sendReply={sendReply}
+                isAuthorized={isAuthorized}
+                userInfo={userInfo}
+                shouldRenderBorder
+                parentCommentId={comment.id}
+                handleDislikeComment={handleDislikeComment}
+                handleLikeComment={handleLikeComment}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

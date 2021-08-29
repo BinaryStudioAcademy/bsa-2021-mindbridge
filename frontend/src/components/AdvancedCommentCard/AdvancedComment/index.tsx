@@ -12,7 +12,8 @@ import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
-import ScrollableAnchor from 'react-scrollable-anchor';
+import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
+import { IBindingCallback1 } from '@models/Callbacks';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -23,15 +24,15 @@ interface IBasicCommentProps {
   ref: any;
   handleIsOpenedComment: any;
   shouldRenderArrowCloseComment: boolean;
-  sendReply: any;
+  sendReply: IBindingCallback1<object>;
   postId: string;
   commentId: string;
   isAuthorized: boolean;
   userInfo: IUserProfile;
   postAuthorId: string;
   parentCommentId: string;
-  handleLikeComment: any;
-  handleDislikeComment: any;
+  handleLikeComment: IBindingCallback1<string>;
+  handleDislikeComment: IBindingCallback1<string>;
 }
 
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
@@ -65,6 +66,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     transform: rotateArrowHook && 'rotate(180deg)',
     transition: 'transform 300ms ease'
   };
+  configureAnchors({ offset: -90, scrollDuration: 500 });
 
   const handleClick = () => {
     handleIsOpenedComment();

@@ -4,7 +4,6 @@ import { IUser } from '@screens/ViewPost/models/IUser';
 import styles from './styles.module.scss';
 import AdvancedComment from '@components/AdvancedCommentCard/AdvancedComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { Comment } from 'semantic-ui-react';
 import { IBindingCallback1 } from '@models/Callbacks';
 
 interface ICommentProps {
@@ -15,17 +14,17 @@ interface ICommentProps {
   commentRating: number;
   shouldRenderUpToParent: boolean;
   shouldRenderArrowCloseComment: boolean;
-  sendComment: any;
   postId: string;
   commentId: string;
-  sendReply: any;
+  sendComment: IBindingCallback1<object>;
+  sendReply: IBindingCallback1<object>;
   isAuthorized: boolean;
   userInfo: IUserProfile;
   shouldRenderBorder: boolean;
   parentCommentId: string;
   postAuthorId: string;
-  handleLikeComment: any;
-  handleDislikeComment: any;
+  handleLikeComment: IBindingCallback1<string>;
+  handleDislikeComment: IBindingCallback1<string>;
 }
 
 const Reply: React.FC<ICommentProps> = (
@@ -81,7 +80,7 @@ const Reply: React.FC<ICommentProps> = (
         handleDislikeComment={handleDislikeComment}
       />
       {repliesLength && (
-        <div >
+        <div>
           { isOpened && (
             <div className="comments">
                 {replies.map(comment => (

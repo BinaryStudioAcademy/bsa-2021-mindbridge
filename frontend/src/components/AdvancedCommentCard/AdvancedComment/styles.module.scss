@@ -36,12 +36,6 @@
     }
   }
 
-  &::before {
-    content:"";
-    display:block;
-    height:90px;
-    margin:-90px 0 0;
-  }
 
   :global(.text) {
     font-family: Lato, sans-serif !important;
