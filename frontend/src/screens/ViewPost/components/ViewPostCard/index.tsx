@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Button, Card, Feed, Popup } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
@@ -34,29 +34,32 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   handleSaveHighlight,
   highlights
 }) => {
-  const history = useHistory();
-  const [xPos, setXPos] = useState(0);
-  const [yPos, setYPos] = useState(0);
-  const [isPopUpShown, setIsPopUpShown] = useState(false);
   const highlighter = new Highlighter({
     style: {
       className: styles.highlightWrapper
     }
   });
+
+  useEffect(() => {
+    if (highlights) {
+      highlights.forEach(hs => highlighter.fromStore({
+        parentTagName: hs.tagNameStart,
+        parentIndex: hs.indexStart,
+        textOffset: hs.offSetStart
+      }, {
+        parentTagName: hs.tagNameEnd,
+        parentIndex: hs.indexEnd,
+        textOffset: hs.offSetEnd
+      }, hs.text, hs.id));
+    }
+  }, [highlights]);
+  const history = useHistory();
+  const [xPos, setXPos] = useState(0);
+  const [yPos, setYPos] = useState(0);
+  const [isPopUpShown, setIsPopUpShown] = useState(false);
   const goToEdit = () => {
     history.push(`/post/edit/${post.id}`);
   };
-  if (highlights) {
-    highlights.forEach(hs => highlighter.fromStore({
-      parentTagName: hs.tagNameStart,
-      parentIndex: hs.indexStart,
-      textOffset: hs.offSetStart
-    }, {
-      parentTagName: hs.tagNameEnd,
-      parentIndex: hs.indexEnd,
-      textOffset: hs.offSetEnd
-    }, hs.text, hs.id));
-  }
   const handleMouseUp = () => {
     const { x, y } = GetCursorPosition({ scroll: true });
     if (!window.getSelection().toString().trim()) {
