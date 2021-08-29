@@ -12,9 +12,6 @@ import ViewPost from '@screens/ViewPost/containers/ViewPostPage';
 import LoginPage from 'screens/Login/containers/LoginPage';
 import RegistrationPage from 'screens/Login/containers/RegisterPage';
 import oauth2handler from '@components/OAuth2RedirectHandler/OAuth2RedirectHandler';
-import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
-import { toastr } from 'react-redux-toastr';
 import { history } from '@helpers/history.helper';
 import Header from '@screens/Header/containers/HeaderPage';
 import PrivateRoute from '@components/PrivateRoute';
@@ -32,15 +29,6 @@ export interface IRoutingProps {
 }
 
 const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
-  React.useEffect(() => {
-    const stompClient = Stomp.over(() => new SockJS('/ws'));
-    stompClient.reconnectDelay = 10000;
-    stompClient.connect({}, () => {
-      stompClient.subscribe('/topic/greeting', () => {
-        toastr.success('Success', 'Socket loaded!');
-      });
-    });
-  });
 
   const [isHeaderShown, setIsHeaderShown] = useState(checkHeaderShown());
   history.listen(() => {

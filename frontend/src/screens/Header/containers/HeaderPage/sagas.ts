@@ -1,7 +1,7 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
   fetchNotificationCountRoutine,
-  fetchNotificationListRoutine,
+  fetchNotificationListRoutine, markNotificationReadRoutine,
   searchPostsByElasticRoutine
 } from '@screens/Header/routines';
 import { toastr } from 'react-redux-toastr';
@@ -46,6 +46,16 @@ function* searchPostsByElastic({ payload }: Routine<any>) {
   }
 }
 
+function* markNotificationRead({ payload }: Routine<any>) {
+  try {
+    yield call(headerService.markNotificationRead, payload);
+    yield put(markNotificationReadRoutine.success(payload));
+  } catch (error) {
+    yield put(markNotificationReadRoutine.failure(error?.message));
+    toastr.error('Error', 'Update notification failed');
+  }
+}
+
 function* watchFetchNotificationCount() {
   yield takeEvery(fetchNotificationCountRoutine.TRIGGER, fetchNotificationCount);
 }
@@ -58,10 +68,15 @@ function* watchSearchPostsByElastic() {
   yield takeEvery(searchPostsByElasticRoutine.TRIGGER, searchPostsByElastic);
 }
 
+function* watchMarkNotificationRead() {
+  yield takeEvery(markNotificationReadRoutine.TRIGGER, markNotificationRead);
+}
+
 export default function* headerPageSagas() {
   yield all([
     watchFetchNotificationCount(),
     watchFetchNotificationList(),
-    watchSearchPostsByElastic()
+    watchSearchPostsByElastic(),
+    watchMarkNotificationRead()
   ]);
 }

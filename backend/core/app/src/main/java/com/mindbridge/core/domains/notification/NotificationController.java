@@ -3,10 +3,7 @@ package com.mindbridge.core.domains.notification;
 import com.mindbridge.core.domains.notification.dto.NotificationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,6 +28,11 @@ public class NotificationController {
 	@GetMapping("/list/{id}")
 	public List<NotificationDto> getNotificationList(@PathVariable(name = "id") UUID id) {
 		return notificationService.getNotificationList(id);
+	}
+
+	@PutMapping("/{id}")
+	public void markNotificationRead(@PathVariable UUID id) {
+		notificationService.markNotificationRead(id);
 	}
 
 }

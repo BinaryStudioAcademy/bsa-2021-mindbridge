@@ -2,7 +2,7 @@ import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { INotification } from '@screens/Header/models/INotification';
 import {
   fetchNotificationCountRoutine,
-  fetchNotificationListRoutine,
+  fetchNotificationListRoutine, markNotificationReadRoutine,
   searchPostsByElasticRoutine
 } from '@screens/Header/routines';
 import { INotificationList } from '@screens/Header/models/INotificationList';
@@ -32,5 +32,9 @@ export const headerReducer = createReducer(initialState, {
   },
   [searchPostsByElasticRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPostsPayload>) => {
     state.posts = payload.posts;
+  },
+  [markNotificationReadRoutine.SUCCESS]: (state, { payload }: PayloadAction<string>) => {
+    state.notificationList = state.notificationList.filter(item => item.id !== payload);
+    state.notificationCount -= 1;
   }
 });
