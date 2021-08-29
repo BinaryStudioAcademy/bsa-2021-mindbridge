@@ -16,6 +16,18 @@ public class Highlight extends BaseAuditableEntity {
 
 	private String text;
 
+	private String tagNameStart;
+
+	private String tagNameEnd;
+
+	private int indexStart;
+
+	private int indexEnd;
+
+	private int offSetStart;
+
+	private int offSetEnd;
+
 	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;

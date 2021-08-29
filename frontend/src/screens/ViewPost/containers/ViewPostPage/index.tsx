@@ -12,10 +12,12 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { disLikePostViewRoutine, likePostViewRoutine }
   from '@screens/PostPage/routines';
+import { fetchHighlightsRoutine } from '@screens/HighlightsPage/routines';
 
 export interface IViewPostProps extends IState, IActions {
   userInfo: IUserProfile;
   currentUser: ICurrentUser;
+  highlights: any;
 }
 
 interface IState {
@@ -28,6 +30,7 @@ interface IActions {
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
   saveHighlight: IBindingCallback1<object>;
+  fetchHighlights: IBindingCallback1<string>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -39,7 +42,9 @@ const ViewPost: React.FC<IViewPostProps> = (
     leaveReaction,
     likePostView,
     disLikePostView,
-    saveHighlight
+    saveHighlight,
+    fetchHighlights,
+    highlights
   }
 ) => {
   const { postId } = useParams();
@@ -47,6 +52,12 @@ const ViewPost: React.FC<IViewPostProps> = (
   useEffect(() => {
     fetchData(postId);
   }, [postId]);
+
+  useEffect(() => {
+    if (currentUser.id) {
+      fetchHighlights(currentUser.id);
+    }
+  }, [currentUser, fetchHighlights]);
 
   const handleLikePost = id => {
     const post = {
@@ -62,7 +73,13 @@ const ViewPost: React.FC<IViewPostProps> = (
     const highlight = {
       authorId: currentUser.id,
       postId,
-      text: content
+      text: content.text,
+      tagNameStart: content.startMeta.parentTagName,
+      tagNameEnd: content.endMeta.parentTagName,
+      indexStart: content.startMeta.parentIndex,
+      indexEnd: content.endMeta.parentIndex,
+      offSetStart: content.startMeta.textOffset,
+      offSetEnd: content.endMeta.textOffset
     };
     saveHighlight(highlight);
   };
@@ -87,6 +104,7 @@ const ViewPost: React.FC<IViewPostProps> = (
           userInfo={userInfo}
           isAuthor={data.post.author.id === currentUser.id}
           handleSaveHighlight={handleSaveHighlight}
+          highlights={highlights}
         />
       </div>
     </div>
@@ -96,7 +114,8 @@ const ViewPost: React.FC<IViewPostProps> = (
 const mapStateToProps: (state: RootState) => IState = state => ({
   data: extractData(state),
   currentUser: state.auth.auth.user,
-  userInfo: state.postPageReducer.data.profile
+  userInfo: state.postPageReducer.data.profile,
+  highlights: state.highlightsReducer.data.highlights
 });
 
 const mapDispatchToProps: IActions = {
@@ -104,7 +123,8 @@ const mapDispatchToProps: IActions = {
   leaveReaction: leaveReactionOnPostViewPageRoutine,
   likePostView: likePostViewRoutine,
   disLikePostView: disLikePostViewRoutine,
-  saveHighlight: saveHighlightRoutine
+  saveHighlight: saveHighlightRoutine,
+  fetchHighlights: fetchHighlightsRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);

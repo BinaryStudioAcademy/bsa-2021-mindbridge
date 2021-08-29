@@ -22,9 +22,18 @@ interface IViewPostCardProps {
   handleDisLikePost: any;
   userInfo: IUserProfile;
   handleSaveHighlight: any;
+  highlights: any;
 }
-const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, handleLikePost,
-  handleDisLikePost, userInfo, handleSaveHighlight }) => {
+
+const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
+  post,
+  isAuthor,
+  handleLikePost,
+  handleDisLikePost,
+  userInfo,
+  handleSaveHighlight,
+  highlights
+}) => {
   const history = useHistory();
   const [xPos, setXPos] = useState(0);
   const [yPos, setYPos] = useState(0);
@@ -37,7 +46,17 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
   const goToEdit = () => {
     history.push(`/post/edit/${post.id}`);
   };
-
+  if (highlights) {
+    highlights.forEach(hs => highlighter.fromStore({
+      parentTagName: hs.tagNameStart,
+      parentIndex: hs.indexStart,
+      textOffset: hs.offSetStart
+    }, {
+      parentTagName: hs.tagNameEnd,
+      parentIndex: hs.indexEnd,
+      textOffset: hs.offSetEnd
+    }, hs.text, hs.id));
+  }
   const handleMouseUp = () => {
     const { x, y } = GetCursorPosition({ scroll: true });
     if (!window.getSelection().toString().trim()) {
@@ -52,8 +71,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
     }
   };
   const handleClosePopUp = () => {
-    highlighter.fromRange(window.getSelection().getRangeAt(0));
-    handleSaveHighlight(window.getSelection().toString());
+    handleSaveHighlight(highlighter.fromRange(window.getSelection().getRangeAt(0)));
     window.getSelection().removeAllRanges();
     setIsPopUpShown(false);
   };
@@ -98,9 +116,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
                   <ShareSvg />
                 </div>
                 {isAuthor && (
-                <div role="button" tabIndex={0} className={styles.bgCircle} onKeyDown={goToEdit} onClick={goToEdit}>
-                  <EditSvg />
-                </div>
+                  <div role="button" tabIndex={0} className={styles.bgCircle} onKeyDown={goToEdit} onClick={goToEdit}>
+                    <EditSvg />
+                  </div>
                 )}
               </div>
               <img
@@ -132,7 +150,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
           <div className={styles.postBody} onMouseUp={handleMouseUp}>
             <Popup
               open={isPopUpShown}
-              style={{ transform: `translate3d(${xPos}px, ${yPos - 60}px, 0px)`,
+              style={{
+                transform: `translate3d(${xPos}px, ${yPos - 60}px, 0px)`,
                 backgroundColor: '#f4f9ff',
                 cursor: 'pointer',
                 padding: '0'
@@ -144,7 +163,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
                   icon="quote left"
                   onClick={() => handleClosePopUp()}
                 />
-)}
+              )}
               pinned
               trigger={(
                 <TextRenderer
@@ -152,7 +171,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
                   markdown={post.markdown}
                   content={post.text}
                 />
-                )}
+              )}
             />
           </div>
         </Card.Content>

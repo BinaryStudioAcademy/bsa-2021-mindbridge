@@ -31,4 +31,8 @@ public class HighlightService {
 		var highlights = highlightRepository.getAllByUserId(userId);
 		return highlights.stream().map(HighlightMapper.MAPPER::fromHighlightToHighlightDetailsDto).collect(Collectors.toList());
 	}
+
+    public void deleteHighlight(UUID id) {
+		highlightRepository.deleteById(id);
+    }
 }
