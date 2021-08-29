@@ -33,7 +33,7 @@ export interface IRoutingProps {
 
 const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
   React.useEffect(() => {
-    const stompClient = Stomp.over(() => new SockJS('/api/ws'));
+    const stompClient = Stomp.over(() => new SockJS('/ws'));
     stompClient.reconnectDelay = 10000;
     stompClient.connect({}, () => {
       stompClient.subscribe('/topic/greeting', () => {
