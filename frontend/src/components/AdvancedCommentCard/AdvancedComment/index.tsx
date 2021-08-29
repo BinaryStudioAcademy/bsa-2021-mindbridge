@@ -162,14 +162,24 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
             )}
             { shouldRender
           && (
-          <a href={`#${parentCommentId}`} data-tooltip="Up to main comment">
-            <UpToParentCommentSvg />
-          </a>
+          <Popup
+            content="Up to main comment"
+            mouseEnterDelay={1000}
+            closeOnTriggerClick
+            position="top center"
+            on="hover"
+            trigger={(
+              <a href={`#${parentCommentId}`}>
+                <UpToParentCommentSvg />
+              </a>
+                )}
+          />
           )}
             <Popup
               content="Copy link"
-              mouseEnterDelay={500}
+              mouseEnterDelay={1000}
               closeOnTriggerClick
+              position="top center"
               on="hover"
               trigger={(
                 <span>
@@ -177,6 +187,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                     content="Copied!"
                     on="click"
                     closeOnTriggerMouseLeave
+                    position="top center"
                     trigger={(
                       <span>
                         <CopyToClipboard text={`${getLinkToComment(window.location.href)}#${commentId}`}>
@@ -190,9 +201,18 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                 </span>
               )}
             />
-            <a href="/" data-tooltip="Share comment">
-              <ShareCommentSvg />
-            </a>
+            <Popup
+              content="Share comment"
+              mouseEnterDelay={1000}
+              closeOnTriggerClick
+              on="hover"
+              position="top center"
+              trigger={(
+                <a href="/">
+                  <ShareCommentSvg />
+                </a>
+              )}
+            />
           </div>
         </div>
         <div className="text">
