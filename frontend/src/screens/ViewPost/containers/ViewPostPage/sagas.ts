@@ -70,10 +70,8 @@ function* leaveCommentReaction(action) {
       reactionStatus: action.payload.liked
     };
     yield put(leaveReactionOnCommentRoutine.success(commentReaction));
-    toastr.success('Success', 'Leave reaction on comment success');
   } catch (error) {
     yield put(leaveReactionOnCommentRoutine.failure(error?.message));
-    toastr.error('Error', 'Leave reaction on comment failed');
   }
 }
 
