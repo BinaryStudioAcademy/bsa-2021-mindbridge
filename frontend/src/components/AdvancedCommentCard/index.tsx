@@ -62,44 +62,44 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
   };
   return (
     <div className={styles.advancedCommentFeed}>
-        <p className={styles.commentCounter}>
-          Discussion (
-          {comments.length}
-          )
-        </p>
-        {isAuthorized ? (
-          <form className="ui reply form">
-            <div className="field">
-              <textarea
-                value={newComment.text}
-                onChange={handleNewComment}
-                placeholder="Add to the discussion..."
-              />
-            </div>
-            <DarkBorderButton
-              onClick={handleSendComment}
-              className={styles.buttonSend}
-              content="Send"
+      <p className={styles.commentCounter}>
+        Discussion (
+        {comments.length}
+        )
+      </p>
+      {isAuthorized ? (
+        <form className="ui reply form">
+          <div className="field">
+            <textarea
+              value={newComment.text}
+              onChange={handleNewComment}
+              placeholder="Add to the discussion..."
             />
-          </form>
-
-
-        ) : (
-          <div className={styles.nonAuthorizedHeading}>
-            <p>
-              You must be
-              {' '}
-              <a href="/login">logged in</a>
-              {' '}
-              to post or reply a comment.
-            </p>
           </div>
-        )}
+          <DarkBorderButton
+            onClick={handleSendComment}
+            className={styles.buttonSend}
+            content="Send"
+          />
+        </form>
+
+      ) : (
+        <div className={styles.nonAuthorizedHeading}>
+          <p>
+            You must be
+            {' '}
+            <a href="/login">logged in</a>
+            {' '}
+            to post or reply a comment.
+          </p>
+        </div>
+      )}
       <div>
         <div className="ui comments">
           <div className="comment">
             {comments.map(comment => (
               <Reply
+                depthOfComments={0}
                 postAuthorId={postAuthorId}
                 createdAt={comment.createdAt}
                 text={comment.text}

@@ -25,6 +25,7 @@ interface ICommentProps {
   postAuthorId: string;
   handleLikeComment: IBindingCallback1<string>;
   handleDislikeComment: IBindingCallback1<string>;
+  depthOfComments: number;
 }
 
 const Reply: React.FC<ICommentProps> = (
@@ -46,7 +47,8 @@ const Reply: React.FC<ICommentProps> = (
     parentCommentId,
     postAuthorId,
     handleLikeComment,
-    handleDislikeComment
+    handleDislikeComment,
+    depthOfComments
   }
 ) => {
   const closeCommentRef = useRef(true);
@@ -57,6 +59,8 @@ const Reply: React.FC<ICommentProps> = (
   };
 
   const repliesLength = replies.length > 0;
+
+  const isMaxDepthOfComments = depthOfComments > 6;
 
   return (
     <div className={shouldRenderBorder && styles.comment}>
@@ -80,10 +84,9 @@ const Reply: React.FC<ICommentProps> = (
         handleDislikeComment={handleDislikeComment}
       />
       {repliesLength && (
-        <div>
+        <div className={!isMaxDepthOfComments && styles.leftBorder}>
           { isOpened && (
-            <div className="comments">
-              <hr className={styles.upBorder} />
+            <div className={!isMaxDepthOfComments && styles.commentsWithMargin}>
                 {replies.map(comment => (
                   <Reply
                     replies={comment.comments}
@@ -104,6 +107,7 @@ const Reply: React.FC<ICommentProps> = (
                     postAuthorId={postAuthorId}
                     handleDislikeComment={handleDislikeComment}
                     handleLikeComment={handleLikeComment}
+                    depthOfComments={depthOfComments + 1}
                   />
                 ))}
             </div>

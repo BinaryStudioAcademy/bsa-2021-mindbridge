@@ -5,11 +5,20 @@
   margin-top: 1em;
   margin-bottom: 1em;
 
-  :global(.comments) {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
+  .leftBorder {
+    margin-bottom: 0;
+    padding-bottom: 0;
     border-left: 1px solid #F5F2F2;
   }
+
+}
+
+.commentsWithMargin {
+  margin: 1em 0 0 1em;
+  padding: 0.5em 0 0 1em;
+}
+
+.commentWithoutMargin {
 
 }
 
