@@ -13,11 +13,12 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { disLikePostViewRoutine, likePostViewRoutine }
   from '@screens/PostPage/routines';
 import { fetchHighlightsRoutine } from '@screens/HighlightsPage/routines';
+import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 
 export interface IViewPostProps extends IState, IActions {
   userInfo: IUserProfile;
   currentUser: ICurrentUser;
-  highlights: any;
+  highlights: IHighlight[];
 }
 
 interface IState {

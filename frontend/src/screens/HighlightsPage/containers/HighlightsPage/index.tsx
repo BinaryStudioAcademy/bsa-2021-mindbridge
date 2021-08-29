@@ -3,30 +3,36 @@ import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { IBindingCallback1 } from '@models/Callbacks';
-import { fetchHighlightsRoutine } from '@screens/HighlightsPage/routines';
+import { deleteHighlightRoutine, fetchHighlightsRoutine } from '@screens/HighlightsPage/routines';
 import HighlightCard from '@screens/HighlightsPage/components/highlightCard';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
+import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 
 export interface IHighlightsProps extends IState, IActions {
 }
 
 interface IState {
-  highlights: any;
+  highlights: IHighlight[];
   currentUser: ICurrentUser;
 }
 
 interface IActions {
   fetchHighlights: IBindingCallback1<string>;
+  deleteHighlight: IBindingCallback1<string>;
 }
 
 const HighlightsPage: React.FC<IHighlightsProps> = (
-  { fetchHighlights, highlights, currentUser }
+  { fetchHighlights, highlights, currentUser, deleteHighlight }
 ) => {
   useEffect(() => {
     if (currentUser.id) {
       fetchHighlights(currentUser.id);
     }
   }, [currentUser, fetchHighlights]);
+
+  const handleDeleteHighlight = id => {
+    deleteHighlight(id);
+  };
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.pageTitle}>
@@ -34,7 +40,7 @@ const HighlightsPage: React.FC<IHighlightsProps> = (
       </div>
       {highlights
           && highlights.map(highlight => (
-            <HighlightCard key={highlight.id} highlight={highlight} />))}
+            <HighlightCard key={highlight.id} highlight={highlight} handleDeleteHighlight={handleDeleteHighlight} />))}
     </div>
   );
 };
@@ -45,7 +51,8 @@ const mapStateToProps: (state) => IState = state => ({
 });
 
 const mapDispatchToProps: IActions = {
-  fetchHighlights: fetchHighlightsRoutine
+  fetchHighlights: fetchHighlightsRoutine,
+  deleteHighlight: deleteHighlightRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HighlightsPage);

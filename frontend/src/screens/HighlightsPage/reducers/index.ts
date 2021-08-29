@@ -2,12 +2,14 @@ import { combineReducers } from 'redux';
 import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
 import { highlightsReducer } from '@screens/HighlightsPage/containers/HighlightsPage/reducer';
-import { fetchHighlightsRoutine } from '@screens/HighlightsPage/routines';
+import { fetchHighlightsRoutine, deleteHighlightRoutine } from '@screens/HighlightsPage/routines';
+
 /* PlopJS import placeholder. Do not remove */
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
-  fetchHighlightsRequest: reducerCreator([fetchHighlightsRoutine.TRIGGER])
+  fetchHighlightsRequest: reducerCreator([fetchHighlightsRoutine.TRIGGER]),
+  deleteHighlightRequest: reducerCreator([deleteHighlightRoutine.TRIGGER])
 });
 
 export default combineReducers({

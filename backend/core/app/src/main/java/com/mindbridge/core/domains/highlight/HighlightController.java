@@ -31,7 +31,7 @@ public class HighlightController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public void deleteHighlight(@PathVariable UUID id) {
-		highlightService.deleteHighlight(id);
+	public UUID deleteHighlight(@PathVariable UUID id) {
+		return highlightService.deleteHighlight(id);
 	}
 }

@@ -35,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/ws/**").permitAll().antMatchers("/swagger-resources/**").permitAll()
 				.antMatchers("/v2/api-docs").permitAll().antMatchers("/swagger-ui.html").permitAll()
 				.antMatchers("/webjars/**").permitAll().antMatchers("/data/**").permitAll().antMatchers("/tag/**")
+				.permitAll().antMatchers("/highlight/**/**")
 				.permitAll().antMatchers("/image/**").permitAll().antMatchers("/notification/**").permitAll()
 				.anyRequest().authenticated().and();
 

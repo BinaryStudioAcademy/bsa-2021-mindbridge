@@ -14,6 +14,7 @@ import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
 import GetCursorPosition from 'cursor-position';
 import Highlighter from 'web-highlighter';
+import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -22,7 +23,7 @@ interface IViewPostCardProps {
   handleDisLikePost: any;
   userInfo: IUserProfile;
   handleSaveHighlight: any;
-  highlights: any;
+  highlights: IHighlight[];
 }
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
@@ -35,9 +36,6 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   highlights
 }) => {
   const highlighter = new Highlighter({
-    style: {
-      className: styles.highlightWrapper
-    }
   });
 
   useEffect(() => {

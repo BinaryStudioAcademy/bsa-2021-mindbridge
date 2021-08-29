@@ -1,7 +1,11 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import viewPageService from '@screens/ViewPost/services/viewPage';
 import { toastr } from 'react-redux-toastr';
-import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine, saveHighlightRoutine } from '@screens/ViewPost/routines';
+import {
+  fetchDataRoutine,
+  leaveReactionOnPostViewPageRoutine,
+  saveHighlightRoutine
+} from '@screens/ViewPost/routines';
 import feedPageService from '@screens/FeedPage/services/feedPage';
 
 function* fetchData(action) {

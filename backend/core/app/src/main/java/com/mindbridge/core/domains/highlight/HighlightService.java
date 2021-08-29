@@ -32,7 +32,8 @@ public class HighlightService {
 		return highlights.stream().map(HighlightMapper.MAPPER::fromHighlightToHighlightDetailsDto).collect(Collectors.toList());
 	}
 
-    public void deleteHighlight(UUID id) {
+    public UUID deleteHighlight(UUID id) {
 		highlightRepository.deleteById(id);
+		return id;
     }
 }

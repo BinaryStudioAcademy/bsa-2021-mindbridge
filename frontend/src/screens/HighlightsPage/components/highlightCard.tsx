@@ -1,14 +1,21 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Card, CardContent, Popup } from 'semantic-ui-react';
+import {Button, Card, CardContent, Popup} from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
+import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 
 interface IHighlightCardProps {
-  highlight: any;
+  highlight: IHighlight;
+  handleDeleteHighlight: any;
 }
-const HighlightCard: FunctionComponent<IHighlightCardProps> = ({ highlight }) => {
+const HighlightCard: FunctionComponent<IHighlightCardProps> = ({ highlight, handleDeleteHighlight }) => {
   const [eventsEnabled, setEventsEnabled] = useState(true);
   const [open, setOpen] = useState(false);
+
+  const deleteHighlight = () => {
+    handleDeleteHighlight(highlight.id);
+  }
+
   return (
     <div className={styles.container}>
       <Card>
@@ -24,7 +31,7 @@ const HighlightCard: FunctionComponent<IHighlightCardProps> = ({ highlight }) =>
             </div>
           </Link>
           <Popup
-            content="Unhighlight"
+            content={(<Button onClick={deleteHighlight}>Unhighlight</Button>)}
             eventsEnabled={eventsEnabled}
             on="click"
             onClose={() => setOpen(false)}

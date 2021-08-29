@@ -6,3 +6,4 @@ const createHighlightsRoutine = <T extends unknown>(actionName: string) => creat
 
 /* PlopJS routine placeholder. Do not remove */
 export const fetchHighlightsRoutine = createHighlightsRoutine('FETCH_HIGHLIGHTS_ROUTINE');
+export const deleteHighlightRoutine = createHighlightsRoutine('DELETE_HIGHLIGHT_ROUTINE');

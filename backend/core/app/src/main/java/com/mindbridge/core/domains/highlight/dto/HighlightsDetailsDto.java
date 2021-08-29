@@ -10,6 +10,8 @@ import java.util.UUID;
 public class HighlightsDetailsDto {
 	private String text;
 
+	private UUID id;
+
 	private UUID postId;
 
 	private UUID userId;
