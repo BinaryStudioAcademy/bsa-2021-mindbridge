@@ -83,6 +83,7 @@ const Reply: React.FC<ICommentProps> = (
         <div>
           { isOpened && (
             <div className="comments">
+              <hr className={styles.upBorder} />
                 {replies.map(comment => (
                   <Reply
                     replies={comment.comments}
