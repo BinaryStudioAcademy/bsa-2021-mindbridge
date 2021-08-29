@@ -109,10 +109,12 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
   };
 
   const handleTags = (event: any, data: any) => {
-    setForm({
-      ...form,
-      tags: data.value
-    });
+    if (data.value.length <= 5) {
+      setForm({
+        ...form,
+        tags: data.value
+      });
+    }
   };
 
   const closeCoverImage = () => {
@@ -197,7 +199,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
         )}
           content="You can't add a cover image when post was created"
           on="hover"
-          position="top center"
+          position="left center"
         />
       )}
       <Popup
@@ -249,8 +251,15 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
         position="left center"
       />
 
-      { modes.markdownMode && dropzoneOrTag}
-      <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
+      {dropzoneOrTag}
+      <Popup
+        trigger={(
+          <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
+        )}
+        content="Max amount of tags has reached"
+        open={form.tags.length === 5}
+        position="left center"
+      />
     </div>
   );
 };

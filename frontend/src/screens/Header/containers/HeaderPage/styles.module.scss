@@ -66,9 +66,10 @@
 }
 
 .create_post_button {
-  width: 8rem;
-  font-weight: bold;
-  font-size: 0.9rem !important;
+  width: 8.5rem;
+  font-size: 1rem;
+  font-family: lato, sans-serif !important;
+  height: 2.37rem;
 }
 
 .search_input{
@@ -91,6 +92,7 @@
   }
   input::placeholder{
     font-family: lato, sans-serif;
+    font-size: 0.73rem;
   }
   button{
     background-color: #F8F8F8;

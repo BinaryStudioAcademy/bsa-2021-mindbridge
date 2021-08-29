@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styles from '../styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import ProfileSidebar from '@root/components/ProfileSidebar';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
 import BlueButton from '@root/components/buttons/Blue_button';
@@ -14,8 +13,6 @@ import {
   sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine,
   fetchTagsRoutine, resetImageTagRoutine
 } from '../../routines';
-import { extractData } from '@screens/PostPage/reducers';
-import { IStateProfile } from '@screens/PostPage/models/IStateProfile';
 import EditSvgPart1 from '@screens/PostPage/components/svg/editSvgPart1';
 import EditSvgPart2 from '@screens/PostPage/components/svg/editSvgPart2';
 import ViewSvg from '@screens/PostPage/components/svg/viewSvg';
@@ -32,7 +29,6 @@ interface IState {
     isLoaded: boolean;
     isInContent: boolean;
   };
-  userInfo: IStateProfile;
   allTags: [any];
   currentUserId: string;
   preloader: {
@@ -61,7 +57,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
     sendPost,
     resetLoadingImage,
     savingImage,
-    userInfo,
     allTags,
     currentUserId,
     fetchData,
@@ -173,16 +168,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
-        <div className={styles.profile_sidebar_container}>
-          <ProfileSidebar
-            id={userInfo.profile.id}
-            userName={userInfo.profile.fullName ?? userInfo.profile.nickname}
-            avatar={userInfo.profile.avatar}
-            folloversCount={userInfo.profile.followersQuantity}
-            rating={userInfo.profile.rating}
-            postNotificationCount={userInfo.profile.postsQuantity}
-          />
-        </div>
         <form className={styles.create_post_container}>
           <div className={styles.header}>
             {modes.htmlMode
@@ -278,7 +263,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
 
 const mapStateToProps: (state) => IState = state => ({
   savingImage: state.postPageReducer.data.savingImage,
-  userInfo: extractData(state),
   allTags: state.postPageReducer.data.allTags,
   isAuthorized: state.auth.auth.isAuthorized,
   currentUserId: state.auth.auth.user.id,

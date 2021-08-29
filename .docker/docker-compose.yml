@@ -37,20 +37,6 @@ services:
       - /etc/letsencrypt/live/mindbridge.westeurope.cloudapp.azure.com/fullchain.pem:/etc/letsencrypt/live/mindbridge.westeurope.cloudapp.azure.com/fullchain.pem
       - /etc/letsencrypt/live/mindbridge.westeurope.cloudapp.azure.com/privkey.pem:/etc/letsencrypt/live/mindbridge.westeurope.cloudapp.azure.com/privkey.pem   
 
-#   elasticsearch:
-#     image: docker.elastic.co/elasticsearch/elasticsearch:7.8.1
-#     container_name: elasticsearch
-#     ulimits:
-#       memlock:
-#         soft: -1
-#         hard: -1
-#     env_file:
-#       - ~/.env/elastic.env
-#     volumes:
-#       - esdata:/usr/share/elasticsearch/data
-#     ports:
-#       - 9200:9200
-
 volumes:
   shared:
     driver: local
