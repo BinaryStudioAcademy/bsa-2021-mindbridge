@@ -26,16 +26,6 @@
     margin-left: -1.4em;
   }
 
-  :global([data-tooltip]) {
-    &::before{
-      opacity: 0;
-    }
-    &:hover::after {
-      transition: 0s;
-      transition-delay:1s;
-    }
-  }
-
 
   :global(.text) {
     font-family: Lato, sans-serif !important;

@@ -14,6 +14,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
 import { IBindingCallback1 } from '@models/Callbacks';
+import { Popup } from 'semantic-ui-react';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -165,13 +166,30 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
             <UpToParentCommentSvg />
           </a>
           )}
-            <span>
-              <CopyToClipboard text={`${getLinkToComment(window.location.href)}#${commentId}`}>
-                <button style={{ background: 'none' }} data-tooltip="Copy link" type="button">
-                  <LinkSvg />
-                </button>
-              </CopyToClipboard>
-            </span>
+            <Popup
+              content="Copy link"
+              mouseEnterDelay={500}
+              closeOnTriggerClick
+              on="hover"
+              trigger={(
+                <span>
+                  <Popup
+                    content="Copied!"
+                    on="click"
+                    closeOnTriggerMouseLeave
+                    trigger={(
+                      <span>
+                        <CopyToClipboard text={`${getLinkToComment(window.location.href)}#${commentId}`}>
+                          <button style={{ background: 'none' }} type="button">
+                            <LinkSvg />
+                          </button>
+                        </CopyToClipboard>
+                      </span>
+                  )}
+                  />
+                </span>
+              )}
+            />
             <a href="/" data-tooltip="Share comment">
               <ShareCommentSvg />
             </a>
