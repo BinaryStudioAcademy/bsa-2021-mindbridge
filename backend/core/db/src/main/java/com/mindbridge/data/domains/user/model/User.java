@@ -32,6 +32,10 @@ public class User extends BaseAuditableEntity {
 
 	private String avatar;
 
+	private String activationCode;
+
+
+
 	public String getFullName() {
 		return firstName + " " + lastName;
 	}

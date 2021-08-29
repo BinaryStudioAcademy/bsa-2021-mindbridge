@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.user;
 
+import com.mindbridge.core.domains.helpers.MailSender;
 import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
 import com.mindbridge.data.domains.post.dto.PostTitleDto;
 import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
@@ -57,6 +58,8 @@ public class UserService implements UserDetailsService {
 
 	private final CommentReactionRepository commentReactionRepository;
 
+	private final MailSender mailSender;
+
 	private final Random random = new Random();
 
 	public static final String PHONE_REGEX = "^\\d{10}$";
@@ -66,12 +69,13 @@ public class UserService implements UserDetailsService {
 	@Lazy
 	@Autowired
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-			CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository,
-			PostPRRepository postPRRepository, PostReactionRepository postReactionRepository, CommentReactionRepository commentReactionRepository) {
+					   CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository,
+					   PostPRRepository postPRRepository, PostReactionRepository postReactionRepository, CommentReactionRepository commentReactionRepository, MailSender mailSender) {
 		this.userRepository = userRepository;
 		this.commentRepository = commentRepository;
 		this.postPRRepository = postPRRepository;
 		this.postReactionRepository = postReactionRepository;
+		this.mailSender = mailSender;
 		this.passwordEncoder = new PasswordConfig().passwordEncoder();
 		this.followerRepository = followerRepository;
 		this.postRepository = postRepository;
@@ -113,7 +117,21 @@ public class UserService implements UserDetailsService {
 		user.setEmail(registrationRequest.getEmail());
 		user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 		user.setEmailVerified(false);
+		user.setActivationCode(UUID.randomUUID().toString());
 		userRepository.save(user);
+
+		String message = String.format(
+			"Dear, %s! \n" +
+				"You successfully did the registration on Mindbridge \n" +
+				"\n" +
+				"Please, visit next link for activation your account: http://localhost:3000/activate//%s" +
+				"\n" +
+				"\n" +
+				"Best regards, Mindbride administration",
+			user.getNickname(),
+			user.getActivationCode()
+		);
+		mailSender.sendEmail(user.getEmail(), "Thank you for registration on Mindbridge", message);
 	}
 
 	@Override

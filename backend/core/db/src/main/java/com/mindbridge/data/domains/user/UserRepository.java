@@ -19,4 +19,5 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
 
 	int countUserByDeletedFalse();
 
+    User findByActivationCode(String code);
 }
