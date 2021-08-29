@@ -29,7 +29,6 @@ export interface IRoutingProps {
 }
 
 const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
-
   const [isHeaderShown, setIsHeaderShown] = useState(checkHeaderShown());
   history.listen(() => {
     setIsHeaderShown(checkHeaderShown());
