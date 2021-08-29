@@ -33,7 +33,7 @@ public class NotificationService {
 		return notificationRepository.calcUnreadNotifications(userId);
 	}
 
-	public void createNotification(UUID receiverId, UUID sourceId, Notification.Type type) {
+	public void createNotification(UUID receiverId, String authorNickname, UUID sourceId, Notification.Type type) {
 		CreateNotificationDto createNotificationDto = new CreateNotificationDto();
 		createNotificationDto.setSourceId(sourceId);
 		createNotificationDto.setReceiverId(receiverId);
@@ -41,19 +41,19 @@ public class NotificationService {
 		String destination;
 		switch (type) {
 			case newPR: {
-				description = "An offer has come to your post";
+				description = authorNickname + " has contributed to your post";
 				destination = "newPR";
 				createNotificationDto.setType("newPR");
 				break;
 			}
 			case newPost: {
-				description = "New post published";
+				description = authorNickname + " has published a new post";
 				destination = "newPost";
 				createNotificationDto.setType("newPost");
 				break;
 			}
 			case newFollower: {
-				description = "You have a new follower";
+				description = authorNickname + " now follows you";
 				destination = "newFollower";
 				createNotificationDto.setType("newFollower");
 				break;

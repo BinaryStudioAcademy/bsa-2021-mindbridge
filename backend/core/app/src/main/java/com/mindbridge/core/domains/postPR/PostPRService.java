@@ -8,6 +8,7 @@ import com.mindbridge.core.domains.postPR.dto.CreatePostPRDto;
 import com.mindbridge.core.domains.postPR.dto.EditPostPRDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRListDto;
+import com.mindbridge.core.domains.user.UserService;
 import com.mindbridge.data.domains.notification.model.Notification;
 import com.mindbridge.data.domains.postPR.PostPRRepository;
 import com.mindbridge.data.domains.postPR.model.PostPR;
@@ -37,14 +38,17 @@ public class PostPRService {
 
 	private final NotificationService notificationService;
 
+	private final UserService userService;
+
 	@Lazy
 	@Autowired
 	public PostPRService(PostPRRepository postPRRepository, TagRepository tagRepository, PostService postService,
-						 NotificationService notificationService) {
+						 NotificationService notificationService, UserService userService) {
 		this.postPRRepository = postPRRepository;
 		this.tagRepository = tagRepository;
 		this.postService = postService;
 		this.notificationService = notificationService;
+		this.userService = userService;
 	}
 
 	public void create(CreatePostPRDto createPostPRDto) {
@@ -54,7 +58,11 @@ public class PostPRService {
 		postPR.setState(State.open);
 		postPRRepository.save(postPR);
 
-		notificationService.createNotification(postService.getPostById(createPostPRDto.getPostId()).getAuthor().getId(), postPR.getId(), Notification.Type.newPR);
+		notificationService.createNotification(
+			postService.getPostById(createPostPRDto.getPostId()).getAuthor().getId(),
+			userService.getUserById(createPostPRDto.getContributorId()).getNickname(),
+			postPR.getId(),
+			Notification.Type.newPR);
 	}
 
 	public PostPRDetailsDto getPR(UUID id) {

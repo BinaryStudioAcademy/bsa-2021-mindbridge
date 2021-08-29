@@ -23,6 +23,7 @@ import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { toastr } from 'react-redux-toastr';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
+import { stompClient } from '@helpers/stompClient.helper';
 
 export interface IHeaderProps extends IState, IActions {
   isAuthorized: boolean;
@@ -46,8 +47,6 @@ const Header: React.FC<IHeaderProps> = (
   { isAuthorized, notificationCount, notificationList, fetchNotificationCount,
     fetchNotificationList, searchPostsByElastic, posts, currentUser, markNotificationRead }
 ) => {
-  const [stompClient] = useState(Stomp.over(() => new SockJS('/api/ws')));
-
   useEffect(() => {
     if (!currentUser.id) {
       return;
@@ -166,16 +165,14 @@ const Header: React.FC<IHeaderProps> = (
         </div>
       </div>
       <div className={styles.right}>
-        {isListOpen
-          ? (
-            <NotificationList
-              bellRef={bellRef}
-              markNotificationRead={markNotificationRead}
-              setIsListOpen={setIsListOpen}
-              list={notificationList}
-            />
-          )
-          : ''}
+        {isListOpen && (
+        <NotificationList
+          bellRef={bellRef}
+          markNotificationRead={markNotificationRead}
+          setIsListOpen={setIsListOpen}
+          list={notificationList}
+        />
+        )}
         <button ref={bellRef} className={styles.header_notification} type="button" onClick={toggleNotificationList}>
           <BellSvg />
           <NotificationCount notificationCount={notificationCount} />
