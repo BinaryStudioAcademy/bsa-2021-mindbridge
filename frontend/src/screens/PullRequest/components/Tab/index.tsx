@@ -22,7 +22,7 @@ const Tab = ({ className, previewContent, diffContent, seeDiff, handleCheckbox }
   return (
     <div className={classNames(styles.tab, className)}>
       <div className={styles.buttons}>
-        {handleCheckbox && isCheckboxShowed
+        {handleCheckbox
           && (
           <div className={styles.see_diff}>
             <div className={styles.see_diff}>See difference</div>
