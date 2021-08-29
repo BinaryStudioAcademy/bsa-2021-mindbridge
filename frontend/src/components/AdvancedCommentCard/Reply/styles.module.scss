@@ -4,15 +4,18 @@
   border-radius: 0.625em;
   margin-top: 1em;
   margin-bottom: 1em;
+
+  :global(.comments) {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    border-left: 1px solid #F5F2F2;
+  }
 }
 
-.empty {
-  margin: 0 !important;
-  padding: 0 !important;
-
-  :global(.ui.threaded.comments .comment .comments) {
-    margin: -1.7em 0 -1.02em 1em;
-    padding: 0.7em 0 0.5em 1.125em;
-  }
+.upBorder{
+  position:absolute;
+  left:0;
+  right:0;
+  border: 1px solid #F5F2F2;
 }
 

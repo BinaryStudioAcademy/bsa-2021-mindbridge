@@ -16,7 +16,6 @@ interface ICommentProps {
   shouldRenderUpToParent: boolean;
   shouldRenderArrowCloseComment: boolean;
   sendComment: any;
-  userId: string;
   postId: string;
   commentId: string;
   sendReply: any;
@@ -34,7 +33,6 @@ const Reply: React.FC<ICommentProps> = (
     commentId,
     shouldRenderBorder,
     userInfo,
-    userId,
     postId,
     text,
     sendComment,
@@ -55,9 +53,11 @@ const Reply: React.FC<ICommentProps> = (
   const closeCommentRef = useRef(true);
   const [isOpened, setIsOpened] = useState(closeCommentRef.current);
 
-  const handle = () => {
+  const handleIsOpenedComment = () => {
     setIsOpened(!isOpened);
   };
+
+  const repliesLength = replies.length > 0;
 
   return (
     <div className={shouldRenderBorder && styles.comment}>
@@ -68,10 +68,9 @@ const Reply: React.FC<ICommentProps> = (
         commentRating={commentRating}
         setShouldRender={shouldRenderUpToParent}
         ref={closeCommentRef}
-        handle={handle}
+        handleIsOpenedComment={handleIsOpenedComment}
         shouldRenderArrowCloseComment={shouldRenderArrowCloseComment}
         sendReply={sendReply}
-        userId={userId}
         postId={postId}
         commentId={commentId}
         isAuthorized={isAuthorized}
@@ -81,37 +80,32 @@ const Reply: React.FC<ICommentProps> = (
         handleLikeComment={handleLikeComment}
         handleDislikeComment={handleDislikeComment}
       />
-      {replies.length > 0 && (
-        <div>
+      {repliesLength && (
+        <div >
           { isOpened && (
             <div className="comments">
-              <Comment className={styles.empty}>
-                <Comment.Group threaded className={styles.empty}>
-                  {replies.map(comment => (
-                    <Reply
-                      replies={comment.comments}
-                      author={comment.author}
-                      createdAt={comment.createdAt}
-                      text={comment.text}
-                      commentRating={comment.rating}
-                      shouldRenderUpToParent={!(replies.length === 0)}
-                      shouldRenderArrowCloseComment={(comment.comments.length > 0)}
-                      userId={userId}
-                      postId={postId}
-                      sendComment={sendComment}
-                      commentId={comment.id}
-                      sendReply={sendReply}
-                      isAuthorized={isAuthorized}
-                      userInfo={userInfo}
-                      shouldRenderBorder={false}
-                      parentCommentId={parentCommentId}
-                      postAuthorId={postAuthorId}
-                      handleDislikeComment={handleDislikeComment}
-                      handleLikeComment={handleLikeComment}
-                    />
-                  ))}
-                </Comment.Group>
-              </Comment>
+                {replies.map(comment => (
+                  <Reply
+                    replies={comment.comments}
+                    author={comment.author}
+                    createdAt={comment.createdAt}
+                    text={comment.text}
+                    commentRating={comment.rating}
+                    shouldRenderUpToParent={repliesLength}
+                    shouldRenderArrowCloseComment={(comment.comments.length > 0)}
+                    postId={postId}
+                    sendComment={sendComment}
+                    commentId={comment.id}
+                    sendReply={sendReply}
+                    isAuthorized={isAuthorized}
+                    userInfo={userInfo}
+                    shouldRenderBorder={false}
+                    parentCommentId={parentCommentId}
+                    postAuthorId={postAuthorId}
+                    handleDislikeComment={handleDislikeComment}
+                    handleLikeComment={handleLikeComment}
+                  />
+                ))}
             </div>
           )}
         </div>

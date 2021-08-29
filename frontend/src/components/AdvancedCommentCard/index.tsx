@@ -84,13 +84,13 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
         </form>
       ) : (
         <div className={styles.nonAuthorizedHeading}>
-          <h5>
+          <p>
             You must be
             {' '}
             <a href="/login">logged in</a>
             {' '}
             to post or reply a comment.
-          </h5>
+          </p>
         </div>
       )}
       <div className="ui comments">
@@ -106,7 +106,6 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
               shouldRenderUpToParent={false}
               shouldRenderArrowCloseComment={comment.comments.length > 0}
               sendComment={sendComment}
-              userId={userInfo.id}
               postId={postId}
               commentId={comment.id}
               sendReply={sendReply}

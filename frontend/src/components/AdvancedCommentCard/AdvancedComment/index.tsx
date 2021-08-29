@@ -12,6 +12,7 @@ import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
+import ScrollableAnchor from 'react-scrollable-anchor';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -20,10 +21,9 @@ interface IBasicCommentProps {
   commentRating: number;
   setShouldRender: boolean;
   ref: any;
-  handle: any;
+  handleIsOpenedComment: any;
   shouldRenderArrowCloseComment: boolean;
   sendReply: any;
-  userId: string;
   postId: string;
   commentId: string;
   isAuthorized: boolean;
@@ -36,7 +36,6 @@ interface IBasicCommentProps {
 
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
   {
-    userId,
     userInfo,
     postId,
     createdAt,
@@ -45,7 +44,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     commentRating,
     setShouldRender,
     ref,
-    handle,
+    handleIsOpenedComment,
     shouldRenderArrowCloseComment,
     sendReply,
     commentId,
@@ -68,7 +67,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   };
 
   const handleClick = () => {
-    handle();
+    handleIsOpenedComment();
     setRotateArrowHook(!rotateArrowHook);
   };
 
@@ -93,7 +92,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     if (newReply.text.trim().length) {
       const addComment = {
         text: newReply.text,
-        author: userId,
+        author: userInfo.id,
         postId,
         replyCommentId: commentId,
         avatar: userInfo.avatar,
@@ -106,31 +105,34 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
 
   const checkAuthorPost = (authorPostId, userID) => authorPostId === userID;
 
+  const getLinkToComment = (url: string) => url.split('#')[0];
+
   return (
-    <div id={commentId} className={styles.advancedComment}>
-      <div className={styles.header}>
-        { shouldRenderArrowCloseComment && (
+    <ScrollableAnchor id={commentId}>
+      <div className={styles.advancedComment}>
+        <div className={styles.header}>
+          { shouldRenderArrowCloseComment && (
           <button ref={ref} id="button" className={styles.closeCommentBtn} type="button" onClick={() => handleClick()}>
             <div className={styles.arrowClose} style={rotateArrow}><ArrowCloseComment /></div>
           </button>
-        )}
-        <div className={styles.commentAuthor}>
-          <a href={`/user/${author.id}`} className="avatar">
-            <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
-          </a>
-          <a
-            href={`/user/${author.id}`}
-            className={(checkAuthorPost(postAuthorId, author.id)) ? styles.postAuthor : styles.author}
-          >
-            <p>{author.nickname}</p>
-          </a>
-          <DividerSvg />
-          <div className="metadata">
-            <span className="date">{moment(createdAt).fromNow()}</span>
+          )}
+          <div className={styles.commentAuthor}>
+            <a href={`/user/${author.id}`} className="avatar">
+              <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
+            </a>
+            <a
+              href={`/user/${author.id}`}
+              className={(checkAuthorPost(postAuthorId, author.id)) ? styles.postAuthor : styles.author}
+            >
+              <p>{author.nickname}</p>
+            </a>
+            <DividerSvg />
+            <div className="metadata">
+              <span className="date">{moment(createdAt).fromNow()}</span>
+            </div>
           </div>
-        </div>
-        <div className={styles.commentRightAction}>
-          { userInfo.id !== author.id && (
+          <div className={styles.commentRightAction}>
+            { userInfo.id !== author.id && (
             <div className={styles.ratingComponent}>
               <RatingComponent
                 postRating={commentRating}
@@ -154,30 +156,30 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                   )}
               />
             </div>
-          )}
-          { shouldRender
+            )}
+            { shouldRender
           && (
           <a href={`#${parentCommentId}`} data-tooltip="Up to main comment">
             <UpToParentCommentSvg />
           </a>
           )}
-          <span>
-            <CopyToClipboard text={`localhost:3000/post/${postId}#${commentId}`}>
-              <button style={{ background: 'none' }} data-tooltip="Copy link" type="button">
-                <LinkSvg />
-              </button>
-            </CopyToClipboard>
-          </span>
-          <a href="/" data-tooltip="Share comment">
-            <ShareCommentSvg />
-          </a>
+            <span>
+              <CopyToClipboard text={`${getLinkToComment(window.location.href)}#${commentId}`}>
+                <button style={{ background: 'none' }} data-tooltip="Copy link" type="button">
+                  <LinkSvg />
+                </button>
+              </CopyToClipboard>
+            </span>
+            <a href="/" data-tooltip="Share comment">
+              <ShareCommentSvg />
+            </a>
+          </div>
         </div>
-      </div>
-      <div className="text">
-        {text}
-      </div>
-      { isAuthorized && (
-        <div>
+        <div className="text">
+          {text}
+        </div>
+        { isAuthorized && (
+        <div className={styles.dsa}>
           <div className="actions">
             <DarkBorderButton className={styles.btnReplay} content="Reply" onClick={() => setDisabled(!disabled)} />
           </div>
@@ -200,8 +202,9 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           </div>
           )}
         </div>
-      ) }
-    </div>
+        ) }
+      </div>
+    </ScrollableAnchor>
   );
 });
 

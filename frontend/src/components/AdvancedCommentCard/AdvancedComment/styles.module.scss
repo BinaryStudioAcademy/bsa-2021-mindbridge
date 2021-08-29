@@ -20,7 +20,6 @@
 
 .advancedComment {
   padding-left: 2.7142em;
-  padding-bottom: 1.4285em;
 
   :global(.actions) {
     padding-bottom: 0.8em;
@@ -35,6 +34,13 @@
       transition: 0s;
       transition-delay:1s;
     }
+  }
+
+  &::before {
+    content:"";
+    display:block;
+    height:90px;
+    margin:-90px 0 0;
   }
 
   :global(.text) {
@@ -186,7 +192,6 @@
 
     textarea:focus {
       outline: none;
-      border-color: red;
     }
   }
 }
@@ -207,7 +212,7 @@
   width: 3.125em !important;
   height: 1.525em !important;
   border: 0.225em solid #14253F !important;
-  box-sizing: border-box !important;
+
   border-radius: 0.3125em !important;
 
   &:hover {
@@ -216,17 +221,5 @@
     border: 0.225em solid #14253F !important;
     background: #FFFFFF !important;
   }
-}
-
-@keyframes hide{
-  0%{
-    box-shadow: 0.7142em 0.7142em 3.4285em -0.2142em #8cbcf6;
-  }
-  100%{
-    box-shadow: none;
-  }
-}
-div:target{
-  animation: hide linear 10s;
 }
 
