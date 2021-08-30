@@ -58,7 +58,6 @@ public class AuthController {
 	@GetMapping("/activate/{code}")
 	public void activateUserEmail(@PathVariable String code) {
 		authService.activateEmail(code);
-
 	}
 
 }
