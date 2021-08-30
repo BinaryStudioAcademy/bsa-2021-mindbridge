@@ -18,13 +18,13 @@ const EmailConfirmation: React.FC<IEmailConfirmationProps> = (
 ) => (
   <div className={classNames('content_wrapper', styles.container)}>
     { currentUserEmailVerified ? (
-        <div className={styles.text}>
-          Your email confirmation
-        </div>
+      <div className={styles.text}>
+        Your email confirmation
+      </div>
     ) : (
       <div className={styles.text}>
         Oops... Your email not confirmed
-        <p>Please confirm you're email</p>
+        <p>Please confirm you`&apos;`re email</p>
       </div>
     )}
   </div>
