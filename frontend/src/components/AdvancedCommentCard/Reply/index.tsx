@@ -4,7 +4,6 @@ import { IUser } from '@screens/ViewPost/models/IUser';
 import styles from './styles.module.scss';
 import AdvancedComment from '@components/AdvancedCommentCard/AdvancedComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { IBindingCallback1 } from '@models/Callbacks';
 
 interface ICommentProps {
   text: string;
@@ -16,15 +15,15 @@ interface ICommentProps {
   shouldRenderArrowCloseComment: boolean;
   postId: string;
   commentId: string;
-  sendComment: IBindingCallback1<object>;
-  sendReply: IBindingCallback1<object>;
+  sendComment: any;
+  sendReply: any;
   isAuthorized: boolean;
   userInfo: IUserProfile;
   shouldRenderBorder: boolean;
   parentCommentId: string;
   postAuthorId: string;
-  handleLikeComment: IBindingCallback1<string>;
-  handleDislikeComment: IBindingCallback1<string>;
+  handleLikeComment: any;
+  handleDislikeComment: any;
   depthOfComments: number;
 }
 

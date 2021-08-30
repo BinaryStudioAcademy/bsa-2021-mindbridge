@@ -5,18 +5,17 @@ import { IComments } from '@screens/ViewPost/models/IComments';
 import Reply from '@components/AdvancedCommentCard/Reply';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { IBindingCallback1 } from '@models/Callbacks';
 
 interface ICommentProps {
   comments: IComments[];
-  sendComment: IBindingCallback1<object>;
-  sendReply: IBindingCallback1<object>;
+  sendComment: any;
+  sendReply: any;
   userInfo: IUserProfile;
   postId: string;
   isAuthorized: boolean;
   postAuthorId: string;
-  handleLikeComment: IBindingCallback1<string>;
-  handleDislikeComment: IBindingCallback1<string>;
+  handleLikeComment: any;
+  handleDislikeComment: any;
 }
 
 const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
@@ -60,11 +59,22 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
       sendComment(addComment);
     }
   };
+
+  const getArrayDepth = arr => {
+    if (Array.isArray(arr)) {
+      return 1 + Math.max(...arr.map(getArrayDepth));
+    }
+    if (arr.comments && arr.comments.length) {
+      return 1 + Math.max(...arr.comments.map(getArrayDepth));
+    }
+    return 0;
+  };
+
   return (
     <div className={styles.advancedCommentFeed}>
       <p className={styles.commentCounter}>
         Discussion (
-        {comments.length}
+        {getArrayDepth(comments)}
         )
       </p>
       {isAuthorized ? (

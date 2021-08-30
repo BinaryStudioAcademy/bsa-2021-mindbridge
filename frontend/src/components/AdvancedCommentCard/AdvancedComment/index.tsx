@@ -13,7 +13,6 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
-import { IBindingCallback1 } from '@models/Callbacks';
 import { Popup } from 'semantic-ui-react';
 
 interface IBasicCommentProps {
@@ -25,17 +24,17 @@ interface IBasicCommentProps {
   ref: any;
   handleIsOpenedComment: any;
   shouldRenderArrowCloseComment: boolean;
-  sendReply: IBindingCallback1<object>;
+  sendReply: any;
   postId: string;
   commentId: string;
   isAuthorized: boolean;
   userInfo: IUserProfile;
   postAuthorId: string;
   parentCommentId: string;
-  handleLikeComment: IBindingCallback1<string>;
-  handleDislikeComment: IBindingCallback1<string>;
+  handleLikeComment: any;
+  handleDislikeComment: any;
 }
-
+/* eslint-disable max-len */
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
   {
     userInfo,
@@ -144,15 +143,12 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                 postId={commentId}
                 userInfo={userInfo}
                 arrowUpColor={userInfo.userReactionsComments
-                  .find(commentReaction => commentReaction.commentId === commentId
-                && commentReaction.liked)
+                  .find(commentReaction => commentReaction.commentId === commentId && commentReaction.liked)
                   ? ('#8AC858'
                   ) : (
                     '#66B9FF'
                   )}
-                arrowDownColor={userInfo.userReactionsComments
-                  .find(commentReaction => commentReaction.commentId === commentId
-                && !commentReaction.liked)
+                arrowDownColor={userInfo.userReactionsComments.find(commentReaction => commentReaction.commentId === commentId && !commentReaction.liked)
                   ? ('#F75C48'
                   ) : (
                     '#66B9FF'
