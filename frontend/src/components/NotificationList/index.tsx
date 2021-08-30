@@ -5,6 +5,7 @@ import NotificationListItem from '@components/NotificationListItem';
 import styles from './style.module.scss';
 import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import NoResultsSvg from '@components/svgs/NoResultsSvg';
+import LoaderWrapper from "@components/LoaderWrapper";
 
 export interface INotificationListProps {
   list: INotification[];
@@ -13,6 +14,7 @@ export interface INotificationListProps {
   bellRef: any;
   fetchNotifications: IBindingCallback1<boolean>;
   markAllNotificationsRead: IBindingAction;
+  notificationsLoading: boolean;
 }
 
 const NotificationList: React.FC<INotificationListProps> = (
@@ -21,7 +23,8 @@ const NotificationList: React.FC<INotificationListProps> = (
     setIsListOpen,
     markNotificationRead,
     fetchNotifications,
-    markAllNotificationsRead
+    markAllNotificationsRead,
+    notificationsLoading
   }
 ) => {
   const [onlyUnread, setOnlyUnread] = useState(true);
@@ -57,24 +60,30 @@ const NotificationList: React.FC<INotificationListProps> = (
         <button type="button" onClick={markAllNotificationsRead}>Mark all read</button>
       </div>
       <ul className={styles.list}>
-        {list && list?.length !== 0 ? (
-          list.map(item => (
-            <NotificationListItem
-              isRead={item.isRead}
-              markNotificationRead={markNotificationRead}
-              id={item.id}
-              sourceId={item.sourceId}
-              type={item.type}
-              text={item.text}
-              createdAt={item.createdAt}
-              setIsListOpen={setIsListOpen}
-              key={item.id}
-            />
-          ))) : (
+        {notificationsLoading ? (
+          <div className={styles.loaderWrapper}>
+            <LoaderWrapper loading={notificationsLoading}/>
+          </div>
+        ) : (
+          list && list?.length !== 0 ? (
+            list.map(item => (
+              <NotificationListItem
+                isRead={item.isRead}
+                markNotificationRead={markNotificationRead}
+                id={item.id}
+                sourceId={item.sourceId}
+                type={item.type}
+                text={item.text}
+                createdAt={item.createdAt}
+                setIsListOpen={setIsListOpen}
+                key={item.id}
+              />
+            ))) : (
             <div className={styles.emptyResult}>
               <NoResultsSvg width="30%" height="30%" />
               <p>No notifications were found</p>
             </div>
+          )
         )}
       </ul>
     </div>

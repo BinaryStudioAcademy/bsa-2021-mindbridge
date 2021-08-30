@@ -12,7 +12,11 @@ import {
   fetchNotificationListRoutine, markAllNotificationsReadRoutine, markNotificationReadRoutine,
   searchPostsByElasticRoutine
 } from '@screens/Header/routines';
-import { extractData } from '@screens/Header/reducers';
+import {
+  extractData,
+  extractFetchNotificationListLoading,
+  extractMarkAllNotificationsReadLoading
+} from '@screens/Header/reducers';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
@@ -32,6 +36,7 @@ interface IState {
   notificationList?: INotification[];
   posts: IPost[];
   currentUser: ICurrentUser;
+  notificationsLoading: boolean;
 }
 
 interface IActions {
@@ -53,7 +58,8 @@ const Header: React.FC<IHeaderProps> = (
     posts,
     currentUser,
     markNotificationRead,
-    markAllNotificationsRead
+    markAllNotificationsRead,
+    notificationsLoading
   }
 ) => {
   useEffect(() => {
@@ -186,6 +192,7 @@ const Header: React.FC<IHeaderProps> = (
       <div className={styles.right}>
         {isListOpen && (
         <NotificationList
+          notificationsLoading={notificationsLoading}
           markAllNotificationsRead={handleMarkAllNotificationsRead}
           fetchNotifications={handleFetchNotifications}
           bellRef={bellRef}
@@ -239,6 +246,7 @@ const Header: React.FC<IHeaderProps> = (
 const mapStateToProps = (state: any) => {
   const { auth } = state;
   return {
+    notificationsLoading: extractMarkAllNotificationsReadLoading(state) || extractFetchNotificationListLoading(state),
     currentUser: auth.auth.user,
     isAuthorized: auth.auth.isAuthorized,
     notificationCount: extractData(state).notificationCount,
