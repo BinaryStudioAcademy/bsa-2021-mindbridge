@@ -3,6 +3,7 @@ import { Button, Card, CardContent, Popup } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
+import Highlighter from 'react-highlight-words';
 
 interface IHighlightCardProps {
   highlight: IHighlight;
@@ -27,7 +28,13 @@ const HighlightCard: FunctionComponent<IHighlightCardProps> = ({ highlight, hand
           </div>
           <Link to={`/post/${highlight.postId}`}>
             <div className={styles.quoteText}>
-              {highlight.text}
+              <Highlighter
+                highlightClassName={styles.highlightQuotes}
+                searchWords={[highlight.text]}
+                autoEscape
+                textToHighlight={highlight.text}
+              />
+              {/* {highlight.text} */}
             </div>
           </Link>
           <Popup

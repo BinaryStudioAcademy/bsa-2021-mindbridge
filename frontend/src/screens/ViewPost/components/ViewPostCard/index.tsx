@@ -63,14 +63,24 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   const goToEdit = () => {
     history.push(`/post/edit/${post.id}`);
   };
+
+  const validateSelection = elements => {
+    if (elements.length !== 1 && elements.find(element => element.localName[0] === 'h')) {
+      return false;
+    }
+    if (elements.find(element => element.localName === 'br')) {
+      return false;
+    }
+
+    return true;
+  };
   const handleMouseUp = () => {
     const { x, y } = GetCursorPosition({ scroll: true });
-    console.log(window.getSelection().getRangeAt(0).cloneContents().children);
     if (!window.getSelection().toString().trim()) {
       setIsPopUpShown(false);
     } else {
       const elements = Array.prototype.slice.call(window.getSelection().getRangeAt(0).cloneContents().children);
-      if (!elements.find(element => element.localName === 'br')) {
+      if (validateSelection(elements)) {
         setYPos(y);
         setXPos(x - 25);
         setIsPopUpShown(true);
