@@ -78,6 +78,8 @@
     "sockjs-client": "^1.5.1",
     "stomp": "^0.1.1",
     "styled-components": "^4.4.1",
+    "suneditor": "^2.41.3",
+    "suneditor-react": "^3.3.0",
     "use-debounce": "^7.0.0",
     "yup": "^0.27.0"
   },
