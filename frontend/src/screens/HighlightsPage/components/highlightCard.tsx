@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import {Button, Card, CardContent, Popup} from 'semantic-ui-react';
+import { Button, Card, CardContent, Popup } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
@@ -14,7 +14,7 @@ const HighlightCard: FunctionComponent<IHighlightCardProps> = ({ highlight, hand
 
   const deleteHighlight = () => {
     handleDeleteHighlight(highlight.id);
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -31,7 +31,7 @@ const HighlightCard: FunctionComponent<IHighlightCardProps> = ({ highlight, hand
             </div>
           </Link>
           <Popup
-            content={(<Button onClick={deleteHighlight}>Unhighlight</Button>)}
+            content={(<Button style={{ backgroundColor: 'white' }} onClick={deleteHighlight}>Unhighlight</Button>)}
             eventsEnabled={eventsEnabled}
             on="click"
             onClose={() => setOpen(false)}

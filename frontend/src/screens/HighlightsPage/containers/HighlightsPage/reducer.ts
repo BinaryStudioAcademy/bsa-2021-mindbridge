@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import {deleteHighlightRoutine, fetchHighlightsRoutine} from '@screens/HighlightsPage/routines';
+import { deleteHighlightRoutine, fetchHighlightsRoutine } from '@screens/HighlightsPage/routines';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 
 export interface IHighlightsReducerState {
@@ -15,6 +15,6 @@ export const highlightsReducer = createReducer(initialState, {
     state.highlights = payload;
   },
   [deleteHighlightRoutine.SUCCESS]: (state, action) => {
-    state.highlights.filter(hs => hs.id !== action.payload);
+    state.highlights = state.highlights.filter(hs => hs.id !== action.payload);
   }
 });
