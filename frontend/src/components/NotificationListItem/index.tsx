@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './style.module.scss';
 import { Link } from 'react-router-dom';
 import { IBindingCallback1 } from '@models/Callbacks';
+import MarkButton from '@components/buttons/MarkButton';
 
 export interface INotificationListItemProps {
   id: string;
@@ -11,6 +12,7 @@ export interface INotificationListItemProps {
   createdAt: string;
   setIsListOpen: IBindingCallback1<boolean>;
   markNotificationRead: IBindingCallback1<string>;
+  isRead: boolean;
 }
 
 const NotificationListItem: React.FC<INotificationListItemProps> = (
@@ -21,7 +23,8 @@ const NotificationListItem: React.FC<INotificationListItemProps> = (
     text,
     createdAt,
     setIsListOpen,
-    markNotificationRead
+    markNotificationRead,
+    isRead
   }
 ) => {
   const [link, setLink] = useState('/');
@@ -67,12 +70,20 @@ const NotificationListItem: React.FC<INotificationListItemProps> = (
         role="link"
         tabIndex={0}
       >
+        <div
+          role="button"
+          tabIndex={0}
+          onKeyDown={e => handleReadNotification(e)}
+          className={styles.closeBtn}
+          onClick={e => handleReadNotification(e)}
+        >
+          <MarkButton inverted={!isRead} />
+        </div>
         <div className={styles.upper}>
           <span className={styles.title}>{type}</span>
           <span className={styles.date}>{new Date(createdAt).toDateString()}</span>
         </div>
         <span className={styles.description}>{text}</span>
-        <button type="button" className={styles.closeBtn} onClick={e => handleReadNotification(e)}>✖</button>
       </Link>
     </li>
   );

@@ -1,7 +1,7 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
   fetchNotificationCountRoutine,
-  fetchNotificationListRoutine, markNotificationReadRoutine,
+  fetchNotificationListRoutine, markAllNotificationsReadRoutine, markNotificationReadRoutine,
   searchPostsByElasticRoutine
 } from '@screens/Header/routines';
 import { toastr } from 'react-redux-toastr';
@@ -21,8 +21,13 @@ function* fetchNotificationCount({ payload }: Routine<any>) {
 
 function* fetchNotificationList({ payload }: Routine<any>) {
   try {
-    const response = yield call(headerService.getNotificationList, payload);
-    const list = { notificationList: response };
+    let response;
+    if (payload.onlyUnread) {
+      response = yield call(headerService.getUnreadNotificationList, payload.userId);
+    } else {
+      response = yield call(headerService.getNotificationList, payload.userId);
+    }
+    const list = { notificationList: response, onlyUnread: payload.onlyUnread };
     yield put(fetchNotificationListRoutine.success(list));
   } catch (error) {
     yield put(fetchNotificationListRoutine.failure(error?.message));
@@ -56,6 +61,20 @@ function* markNotificationRead({ payload }: Routine<any>) {
   }
 }
 
+function* markAllNotificationsRead({ payload }: Routine<any>) {
+  try {
+    yield call(headerService.markAllNotificationsRead, payload);
+    yield put(markAllNotificationsReadRoutine.success(payload));
+  } catch (error) {
+    yield put(markAllNotificationsReadRoutine.failure(error?.message));
+    toastr.error('Error', 'Update notifications failed');
+  }
+}
+
+function* watchMarkAllNotificationsRead() {
+  yield takeEvery(markAllNotificationsReadRoutine.TRIGGER, markAllNotificationsRead);
+}
+
 function* watchFetchNotificationCount() {
   yield takeEvery(fetchNotificationCountRoutine.TRIGGER, fetchNotificationCount);
 }
@@ -77,6 +96,7 @@ export default function* headerPageSagas() {
     watchFetchNotificationCount(),
     watchFetchNotificationList(),
     watchSearchPostsByElastic(),
-    watchMarkNotificationRead()
+    watchMarkNotificationRead(),
+    watchMarkAllNotificationsRead()
   ]);
 }

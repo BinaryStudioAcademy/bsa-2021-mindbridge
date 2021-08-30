@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import Logo from '@components/Logo/Logo';
 import NotificationCount from '@components/NotificationCount';
 import DarkButton from '@components/buttons/DarcButton';
@@ -9,7 +9,7 @@ import { IBindingCallback1 } from '@models/Callbacks';
 import { INotification } from '@screens/Header/models/INotification';
 import {
   fetchNotificationCountRoutine,
-  fetchNotificationListRoutine, markNotificationReadRoutine,
+  fetchNotificationListRoutine, markAllNotificationsReadRoutine, markNotificationReadRoutine,
   searchPostsByElasticRoutine
 } from '@screens/Header/routines';
 import { extractData } from '@screens/Header/reducers';
@@ -19,8 +19,6 @@ import SearchSvg from '@components/Header/svg/searchSvg';
 import { IPost } from '@screens/Header/models/IPost';
 import FoundPostsList from '@components/FoundPostsList';
 import { useDebouncedCallback } from 'use-debounce';
-import { Stomp } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
 import { toastr } from 'react-redux-toastr';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { stompClient } from '@helpers/stompClient.helper';
@@ -38,14 +36,25 @@ interface IState {
 
 interface IActions {
   fetchNotificationCount: IBindingCallback1<string>;
-  fetchNotificationList: IBindingCallback1<string>;
+  fetchNotificationList: IBindingCallback1<object>;
   searchPostsByElastic: IBindingCallback1<string>;
   markNotificationRead: IBindingCallback1<string>;
+  markAllNotificationsRead: IBindingCallback1<string>;
 }
 
 const Header: React.FC<IHeaderProps> = (
-  { isAuthorized, notificationCount, notificationList, fetchNotificationCount,
-    fetchNotificationList, searchPostsByElastic, posts, currentUser, markNotificationRead }
+  {
+    isAuthorized,
+    notificationCount,
+    notificationList,
+    fetchNotificationCount,
+    fetchNotificationList,
+    searchPostsByElastic,
+    posts,
+    currentUser,
+    markNotificationRead,
+    markAllNotificationsRead
+  }
 ) => {
   useEffect(() => {
     if (!currentUser.id) {
@@ -107,9 +116,19 @@ const Header: React.FC<IHeaderProps> = (
     }
   }, [currentUser]);
 
+  const handleFetchNotifications = onlyUnread => {
+    fetchNotificationList({ userId: currentUser.id, onlyUnread });
+  };
+
   const toggleNotificationList = () => {
-    fetchNotificationList(currentUser.id);
+    if (!isListOpen) {
+      handleFetchNotifications(true);
+    }
     setIsListOpen(!isListOpen);
+  };
+
+  const handleMarkAllNotificationsRead = () => {
+    markAllNotificationsRead(currentUser.id);
   };
 
   const handleCreatePostButton = () => {
@@ -167,6 +186,8 @@ const Header: React.FC<IHeaderProps> = (
       <div className={styles.right}>
         {isListOpen && (
         <NotificationList
+          markAllNotificationsRead={handleMarkAllNotificationsRead}
+          fetchNotifications={handleFetchNotifications}
           bellRef={bellRef}
           markNotificationRead={markNotificationRead}
           setIsListOpen={setIsListOpen}
@@ -228,6 +249,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps: IActions = {
   markNotificationRead: markNotificationReadRoutine,
+  markAllNotificationsRead: markAllNotificationsReadRoutine,
   fetchNotificationCount: fetchNotificationCountRoutine,
   fetchNotificationList: fetchNotificationListRoutine,
   searchPostsByElastic: searchPostsByElasticRoutine

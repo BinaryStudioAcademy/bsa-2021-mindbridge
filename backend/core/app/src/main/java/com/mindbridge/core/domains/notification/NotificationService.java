@@ -72,13 +72,22 @@ public class NotificationService {
 		);
 	}
 
-	public List<NotificationDto> getNotificationList(UUID userId) {
-		return notificationRepository.getNotificationList(userId).stream()
+	public List<NotificationDto> getUnreadNotificationList(UUID userId) {
+		return notificationRepository.getUnreadNotificationList(userId).stream()
 				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
 	}
 
-	public void markNotificationRead(UUID id) {
-		notificationRepository.markNotificationRead(id);
+	public List<NotificationDto> getNotificationList(UUID userId) {
+		return notificationRepository.getNotificationList(userId).stream()
+			.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+	}
+
+	public void toggleNotificationRead(UUID id) {
+		notificationRepository.toggleNotificationRead(id);
+	}
+
+	public void readAll(UUID id) {
+		notificationRepository.readAll(id);
 	}
 
 }

@@ -1,9 +1,9 @@
 .listItem {
-  padding: 1.5rem 2.5rem 1.5rem 1.5rem;
+  padding: 1.5rem 1.5rem 1.5rem 2.5rem;
   display: block;
   transition: 0.2s;
   color: #14253f;
-  border-bottom: 1px solid #a5aab1;
+  border-top: 1px solid #a5aab1;
   position: relative;
 
   .upper {
@@ -26,8 +26,8 @@
 
   .closeBtn {
     position: absolute;
-    top: 20%;
-    right: 0.5rem;
+    top: 1.5rem;
+    left: 0.5rem;
     background-color: transparent;
 
     &:hover {

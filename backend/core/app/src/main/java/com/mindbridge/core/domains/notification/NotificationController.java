@@ -25,14 +25,24 @@ public class NotificationController {
 		return notificationService.getNotificationCount(id);
 	}
 
+	@GetMapping("/unreadList/{id}")
+	public List<NotificationDto> getUnreadNotificationList(@PathVariable(name = "id") UUID id) {
+		return notificationService.getUnreadNotificationList(id);
+	}
+
 	@GetMapping("/list/{id}")
 	public List<NotificationDto> getNotificationList(@PathVariable(name = "id") UUID id) {
 		return notificationService.getNotificationList(id);
 	}
 
 	@PutMapping("/{id}")
-	public void markNotificationRead(@PathVariable UUID id) {
-		notificationService.markNotificationRead(id);
+	public void toggleNotificationRead(@PathVariable UUID id) {
+		notificationService.toggleNotificationRead(id);
+	}
+
+	@PutMapping("/readAll/{id}")
+	public void readAllNotifications(@PathVariable UUID id) {
+		notificationService.readAll(id);
 	}
 
 }
