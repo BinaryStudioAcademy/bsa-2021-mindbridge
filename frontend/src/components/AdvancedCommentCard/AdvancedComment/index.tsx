@@ -74,9 +74,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     setRotateArrowHook(!rotateArrowHook);
   };
 
-  const checkForNickname = (textComment: string) => {
-    return textComment.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>@$1</a>');
-  };
+  const checkForNickname = (textComment: string) => textComment.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
 
   const checkAuthorPost = (authorPostId, userID) => authorPostId === userID;
 
@@ -86,7 +84,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     if (!query) return;
     fetch(`/api/user/finduser/${query}`)
       .then(res => res.json())
-      .then(res => res.map(user => ({ display: user.nickname, id: user.id })))
+      .then(res => res.map(user => ({ display: '@' + user.nickname, id: user.id })))
       .then(callback);
   }
 

@@ -152,6 +152,8 @@
 }
 
 .replayBlock {
+  position: relative !important;
+  z-index: 0 !important;
   font-family: lato, sans-serif;
 }
 

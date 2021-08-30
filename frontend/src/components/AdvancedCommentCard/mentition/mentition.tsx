@@ -49,21 +49,21 @@ function AsyncUserMentions(
     }
   };
 
-  const emailRegex = /(([^\s@]+@[^\s@]+\.[^\s@]+))$/;
+  const emailRegex = /(([^\s]+[^\s]+\.[^\s]+))$/;
 
   return (
-    <div>
+    <div className={styles.back}>
       <MentionsInput
         value={newReply.text}
         onChanges={onChange}
         onChange={handleNewReply}
         className="mentions"
-        markup="@[__display__](__type__:__id__)"
-        displayTransform={display => `<<${display}>>`}
+        markup="@[__display__]"
         classNames={classNames}
-        a11ySuggestionsListLabel="Suggested Github users for mention"
+        a11ySuggestionsListLabel="Suggested mentions"
       >
         <Mention
+          className={classNames.mentions__mention__custom}
           type="user"
           trigger="@"
           data={data}
@@ -72,8 +72,7 @@ function AsyncUserMentions(
           trigger={emailRegex}
           type="user"
           data={search => [{ id: search, display: search }]}
-          markup="@[__display__](__type__:__id__)"
-          className={classNames.mentions__mention}
+          markup="@[__display__]"
         />
       </MentionsInput>
 
