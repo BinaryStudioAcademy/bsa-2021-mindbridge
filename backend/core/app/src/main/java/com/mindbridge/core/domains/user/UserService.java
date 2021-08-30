@@ -105,6 +105,10 @@ public class UserService implements UserDetailsService {
 		return userRepository.findByEmail(email).map(UserMapper.MAPPER::userToUserDto).get();
 	}
 
+	public UserDto loadUserDtoByNickname(String nickname) throws UsernameNotFoundException {
+		return userRepository.findByNickname(nickname).map(UserMapper.MAPPER::userToUserDto).get();
+	}
+
 	public void registerNewUserAccount(RegistrationRequest registrationRequest) {
 		User user = new User();
 		user.setFirstName(registrationRequest.getName());
