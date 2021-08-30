@@ -52,4 +52,9 @@ public class UserController {
 		return userService.updateUserPasswordById(id, newPassword);
 	}
 
+	@PostMapping("/delete/avatar/{id}")
+	public UserDto deleteUserAvatar(@PathVariable UUID id) {
+		return userService.deleteUserAvatar(id);
+	}
+
 }

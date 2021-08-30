@@ -170,4 +170,12 @@ public class UserService implements UserDetailsService {
 		return loadUserDtoByEmail(user.getEmail());
 	}
 
+	public UserDto deleteUserAvatar(UUID id) {
+		User user = userRepository.findById(id)
+			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+		user.setAvatar(null);
+		userRepository.save(user);
+
+		return loadUserDtoByEmail(user.getEmail());
+	}
 }
