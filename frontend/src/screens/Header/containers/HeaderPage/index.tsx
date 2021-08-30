@@ -122,13 +122,13 @@ const Header: React.FC<IHeaderProps> = (
     }
   }, [currentUser]);
 
-  const handleFetchNotifications = onlyUnread => {
-    fetchNotificationList({ userId: currentUser.id, onlyUnread });
+  const handleFetchNotifications = (onlyUnread, params) => {
+    fetchNotificationList({ userId: currentUser.id, onlyUnread, params });
   };
 
   const toggleNotificationList = () => {
     if (!isListOpen) {
-      handleFetchNotifications(true);
+      handleFetchNotifications(true, { from: 0, count: 10 });
     }
     setIsListOpen(!isListOpen);
   };

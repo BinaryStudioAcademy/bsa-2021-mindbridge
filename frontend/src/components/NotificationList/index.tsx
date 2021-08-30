@@ -3,19 +3,25 @@ import { INotification } from '@screens/Header/models/INotification';
 import NotificationListItem from '@components/NotificationListItem';
 
 import styles from './style.module.scss';
-import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1, IBindingCallback2 } from '@models/Callbacks';
 import NoResultsSvg from '@components/svgs/NoResultsSvg';
-import LoaderWrapper from "@components/LoaderWrapper";
+import LoaderWrapper from '@components/LoaderWrapper';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export interface INotificationListProps {
   list: INotification[];
   setIsListOpen: IBindingCallback1<boolean>;
   markNotificationRead: IBindingCallback1<string>;
   bellRef: any;
-  fetchNotifications: IBindingCallback1<boolean>;
+  fetchNotifications: IBindingCallback2<boolean, object>;
   markAllNotificationsRead: IBindingAction;
   notificationsLoading: boolean;
 }
+
+const params = {
+  from: 0,
+  count: 10
+};
 
 const NotificationList: React.FC<INotificationListProps> = (
   { list,
@@ -30,8 +36,17 @@ const NotificationList: React.FC<INotificationListProps> = (
   const [onlyUnread, setOnlyUnread] = useState(true);
 
   const handleFetchNotifications = () => {
-    fetchNotifications(!onlyUnread);
+    fetchNotifications(!onlyUnread, params);
+    const { from, count } = params;
+    params.from = from + count;
+  };
+
+  const toggleNotifications = () => {
+    params.from = 0;
+    fetchNotifications(!onlyUnread, params);
     setOnlyUnread(!onlyUnread);
+    const { from, count } = params;
+    params.from = from + count;
   };
 
   function useOutsideAlerter(ref) {
@@ -56,34 +71,41 @@ const NotificationList: React.FC<INotificationListProps> = (
     <div ref={wrapperRef} className={styles.notificationWrapper}>
       <h4 className={styles.notificationTitle}>Notifications</h4>
       <div className={styles.filters}>
-        <button type="button" onClick={handleFetchNotifications}>{onlyUnread ? 'Show all' : 'Show only unread'}</button>
+        <button type="button" onClick={toggleNotifications}>{onlyUnread ? 'Show all' : 'Show only unread'}</button>
         <button type="button" onClick={markAllNotificationsRead}>Mark all read</button>
       </div>
       <ul className={styles.list}>
         {notificationsLoading ? (
           <div className={styles.loaderWrapper}>
-            <LoaderWrapper loading={notificationsLoading}/>
+            <LoaderWrapper loading={notificationsLoading} />
           </div>
         ) : (
-          list && list?.length !== 0 ? (
-            list.map(item => (
-              <NotificationListItem
-                isRead={item.isRead}
-                markNotificationRead={markNotificationRead}
-                id={item.id}
-                sourceId={item.sourceId}
-                type={item.type}
-                text={item.text}
-                createdAt={item.createdAt}
-                setIsListOpen={setIsListOpen}
-                key={item.id}
-              />
-            ))) : (
-            <div className={styles.emptyResult}>
-              <NoResultsSvg width="30%" height="30%" />
-              <p>No notifications were found</p>
-            </div>
-          )
+          <InfiniteScroll
+            dataLength={1}
+            next={handleFetchNotifications}
+            hasMore
+            loader={' '}
+          >
+            {list && list?.length !== 0 ? (
+              list.map(item => (
+                <NotificationListItem
+                  isRead={item.isRead}
+                  markNotificationRead={markNotificationRead}
+                  id={item.id}
+                  sourceId={item.sourceId}
+                  type={item.type}
+                  text={item.text}
+                  createdAt={item.createdAt}
+                  setIsListOpen={setIsListOpen}
+                  key={item.id}
+                />
+              ))) : (
+                <div className={styles.emptyResult}>
+                  <NoResultsSvg width="30%" height="30%" />
+                  <p>No notifications were found</p>
+                </div>
+            )}
+          </InfiniteScroll>
         )}
       </ul>
     </div>

@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import { RootState } from '@root/store';
 import { headerReducer } from '@screens/Header/containers/HeaderPage/reducer';
-import {fetchNotificationListRoutine, markAllNotificationsReadRoutine} from "@screens/Header/routines";
-import {reducerCreator} from "@helpers/reducer.helper";
+import { fetchNotificationListRoutine, markAllNotificationsReadRoutine } from '@screens/Header/routines';
+import { reducerCreator } from '@helpers/reducer.helper';
 /* PlopJS import placeholder. Do not remove */
 
 const requests = combineReducers({

@@ -1,6 +1,7 @@
 package com.mindbridge.data.domains.notification;
 
 import com.mindbridge.data.domains.notification.model.Notification;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -18,10 +19,10 @@ public interface NotificationRepository
 	long calcUnreadNotifications(@Param("id") UUID id);
 
 	@Query("SELECT n FROM Notification n WHERE n.receiver.id = :id and n.isRead = false and n.deleted = false order by n.createdAt desc")
-	List<Notification> getUnreadNotificationList(@Param("id") UUID id);
+	List<Notification> getUnreadNotificationList(@Param("id") UUID id, Pageable pageable);
 
 	@Query("SELECT n FROM Notification n WHERE n.receiver.id = :id and n.deleted = false order by n.createdAt desc")
-	List<Notification> getNotificationList(@Param("id") UUID id);
+	List<Notification> getNotificationList(@Param("id") UUID id, Pageable pageable);
 
 	@Transactional
 	@Modifying

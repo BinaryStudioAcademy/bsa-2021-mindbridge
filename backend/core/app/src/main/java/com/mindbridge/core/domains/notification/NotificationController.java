@@ -21,18 +21,16 @@ public class NotificationController {
 	}
 
 	@GetMapping("/count/{id}")
-	public long getNotificationCount(@PathVariable(name = "id") UUID id) {
+	public long getUnreadNotificationCount(@PathVariable(name = "id") UUID id) {
 		return notificationService.getNotificationCount(id);
 	}
 
-	@GetMapping("/unreadList/{id}")
-	public List<NotificationDto> getUnreadNotificationList(@PathVariable(name = "id") UUID id) {
-		return notificationService.getUnreadNotificationList(id);
-	}
-
 	@GetMapping("/list/{id}")
-	public List<NotificationDto> getNotificationList(@PathVariable(name = "id") UUID id) {
-		return notificationService.getNotificationList(id);
+	public List<NotificationDto> getNotificationList(@PathVariable(name = "id") UUID id,
+													 @RequestParam(defaultValue = "true") Boolean onlyUnread,
+													 @RequestParam(defaultValue = "0") Integer from,
+													 @RequestParam(defaultValue = "10") Integer count) {
+		return notificationService.getNotificationList(id, onlyUnread, from, count);
 	}
 
 	@PutMapping("/{id}")

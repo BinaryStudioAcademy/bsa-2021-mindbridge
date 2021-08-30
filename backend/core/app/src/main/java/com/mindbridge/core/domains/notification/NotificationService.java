@@ -7,6 +7,7 @@ import com.mindbridge.data.domains.notification.model.Notification;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -72,14 +73,15 @@ public class NotificationService {
 		);
 	}
 
-	public List<NotificationDto> getUnreadNotificationList(UUID userId) {
-		return notificationRepository.getUnreadNotificationList(userId).stream()
+	public List<NotificationDto> getNotificationList(UUID userId, Boolean onlyUnread, Integer from, Integer count) {
+		var pageable = PageRequest.of(from, count);
+		if (onlyUnread) {
+			return notificationRepository.getUnreadNotificationList(userId, pageable).stream()
 				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
-	}
-
-	public List<NotificationDto> getNotificationList(UUID userId) {
-		return notificationRepository.getNotificationList(userId).stream()
-			.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+		} else {
+			return notificationRepository.getNotificationList(userId, pageable).stream()
+				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+		}
 	}
 
 	public void toggleNotificationRead(UUID id) {
