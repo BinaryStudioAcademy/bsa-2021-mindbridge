@@ -21,6 +21,12 @@ const profilePageService = {
     );
     return response;
   },
+  deleteAvatar: async ({ endpoint }) => {
+    const response = await api.post(
+      `/api/user/delete/avatar/${endpoint}`
+    );
+    return response;
+  },
   sendChangePasswordForm: async ({ endpoint, payload }) => {
     const response = await api.post(
       `/api/user/update/password/${endpoint}`,
