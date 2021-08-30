@@ -4,7 +4,12 @@ import styles from './styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
-import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine } from '@screens/ViewPost/routines';
+import {
+  fetchDataRoutine,
+  leaveReactionOnPostViewPageRoutine,
+  sendCommentRoutine,
+  sendReplyRoutine
+} from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import { IData } from '@screens/ViewPost/models/IData';
 import { useParams } from 'react-router-dom';
@@ -17,6 +22,7 @@ import LoaderWrapper from '@root/components/LoaderWrapper';
 export interface IViewPostProps extends IState, IActions {
   userInfo: IUserProfile;
   currentUser: ICurrentUser;
+  isAuthorized: boolean;
 }
 
 interface IState {
@@ -28,12 +34,17 @@ interface IActions {
   leaveReaction: IBindingCallback1<object>;
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
+  sendComment: IBindingCallback1<object>;
+  sendReply: IBindingCallback1<object>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
   {
     data,
+    sendComment,
+    sendReply,
     fetchData,
+    isAuthorized,
     currentUser,
     userInfo,
     leaveReaction,
@@ -86,6 +97,9 @@ const ViewPost: React.FC<IViewPostProps> = (
           handleDisLikePost={handleDisLikePost}
           userInfo={userInfo}
           isAuthor={data.post.author.id === currentUser.id}
+          sendComment={sendComment}
+          sendReply={sendReply}
+          isAuthorized={isAuthorized}
         />
       </div>
     </div>
@@ -94,11 +108,14 @@ const ViewPost: React.FC<IViewPostProps> = (
 
 const mapStateToProps: (state: RootState) => IState = state => ({
   data: extractData(state),
+  isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
   userInfo: state.postPageReducer.data.profile
 });
 
 const mapDispatchToProps: IActions = {
+  sendComment: sendCommentRoutine,
+  sendReply: sendReplyRoutine,
   fetchData: fetchDataRoutine,
   leaveReaction: leaveReactionOnPostViewPageRoutine,
   likePostView: likePostViewRoutine,

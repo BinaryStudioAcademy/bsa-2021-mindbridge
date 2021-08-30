@@ -2,24 +2,34 @@
   border: 0.125em solid #F8F8F8;
   box-sizing: border-box;
   border-radius: 0.625em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 
     &:only-child {
+      border: none;
       &:only-child {
-        margin-top: -1em;
-        margin-bottom: -2.6em;
         border: none;
+        margin-top: -1em;
+        margin-bottom: -1.8em;
         &:last-child {
           border: none;
+          display: block;
+          &:last-child {
+            border: none;
+            display: block;
+          }
         }
       }
     }
   &:last-child {
-    margin-bottom: -2em;
+    margin-top: 1.428em;
+    padding-bottom: -1em;
   }
 }
 
-:global(.ui.comments .comment .avatar img) {
-  border-radius: 10em !important;
-  width: 1.5625em;
-  height: 1.5625em;
+
+:global(.ReactCollapse--collapse) {
+    transition: ease 500ms !important;
 }
+
+

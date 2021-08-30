@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
-import { IComment } from '@screens/ViewPost/models/IComment';
+import { IComments } from '@screens/ViewPost/models/IComments';
 import Reply from '@components/BasicCommentCard/components/Reply';
 
 interface ICommentProps {
-  comments: IComment[];
+  comments: IComments[];
 }
 
 const CommentsFeed: FunctionComponent<ICommentProps> = ({ comments }) => (
