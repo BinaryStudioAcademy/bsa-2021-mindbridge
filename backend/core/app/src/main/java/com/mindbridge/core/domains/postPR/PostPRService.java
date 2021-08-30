@@ -44,7 +44,8 @@ public class PostPRService {
 
 	@Lazy
 	@Autowired
-	public PostPRService(PostPRRepository postPRRepository, UserService userService, TagRepository tagRepository, PostService postService) {
+	public PostPRService(PostPRRepository postPRRepository, UserService userService, TagRepository tagRepository,
+			PostService postService) {
 		this.postPRRepository = postPRRepository;
 		this.tagRepository = tagRepository;
 		this.postService = postService;
@@ -68,11 +69,12 @@ public class PostPRService {
 		var userDto = userService.loadUserDtoByEmail(user.getEmail());
 		var postPR = getPR(prId);
 		if (userDto.getId() == postPR.getContributor().getId()
-			|| userDto.getId() == postPR.getPost().getAuthor().getId()) {
+				|| userDto.getId() == postPR.getPost().getAuthor().getId()) {
 			postPRRepository.setPRClosed(prId);
 			return true;
 		}
-		else return false;
+		else
+			return false;
 	}
 
 	public boolean acceptPR(UUID id, UserPrincipal userPrincipal) {
@@ -84,7 +86,9 @@ public class PostPRService {
 			postService.editPost(editPostDto);
 			postPRRepository.setPRAccepted(id);
 			return true;
-		} else return false;
+		}
+		else
+			return false;
 	}
 
 	public List<PostPRListDto> getPostPRByPostId(UUID id, Integer from, Integer count) {
@@ -94,10 +98,16 @@ public class PostPRService {
 	}
 
 	public boolean editPR(EditPostPRDto editPR, UserPrincipal userPrincipal) {
-		postPRRepository.updatePR(editPR.getId(), editPR.getTitle(), editPR.getText());
-		tagRepository.deleteAllByPostPrId(editPR.getId());
-		editPR.getTags().forEach(tagId -> tagRepository.saveTagToPr(editPR.getId(), tagId));
-		return true;
+		var user = userPrincipal.getUser();
+		var userDto = userService.loadUserDtoByEmail(user.getEmail());
+		PostPR postPR = postPRRepository.getOne(editPR.getId());
+		if (userDto.getId() == postPR.getContributor().getId()) {
+			postPRRepository.updatePR(editPR.getId(), editPR.getTitle(), editPR.getText());
+			tagRepository.deleteAllByPostPrId(editPR.getId());
+			editPR.getTags().forEach(tagId -> tagRepository.saveTagToPr(editPR.getId(), tagId));
+			return true;
+		}
+		return false;
 	}
 
 	public List<PostPRDetailsDto> getPostPRByUserId(UUID id, Integer from, Integer count) {

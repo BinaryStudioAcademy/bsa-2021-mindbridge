@@ -46,24 +46,31 @@ public class PostPRController {
 
 	@PutMapping("/close/{id}")
 	public ResponseEntity<?> closePR(@PathVariable UUID id, @AuthenticationPrincipal UserPrincipal user) {
-		if(!postPRService.closePR(id, user)){
+		if (!postPRService.closePR(id, user)) {
 			return ResponseEntity.status(403).build();
-		} else return ResponseEntity.status(200).build();
+		}
+		else
+			return ResponseEntity.status(200).build();
 	}
 
 	@PutMapping("accept/{id}")
 	public ResponseEntity<?> acceptPR(@PathVariable UUID id, @AuthenticationPrincipal UserPrincipal user) {
-		if(!postPRService.acceptPR(id, user)){
+		if (!postPRService.acceptPR(id, user)) {
 			return ResponseEntity.status(403).build();
-		} else return ResponseEntity.status(200).build();
+		}
+		else
+			return ResponseEntity.status(200).build();
 
 	}
 
 	@PostMapping("/edit")
-	public ResponseEntity<?> editPR(@RequestBody EditPostPRDto editPostPRDto, @AuthenticationPrincipal UserPrincipal user) {
-		if(!postPRService.editPR(editPostPRDto, user)){
+	public ResponseEntity<?> editPR(@RequestBody EditPostPRDto editPostPRDto,
+			@AuthenticationPrincipal UserPrincipal user) {
+		if (!postPRService.editPR(editPostPRDto, user)) {
 			return ResponseEntity.status(403).build();
-		} else return ResponseEntity.status(200).build();
+		}
+		else
+			return ResponseEntity.status(200).build();
 	}
 
 	@GetMapping("/all/{id}")

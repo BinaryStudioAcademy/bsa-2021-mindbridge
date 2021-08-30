@@ -21,4 +21,5 @@ public interface PostReactionRepository
 
 	@Query("SELECT COALESCE(SUM(CASE WHEN pr.liked = TRUE THEN 1 ELSE -1 END), 0) FROM PostReaction pr WHERE pr.post.author.id = :userId")
 	long calcUserPostRating(@Param("userId") UUID userId);
+
 }
