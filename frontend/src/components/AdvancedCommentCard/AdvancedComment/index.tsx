@@ -74,11 +74,21 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     setRotateArrowHook(!rotateArrowHook);
   };
 
-  const checkForNickname = (textComment: string) => textComment.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<p style="color: #66B9FF">@$1</p>');
+  const checkForNickname = (textComment: string) => {
+    return textComment.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>@$1</a>');
+  };
 
   const checkAuthorPost = (authorPostId, userID) => authorPostId === userID;
 
   const getLinkToComment = (url: string) => url.split('#')[0];
+
+  function fetchUsers(query, callback) {
+    if (!query) return;
+    fetch(`/api/user/finduser/${query}`)
+      .then(res => res.json())
+      .then(res => res.map(user => ({ display: user.nickname, id: user.id })))
+      .then(callback);
+  }
 
   return (
     <ScrollableAnchor id={commentId}>
@@ -197,6 +207,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           {disabled && (
           <div className={styles.replayBlock}>
             <AsyncUserMentions
+              data={fetchUsers}
               setDisabled={setDisabled}
               userInfo={userInfo}
               postId={postId}

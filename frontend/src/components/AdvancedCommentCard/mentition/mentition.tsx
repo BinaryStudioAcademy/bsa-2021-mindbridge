@@ -6,18 +6,11 @@ import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import styles from '@components/AdvancedCommentCard/AdvancedComment/styles.module.scss';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 
-function fetchUsers(query, callback) {
-  if (!query) return;
-  fetch(`/api/user/finduser/${query}`)
-    .then(res => res.json())
-    .then(res => res.map(user => ({ display: user.nickname, id: user.nickname })))
-    .then(callback);
-}
-
 function AsyncUserMentions(
   {
     onChange,
     sendReply,
+    data,
     setDisabled,
     userInfo,
     postId,
@@ -55,6 +48,9 @@ function AsyncUserMentions(
       setDisabled(false);
     }
   };
+
+  const emailRegex = /(([^\s@]+@[^\s@]+\.[^\s@]+))$/;
+
   return (
     <div>
       <MentionsInput
@@ -62,12 +58,21 @@ function AsyncUserMentions(
         onChanges={onChange}
         onChange={handleNewReply}
         className="mentions"
+        markup="@[__display__](__type__:__id__)"
+        displayTransform={display => `<<${display}>>`}
         classNames={classNames}
         a11ySuggestionsListLabel="Suggested Github users for mention"
       >
         <Mention
-          displayTransform={login => `@${login}`}
-          data={fetchUsers}
+          type="user"
+          trigger="@"
+          data={data}
+        />
+        <Mention
+          trigger={emailRegex}
+          type="user"
+          data={search => [{ id: search, display: search }]}
+          markup="@[__display__](__type__:__id__)"
           className={classNames.mentions__mention}
         />
       </MentionsInput>
