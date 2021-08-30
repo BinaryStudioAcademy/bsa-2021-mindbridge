@@ -33,6 +33,11 @@
     margin: 0;
     resize: none;
   }
+  .editor_input {
+    grid-column: 1/4;
+    grid-row: 1/4;
+    margin: 0;
+  }
   .file_input_round{
     height: 2.5rem;
     width: 2.5rem;
@@ -71,6 +76,10 @@
   .file_input_rectangle:hover{
     outline: solid $light-blue 2px;
     cursor: pointer;
+  }
+
+  :global(.ui.dropdown) {
+    z-index: 1 !important;
   }
 }
 

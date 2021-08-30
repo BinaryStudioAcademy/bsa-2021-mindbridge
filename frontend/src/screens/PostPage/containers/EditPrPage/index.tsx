@@ -311,6 +311,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
                   <CreatePostForm
                     isCreateForm={false}
                     form={form}
+                    postContent={postPR.text}
                     modes={modes}
                     setForm={changeForm}
                     sendImage={sendImage}

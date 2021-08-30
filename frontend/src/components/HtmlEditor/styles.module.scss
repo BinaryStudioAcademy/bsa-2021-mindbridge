@@ -1,0 +1,17 @@
+@import "../../styles/common.sass";
+
+.sunEditor {
+  :global(.se-btn:focus),
+  :global(.se-btn:hover),
+  :global(.se-btn:active),
+  :global(.se-btn:enabled:active),
+  :global(.se-btn-list:hover), {
+    background: #CEE8FE !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  :global(.se-btn-module-enter) {
+    margin: 0 !important;
+  }
+}

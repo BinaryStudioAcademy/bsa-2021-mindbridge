@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { Form, Modal } from 'semantic-ui-react';
 import { IBindingCallback1 } from '@models/Callbacks';
 import {
-  isValidPassword,
+  isValidPassword, NEW_CURRENT_PASSWORDS_MATCH,
   PASSWORD_MESSAGE, PASSWORDS_NOT_MATCH
 } from '@helpers/validation.helper';
 import InputPopup from '@components/InputPopup';
@@ -38,7 +38,8 @@ const PasswordChangeModal: FunctionComponent<IPasswordChangeModalProps> = ({
   const validationInitialState = {
     isPasswordValid: true,
     isNewPasswordValid: true,
-    isPasswordsMatch: true
+    isPasswordsMatch: true,
+    isNewAndCurrentDifferent: true
   };
 
   const initialInputTypes = {
@@ -80,6 +81,8 @@ const PasswordChangeModal: FunctionComponent<IPasswordChangeModalProps> = ({
       case 'isPasswordValid': {
         setValidationData(prevState => ({ ...prevState,
           [fieldId]: isValidPassword(val) }));
+        setValidationData(prevState => ({ ...prevState,
+          isNewAndCurrentDifferent: passwordChangeForm.newPassword !== val }));
         break;
       }
       case 'isNewPasswordValid': {
@@ -87,6 +90,8 @@ const PasswordChangeModal: FunctionComponent<IPasswordChangeModalProps> = ({
           { ...prevState, [fieldId]: isValidPassword(val) }));
         setValidationData(prevState => ({ ...prevState,
           isPasswordsMatch: passwordChangeForm.repeatPassword === val }));
+        setValidationData(prevState => ({ ...prevState,
+          isNewAndCurrentDifferent: passwordChangeForm.password !== val }));
         break;
       }
       case 'isPasswordsMatch': {
@@ -149,8 +154,8 @@ const PasswordChangeModal: FunctionComponent<IPasswordChangeModalProps> = ({
                 setValue={val => updatePasswordChangeForm('newPassword', val)}
                 validateValue={val => updateValidationData('isNewPasswordValid', val)}
                 disabled={!modalData.isChangePasswordFormLoaded}
-                isValueValid={validationData.isNewPasswordValid}
-                errorMessage={PASSWORD_MESSAGE}
+                isValueValid={validationData.isNewPasswordValid && validationData.isNewAndCurrentDifferent}
+                errorMessage={!validationData.isNewPasswordValid ? PASSWORD_MESSAGE : NEW_CURRENT_PASSWORDS_MATCH}
               />
               <InputButton onToggleInput={() => handleToggleInput('newPasswordInputType',
                 inputTypes.newPasswordInputType)}
