@@ -18,6 +18,12 @@
   justify-content: center;
 }
 
+.commentText {
+  .p {
+    color: #5254f5;
+  }
+}
+
 .advancedComment {
   padding-left: 2.7142em;
 
@@ -147,37 +153,6 @@
 
 .replayBlock {
   font-family: lato, sans-serif;
-  input, textarea {
-    background-color: rgba(248, 248, 248, 1);
-    border: none;
-    border-radius: 1em;
-  }
-
-  input:focus, textarea:focus {
-    outline: none;
-    border-radius: 0 0 0.3571em 0.3571em;
-    box-shadow:0 0 0.5em 0.2em  $light-blue;
-  }
-
-  .replyText {
-    min-height: 4.1428em;
-    min-width: 98%;
-    background: $background-card;
-    border-radius: 0 0 0.3571em 0.3571em;
-    padding-top: 1.4285em;
-    padding-bottom: 1.5em;
-    padding-left: 1.5714em;
-    resize: vertical;
-
-    &::placeholder {
-      font-family: Lato, sans-serif !important;
-      opacity: 0.7;
-    }
-
-    textarea:focus {
-      outline: none;
-    }
-  }
 }
 
 .sendCommentBtn {

@@ -8,12 +8,13 @@ import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
 import UpToParentCommentSvg from '@components/AdvancedCommentCard/svg/UpToParentCommentSvg';
 import ShareCommentSvg from '@components/AdvancedCommentCard/svg/shareCommentSvg';
 import ArrowCloseComment from '@components/AdvancedCommentCard/svg/ArrowCloseComment';
-import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
 import { Popup } from 'semantic-ui-react';
+import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
+import TextRender from '@components/TextRenderer';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -73,37 +74,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     setRotateArrowHook(!rotateArrowHook);
   };
 
-  const [newReply, setNewReply] = useState<ICommentReply>({
-    author: '',
-    postId: '',
-    replyCommentId: '',
-    text: '',
-    avatar: null,
-    nickname: '',
-    rating: 0
-  });
-
-  const handleNewReply = (event: any) => {
-    setNewReply({
-      ...newReply,
-      text: event.target.value
-    });
-  };
-
-  const handleSendReply = () => {
-    if (newReply.text.trim().length) {
-      const addComment = {
-        text: newReply.text,
-        author: userInfo.id,
-        postId,
-        replyCommentId: commentId,
-        avatar: userInfo.avatar,
-        nickname: userInfo.nickname
-      };
-      sendReply(addComment);
-      setDisabled(false);
-    }
-  };
+  const checkForNickname = (textComment: string) => textComment.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<p style="color: #66B9FF">@$1</p>');
 
   const checkAuthorPost = (authorPostId, userID) => authorPostId === userID;
 
@@ -212,7 +183,11 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           </div>
         </div>
         <div className="text">
-          {text}
+          <TextRender
+            className={styles.commentText}
+            markdown={false}
+            content={checkForNickname(text)}
+          />
         </div>
         { isAuthorized && (
         <div className={styles.dsa}>
@@ -221,20 +196,13 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           </div>
           {disabled && (
           <div className={styles.replayBlock}>
-            <textarea
-              value={newReply.text}
-              onChange={handleNewReply}
-              placeholder="Feel free..."
-              className={styles.replyText}
+            <AsyncUserMentions
+              setDisabled={setDisabled}
+              userInfo={userInfo}
+              postId={postId}
+              commentId={commentId}
+              sendReply={sendReply}
             />
-
-            <div className="actions">
-              <DarkBorderButton
-                onClick={handleSendReply}
-                className={styles.sendCommentBtn}
-                content="Send"
-              />
-            </div>
           </div>
           )}
         </div>
