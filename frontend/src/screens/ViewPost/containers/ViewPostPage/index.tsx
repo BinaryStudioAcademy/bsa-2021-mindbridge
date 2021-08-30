@@ -14,6 +14,7 @@ import { disLikePostViewRoutine, likePostViewRoutine }
   from '@screens/PostPage/routines';
 import { fetchHighlightsRoutine } from '@screens/HighlightsPage/routines';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
+import Highlighter from 'web-highlighter';
 
 export interface IViewPostProps extends IState, IActions {
   userInfo: IUserProfile;
@@ -74,7 +75,7 @@ const ViewPost: React.FC<IViewPostProps> = (
     const highlight = {
       authorId: currentUser.id,
       postId,
-      text: content.text,
+      text: `...${content.text}...`,
       tagNameStart: content.startMeta.parentTagName,
       tagNameEnd: content.endMeta.parentTagName,
       indexStart: content.startMeta.parentIndex,

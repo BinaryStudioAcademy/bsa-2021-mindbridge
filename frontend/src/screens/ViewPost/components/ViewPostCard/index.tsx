@@ -35,7 +35,6 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   handleSaveHighlight,
   highlights
 }) => {
-  const [isHighlighted, setIsHighlighted] = useState(false);
   const highlighter = new Highlighter({
     wrapTag: 'i',
     exceptSelectors: ['span', '.tagsSd'],
@@ -44,33 +43,19 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
     }
   });
 
-  // useEffect(() => {
-  //   if (highlights) {
-  //     highlights.forEach(hs => hs.postId === post.id && highlighter.fromStore({
-  //       parentTagName: hs.tagNameStart,
-  //       parentIndex: hs.indexStart,
-  //       textOffset: hs.offSetStart
-  //     }, {
-  //       parentTagName: hs.tagNameEnd,
-  //       parentIndex: hs.indexEnd,
-  //       textOffset: hs.offSetEnd
-  //     }, hs.text, hs.id));
-  //   }
-  // }, [highlights]);
-
-  if (highlights && !isHighlighted) {
-    console.log('Highlight');
-    highlights.forEach(hs => hs.postId === post.id && highlighter.fromStore({
-      parentTagName: hs.tagNameStart,
-      parentIndex: hs.indexStart,
-      textOffset: hs.offSetStart
-    }, {
-      parentTagName: hs.tagNameEnd,
-      parentIndex: hs.indexEnd,
-      textOffset: hs.offSetEnd
-    }, hs.text, hs.id));
-    setIsHighlighted(true);
-  }
+  useEffect(() => {
+    if (highlights) {
+      highlights.forEach(hs => hs.postId === post.id && highlighter.fromStore({
+        parentTagName: hs.tagNameStart,
+        parentIndex: hs.indexStart,
+        textOffset: hs.offSetStart
+      }, {
+        parentTagName: hs.tagNameEnd,
+        parentIndex: hs.indexEnd,
+        textOffset: hs.offSetEnd
+      }, hs.text, hs.id));
+    }
+  }, [highlights, post.id]);
   const history = useHistory();
   const [xPos, setXPos] = useState(0);
   const [yPos, setYPos] = useState(0);
@@ -80,6 +65,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   };
   const handleMouseUp = () => {
     const { x, y } = GetCursorPosition({ scroll: true });
+    console.log(window.getSelection().getRangeAt(0).cloneContents().children);
     if (!window.getSelection().toString().trim()) {
       setIsPopUpShown(false);
     } else {
@@ -92,36 +78,20 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
     }
   };
 
-  if (highlights) {
-    highlights.forEach(hs => hs.postId === post.id && highlighter.fromStore({
-      parentTagName: hs.tagNameStart,
-      parentIndex: hs.indexStart,
-      textOffset: hs.offSetStart
-    }, {
-      parentTagName: hs.tagNameEnd,
-      parentIndex: hs.indexEnd,
-      textOffset: hs.offSetEnd
-    }, hs.text, hs.id));
-    // const start = {
-    //   parentTagName: 'P',
-    //   parentIndex: 1,
-    //   textOffset: 0
-    // };
-    //
-    // const end = {
-    //   parentTagName: 'P',
-    //   parentIndex: 1,
-    //   textOffset: 6
-    // };
-    // highlighter.fromStore(start, end, highlights[0].text, highlights[0].postId);
-  }
-
   const handleClosePopUp = () => {
     handleSaveHighlight(highlighter.fromRange(window.getSelection().getRangeAt(0)));
-    console.log(highlighter.fromRange(window.getSelection().getRangeAt(0)));
     window.getSelection().removeAllRanges();
     setIsPopUpShown(false);
   };
+
+  // highlighter
+  //   .on('selection:hover', () => {
+  //     setIsPopUpShown(true);
+  //   })
+  //   .on('selection:hover-out', () => {
+  //     // remove the hover effect when leaving
+  //     setIsPopUpShown(false);
+  //   });
 
   return (
     <Card className={styles.viewCard}>
