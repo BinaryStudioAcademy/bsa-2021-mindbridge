@@ -126,7 +126,7 @@ public class UserService implements UserDetailsService {
 
 		String message = String.format(
 			"Dear, %s! \n" +
-				"You successfully did the registration on MindBridge \n" +
+				"You successfully registration on MindBridge \n" +
 				"\n" +
 				"Please, visit next link for activation your account: %s/activate/%s" +
 				"\n" +
