@@ -23,6 +23,7 @@ import com.mindbridge.data.domains.user.UserRepository;
 import com.mindbridge.data.domains.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -65,6 +66,9 @@ public class UserService implements UserDetailsService {
 	public static final String PHONE_REGEX = "^\\d{10}$";
 
 	public static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z].{2})(?=.*[A-Z])(?=\\S+$).{8,40}$";
+
+	@Value("${app.domain.name}")
+	private String appDomain;
 
 	@Lazy
 	@Autowired
@@ -122,16 +126,17 @@ public class UserService implements UserDetailsService {
 
 		String message = String.format(
 			"Dear, %s! \n" +
-				"You successfully did the registration on Mindbridge \n" +
+				"You successfully did the registration on MindBridge \n" +
 				"\n" +
-				"Please, visit next link for activation your account: http://localhost:3000/activate//%s" +
+				"Please, visit next link for activation your account: %s/activate/%s" +
 				"\n" +
 				"\n" +
-				"Best regards, Mindbride administration",
+				"Best regards, MindBride administration",
 			user.getNickname(),
+			appDomain,
 			user.getActivationCode()
 		);
-		mailSender.sendEmail(user.getEmail(), "Thank you for registration on Mindbridge", message);
+		mailSender.sendEmail(user.getEmail(), "Thank you for registration on MindBridge", message);
 	}
 
 	@Override

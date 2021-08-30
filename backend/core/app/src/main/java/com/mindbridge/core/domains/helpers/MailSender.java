@@ -11,8 +11,8 @@ public class MailSender {
 	@Autowired
 	private JavaMailSender emailSender;
 
-
-	private String username = "mindbridge.com";
+	@Value("${spring.mail.username}")
+	private String username;
 
 	public void sendEmail(String emailTo, String subject, String message) {
 		SimpleMailMessage emailMessage = new SimpleMailMessage();
