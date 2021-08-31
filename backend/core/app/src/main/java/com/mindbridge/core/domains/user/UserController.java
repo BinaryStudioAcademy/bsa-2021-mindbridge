@@ -3,6 +3,7 @@ package com.mindbridge.core.domains.user;
 import com.mindbridge.core.domains.user.dto.UserDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDataDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDto;
+import com.mindbridge.core.domains.user.dto.UserShortDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +55,7 @@ public class UserController {
 	}
 
 	@GetMapping("/getalluser")
-	public List<UserDto> getAllUserByNickname() {
+	public List<UserShortDto> getAllUserByNickname() {
 		return userService.getAllUser();
 	}
 

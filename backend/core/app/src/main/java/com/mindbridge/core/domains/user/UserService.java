@@ -187,8 +187,8 @@ public class UserService implements UserDetailsService {
 		return loadUserDtoByEmail(user.getEmail());
 	}
 
-	public List<UserDto> getAllUser() {
+	public List<UserShortDto> getAllUser() {
 		var allUser = userRepository.findAll();
-		return allUser.stream().map(UserMapper.MAPPER::userToUserDto).collect(Collectors.toList());
+		return allUser.stream().map(UserMapper.MAPPER::userToUserShortDto).collect(Collectors.toList());
 	}
 }
