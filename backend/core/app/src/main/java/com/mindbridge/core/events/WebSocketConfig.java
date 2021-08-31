@@ -1,5 +1,6 @@
 package com.mindbridge.core.events;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -9,6 +10,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+	@Value("${app.cors.allowed_origins}")
+	private String[] allowedOrigins;
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -19,11 +22,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/ws").setAllowedOrigins("http://localhost:3000",
-				"http://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com/",
-				"https://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com/",
-				"http://mindbridge.westeurope.azurecontainer.io/", "https://mindbridge.westeurope.azurecontainer.io/")
-				.withSockJS();
+		registry.addEndpoint("/ws").setAllowedOrigins(allowedOrigins).withSockJS();
 	}
 
 }
