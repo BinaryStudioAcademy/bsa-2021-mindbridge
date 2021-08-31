@@ -53,6 +53,7 @@ interface IState {
     }];
     coverImage: string;
     markdown: boolean;
+    draft: boolean;
   };
   preloader: {
     publishButton: boolean;
@@ -83,16 +84,13 @@ const EditPost: React.FC<IEditPostProps> = (
     sendPR,
     resetLoadingImage,
     savingImage,
-    userInfo,
     allTags,
     isLoading,
     post,
     currentUserId,
-    fetchData,
     fetchTags,
     fetchPost,
     editPost,
-    getPostVersions,
     preloader,
     imageTag,
     resetImageTag
@@ -147,12 +145,8 @@ const EditPost: React.FC<IEditPostProps> = (
   }, [id, fetchPost]);
 
   useEffect(() => {
-    if (currentUserId) {
-      fetchData(currentUserId);
-    }
     fetchTags();
-    getPostVersions();
-  }, [currentUserId, fetchTags, getPostVersions]);
+  }, [fetchTags]);
 
   useEffect(() => {
     if (savingImage.isLoaded) {
@@ -344,6 +338,7 @@ const EditPost: React.FC<IEditPostProps> = (
                 ? (
                   <CreatePostForm
                     isCreateForm={false}
+                    postContent={post?.text}
                     form={form}
                     modes={modes}
                     setForm={changeForm}
@@ -362,8 +357,16 @@ const EditPost: React.FC<IEditPostProps> = (
                   content={submitButtonName}
                   disabled={preloader.draftButton || !changesExist}
                   loading={preloader.publishButton}
-                  onClick={() => handleSendForm(false)}
+                  onClick={() => handleSendForm(post?.draft)}
                 />
+                {post?.draft && (
+                  <DarkButton
+                    content="Publish"
+                    disabled={preloader.draftButton}
+                    loading={preloader.publishButton}
+                    onClick={() => handleSendForm(!post.draft)}
+                  />
+                )}
               </div>
             </form>
           )

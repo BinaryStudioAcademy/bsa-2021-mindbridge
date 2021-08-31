@@ -13,8 +13,6 @@ import {
   sendImageRoutine, sendPostRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine,
   fetchTagsRoutine, resetImageTagRoutine
 } from '../../routines';
-import { extractData } from '@screens/PostPage/reducers';
-import { IStateProfile } from '@screens/PostPage/models/IStateProfile';
 import EditSvgPart1 from '@screens/PostPage/components/svg/editSvgPart1';
 import EditSvgPart2 from '@screens/PostPage/components/svg/editSvgPart2';
 import ViewSvg from '@screens/PostPage/components/svg/viewSvg';
@@ -230,6 +228,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
               <CreatePostForm
                 isCreateForm
                 form={form}
+                postContent=""
                 modes={modes}
                 setForm={setForm}
                 sendImage={sendImage}

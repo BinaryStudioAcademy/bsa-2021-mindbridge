@@ -17,6 +17,9 @@ import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
 import DarkButton from '@root/components/buttons/DarcButton';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 import { history } from '@helpers/history.helper';
+import ClosedPRSvg from '@root/components/MyContributionsItem/svg/closedPrSvg';
+import OpenSvg from '@root/components/MyContributionsItem/svg/openSvg';
+import GoBackButton from '@root/components/buttons/GoBackButton';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -90,9 +93,11 @@ const PullRequest: React.FC<IPullRequestProps> = (
   );
 
   let buttons;
+
   if (postPR.post.author.id === currentUser.id) {
     buttons = (
       <div className={styles.footer}>
+        <GoBackButton />
         <DarkBorderButton
           loading={preloader.firstButton}
           disabled={preloader.firstButton || preloader.secondButton}
@@ -110,10 +115,11 @@ const PullRequest: React.FC<IPullRequestProps> = (
   } else if (postPR.contributor.id === currentUser.id) {
     buttons = (
       <div className={styles.footer}>
+        <GoBackButton />
         <DarkBorderButton
           loading={preloader.firstButton}
           disabled={preloader.firstButton || preloader.secondButton}
-          content="Close"
+          content="Close PR"
           onClick={handleClosePR}
         />
         <DarkButton
@@ -124,6 +130,20 @@ const PullRequest: React.FC<IPullRequestProps> = (
         />
       </div>
     );
+  } else {
+    buttons = (
+      <div className={styles.footer}>
+        <GoBackButton />
+      </div>
+    );
+  }
+
+  if (postPR.state !== PrState.open) {
+    buttons = (
+      <div className={styles.footer}>
+        <GoBackButton />
+      </div>
+    );
   }
 
   let prState;
@@ -131,7 +151,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
     case PrState.closed:
       prState = (
         <div className={styles.pr_is_closed}>
-          <div className={styles.round_image}>✖</div>
+          <div className={styles.round_image}><ClosedPRSvg /></div>
           <span>Pull request is closed</span>
         </div>
       );
@@ -139,7 +159,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
     case PrState.accepted:
       prState = (
         <div className={styles.pr_is_accepted}>
-          <div className={styles.round_image}>✔</div>
+          <div className={styles.round_image}><OpenSvg /></div>
           <span>Pull request is accepted</span>
         </div>
       );
@@ -205,7 +225,9 @@ const PullRequest: React.FC<IPullRequestProps> = (
 
   if (!postPR.title) {
     return (
-      <LoaderWrapper loading />
+      <div className={classNames('content_wrapper', styles.container)}>
+        <LoaderWrapper className={styles.loader} loading />
+      </div>
     );
   }
 
@@ -217,7 +239,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
         handleCheckbox={handleCheckbox}
         seeDiff={seeDiff}
       />
-      {postPR.state === PrState.open && buttons}
+      {buttons}
     </div>
   );
 };

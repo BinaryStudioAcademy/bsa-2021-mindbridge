@@ -44,17 +44,12 @@ const params = {
 
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
-    currentUser, fetchUserProfile, userInfo, likePost, likePostView,
-    disLikePostView, loadUser, isAuthorized }
+    currentUser, userInfo, likePost, likePostView,
+    disLikePostView, isAuthorized }
 ) => {
   useEffect(() => {
     fetchData(params);
-    if (currentUser) {
-      fetchUserProfile(currentUser.id);
-    } else {
-      loadUser();
-    }
-  }, [currentUser, fetchUserProfile, loadUser, fetchData]);
+  }, [fetchData]);
   const handleLoadMorePosts = filtersPayload => {
     fetchData(filtersPayload);
   };
@@ -85,9 +80,13 @@ const FeedPage: React.FC<IFeedPageProps> = (
     handleLoadMorePosts(params);
   };
 
-  if ((dataLoading && !loadMore) || (!userInfo.id && isAuthorized)) {
+  if (dataLoading && !loadMore) {
     return (
-      <LoaderWrapper loading={dataLoading} />
+      <div className={styles.feedPage}>
+        <div className={styles.main}>
+          <LoaderWrapper className={styles.loader} loading={dataLoading} />
+        </div>
+      </div>
     );
   }
 

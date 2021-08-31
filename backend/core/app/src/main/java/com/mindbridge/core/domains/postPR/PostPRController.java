@@ -3,8 +3,13 @@ package com.mindbridge.core.domains.postPR;
 import com.mindbridge.core.domains.postPR.dto.CreatePostPRDto;
 import com.mindbridge.core.domains.postPR.dto.EditPostPRDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
+import com.mindbridge.core.security.auth.UserPrincipal;
+import com.mindbridge.data.domains.user.model.User;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,24 +45,44 @@ public class PostPRController {
 	}
 
 	@PutMapping("/close/{id}")
-	public void closePR(@PathVariable UUID id) {
-		postPRService.closePR(id);
+	public ResponseEntity<?> closePR(@PathVariable UUID id, @AuthenticationPrincipal UserPrincipal user) {
+		if (!postPRService.closePR(id, user)) {
+			return ResponseEntity.status(403).build();
+		}
+		else
+			return ResponseEntity.status(200).build();
 	}
 
 	@PutMapping("accept/{id}")
-	public void acceptPR(@PathVariable UUID id) {
-		postPRService.acceptPR(id);
+	public ResponseEntity<?> acceptPR(@PathVariable UUID id, @AuthenticationPrincipal UserPrincipal user) {
+		if (!postPRService.acceptPR(id, user)) {
+			return ResponseEntity.status(403).build();
+		}
+		else
+			return ResponseEntity.status(200).build();
+
 	}
 
 	@PostMapping("/edit")
-	public void editPR(@RequestBody EditPostPRDto editPostPRDto) {
-		postPRService.editPR(editPostPRDto);
+	public ResponseEntity<?> editPR(@RequestBody EditPostPRDto editPostPRDto,
+			@AuthenticationPrincipal UserPrincipal user) {
+		if (!postPRService.editPR(editPostPRDto, user)) {
+			return ResponseEntity.status(403).build();
+		}
+		else
+			return ResponseEntity.status(200).build();
 	}
 
 	@GetMapping("/all/{id}")
 	public List<PostPRListDto> getPostPRs(@PathVariable UUID id, @RequestParam(defaultValue = "0") Integer from,
 			@RequestParam(defaultValue = "4") Integer count) {
 		return postPRService.getPostPRByPostId(id, from, count);
+	}
+
+	@GetMapping("/byUser/{id}")
+	public List<PostPRDetailsDto> getPostPRsByUser(@PathVariable UUID id,
+			@RequestParam(defaultValue = "0") Integer from, @RequestParam(defaultValue = "4") Integer count) {
+		return postPRService.getPostPRByUserId(id, from, count);
 	}
 
 }

@@ -211,7 +211,9 @@ const EditPrPage: React.FC<IEditPrProps> = (
 
   if (!postPR.title) {
     return (
-      <LoaderWrapper loading />
+      <div>
+        <LoaderWrapper loading />
+      </div>
     );
   }
 
@@ -309,6 +311,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
                   <CreatePostForm
                     isCreateForm={false}
                     form={form}
+                    postContent={postPR.text}
                     modes={modes}
                     setForm={changeForm}
                     sendImage={sendImage}

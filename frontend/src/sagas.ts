@@ -12,6 +12,7 @@ import postVersionSagas from '@screens/PostVersionPage/sagas';
 import postVersionsPageSagas from '@screens/PostVersions/containers/PostVersionsPage/sagas';
 import sidebarSagas from '@screens/Sidebar/sagas';
 import highlightsPageSagas from '@screens/HighlightsPage/containers/HighlightsPage/sagas';
+import draftsSagas from '@screens/Drafts/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -27,6 +28,7 @@ export default function* rootSaga() {
     loginSagas(),
     defaultSagas(),
     postVersionsPageSagas(),
-    sidebarSagas()
+    sidebarSagas(),
+    draftsSagas()
   ]);
 }
