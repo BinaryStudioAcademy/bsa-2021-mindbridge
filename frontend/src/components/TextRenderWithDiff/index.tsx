@@ -2,8 +2,8 @@ import React from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import parse from 'html-react-parser';
-import DiffMatchPatch from 'diff-match-patch';
 import marked from 'marked';
+import { HtmlDiffer } from 'html-differ';
 
 interface ITextRenderWithDiffProps {
   className?: string;
@@ -12,23 +12,25 @@ interface ITextRenderWithDiffProps {
   markdown: boolean;
 }
 
-const addDiffStylesHtml = diffs => {
+interface IDiff{
+  added: boolean;
+  removed: boolean;
+  value: string;
+}
+
+const addDiffStylesHtml = (diffs: IDiff []) => {
   const list = [];
 
   for (let x = 0; x < diffs.length; x += 1) {
-    const op = diffs[x][0];
-    const text = diffs[x][1];
-    switch (op) {
-      case DiffMatchPatch.DIFF_INSERT:
-        list[x] = `<ins style="background:#e6ffec; color: #29813f; text-decoration: none;">${text}</ins>`;
-        break;
-      case DiffMatchPatch.DIFF_DELETE:
-        list[x] = `<del style="background:#feeeef; color: #c5272d;">${text}</del>`;
-        break;
-      case DiffMatchPatch.DIFF_EQUAL:
-        list[x] = `<span>${text}</span>`;
-        break;
-      default: break;
+    const { added } = diffs[x];
+    const { removed } = diffs[x];
+    const text = diffs[x].value;
+    if (added) {
+      list[x] = `<ins style="background:#e6ffec; color: #29813f; text-decoration: none;">${text}</ins>`;
+    } else if (removed) {
+      list[x] = `<del style="background:#feeeef; color: #c5272d;">${text}</del>`;
+    } else {
+      list[x] = `<span>${text}</span>`;
     }
   }
   return list.join('');
@@ -37,9 +39,20 @@ const addDiffStylesHtml = diffs => {
 const TextRenderWithDiff: React.FC<ITextRenderWithDiffProps> = ({ className, content, oldContent, markdown }) => {
   const oldContentHtml: string = markdown ? marked(oldContent) : oldContent;
   const contentHtml: string = markdown ? marked(content) : content;
-  const dmp = new DiffMatchPatch();
-  const diff = dmp.diff_main(oldContentHtml, contentHtml);
-  dmp.diff_cleanupSemantic(diff);
+  console.log(marked(oldContent));
+
+  const options = {
+    ignoreAttributes: ['class', 'href', 'id', 'src'],
+    compareAttributesAsJSON: [],
+    ignoreWhitespaces: true,
+    ignoreComments: true,
+    ignoreEndTags: false,
+    ignoreDuplicateAttributes: true
+  };
+
+  const htmlDiffer = new HtmlDiffer(options);
+
+  const diff = htmlDiffer.diffHtml(oldContentHtml, contentHtml);
   const result = addDiffStylesHtml(diff);
   return (
     <div className={classNames(styles.rendered_text, className)}>
