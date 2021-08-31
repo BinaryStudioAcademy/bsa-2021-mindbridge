@@ -13,6 +13,7 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
 import readingTime from 'reading-time';
+import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -20,9 +21,22 @@ interface IViewPostCardProps {
   handleLikePost: any;
   handleDisLikePost: any;
   userInfo: IUserProfile;
+  sendComment: any;
+  sendReply: any;
+  isAuthorized: boolean;
 }
-const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, handleLikePost,
-  handleDisLikePost, userInfo }) => {
+const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
+  {
+    sendComment,
+    post,
+    isAuthor,
+    handleLikePost,
+    handleDisLikePost,
+    userInfo,
+    sendReply,
+    isAuthorized
+  }
+) => {
   const history = useHistory();
 
   const goToEdit = () => {
@@ -110,6 +124,16 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
               />
             </div>
           </Card.Content>
+        </div>
+        <div>
+          <AdvancedCommentsFeed
+            comments={post.comments}
+            sendComment={sendComment}
+            sendReply={sendReply}
+            postId={post.id}
+            userId={userInfo.id}
+            isAuthorized={isAuthorized}
+          />
         </div>
       </Card>
     </div>

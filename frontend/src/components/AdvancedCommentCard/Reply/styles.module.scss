@@ -1,0 +1,35 @@
+.comment {
+  border: 0.125em solid #F8F8F8;
+  box-sizing: border-box;
+  border-radius: 0.625em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+
+    &:only-child {
+      border: none;
+      &:only-child {
+        border: none;
+        margin-top: -1em;
+        margin-bottom: -1.8em;
+        &:last-child {
+          border: none;
+          display: block;
+          &:last-child {
+            border: none;
+            display: block;
+          }
+        }
+      }
+    }
+  &:last-child {
+    margin-top: 1.428em;
+    padding-bottom: -1em;
+  }
+}
+
+
+:global(.ReactCollapse--collapse) {
+    transition: ease 500ms !important;
+}
+
+

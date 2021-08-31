@@ -1,0 +1,67 @@
+@import "../../../../styles/common.sass";
+
+.basicComment {
+  padding-left: 2.7142em;
+  padding-bottom: 1.4285em;
+
+  :global(.text) {
+    font-family: Lato, serif !important;
+    font-weight: 500 !important;
+    font-size: 1em !important;
+    line-height: 1.05em !important;
+    color: #353535;
+  }
+
+  .header {
+    margin-top: 1.7857em;
+    margin-bottom: 1.4285em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .commentAuthor {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      :global(.author) {
+        font-family: Lato, sans-serif !important;
+        color: #353535 !important;
+        font-weight: 600 !important;
+        font-style: normal !important;
+        font-size: 0.85714em !important;
+        line-height: 0.9em !important;
+      }
+
+      :global(.metadata) {
+        margin: 0 !important;
+
+        .date {
+          font-family: Lato, serif !important;
+          color: rgba(53, 53, 53, 0.4) !important;
+          font-weight: 400 !important;
+          font-size: 1rem !important;
+          line-height: 1.05em !important;
+        }
+      }
+
+      :global(#divider) {
+        margin-left: 0.7857em;
+        margin-right: 0.7142em;
+      }
+
+      :global(.avatar) {
+        width: 1.7857em !important;
+        height: 1.7857em !important;
+        margin-right: 0.5714em !important;
+        margin-top: 0 !important;
+
+        img {
+          margin-left: 0 !important;
+          border-radius: 2em !important;
+
+        }
+      }
+    }
+  }
+}
