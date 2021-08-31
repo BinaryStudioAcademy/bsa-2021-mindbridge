@@ -23,4 +23,5 @@ public abstract class OAuth2UserInfo {
 	public abstract String getFirstName();
 
 	public abstract String getLastName();
+
 }

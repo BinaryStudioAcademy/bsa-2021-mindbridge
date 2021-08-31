@@ -26,4 +26,5 @@ public interface PostMapper {
 	PostVersion postToPostVersion(Post post);
 
 	DraftsListDto postToDraftDto(Post post);
+
 }
