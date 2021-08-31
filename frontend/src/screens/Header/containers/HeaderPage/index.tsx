@@ -75,10 +75,10 @@ const Header: React.FC<IHeaderProps> = (
         fetchNotificationCount(currentUser.id);
       });
     }, error => {
-      toastr.error('Error', 'Internet connection is unstable');
+      toastr.warning('Error', 'Internet connection is unstable');
       console.log(error);
     }, error => {
-      toastr.error('Error', 'Internet connection is unstable');
+      toastr.warning('Error', 'Internet connection is unstable');
       console.log(error);
       switch (stompClient.reconnectDelay) {
         case 0: {
