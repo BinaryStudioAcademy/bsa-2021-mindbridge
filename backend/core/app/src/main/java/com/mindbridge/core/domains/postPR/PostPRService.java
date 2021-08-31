@@ -49,12 +49,12 @@ public class PostPRService {
 	@Lazy
 	@Autowired
 	public PostPRService(PostPRRepository postPRRepository, TagRepository tagRepository, PostService postService,
-						 NotificationService notificationService, UserService userService, UserService userService) {
+						 NotificationService notificationService, UserService userService) {
 		this.postPRRepository = postPRRepository;
 		this.tagRepository = tagRepository;
 		this.postService = postService;
 		this.notificationService = notificationService;
-    this.userService = userService;	
+    	this.userService = userService;
 	}
 
 	public void create(CreatePostPRDto createPostPRDto) {
