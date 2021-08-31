@@ -139,7 +139,7 @@ public class UserService implements UserDetailsService {
 			"Dear %s! \n" +
 				"You successfully registration on MindBridge \n" +
 				"\n" +
-				"Please, check the link to activate your account: "+ "%s" +"activate/%s" +
+				"please follow the link to activate your account: "+ "%s" +"activate/%s" +
 				"\n" +
 				"\n" +
 				"Best regards, MindBride administration",
