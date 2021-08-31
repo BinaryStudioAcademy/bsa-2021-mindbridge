@@ -26,8 +26,9 @@ public class HighlightController {
 	}
 
 	@GetMapping("/all/{id}")
-	public List<HighlightsDetailsDto> getHighlights(@PathVariable UUID id) {
-		return highlightService.getAllHighlights(id);
+	public List<HighlightsDetailsDto> getHighlights(@PathVariable UUID id, @RequestParam(defaultValue = "0") Integer from,
+													@RequestParam(defaultValue = "10") Integer count) {
+		return highlightService.getAllHighlights(id, from, count);
 	}
 
 	@DeleteMapping("/delete/{id}")

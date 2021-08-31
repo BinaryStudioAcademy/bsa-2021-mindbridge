@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Button, Card, Feed, Popup } from 'semantic-ui-react';
+import { Card, Feed } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
 import RatingComponent from '../svgs/RatingIcon';
@@ -8,14 +8,15 @@ import FavouriteSvg from '@screens/ViewPost/components/svgs/SvgComponents/favour
 import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
 import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
 import { IPost } from '@screens/ViewPost/models/IPost';
-import TextRenderer from '@root/components/TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
-import GetCursorPosition from 'cursor-position';
 import Highlighter from 'web-highlighter';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import readingTime from 'reading-time';
+import HighlightPopup from '@screens/ViewPost/components/Popups/HighlightPopup';
+import { validateSelection } from '@screens/ViewPost/helpers/validateSelection';
+import { cursorPosition } from '@screens/ViewPost/helpers/cursorPosition';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -63,15 +64,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   const [xPos, setXPos] = useState(0);
   const [yPos, setYPos] = useState(0);
   const [isPopUpShown, setIsPopUpShown] = useState(false);
+  const [open, setOpen] = useState(false);
   const goToEdit = () => {
     history.push(`/post/edit/${post.id}`);
-  };
-
-  const validateSelection = elements => {
-    if (elements.length !== 1 && elements.find(element => element.localName[0] === 'h')) {
-      return false;
-    }
-    return !elements.find(element => element.localName === 'br');
   };
 
   const deleteHighlight = id => {
@@ -80,15 +75,13 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   };
 
   const handleMouseUp = () => {
-    const { x, y } = GetCursorPosition({ scroll: true });
-    console.log(window.getSelection().getRangeAt(0));
     if (!window.getSelection().toString().trim()) {
       setIsPopUpShown(false);
     } else {
       const elements = Array.prototype.slice.call(window.getSelection().getRangeAt(0).cloneContents().children);
       if (validateSelection(elements)) {
-        setYPos(y);
-        setXPos(x - 25);
+        setYPos(cursorPosition().y);
+        setXPos(cursorPosition().x - 25);
         setIsPopUpShown(true);
       }
     }
@@ -103,14 +96,13 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   highlighter
     .on('selection:hover', ({ id }) => {
       highlighter.addClass(styles.highlightWrapperHover, id);
-      const { x, y } = GetCursorPosition({ scroll: true });
-      setXPos(x - 25);
-      setYPos(y);
-      setIsPopUpShown(true);
+      setXPos(cursorPosition().x - 25);
+      setYPos(cursorPosition().y);
+      setOpen(true);
     })
     .on('selection:hover-out', ({ id }) => {
       highlighter.removeClass(styles.highlightWrapperHover, id);
-      setIsPopUpShown(false);
+      setOpen(false);
     })
     .on('selection:click', ({ id }) => {
       deleteHighlight(id);
@@ -188,37 +180,19 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                 />
               </div>
             </Feed>
-          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-          <div className={styles.postBody} onMouseUp={handleMouseUp}>
-            <Popup
-              open={isPopUpShown}
-              style={{
-                transform: `translate3d(${xPos}px, ${yPos - 60}px, 0px)`,
-                backgroundColor: '#f4f9ff',
-                cursor: 'pointer',
-                padding: '0'
-              }}
-              position="top center"
-              content={(
-                <Button
-                  style={{ backgroundColor: '#f4f9ff' }}
-                  icon="quote left"
-                  onClick={() => handleClosePopUp()}
-                />
-              )}
-              pinned
-              trigger={(
-                <TextRenderer
-                  className={styles.content}
-                  markdown={post.markdown}
-                  content={post.text}
-                />
-              )}
-            />
-          </div>
-        </Card.Content>
-      </div>
-    </Card>
+            {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+            <div className={styles.postBody} onMouseUp={handleMouseUp}>
+              <HighlightPopup
+                isPopUpShown={isPopUpShown}
+                xPos={xPos}
+                yPos={yPos}
+                handleClosePopUp={handleClosePopUp}
+                post={post}
+              />
+            </div>
+          </Card.Content>
+        </div>
+      </Card>
     </div>
   );
 };

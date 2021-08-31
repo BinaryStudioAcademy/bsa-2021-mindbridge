@@ -5,6 +5,7 @@ import com.mindbridge.core.domains.highlight.dto.SavaHighlightDto;
 import com.mindbridge.data.domains.highlight.HighlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +28,9 @@ public class HighlightService {
 		return savedHighlight.getId();
 	}
 
-	public List<HighlightsDetailsDto> getAllHighlights(UUID userId) {
-		var highlights = highlightRepository.getAllByUserId(userId);
+	public List<HighlightsDetailsDto> getAllHighlights(UUID userId, Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+		var highlights = highlightRepository.getAllByUserId(userId, pageable);
 		return highlights.stream().map(HighlightMapper.MAPPER::fromHighlightToHighlightDetailsDto).collect(Collectors.toList());
 	}
 
