@@ -52,7 +52,7 @@ function AsyncUserMentions(
   const emailRegex = /(([^\s]+[^\s]+\.[^\s]+))$/;
 
   return (
-    <div className={styles.back}>
+    <div>
       <MentionsInput
         value={newReply.text}
         onChanges={onChange}

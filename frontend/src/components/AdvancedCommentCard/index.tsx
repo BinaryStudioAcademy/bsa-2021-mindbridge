@@ -60,24 +60,15 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
     }
   };
 
-  const getArrayDepth = arr => {
-    if (Array.isArray(arr)) {
-      return 1 + Math.max(...arr.map(getArrayDepth));
-    }
-    if (arr.comments && arr.comments.length) {
-      return 1 + Math.max(...arr.comments.map(getArrayDepth));
-    }
-    return 0;
-  };
-
   return (
     <div className={styles.advancedCommentFeed}>
       <p className={styles.commentCounter}>
         Discussion (
-        {getArrayDepth(comments)}
+        {comments.flat(Infinity).length}
         )
       </p>
       {isAuthorized ? (
+
         <form className="ui reply form">
           <div className="field">
             <textarea
@@ -92,7 +83,6 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
             content="Send"
           />
         </form>
-
       ) : (
         <div className={styles.nonAuthorizedHeading}>
           <p>
