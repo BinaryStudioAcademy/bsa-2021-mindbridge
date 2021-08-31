@@ -13,7 +13,6 @@ import BlueButton from '@root/components/buttons/Blue_button';
 import ColorlessButton from '@root/components/buttons/ColorlessButton';
 import DarkButton from '@root/components/buttons/DarcButton';
 import DarkBorderButton from '@root/components/buttons/DarcBorderButton';
-import PostPreview from '@root/components/PostPreview';
 import { IForm } from '../../models/IData';
 import {
   sendImageRoutine, resetLoadingImageRoutine, fetchUserProfileRoutine, getPostVersionsRoutine,
