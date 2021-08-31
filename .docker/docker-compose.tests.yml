@@ -11,8 +11,11 @@ services:
       - BLOB_KEY=fake
       - DB_USER=postgres
       - DB_PWD=postgres
-      - elasticsearch.host=elastic_server:9200
-    depends_on: 
+      - ELASTIC_USER=elastic
+      - ELASTIC_PORT=9200
+      - ELASTIC_HOST=elastic_server
+      - ELASTIC_PWD=changeme
+    depends_on:
       - db
       - elastic_server
     ports:
