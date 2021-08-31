@@ -13,6 +13,7 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
 import readingTime from 'reading-time';
+import RelatedPosts from '@screens/ViewPost/components/RelatedPosts';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -111,6 +112,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
             </div>
           </Card.Content>
         </div>
+        <RelatedPosts relatedPosts={post.relatedPosts} />
       </Card>
     </div>
   );

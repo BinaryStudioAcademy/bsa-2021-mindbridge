@@ -20,7 +20,8 @@ const initialState: IViewPostReducerState = {
     avatar: '',
     markdown: false,
     draft: false,
-    author: { id: '', firstName: '', lastName: '', avatar: '', nickname: '' }
+    author: { id: '', firstName: '', lastName: '', avatar: '', nickname: '' },
+    relatedPosts: null
   }
 };
 
