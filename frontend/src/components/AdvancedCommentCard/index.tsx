@@ -60,11 +60,26 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
     }
   };
 
+  function getMaximumCommentsFoldCount(commentsDepth, foldCount = 0) {
+    return commentsDepth.reduce((count, item) => {
+      // eslint-disable-next-line no-prototype-builtins
+      if (item.hasOwnProperty('comments')) {
+        // eslint-disable-next-line no-param-reassign
+        count = Math.max(
+          count,
+          // eslint-disable-next-line no-param-reassign,no-plusplus
+          getMaximumCommentsFoldCount(item.comments, ++foldCount)
+        );
+      }
+      return count;
+    }, foldCount);
+  }
+
   return (
     <div className={styles.advancedCommentFeed}>
       <p className={styles.commentCounter}>
         Discussion (
-        {comments.flat(Infinity).length}
+        {getMaximumCommentsFoldCount(comments)}
         )
       </p>
       {isAuthorized ? (

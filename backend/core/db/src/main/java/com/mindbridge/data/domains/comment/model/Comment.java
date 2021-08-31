@@ -42,7 +42,7 @@ public class Comment extends BaseAuditableEntity {
 		return "Comment{" +
 			"author=" + author +
 			", text='" + text + '\'' +
-			", reactions=" + reactions +
+			", reactions=" + reactions.size() +
 			'}';
 	}
 }
