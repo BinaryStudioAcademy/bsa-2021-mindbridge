@@ -68,7 +68,8 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
 			CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository,
-			PostPRRepository postPRRepository, PostReactionRepository postReactionRepository, CommentReactionRepository commentReactionRepository) {
+			PostPRRepository postPRRepository, PostReactionRepository postReactionRepository,
+			CommentReactionRepository commentReactionRepository) {
 		this.userRepository = userRepository;
 		this.commentRepository = commentRepository;
 		this.postPRRepository = postPRRepository;
@@ -93,7 +94,8 @@ public class UserService implements UserDetailsService {
 		user.setUserReactionsComments(userCommentReactions.stream().map(UserReactionsCommentsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
-		long rating = postReactionRepository.calcUserPostRating(userId) + (commentReactionRepository.calcUserCommentRating(userId) / 2);
+		long rating = postReactionRepository.calcUserPostRating(userId)
+				+ (commentReactionRepository.calcUserCommentRating(userId) / 2);
 		user.setRating(rating);
 		return user;
 	}
@@ -106,6 +108,10 @@ public class UserService implements UserDetailsService {
 
 	public UserDto loadUserDtoByEmail(String email) throws UsernameNotFoundException {
 		return userRepository.findByEmail(email).map(UserMapper.MAPPER::userToUserDto).get();
+	}
+
+	public UserDto loadUserDtoByNickname(String nickname) throws UsernameNotFoundException {
+		return userRepository.findByNickname(nickname).map(UserMapper.MAPPER::userToUserDto).get();
 	}
 
 	public void registerNewUserAccount(RegistrationRequest registrationRequest) {
@@ -162,6 +168,15 @@ public class UserService implements UserDetailsService {
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		user.setPassword(passwordEncoder.encode(newPassword.substring(0, newPassword.length() - 1)));
+		userRepository.save(user);
+
+		return loadUserDtoByEmail(user.getEmail());
+	}
+
+	public UserDto deleteUserAvatar(UUID id) {
+		User user = userRepository.findById(id)
+			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+		user.setAvatar(null);
 		userRepository.save(user);
 
 		return loadUserDtoByEmail(user.getEmail());

@@ -34,4 +34,5 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 
 	@Query("SELECT p FROM Post p WHERE p.deleted = false AND p.author.id = :userId and p.draft = true")
 	List<Post> getDraftsByUser(UUID userId);
+
 }

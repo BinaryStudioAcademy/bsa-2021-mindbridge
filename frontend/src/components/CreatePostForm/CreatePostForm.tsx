@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 import CoverImageSvg from './svg/coverImageSvg';
 import { IForm, IModes } from '@root/screens/PostPage/models/IData';
 import { useDropzone } from 'react-dropzone';
 import TagsDropdown from '../TagsDropdown';
-import { toastr } from 'react-redux-toastr';
 import DropZoneComponent from '@components/DropZoneComponent';
 import CopySvg from './svg/copySvg';
 import CloseSvg from './svg/closeSvg';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { IBindingAction } from '@root/models/Callbacks';
 import { Popup } from 'semantic-ui-react';
+import HtmlEditor from '@components/HtmlEditor';
+import { checkImage } from '@helpers/image.helper';
+import LoaderWrapper from '@components/LoaderWrapper';
 
 interface ICreatePostFormProps {
   form: IForm;
+  postContent: string;
   modes: IModes;
   isCreateForm: boolean;
   setForm: any;
@@ -29,18 +32,10 @@ interface ICreatePostFormProps {
   isContentEmpty: boolean;
 }
 
-const checkImageSize = file => {
-  const BYTES_IN_MEGABYTE = 1024 * 1024;
-  if (file.size > (BYTES_IN_MEGABYTE)) {
-    toastr.error('Error', 'File is too large, use image less than 1Mb');
-    return false;
-  }
-  return true;
-};
-
 const CreatePostForm: React.FC<ICreatePostFormProps> = (
   {
     form,
+    postContent,
     setForm,
     sendImage,
     allTags,
@@ -52,10 +47,21 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
     isContentEmpty
   }
 ) => {
+  const [initialContent, setInitialContent] = useState(postContent);
+  const contentIntact = useMemo(() => (initialContent === postContent), [initialContent, postContent]);
+
+  useEffect(() => {
+    if (initialContent === '' || !contentIntact) {
+      setInitialContent(postContent);
+    } else {
+      setInitialContent(initialContent);
+    }
+  }, [postContent]);
+
   const { getRootProps } = useDropzone({
     disabled: imageTag.preloader,
     onDrop: files => {
-      if (checkImageSize(files[0])) {
+      if (checkImage(files[0])) {
         sendImage({ file: files[0], inContent: true });
       }
     }
@@ -70,7 +76,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
           title: ''
         }
       });
-    } else if (checkImageSize(event.target.files[0])) {
+    } else if (checkImage(event.target.files[0])) {
       sendImage({ file: event.target.files[0], inContent: false });
       setForm({
         ...form,
@@ -89,10 +95,17 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
   };
 
   const handleContent = (event: any) => {
-    setForm({
-      ...form,
-      content: event.target.value
-    });
+    if (typeof event === 'string') {
+      setForm({
+        ...form,
+        content: event
+      });
+    } else {
+      setForm({
+        ...form,
+        content: event.target.value
+      });
+    }
   };
 
   const handleTags = (event: any, data: any) => {
@@ -122,7 +135,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
 
   let dropzoneOrTag;
   if (!imageTag.isPresent) {
-    dropzoneOrTag = <DropZoneComponent sendImage={sendImage} checkImageSize={checkImageSize} />;
+    dropzoneOrTag = <DropZoneComponent sendImage={sendImage} checkImage={checkImage} />;
   } else if (imageTag.preloader) {
     dropzoneOrTag = <div className={styles.image_tag_loading}>Loading image...</div>;
   } else {
@@ -150,7 +163,11 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
     );
   }
   return (
-    <div {...getRootProps({ className: 'dropzone' })} className={styles.create_post_form}>
+    <div
+      {...getRootProps({ className: 'dropzone' })}
+      className={styles.create_post_form}
+      style={modes.htmlMode ? { gridTemplateRows: '0.8fr 0.8fr 5.2fr 1fr' } : null}
+    >
       { isCreateForm ? (
         <label className={styles.file_input_rectangle} htmlFor="image-input-1" onChange={handelCoverFile}>
           <CoverImageSvg />
@@ -196,12 +213,37 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
       <Popup
         trigger={(
           <div className={styles.content_input_container}>
-            <textarea
-              className={styles.content_input}
-              value={form.content}
-              onChange={handleContent}
-              placeholder="Write your post content"
-            />
+            { modes.htmlMode ? (
+              <div className={styles.editor_input}>
+                { !isCreateForm ? (
+                  <div>
+                    {contentIntact && initialContent !== '' ? (
+                      <HtmlEditor
+                        value={form.content}
+                        initialContent={initialContent}
+                        onChange={handleContent}
+                        placeholder="Write your post content"
+                      />
+                    ) : <LoaderWrapper loading /> }
+                  </div>
+                ) : (
+                  <HtmlEditor
+                    value={form.content}
+                    initialContent={initialContent}
+                    onChange={handleContent}
+                    placeholder="Write your post content"
+                  />
+                )}
+              </div>
+            )
+              : (
+                <textarea
+                  className={styles.content_input}
+                  value={form.content}
+                  onChange={handleContent}
+                  placeholder="Write your post content"
+                />
+              ) }
           </div>
         )}
         content="Content is required"

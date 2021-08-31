@@ -58,4 +58,9 @@ public class UserController {
 		return userService.getAllUserByNickname(nickname);
 	}
 
+	@PostMapping("/delete/avatar/{id}")
+	public UserDto deleteUserAvatar(@PathVariable UUID id) {
+		return userService.deleteUserAvatar(id);
+	}
+
 }

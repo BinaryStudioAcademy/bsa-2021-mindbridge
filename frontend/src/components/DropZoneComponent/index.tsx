@@ -3,11 +3,11 @@ import styles from './styles.module.scss';
 import AddImageSvg from '@components/CreatePostForm/svg/addImageSvg';
 import React from 'react';
 
-const DropZoneComponent = ({ sendImage, checkImageSize }) => {
+const DropZoneComponent = ({ sendImage, checkImage }) => {
   const { getRootProps, getInputProps } = useDropzone({
     noDragEventsBubbling: true,
     onDrop: files => {
-      if (checkImageSize(files[0])) {
+      if (checkImage(files[0])) {
         sendImage({ file: files[0], inContent: true });
       }
     }

@@ -64,6 +64,7 @@
     "react-scrollable-anchor": "^0.6.1",
     "react-select": "^3.0.8",
     "react-select-country-list": "^2.2.1",
+    "react-syntax-highlighter": "^15.4.4",
     "react-tag-autocomplete": "^6.1.0",
     "react-textarea-autosize": "^8.2.0",
     "react-use": "^15.3.4",
@@ -80,6 +81,8 @@
     "sockjs-client": "^1.5.1",
     "stomp": "^0.1.1",
     "styled-components": "^4.4.1",
+    "suneditor": "^2.41.3",
+    "suneditor-react": "^3.3.0",
     "use-debounce": "^7.0.0",
     "yup": "^0.27.0"
   },
