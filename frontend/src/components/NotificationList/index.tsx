@@ -20,7 +20,7 @@ export interface INotificationListProps {
 
 const params = {
   from: 0,
-  count: 10
+  count: 5
 };
 
 const NotificationList: React.FC<INotificationListProps> = (
@@ -43,10 +43,10 @@ const NotificationList: React.FC<INotificationListProps> = (
 
   const toggleNotifications = () => {
     params.from = 0;
-    fetchNotifications(!onlyUnread, params);
-    setOnlyUnread(!onlyUnread);
     const { from, count } = params;
+    fetchNotifications(!onlyUnread, {from, count});
     params.from = from + count;
+    setOnlyUnread(!onlyUnread);
   };
 
   function useOutsideAlerter(ref) {
@@ -81,7 +81,7 @@ const NotificationList: React.FC<INotificationListProps> = (
           </div>
         ) : (
           <InfiniteScroll
-            dataLength={1}
+            dataLength={list.length}
             next={handleFetchNotifications}
             hasMore
             loader={' '}

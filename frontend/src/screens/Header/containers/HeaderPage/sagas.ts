@@ -21,6 +21,7 @@ function* fetchNotificationCount({ payload }: Routine<any>) {
 
 function* fetchNotificationList({ payload }: Routine<any>) {
   try {
+    console.log(payload);
     const response = yield call(headerService.getNotificationList, payload);
     const list = { notificationList: response, onlyUnread: payload.onlyUnread };
     yield put(fetchNotificationListRoutine.success(list));

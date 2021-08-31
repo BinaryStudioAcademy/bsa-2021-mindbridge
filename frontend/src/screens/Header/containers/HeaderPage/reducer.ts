@@ -29,8 +29,12 @@ export const headerReducer = createReducer(initialState, {
     state.notificationCount = payload.notificationCount;
   },
   [fetchNotificationListRoutine.SUCCESS]: (state, { payload }: PayloadAction<INotificationList>) => {
-    state.notificationList = payload.notificationList;
-    state.onlyUnread = payload.onlyUnread;
+    if(state.onlyUnread != payload.onlyUnread) {
+      state.notificationList = payload.notificationList;
+      state.onlyUnread = payload.onlyUnread;
+    } else {
+      state.notificationList = state.notificationList.concat(payload.notificationList);
+    }
   },
   [searchPostsByElasticRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPostsPayload>) => {
     state.posts = payload.posts;
