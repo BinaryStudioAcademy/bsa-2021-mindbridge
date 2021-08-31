@@ -66,7 +66,7 @@ const Header: React.FC<IHeaderProps> = (
   }
 ) => {
   useEffect(() => {
-    if (!currentUser.id) {
+    if (!currentUser?.id) {
       return;
     }
     stompClient.connect('', '', () => {
@@ -107,7 +107,7 @@ const Header: React.FC<IHeaderProps> = (
         }
       }
     });
-  }, [currentUser.id]);
+  }, [currentUser?.id]);
 
   const history = useHistory();
 
@@ -123,7 +123,7 @@ const Header: React.FC<IHeaderProps> = (
     if (currentUser?.id) {
       fetchNotificationCount(currentUser.id);
     }
-  }, [currentUser]);
+  }, [currentUser?.id]);
 
   const handleFetchNotifications = (onlyUnread, params) => {
     fetchNotificationList({ userId: currentUser.id, onlyUnread, params });
