@@ -2,6 +2,7 @@ import React, { useState, MouseEventHandler } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import ColorlessButton from '@root/components/buttons/ColorlessButton';
+import Checkbox from '../Checkbox';
 
 // eslint-disable-next-line max-len
 interface ITabProps {
@@ -24,15 +25,7 @@ const Tab = ({ className, previewContent, diffContent, seeDiff, handleCheckbox }
       <div className={styles.buttons}>
         {handleCheckbox
           && (
-          <div className={styles.see_diff}>
-            <div className={styles.see_diff}>See difference</div>
-            <span>
-              <input type="checkbox" checked={seeDiff} />
-              {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions,
-              jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-              <div onClick={handleCheckbox} />
-            </span>
-          </div>
+          <Checkbox handleCheckbox={handleCheckbox} seeDiff={seeDiff} />
           )}
         <ColorlessButton
           className={classNames(styles.diffButton, !preview && styles.active)}
