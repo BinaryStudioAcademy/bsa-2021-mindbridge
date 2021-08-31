@@ -84,7 +84,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     if (!query) return;
     fetch(`/api/user/finduser/${query}`)
       .then(res => res.json())
-      .then(res => res.map(user => ({ display: '@' + user.nickname, id: user.id })))
+      .then(res => res.map(user => ({ display: `@${user.nickname}`, id: user.id })))
       .then(callback);
   }
 
