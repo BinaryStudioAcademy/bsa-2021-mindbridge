@@ -14,3 +14,5 @@ export const searchPostsByElasticRoutine = createHeaderRoutine('SEARCH_POSTS_BY_
 export const markNotificationReadRoutine = createHeaderRoutine('MARK_NOTIFICATION_READ');
 
 export const markAllNotificationsReadRoutine = createHeaderRoutine('MARK_ALL_NOTIFICATIONS_READ');
+
+export const fetchMoreNotificationsRoutine = createHeaderRoutine('FETCH_MORE_NOTIFICATIONS');

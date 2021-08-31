@@ -16,10 +16,11 @@ export interface INotificationListProps {
   fetchNotifications: IBindingCallback2<boolean, object>;
   markAllNotificationsRead: IBindingAction;
   notificationsLoading: boolean;
+  fetchMoreNotifications: IBindingCallback2<boolean, object>;
 }
 
 const params = {
-  from: 0,
+  from: 5,
   count: 5
 };
 
@@ -30,23 +31,24 @@ const NotificationList: React.FC<INotificationListProps> = (
     markNotificationRead,
     fetchNotifications,
     markAllNotificationsRead,
-    notificationsLoading
+    notificationsLoading,
+    fetchMoreNotifications
   }
 ) => {
   const [onlyUnread, setOnlyUnread] = useState(true);
 
-  const handleFetchNotifications = () => {
-    fetchNotifications(!onlyUnread, params);
-    const { from, count } = params;
-    params.from = from + count;
-  };
-
   const toggleNotifications = () => {
     params.from = 0;
     const { from, count } = params;
-    fetchNotifications(!onlyUnread, {from, count});
+    fetchNotifications(!onlyUnread, { from, count });
     params.from = from + count;
     setOnlyUnread(!onlyUnread);
+  };
+
+  const handleFetchMoreNotifications = () => {
+    const { from, count } = params;
+    fetchMoreNotifications(onlyUnread, { from, count });
+    params.from = from + count;
   };
 
   function useOutsideAlerter(ref) {
@@ -67,6 +69,47 @@ const NotificationList: React.FC<INotificationListProps> = (
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
+  const renderList = () => {
+    if (notificationsLoading) {
+      return (
+        <div className={styles.loaderWrapper}>
+          <LoaderWrapper loading={notificationsLoading} />
+        </div>
+      );
+    }
+    if (list?.length === 0) {
+      return (
+        <div className={styles.emptyResult}>
+          <NoResultsSvg width="30%" height="30%" />
+          <p>No notifications were found</p>
+        </div>
+      );
+    }
+    return (
+      <InfiniteScroll
+        dataLength={list.length}
+        next={handleFetchMoreNotifications}
+        hasMore
+        loader={' '}
+        height="50vh"
+      >
+        {list?.map(item => (
+          <NotificationListItem
+            isRead={item.isRead}
+            markNotificationRead={markNotificationRead}
+            id={item.id}
+            sourceId={item.sourceId}
+            type={item.type}
+            text={item.text}
+            createdAt={item.createdAt}
+            setIsListOpen={setIsListOpen}
+            key={item.id}
+          />
+        ))}
+      </InfiniteScroll>
+    );
+  };
+
   return (
     <div ref={wrapperRef} className={styles.notificationWrapper}>
       <h4 className={styles.notificationTitle}>Notifications</h4>
@@ -75,38 +118,7 @@ const NotificationList: React.FC<INotificationListProps> = (
         <button type="button" onClick={markAllNotificationsRead}>Mark all read</button>
       </div>
       <ul className={styles.list}>
-        {notificationsLoading ? (
-          <div className={styles.loaderWrapper}>
-            <LoaderWrapper loading={notificationsLoading} />
-          </div>
-        ) : (
-          <InfiniteScroll
-            dataLength={list.length}
-            next={handleFetchNotifications}
-            hasMore
-            loader={' '}
-          >
-            {list && list?.length !== 0 ? (
-              list.map(item => (
-                <NotificationListItem
-                  isRead={item.isRead}
-                  markNotificationRead={markNotificationRead}
-                  id={item.id}
-                  sourceId={item.sourceId}
-                  type={item.type}
-                  text={item.text}
-                  createdAt={item.createdAt}
-                  setIsListOpen={setIsListOpen}
-                  key={item.id}
-                />
-              ))) : (
-                <div className={styles.emptyResult}>
-                  <NoResultsSvg width="30%" height="30%" />
-                  <p>No notifications were found</p>
-                </div>
-            )}
-          </InfiniteScroll>
-        )}
+        {renderList()}
       </ul>
     </div>
   );

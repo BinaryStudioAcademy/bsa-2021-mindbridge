@@ -1,5 +1,6 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
+  fetchMoreNotificationsRoutine,
   fetchNotificationCountRoutine,
   fetchNotificationListRoutine, markAllNotificationsReadRoutine, markNotificationReadRoutine,
   searchPostsByElasticRoutine
@@ -21,7 +22,17 @@ function* fetchNotificationCount({ payload }: Routine<any>) {
 
 function* fetchNotificationList({ payload }: Routine<any>) {
   try {
-    console.log(payload);
+    const response = yield call(headerService.getNotificationList, payload);
+    const list = { notificationList: response, onlyUnread: payload.onlyUnread };
+    yield put(fetchNotificationListRoutine.success(list));
+  } catch (error) {
+    yield put(fetchNotificationListRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading notification list failed!');
+  }
+}
+
+function* fetchMoreNotifications({ payload }: Routine<any>) {
+  try {
     const response = yield call(headerService.getNotificationList, payload);
     const list = { notificationList: response, onlyUnread: payload.onlyUnread };
     yield put(fetchNotificationListRoutine.success(list));
@@ -79,6 +90,10 @@ function* watchFetchNotificationList() {
   yield takeEvery(fetchNotificationListRoutine.TRIGGER, fetchNotificationList);
 }
 
+function* watchFetchMoreNotifications() {
+  yield takeEvery(fetchMoreNotificationsRoutine.TRIGGER, fetchMoreNotifications);
+}
+
 function* watchSearchPostsByElastic() {
   yield takeEvery(searchPostsByElasticRoutine.TRIGGER, searchPostsByElastic);
 }
@@ -93,6 +108,7 @@ export default function* headerPageSagas() {
     watchFetchNotificationList(),
     watchSearchPostsByElastic(),
     watchMarkNotificationRead(),
-    watchMarkAllNotificationsRead()
+    watchMarkAllNotificationsRead(),
+    watchFetchMoreNotifications()
   ]);
 }

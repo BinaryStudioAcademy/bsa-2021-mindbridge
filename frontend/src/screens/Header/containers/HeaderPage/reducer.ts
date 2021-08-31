@@ -29,7 +29,7 @@ export const headerReducer = createReducer(initialState, {
     state.notificationCount = payload.notificationCount;
   },
   [fetchNotificationListRoutine.SUCCESS]: (state, { payload }: PayloadAction<INotificationList>) => {
-    if(state.onlyUnread != payload.onlyUnread) {
+    if (state.onlyUnread !== payload.onlyUnread) {
       state.notificationList = payload.notificationList;
       state.onlyUnread = payload.onlyUnread;
     } else {

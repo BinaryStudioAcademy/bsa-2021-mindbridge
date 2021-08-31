@@ -8,6 +8,7 @@ import BellSvg from '@screens/Header/containers/HeaderPage/svg/bellSvg';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { INotification } from '@screens/Header/models/INotification';
 import {
+  fetchMoreNotificationsRoutine,
   fetchNotificationCountRoutine,
   fetchNotificationListRoutine, markAllNotificationsReadRoutine, markNotificationReadRoutine,
   searchPostsByElasticRoutine
@@ -45,6 +46,7 @@ interface IActions {
   searchPostsByElastic: IBindingCallback1<string>;
   markNotificationRead: IBindingCallback1<string>;
   markAllNotificationsRead: IBindingCallback1<string>;
+  fetchMoreNotifications: IBindingCallback1<object>;
 }
 
 const Header: React.FC<IHeaderProps> = (
@@ -59,7 +61,8 @@ const Header: React.FC<IHeaderProps> = (
     currentUser,
     markNotificationRead,
     markAllNotificationsRead,
-    notificationsLoading
+    notificationsLoading,
+    fetchMoreNotifications
   }
 ) => {
   useEffect(() => {
@@ -124,6 +127,10 @@ const Header: React.FC<IHeaderProps> = (
 
   const handleFetchNotifications = (onlyUnread, params) => {
     fetchNotificationList({ userId: currentUser.id, onlyUnread, params });
+  };
+
+  const handleFetchMoreNotifications = (onlyUnread, params) => {
+    fetchMoreNotifications({ userId: currentUser.id, onlyUnread, params });
   };
 
   const toggleNotificationList = () => {
@@ -192,6 +199,7 @@ const Header: React.FC<IHeaderProps> = (
       <div className={styles.right}>
         {isListOpen && (
         <NotificationList
+          fetchMoreNotifications={handleFetchMoreNotifications}
           notificationsLoading={notificationsLoading}
           markAllNotificationsRead={handleMarkAllNotificationsRead}
           fetchNotifications={handleFetchNotifications}
@@ -260,6 +268,7 @@ const mapDispatchToProps: IActions = {
   markAllNotificationsRead: markAllNotificationsReadRoutine,
   fetchNotificationCount: fetchNotificationCountRoutine,
   fetchNotificationList: fetchNotificationListRoutine,
+  fetchMoreNotifications: fetchMoreNotificationsRoutine,
   searchPostsByElastic: searchPostsByElasticRoutine
 };
 

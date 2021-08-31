@@ -74,7 +74,7 @@ public class NotificationService {
 	}
 
 	public List<NotificationDto> getNotificationList(UUID userId, Boolean onlyUnread, Integer from, Integer count) {
-		var pageable = PageRequest.of(from, count);
+		var pageable = PageRequest.of(from / count, count);
 		if (onlyUnread) {
 			return notificationRepository.getUnreadNotificationList(userId, pageable).stream()
 				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
