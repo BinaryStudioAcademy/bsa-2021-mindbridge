@@ -125,10 +125,10 @@ public class UserService implements UserDetailsService {
 		userRepository.save(user);
 
 		String message = String.format(
-			"Dear, %s! \n" +
+			"Dear %s! \n" +
 				"You successfully registration on MindBridge \n" +
 				"\n" +
-				"Please, visit next link for activation your account: %s/activate/%s" +
+				"Please, check the link to activate your account: "+ "%s" +"activate/%s" +
 				"\n" +
 				"\n" +
 				"Best regards, MindBride administration",
