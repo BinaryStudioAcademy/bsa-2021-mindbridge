@@ -27,12 +27,7 @@ public class DataController {
 	public DataDto greeting() {
 		DataDto answer = new DataDto("User");
 		template.convertAndSend("/topic/greeting", answer);
-		// template how to send message for current user, not for everyone
-		// getUserId is static method from TokenService
-		/*
-		 * template.convertAndSendToUser( getUserId().toString(), "/topic/greeting",
-		 * answer );
-		 */
+
 		return answer;
 	}
 
