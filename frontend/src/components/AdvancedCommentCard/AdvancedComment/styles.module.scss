@@ -1,0 +1,180 @@
+@import "../../../styles/common.sass";
+
+.btnReplay {
+  border: 0.125em solid $dark-grey;
+  box-sizing: border-box;
+  border-radius: 0.3125em;
+  font-family: Lato, sans-serif !important;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1em ;
+  line-height: 1.1875em;
+  color: $dark-grey;
+  width: 3.125em;
+  height: 0.8125em;
+  margin-top: 1.4285em !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.advancedComment {
+  padding-left: 2.7142em;
+  padding-bottom: 1.4285em;
+
+  :global(.actions) {
+    padding-bottom: 0.8em;
+    margin-left: -1.4em;
+  }
+
+  :global(.text) {
+    font-family: Lato, sans-serif !important;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1em;
+    line-height: 1.2142em;
+    color: #353535;
+  }
+
+
+  .header {
+    margin-top: 1.7857em;
+    margin-bottom: 1.4285em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .closeCommentBtn {
+      margin-left: -2.25em;
+      margin-right: 0.6em;
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      background: none;
+      border: 1px solid #EEEEEE;
+      box-sizing: border-box;
+      border-radius: 2px;
+    }
+
+    .commentAuthor {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+
+      :global(.author) {
+        font-family: Lato, sans-serif;
+        color: #353535 !important;
+        font-weight: 500 !important;
+        font-style: normal !important;
+        font-size: 0.8571em !important;
+        line-height: 1.0285em !important;
+      }
+
+      :global(.metadata) {
+        margin: 0 !important;
+
+        :global(.date) {
+          font-family: Lato, serif !important;
+          color: rgba(53, 53, 53, 0.4) !important;
+          font-weight: 400 !important;
+          font-size: 1rem !important;
+          line-height: 1.05em !important;
+        }
+      }
+
+      :global(#divider) {
+        margin-left: 0.7857em;
+        margin-right: 0.7142em;
+      }
+
+      :global(.avatar) {
+        width: 1.7857em !important;
+        height: 1.7857em !important;
+        margin-right: 0.5714em !important;
+        margin-top: 0 !important;
+
+        img {
+          border-radius: 1em !important;
+        }
+      }
+    }
+
+    .commentRightAction {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-left: auto;
+      gap: 1em;
+      margin-right: 1.8371em;
+
+      #ratingElement {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.replayBlock {
+  font-family: lato, sans-serif;
+  input, textarea {
+    background-color: rgba(248, 248, 248, 1);
+    border: none;
+    border-radius: 1em;
+  }
+
+  input:focus, textarea:focus {
+    outline: none;
+    border-radius: 0 0 0.3571em 0.3571em;
+    box-shadow:0 0 0.5em 0.2em  $light-blue;
+  }
+
+  .replyText {
+    height: 4.2857em;
+    width: 80.7142em;
+    max-height: 100%;
+    max-width: 99%;
+    background: $background-card;
+    border-radius: 0 0 0.3571em 0.3571em;
+    padding-top: 1.4285em;
+    padding-bottom: 1.5em;
+    padding-left: 1.5714em;
+
+    &::placeholder {
+      font-family: Lato, sans-serif !important;
+      opacity: 0.7;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: red;
+    }
+  }
+}
+
+.sendCommentBtn {
+  margin-top: 0.7142em !important;
+  justify-content: center !important;
+  background: #14253F !important;
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.1428em;
+  line-height: 1.3571em;
+  display: flex !important;
+  align-items: center !important;
+  text-align: center !important;
+  color: #FFFFFF !important;
+  width: 3.125em !important;
+  height: 0.8125em !important;
+  border: 0.225em solid #14253F !important;
+  box-sizing: border-box !important;
+  border-radius: 0.3125em !important;
+
+  &:hover {
+    color: #14253F !important;
+    border-radius: 0.3125em !important;
+    border: 0.225em solid #14253F !important;
+    background: #FFFFFF !important;
+  }
+}

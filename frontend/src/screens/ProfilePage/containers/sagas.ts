@@ -5,7 +5,8 @@ import {
   sendPasswordRoutine,
   sendChangePasswordFormRoutine,
   openPasswordChangeModalRoutine,
-  fetchUserRoutine
+  fetchUserRoutine,
+  deleteAvatarRoutine
 } from '@screens/ProfilePage/routines';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
@@ -41,6 +42,18 @@ function* sendNickname(action) {
   } catch (error) {
     yield put(sendFormRoutine.failure(error?.message));
     toastr.error('Error', 'Sending nickname failed!');
+  }
+}
+
+function* deleteAvatar(action) {
+  try {
+    const response = yield call(profilePageService.deleteAvatar, { endpoint: action.payload });
+    yield put(updateUserAvatar.success(null));
+    yield put(deleteAvatarRoutine.success(response));
+    toastr.success('Success', 'Avatar deleted successfully!');
+  } catch (error) {
+    yield put(deleteAvatarRoutine.failure(error?.message));
+    toastr.error('Error', 'Deleting avatar failed!');
   }
 }
 
@@ -101,6 +114,10 @@ function* watchSendChangePasswordFormRequest() {
   yield takeEvery(sendChangePasswordFormRoutine.TRIGGER, sendChangePasswordForm);
 }
 
+function* deleteAvatarRequest() {
+  yield takeEvery(deleteAvatarRoutine.TRIGGER, deleteAvatar);
+}
+
 function* watchSendNicknameRequest() {
   yield takeEvery(sendNicknameRoutine.TRIGGER, sendNickname);
 }
@@ -115,7 +132,8 @@ export default function* defaultProfileSagas() {
     watchSendFormRequest(),
     watchSendChangePasswordFormRequest(),
     watchSendNicknameRequest(),
-    watchSendAvatarRequest()
+    watchSendAvatarRequest(),
+    deleteAvatarRequest()
   ]);
 }
 
