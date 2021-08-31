@@ -31,6 +31,12 @@
         font-weight: 600;
         height: 2.36rem;
     }
+    .checkbox{
+        grid-column: 2/4;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
 
     .html_button{
         grid-column: 1/2;

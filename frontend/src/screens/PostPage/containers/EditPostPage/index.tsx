@@ -25,6 +25,9 @@ import { Popup } from 'semantic-ui-react';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { history } from '@helpers/history.helper';
+import Checkbox from '@root/screens/PullRequest/components/Checkbox';
+import Preview from '@root/screens/PullRequest/components/Preview';
+import { ITag } from '@root/screens/FeedPage/models/ITag';
 
 export interface IEditPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -96,6 +99,12 @@ const EditPost: React.FC<IEditPostProps> = (
     resetImageTag
   }
 ) => {
+  const [seeDiff, setSeeDiff] = useState(false);
+
+  const handleCheckbox = () => {
+    setSeeDiff(!seeDiff);
+  };
+
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,
@@ -245,6 +254,17 @@ const EditPost: React.FC<IEditPostProps> = (
     submitButtonName = 'Create pull request';
   }
 
+  const tags: ITag[] = [];
+  form.tags.forEach(tagId => {
+    let tagName = '';
+    allTags.forEach(tag => {
+      if (tag.key === tagId) {
+        tagName = tag.text;
+      }
+    });
+    tags.push({ id: tagId, name: tagName });
+  });
+
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
@@ -292,6 +312,14 @@ const EditPost: React.FC<IEditPostProps> = (
                     )}
                   />
                 </div>
+              )}
+                {modes.viewMode
+              && (
+              <Checkbox
+                className={styles.checkbox}
+                seeDiff={seeDiff}
+                handleCheckbox={handleCheckbox}
+              />
               )}
                 {modes.editMode
                   ? (
@@ -349,7 +377,19 @@ const EditPost: React.FC<IEditPostProps> = (
                     isContentEmpty={isContentEmpty}
                   />
                 )
-                : <PostPreview form={form} modes={modes} allTags={allTags} />}
+                : (
+                  <Preview
+                    seeDiff={seeDiff}
+                    markdown={post.markdown}
+                    coverImage={post.coverImage}
+                    title={form.title}
+                    oldTitle={post.title}
+                    text={form.content}
+                    oldText={post.text}
+                    tags={tags}
+                    oldTags={post.tags}
+                  />
+                )}
               <div className={styles.footer}>
                 <DarkBorderButton content="Cancel" onClick={handleCancel} />
                 <DarkButton

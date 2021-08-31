@@ -9,18 +9,16 @@ interface ICheckboxProps {
   handleCheckbox?: MouseEventHandler<HTMLSpanElement>;
 }
 
-const Checkbox = ({ seeDiff, handleCheckbox, className }: ICheckboxProps) => {
-  return (
-    <div className={classNames(styles.see_diff, className )}>
-      <div className={styles.see_diff}>See difference</div>
-      <span>
-        <input type="checkbox" checked={seeDiff} />
-        {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions,
+const Checkbox = ({ seeDiff, handleCheckbox, className }: ICheckboxProps) => (
+  <div className={classNames(styles.see_diff, className)}>
+    <div className={styles.see_diff}>See difference</div>
+    <span>
+      <input type="checkbox" checked={seeDiff} />
+      {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions,
               jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-        <div onClick={handleCheckbox} />
-      </span>
-    </div>
-  );
-};
+      <div onClick={handleCheckbox} />
+    </span>
+  </div>
+);
 
 export default Checkbox;
