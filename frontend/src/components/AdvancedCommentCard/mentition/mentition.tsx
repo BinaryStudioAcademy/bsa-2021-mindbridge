@@ -10,7 +10,7 @@ function AsyncUserMentions(
   {
     onChange,
     sendReply,
-    data,
+    allUser,
     setDisabled,
     userInfo,
     postId,
@@ -26,6 +26,8 @@ function AsyncUserMentions(
     nickname: '',
     rating: 0
   });
+
+  const data = allUser;
 
   const handleNewReply = (event: any) => {
     setNewReply({
@@ -49,8 +51,6 @@ function AsyncUserMentions(
     }
   };
 
-  const emailRegex = /(([^\s]+[^\s]+\.[^\s]+))$/;
-
   return (
     <div>
       <MentionsInput
@@ -60,22 +60,14 @@ function AsyncUserMentions(
         className="mentions"
         markup="@[__display__]"
         classNames={classNames}
-        a11ySuggestionsListLabel="Suggested mentions"
       >
         <Mention
           className={classNames.mentions__mention__custom}
           type="user"
           trigger="@"
-          data={data}
-        />
-        <Mention
-          trigger={emailRegex}
-          type="user"
-          data={search => [{ id: search, display: search }]}
-          markup="@[__display__]"
+          data={allUser}
         />
       </MentionsInput>
-
       <div className="actions">
         <DarkBorderButton
           onClick={handleSendReply}

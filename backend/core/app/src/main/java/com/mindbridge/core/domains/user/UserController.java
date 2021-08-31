@@ -53,9 +53,9 @@ public class UserController {
 		return userService.updateUserPasswordById(id, newPassword);
 	}
 
-	@GetMapping("/finduser/{nickname}")
-	public List<UserDto> getAllUserByNickname(@PathVariable String nickname) {
-		return userService.getAllUserByNickname(nickname);
+	@GetMapping("/getalluser")
+	public List<UserDto> getAllUserByNickname() {
+		return userService.getAllUser();
 	}
 
 	@PostMapping("/delete/avatar/{id}")

@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
@@ -60,6 +60,10 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   const [disabled, setDisabled] = useState(false);
   const [rotateArrowHook, setRotateArrowHook] = useState(false);
   const [shouldRender] = useState(setShouldRender);
+  const [users, setUsers] = useState({ user: [{
+    display: '',
+    id: ''
+  }] });
 
   const rotateArrow = {
     width: '0.7142em',
@@ -80,13 +84,11 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
 
   const getLinkToComment = (url: string) => url.split('#')[0];
 
-  function fetchUsers(query, callback) {
-    if (!query) return;
-    fetch(`/api/user/finduser/${query}`)
-      .then(res => res.json())
-      .then(res => res.map(user => ({ display: `@${user.nickname}`, id: user.id })))
-      .then(callback);
-  }
+  useEffect(() => {
+    fetch('/api/user/getalluser')
+      .then(response => response.json())
+      .then(response => setUsers(response.map(user => ({ display: `@${user.nickname}`, id: user.id }))));
+  }, []);
 
   return (
     <ScrollableAnchor id={commentId}>
@@ -205,7 +207,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           {disabled && (
           <div className={styles.replayBlock}>
             <AsyncUserMentions
-              data={fetchUsers}
+              allUser={users}
               setDisabled={setDisabled}
               userInfo={userInfo}
               postId={postId}

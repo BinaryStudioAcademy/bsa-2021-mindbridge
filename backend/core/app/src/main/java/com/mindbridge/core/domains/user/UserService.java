@@ -187,8 +187,8 @@ public class UserService implements UserDetailsService {
 		return loadUserDtoByEmail(user.getEmail());
 	}
 
-	public List<UserDto> getAllUserByNickname(String nickname) {
-		var allUser = userRepository.findAllByNicknameIsContaining(nickname);
+	public List<UserDto> getAllUser() {
+		var allUser = userRepository.findAll();
 		return allUser.stream().map(UserMapper.MAPPER::userToUserDto).collect(Collectors.toList());
 	}
 }
