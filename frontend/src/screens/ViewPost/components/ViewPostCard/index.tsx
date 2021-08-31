@@ -24,6 +24,7 @@ interface IViewPostCardProps {
   userInfo: IUserProfile;
   handleSaveHighlight: any;
   highlights: IHighlight[];
+  handleDeleteHighlight: any;
 }
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
@@ -33,7 +34,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   handleDisLikePost,
   userInfo,
   handleSaveHighlight,
-  highlights
+  highlights,
+  handleDeleteHighlight
 }) => {
   const highlighter = new Highlighter({
     wrapTag: 'i',
@@ -68,14 +70,17 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
     if (elements.length !== 1 && elements.find(element => element.localName[0] === 'h')) {
       return false;
     }
-    if (elements.find(element => element.localName === 'br')) {
-      return false;
-    }
-
-    return true;
+    return !elements.find(element => element.localName === 'br');
   };
+
+  const deleteHighlight = id => {
+    handleDeleteHighlight(id);
+    highlighter.remove(id);
+  };
+
   const handleMouseUp = () => {
     const { x, y } = GetCursorPosition({ scroll: true });
+    console.log(window.getSelection().getRangeAt(0));
     if (!window.getSelection().toString().trim()) {
       setIsPopUpShown(false);
     } else {
@@ -94,14 +99,21 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
     setIsPopUpShown(false);
   };
 
-  // highlighter
-  //   .on('selection:hover', () => {
-  //     setIsPopUpShown(true);
-  //   })
-  //   .on('selection:hover-out', () => {
-  //     // remove the hover effect when leaving
-  //     setIsPopUpShown(false);
-  //   });
+  highlighter
+    .on('selection:hover', ({ id }) => {
+      highlighter.addClass(styles.highlightWrapperHover, id);
+      const { x, y } = GetCursorPosition({ scroll: true });
+      setXPos(x - 25);
+      setYPos(y);
+      setIsPopUpShown(true);
+    })
+    .on('selection:hover-out', ({ id }) => {
+      highlighter.removeClass(styles.highlightWrapperHover, id);
+      setIsPopUpShown(false);
+    })
+    .on('selection:click', ({ id }) => {
+      deleteHighlight(id);
+    });
 
   return (
     <Card className={styles.viewCard}>

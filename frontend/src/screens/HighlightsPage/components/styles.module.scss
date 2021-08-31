@@ -40,4 +40,14 @@
     line-height: 2rem;
     background-color: #f3f9fe;
   }
+
+  .deleteHighlight {
+    background-color: white;
+    display: block;
+    position: absolute;
+    margin-left: 46.5rem;
+    margin-top: -29px;
+    color: #14253F;
+    opacity: 0.4;
+  }
 }

@@ -25,6 +25,7 @@ const HighlightCard: FunctionComponent<IHighlightCardProps> = ({ highlight, hand
             From
             {' '}
             <Link to={`/post/${highlight.postId}`}><span className={styles.title}>{highlight.postTitle}</span></Link>
+            <button type="button" className={styles.deleteHighlight} onClick={deleteHighlight}>✖</button>
           </div>
           <Link to={`/post/${highlight.postId}`}>
             <div className={styles.quoteText}>
@@ -34,29 +35,28 @@ const HighlightCard: FunctionComponent<IHighlightCardProps> = ({ highlight, hand
                 autoEscape
                 textToHighlight={highlight.text}
               />
-              {/* {highlight.text} */}
             </div>
           </Link>
-          <Popup
-            content={(<Button style={{ backgroundColor: 'white' }} onClick={deleteHighlight}>Unhighlight</Button>)}
-            eventsEnabled={eventsEnabled}
-            on="click"
-            onClose={() => setOpen(false)}
-            onOpen={() => setOpen(true)}
-            open={open}
-            position="bottom center"
-            style={{ left: '23.1rem', top: '-0.7rem', cursor: 'pointer' }}
-            trigger={(
-              <div className={styles.arrowDown}>
-                <svg width="21" height="21" viewBox="0 0 21 21" className="jh">
-                  <path
-                    d="M4 7.33L10.03 14l.5.55.5-.55 5.96-6.6-.98-.9-5.98 6.6h1L4.98 6.45z"
-                    fill="rgba(53, 53, 53, 0.4)"
-                  />
-                </svg>
-              </div>
-          )}
-          />
+          {/*<Popup*/}
+          {/*  content={(<Button style={{ backgroundColor: 'white' }} onClick={deleteHighlight}>Unhighlight</Button>)}*/}
+          {/*  eventsEnabled={eventsEnabled}*/}
+          {/*  on="click"*/}
+          {/*  onClose={() => setOpen(false)}*/}
+          {/*  onOpen={() => setOpen(true)}*/}
+          {/*  open={open}*/}
+          {/*  position="bottom center"*/}
+          {/*  style={{ left: '23.1rem', top: '-0.7rem', cursor: 'pointer' }}*/}
+          {/*  trigger={(*/}
+          {/*    <div className={styles.arrowDown}>*/}
+          {/*      <svg width="21" height="21" viewBox="0 0 21 21" className="jh">*/}
+          {/*        <path*/}
+          {/*          d="M4 7.33L10.03 14l.5.55.5-.55 5.96-6.6-.98-.9-5.98 6.6h1L4.98 6.45z"*/}
+          {/*          fill="rgba(53, 53, 53, 0.4)"*/}
+          {/*        />*/}
+          {/*      </svg>*/}
+          {/*    </div>*/}
+          {/*)}*/}
+          {/*/>*/}
         </CardContent>
       </Card>
     </div>

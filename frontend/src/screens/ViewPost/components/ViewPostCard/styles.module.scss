@@ -121,12 +121,16 @@
 
 .cardContent {
   .highlightWrapper {
-    background-color: #f3f9fe;
+    background-color: #d8ecfd;
     cursor: pointer;
   }
-}
 
-.highlightWrapper {
-  font-family: Lato, sans-serif;
-  font-style: normal;
+  .highlightWrapperHover {
+    background-color: #c3e0fa;
+  }
+
+  .highlightWrapper {
+    font-family: Lato, sans-serif;
+    font-style: normal;
+  }
 }

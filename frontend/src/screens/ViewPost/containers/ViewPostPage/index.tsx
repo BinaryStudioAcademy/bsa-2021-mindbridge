@@ -12,7 +12,7 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { disLikePostViewRoutine, likePostViewRoutine }
   from '@screens/PostPage/routines';
-import { fetchHighlightsRoutine } from '@screens/HighlightsPage/routines';
+import { deleteHighlightRoutine, fetchHighlightsRoutine } from '@screens/HighlightsPage/routines';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import Highlighter from 'web-highlighter';
 
@@ -33,6 +33,7 @@ interface IActions {
   disLikePostView: IBindingCallback1<string>;
   saveHighlight: IBindingCallback1<object>;
   fetchHighlights: IBindingCallback1<string>;
+  deleteHighlight: IBindingCallback1<string>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -46,7 +47,8 @@ const ViewPost: React.FC<IViewPostProps> = (
     disLikePostView,
     saveHighlight,
     fetchHighlights,
-    highlights
+    highlights,
+    deleteHighlight
   }
 ) => {
   const { postId } = useParams();
@@ -71,11 +73,15 @@ const ViewPost: React.FC<IViewPostProps> = (
     leaveReaction(post);
   };
 
+  const handleDeleteHighlight = id => {
+    deleteHighlight(id);
+  };
+
   const handleSaveHighlight = content => {
     const highlight = {
       authorId: currentUser.id,
       postId,
-      text: `...${content.text}...`,
+      text: content.startMeta.textOffset === 0 ? (`${content.text}...`) : (`...${content.text}...`),
       tagNameStart: content.startMeta.parentTagName,
       tagNameEnd: content.endMeta.parentTagName,
       indexStart: content.startMeta.parentIndex,
@@ -107,6 +113,7 @@ const ViewPost: React.FC<IViewPostProps> = (
           isAuthor={data.post.author.id === currentUser.id}
           handleSaveHighlight={handleSaveHighlight}
           highlights={highlights}
+          handleDeleteHighlight={handleDeleteHighlight}
         />
       </div>
     </div>
@@ -126,7 +133,8 @@ const mapDispatchToProps: IActions = {
   likePostView: likePostViewRoutine,
   disLikePostView: disLikePostViewRoutine,
   saveHighlight: saveHighlightRoutine,
-  fetchHighlights: fetchHighlightsRoutine
+  fetchHighlights: fetchHighlightsRoutine,
+  deleteHighlight: deleteHighlightRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);
