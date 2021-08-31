@@ -27,15 +27,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.headers().frameOptions().sameOrigin().and().cors().and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable().formLogin().disable()
-				.httpBasic().disable().authorizeRequests().antMatchers("/auth/**", "/oauth2/**").permitAll()
-				.antMatchers(HttpMethod.GET, "/search/**").permitAll().antMatchers(HttpMethod.GET, "/post/**")
-				.permitAll().antMatchers("/postVersion/**").permitAll().antMatchers("/user/**").permitAll()
-				.antMatchers("/ws/**").permitAll().antMatchers("/swagger-resources/**").permitAll()
-				.antMatchers("/v2/api-docs").permitAll().antMatchers("/swagger-ui.html").permitAll()
-				.antMatchers("/webjars/**").permitAll().antMatchers("/data/**").permitAll().antMatchers("/tag/**")
-				.permitAll().antMatchers("/image/**").permitAll().antMatchers("/notification/**").permitAll()
+		http
+				.headers().frameOptions().sameOrigin()
+				.and().cors()
+				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and().csrf().disable()
+				.formLogin().disable()
+				.httpBasic().disable()
+				.authorizeRequests()
+				.antMatchers("/ws/**").permitAll()
+				.antMatchers("/swagger-resources/**").permitAll()
+				.antMatchers("/v2/api-docs").permitAll()
+				.antMatchers("/swagger-ui.html").permitAll()
+				.antMatchers("/webjars/**").permitAll()
+				.antMatchers("/auth/**", "/oauth2/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/search/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/post/*", "/post/all", "/post/title/*", "/post/drafts/*").permitAll()
+				.antMatchers(HttpMethod.GET, "/postVersion/*", "/postVersion/all/*").permitAll()
+				.antMatchers(HttpMethod.GET, "/user/*").permitAll()
+				.antMatchers(HttpMethod.GET, "/data/*").permitAll()
+				.antMatchers(HttpMethod.GET, "/tag/*").permitAll()
 				.anyRequest().authenticated().and();
 
 		applyOAuth2Config(http);
