@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import Logo from '@components/Logo/Logo';
 import NotificationCount from '@components/NotificationCount';
 import DarkButton from '@components/buttons/DarcButton';
@@ -8,17 +8,25 @@ import BellSvg from '@screens/Header/containers/HeaderPage/svg/bellSvg';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { INotification } from '@screens/Header/models/INotification';
 import {
+  fetchMoreNotificationsRoutine,
   fetchNotificationCountRoutine,
-  fetchNotificationListRoutine,
+  fetchNotificationListRoutine, markAllNotificationsReadRoutine, markNotificationReadRoutine,
   searchPostsByElasticRoutine
 } from '@screens/Header/routines';
-import { extractData } from '@screens/Header/reducers';
+import {
+  extractData,
+  extractFetchNotificationListLoading,
+  extractMarkAllNotificationsReadLoading
+} from '@screens/Header/reducers';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import NotificationList from '@components/NotificationList';
 import SearchSvg from '@components/Header/svg/searchSvg';
 import { IPost } from '@screens/Header/models/IPost';
 import FoundPostsList from '@components/FoundPostsList';
 import { useDebouncedCallback } from 'use-debounce';
+import { toastr } from 'react-redux-toastr';
+import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
+import { stompClient } from '@helpers/stompClient.helper';
 
 export interface IHeaderProps extends IState, IActions {
   isAuthorized: boolean;
@@ -28,34 +36,114 @@ interface IState {
   notificationCount: any;
   notificationList?: INotification[];
   posts: IPost[];
+  currentUser: ICurrentUser;
+  notificationsLoading: boolean;
 }
 
 interface IActions {
   fetchNotificationCount: IBindingCallback1<string>;
-  fetchNotificationList: IBindingCallback1<string>;
+  fetchNotificationList: IBindingCallback1<object>;
   searchPostsByElastic: IBindingCallback1<string>;
+  markNotificationRead: IBindingCallback1<string>;
+  markAllNotificationsRead: IBindingCallback1<string>;
+  fetchMoreNotifications: IBindingCallback1<object>;
 }
 
 const Header: React.FC<IHeaderProps> = (
-  { isAuthorized, notificationCount, notificationList, fetchNotificationCount,
-    fetchNotificationList, searchPostsByElastic, posts }
+  {
+    isAuthorized,
+    notificationCount,
+    notificationList,
+    fetchNotificationCount,
+    fetchNotificationList,
+    searchPostsByElastic,
+    posts,
+    currentUser,
+    markNotificationRead,
+    markAllNotificationsRead,
+    notificationsLoading,
+    fetchMoreNotifications
+  }
 ) => {
-  const { currentUser } = useSelector((state: any) => ({
-    currentUser: state.auth.auth.user
-  }));
+  useEffect(() => {
+    if (!currentUser.id) {
+      return;
+    }
+    stompClient.connect('', '', () => {
+      stompClient.subscribe(`/user/${currentUser.id}/newPR`, message => {
+        toastr.info('New contribution', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+    }, warning => {
+      toastr.warning('Warning', 'Internet connection is unstable');
+      console.log(warning);
+    }, warning => {
+      toastr.warning('Warning', 'Internet connection is unstable');
+      console.log(warning);
+      switch (stompClient.reconnectDelay) {
+        case 0: {
+          stompClient.reconnectDelay = 1000;
+          break;
+        }
+        case 1000: {
+          stompClient.reconnectDelay = 5000;
+          break;
+        }
+        case 5000: {
+          stompClient.reconnectDelay = 10000;
+          break;
+        }
+        case 10000: {
+          stompClient.reconnectDelay = 30000;
+          break;
+        }
+        case 30000: {
+          stompClient.reconnectDelay = 60000;
+          break;
+        }
+        default: {
+          stompClient.reconnectDelay = 60000;
+          break;
+        }
+      }
+    });
+  }, [currentUser.id]);
+
   const history = useHistory();
+
+  const [isListOpen, setIsListOpen] = useState(false);
+
+  const [isSearchInputFilled, setIsSearchInputFilled] = useState(false);
+
   const [elasticContent, setElasticContent] = useState('');
+
+  const bellRef = useRef(null);
+
   useEffect(() => {
     if (currentUser?.id) {
       fetchNotificationCount(currentUser.id);
     }
   }, [currentUser]);
-  const [isListOpen, setIsListOpen] = useState(false);
-  const [isSearchInputFilled, setIsSearchInputFilled] = useState(false);
+
+  const handleFetchNotifications = (onlyUnread, params) => {
+    fetchNotificationList({ userId: currentUser.id, onlyUnread, params });
+  };
+
+  const handleFetchMoreNotifications = (onlyUnread, params) => {
+    fetchMoreNotifications({ userId: currentUser.id, onlyUnread, params });
+  };
+
   const toggleNotificationList = () => {
-    fetchNotificationList(currentUser.id);
+    if (!isListOpen) {
+      handleFetchNotifications(true, { from: 0, count: 10 });
+    }
     setIsListOpen(!isListOpen);
   };
+
+  const handleMarkAllNotificationsRead = () => {
+    markAllNotificationsRead(currentUser.id);
+  };
+
   const handleCreatePostButton = () => {
     if (isAuthorized) {
       history.push('/create/post');
@@ -109,8 +197,19 @@ const Header: React.FC<IHeaderProps> = (
         </div>
       </div>
       <div className={styles.right}>
-        {isListOpen ? <NotificationList list={notificationList} /> : ''}
-        <button className={styles.header_notification} type="button" onClick={toggleNotificationList}>
+        {isListOpen && (
+        <NotificationList
+          fetchMoreNotifications={handleFetchMoreNotifications}
+          notificationsLoading={notificationsLoading}
+          markAllNotificationsRead={handleMarkAllNotificationsRead}
+          fetchNotifications={handleFetchNotifications}
+          bellRef={bellRef}
+          markNotificationRead={markNotificationRead}
+          setIsListOpen={setIsListOpen}
+          list={notificationList}
+        />
+        )}
+        <button ref={bellRef} className={styles.header_notification} type="button" onClick={toggleNotificationList}>
           <BellSvg />
           <NotificationCount notificationCount={notificationCount} />
         </button>
@@ -155,6 +254,8 @@ const Header: React.FC<IHeaderProps> = (
 const mapStateToProps = (state: any) => {
   const { auth } = state;
   return {
+    notificationsLoading: extractMarkAllNotificationsReadLoading(state) || extractFetchNotificationListLoading(state),
+    currentUser: auth.auth.user,
     isAuthorized: auth.auth.isAuthorized,
     notificationCount: extractData(state).notificationCount,
     notificationList: extractData(state).notificationList,
@@ -163,8 +264,11 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps: IActions = {
+  markNotificationRead: markNotificationReadRoutine,
+  markAllNotificationsRead: markAllNotificationsReadRoutine,
   fetchNotificationCount: fetchNotificationCountRoutine,
   fetchNotificationList: fetchNotificationListRoutine,
+  fetchMoreNotifications: fetchMoreNotificationsRoutine,
   searchPostsByElastic: searchPostsByElasticRoutine
 };
 

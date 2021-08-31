@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  backend:
+    image: mindbridge_backend:latest
+    container_name: mindbridge_backend
+    environment:
+      - DB_URL=jdbc:postgresql://db:5432/mindbridge_test
+      - SWAGGER_HOST=localhost
+      - BLOB_URL=fake
+      - BLOB_KEY=fake
+      - DB_USER=postgres
+      - DB_PWD=postgres
+      - elasticsearch.host=elastic_server:9200
+    depends_on: 
+      - db
+      - elastic_server
+    ports:
+      - 5000:5000
+    networks:
+      - backend
+
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: mindbridge_test
+    ports:
+      - 5432:5432
+    volumes:
+      - pg_data1:/var/lib/postgresql/data:rw
+    networks:
+      - backend
+
+  elastic_server:
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.13.4"
+    restart: on-failure
+    container_name: elastic_server
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 0.5g
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data:rw
+    environment:
+      - node.name=mindbridge
+      - cluster.name=mindbridge
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms128m -Xmx128m
+    ports:
+      - 9200:9200
+    networks:
+      - backend
+
+volumes:
+  pg_data1:
+  esdata1:
+    driver: local
+
+networks:
+  backend:
+    driver: bridge
