@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.user;
 
 import com.mindbridge.core.domains.helpers.MailSender;
+import com.mindbridge.core.domains.user.dto.UserShortDto;
 import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
 import com.mindbridge.data.domains.post.dto.PostTitleDto;
 import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
@@ -103,6 +104,10 @@ public class UserService implements UserDetailsService {
 				+ (commentReactionRepository.calcUserCommentRating(userId) / 2);
 		user.setRating(rating);
 		return user;
+	}
+
+	public UserShortDto getUserById(UUID id) {
+		return UserMapper.MAPPER.userToUserShortDto(userRepository.findById(id).orElseThrow());
 	}
 
 	public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
