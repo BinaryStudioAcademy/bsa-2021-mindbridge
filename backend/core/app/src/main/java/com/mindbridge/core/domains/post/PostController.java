@@ -57,4 +57,5 @@ public class PostController {
 	public List<DraftsListDto> getAllDrafts(@PathVariable UUID id) {
 		return postService.getAllDrafts(id);
 	}
+
 }
