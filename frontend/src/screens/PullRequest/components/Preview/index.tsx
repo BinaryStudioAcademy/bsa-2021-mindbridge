@@ -6,6 +6,7 @@ import TextRender from '@root/components/TextRenderer';
 import { ITag } from '@root/screens/FeedPage/models/ITag';
 import TextDiff from '@root/components/TextDiff';
 import TextRenderWithDiff from '@root/components/TextRenderWithDiff';
+import SeeDiffTags from '../SeeDiffInTags';
 
 // eslint-disable-next-line max-len
 interface IPreviewProps {
@@ -38,12 +39,15 @@ const Preview = ({
         <TextDiff oldText={seeDiff ? oldTitle : title} newText={title} />
       </div>
       <div className={styles.btnWrapper}>
-        {tags && tags.map(tag => (
-          <TagsMenu
-            key={tag.id}
-            tag={tag.name}
-          />
-        ))}
+
+        {tags
+        && seeDiff ? <SeeDiffTags newTags={tags} oldTags={oldTags} />
+          : tags.map(tag => (
+            <TagsMenu
+              key={tag.id}
+              tag={tag.name}
+            />
+          ))}
       </div>
       {seeDiff
         ? (
