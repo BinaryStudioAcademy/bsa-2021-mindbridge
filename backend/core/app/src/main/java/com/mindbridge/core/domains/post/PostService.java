@@ -95,7 +95,8 @@ public class PostService {
 		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
 		post.setTags(tags);
 		var savedPost = postRepository.save(post);
-		postReactionService.setReaction(new ReceivedPostReactionDto(savedPost.getId(), createPostDto.getAuthor(), true));
+		postReactionService
+				.setReaction(new ReceivedPostReactionDto(savedPost.getId(), createPostDto.getAuthor(), true));
 		if (!savedPost.getDraft()) {
 			elasticService.put(savedPost);
 		}
@@ -107,9 +108,8 @@ public class PostService {
 	}
 
 	public List<DraftsListDto> getAllDrafts(UUID userId) {
-		return postRepository.getDraftsByUser(userId).stream()
-			.map(PostMapper.MAPPER::postToDraftDto)
-			.collect(Collectors.toList());
+		return postRepository.getDraftsByUser(userId).stream().map(PostMapper.MAPPER::postToDraftDto)
+				.collect(Collectors.toList());
 	}
 
 }

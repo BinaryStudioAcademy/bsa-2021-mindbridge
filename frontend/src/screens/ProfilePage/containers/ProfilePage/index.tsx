@@ -4,6 +4,7 @@ import styles from '../styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
 import ProfileCard from '@screens/ProfilePage/components/ProfileCard';
 import {
+  deleteAvatarRoutine,
   openPasswordChangeModalRoutine,
   sendAvatarRoutine, sendChangePasswordFormRoutine,
   sendFormRoutine,
@@ -45,6 +46,7 @@ interface IActions {
   sendChangePasswordForm: IBindingCallback1<object>;
   sendAvatar: IBindingCallback1<object>;
   sendNickname: IBindingCallback1<string>;
+  deleteAvatar: IBindingCallback1<string>;
   openPasswordChangeModal: IBindingCallback1<boolean>;
 }
 
@@ -55,6 +57,7 @@ const ProfilePage: React.FC<IProfilePageProps> = (
     sendForm,
     sendChangePasswordForm,
     sendAvatar,
+    deleteAvatar,
     sendNickname,
     openPasswordChangeModal
   }
@@ -75,6 +78,7 @@ const ProfilePage: React.FC<IProfilePageProps> = (
             initialState={initialState}
             sendForm={sendForm}
             sendAvatar={sendAvatar}
+            deleteAvatar={deleteAvatar}
             sendNickname={sendNickname}
             openPasswordChangeModal={openPasswordChangeModal}
           />
@@ -120,6 +124,7 @@ const mapDispatchToProps: IActions = {
   sendChangePasswordForm: sendChangePasswordFormRoutine,
   sendAvatar: sendAvatarRoutine,
   sendNickname: sendNicknameRoutine,
+  deleteAvatar: deleteAvatarRoutine,
   openPasswordChangeModal: openPasswordChangeModalRoutine.trigger
 };
 
