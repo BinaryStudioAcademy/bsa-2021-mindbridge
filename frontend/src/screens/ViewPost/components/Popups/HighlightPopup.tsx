@@ -10,26 +10,33 @@ interface IHighlightPopupProps {
   yPos: number;
   handleClosePopUp: any;
   post: IPost;
+  isDeletion: boolean;
 }
 const HighlightPopup: FunctionComponent<IHighlightPopupProps> = ({ isPopUpShown, xPos, yPos,
-  handleClosePopUp, post }) => (
+  handleClosePopUp, post, isDeletion }) => (
     <Popup
       open={isPopUpShown}
       className={styles.highlightPopup}
-      style={{
+      style={!isDeletion ? {
         transform: `translate3d(${xPos}px, ${yPos - 60}px, 0px)`,
         backgroundColor: '#f4f9ff',
         cursor: 'pointer',
         padding: '0'
+      } : {
+        transform: `translate3d(${xPos}px, ${yPos - 60}px, 0px)`,
+        backgroundColor: '#f4f9ff',
+        cursor: 'pointer'
       }}
       position="top center"
-      content={(
+      content={!isDeletion ? (
         <Button
           style={{ backgroundColor: '#f4f9ff' }}
           icon="quote left"
           onClick={() => handleClosePopUp()}
         />
-    )}
+      ) : (
+        <span className={styles.deleteLabel}>Click to unhighlight</span>
+      )}
       pinned
       trigger={(
         <TextRenderer

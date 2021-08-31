@@ -22,10 +22,10 @@ public class HighlightService {
 		this.highlightRepository = highlightRepository;
 	}
 
-	public UUID save(SavaHighlightDto highlightDto) {
+	public HighlightsDetailsDto save(SavaHighlightDto highlightDto) {
 		var highlight = HighlightMapper.MAPPER.saveHighlightDtoToHighlight(highlightDto);
 		var savedHighlight = highlightRepository.save(highlight);
-		return savedHighlight.getId();
+		return HighlightMapper.MAPPER.fromHighlightToHighlightDetailsDto(savedHighlight);
 	}
 
 	public List<HighlightsDetailsDto> getAllHighlights(UUID userId, Integer from, Integer count) {
@@ -34,8 +34,14 @@ public class HighlightService {
 		return highlights.stream().map(HighlightMapper.MAPPER::fromHighlightToHighlightDetailsDto).collect(Collectors.toList());
 	}
 
+
     public UUID deleteHighlight(UUID id) {
 		highlightRepository.deleteById(id);
 		return id;
     }
+
+	public List<HighlightsDetailsDto> getAllHighlights(UUID userId) {
+		var highlights = highlightRepository.getAllByUserId(userId);
+		return highlights.stream().map(HighlightMapper.MAPPER::fromHighlightToHighlightDetailsDto).collect(Collectors.toList());
+	}
 }

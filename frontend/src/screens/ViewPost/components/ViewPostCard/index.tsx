@@ -46,32 +46,58 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
       className: styles.highlightWrapper
     }
   });
-
-  useEffect(() => {
-    if (highlights) {
-      highlights.forEach(hs => hs.postId === post.id && highlighter.fromStore({
-        parentTagName: hs.tagNameStart,
-        parentIndex: hs.indexStart,
-        textOffset: hs.offSetStart
-      }, {
-        parentTagName: hs.tagNameEnd,
-        parentIndex: hs.indexEnd,
-        textOffset: hs.offSetEnd
-      }, hs.text, hs.id));
-    }
-  }, [highlights, post.id]);
   const history = useHistory();
   const [xPos, setXPos] = useState(0);
   const [yPos, setYPos] = useState(0);
   const [isPopUpShown, setIsPopUpShown] = useState(false);
-  const [open, setOpen] = useState(false);
-  const goToEdit = () => {
-    history.push(`/post/edit/${post.id}`);
+  const [isDeletion, setIsDeletion] = useState(false);
+
+  const deleteHighlight = highlightId => {
+    handleDeleteHighlight(highlightId);
+    highlighter.remove(highlightId);
   };
 
-  const deleteHighlight = id => {
-    handleDeleteHighlight(id);
-    highlighter.remove(id);
+  const handleHoverAction = highlightId => {
+    highlighter.addClass(styles.highlightWrapperHover, highlightId);
+    setXPos(cursorPosition().x - 75);
+    setYPos(cursorPosition().y);
+    setIsDeletion(true);
+    setIsPopUpShown(true);
+  };
+
+  const handleHoverOutAction = highlightId => {
+    highlighter.removeClass(styles.highlightWrapperHover, highlightId);
+    setIsDeletion(false);
+    setIsPopUpShown(false);
+  };
+
+  useEffect(() => {
+    if (highlights) {
+      highlights.forEach(highlight => highlight.postId === post.id && highlighter.fromStore({
+        parentTagName: highlight.tagNameStart,
+        parentIndex: highlight.indexStart,
+        textOffset: highlight.offSetStart
+      }, {
+        parentTagName: highlight.tagNameEnd,
+        parentIndex: highlight.indexEnd,
+        textOffset: highlight.offSetEnd
+      }, highlight.text, highlight.id));
+
+      highlighter
+        .on(Highlighter.event.CLICK, ({ id }) => {
+          deleteHighlight(id);
+        })
+        .on(Highlighter.event.HOVER, ({ id }) => {
+          handleHoverAction(id);
+        })
+        .on(Highlighter.event.HOVER_OUT, ({ id }) => {
+          handleHoverOutAction(id);
+        });
+    }
+  }, [highlights, post.id]);
+
+  const goToEdit = () => {
+    history.push(`/post/edit/${post.id}`);
   };
 
   const handleMouseUp = () => {
@@ -88,25 +114,11 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   };
 
   const handleClosePopUp = () => {
-    handleSaveHighlight(highlighter.fromRange(window.getSelection().getRangeAt(0)));
+    const highlighterObject = highlighter.fromRange(window.getSelection().getRangeAt(0));
+    handleSaveHighlight(highlighterObject);
     window.getSelection().removeAllRanges();
     setIsPopUpShown(false);
   };
-
-  highlighter
-    .on('selection:hover', ({ id }) => {
-      highlighter.addClass(styles.highlightWrapperHover, id);
-      setXPos(cursorPosition().x - 25);
-      setYPos(cursorPosition().y);
-      setOpen(true);
-    })
-    .on('selection:hover-out', ({ id }) => {
-      highlighter.removeClass(styles.highlightWrapperHover, id);
-      setOpen(false);
-    })
-    .on('selection:click', ({ id }) => {
-      deleteHighlight(id);
-    });
 
   return (
     <div className={styles.container}>
@@ -183,6 +195,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
             {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
             <div className={styles.postBody} onMouseUp={handleMouseUp}>
               <HighlightPopup
+                isDeletion={isDeletion}
                 isPopUpShown={isPopUpShown}
                 xPos={xPos}
                 yPos={yPos}

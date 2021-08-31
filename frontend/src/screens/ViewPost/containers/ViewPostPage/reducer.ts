@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine } from '@screens/ViewPost/routines';
+import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine, saveHighlightRoutine } from '@screens/ViewPost/routines';
 import { IPost } from '../../models/IPost';
 
 export interface IViewPostReducerState {

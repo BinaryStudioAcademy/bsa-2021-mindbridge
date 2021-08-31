@@ -5,4 +5,3 @@ export const validateSelection = elements => {
   return !elements.find(element => element.localName === 'br');
 };
 
-

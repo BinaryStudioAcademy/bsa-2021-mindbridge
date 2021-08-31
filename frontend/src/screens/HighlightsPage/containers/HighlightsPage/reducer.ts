@@ -6,6 +6,7 @@ import {
 } from '@screens/HighlightsPage/routines';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import { isEmptyArray } from 'formik';
+import { saveHighlightRoutine } from '@screens/ViewPost/routines';
 
 export interface IHighlightsReducerState {
   highlights: IHighlight[];
@@ -33,5 +34,8 @@ export const highlightsReducer = createReducer(initialState, {
   },
   [deleteHighlightRoutine.SUCCESS]: (state, action) => {
     state.highlights = state.highlights.filter(hs => hs.id !== action.payload);
+  },
+  [saveHighlightRoutine.SUCCESS]: (state, action) => {
+    state.highlights.push(action.payload);
   }
 });

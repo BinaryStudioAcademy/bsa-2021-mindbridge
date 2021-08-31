@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
 @Table(name = "highlights")
@@ -16,17 +17,23 @@ public class Highlight extends BaseAuditableEntity {
 
 	private String text;
 
+	@Column(name = "tag_name_start")
 	private String tagNameStart;
 
+	@Column(name = "tag_name_end")
 	private String tagNameEnd;
 
-	private int indexStart;
+	@Column(name = "index_start")
+	private Integer indexStart;
 
-	private int indexEnd;
+	@Column(name = "index_end")
+	private Integer indexEnd;
 
-	private int offSetStart;
+	@Column(name = "off_set_start")
+	private Integer offSetStart;
 
-	private int offSetEnd;
+	@Column(name = "off_set_end")
+	private Integer offSetEnd;
 
 	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")

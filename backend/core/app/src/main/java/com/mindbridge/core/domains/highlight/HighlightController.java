@@ -21,8 +21,13 @@ public class HighlightController {
 	}
 
 	@PostMapping("/save")
-	public UUID saveHighlight(@RequestBody SavaHighlightDto highlightDto) {
+	public HighlightsDetailsDto saveHighlight(@RequestBody SavaHighlightDto highlightDto) {
 		return highlightService.save(highlightDto);
+	}
+
+	@GetMapping("/highlights/{id}")
+	public List<HighlightsDetailsDto> getHighlights(@PathVariable UUID id) {
+		return highlightService.getAllHighlights(id);
 	}
 
 	@GetMapping("/all/{id}")

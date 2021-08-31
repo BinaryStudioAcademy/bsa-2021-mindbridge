@@ -32,7 +32,7 @@ interface IActions {
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
   saveHighlight: IBindingCallback1<object>;
-  fetchHighlights: IBindingCallback1<string>;
+  fetchHighlights: IBindingCallback1<object>;
   deleteHighlight: IBindingCallback1<string>;
 }
 
@@ -59,7 +59,7 @@ const ViewPost: React.FC<IViewPostProps> = (
 
   useEffect(() => {
     if (currentUser.id) {
-      fetchHighlights(currentUser.id);
+      fetchHighlights({ from: 0, count: 50, user: currentUser.id });
     }
   }, [currentUser, fetchHighlights]);
 
