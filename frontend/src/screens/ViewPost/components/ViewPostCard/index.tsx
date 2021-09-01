@@ -12,8 +12,10 @@ import TextRenderer from '@root/components/TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
+import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 import readingTime from 'reading-time';
 import RelatedPosts from '@screens/ViewPost/components/RelatedPosts';
+import { IBindingCallback1 } from '@models/Callbacks';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -21,9 +23,26 @@ interface IViewPostCardProps {
   handleLikePost: any;
   handleDisLikePost: any;
   userInfo: IUserProfile;
+  sendComment: IBindingCallback1<object>;
+  sendReply: IBindingCallback1<object>;
+  isAuthorized: boolean;
+  handleLikeComment: IBindingCallback1<string>;
+  handleDislikeComment: IBindingCallback1<string>;
 }
-const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, handleLikePost,
-  handleDisLikePost, userInfo }) => {
+const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
+  {
+    sendComment,
+    post,
+    isAuthor,
+    handleLikePost,
+    handleDisLikePost,
+    userInfo,
+    sendReply,
+    isAuthorized,
+    handleLikeComment,
+    handleDislikeComment
+  }
+) => {
   const history = useHistory();
 
   const goToEdit = () => {
@@ -113,6 +132,17 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
           </Card.Content>
         </div>
         { post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} /> }
+        <AdvancedCommentsFeed
+          comments={post.comments}
+          sendComment={sendComment}
+          sendReply={sendReply}
+          postId={post.id}
+          postAuthorId={post.author.id}
+          userInfo={userInfo}
+          isAuthorized={isAuthorized}
+          handleDislikeComment={handleDislikeComment}
+          handleLikeComment={handleLikeComment}
+        />
       </Card>
     </div>
   );

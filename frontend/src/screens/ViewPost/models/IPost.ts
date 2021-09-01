@@ -1,6 +1,7 @@
 import { ITag } from '@screens/ViewPost/models/ITag';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import { IRelatedPost } from '@screens/ViewPost/models/IRelatedPost';
+import { IComments } from '@screens/ViewPost/models/IComments';
 
 export interface IPost {
   id: string;
@@ -17,4 +18,5 @@ export interface IPost {
   markdown: boolean;
   draft: boolean;
   relatedPosts: IRelatedPost[];
+  comments: IComments[];
 }

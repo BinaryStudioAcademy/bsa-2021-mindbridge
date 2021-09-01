@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -50,6 +51,11 @@ public class UserController {
 	@PostMapping("/update/password/{id}")
 	public UserDto updateUserPassword(@PathVariable UUID id, @RequestBody String newPassword) {
 		return userService.updateUserPasswordById(id, newPassword);
+	}
+
+	@GetMapping("/finduser/{nickname}")
+	public List<UserDto> getAllUserByNickname(@PathVariable String nickname) {
+		return userService.getAllUserByNickname(nickname);
 	}
 
 	@PostMapping("/delete/avatar/{id}")

@@ -4,6 +4,7 @@ import styles from './styles.module.scss';
 const DividerSvg: FunctionComponent = () => (
   <svg
     className={styles.divider}
+    id="divider"
     width="8"
     height="8"
     viewBox="0 0 8 8"

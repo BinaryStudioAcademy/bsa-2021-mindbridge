@@ -1,0 +1,31 @@
+.comment {
+  border: 0.125em solid #F5F2F2;
+  box-sizing: border-box;
+  border-radius: 0.625em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+
+  .leftBorder {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-left: 1px solid #F5F2F2;
+  }
+
+}
+
+.commentsWithMargin {
+  margin: 1em 0 0 1em;
+  padding: 0.5em 0 0 1em;
+}
+
+.commentWithoutMargin {
+
+}
+
+.upBorder{
+  position: absolute;
+  left:0;
+  right:0;
+  border-top: 1px solid #F8F8F8;
+}
+

@@ -1,24 +1,42 @@
 .listItem {
-  padding: 1rem;
+  padding: 1.5rem 1.5rem 1.5rem 2.5rem;
+  display: block;
   transition: 0.2s;
   color: #14253f;
+  border-top: 2px solid rgba(151, 151, 151, 0.15);
+  position: relative;
 
-  span {
-    display: block;
-    margin-top: 0.5rem;
-    &:first-child {
+  .upper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+
+    .title {
       font-weight: bold;
     }
 
-    a {
-      font-style: italic;
-      &:hover {
-        text-decoration: underline;
-      }
+    .date {
+      color: #a5aab1;
+    }
+  }
+  span {
+    display: block;
+    color: #14253f;
+  }
+
+  .closeBtn {
+    position: absolute;
+    top: 1.5rem;
+    left: 0.5rem;
+    background-color: transparent;
+
+    &:hover {
+      opacity: 0.5;
     }
   }
 
   &:hover {
-    background-color: #efefef;
+    background-color: #f3f9fe;
+
   }
 }

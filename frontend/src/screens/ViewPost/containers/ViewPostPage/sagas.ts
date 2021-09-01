@@ -1,7 +1,12 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import viewPageService from '@screens/ViewPost/services/viewPage';
 import { toastr } from 'react-redux-toastr';
-import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine } from '@screens/ViewPost/routines';
+import {
+  fetchDataRoutine, leaveReactionOnCommentRoutine,
+  leaveReactionOnPostViewPageRoutine,
+  sendCommentRoutine,
+  sendReplyRoutine
+} from '@screens/ViewPost/routines';
 import feedPageService from '@screens/FeedPage/services/feedPage';
 
 function* fetchData(action) {
@@ -29,6 +34,59 @@ function* leaveReaction(action) {
   }
 }
 
+function* sendComment(action) {
+  try {
+    const response = yield call(viewPageService.sendComment, action.payload);
+    yield put(sendCommentRoutine.success(response));
+    toastr.success('Success', 'Comment was sent!');
+  } catch (error) {
+    yield put(sendCommentRoutine.failure(error?.message));
+    toastr.error('Error', 'Comment send failed!');
+  } finally {
+    yield put(sendCommentRoutine.fulfill());
+  }
+}
+
+function* sendReply(action) {
+  try {
+    const response = yield call(viewPageService.sendReply, action.payload);
+    yield put(sendReplyRoutine.success(response));
+    toastr.success('Success', 'Reply was sent');
+  } catch (error) {
+    yield put(sendReplyRoutine.failure(error?.message));
+    toastr.error('Error', 'Reply send failed');
+  } finally {
+    yield put(sendReplyRoutine.fulfill());
+  }
+}
+
+function* leaveCommentReaction(action) {
+  try {
+    const response = yield call(viewPageService.leaveReactionComment, action.payload);
+    const commentReaction = {
+      response,
+      difference: response?.id ? 1 : -1,
+      commentId: action.payload.commentId,
+      reactionStatus: action.payload.liked
+    };
+    yield put(leaveReactionOnCommentRoutine.success(commentReaction));
+  } catch (error) {
+    yield put(leaveReactionOnCommentRoutine.failure(error?.message));
+  }
+}
+
+function* watchLeaveCommentReaction() {
+  yield takeEvery(leaveReactionOnCommentRoutine.TRIGGER, leaveCommentReaction);
+}
+
+function* watchSendCommentRequest() {
+  yield takeEvery(sendCommentRoutine.TRIGGER, sendComment);
+}
+
+function* watchSendReplyRequest() {
+  yield takeEvery(sendReplyRoutine.TRIGGER, sendReply);
+}
+
 function* watchDataRequest() {
   yield takeEvery(fetchDataRoutine.TRIGGER, fetchData);
 }
@@ -39,7 +97,10 @@ function* watchLeaveReactionOnPost() {
 export default function* viewPostPageSagas() {
   yield all([
     watchDataRequest(),
-    watchLeaveReactionOnPost()
+    watchLeaveReactionOnPost(),
+    watchSendCommentRequest(),
+    watchSendReplyRequest(),
+    watchLeaveCommentReaction()
   ]);
 }
 
