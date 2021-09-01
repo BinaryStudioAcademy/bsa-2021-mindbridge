@@ -7,7 +7,6 @@ import readingTime from 'reading-time';
 import FollowBtn from '@screens/ViewPost/components/Button/FollowBtn/FollowBtn';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import { timeToLocal } from '@helpers/dataTimeToLocalData';
-import DraftLabel from '@components/DraftLabel';
 import { Link } from 'react-router-dom';
 
 interface IRelatedPostsProps {

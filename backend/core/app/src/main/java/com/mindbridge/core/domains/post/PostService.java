@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -60,7 +61,17 @@ public class PostService {
 		List<String> tags = post.getTags().stream().map(TagDto::getName).collect(Collectors.toList());
 
 		List<Post> relatedPosts = postRepository.getRelatedPostsByTags(id, tags, PageRequest.of(0, 3));
-		List<RelatedPostDto> relatedPostsDto = relatedPosts.stream().map(PostMapper.MAPPER::postToRelatedPostDto).collect(Collectors.toList());
+
+		List<RelatedPostDto> relatedPostsDto = relatedPosts.stream()
+			.map(PostMapper.MAPPER::postToRelatedPostDto)
+			.collect(Collectors.toList());
+
+		System.out.println(relatedPostsDto);
+
+		relatedPostsDto.forEach(p -> p.setRating(postReactionService.calcPostRatingById(p.getId())));
+		relatedPostsDto.sort(Comparator.comparingLong(RelatedPostDto::getRating).reversed());
+
+		System.out.println(relatedPostsDto);
 
 		var comments = commentService.findAllByPostId(id);
 		post.setComments(comments);

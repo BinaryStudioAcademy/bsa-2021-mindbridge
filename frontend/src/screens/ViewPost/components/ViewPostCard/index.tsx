@@ -112,7 +112,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({ post, isAuthor, h
             </div>
           </Card.Content>
         </div>
-        <RelatedPosts relatedPosts={post.relatedPosts} />
+        { post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} /> }
       </Card>
     </div>
   );
