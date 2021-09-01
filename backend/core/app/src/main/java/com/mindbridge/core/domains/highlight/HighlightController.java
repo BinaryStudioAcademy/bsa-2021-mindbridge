@@ -25,12 +25,12 @@ public class HighlightController {
 		return highlightService.save(highlightDto);
 	}
 
-	@GetMapping("/highlights/{id}")
+	@GetMapping("/all/{id}")
 	public List<HighlightsDetailsDto> getHighlights(@PathVariable UUID id) {
 		return highlightService.getAllHighlights(id);
 	}
 
-	@GetMapping("/all/{id}")
+	@GetMapping("/infinite/{id}")
 	public List<HighlightsDetailsDto> getHighlights(@PathVariable UUID id, @RequestParam(defaultValue = "0") Integer from,
 													@RequestParam(defaultValue = "10") Integer count) {
 		return highlightService.getAllHighlights(id, from, count);

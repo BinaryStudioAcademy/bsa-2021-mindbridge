@@ -1,9 +1,16 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine, saveHighlightRoutine } from '@screens/ViewPost/routines';
+import {
+  fetchDataRoutine,
+  fetchHighlightsRoutine,
+  leaveReactionOnPostViewPageRoutine,
+  saveHighlightRoutine
+} from '@screens/ViewPost/routines';
 import { IPost } from '../../models/IPost';
+import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 
 export interface IViewPostReducerState {
   post: IPost;
+  highlights: IHighlight[];
 }
 
 const initialState: IViewPostReducerState = {
@@ -21,7 +28,8 @@ const initialState: IViewPostReducerState = {
     markdown: false,
     draft: false,
     author: { id: '', firstName: '', lastName: '', avatar: '', nickname: '' }
-  }
+  },
+  highlights: undefined
 };
 
 export const viewPostReducer = createReducer(initialState, {
@@ -43,5 +51,8 @@ export const viewPostReducer = createReducer(initialState, {
       state.post.rating -= action.payload.difference;
       state.post.rating -= action.payload.difference;
     }
+  },
+  [fetchHighlightsRoutine.SUCCESS]: (state, action) => {
+    state.highlights = action.payload;
   }
 });

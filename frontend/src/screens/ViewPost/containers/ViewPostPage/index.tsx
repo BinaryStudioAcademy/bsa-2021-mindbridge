@@ -4,7 +4,8 @@ import styles from './styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
-import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine, saveHighlightRoutine } from '@screens/ViewPost/routines';
+import { fetchDataRoutine, leaveReactionOnPostViewPageRoutine, saveHighlightRoutine,
+  fetchHighlightsRoutine } from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import { IData } from '@screens/ViewPost/models/IData';
 import { useParams } from 'react-router-dom';
@@ -12,7 +13,7 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { disLikePostViewRoutine, likePostViewRoutine }
   from '@screens/PostPage/routines';
-import { deleteHighlightRoutine, fetchHighlightsRoutine } from '@screens/HighlightsPage/routines';
+import { deleteHighlightRoutine } from '@screens/HighlightsPage/routines';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 
@@ -32,7 +33,7 @@ interface IActions {
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
   saveHighlight: IBindingCallback1<object>;
-  fetchHighlights: IBindingCallback1<object>;
+  fetchHighlights: IBindingCallback1<string>;
   deleteHighlight: IBindingCallback1<string>;
 }
 
@@ -59,7 +60,7 @@ const ViewPost: React.FC<IViewPostProps> = (
 
   useEffect(() => {
     if (currentUser.id) {
-      fetchHighlights({ from: 0, count: 50, user: currentUser.id });
+      fetchHighlights(currentUser.id);
     }
   }, [currentUser, fetchHighlights]);
 

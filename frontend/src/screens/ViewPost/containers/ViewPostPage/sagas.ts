@@ -2,7 +2,7 @@ import { all, call, put, takeEvery } from 'redux-saga/effects';
 import viewPageService from '@screens/ViewPost/services/viewPage';
 import { toastr } from 'react-redux-toastr';
 import {
-  fetchDataRoutine,
+  fetchDataRoutine, fetchHighlightsRoutine,
   leaveReactionOnPostViewPageRoutine,
   saveHighlightRoutine
 } from '@screens/ViewPost/routines';
@@ -12,6 +12,16 @@ function* fetchData(action) {
   try {
     const response = yield call(viewPageService.getData, action.payload);
     yield put(fetchDataRoutine.success(response));
+  } catch (error) {
+    yield put(fetchDataRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading data failed');
+  }
+}
+
+function* fetchHighlights(action) {
+  try {
+    const response = yield call(viewPageService.getHighlights, action.payload);
+    yield put(fetchHighlightsRoutine.success(response));
   } catch (error) {
     yield put(fetchDataRoutine.failure(error?.message));
     toastr.error('Error', 'Loading data failed');
@@ -52,6 +62,10 @@ function* watchSaveHighlight() {
   yield takeEvery(saveHighlightRoutine.TRIGGER, saveHighlight);
 }
 
+function* watchFetchHighlights() {
+  yield takeEvery(fetchHighlightsRoutine.TRIGGER, fetchHighlights);
+}
+
 function* watchLeaveReactionOnPost() {
   yield takeEvery(leaveReactionOnPostViewPageRoutine.TRIGGER, leaveReaction);
 }
@@ -59,7 +73,8 @@ export default function* viewPostPageSagas() {
   yield all([
     watchDataRequest(),
     watchLeaveReactionOnPost(),
-    watchSaveHighlight()
+    watchSaveHighlight(),
+    watchFetchHighlights()
   ]);
 }
 

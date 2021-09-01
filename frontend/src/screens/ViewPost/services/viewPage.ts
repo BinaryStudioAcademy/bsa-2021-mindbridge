@@ -7,7 +7,8 @@ const viewPageService = {
     {
       data: payload
     }
-  )
+  ),
+  getHighlights: async id => api.get(`/api/highlight/all/${id}`)
 };
 
 export default viewPageService;
