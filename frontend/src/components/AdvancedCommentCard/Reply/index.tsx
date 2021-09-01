@@ -3,6 +3,7 @@ import { IComments } from '@screens/ViewPost/models/IComments';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import styles from './styles.module.scss';
 import AdvancedComment from '@components/AdvancedCommentCard/AdvancedComment';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 
 interface ICommentProps {
   text: string;
@@ -12,18 +13,25 @@ interface ICommentProps {
   commentRating: number;
   shouldRenderUpToParent: boolean;
   shouldRenderArrowCloseComment: boolean;
-  sendComment: any;
-  userId: string;
   postId: string;
   commentId: string;
+  sendComment: any;
   sendReply: any;
   isAuthorized: boolean;
+  userInfo: IUserProfile;
+  shouldRenderBorder: boolean;
+  parentCommentId: string;
+  postAuthorId: string;
+  handleLikeComment: any;
+  handleDislikeComment: any;
+  depthOfComments: number;
 }
 
 const Reply: React.FC<ICommentProps> = (
   {
     commentId,
-    userId,
+    shouldRenderBorder,
+    userInfo,
     postId,
     text,
     sendComment,
@@ -34,18 +42,27 @@ const Reply: React.FC<ICommentProps> = (
     shouldRenderUpToParent,
     shouldRenderArrowCloseComment,
     sendReply,
-    isAuthorized
+    isAuthorized,
+    parentCommentId,
+    postAuthorId,
+    handleLikeComment,
+    handleDislikeComment,
+    depthOfComments
   }
 ) => {
   const closeCommentRef = useRef(true);
   const [isOpened, setIsOpened] = useState(closeCommentRef.current);
 
-  const handle = () => {
+  const handleIsOpenedComment = () => {
     setIsOpened(!isOpened);
   };
 
+  const repliesLength = replies.length > 0;
+
+  const isMaxDepthOfComments = depthOfComments > 6;
+
   return (
-    <div className={styles.comment}>
+    <div className={shouldRenderBorder && styles.comment}>
       <AdvancedComment
         createdAt={createdAt}
         text={text}
@@ -53,35 +70,45 @@ const Reply: React.FC<ICommentProps> = (
         commentRating={commentRating}
         setShouldRender={shouldRenderUpToParent}
         ref={closeCommentRef}
-        handle={handle}
+        handleIsOpenedComment={handleIsOpenedComment}
         shouldRenderArrowCloseComment={shouldRenderArrowCloseComment}
         sendReply={sendReply}
-        userId={userId}
         postId={postId}
         commentId={commentId}
         isAuthorized={isAuthorized}
+        userInfo={userInfo}
+        parentCommentId={parentCommentId}
+        postAuthorId={postAuthorId}
+        handleLikeComment={handleLikeComment}
+        handleDislikeComment={handleDislikeComment}
       />
-      {replies.length > 0 && (
-        <div>
+      {repliesLength && (
+        <div className={!isMaxDepthOfComments && styles.leftBorder}>
           { isOpened && (
-            <div className="comments">
-              {replies.map(comment => (
-                <Reply
-                  replies={comment.comments}
-                  author={comment.author}
-                  createdAt={comment.createdAt}
-                  text={comment.text}
-                  commentRating={comment.rating}
-                  shouldRenderUpToParent={!(replies.length === 0)}
-                  shouldRenderArrowCloseComment={(replies.length === 0)}
-                  userId={userId}
-                  postId={postId}
-                  sendComment={sendComment}
-                  commentId={comment.id}
-                  sendReply={sendReply}
-                  isAuthorized={isAuthorized}
-                />
-              ))}
+            <div className={!isMaxDepthOfComments && styles.commentsWithMargin}>
+                {replies.map(comment => (
+                  <Reply
+                    replies={comment.comments}
+                    author={comment.author}
+                    createdAt={comment.createdAt}
+                    text={comment.text}
+                    commentRating={comment.rating}
+                    shouldRenderUpToParent={repliesLength}
+                    shouldRenderArrowCloseComment={(comment.comments.length > 0)}
+                    postId={postId}
+                    sendComment={sendComment}
+                    commentId={comment.id}
+                    sendReply={sendReply}
+                    isAuthorized={isAuthorized}
+                    userInfo={userInfo}
+                    shouldRenderBorder={false}
+                    parentCommentId={parentCommentId}
+                    postAuthorId={postAuthorId}
+                    handleDislikeComment={handleDislikeComment}
+                    handleLikeComment={handleLikeComment}
+                    depthOfComments={depthOfComments + 1}
+                  />
+                ))}
             </div>
           )}
         </div>

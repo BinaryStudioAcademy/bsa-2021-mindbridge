@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.user.dto;
 
+import com.mindbridge.core.domains.commentReaction.dto.UserReactionsCommentsDto;
 import com.mindbridge.data.domains.post.dto.PostTitleDto;
 import lombok.Data;
 
@@ -40,5 +41,7 @@ public class UserProfileDto {
 	private Timestamp createdAt;
 
 	private List<UserReactionsDto> userReactions;
+
+	private List<UserReactionsCommentsDto> userReactionsComments;
 
 }

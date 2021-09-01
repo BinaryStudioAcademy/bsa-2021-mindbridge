@@ -9,6 +9,12 @@ const viewPageService = {
   sendReply: async (reply: object) => api.post(
     '/api/comment/reply',
     { data: reply }
+  ),
+  leaveReactionComment: async (comment: object) => api.put(
+    '/api/commentreaction',
+    {
+      data: comment
+    }
   )
 };
 

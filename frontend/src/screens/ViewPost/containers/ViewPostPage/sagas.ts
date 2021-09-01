@@ -2,13 +2,12 @@ import { all, call, put, takeEvery } from 'redux-saga/effects';
 import viewPageService from '@screens/ViewPost/services/viewPage';
 import { toastr } from 'react-redux-toastr';
 import {
-  fetchDataRoutine,
+  fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine,
   sendCommentRoutine,
   sendReplyRoutine
 } from '@screens/ViewPost/routines';
 import feedPageService from '@screens/FeedPage/services/feedPage';
-import { history } from '@helpers/history.helper';
 
 function* fetchData(action) {
   try {
@@ -53,13 +52,31 @@ function* sendReply(action) {
     const response = yield call(viewPageService.sendReply, action.payload);
     yield put(sendReplyRoutine.success(response));
     toastr.success('Success', 'Reply was sent');
-    history.go();
   } catch (error) {
     yield put(sendReplyRoutine.failure(error?.message));
     toastr.error('Error', 'Reply send failed');
   } finally {
     yield put(sendReplyRoutine.fulfill());
   }
+}
+
+function* leaveCommentReaction(action) {
+  try {
+    const response = yield call(viewPageService.leaveReactionComment, action.payload);
+    const commentReaction = {
+      response,
+      difference: response?.id ? 1 : -1,
+      commentId: action.payload.commentId,
+      reactionStatus: action.payload.liked
+    };
+    yield put(leaveReactionOnCommentRoutine.success(commentReaction));
+  } catch (error) {
+    yield put(leaveReactionOnCommentRoutine.failure(error?.message));
+  }
+}
+
+function* watchLeaveCommentReaction() {
+  yield takeEvery(leaveReactionOnCommentRoutine.TRIGGER, leaveCommentReaction);
 }
 
 function* watchSendCommentRequest() {
@@ -82,7 +99,8 @@ export default function* viewPostPageSagas() {
     watchDataRequest(),
     watchLeaveReactionOnPost(),
     watchSendCommentRequest(),
-    watchSendReplyRequest()
+    watchSendReplyRequest(),
+    watchLeaveCommentReaction()
   ]);
 }
 

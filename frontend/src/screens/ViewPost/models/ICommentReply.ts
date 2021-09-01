@@ -3,4 +3,7 @@ export interface ICommentReply {
   postId: string;
   author: string;
   replyCommentId: string;
+  avatar: string;
+  nickname: '';
+  rating: number;
 }

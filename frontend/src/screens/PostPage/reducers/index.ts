@@ -4,9 +4,19 @@ import { reducerCreator } from '@helpers/reducer.helper';
 import { postPageReducer } from '@screens/PostPage/containers/reducer';
 /* PlopJS import placeholder. Do not remove */
 import {
-  sendPostRoutine, sendImageRoutine, resetLoadingImageRoutine,
-  fetchUserProfileRoutine, fetchTagsRoutine, fetchPostRoutine, sendPRRoutine,
-  getPostVersionsRoutine, editPostRoutine, resetImageTagRoutine, likePostViewRoutine, disLikePostViewRoutine
+  sendPostRoutine,
+  sendImageRoutine,
+  resetLoadingImageRoutine,
+  fetchUserProfileRoutine,
+  fetchTagsRoutine,
+  fetchPostRoutine,
+  sendPRRoutine,
+  getPostVersionsRoutine,
+  editPostRoutine,
+  resetImageTagRoutine,
+  likePostViewRoutine,
+  disLikePostViewRoutine,
+  likeCommentViewRoutine
 } from '@screens/PostPage/routines';
 
 const requests = combineReducers({
@@ -22,7 +32,9 @@ const requests = combineReducers({
   editPostRequest: reducerCreator[editPostRoutine.TRIGGER],
   getPostVersionsRequest: reducerCreator[getPostVersionsRoutine.TRIGGER],
   likePostFrontRequest: reducerCreator[likePostViewRoutine.TRIGGER],
-  disLikePostRequest: reducerCreator[disLikePostViewRoutine.TRIGGER]
+  disLikePostRequest: reducerCreator[disLikePostViewRoutine.TRIGGER],
+  likeCommentFrontRequest: reducerCreator[likeCommentViewRoutine.TRIGGER],
+  disLikeCommentRequest: reducerCreator[disLikePostViewRoutine.TRIGGER]
 });
 
 export default combineReducers({

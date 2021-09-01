@@ -7,9 +7,14 @@ import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
 import UpToParentCommentSvg from '@components/AdvancedCommentCard/svg/UpToParentCommentSvg';
 import ShareCommentSvg from '@components/AdvancedCommentCard/svg/shareCommentSvg';
-import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 import ArrowCloseComment from '@components/AdvancedCommentCard/svg/ArrowCloseComment';
-import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
+import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
+import { Popup } from 'semantic-ui-react';
+import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
+import TextRender from '@components/TextRenderer';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -18,18 +23,22 @@ interface IBasicCommentProps {
   commentRating: number;
   setShouldRender: boolean;
   ref: any;
-  handle: any;
+  handleIsOpenedComment: any;
   shouldRenderArrowCloseComment: boolean;
   sendReply: any;
-  userId: string;
   postId: string;
   commentId: string;
   isAuthorized: boolean;
+  userInfo: IUserProfile;
+  postAuthorId: string;
+  parentCommentId: string;
+  handleLikeComment: any;
+  handleDislikeComment: any;
 }
-
+/* eslint-disable max-len */
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
   {
-    userId,
+    userInfo,
     postId,
     createdAt,
     text,
@@ -37,11 +46,15 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     commentRating,
     setShouldRender,
     ref,
-    handle,
+    handleIsOpenedComment,
     shouldRenderArrowCloseComment,
     sendReply,
     commentId,
-    isAuthorized
+    isAuthorized,
+    parentCommentId,
+    postAuthorId,
+    handleLikeComment,
+    handleDislikeComment
   }
 ) => {
   const [disabled, setDisabled] = useState(false);
@@ -49,96 +62,162 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   const [shouldRender] = useState(setShouldRender);
 
   const rotateArrow = {
-    transform: rotateArrowHook && 'rotate(90deg)',
+    width: '0.7142em',
+    height: '0.7142em',
+    transform: rotateArrowHook && 'rotate(180deg)',
     transition: 'transform 300ms ease'
   };
+  configureAnchors({ offset: -90, scrollDuration: 500 });
 
   const handleClick = () => {
-    handle();
+    handleIsOpenedComment();
     setRotateArrowHook(!rotateArrowHook);
   };
 
-  const [newReply, setNewReply] = useState<ICommentReply>({
-    author: '',
-    postId: '',
-    replyCommentId: '',
-    text: ''
-  });
+  const checkForNickname = (textComment: string) => textComment.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
 
-  const handleNewReply = (event: any) => {
-    setNewReply({
-      ...newReply,
-      text: event.target.value
-    });
-  };
+  const checkAuthorPost = (authorPostId, userID) => authorPostId === userID;
 
-  const handleSendReply = () => {
-    if (newReply.text.trim().length) {
-      const addComment = {
-        text: newReply.text,
-        author: userId,
-        postId,
-        replyCommentId: commentId
-      };
-      sendReply(addComment);
-    }
-  };
+  const getLinkToComment = (url: string) => url.split('#')[0];
+
+  function fetchUsers(query, callback) {
+    if (!query) return;
+    fetch(`/api/user/finduser/${query}`)
+      .then(res => res.json())
+      .then(res => res.map(user => ({ display: `@${user.nickname}`, id: user.id })))
+      .then(callback);
+  }
 
   return (
-    <div className={styles.advancedComment}>
-      <div className={styles.header}>
-        { shouldRenderArrowCloseComment && (
+    <ScrollableAnchor id={commentId}>
+      <div className={styles.advancedComment}>
+        <div className={styles.header}>
+          { shouldRenderArrowCloseComment && (
           <button ref={ref} id="button" className={styles.closeCommentBtn} type="button" onClick={() => handleClick()}>
             <div className={styles.arrowClose} style={rotateArrow}><ArrowCloseComment /></div>
           </button>
-        )}
-        <div className={styles.commentAuthor}>
-          <a href={`/user/${author.id}`} className="avatar">
-            <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
-          </a>
-          <a href={`/user/${author.id}`} className="author">
-            {author.nickname ?? (`${author.firstName} ${author.lastName}`) }
-          </a>
-          <DividerSvg />
-          <div className="metadata">
-            <span className="date">{moment(createdAt).fromNow()}</span>
+          )}
+          <div className={styles.commentAuthor}>
+            <a href={`/user/${author.id}`} className="avatar">
+              <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
+            </a>
+            <a
+              href={`/user/${author.id}`}
+              className={(checkAuthorPost(postAuthorId, author.id)) ? styles.postAuthor : styles.author}
+            >
+              <p>{author.nickname}</p>
+            </a>
+            <DividerSvg />
+            <div className="metadata">
+              <span className="date">{moment(createdAt).fromNow()}</span>
+            </div>
+          </div>
+          <div className={styles.commentRightAction}>
+            { userInfo.id !== author.id && (
+            <div className={styles.ratingComponent}>
+              <RatingComponent
+                postRating={commentRating}
+                handleDisLikePost={handleDislikeComment}
+                handleLikePost={handleLikeComment}
+                postId={commentId}
+                userInfo={userInfo}
+                arrowUpColor={userInfo.userReactionsComments
+                  .find(commentReaction => commentReaction.commentId === commentId && commentReaction.liked)
+                  ? ('#8AC858'
+                  ) : (
+                    '#66B9FF'
+                  )}
+                arrowDownColor={userInfo.userReactionsComments.find(commentReaction => commentReaction.commentId === commentId && !commentReaction.liked)
+                  ? ('#F75C48'
+                  ) : (
+                    '#66B9FF'
+                  )}
+              />
+            </div>
+            )}
+            { shouldRender
+          && (
+          <Popup
+            content="Up to main comment"
+            mouseEnterDelay={1000}
+            closeOnTriggerClick
+            position="top center"
+            on="hover"
+            trigger={(
+              <a href={`#${parentCommentId}`}>
+                <UpToParentCommentSvg />
+              </a>
+                )}
+          />
+          )}
+            <Popup
+              content="Copy link"
+              mouseEnterDelay={1000}
+              closeOnTriggerClick
+              position="top center"
+              on="hover"
+              trigger={(
+                <span>
+                  <Popup
+                    content="Copied!"
+                    on="click"
+                    closeOnTriggerMouseLeave
+                    position="top center"
+                    trigger={(
+                      <span>
+                        <CopyToClipboard text={`${getLinkToComment(window.location.href)}#${commentId}`}>
+                          <button style={{ background: 'none' }} type="button">
+                            <LinkSvg />
+                          </button>
+                        </CopyToClipboard>
+                      </span>
+                  )}
+                  />
+                </span>
+              )}
+            />
+            <Popup
+              content="Share comment"
+              mouseEnterDelay={1000}
+              closeOnTriggerClick
+              on="hover"
+              position="top center"
+              trigger={(
+                <a href="/">
+                  <ShareCommentSvg />
+                </a>
+              )}
+            />
           </div>
         </div>
-        <div className={styles.commentRightAction}>
-          { shouldRender
-            && <UpToParentCommentSvg />}
-          <LinkSvg />
-          <ShareCommentSvg />
+        <div className="text">
+          <TextRender
+            className={styles.commentText}
+            markdown={false}
+            content={checkForNickname(text)}
+          />
         </div>
-      </div>
-      <div className="text">
-        {text}
-      </div>
-      { isAuthorized && (
-        <div>
+        { isAuthorized && (
+        <div className={styles.dsa}>
           <div className="actions">
             <DarkBorderButton className={styles.btnReplay} content="Reply" onClick={() => setDisabled(!disabled)} />
           </div>
           {disabled && (
           <div className={styles.replayBlock}>
-            <textarea
-              value={newReply.text}
-              onChange={handleNewReply}
-              placeholder="Feel free..."
-              className={styles.replyText}
+            <AsyncUserMentions
+              data={fetchUsers}
+              setDisabled={setDisabled}
+              userInfo={userInfo}
+              postId={postId}
+              commentId={commentId}
+              sendReply={sendReply}
             />
-            <div className="actions">
-              <DarkBorderButton
-                onClick={handleSendReply}
-                className={styles.sendCommentBtn}
-                content="Send"
-              />
-            </div>
           </div>
           )}
         </div>
-      ) }
-    </div>
+        ) }
+      </div>
+    </ScrollableAnchor>
   );
 });
 

@@ -6,8 +6,7 @@
   font-size: 0.85em;
   line-height: 1.05em;
   font-style: normal;
-  padding-top: 5em;
-  padding-bottom: 5em;
+  margin-top: 2.1428em;
 
   .commentCounter {
       padding-bottom: 0.9375em;
@@ -20,7 +19,7 @@
 
   :global(.ui.comments) {
     max-width: 100% !important;
-    padding-top: 0.8125em;
+    box-shadow: none !important;
   }
 
   :global(.actions) {
@@ -67,6 +66,10 @@
   color: #FFFFFF !important;
 }
 
+
+.nonAuthorizedHeading {
+  font-size: 1.5em;
+}
 
 
 
