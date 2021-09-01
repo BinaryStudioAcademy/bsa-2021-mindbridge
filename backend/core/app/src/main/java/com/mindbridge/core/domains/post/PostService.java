@@ -7,7 +7,6 @@ import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
 import com.mindbridge.core.domains.tag.dto.TagDto;
 import com.mindbridge.data.domains.post.PostRepository;
-import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
@@ -59,19 +58,13 @@ public class PostService {
 		var post = postRepository.findById(id).map(PostMapper.MAPPER::postToPostDetailsDto).orElseThrow();
 
 		List<String> tags = post.getTags().stream().map(TagDto::getName).collect(Collectors.toList());
-
-		List<Post> relatedPosts = postRepository.getRelatedPostsByTags(id, tags, PageRequest.of(0, 3));
-
-		List<RelatedPostDto> relatedPostsDto = relatedPosts.stream()
+		List<RelatedPostDto> relatedPostsDto = postRepository.getRelatedPostsByTags(id, tags, PageRequest.of(0, 3))
+			.stream()
 			.map(PostMapper.MAPPER::postToRelatedPostDto)
 			.collect(Collectors.toList());
 
-		System.out.println(relatedPostsDto);
-
 		relatedPostsDto.forEach(p -> p.setRating(postReactionService.calcPostRatingById(p.getId())));
 		relatedPostsDto.sort(Comparator.comparingLong(RelatedPostDto::getRating).reversed());
-
-		System.out.println(relatedPostsDto);
 
 		var comments = commentService.findAllByPostId(id);
 		post.setComments(comments);

@@ -32,7 +32,9 @@ const RelatedPosts: FunctionComponent<IRelatedPostsProps> = ({ relatedPosts }) =
               <div className={styles.authorInfo}>
 
                 <div className={styles.userBlock}>
-                  <Image src={relatedPost.author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} avatar size="big" />
+                  <Link to={`/user/${relatedPost.author.id}`}>
+                    <Image src={relatedPost.author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} avatar size="big" />
+                  </Link>
                   <div className={styles.headerInfo}>
                     <Link to={`/user/${relatedPost.author.id}`}>
                       <span className={styles.userName}>
