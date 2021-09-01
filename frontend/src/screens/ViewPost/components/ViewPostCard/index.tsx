@@ -19,6 +19,7 @@ import { cursorPosition } from '@screens/ViewPost/helpers/cursorPosition';
 import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 import readingTime from 'reading-time';
 import { IBindingCallback1 } from '@models/Callbacks';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -69,12 +70,18 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
     highlighter.remove(highlightId);
   };
 
+  const debounced = useDebouncedCallback(
+    () => {
+      setIsDeletion(true);
+      setIsPopUpShown(true);
+    },
+    400
+  );
+
   const handleHoverAction = highlightId => {
     highlighter.addClass(styles.highlightWrapperHover, highlightId);
     setXPos(cursorPosition().x - 75);
     setYPos(cursorPosition().y);
-    setIsDeletion(true);
-    setIsPopUpShown(true);
   };
 
   const handleHoverOutAction = highlightId => {
@@ -105,6 +112,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
       })
       .on(Highlighter.event.HOVER, ({ id }) => {
         handleHoverAction(id);
+        debounced();
       })
       .on(Highlighter.event.HOVER_OUT, ({ id }) => {
         handleHoverOutAction(id);
