@@ -65,7 +65,6 @@ const ViewPost: React.FC<IViewPostProps> = (
     fetchHighlights,
     highlights,
     deleteHighlight,
-    dataDeleting,
     isAuthorized,
     likeComment,
     dislikeComment,
@@ -95,7 +94,7 @@ const ViewPost: React.FC<IViewPostProps> = (
   };
 
   const handleDeleteHighlight = id => {
-    if (!dataDeleting) {
+    if (id.length !== 0) {
       deleteHighlight(id);
     }
   };
