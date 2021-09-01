@@ -9,11 +9,12 @@ interface IHighlightPopupProps {
   xPos: number;
   yPos: number;
   handleClosePopUp: any;
-  post: IPost;
+  markdown: boolean;
+  text: string;
   isDeletion: boolean;
 }
 const HighlightPopup: FunctionComponent<IHighlightPopupProps> = ({ isPopUpShown, xPos, yPos,
-  handleClosePopUp, post, isDeletion }) => (
+  handleClosePopUp, isDeletion, markdown, text }) => (
     <Popup
       open={isPopUpShown}
       className={styles.highlightPopup}
@@ -41,8 +42,8 @@ const HighlightPopup: FunctionComponent<IHighlightPopupProps> = ({ isPopUpShown,
       trigger={(
         <TextRenderer
           className={styles.content}
-          markdown={post.markdown}
-          content={post.text}
+          markdown={markdown}
+          content={text}
         />
     )}
     />

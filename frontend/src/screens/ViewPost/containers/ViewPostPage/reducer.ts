@@ -1,17 +1,14 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import {
   fetchHighlightsRoutine,
-  saveHighlightRoutine
-} from '@screens/ViewPost/routines';
-import { IPost } from '../../models/IPost';
-import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
-import { deleteHighlightRoutine } from '@screens/HighlightsPage/routines';
-import {
+  saveHighlightRoutine,
   fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine,
   sendCommentRoutine,
   sendReplyRoutine
 } from '@screens/ViewPost/routines';
+import { IPost } from '../../models/IPost';
+import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 

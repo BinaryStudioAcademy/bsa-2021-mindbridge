@@ -27,10 +27,9 @@ export const highlightsReducer = createReducer(initialState, {
     } else {
       state.highlights = state.highlights.concat(payload);
     }
-    state.hasMore = !isEmptyArray(payload);
   },
   [addMoreHighlightsRoutine.TRIGGER]: state => {
-    state.loadMore = true;
+    state.loadMore = !state.loadMore;
   },
   [deleteHighlightRoutine.SUCCESS]: (state, action) => {
     state.highlights = state.highlights.filter(hs => hs.id !== action.payload);

@@ -65,7 +65,7 @@ const ViewPost: React.FC<IViewPostProps> = (
     fetchHighlights,
     highlights,
     deleteHighlight,
-    dataDeleting
+    dataDeleting,
     isAuthorized,
     likeComment,
     dislikeComment,
@@ -196,7 +196,7 @@ const mapDispatchToProps: IActions = {
   disLikePostView: disLikePostViewRoutine,
   saveHighlight: saveHighlightRoutine,
   fetchHighlights: fetchHighlightsRoutine,
-  deleteHighlight: deleteHighlightRoutine
+  deleteHighlight: deleteHighlightRoutine,
   likeComment: likeCommentViewRoutine,
   dislikeComment: disLikeCommentViewRoutine,
   leaveReactionOnComment: leaveReactionOnCommentRoutine

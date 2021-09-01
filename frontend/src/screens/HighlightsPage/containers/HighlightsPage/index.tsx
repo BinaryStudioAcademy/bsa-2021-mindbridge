@@ -53,15 +53,18 @@ const HighlightsPage: React.FC<IHighlightsProps> = (
   };
 
   const handleLoadMoreHighlights = filtersPayload => {
-    fetchHighlights(filtersPayload);
+    if (!dataLoading) {
+      fetchHighlights(filtersPayload);
+      setLoadMoreHighlights();
+    }
   };
 
   const getMorePosts = () => {
-    // setLoadMoreHighlights();
-    // const { from, count } = params;
-    // params.from = from + count;
-    // params.user = currentUser.id;
-    // handleLoadMoreHighlights(params);
+    setLoadMoreHighlights();
+    const { from, count } = params;
+    params.from = from + count;
+    params.user = currentUser.id;
+    handleLoadMoreHighlights(params);
   };
 
   return (

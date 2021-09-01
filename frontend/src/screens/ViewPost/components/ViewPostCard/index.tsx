@@ -65,7 +65,6 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   const [isDeletion, setIsDeletion] = useState(false);
 
   const deleteHighlight = highlightId => {
-    console.log('Delete');
     handleDeleteHighlight(highlightId);
     highlighter.remove(highlightId);
   };
@@ -216,7 +215,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                 xPos={xPos}
                 yPos={yPos}
                 handleClosePopUp={handleClosePopUp}
-                post={post}
+                markdown={post.markdown}
+                text={post.text}
               />
             </div>
           </Card.Content>
