@@ -112,4 +112,10 @@ public class PostService {
 				.collect(Collectors.toList());
 	}
 
+	public List<PostsListDetailsDto> listIDsToListPosts(List<UUID> postIds) {
+		return postRepository.findAllById(postIds).stream()
+			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+			.collect(Collectors.toList());
+	}
+
 }

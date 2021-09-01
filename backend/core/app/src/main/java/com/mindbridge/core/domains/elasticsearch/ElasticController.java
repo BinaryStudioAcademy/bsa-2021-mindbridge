@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.elasticsearch;
 
+import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import com.mindbridge.data.domains.elasticsearch.model.ElasticEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,18 @@ public class ElasticController {
 	@GetMapping("/")
 	public List<ElasticEntity> search(@RequestParam("query") String query) {
 		return service.search(query);
+	}
+
+	@GetMapping("/list")
+	public List<PostsListDetailsDto> searchList(@RequestParam("query") String query,
+												@RequestParam(defaultValue = "0") Integer from,
+												@RequestParam(defaultValue = "10") Integer count) {
+		return service.searchList(query, from, count);
+	}
+
+	@GetMapping("/count")
+	public long getCountOfResults(@RequestParam("query") String query) {
+		return service.getCountOfResults(query);
 	}
 
 	@DeleteMapping("/clear")
