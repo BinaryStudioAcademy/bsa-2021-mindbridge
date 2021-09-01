@@ -12,8 +12,9 @@ import TextRenderer from '@root/components/TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
-import readingTime from 'reading-time';
 import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
+import readingTime from 'reading-time';
+import { IBindingCallback1 } from '@models/Callbacks';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -21,9 +22,11 @@ interface IViewPostCardProps {
   handleLikePost: any;
   handleDisLikePost: any;
   userInfo: IUserProfile;
-  sendComment: any;
-  sendReply: any;
+  sendComment: IBindingCallback1<object>;
+  sendReply: IBindingCallback1<object>;
   isAuthorized: boolean;
+  handleLikeComment: IBindingCallback1<string>;
+  handleDislikeComment: IBindingCallback1<string>;
 }
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
   {
@@ -34,7 +37,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
     handleDisLikePost,
     userInfo,
     sendReply,
-    isAuthorized
+    isAuthorized,
+    handleLikeComment,
+    handleDislikeComment
   }
 ) => {
   const history = useHistory();
@@ -125,16 +130,17 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
             </div>
           </Card.Content>
         </div>
-        <div>
-          <AdvancedCommentsFeed
-            comments={post.comments}
-            sendComment={sendComment}
-            sendReply={sendReply}
-            postId={post.id}
-            userId={userInfo.id}
-            isAuthorized={isAuthorized}
-          />
-        </div>
+        <AdvancedCommentsFeed
+          comments={post.comments}
+          sendComment={sendComment}
+          sendReply={sendReply}
+          postId={post.id}
+          postAuthorId={post.author.id}
+          userInfo={userInfo}
+          isAuthorized={isAuthorized}
+          handleDislikeComment={handleDislikeComment}
+          handleLikeComment={handleLikeComment}
+        />
       </Card>
     </div>
   );

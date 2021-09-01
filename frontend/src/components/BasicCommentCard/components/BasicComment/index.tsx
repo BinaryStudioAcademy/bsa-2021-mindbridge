@@ -15,12 +15,10 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({ createdAt, text, 
     <div className={styles.header}>
       <div className={styles.commentAuthor}>
         <a href="/" className="avatar">
-          <img alt="avatar" src="https://i.imgur.com/LaWyPZF.png" />
+          <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
         </a>
         <a href="/" className="author">
-          {author.firstName}
-          {' '}
-          {author.lastName}
+          {author.nickname}
         </a>
         <DividerSvg />
         <div className="metadata">

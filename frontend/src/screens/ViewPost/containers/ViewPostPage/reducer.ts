@@ -1,6 +1,6 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import {
-  fetchDataRoutine,
+  fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine,
   sendCommentRoutine,
   sendReplyRoutine
@@ -35,14 +35,31 @@ const initialState: IViewPostReducerState = {
   comment: {
     text: '',
     author: '',
-    postId: ''
+    postId: '',
+    avatar: null,
+    nickname: '',
+    rating: 0
   },
   reply: {
     text: '',
     author: '',
     postId: '',
-    replyCommentId: ''
+    replyCommentId: '',
+    avatar: null,
+    nickname: '',
+    rating: 0
   }
+};
+
+const findById = (id, comments, idx = 0) => {
+  const item = comments[idx];
+
+  if (!item) return null;
+  if (item.id === id) return item;
+
+  const newComments = item.comments.length ? [...comments, ...item.comments] : comments;
+
+  return findById(id, newComments, idx + 1);
 };
 
 export const viewPostReducer = createReducer(initialState, {
@@ -67,8 +84,29 @@ export const viewPostReducer = createReducer(initialState, {
   },
   [sendCommentRoutine.SUCCESS]: (state, action) => {
     state.comment = initialState.comment;
+    state.post.comments.unshift(action.payload);
   },
-  [sendReplyRoutine.SUCCESS]: state => {
+  [sendReplyRoutine.SUCCESS]: (state, action) => {
     state.reply = initialState.reply;
+    const message = findById(action.payload.comment.id, state.post.comments);
+    message.comments.unshift(action.payload);
+  },
+
+  [leaveReactionOnCommentRoutine.SUCCESS]: (state, action) => {
+    const { response, reactionStatus } = action.payload;
+    const message = findById(action.payload.commentId, state.post.comments);
+    if (reactionStatus === true) {
+      if (response === null || response.isFirstReaction === true) {
+        message.rating += action.payload.difference;
+      } else {
+        message.rating += action.payload.difference;
+        message.rating += action.payload.difference;
+      }
+    } else if (response === null || response.isFirstReaction === true) {
+      message.rating -= action.payload.difference;
+    } else {
+      message.rating -= action.payload.difference;
+      message.rating -= action.payload.difference;
+    }
   }
 });

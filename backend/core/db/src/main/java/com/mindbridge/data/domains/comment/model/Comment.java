@@ -39,11 +39,10 @@ public class Comment extends BaseAuditableEntity {
 
 	@Override
 	public String toString() {
-		return "{\"_super\": " + super.toString() + ", " + "\"_class\":\"Comment\", " + "\"authorId\":"
-				+ (author.getId() == null ? "null" : "\"" + author.getId() + "\"") + ", " + "\"text\":"
-				+ (text == null ? "null" : "\"" + text + "\"") + ", " + "\"commentId\":"
-				+ (comment.getId() == null ? "null" : "\"" + comment.getId() + "\"") + ", " + "\"postId\":"
-				+ (post.getId() == null ? "null" : "\"" + post.getId() + "\"") + ", " + "}";
+		return "Comment{" +
+			"author=" + author +
+			", text='" + text + '\'' +
+			", reactions=" + reactions.size() +
+			'}';
 	}
-
 }
