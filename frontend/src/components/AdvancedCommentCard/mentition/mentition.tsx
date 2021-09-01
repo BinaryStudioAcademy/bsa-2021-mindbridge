@@ -37,7 +37,7 @@ function AsyncUserMentions(
   const handleSendReply = () => {
     if (newReply.text.trim().length) {
       const addComment = {
-        text: newReply.text,
+        text: newReply.text.replace(/<(.+?)>/g, '&lt;$1&gt;'),
         author: userInfo.id,
         postId,
         replyCommentId: commentId,

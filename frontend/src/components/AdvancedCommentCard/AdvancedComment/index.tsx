@@ -74,10 +74,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     setRotateArrowHook(!rotateArrowHook);
   };
 
-  const checkForNickname = (textComment: string) => {
-    const comment = textComment.replace(/<(.+?)>/g, '&lt;$1&gt;');
-    return comment.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
-  };
+  const checkForNickname = (textComment: string) => textComment.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
 
   const checkAuthorPost = (authorPostId, userID) => authorPostId === userID;
 
