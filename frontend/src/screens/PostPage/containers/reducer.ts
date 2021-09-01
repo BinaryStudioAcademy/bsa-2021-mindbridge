@@ -62,7 +62,6 @@ const initialState: IPostPageReducerState = {
     rating: 0,
     userReactions: [],
     emailVerified: undefined,
-    userReactions: [],
     userReactionsComments: []
   },
   versionsOfPost: [],
