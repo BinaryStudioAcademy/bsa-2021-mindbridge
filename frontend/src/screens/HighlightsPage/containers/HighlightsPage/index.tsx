@@ -12,6 +12,7 @@ import HighlightCard from '@screens/HighlightsPage/components/highlightCard';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { extractHighlightsLoading } from '@screens/HighlightsPage/reducers';
 
 export interface IHighlightsProps extends IState, IActions {
 }
@@ -21,6 +22,7 @@ interface IState {
   currentUser: ICurrentUser;
   hasMore: boolean;
   loadMore: boolean;
+  dataLoading: boolean;
 }
 
 interface IActions {
@@ -37,7 +39,7 @@ const params = {
 
 const HighlightsPage: React.FC<IHighlightsProps> = (
   { fetchHighlights, highlights, currentUser, deleteHighlight, hasMore,
-    setLoadMoreHighlights }
+    setLoadMoreHighlights, dataLoading }
 ) => {
   useEffect(() => {
     if (currentUser.id) {
@@ -55,11 +57,11 @@ const HighlightsPage: React.FC<IHighlightsProps> = (
   };
 
   const getMorePosts = () => {
-    setLoadMoreHighlights();
-    const { from, count } = params;
-    params.from = from + count;
-    params.user = currentUser.id;
-    handleLoadMoreHighlights(params);
+    // setLoadMoreHighlights();
+    // const { from, count } = params;
+    // params.from = from + count;
+    // params.user = currentUser.id;
+    // handleLoadMoreHighlights(params);
   };
 
   return (
@@ -87,8 +89,8 @@ const mapStateToProps: (state) => IState = state => ({
   highlights: state.highlightsReducer.data.highlights,
   currentUser: state.auth.auth.user,
   hasMore: state.highlightsReducer.data.hasMore,
-  loadMore: state.highlightsReducer.data.loadMore
-
+  loadMore: state.highlightsReducer.data.loadMore,
+  dataLoading: extractHighlightsLoading(state)
 });
 
 const mapDispatchToProps: IActions = {

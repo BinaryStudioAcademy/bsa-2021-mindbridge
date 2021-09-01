@@ -7,6 +7,7 @@ import {
 } from '@screens/ViewPost/routines';
 import { IPost } from '../../models/IPost';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
+import { deleteHighlightRoutine } from '@screens/HighlightsPage/routines';
 
 export interface IViewPostReducerState {
   post: IPost;

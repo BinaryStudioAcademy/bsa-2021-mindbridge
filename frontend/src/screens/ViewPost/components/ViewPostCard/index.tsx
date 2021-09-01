@@ -53,6 +53,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   const [isDeletion, setIsDeletion] = useState(false);
 
   const deleteHighlight = highlightId => {
+    console.log('Delete');
     handleDeleteHighlight(highlightId);
     highlighter.remove(highlightId);
   };
@@ -73,29 +74,31 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
 
   useEffect(() => {
     if (highlights) {
-      highlights.forEach(highlight => highlight.postId === post.id && highlighter.fromStore({
-        parentTagName: highlight.tagNameStart,
-        parentIndex: highlight.indexStart,
-        textOffset: highlight.offSetStart
-      }, {
-        parentTagName: highlight.tagNameEnd,
-        parentIndex: highlight.indexEnd,
-        textOffset: highlight.offSetEnd
-      }, highlight.text, highlight.id));
-
-      highlighter
-        .on(Highlighter.event.CLICK, ({ id }) => {
-          deleteHighlight(id);
-        })
-        .on(Highlighter.event.HOVER, ({ id }) => {
-          handleHoverAction(id);
-        })
-        .on(Highlighter.event.HOVER_OUT, ({ id }) => {
-          handleHoverOutAction(id);
-        });
+      highlights.forEach(highlight => highlight.postId === post.id && highlighter.getDoms(highlight.id).length === 0
+        && highlighter.fromStore({
+          parentTagName: highlight.tagNameStart,
+          parentIndex: highlight.indexStart,
+          textOffset: highlight.offSetStart
+        }, {
+          parentTagName: highlight.tagNameEnd,
+          parentIndex: highlight.indexEnd,
+          textOffset: highlight.offSetEnd
+        }, highlight.text, highlight.id));
     }
   }, [highlights, post.id]);
 
+  useEffect(() => {
+    highlighter
+      .on(Highlighter.event.CLICK, ({ id }) => {
+        deleteHighlight(id);
+      })
+      .on(Highlighter.event.HOVER, ({ id }) => {
+        handleHoverAction(id);
+      })
+      .on(Highlighter.event.HOVER_OUT, ({ id }) => {
+        handleHoverOutAction(id);
+      });
+  }, []);
   const goToEdit = () => {
     history.push(`/post/edit/${post.id}`);
   };
@@ -116,6 +119,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   const handleClosePopUp = () => {
     const highlighterObject = highlighter.fromRange(window.getSelection().getRangeAt(0));
     handleSaveHighlight(highlighterObject);
+    highlighter.remove(highlighterObject.id);
     window.getSelection().removeAllRanges();
     setIsPopUpShown(false);
   };

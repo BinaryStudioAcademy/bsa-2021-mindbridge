@@ -25,7 +25,7 @@ export const highlightsReducer = createReducer(initialState, {
     if (!state.loadMore) {
       state.highlights = payload;
     } else {
-      payload.map(post => state.highlights.push(post));
+      state.highlights = state.highlights.concat(payload);
     }
     state.hasMore = !isEmptyArray(payload);
   },

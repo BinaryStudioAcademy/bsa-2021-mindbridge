@@ -26,3 +26,5 @@ const reqs = (state: RootState) => state.highlightsReducer.requests;
 const data = (state: RootState) => state.highlightsReducer.data;
 
 /* PlopJS request_extractor placeholder. Do not remove */
+export const extractHighlightsLoading = state => reqs(state).fetchHighlightsRequest.loading;
+export const extractHighlightDeletion = state => reqs(state).deleteHighlightRequest.loading;
