@@ -1,4 +1,5 @@
 rootProject.name = 'core'
 include 'app'
 include 'db'
+include 'achievements'
 

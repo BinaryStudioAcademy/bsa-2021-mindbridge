@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface UsersAchievementRepository
 		extends JpaRepository<UsersAchievement, UUID>, JpaSpecificationExecutor<UsersAchievement> {
 
+  boolean findByUserIdAndAchievementId(UUID id, UUID achievementId);
 }
