@@ -1,7 +1,8 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
+  fetchMoreNotificationsRoutine,
   fetchNotificationCountRoutine,
-  fetchNotificationListRoutine,
+  fetchNotificationListRoutine, markAllNotificationsReadRoutine, markNotificationReadRoutine,
   searchPostsByElasticRoutine
 } from '@screens/Header/routines';
 import { toastr } from 'react-redux-toastr';
@@ -22,7 +23,18 @@ function* fetchNotificationCount({ payload }: Routine<any>) {
 function* fetchNotificationList({ payload }: Routine<any>) {
   try {
     const response = yield call(headerService.getNotificationList, payload);
-    const list = { notificationList: response };
+    const list = { notificationList: response, onlyUnread: payload.onlyUnread };
+    yield put(fetchNotificationListRoutine.success(list));
+  } catch (error) {
+    yield put(fetchNotificationListRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading notification list failed!');
+  }
+}
+
+function* fetchMoreNotifications({ payload }: Routine<any>) {
+  try {
+    const response = yield call(headerService.getNotificationList, payload);
+    const list = { notificationList: response, onlyUnread: payload.onlyUnread };
     yield put(fetchNotificationListRoutine.success(list));
   } catch (error) {
     yield put(fetchNotificationListRoutine.failure(error?.message));
@@ -46,6 +58,30 @@ function* searchPostsByElastic({ payload }: Routine<any>) {
   }
 }
 
+function* markNotificationRead({ payload }: Routine<any>) {
+  try {
+    yield call(headerService.markNotificationRead, payload);
+    yield put(markNotificationReadRoutine.success(payload));
+  } catch (error) {
+    yield put(markNotificationReadRoutine.failure(error?.message));
+    toastr.error('Error', 'Update notification failed');
+  }
+}
+
+function* markAllNotificationsRead({ payload }: Routine<any>) {
+  try {
+    yield call(headerService.markAllNotificationsRead, payload);
+    yield put(markAllNotificationsReadRoutine.success(payload));
+  } catch (error) {
+    yield put(markAllNotificationsReadRoutine.failure(error?.message));
+    toastr.error('Error', 'Update notifications failed');
+  }
+}
+
+function* watchMarkAllNotificationsRead() {
+  yield takeEvery(markAllNotificationsReadRoutine.TRIGGER, markAllNotificationsRead);
+}
+
 function* watchFetchNotificationCount() {
   yield takeEvery(fetchNotificationCountRoutine.TRIGGER, fetchNotificationCount);
 }
@@ -54,14 +90,25 @@ function* watchFetchNotificationList() {
   yield takeEvery(fetchNotificationListRoutine.TRIGGER, fetchNotificationList);
 }
 
+function* watchFetchMoreNotifications() {
+  yield takeEvery(fetchMoreNotificationsRoutine.TRIGGER, fetchMoreNotifications);
+}
+
 function* watchSearchPostsByElastic() {
   yield takeEvery(searchPostsByElasticRoutine.TRIGGER, searchPostsByElastic);
+}
+
+function* watchMarkNotificationRead() {
+  yield takeEvery(markNotificationReadRoutine.TRIGGER, markNotificationRead);
 }
 
 export default function* headerPageSagas() {
   yield all([
     watchFetchNotificationCount(),
     watchFetchNotificationList(),
-    watchSearchPostsByElastic()
+    watchSearchPostsByElastic(),
+    watchMarkNotificationRead(),
+    watchMarkAllNotificationsRead(),
+    watchFetchMoreNotifications()
   ]);
 }

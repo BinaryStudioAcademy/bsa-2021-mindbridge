@@ -1,0 +1,186 @@
+@import "../../../styles/common.sass";
+
+.btnReplay {
+  border: 0.125em solid $dark-grey;
+  box-sizing: border-box;
+  border-radius: 0.3125em;
+  font-family: Lato, sans-serif !important;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1em ;
+  line-height: 1.1875em;
+  color: $dark-grey;
+  width: 3.125em;
+  height: 1.525em;
+  margin-top: 1.4285em !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.commentText {
+  .p {
+    color: #5254f5;
+  }
+}
+
+.advancedComment {
+  padding-left: 2.7142em;
+
+  :global(.actions) {
+    padding-bottom: 0.8em;
+    margin-left: -1.4em;
+  }
+
+
+  :global(.text) {
+    font-family: Lato, sans-serif !important;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1em;
+    line-height: 1.2142em;
+    color: #353535;
+  }
+
+
+  .header {
+    margin-top: 1.7857em;
+    margin-bottom: 1.4285em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .closeCommentBtn {
+      padding: 0.2em;
+      margin-left: -2.25em;
+      margin-right: 0.6em;
+      display: flex;
+      align-items: center;
+      justify-items: center;
+      background: none;
+      box-sizing: border-box;
+      border-radius: 0.14285em;
+
+      .arrowClose {
+        width: 0.7142em;
+        height: 0.5714em;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+      }
+    }
+
+    .commentAuthor {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .postAuthor {
+        font-family: Lato, sans-serif;
+        color: white;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 0.8571em;
+        line-height: 1.0285em;
+        background: #14253F;
+        border: 0.07142em solid #14253F;
+        box-sizing: border-box;
+        border-radius: 0.3571em;
+        padding-right: 0.3571em;
+        padding-left: 0.3571em;
+
+      }
+
+      .author {
+        font-family: Lato, sans-serif;
+        color: #353535;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 0.8571em;
+        line-height: 1.0285em;
+
+        &:hover {
+          color: #353535;
+          background: none;
+        }
+      }
+
+      :global(.metadata) {
+        margin: 0 !important;
+
+        :global(.date) {
+          font-family: Lato, serif !important;
+          color: rgba(53, 53, 53, 0.4) !important;
+          font-weight: 400 !important;
+          font-size: 1rem !important;
+          line-height: 1.05em !important;
+        }
+      }
+
+      :global(#divider) {
+        margin-left: 0.7857em;
+        margin-right: 0.7142em;
+      }
+
+      :global(.avatar) {
+        width: 1.7857em !important;
+        height: 1.7857em !important;
+        margin-right: 0.5714em !important;
+        margin-top: 0 !important;
+
+        img {
+          border-radius: 1em !important;
+        }
+      }
+    }
+
+    .commentRightAction {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-items: center;
+      margin-left: auto;
+      gap: 1em;
+      margin-right: 1.8371em;
+
+      .ratingComponent {
+        padding-right: 0.2em;
+        margin-top: -0.7857rem;
+      }
+    }
+  }
+}
+
+.replayBlock {
+  position: relative !important;
+  z-index: 0 !important;
+  font-family: lato, sans-serif;
+}
+
+.sendCommentBtn {
+  margin-top: 0.7142em !important;
+  justify-content: center !important;
+  background: #14253F !important;
+  font-family: Lato, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.1428em;
+  line-height: 1.3571em;
+  display: flex !important;
+  align-items: center !important;
+  text-align: center !important;
+  color: #FFFFFF !important;
+  width: 3.125em !important;
+  height: 1.525em !important;
+  border: 0.225em solid #14253F !important;
+
+  border-radius: 0.3125em !important;
+
+  &:hover {
+    color: #14253F !important;
+    border-radius: 0.325em !important;
+    border: 0.2em solid #14253F !important;
+    background: #FFFFFF !important;
+  }
+}
+

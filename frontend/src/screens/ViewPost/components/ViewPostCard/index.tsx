@@ -13,10 +13,12 @@ import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
 import Highlighter from 'web-highlighter';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
-import readingTime from 'reading-time';
 import HighlightPopup from '@screens/ViewPost/components/Popups/HighlightPopup';
 import { validateSelection } from '@screens/ViewPost/helpers/validateSelection';
 import { cursorPosition } from '@screens/ViewPost/helpers/cursorPosition';
+import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
+import readingTime from 'reading-time';
+import { IBindingCallback1 } from '@models/Callbacks';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -27,6 +29,11 @@ interface IViewPostCardProps {
   handleSaveHighlight: any;
   highlights: IHighlight[];
   handleDeleteHighlight: any;
+  sendComment: IBindingCallback1<object>;
+  sendReply: IBindingCallback1<object>;
+  isAuthorized: boolean;
+  handleLikeComment: IBindingCallback1<string>;
+  handleDislikeComment: IBindingCallback1<string>;
 }
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
@@ -37,7 +44,12 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   userInfo,
   handleSaveHighlight,
   highlights,
-  handleDeleteHighlight
+  handleDeleteHighlight,
+  sendComment,
+  sendReply,
+  isAuthorized,
+  handleLikeComment,
+  handleDislikeComment
 }) => {
   const highlighter = new Highlighter({
     wrapTag: 'i',
@@ -209,6 +221,17 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
             </div>
           </Card.Content>
         </div>
+        <AdvancedCommentsFeed
+          comments={post.comments}
+          sendComment={sendComment}
+          sendReply={sendReply}
+          postId={post.id}
+          postAuthorId={post.author.id}
+          userInfo={userInfo}
+          isAuthorized={isAuthorized}
+          handleDislikeComment={handleDislikeComment}
+          handleLikeComment={handleLikeComment}
+        />
       </Card>
     </div>
   );

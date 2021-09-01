@@ -20,6 +20,7 @@ import { history } from '@helpers/history.helper';
 import ClosedPRSvg from '@root/components/MyContributionsItem/svg/closedPrSvg';
 import OpenSvg from '@root/components/MyContributionsItem/svg/openSvg';
 import GoBackButton from '@root/components/buttons/GoBackButton';
+import SyntaxHighlighterComponent from '@root/components/SyntaxHighlighter';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -179,9 +180,13 @@ const PullRequest: React.FC<IPullRequestProps> = (
         <Preview
           coverImage={postPR.coverImage}
           title={postPR.title}
+          oldTitle={postPR.post.title}
           text={postPR.text}
+          oldText={postPR.post.text}
           markdown={postPR.post.markdown}
           tags={postPR.tags}
+          oldTags={postPR.post.tags}
+          seeDiff={seeDiff}
         />
       </div>
     </div>
@@ -214,10 +219,9 @@ const PullRequest: React.FC<IPullRequestProps> = (
         <TitleDiff className={styles.field} oldTitle={postPR.title} newTitle={postPR.title} />
         <TagsDiff className={styles.field} oldTags={postPR.tags} newTags={postPR.tags} />
         <div className={styles.grey_label}>Content:</div>
-        <TextDiff
-          className={classNames(styles.field, styles.text_diff)}
-          oldText={postPR.text}
-          newText={postPR.text}
+        <SyntaxHighlighterComponent
+          text={postPR.text}
+          markdown={postPR.markdown}
         />
       </div>
     </div>

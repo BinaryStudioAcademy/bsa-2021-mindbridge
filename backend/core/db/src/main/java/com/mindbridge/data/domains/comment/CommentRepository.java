@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface CommentRepository extends JpaRepository<Comment, UUID>, JpaSpecificationExecutor<Comment> {
 
-	@Query("select c from Comment c where c.post.id = :id")
+	@Query("select c from Comment c where c.post.id = :id and c.comment.id is null")
 	List<Comment> findAllByPostId(@Param("id") UUID id);
 
 	int countCommentByAuthorId(UUID id);

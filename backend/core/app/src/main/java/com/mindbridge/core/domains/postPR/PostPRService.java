@@ -1,5 +1,7 @@
 package com.mindbridge.core.domains.postPR;
 
+import com.mindbridge.core.domains.notification.NotificationService;
+import com.mindbridge.core.domains.notification.dto.CreateNotificationDto;
 import com.mindbridge.core.domains.post.PostService;
 import com.mindbridge.core.domains.post.dto.EditPostDto;
 import com.mindbridge.core.domains.postPR.dto.CreatePostPRDto;
@@ -7,6 +9,7 @@ import com.mindbridge.core.domains.postPR.dto.EditPostPRDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRListDto;
 import com.mindbridge.core.domains.user.UserService;
+import com.mindbridge.data.domains.notification.model.Notification;
 import com.mindbridge.core.security.auth.UserPrincipal;
 import com.mindbridge.data.domains.postPR.PostPRRepository;
 import com.mindbridge.data.domains.postPR.model.PostPR;
@@ -19,15 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,16 +42,19 @@ public class PostPRService {
 
 	private final PostService postService;
 
+	private final NotificationService notificationService;
+
 	private final UserService userService;
 
 	@Lazy
 	@Autowired
-	public PostPRService(PostPRRepository postPRRepository, UserService userService, TagRepository tagRepository,
-			PostService postService) {
+	public PostPRService(PostPRRepository postPRRepository, TagRepository tagRepository, PostService postService,
+						 NotificationService notificationService, UserService userService) {
 		this.postPRRepository = postPRRepository;
 		this.tagRepository = tagRepository;
 		this.postService = postService;
-		this.userService = userService;
+		this.notificationService = notificationService;
+    	this.userService = userService;
 	}
 
 	public void create(CreatePostPRDto createPostPRDto) {
@@ -58,6 +63,12 @@ public class PostPRService {
 		postPR.setTags(tags);
 		postPR.setState(State.open);
 		postPRRepository.save(postPR);
+
+		notificationService.createNotification(
+			postService.getPostById(createPostPRDto.getPostId()).getAuthor().getId(),
+			userService.getUserById(createPostPRDto.getContributorId()).getNickname(),
+			postPR.getId(),
+			Notification.Type.newPR);
 	}
 
 	public PostPRDetailsDto getPR(UUID id) {

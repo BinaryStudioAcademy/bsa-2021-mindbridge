@@ -1,5 +1,7 @@
 package com.mindbridge.core.domains.user;
 
+import com.mindbridge.core.domains.commentReaction.dto.UserReactionsCommentsDto;
+import com.mindbridge.core.domains.user.dto.UserShortDto;
 import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
 import com.mindbridge.data.domains.post.dto.PostTitleDto;
 import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
@@ -84,17 +86,23 @@ public class UserService implements UserDetailsService {
 				.orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found."));
 		var user = UserMapper.MAPPER.userToUserProfileDto(foundUser);
 		var userReactions = postReactionRepository.getPostReactionByAuthorId(userId);
+		var userCommentReactions = commentReactionRepository.getCommentReactionByAuthorId(userId);
 		List<Post> top5Posts = postRepository.getFirstPostTitles(userId, PageRequest.of(0, 5));
 		user.setCommentsQuantity(commentRepository.countCommentByAuthorId(userId));
 		user.setPostsQuantity(postRepository.countPostByAuthorId(userId));
 		user.setContributionsQuantity(postPRRepository.countPostPRByContributorId(userId));
 		user.setUserReactions(userReactions.stream().map(UserReactionsDto::fromEntity).collect(Collectors.toList()));
+		user.setUserReactionsComments(userCommentReactions.stream().map(UserReactionsCommentsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
 		long rating = postReactionRepository.calcUserPostRating(userId)
 				+ (commentReactionRepository.calcUserCommentRating(userId) / 2);
 		user.setRating(rating);
 		return user;
+	}
+
+	public UserShortDto getUserById(UUID id) {
+		return UserMapper.MAPPER.userToUserShortDto(userRepository.findById(id).orElseThrow());
 	}
 
 	public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
@@ -177,5 +185,10 @@ public class UserService implements UserDetailsService {
 		userRepository.save(user);
 
 		return loadUserDtoByEmail(user.getEmail());
+	}
+
+	public List<UserDto> getAllUserByNickname(String nickname) {
+		var allUser = userRepository.findAllByNicknameIsContaining(nickname);
+		return allUser.stream().map(UserMapper.MAPPER::userToUserDto).collect(Collectors.toList());
 	}
 }

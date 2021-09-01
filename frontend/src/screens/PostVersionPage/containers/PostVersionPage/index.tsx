@@ -62,6 +62,10 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
           text={postVersion.text}
           markdown={postVersion.markdown}
           tags={postVersion.tags}
+          oldTitle={postVersion.preVersion ? (postVersion.preVersion.title) : (postVersion.title)}
+          oldTags={postVersion.preVersion ? (postVersion.preVersion.tags) : (postVersion.tags)}
+          oldText={postVersion.preVersion ? (postVersion.preVersion.text) : (postVersion.text)}
+          seeDiff={seeDifference}
         />
         )}
       </div>
