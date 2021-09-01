@@ -8,8 +8,8 @@
     margin-bottom: 15vh;
   }
 
-  :global(.ui.card>:only-child) {
-    border-radius: 10px !important;
+  :global(.ui.card>:first-child) {
+    border-radius: 0.7143rem !important;
   }
 }
 
