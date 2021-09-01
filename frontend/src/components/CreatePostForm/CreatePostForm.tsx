@@ -251,7 +251,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
         position="left center"
       />
 
-      {dropzoneOrTag}
+      { modes.markdownMode && dropzoneOrTag}
       <Popup
         trigger={(
           <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
