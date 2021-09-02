@@ -26,6 +26,30 @@ Mindbridge is a portal for sharing knowledge and thoughts (although you all have
     - Redux - state management
     - Redux-toolkit - async interactions, effect management
 
+## Documentation
+There is a submodule called `docs` which is for updating the postman collection and docs related to the project.
+To update it, please follow the next instructions:
+```bash
+# Time passes, submodule upstream is updated
+# and you now want to update
+
+# Change to the submodule directory 
+# !from mindbridge root folder!
+cd submodule_dir
+
+# Checkout desired branch
+git checkout master
+
+# Update
+git pull
+
+# Get back to your project root
+cd ..
+
+# Now the submodules are in the state you want, so
+git commit -am "Pulled down update to docs"
+```
+
 ## Deployment
 The project is deployed to Azure Container Instances. Github actions are used for CI and CD.
 
