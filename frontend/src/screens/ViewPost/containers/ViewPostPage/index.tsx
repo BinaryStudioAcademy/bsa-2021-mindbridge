@@ -91,13 +91,15 @@ const ViewPost: React.FC<IViewPostProps> = (
   }, [currentUser, fetchHighlights]);
 
   const handleLikePost = id => {
-    const post = {
-      postId: id,
-      userId: currentUser.id,
-      liked: true
-    };
-    likePostView(id);
-    leaveReaction(post);
+    if (currentUser.id) {
+      const post = {
+        postId: id,
+        userId: currentUser.id,
+        liked: true
+      };
+      likePostView(id);
+      leaveReaction(post);
+    }
   };
 
   const handleDeleteHighlight = id => {
@@ -122,33 +124,39 @@ const ViewPost: React.FC<IViewPostProps> = (
   };
 
   const handleDisLikePost = id => {
-    const post = {
-      postId: id,
-      userId: currentUser.id,
-      liked: false
-    };
-    disLikePostView(id);
-    leaveReaction(post);
+    if (currentUser.id) {
+      const post = {
+        postId: id,
+        userId: currentUser.id,
+        liked: false
+      };
+      disLikePostView(id);
+      leaveReaction(post);
+    }
   };
 
   const handleLikeComment = id => {
-    const comment = {
-      commentId: id,
-      userId: currentUser.id,
-      liked: true
-    };
-    likeComment(id);
-    leaveReactionOnComment(comment);
+    if (currentUser.id) {
+      const comment = {
+        commentId: id,
+        userId: currentUser.id,
+        liked: true
+      };
+      likeComment(id);
+      leaveReactionOnComment(comment);
+    }
   };
 
   const handleDisLikeComment = id => {
-    const comment = {
-      commentId: id,
-      userId: currentUser.id,
-      liked: false
-    };
-    dislikeComment(id);
-    leaveReactionOnComment(comment);
+    if (currentUser.id) {
+      const comment = {
+        commentId: id,
+        userId: currentUser.id,
+        liked: false
+      };
+      dislikeComment(id);
+      leaveReactionOnComment(comment);
+    }
   };
 
   if (!data.post.id) {
@@ -188,6 +196,7 @@ const ViewPost: React.FC<IViewPostProps> = (
 
 const mapStateToProps: (state: RootState) => IState = state => ({
   data: extractData(state),
+  relatedPosts: extractData(state),
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
   userInfo: state.postPageReducer.data.profile,

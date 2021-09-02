@@ -5,16 +5,22 @@
     max-width: 100%;
     box-shadow: none;
     width: 100%;
-    margin-bottom: 15vh;
   }
 
-  :global(.ui.card>:only-child) {
-    border-radius: 10px !important;
+  :global(.ui.card>:first-child) {
+    border-radius: 0.7143rem !important;
   }
 }
 
 .postBody {
-  margin-left: 10.3rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5em;
+  padding-right: 5em;
+  padding-bottom: 5em;
+  font-size: 1.2857rem;
+  color: #353535;
 }
 
 .cardContent {

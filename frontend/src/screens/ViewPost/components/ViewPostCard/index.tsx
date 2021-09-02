@@ -18,6 +18,7 @@ import { validateSelection } from '@screens/ViewPost/helpers/validateSelection';
 import { cursorPosition } from '@screens/ViewPost/helpers/cursorPosition';
 import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 import readingTime from 'reading-time';
+import RelatedPosts from '@screens/ViewPost/components/RelatedPosts';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { useDebouncedCallback } from 'use-debounce';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
@@ -238,6 +239,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
             </div>
           </Card.Content>
         </div>
+        { post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} /> }
         <AdvancedCommentsFeed
           comments={post.comments}
           sendComment={sendComment}

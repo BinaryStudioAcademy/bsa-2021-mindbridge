@@ -37,4 +37,6 @@ public class PostDetailsDto {
 
 	private Boolean draft;
 
+	private List<RelatedPostDto> relatedPosts;
+
 }
