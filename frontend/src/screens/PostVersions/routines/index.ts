@@ -6,3 +6,4 @@ const createPostVersionsRoutine = <T extends unknown>(actionName: string) => cre
 /* PlopJS routine placeholder. Do not remove */
 export const fetchPostTitleRoutine = createPostVersionsRoutine('FETCH_POST_TITLE');
 export const fetchPostContributionsRoutine = createPostVersionsRoutine('FETCH_POST_CONTRIBUTIONS');
+export const fetchOpenPostContributionsRoutine = createPostVersionsRoutine('FETCH_OPEN_POST_CONTRIBUTIONS');
