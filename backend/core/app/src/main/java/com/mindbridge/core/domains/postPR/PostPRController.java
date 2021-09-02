@@ -79,6 +79,12 @@ public class PostPRController {
 		return postPRService.getPostPRByPostId(id, from, count);
 	}
 
+	@GetMapping("/open/{id}")
+	public List<PostPRListDto> getOpenPostPRs(@PathVariable UUID id, @RequestParam(defaultValue = "0") Integer from,
+											  @RequestParam(defaultValue = "4") Integer count) {
+		return postPRService.getOpenPostPRsByPostId(id, from, count);
+	}
+
 	@GetMapping("/byUser/{id}")
 	public List<PostPRDetailsDto> getPostPRsByUser(@PathVariable UUID id,
 			@RequestParam(defaultValue = "0") Integer from, @RequestParam(defaultValue = "4") Integer count) {
