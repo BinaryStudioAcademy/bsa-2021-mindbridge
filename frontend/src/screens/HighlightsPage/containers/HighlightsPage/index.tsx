@@ -80,9 +80,13 @@ const HighlightsPage: React.FC<IHighlightsProps> = (
         loader={' '}
         scrollThreshold={0.9}
       >
-        {highlights
-          && highlights.map(highlight => (
-            <HighlightCard key={highlight.id} highlight={highlight} handleDeleteHighlight={handleDeleteHighlight} />))}
+        {highlights && highlights.map(highlight => (
+          <HighlightCard
+            key={highlight.id}
+            highlight={highlight}
+            handleDeleteHighlight={handleDeleteHighlight}
+          />
+        ))}
       </InfiniteScroll>
     </div>
   );

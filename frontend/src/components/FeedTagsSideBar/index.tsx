@@ -31,7 +31,7 @@ const FeedTagsSideBar: FunctionComponent = () => {
         </div>
       </div>
       <button type="button" className={`${styles.dark_button} ${styles.searchBtn}`}>
-        <span data-id="9800a93d-93c0-4638-a371-d58e452e2c0c" className={styles.searchLabel}>Search</span>
+        <span className={styles.searchLabel}>Search</span>
       </button>
     </div>
   );
