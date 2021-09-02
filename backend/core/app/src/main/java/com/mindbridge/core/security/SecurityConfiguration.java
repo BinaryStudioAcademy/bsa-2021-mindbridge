@@ -3,6 +3,7 @@ package com.mindbridge.core.security;
 import com.mindbridge.core.security.jwt.JwtFilter;
 import com.mindbridge.core.security.oauth2.OAuth2SuccessHandler;
 import com.mindbridge.core.security.oauth2.RedirectUriToCookiePersister;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,6 +25,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+	@Value("${app.cors.allowed_origins}")
+	private String[] corsAllowedOrigins;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -87,11 +90,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.addAllowedOrigin("http://localhost:3000");
-		config.addAllowedOrigin("http://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com");
-		config.addAllowedOrigin("https://mindbridge-lb-252634146.eu-west-1.elb.amazonaws.com");
-		config.addAllowedOrigin("http://mindbridge.westeurope.cloudapp.azure.com");
-		config.addAllowedOrigin("https://mindbridge.westeurope.cloudapp.azure.com");
+		for (String allowedOrigin : corsAllowedOrigins) {
+			config.addAllowedOrigin(allowedOrigin);
+		}
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
 		source.registerCorsConfiguration("/**", config);

@@ -42,7 +42,7 @@ const TextRenderWithDiff: React.FC<ITextRenderWithDiffProps> = ({ className, con
   console.log(marked(oldContent));
 
   const options = {
-    ignoreAttributes: ['class', 'href', 'id', 'src'],
+    ignoreAttributes: ['class', 'id'],
     compareAttributesAsJSON: [],
     ignoreWhitespaces: true,
     ignoreComments: true,
