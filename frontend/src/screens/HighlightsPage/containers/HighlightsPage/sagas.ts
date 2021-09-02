@@ -21,8 +21,7 @@ function* fetchHighlightsWithPagination(action) {
   try {
     const response = yield call(highlightsPageService.getHighlightsWithPagination, action.payload);
     yield put(fetchHighlightsWithoutPaginationRoutine.success(response));
-  } catch
-  (error) {
+  } catch (error) {
     yield put(fetchHighlightsWithoutPaginationRoutine.failure(error?.message));
     toastr.error('Error', 'Loading failed');
   }

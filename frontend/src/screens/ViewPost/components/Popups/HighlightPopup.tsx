@@ -17,15 +17,11 @@ const HighlightPopup: FunctionComponent<IHighlightPopupProps> = ({ isPopUpShown,
     <Popup
       open={isPopUpShown}
       className={styles.highlightPopup}
-      style={!isDeletion ? {
+      style={{
         transform: `translate3d(${xPos}px, ${yPos - 60}px, 0px)`,
         backgroundColor: '#f4f9ff',
         cursor: 'pointer',
-        padding: '0'
-      } : {
-        transform: `translate3d(${xPos}px, ${yPos - 60}px, 0px)`,
-        backgroundColor: '#f4f9ff',
-        cursor: 'pointer'
+        padding: !isDeletion ? '0' : undefined
       }}
       position="top center"
       content={!isDeletion ? (
