@@ -65,43 +65,52 @@ const ViewPost: React.FC<IViewPostProps> = (
   }, [postId]);
 
   const handleLikePost = id => {
-    const post = {
-      postId: id,
-      userId: currentUser.id,
-      liked: true
-    };
-    likePostView(id);
-    leaveReaction(post);
+    if (currentUser.id) {
+      const post = {
+        postId: id,
+        userId: currentUser.id,
+        liked: true
+      };
+      likePostView(id);
+      leaveReaction(post);
+    }
   };
 
   const handleDisLikePost = id => {
-    const post = {
-      postId: id,
-      userId: currentUser.id,
-      liked: false
-    };
-    disLikePostView(id);
-    leaveReaction(post);
+    if (currentUser.id) {
+      const post = {
+        postId: id,
+        userId: currentUser.id,
+        liked: false
+      };
+      disLikePostView(id);
+      leaveReaction(post);
+    }
   };
 
   const handleLikeComment = id => {
-    const comment = {
-      commentId: id,
-      userId: currentUser.id,
-      liked: true
-    };
-    likeComment(id);
-    leaveReactionOnComment(comment);
+    if (currentUser.id) {
+      const comment = {
+        commentId: id,
+        userId: currentUser.id,
+        liked: true
+      };
+      likeComment(id);
+      leaveReactionOnComment(comment);
+    }
   };
 
+
   const handleDisLikeComment = id => {
-    const comment = {
-      commentId: id,
-      userId: currentUser.id,
-      liked: false
-    };
-    dislikeComment(id);
-    leaveReactionOnComment(comment);
+    if (currentUser.id) {
+      const comment = {
+        commentId: id,
+        userId: currentUser.id,
+        liked: false
+      };
+      dislikeComment(id);
+      leaveReactionOnComment(comment);
+    }
   };
 
   if (!data.post.id) {
