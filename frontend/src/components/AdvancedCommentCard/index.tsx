@@ -6,6 +6,10 @@ import Reply from '@components/AdvancedCommentCard/Reply';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import classNames from '@components/AdvancedCommentCard/mentition/styles.module.scss';
+import { useDebouncedCallback } from 'use-debounce';
+import { MentionsInput, Mention } from 'react-mentions';
+import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
 
 interface ICommentProps {
   comments: IComments[];
@@ -18,7 +22,7 @@ interface ICommentProps {
   handleLikeComment: any;
   handleDislikeComment: any;
   searchUsersByNickname: any;
-  users: IMentionsUser[];
+  users: any;
 }
 
 const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
@@ -36,35 +40,6 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
     users
   }
 ) => {
-  const [newComment, setNewComment] = useState<IComment>({
-    text: '',
-    author: '',
-    postId: '',
-    avatar: null,
-    nickname: '',
-    rating: 0
-  });
-
-  const handleNewComment = (event: any) => {
-    setNewComment({
-      ...newComment,
-      text: event.target.value
-    });
-  };
-
-  const handleSendComment = () => {
-    if (newComment.text.trim().length) {
-      const addComment = {
-        text: newComment.text.replace(/<(.+?)>/g, '&lt;$1&gt;'),
-        author: userInfo.id,
-        postId,
-        avatar: userInfo.avatar,
-        nickname: userInfo.nickname
-      };
-      sendComment(addComment);
-    }
-  };
-
   function getMaximumCommentsFoldCount(commentsDepth, foldCount = 0) {
     return commentsDepth.reduce((count, item) => {
       // eslint-disable-next-line no-prototype-builtins
@@ -88,21 +63,16 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
         )
       </p>
       {isAuthorized ? (
-
-        <form className="ui reply form">
-          <div className="field">
-            <textarea
-              value={newComment.text}
-              onChange={handleNewComment}
-              placeholder="Add to the discussion..."
-            />
-          </div>
-          <DarkBorderButton
-            onClick={handleSendComment}
-            className={styles.buttonSend}
-            content="Send"
+        <div className={styles.commentInput}>
+          <AsyncUserMentions
+            isReply={false}
+            userInfo={userInfo}
+            sendComment={sendComment}
+            postId={postId}
+            searchUsersByNickname={searchUsersByNickname}
+            users={users}
           />
-        </form>
+        </div>
       ) : (
         <div className={styles.nonAuthorizedHeading}>
           <p>

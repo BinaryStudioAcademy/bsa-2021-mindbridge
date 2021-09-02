@@ -36,7 +36,7 @@ interface IBasicCommentProps {
   handleLikeComment: any;
   handleDislikeComment: any;
   searchUsersByNickname: any;
-  users: IMentionsUser[];
+  users: any;
 }
 /* eslint-disable max-len */
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
@@ -65,10 +65,6 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   const [disabled, setDisabled] = useState(false);
   const [rotateArrowHook, setRotateArrowHook] = useState(false);
   const [shouldRender] = useState(setShouldRender);
-  const [usersList, setUsersList] = useState({ user: [{
-    display: '',
-    id: ''
-  }] });
 
   const rotateArrow = {
     width: '0.7142em',
@@ -209,6 +205,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
               sendReply={sendReply}
               users={users}
               searchUsersByNickname={searchUsersByNickname}
+              isReply
             />
           </div>
           )}
