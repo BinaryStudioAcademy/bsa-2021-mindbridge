@@ -26,7 +26,7 @@ import SearchSvg from '@components/Header/svg/searchSvg';
 import FoundPostsList from '@components/FoundPostsList';
 import { useDebouncedCallback } from 'use-debounce';
 import { IPost } from '@screens/Header/models/IPost';
-import { useHistory } from 'react-router-dom';
+
 import { searchPostsByElasticRoutine } from '@screens/Header/routines';
 
 export interface IFeedPageProps extends IState, IActions {

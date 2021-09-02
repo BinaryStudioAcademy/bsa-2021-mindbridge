@@ -41,27 +41,27 @@ public class NotificationService {
 		String description = null;
 		String destination;
 		switch (type) {
-		case newPR: {
-			description = authorNickname + " has contributed to your post";
-			destination = "newPR";
-			createNotificationDto.setType("newPR");
-			break;
-		}
-		case newPost: {
-			description = authorNickname + " has published a new post";
-			destination = "newPost";
-			createNotificationDto.setType("newPost");
-			break;
-		}
-		case newFollower: {
-			description = authorNickname + " now follows you";
-			destination = "newFollower";
-			createNotificationDto.setType("newFollower");
-			break;
-		}
-		default: {
-			return;
-		}
+			case newPR: {
+				description = authorNickname + " has contributed to your post";
+				destination = "newPR";
+				createNotificationDto.setType("newPR");
+				break;
+			}
+			case newPost: {
+				description = authorNickname + " has published a new post";
+				destination = "newPost";
+				createNotificationDto.setType("newPost");
+				break;
+			}
+			case newFollower: {
+				description = authorNickname + " now follows you";
+				destination = "newFollower";
+				createNotificationDto.setType("newFollower");
+				break;
+			}
+			default: {
+				return;
+			}
 		}
 		createNotificationDto.setText(description);
 		notificationRepository.save(NotificationMapper.MAPPER.createDtoToNotification(createNotificationDto));
