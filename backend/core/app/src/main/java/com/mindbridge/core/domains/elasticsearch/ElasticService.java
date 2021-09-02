@@ -114,8 +114,7 @@ public class ElasticService {
 
 	public long getCountOfResults(String query) {
 		NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("title", query)).build();
-		SearchHits<ElasticEntity> entities = elasticsearchTemplate.search(searchQuery, ElasticEntity.class);
-		return entities.getSearchHits().stream().map(SearchHit::getContent).distinct().count();
+		return elasticsearchTemplate.count(searchQuery, ElasticEntity.class);
 
 	}
 

@@ -74,14 +74,7 @@
       font-family: Lato, sans-serif;
       font-size: 0.86rem;
       overflow-y: scroll;
-      .foundPostLink {
-        text-decoration: none;
-        color: #353535 !important;
-      }
-
-      li:hover {
-        background-color: #F8F8F8;
-      }
+      z-index: 10;
     }
   }
   h4 {

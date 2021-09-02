@@ -78,7 +78,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
     setLoadMorePosts(false);
     window.scrollTo(0, 0);
     if (location.search) {
-      const query = location.search.replace('?query=', '');
+      const query = decodeURI(location.search.replace('?query=', ''));
       setElasticContent(query);
       loadCountResults(query);
       searchPostsByElastic({ query, params });
@@ -206,12 +206,9 @@ const FeedPage: React.FC<IFeedPageProps> = (
         )}
         {isSearch && data.posts.length > 0 && (
           <h4>
-            On your request &quot;
-            {searchRequest}
-            &quot; found
+            {`On your request "${searchRequest}" found `}
             <span className={styles.countPosts}>{countResults}</span>
-            {' '}
-            articles
+            {' articles'}
           </h4>
         )}
       </div>
