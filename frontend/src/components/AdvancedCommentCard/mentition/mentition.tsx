@@ -143,23 +143,22 @@ function AsyncUserMentions(
         </div>
       ) : (
         <div>
-          <div>
-            <MentionsInput
-              value={newComment.text}
-              onChanges={onChange}
-              onChange={handleEventNewCommentInput}
-              className="mentions"
-              classNames={commentInputStyle}
-              appendSpaceOnAdd
-              placeholder="Add to the discussion..."
-            >
-              <Mention
-                className={commentInputStyle.mentions__mention__custom}
-                trigger="@"
-                data={usersList}
-              />
-            </MentionsInput>
-          </div>
+          <MentionsInput
+            value={newComment.text}
+            onChanges={onChange}
+            onChange={handleEventNewCommentInput}
+            className="mentions"
+            classNames={commentInputStyle}
+            appendSpaceOnAdd
+            placeholder="Add to the discussion..."
+          >
+            <Mention
+              className={commentInputStyle.mentions__mention__custom}
+              trigger="@"
+              data={usersList}
+            />
+          </MentionsInput>
+
           <DarkBorderButton
             onClick={handleSendComment}
             className={styles.buttonSend}

@@ -56,14 +56,13 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
   }
 
   return (
-    <div className={styles.advancedCommentFeed}>
+    <div id="commentsFeed" className={styles.advancedCommentFeed}>
       <p className={styles.commentCounter}>
         Discussion (
         {getMaximumCommentsFoldCount(comments)}
         )
       </p>
       {isAuthorized ? (
-        <div className={styles.commentInput}>
           <AsyncUserMentions
             isReply={false}
             userInfo={userInfo}
@@ -72,7 +71,6 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
             searchUsersByNickname={searchUsersByNickname}
             users={users}
           />
-        </div>
       ) : (
         <div className={styles.nonAuthorizedHeading}>
           <p>
