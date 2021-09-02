@@ -14,7 +14,7 @@ import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
 import { Popup } from 'semantic-ui-react';
 import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
-import TextRender from '@components/TextRenderer';
+import parse from 'html-react-parser';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 interface IBasicCommentProps {
@@ -192,11 +192,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           </div>
         </div>
         <div className="text">
-          <TextRender
-            className={styles.commentText}
-            markdown={false}
-            content={checkForNickname(text)}
-          />
+          {parse(checkForNickname(text))}
         </div>
         { isAuthorized && (
         <div className={styles.dsa}>
