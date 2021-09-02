@@ -38,12 +38,10 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
   }, [user]);
 
   useEffect(() => {
-    if(user.id){
+    if (user.id) {
       fetchAchievements(user.id);
     }
   }, [user.id]);
-
-  console.log(achievements);
 
   return (
     <div className={styles.viewCard}>
@@ -150,12 +148,14 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
               <span className={styles.subTitle}>
                 Awards
               </span>
-              {achievements.map(achievement => (
-                <div key = {achievement.id} >
-                  {achievement.title}
-                </div>
-              )
-              )}
+              <div>
+                {achievements.map(achievement => (
+                  <div key={achievement.id} >
+                    {achievement.title}
+                  </div>
+                )
+                )}
+              </div>
             </div>
             <div className={styles.articlesWrp} />
             <span className={styles.subTitle}>
