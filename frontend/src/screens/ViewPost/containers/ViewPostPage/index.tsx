@@ -100,7 +100,6 @@ const ViewPost: React.FC<IViewPostProps> = (
     }
   };
 
-
   const handleDisLikeComment = id => {
     if (currentUser.id) {
       const comment = {
