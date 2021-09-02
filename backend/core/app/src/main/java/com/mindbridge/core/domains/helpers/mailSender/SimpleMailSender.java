@@ -1,4 +1,5 @@
-package com.mindbridge.core.domains.helpers;
+package com.mindbridge.core.domains.helpers.mailSender;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,14 +9,16 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile("DEV")
-public class MailSender {
+@Profile("dev")
+public class SimpleMailSender implements MailSender {
 	@Autowired
 	private JavaMailSender emailSender;
 
 	@Value("${spring.mail.username}")
 	private String username;
 
+
+	@Override
 	public void sendEmail(String emailTo, String subject, String message) {
 		SimpleMailMessage emailMessage = new SimpleMailMessage();
 

@@ -1,7 +1,7 @@
 package com.mindbridge.core.domains.user;
 import com.mindbridge.core.domains.commentReaction.dto.UserReactionsCommentsDto;
+import com.mindbridge.core.domains.helpers.mailSender.MailSender;
 import com.mindbridge.core.domains.user.dto.*;
-import com.mindbridge.core.domains.helpers.MailSender;
 import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
 import com.mindbridge.data.domains.post.dto.PostTitleDto;
 import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
