@@ -25,10 +25,11 @@ public class CommentReactionService {
 	}
 
 	public Optional<ResponseCommentReactionDto> setReaction(ReceivedCommentReactionDto commentReactionDto) {
-		var reaction = commentReactionRepository.getCommentReaction(commentReactionDto.getUserId(), commentReactionDto.getCommentId());
+		var reaction = commentReactionRepository.getCommentReaction(commentReactionDto.getUserId(),
+				commentReactionDto.getCommentId());
 		if (reaction.isPresent()) {
 			var react = reaction.get();
-			if(react.getLiked() == commentReactionDto.getLiked()) {
+			if (react.getLiked() == commentReactionDto.getLiked()) {
 				commentReactionRepository.deleteById(react.getId());
 				return Optional.empty();
 			}
@@ -36,18 +37,20 @@ public class CommentReactionService {
 				react.setLiked(commentReactionDto.getLiked());
 				var result = commentReactionRepository.save(react);
 				var comment = commentService.getCommentById(result.getComment().getId());
-			return Optional.of(ResponseCommentReactionDto.builder().id(result.getId()).liked(result.getLiked())
-				.userId(result.getAuthor().getId()).commentId(comment.getId()).authorId(comment.getAuthor().getId())
-				.isFirstReaction(false).build());
+				return Optional.of(ResponseCommentReactionDto.builder().id(result.getId()).liked(result.getLiked())
+						.userId(result.getAuthor().getId()).commentId(comment.getId())
+						.authorId(comment.getAuthor().getId()).isFirstReaction(false).build());
 			}
-		} else {
+		}
+		else {
 			var commentReaction = CommentReactionMapper.MAPPER.dtoToPosReaction(commentReactionDto);
 			var result = commentReactionRepository.save(commentReaction);
 			var comment = commentService.getCommentById(result.getComment().getId());
 			return Optional.of(ResponseCommentReactionDto.builder().id(result.getId()).liked(result.getLiked())
-				.userId(result.getAuthor().getId()).commentId(comment.getId()).authorId(comment.getAuthor().getId())
-				.isFirstReaction(true).build());
+					.userId(result.getAuthor().getId()).commentId(comment.getId()).authorId(comment.getAuthor().getId())
+					.isFirstReaction(true).build());
 		}
 
 	}
+
 }

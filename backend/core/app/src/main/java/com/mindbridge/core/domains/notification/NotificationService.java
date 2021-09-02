@@ -41,46 +41,43 @@ public class NotificationService {
 		String description = null;
 		String destination;
 		switch (type) {
-			case newPR: {
-				description = authorNickname + " has contributed to your post";
-				destination = "newPR";
-				createNotificationDto.setType("newPR");
-				break;
-			}
-			case newPost: {
-				description = authorNickname + " has published a new post";
-				destination = "newPost";
-				createNotificationDto.setType("newPost");
-				break;
-			}
-			case newFollower: {
-				description = authorNickname + " now follows you";
-				destination = "newFollower";
-				createNotificationDto.setType("newFollower");
-				break;
-			}
-			default: {
-				return;
-			}
+		case newPR: {
+			description = authorNickname + " has contributed to your post";
+			destination = "newPR";
+			createNotificationDto.setType("newPR");
+			break;
+		}
+		case newPost: {
+			description = authorNickname + " has published a new post";
+			destination = "newPost";
+			createNotificationDto.setType("newPost");
+			break;
+		}
+		case newFollower: {
+			description = authorNickname + " now follows you";
+			destination = "newFollower";
+			createNotificationDto.setType("newFollower");
+			break;
+		}
+		default: {
+			return;
+		}
 		}
 		createNotificationDto.setText(description);
 		notificationRepository.save(NotificationMapper.MAPPER.createDtoToNotification(createNotificationDto));
 
-		template.convertAndSendToUser(
-			receiverId.toString(),
-			destination,
-			description
-		);
+		template.convertAndSendToUser(receiverId.toString(), destination, description);
 	}
 
 	public List<NotificationDto> getNotificationList(UUID userId, Boolean onlyUnread, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 		if (onlyUnread) {
 			return notificationRepository.getUnreadNotificationList(userId, pageable).stream()
-				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
-		} else {
+					.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+		}
+		else {
 			return notificationRepository.getNotificationList(userId, pageable).stream()
-				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+					.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
 		}
 	}
 

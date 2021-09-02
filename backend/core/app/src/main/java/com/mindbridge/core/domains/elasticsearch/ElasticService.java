@@ -35,7 +35,7 @@ public class ElasticService {
 	private ElasticRepository elasticRepository;
 
 	@Autowired
-		private ElasticsearchOperations elasticsearchTemplate;
+	private ElasticsearchOperations elasticsearchTemplate;
 
 	@Autowired
 	private TagRepository tagRepository;
@@ -83,9 +83,8 @@ public class ElasticService {
 
 		var searchResult = getSearchResult(query, searchByTitle, from, count);
 
-		return postService.listIDsToListPosts(searchResult.stream()
-			.map(ElasticEntity::getSourceId)
-			.collect(Collectors.toList()));
+		return postService
+				.listIDsToListPosts(searchResult.stream().map(ElasticEntity::getSourceId).collect(Collectors.toList()));
 	}
 
 	public List<ElasticEntity> searchByAuthor(String query) {
@@ -103,7 +102,8 @@ public class ElasticService {
 	private List<ElasticEntity> getSearchResult(String query, String searchBy, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 
-		NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery(searchBy, query)).withPageable(pageable).build();
+		NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery(searchBy, query))
+				.withPageable(pageable).build();
 
 		SearchHits<ElasticEntity> entities = elasticsearchTemplate.search(searchQuery, ElasticEntity.class);
 
