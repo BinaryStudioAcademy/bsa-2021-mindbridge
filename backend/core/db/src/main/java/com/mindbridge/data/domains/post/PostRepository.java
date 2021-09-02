@@ -2,6 +2,7 @@ package com.mindbridge.data.domains.post;
 
 import com.mindbridge.data.domains.post.dto.PostsReactionsQueryResult;
 import com.mindbridge.data.domains.post.model.Post;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -20,6 +21,19 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 
 	@Query("select p from Post p where p.deleted = false and p.draft = false order by p.createdAt desc ")
 	List<Post> getAllPosts(Pageable pageable);
+
+	@Query(value = "select p.* from Posts p " +
+		"where p.deleted = false " +
+		"and p.draft = false " +
+		"and created_at >= current_date at time zone 'UTC' - interval '7 days'" +
+		"order by (SELECT COALESCE(SUM(CASE WHEN pr.liked = TRUE THEN 1 ELSE -1 END), 0) FROM post_reactions pr WHERE pr.post_id = p.id) desc, p.created_at desc", nativeQuery = true)
+	List<Post> getHotPosts(PageRequest pageable);
+
+	@Query(value = "select p.* from Posts p " +
+		"where p.deleted = false " +
+		"and p.draft = false " +
+		"order by (SELECT COALESCE(SUM(CASE WHEN pr.liked = TRUE THEN 1 ELSE -1 END), 0) FROM post_reactions pr WHERE pr.post_id = p.id) desc", nativeQuery = true)
+	List<Post> getBestPosts(PageRequest pageable);
 
 	@Query("select p from Post p where p.deleted = false and p.author.id = :userId")
 	List<Post> getPostsByAuthorId(UUID userId);

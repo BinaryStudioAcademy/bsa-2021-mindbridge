@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import PostCard from '@components/PostCard';
@@ -6,13 +6,14 @@ import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { RootState } from '@root/store';
 import { extractData, extractFetchDataLoading } from '@screens/FeedPage/reducers';
-import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
+import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine, resetDataRoutine } from '@screens/FeedPage/routines';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import { useLocation } from 'react-use';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -28,7 +29,8 @@ interface IState {
 }
 
 interface IActions {
-  fetchData: IBindingCallback1<Record<string, number>>;
+  fetchData: IBindingCallback1<object>;
+  resetList: IBindingAction;
   likePost: IBindingCallback1<object>;
   fetchUserProfile: IBindingCallback1<string>;
   setLoadMorePosts: IBindingAction;
@@ -45,13 +47,23 @@ const params = {
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
     currentUser, userInfo, likePost, likePostView,
-    disLikePostView, isAuthorized }
+    disLikePostView, isAuthorized, resetList }
 ) => {
+  const location = useLocation();
+  const filter = location.pathname.substring(1, location.pathname.length);
+
   useEffect(() => {
-    fetchData(params);
+    resetList();
+    params.from = 0;
+    params.count = 10;
+    fetchData({ params, filter });
+  }, [filter]);
+
+  useEffect(() => {
+    fetchData({ params, filter });
   }, [fetchData]);
   const handleLoadMorePosts = filtersPayload => {
-    fetchData(filtersPayload);
+    fetchData({ params: filtersPayload, filter });
   };
   const handleLikePost = postId => {
     const post = {
@@ -101,7 +113,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
           loader={' '}
           scrollThreshold={0.9}
         >
-          {data.posts[0].id ? (
+          {data.posts.length !== 0 ? (
             data.posts.map(post => (
               <PostCard
                 key={post.id}
@@ -135,6 +147,7 @@ const mapStateToProps: (state: RootState) => IState = state => ({
 
 const mapDispatchToProps: IActions = {
   fetchData: fetchDataRoutine,
+  resetList: resetDataRoutine,
   setLoadMorePosts: addMorePostsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
   likePost: likePostRoutine,

@@ -1,16 +1,9 @@
 package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.post.dto.*;
-import com.mindbridge.core.domains.postVersion.dto.PostVersionsListDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,6 +39,18 @@ public class PostController {
 	public List<PostsListDetailsDto> getAllPosts(@RequestParam(defaultValue = "0") Integer from,
 			@RequestParam(defaultValue = "10") Integer count) {
 		return postService.getAllPosts(from, count);
+	}
+
+	@GetMapping("/hots")
+	public List<PostsListDetailsDto> getHotPosts(@RequestParam(defaultValue = "0") Integer from,
+												 @RequestParam(defaultValue = "10") Integer count) {
+		return postService.getHotPosts(from, count);
+	}
+
+	@GetMapping("/bests")
+	public List<PostsListDetailsDto> getBestPosts(@RequestParam(defaultValue = "0") Integer from,
+												 @RequestParam(defaultValue = "10") Integer count) {
+		return postService.getBestPosts(from, count);
 	}
 
 	@GetMapping("/title/{id}")

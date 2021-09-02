@@ -1,34 +1,17 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
+import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine, resetDataRoutine } from '@screens/FeedPage/routines';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import { isEmptyArray } from 'formik';
 
 export interface IFeedPageReducerState {
-  posts: [IPost];
+  posts: IPost[];
   hasMore: boolean;
   loadMore: boolean;
 }
 
 const initialState: IFeedPageReducerState = {
-  posts: [{
-    id: '',
-    title: '',
-    text: '',
-    authorId: '',
-    authorName: '',
-    nickname: '',
-    commentsCount: 0,
-    likesCount: 0,
-    disLikesCount: 0,
-    tags: [{ id: '', name: '' }],
-    createdAt: '',
-    postRating: 0,
-    avatar: '',
-    coverImage: '',
-    markdown: false
-  }],
-
+  posts: [],
   hasMore: false,
   loadMore: false
 };
@@ -67,5 +50,10 @@ export const feedPageReducer = createReducer(initialState, {
       post.disLikesCount += action.payload.difference;
       post.postRating -= action.payload.difference;
     }
+  },
+  [resetDataRoutine.TRIGGER]: state => {
+    state.posts = initialState.posts;
+    state.hasMore = false;
+    state.loadMore = false;
   }
 });

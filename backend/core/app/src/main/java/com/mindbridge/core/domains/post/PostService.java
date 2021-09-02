@@ -1,24 +1,21 @@
 package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.comment.CommentService;
-import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
+import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
-import com.mindbridge.core.domains.postVersion.dto.PostVersionsListDto;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
-
-import java.util.HashSet;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -73,6 +70,20 @@ public class PostService {
 				.collect(Collectors.toList());
 	}
 
+	public List<PostsListDetailsDto> getHotPosts(Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+		return postRepository.getHotPosts(pageable).stream()
+			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+			.collect(Collectors.toList());
+	}
+
+	public List<PostsListDetailsDto> getBestPosts(Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+		return postRepository.getBestPosts(pageable).stream()
+			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+			.collect(Collectors.toList());
+	}
+
 	public UUID editPost(EditPostDto editPostDto) {
 		var currentPost = postRepository.getOne(editPostDto.getPostId());
 		if (!editPostDto.getDraft()) {
@@ -111,5 +122,4 @@ public class PostService {
 		return postRepository.getDraftsByUser(userId).stream().map(PostMapper.MAPPER::postToDraftDto)
 				.collect(Collectors.toList());
 	}
-
 }

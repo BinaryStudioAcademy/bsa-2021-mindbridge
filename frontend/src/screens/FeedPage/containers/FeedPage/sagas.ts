@@ -4,8 +4,21 @@ import { toastr } from 'react-redux-toastr';
 import { disLikePostRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
 
 function* fetchData(filter) {
+  console.log(filter);
   try {
-    const response = yield call(feedPageService.getData, filter.payload);
+    let response;
+    switch (filter.payload.filter) {
+      case 'hots':
+        response = yield call(feedPageService.getHotPosts, filter.payload.params);
+        break;
+      case 'bests':
+        response = yield call(feedPageService.getBestPosts, filter.payload.params);
+        break;
+      case '':
+        response = yield call(feedPageService.getData, filter.payload.params);
+        break;
+      default: break;
+    }
     const postsList = { posts: response };
     yield put(fetchDataRoutine.success(postsList));
   } catch (error) {
