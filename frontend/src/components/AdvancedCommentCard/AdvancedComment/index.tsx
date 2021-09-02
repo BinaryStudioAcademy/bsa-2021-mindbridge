@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
@@ -15,6 +15,7 @@ import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
 import { Popup } from 'semantic-ui-react';
 import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
 import parse from 'html-react-parser';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -34,6 +35,8 @@ interface IBasicCommentProps {
   parentCommentId: string;
   handleLikeComment: any;
   handleDislikeComment: any;
+  searchUsersByNickname: any;
+  users: IMentionsUser[];
 }
 /* eslint-disable max-len */
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
@@ -54,12 +57,18 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     parentCommentId,
     postAuthorId,
     handleLikeComment,
-    handleDislikeComment
+    handleDislikeComment,
+    searchUsersByNickname,
+    users
   }
 ) => {
   const [disabled, setDisabled] = useState(false);
   const [rotateArrowHook, setRotateArrowHook] = useState(false);
   const [shouldRender] = useState(setShouldRender);
+  const [usersList, setUsersList] = useState({ user: [{
+    display: '',
+    id: ''
+  }] });
 
   const rotateArrow = {
     width: '0.7142em',
@@ -79,14 +88,6 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   const checkAuthorPost = (authorPostId, userID) => authorPostId === userID;
 
   const getLinkToComment = (url: string) => url.split('#')[0];
-
-  function fetchUsers(query, callback) {
-    if (!query) return;
-    fetch(`/api/user/finduser/${query}`)
-      .then(res => res.json())
-      .then(res => res.map(user => ({ display: `@${user.nickname}`, id: user.id })))
-      .then(callback);
-  }
 
   return (
     <ScrollableAnchor id={commentId}>
@@ -201,12 +202,13 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           {disabled && (
           <div className={styles.replayBlock}>
             <AsyncUserMentions
-              data={fetchUsers}
               setDisabled={setDisabled}
               userInfo={userInfo}
               postId={postId}
               commentId={commentId}
               sendReply={sendReply}
+              users={users}
+              searchUsersByNickname={searchUsersByNickname}
             />
           </div>
           )}
