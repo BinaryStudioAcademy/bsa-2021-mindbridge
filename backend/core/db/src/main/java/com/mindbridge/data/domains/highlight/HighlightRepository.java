@@ -10,9 +10,9 @@ import java.util.*;
 
 public interface HighlightRepository extends JpaRepository<Highlight, UUID>, JpaSpecificationExecutor<Highlight> {
 
-	@Query("SELECT h from Highlight h where h.deleted = false and h.user.id = :id")
+	@Query("SELECT h from Highlight h where h.deleted = false and h.user.id = :id order by h.createdAt desc")
 	List<Highlight>getAllByUserId(UUID id, Pageable pageable);
 
-	@Query("SELECT h from Highlight h where h.deleted = false and h.user.id = :id")
+	@Query("SELECT h from Highlight h where h.deleted = false and h.user.id = :id order by h.createdAt desc ")
 	List<Highlight>getAllByUserId(UUID id);
 }

@@ -72,8 +72,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
 
   const debounced = useDebouncedCallback(
     () => {
-      setIsDeletion(true);
-      setIsPopUpShown(true);
+      if (isDeletion) {
+        setIsPopUpShown(true);
+      }
     },
     400
   );
@@ -112,6 +113,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
       })
       .on(Highlighter.event.HOVER, ({ id }) => {
         handleHoverAction(id);
+        setIsDeletion(true);
         debounced();
       })
       .on(Highlighter.event.HOVER_OUT, ({ id }) => {
@@ -123,6 +125,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   };
 
   const handleMouseUp = () => {
+    setIsDeletion(false);
     if (!window.getSelection().toString().trim()) {
       setIsPopUpShown(false);
     } else {

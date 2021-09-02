@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
+import { IBindingCallback1 } from '@models/Callbacks';
 import {
   addMoreHighlightsRoutine,
   deleteHighlightRoutine,
@@ -28,7 +28,7 @@ interface IState {
 interface IActions {
   fetchHighlights: IBindingCallback1<object>;
   deleteHighlight: IBindingCallback1<string>;
-  setLoadMoreHighlights: IBindingAction;
+  setLoadMoreHighlights: IBindingCallback1<boolean>;
 }
 
 const params = {
@@ -43,8 +43,9 @@ const HighlightsPage: React.FC<IHighlightsProps> = (
 ) => {
   useEffect(() => {
     if (currentUser.id) {
-      params.user = currentUser.id;
-      fetchHighlights(params);
+      params.from = 0;
+      setLoadMoreHighlights(false);
+      fetchHighlights({ from: 0, count: 10, user: currentUser.id });
     }
   }, [currentUser, fetchHighlights]);
 
@@ -53,18 +54,17 @@ const HighlightsPage: React.FC<IHighlightsProps> = (
   };
 
   const handleLoadMoreHighlights = filtersPayload => {
-    if (!dataLoading) {
-      fetchHighlights(filtersPayload);
-      setLoadMoreHighlights();
-    }
+    fetchHighlights(filtersPayload);
   };
 
   const getMorePosts = () => {
-    setLoadMoreHighlights();
-    const { from, count } = params;
-    params.from = from + count;
-    params.user = currentUser.id;
-    handleLoadMoreHighlights(params);
+    if (!dataLoading) {
+      setLoadMoreHighlights(true);
+      const { from, count } = params;
+      params.from = from + count;
+      params.user = currentUser.id;
+      handleLoadMoreHighlights(params);
+    }
   };
 
   return (
@@ -76,7 +76,7 @@ const HighlightsPage: React.FC<IHighlightsProps> = (
         style={{ overflow: 'none' }}
         dataLength={highlights ? highlights.length : 0}
         next={getMorePosts}
-        hasMore={hasMore}
+        hasMore
         loader={' '}
         scrollThreshold={0.9}
       >

@@ -8,3 +8,4 @@ const createHighlightsRoutine = <T extends unknown>(actionName: string) => creat
 export const fetchHighlightsRoutine = createHighlightsRoutine('FETCH_HIGHLIGHTS_ROUTINE');
 export const deleteHighlightRoutine = createHighlightsRoutine('DELETE_HIGHLIGHT_ROUTINE');
 export const addMoreHighlightsRoutine = createHighlightsRoutine('ADD_MORE_HIGHLIGHTS');
+export const fetchHighlightsWithoutPaginationRoutine = createHighlightsRoutine('FETCH_HIGHLIGHTS_WITH_PAGINATION');

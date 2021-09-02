@@ -1,6 +1,10 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import highlightsPageService from '@screens/HighlightsPage/services';
-import { fetchHighlightsRoutine, deleteHighlightRoutine } from '@screens/HighlightsPage/routines';
+import {
+  fetchHighlightsRoutine,
+  deleteHighlightRoutine,
+  fetchHighlightsWithoutPaginationRoutine
+} from '@screens/HighlightsPage/routines';
 import { toastr } from 'react-redux-toastr';
 
 function* fetchHighlights(action) {
@@ -9,6 +13,17 @@ function* fetchHighlights(action) {
     yield put(fetchHighlightsRoutine.success(response));
   } catch (error) {
     yield put(fetchHighlightsRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading failed');
+  }
+}
+
+function* fetchHighlightsWithPagination(action) {
+  try {
+    const response = yield call(highlightsPageService.getHighlightsWithPagination, action.payload);
+    yield put(fetchHighlightsWithoutPaginationRoutine.success(response));
+  } catch
+  (error) {
+    yield put(fetchHighlightsWithoutPaginationRoutine.failure(error?.message));
     toastr.error('Error', 'Loading failed');
   }
 }
@@ -32,9 +47,14 @@ function* watchDeleteHighlight() {
   yield takeEvery(deleteHighlightRoutine.TRIGGER, deleteHighlight);
 }
 
+function* watchFetchHighlightsWithPagination() {
+  yield takeEvery(fetchHighlightsWithoutPaginationRoutine.TRIGGER, fetchHighlightsWithPagination);
+}
+
 export default function* highlightsPageSagas() {
   yield all([
     watchFetchHighlights(),
-    watchDeleteHighlight()
+    watchDeleteHighlight(),
+    watchFetchHighlightsWithPagination()
   ]);
 }

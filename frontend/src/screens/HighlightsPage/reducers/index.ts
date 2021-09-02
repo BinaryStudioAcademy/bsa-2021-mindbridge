@@ -5,7 +5,7 @@ import { highlightsReducer } from '@screens/HighlightsPage/containers/Highlights
 import {
   fetchHighlightsRoutine,
   deleteHighlightRoutine,
-  addMoreHighlightsRoutine
+  addMoreHighlightsRoutine, fetchHighlightsWithoutPaginationRoutine
 } from '@screens/HighlightsPage/routines';
 
 /* PlopJS import placeholder. Do not remove */
@@ -14,7 +14,8 @@ const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
   fetchHighlightsRequest: reducerCreator([fetchHighlightsRoutine.TRIGGER]),
   deleteHighlightRequest: reducerCreator([deleteHighlightRoutine.TRIGGER]),
-  addMoreHighlightsRequest: reducerCreator([addMoreHighlightsRoutine.TRIGGER])
+  addMoreHighlightsRequest: reducerCreator([addMoreHighlightsRoutine.TRIGGER]),
+  fetchHighlightsWithPaginationRequest: reducerCreator([fetchHighlightsWithoutPaginationRoutine.TRIGGER])
 });
 
 export default combineReducers({

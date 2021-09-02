@@ -18,7 +18,8 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { disLikeCommentViewRoutine, disLikePostViewRoutine, likeCommentViewRoutine, likePostViewRoutine }
   from '@screens/PostPage/routines';
-import { deleteHighlightRoutine, fetchHighlightsRoutine } from '@screens/HighlightsPage/routines';
+import { deleteHighlightRoutine, fetchHighlightsRoutine,
+  fetchHighlightsWithoutPaginationRoutine } from '@screens/HighlightsPage/routines';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
@@ -41,7 +42,7 @@ interface IActions {
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
   saveHighlight: IBindingCallback1<object>;
-  fetchHighlights: IBindingCallback1<object>;
+  fetchHighlights: IBindingCallback1<string>;
   deleteHighlight: IBindingCallback1<string>;
   sendComment: IBindingCallback1<object>;
   sendReply: IBindingCallback1<object>;
@@ -79,7 +80,7 @@ const ViewPost: React.FC<IViewPostProps> = (
 
   useEffect(() => {
     if (currentUser.id) {
-      fetchHighlights({ from: 0, count: 50, user: currentUser.id });
+      fetchHighlights(currentUser.id);
     }
   }, [currentUser, fetchHighlights]);
 
@@ -194,7 +195,7 @@ const mapDispatchToProps: IActions = {
   likePostView: likePostViewRoutine,
   disLikePostView: disLikePostViewRoutine,
   saveHighlight: saveHighlightRoutine,
-  fetchHighlights: fetchHighlightsRoutine,
+  fetchHighlights: fetchHighlightsWithoutPaginationRoutine,
   deleteHighlight: deleteHighlightRoutine,
   likeComment: likeCommentViewRoutine,
   dislikeComment: disLikeCommentViewRoutine,
