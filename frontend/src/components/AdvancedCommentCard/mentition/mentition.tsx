@@ -5,16 +5,18 @@ import { MentionsInput, Mention } from 'react-mentions';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import styles from '@components/AdvancedCommentCard/AdvancedComment/styles.module.scss';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
+import { useDebouncedCallback } from 'use-debounce';
 
 function AsyncUserMentions(
   {
     onChange,
     sendReply,
-    data,
     setDisabled,
     userInfo,
     postId,
-    commentId
+    commentId,
+    searchUsersByNickname,
+    users
   }
 ) {
   const [newReply, setNewReply] = useState<ICommentReply>({
@@ -27,11 +29,37 @@ function AsyncUserMentions(
     rating: 0
   });
 
+  const [usersList, setUsersList] = useState({ user: [{
+    display: '',
+    id: ''
+  }] });
+
+  const updateUserList = () => {
+    setUsersList(users.map(user => (({ display: `@${user.nickname}`, id: user.id }))));
+  };
+
+  const debounced = useDebouncedCallback(value => {
+    searchUsersByNickname(value);
+  }, 1000);
+
+  const [nickname, setNickname] = useState('');
+
+  const handleMentionsInput = (event: any) => {
+    debounced(event.target.value);
+    setNickname(event.target.value);
+    updateUserList();
+  };
+
   const handleNewReply = (event: any) => {
     setNewReply({
       ...newReply,
       text: event.target.value
     });
+  };
+
+  const handleEventInput = (event: any) => {
+    handleMentionsInput(event);
+    handleNewReply(event);
   };
 
   const handleSendReply = () => {
@@ -49,33 +77,21 @@ function AsyncUserMentions(
     }
   };
 
-  const emailRegex = /(([^\s]+[^\s]+\.[^\s]+))$/;
-
   return (
     <div>
       <MentionsInput
         value={newReply.text}
         onChanges={onChange}
-        onChange={handleNewReply}
+        onChange={handleEventInput}
         className="mentions"
-        markup="@[__display__]"
         classNames={classNames}
-        a11ySuggestionsListLabel="Suggested mentions"
       >
         <Mention
           className={classNames.mentions__mention__custom}
-          type="user"
           trigger="@"
-          data={data}
-        />
-        <Mention
-          trigger={emailRegex}
-          type="user"
-          data={search => [{ id: search, display: search }]}
-          markup="@[__display__]"
+          data={usersList}
         />
       </MentionsInput>
-
       <div className="actions">
         <DarkBorderButton
           onClick={handleSendReply}
