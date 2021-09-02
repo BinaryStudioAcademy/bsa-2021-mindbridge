@@ -1,13 +1,10 @@
 package com.mindbridge.core.domains.user;
 
 import com.mindbridge.core.domains.commentReaction.dto.UserReactionsCommentsDto;
-import com.mindbridge.core.domains.user.dto.UserShortDto;
+import com.mindbridge.core.domains.user.dto.*;
 import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
 import com.mindbridge.data.domains.post.dto.PostTitleDto;
 import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
-import com.mindbridge.core.domains.user.dto.UserDto;
-import com.mindbridge.core.domains.user.dto.UserProfileDataDto;
-import com.mindbridge.core.domains.user.dto.UserProfileDto;
 import com.mindbridge.core.exceptions.custom.EmailNotFoundException;
 import com.mindbridge.core.exceptions.custom.IdNotFoundException;
 import com.mindbridge.core.exceptions.custom.NicknameNotFoundException;
@@ -187,8 +184,9 @@ public class UserService implements UserDetailsService {
 		return loadUserDtoByEmail(user.getEmail());
 	}
 
-	public List<UserShortDto> getAllUser() {
-		var allUser = userRepository.findAll();
-		return allUser.stream().map(UserMapper.MAPPER::userToUserShortDto).collect(Collectors.toList());
+	public List<UserMentionsDto> getAllUser(String nickname) {
+		var nicknameWithoutAtSign = nickname.substring(0, 0);
+		var allUser = userRepository.findAllByNicknameIsContaining(nicknameWithoutAtSign);
+		return allUser.stream().map(UserMapper.MAPPER::userToUserMentionsDto).collect(Collectors.toList());
 	}
 }

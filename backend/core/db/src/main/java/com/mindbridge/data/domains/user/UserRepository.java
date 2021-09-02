@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
 
 	int countUserByDeletedFalse();
 
+	List<User> findAllByNicknameIsContaining(String nickname);
+
 }
