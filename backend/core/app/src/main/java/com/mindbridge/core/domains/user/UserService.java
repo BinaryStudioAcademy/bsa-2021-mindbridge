@@ -92,7 +92,8 @@ public class UserService implements UserDetailsService {
 		user.setPostsQuantity(postRepository.countPostByAuthorId(userId));
 		user.setContributionsQuantity(postPRRepository.countPostPRByContributorId(userId));
 		user.setUserReactions(userReactions.stream().map(UserReactionsDto::fromEntity).collect(Collectors.toList()));
-		user.setUserReactionsComments(userCommentReactions.stream().map(UserReactionsCommentsDto::fromEntity).collect(Collectors.toList()));
+		user.setUserReactionsComments(
+				userCommentReactions.stream().map(UserReactionsCommentsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
 		long rating = postReactionRepository.calcUserPostRating(userId)
@@ -180,7 +181,7 @@ public class UserService implements UserDetailsService {
 
 	public UserDto deleteUserAvatar(UUID id) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		user.setAvatar(null);
 		userRepository.save(user);
 
@@ -191,4 +192,5 @@ public class UserService implements UserDetailsService {
 		var allUser = userRepository.findAllByNicknameIsContaining(nickname);
 		return allUser.stream().map(UserMapper.MAPPER::userToUserDto).collect(Collectors.toList());
 	}
+
 }

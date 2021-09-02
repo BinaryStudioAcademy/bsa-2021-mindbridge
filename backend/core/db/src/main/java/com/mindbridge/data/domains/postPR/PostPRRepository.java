@@ -44,5 +44,6 @@ public interface PostPRRepository extends JpaRepository<PostPR, UUID>, JpaSpecif
 	List<PostPR> getPostPRByUserId(UUID id, Pageable pageable);
 
 	@Query("SELECT COUNT(pr) from PostPR pr where pr.state = 'accepted' and pr.contributor.id = :id")
-  	int countAcceptedPostPRByContributorId(UUID id);
+	int countAcceptedPostPRByContributorId(UUID id);
+
 }
