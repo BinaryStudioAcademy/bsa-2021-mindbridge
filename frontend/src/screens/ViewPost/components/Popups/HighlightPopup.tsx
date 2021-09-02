@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react';
 import styles from '@screens/ViewPost/components/ViewPostCard/styles.module.scss';
 import { Button, Popup } from 'semantic-ui-react';
 import TextRenderer from '@components/TextRenderer';
-import { IPost } from '@screens/ViewPost/models/IPost';
 
 interface IHighlightPopupProps {
   isPopUpShown: any;
