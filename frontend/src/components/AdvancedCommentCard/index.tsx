@@ -55,7 +55,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
   const handleSendComment = () => {
     if (newComment.text.trim().length) {
       const addComment = {
-        text: newComment.text.replace(/<(.+?)>/g, '&lt;$1&gt;'),
+        text: newComment.text,
         author: userInfo.id,
         postId,
         avatar: userInfo.avatar,

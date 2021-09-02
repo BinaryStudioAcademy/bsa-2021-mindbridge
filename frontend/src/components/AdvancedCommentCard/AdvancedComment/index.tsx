@@ -16,6 +16,7 @@ import { Popup } from 'semantic-ui-react';
 import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
 import parse from 'html-react-parser';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -65,10 +66,15 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   const [disabled, setDisabled] = useState(false);
   const [rotateArrowHook, setRotateArrowHook] = useState(false);
   const [shouldRender] = useState(setShouldRender);
-  const [usersList, setUsersList] = useState({ user: [{
-    display: '',
-    id: ''
-  }] });
+  const [newReply, setNewReply] = useState<ICommentReply>({
+    author: '',
+    postId: '',
+    replyCommentId: '',
+    text: '',
+    avatar: null,
+    nickname: '',
+    rating: 0
+  });
 
   const rotateArrow = {
     width: '0.7142em',
@@ -88,6 +94,29 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   const checkAuthorPost = (authorPostId, userID) => authorPostId === userID;
 
   const getLinkToComment = (url: string) => url.split('#')[0];
+
+  const handleSendReply = () => {
+    if (newReply.text.trim().length) {
+      const addComment = {
+        text: newReply.text.replace(/<(.+?)>/g, '&lt;$1&gt;'),
+        author: userInfo.id,
+        postId,
+        replyCommentId: commentId,
+        avatar: userInfo.avatar,
+        nickname: userInfo.nickname
+      };
+      sendReply(addComment);
+      setDisabled(false);
+    }
+  };
+
+  const handleNewReply = (event: any) => {
+    setNewReply({
+      ...newReply,
+      text: event.target.value
+    });
+  };
+
 
   return (
     <ScrollableAnchor id={commentId}>
@@ -209,6 +238,10 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
               sendReply={sendReply}
               users={users}
               searchUsersByNickname={searchUsersByNickname}
+              handleSendReply={handleSendReply}
+              handleNewReply={handleNewReply}
+              buttonType="buttonReply"
+              newComment={newReply}
             />
           </div>
           )}

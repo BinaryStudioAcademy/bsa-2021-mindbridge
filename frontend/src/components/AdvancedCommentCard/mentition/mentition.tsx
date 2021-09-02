@@ -10,13 +10,16 @@ import { useDebouncedCallback } from 'use-debounce';
 function AsyncUserMentions(
   {
     onChange,
-    sendReply,
+    handleSendComment,
+    handleNewComment,
     setDisabled,
     userInfo,
     postId,
     commentId,
     searchUsersByNickname,
-    users
+    users,
+    buttonType,
+    newComment
   }
 ) {
   const [newReply, setNewReply] = useState<ICommentReply>({
@@ -50,16 +53,9 @@ function AsyncUserMentions(
     updateUserList();
   };
 
-  const handleNewReply = (event: any) => {
-    setNewReply({
-      ...newReply,
-      text: event.target.value
-    });
-  };
-
   const handleEventInput = (event: any) => {
     handleMentionsInput(event);
-    handleNewReply(event);
+    handleNewComment(event);
   };
 
   const handleSendReply = () => {
@@ -80,7 +76,7 @@ function AsyncUserMentions(
   return (
     <div>
       <MentionsInput
-        value={newReply.text}
+        value={newComment.text}
         onChanges={onChange}
         onChange={handleEventInput}
         className="mentions"
@@ -92,13 +88,22 @@ function AsyncUserMentions(
           data={usersList}
         />
       </MentionsInput>
-      <div className="actions">
+      {buttonType === "buttonReply" ? (
+        <div className="actions">
+          <DarkBorderButton
+            onClick={handleSendReply}
+            className={styles.sendCommentBtn}
+            content="Send"
+          />
+        </div>
+      ) : (
         <DarkBorderButton
-          onClick={handleSendReply}
-          className={styles.sendCommentBtn}
+          onClick={handleSendComment}
+          className={styles.buttonSend}
           content="Send"
         />
-      </div>
+      )}
+
     </div>
   );
 }
