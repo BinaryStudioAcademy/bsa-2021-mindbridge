@@ -1,18 +1,21 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import {
   fetchDataRoutine, leaveReactionOnCommentRoutine,
-  leaveReactionOnPostViewPageRoutine,
+  leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
   sendReplyRoutine
 } from '@screens/ViewPost/routines';
 import { IPost } from '../../models/IPost';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
+import { IUsers } from '@screens/ViewPost/models/IUsers';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 export interface IViewPostReducerState {
   post: IPost;
   comment: IComment;
   reply: ICommentReply;
+  users: IMentionsUser[];
 }
 
 const initialState: IViewPostReducerState = {
@@ -48,7 +51,8 @@ const initialState: IViewPostReducerState = {
     avatar: null,
     nickname: '',
     rating: 0
-  }
+  },
+  users: []
 };
 
 const findById = (id, comments, idx = 0) => {
@@ -108,5 +112,8 @@ export const viewPostReducer = createReducer(initialState, {
       message.rating -= action.payload.difference;
       message.rating -= action.payload.difference;
     }
+  },
+  [searchUserByNicknameRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUsers>) => {
+    state.users = payload.users;
   }
 });
