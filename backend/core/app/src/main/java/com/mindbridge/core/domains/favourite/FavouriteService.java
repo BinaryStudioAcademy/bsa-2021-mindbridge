@@ -1,13 +1,16 @@
 package com.mindbridge.core.domains.favourite;
 
+import com.mindbridge.core.domains.post.PostMapper;
 import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import com.mindbridge.data.domains.favorite.FavoriteRepository;
+import com.mindbridge.data.domains.favorite.model.Favorite;
 import com.mindbridge.data.domains.post.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.context.annotation.Lazy;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -25,12 +28,13 @@ public class FavouriteService {
 		this.postRepository = postRepository;
 	}
 
-	public PostsListDetailsDto getFavouritesPostByUserId(UUID id, Integer from, Integer count) {
+	public List<PostsListDetailsDto> getFavouritesPostByUserId(UUID id, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
-		favouriteRepository.findAll();
-//		return favouriteRepository.getAllByUserId(id, pageable).stream()
-//			.map(favorite -> PostsListDetailsDto.fromEntity(favorite.getPost(), postRepository.getAllReactionsOnPost(favorite.getPost().getId())))
-//			.collect(Collectors.toList());
+		var favourites = favouriteRepository.getAllByUserId(id, pageable);
+		return favourites
+			.stream()
+			.map(fav -> PostsListDetailsDto.fromEntity(fav.getPost(), postRepository.getAllReactionsOnPost(fav.getPost().getId())))
+			.collect(Collectors.toList());
 	}
 
 
