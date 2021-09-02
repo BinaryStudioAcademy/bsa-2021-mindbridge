@@ -3,9 +3,15 @@ package com.mindbridge.core.domains.commentReaction;
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.commentReaction.dto.ReceivedCommentReactionDto;
 import com.mindbridge.core.domains.commentReaction.dto.ResponseCommentReactionDto;
+import com.mindbridge.core.exceptions.custom.UserUnauthorizedException;
 import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpException;
+import org.apache.http.HttpStatus;
+import org.elasticsearch.http.HttpResponse;
+import org.elasticsearch.http.HttpStats;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,6 +31,9 @@ public class CommentReactionService {
 	}
 
 	public Optional<ResponseCommentReactionDto> setReaction(ReceivedCommentReactionDto commentReactionDto) {
+		if(commentReactionDto.getUserId() == null) {
+			throw new UserUnauthorizedException("Please log in to perform that action");
+		}
 		var reaction = commentReactionRepository.getCommentReaction(commentReactionDto.getUserId(), commentReactionDto.getCommentId());
 		if (reaction.isPresent()) {
 			var react = reaction.get();
