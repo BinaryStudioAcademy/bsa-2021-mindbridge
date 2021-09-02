@@ -5,3 +5,4 @@ import { createRoutine } from 'redux-saga-routines';
 const createFavouritesPageRoutine = <T extends unknown>(actionName: string) => createRoutine<T>(`FAVOURITES_PAGE:${actionName}`);
 
 /* PlopJS routine placeholder. Do not remove */
+export const fetchFavouritePostsRoutine = createFavouritesPageRoutine('FETCH_FAVOURITE_POSTS_ROUTINE');
