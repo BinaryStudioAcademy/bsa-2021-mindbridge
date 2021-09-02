@@ -23,6 +23,7 @@ import MyContributionsPage from '@root/screens/PostVersions/containers/MyContrib
 import { checkHeaderShown } from '@helpers/headerBlackList.hepler';
 import PostVersionPage from '@screens/PostVersionPage/containers/PostVersionPage';
 import Drafts from '@screens/Drafts/containers/DraftsPage';
+import FavouritesPage from '@screens/FavouritesPage/containers/FavouritesPagePage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -55,6 +56,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/post/contributions/:id" component={PostVersions} />
         <PrivateRoute exact path="/my/contributions" component={MyContributionsPage} />
         <PrivateRoute exact path="/drafts" component={Drafts} />
+        <PrivateRoute exact path="/favourites" component={FavouritesPage} />
         <PublicRoute component={NotFoundPage} />
 
         <div>

@@ -71,7 +71,7 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
           <DraftSvg />
           <span>Drafts</span>
         </Link>
-        <Link to="/">
+        <Link to="/favourites">
           <FavoritesSvg />
           <span>Favorites</span>
         </Link>
