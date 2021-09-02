@@ -19,7 +19,8 @@ import { disLikeCommentViewRoutine, disLikePostViewRoutine, likeCommentViewRouti
   from '@screens/PostPage/routines';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
-import { useDebouncedCallback } from 'use-debounce';
+import { history } from '@helpers/history.helper';
+import {toastr} from "react-redux-toastr";
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -79,6 +80,9 @@ const ViewPost: React.FC<IViewPostProps> = (
       };
       likePostView(id);
       leaveReaction(post);
+    } else {
+      history.push('/login');
+      toastr.error('Error', 'Please log in to perform that action');
     }
   };
 
@@ -91,6 +95,9 @@ const ViewPost: React.FC<IViewPostProps> = (
       };
       disLikePostView(id);
       leaveReaction(post);
+    } else {
+      history.push('/login');
+      toastr.error('Error', 'Please log in to perform that action');
     }
   };
 
@@ -103,6 +110,9 @@ const ViewPost: React.FC<IViewPostProps> = (
       };
       likeComment(id);
       leaveReactionOnComment(comment);
+    } else {
+      history.push('/login');
+      toastr.error('Error', 'Please log in to perform that action');
     }
   };
 
@@ -114,7 +124,10 @@ const ViewPost: React.FC<IViewPostProps> = (
         liked: false
       };
       dislikeComment(id);
-      leaveReactionOnComment(comment);
+      leaveReactionOnComment(comment); {
+        history.push('/login');
+        toastr.error('Error', 'Please log in to perform that action');
+      }
     }
   };
 
