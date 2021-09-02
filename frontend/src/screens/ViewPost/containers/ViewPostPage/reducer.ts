@@ -33,6 +33,7 @@ const initialState: IViewPostReducerState = {
     markdown: false,
     draft: false,
     author: { id: '', firstName: '', lastName: '', avatar: null, nickname: '' },
+    relatedPosts: [],
     comments: []
   },
   comment: {

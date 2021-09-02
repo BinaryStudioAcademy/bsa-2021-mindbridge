@@ -144,6 +144,7 @@ const ViewPost: React.FC<IViewPostProps> = (
 
 const mapStateToProps: (state: RootState) => IState = state => ({
   data: extractData(state),
+  relatedPosts: extractData(state),
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
   userInfo: state.postPageReducer.data.profile,
