@@ -44,15 +44,14 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/registration" component={RegistrationPage} />
         <PublicRoute exact path="/oauth2/resolve" component={oauth2handler} />
         <PublicRoute exact path="/post/:postId" component={ViewPost} />
-        <PublicRoute exact path="/create/post" component={CreatePostPage} />
-        <PublicRoute exact path="/profile" component={ProfilePage} />
+        <PrivateRoute exact path="/create/post" component={CreatePostPage} />
+        <PrivateRoute exact path="/profile" component={ProfilePage} />
         <PublicRoute exact path="/user/:userId" component={PublicProfilePage} />
-        <PublicRoute exact path="/pullRequest/:id" component={PullRequestPage} />
-        <PublicRoute exact path="/pullRequest/edit/:id" component={EditPrPage} />
-        <PublicRoute exact path="/create/post" component={CreatePostPage} />
-        <PublicRoute exact path="/post/edit/:id" component={EditPostPage} />
-        <PublicRoute exact path="/postVersion/:id" component={PostVersionPage} />
-        <PublicRoute exact path="/post/versions/:id" component={PostVersions} />
+        <PrivateRoute exact path="/pullRequest/:id" component={PullRequestPage} />
+        <PrivateRoute exact path="/pullRequest/edit/:id" component={EditPrPage} />
+        <PrivateRoute exact path="/post/edit/:id" component={EditPostPage} />
+        <PrivateRoute exact path="/postVersion/:id" component={PostVersionPage} />
+        <PrivateRoute exact path="/post/versions/:id" component={PostVersions} />
         <PublicRoute exact path="/post/contributions/:id" component={PostVersions} />
         <PublicRoute exact path="/my/contributions" component={MyContributionsPage} />
         <PublicRoute exact path="/drafts" component={Drafts} />
@@ -62,7 +61,6 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <div>
           <LoaderWrapper loading={isLoading}>
             <Switch>
-              <PrivateRoute exact path="/create/post" component={CreatePostPage} />
               <Route path="/*">
                 <Redirect to="/public" />
               </Route>

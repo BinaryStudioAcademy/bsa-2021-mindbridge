@@ -15,7 +15,8 @@ const viewPageService = {
     {
       data: comment
     }
-  )
+  ),
+  getUsersByNickname: async (query: object) => api.get('/api/user/find/', { params: query })
 };
 
 export default viewPageService;

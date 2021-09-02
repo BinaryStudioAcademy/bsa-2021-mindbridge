@@ -10,9 +10,7 @@ import { useLocation } from 'react-use';
 import { NotFoundPage } from '@screens/NotFound/containers/NotFoundPage';
 import LoaderWrapper from '@components/LoaderWrapper';
 import PublicProfileCard from '@screens/ProfilePage/components/PublicProfileCard';
-import ProfileSidebar from '@components/ProfileSidebar';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import FeedLogInSidebar from '@components/FeedLogInSidebar';
 
 export interface IPublicProfilePageProps extends IState, IActions {
   userProfileData: any;

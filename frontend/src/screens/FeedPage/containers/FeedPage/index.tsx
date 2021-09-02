@@ -17,6 +17,7 @@ import { IPostList } from '@screens/FeedPage/models/IPostList';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
+import { useHistory } from 'react-router-dom';
 import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { useLocation } from 'react-use';
@@ -104,23 +105,29 @@ const FeedPage: React.FC<IFeedPageProps> = (
   }, 400);
 
   const handleLikePost = postId => {
-    const post = {
-      postId,
-      userId: currentUser.id,
-      liked: true
-    };
-    likePostView(postId);
-    likePost(post);
+    if (currentUser.id) {
+      const post = {
+        postId,
+        userId: currentUser.id,
+        liked: true
+      };
+      likePostView(postId);
+      likePost(post);
+    }
   };
 
   const handleDisLikePost = postId => {
-    const post = {
-      postId,
-      userId: currentUser.id,
-      liked: false
-    };
-    disLikePostView(postId);
-    likePost(post);
+    if (currentUser.id) {
+      const post = {
+        postId,
+        userId: currentUser.id,
+        liked: false
+      };
+      disLikePostView(postId);
+      likePost(post);
+    } else {
+      history.push('/login');
+    }
   };
 
   const getMorePosts = () => {

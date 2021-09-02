@@ -3,11 +3,12 @@ import viewPageService from '@screens/ViewPost/services/viewPage';
 import { toastr } from 'react-redux-toastr';
 import {
   fetchDataRoutine, leaveReactionOnCommentRoutine,
-  leaveReactionOnPostViewPageRoutine,
+  leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
   sendReplyRoutine
 } from '@screens/ViewPost/routines';
 import feedPageService from '@screens/FeedPage/services/feedPage';
+import { Routine } from 'redux-saga-routines';
 
 function* fetchData(action) {
   try {
@@ -75,6 +76,25 @@ function* leaveCommentReaction(action) {
   }
 }
 
+function* searchUsersByNickname({ payload }: Routine<any>) {
+  try {
+    const params = {
+      query: payload
+    };
+    const response = yield call(viewPageService.getUsersByNickname, params);
+    const users = {
+      users: response
+    };
+    yield put(searchUserByNicknameRoutine.success(users));
+  } catch (error) {
+    yield put(searchUserByNicknameRoutine.failure(error?.message));
+  }
+}
+
+function* watchSearchUsersByNickname() {
+  yield takeEvery(searchUserByNicknameRoutine, searchUsersByNickname);
+}
+
 function* watchLeaveCommentReaction() {
   yield takeEvery(leaveReactionOnCommentRoutine.TRIGGER, leaveCommentReaction);
 }
@@ -100,7 +120,8 @@ export default function* viewPostPageSagas() {
     watchLeaveReactionOnPost(),
     watchSendCommentRequest(),
     watchSendReplyRequest(),
-    watchLeaveCommentReaction()
+    watchLeaveCommentReaction(),
+    watchSearchUsersByNickname()
   ]);
 }
 

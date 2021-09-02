@@ -14,7 +14,9 @@ import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
 import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 import readingTime from 'reading-time';
+import RelatedPosts from '@screens/ViewPost/components/RelatedPosts';
 import { IBindingCallback1 } from '@models/Callbacks';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -27,6 +29,8 @@ interface IViewPostCardProps {
   isAuthorized: boolean;
   handleLikeComment: IBindingCallback1<string>;
   handleDislikeComment: IBindingCallback1<string>;
+  searchUsersByNickname: any;
+  users: IMentionsUser[];
 }
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
   {
@@ -39,7 +43,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
     sendReply,
     isAuthorized,
     handleLikeComment,
-    handleDislikeComment
+    handleDislikeComment,
+    searchUsersByNickname,
+    users
   }
 ) => {
   const history = useHistory();
@@ -130,6 +136,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
             </div>
           </Card.Content>
         </div>
+        { post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} /> }
         <AdvancedCommentsFeed
           comments={post.comments}
           sendComment={sendComment}
@@ -140,6 +147,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
           isAuthorized={isAuthorized}
           handleDislikeComment={handleDislikeComment}
           handleLikeComment={handleLikeComment}
+          users={users}
+          searchUsersByNickname={searchUsersByNickname}
         />
       </Card>
     </div>
