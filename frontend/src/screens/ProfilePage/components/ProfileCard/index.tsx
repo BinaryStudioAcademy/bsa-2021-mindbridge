@@ -19,6 +19,7 @@ import { IProfileFormRequest } from '@screens/ProfilePage/containers/ProfilePage
 import LoaderWrapper from '@components/LoaderWrapper';
 // import { checkImage } from '@helpers/image.helper';
 import CrossSvg from '@screens/ProfilePage/components/svg/crossSvg';
+import Image from '@components/Image';
 
 interface IProfileCardProps {
   initialData: {
@@ -175,13 +176,13 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
             <div className={styles.avatarWrp}>
               <div className={styles.imgContainer}>
                 {(userForm.avatar == null || userForm.avatar === '') ? (
-                  <img
+                  <Image
                     className={styles.avatar}
                     src="https://react.semantic-ui.com/images/wireframe/square-image.png"
                     alt="avatar"
                   />
                 ) : (
-                  <img
+                  <Image
                     className={styles.avatar}
                     src={userForm.avatar}
                     alt="avatar"

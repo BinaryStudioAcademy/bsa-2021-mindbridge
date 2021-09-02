@@ -11,6 +11,7 @@ import ContributorsSvg from './svg/contributors';
 import { Link, useHistory } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import { handleOnClickSignOut } from '@helpers/signOut.helper';
+import Image from '@components/Image';
 
 export interface IProfileSidebarProps {
 }
@@ -27,7 +28,7 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
       <div className={styles.top_group}>
         <div className={styles.avatar_and_name_group}>
           <Link to={`/user/${id}`}>
-            <img
+            <Image
               className={styles.avatar}
               src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'}
               alt="avatar"

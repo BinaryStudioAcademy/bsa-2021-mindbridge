@@ -103,7 +103,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
 
   const getTag = () => (
     modes.htmlMode
-      ? `<img src=${imageTag.url} alt="image" />`
+      ? `<Image src=${imageTag.url} alt="image" />`
       : `![Alt Text](${imageTag.url})`
   );
 

@@ -2,10 +2,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
-import { Image } from 'semantic-ui-react';
 import DividerSvg from '@components/FeedSvgComponents/dividerSvg';
 import { Link, useHistory } from 'react-router-dom';
 import { IContribution } from '@root/screens/ViewPost/models/IContribution';
+import Image from '@components/Image';
 
 export interface IPostContributionItemProps {
   postContribution: IContribution;
@@ -26,11 +26,7 @@ const PostContributionItem: FunctionComponent<IPostContributionItemProps> = ({ p
     <div className={styles.versionItem} onClick={goToVersion}>
       <div>
         <Link onClick={e => handleClick(e)} to={`/user/${postContribution.author?.id}`} className={styles.userName}>
-          <Image
-            src={postContribution.author?.avatar ?? 'https://i.imgur.com/LaWyPZF.png'}
-            avatar
-            size="small"
-          />
+          <Image src={postContribution.author?.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
           {postContribution.author?.nickname}
         </Link>
         <DividerSvg />

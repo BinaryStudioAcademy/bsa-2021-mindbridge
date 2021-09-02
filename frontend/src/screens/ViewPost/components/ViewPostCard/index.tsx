@@ -17,6 +17,7 @@ import readingTime from 'reading-time';
 import RelatedPosts from '@screens/ViewPost/components/RelatedPosts';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import Image from '@components/Image';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -100,7 +101,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
                   </div>
                   )}
                 </div>
-                <img
+                <Image
                   className={styles.image}
                   src={post.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'}
                   alt="media"

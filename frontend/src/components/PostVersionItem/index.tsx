@@ -3,9 +3,9 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
-import { Image } from 'semantic-ui-react';
 import DividerSvg from '@components/FeedSvgComponents/dividerSvg';
 import { Link, useHistory } from 'react-router-dom';
+import Image from '@components/Image';
 
 export interface IPostVersionItemProps {
   postVersion: IPostVersion;
@@ -25,11 +25,7 @@ const PostVersionItem: FunctionComponent<IPostVersionItemProps> = ({ postVersion
   return (
     <div className={styles.versionItem} onClick={goToVersion}>
       <Link onClick={e => handleClick(e)} to={`/user/${postVersion.author?.id}`} className={styles.userName}>
-        <Image
-          src={postVersion.author?.avatar ?? 'https://i.imgur.com/LaWyPZF.png'}
-          avatar
-          size="small"
-        />
+        <Image src={postVersion.author?.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} alt="avatar" />
         {postVersion.author?.nickname}
       </Link>
       <DividerSvg />

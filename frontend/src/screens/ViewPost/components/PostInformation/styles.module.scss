@@ -17,6 +17,12 @@
   flex-direction: row;
   align-items: center;
   grid-gap: 0.3571rem;
+
+  img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+  }
 }
 
 .additionalInformation {

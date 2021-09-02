@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Card, Feed, Image } from 'semantic-ui-react';
+import { Card, Feed } from 'semantic-ui-react';
 import ShareSvg from '@components/FeedSvgComponents/shareSvg';
 import RatingComponent from '@components/RatingIcon';
 import FavouriteSvg from '@components/FeedSvgComponents/favouriteSvg';
@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import TextRenderer from '../TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import readingTime from 'reading-time';
+import Image from '@components/Image';
 
 interface IPostCardProps {
   post: IPost;
@@ -60,11 +61,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
         </div>
       </Feed>
       <Card.Description>
-        <Image
-          floated="right"
-          size="mini"
-          src={post.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'}
-        />
+        <Image src={post.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'} />
         <Link to={`/post/${post.id}`} className={styles.postName}>{post.title}</Link>
         <TextRenderer
           className={styles.post_content}
