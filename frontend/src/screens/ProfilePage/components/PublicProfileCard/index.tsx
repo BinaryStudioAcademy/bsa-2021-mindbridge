@@ -14,6 +14,7 @@ import { IBindingCallback1 } from '@root/models/Callbacks';
 import { fetchAchievementsByUserRoutine } from '../../routines';
 import { connect } from 'react-redux';
 import { IAchievement } from '../../models/IAchievement';
+import Achievement from '@root/components/Achievement';
 
 interface IPublicProfileCardProps extends IState, IActions {
   user: IUser;
@@ -148,11 +149,9 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
               <span className={styles.subTitle}>
                 Awards
               </span>
-              <div>
+              <div className={styles.achievements}>
                 {achievements.map(achievement => (
-                  <div key={achievement.id} >
-                    {achievement.title}
-                  </div>
+                  <Achievement achievement={achievement} />
                 )
                 )}
               </div>

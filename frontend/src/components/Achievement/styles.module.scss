@@ -1,0 +1,12 @@
+@import '../../styles/common_variables.sass';
+
+.achievement{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  .svg{
+    margin: auto;
+  }
+}
+

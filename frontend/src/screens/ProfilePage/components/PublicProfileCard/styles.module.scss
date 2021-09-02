@@ -34,12 +34,23 @@
   }
 }
 
-.statWrp, .achievementsWrp {
+.statWrp {
   display: flex;
   flex-wrap: nowrap;
   padding: 1.6em 0 1.6em 0;
   justify-content: space-between;
   border-bottom: 1px solid #E5E5E5;
+}
+
+.achievementsWrp {
+  padding-top: 1.6rem;
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.achievements{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 .statCell {
