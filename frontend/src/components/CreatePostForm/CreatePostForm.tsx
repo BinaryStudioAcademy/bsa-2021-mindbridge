@@ -16,7 +16,7 @@ import LoaderWrapper from '@components/LoaderWrapper';
 
 interface ICreatePostFormProps {
   form: IForm;
-  postContent: string;
+  initialPostContent: string;
   modes: IModes;
   isCreateForm: boolean;
   setForm: any;
@@ -35,7 +35,7 @@ interface ICreatePostFormProps {
 const CreatePostForm: React.FC<ICreatePostFormProps> = (
   {
     form,
-    postContent,
+    initialPostContent,
     setForm,
     sendImage,
     allTags,
@@ -47,16 +47,20 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
     isContentEmpty
   }
 ) => {
-  const [initialContent, setInitialContent] = useState(postContent);
-  const contentIntact = useMemo(() => (initialContent === postContent), [initialContent, postContent]);
+  const [initialContent, setInitialContent] = useState(initialPostContent);
+  const contentIntact = useMemo(() => (initialContent === initialPostContent), [initialContent, initialPostContent]);
 
   useEffect(() => {
     if (initialContent === '' || !contentIntact) {
-      setInitialContent(postContent);
+      setInitialContent(initialPostContent);
     } else {
       setInitialContent(initialContent);
     }
-  }, [postContent]);
+  }, [initialPostContent]);
+
+  const updateForm = (fieldId, val) => {
+    setForm(prevState => ({ ...prevState, [fieldId]: val }));
+  };
 
   const { getRootProps } = useDropzone({
     disabled: imageTag.preloader,
@@ -69,62 +73,32 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
 
   const handelCoverFile = (event: any) => {
     if (!event.target.files[0]) {
-      setForm({
-        ...form,
-        coverImage: {
-          url: '',
-          title: ''
-        }
-      });
+      updateForm('coverImage', { url: '', title: '' });
     } else if (checkImage(event.target.files[0])) {
       sendImage({ file: event.target.files[0], inContent: false });
-      setForm({
-        ...form,
-        coverImage: {
-          url: '',
-          title: 'loading...'
-        }
-      });
+      updateForm('coverImage', { url: '', title: 'loading...' });
     }
   };
   const handleTitle = (event: any) => {
-    setForm({
-      ...form,
-      title: event.target.value
-    });
+    updateForm('title', event.target.value);
   };
 
   const handleContent = (event: any) => {
     if (typeof event === 'string') {
-      setForm({
-        ...form,
-        content: event
-      });
+      updateForm('content', event);
     } else {
-      setForm({
-        ...form,
-        content: event.target.value
-      });
+      updateForm('content', event.target.value);
     }
   };
 
   const handleTags = (event: any, data: any) => {
     if (data.value.length <= 5) {
-      setForm({
-        ...form,
-        tags: data.value
-      });
+      updateForm('tags', data.value);
     }
   };
 
   const closeCoverImage = () => {
-    setForm({
-      ...form,
-      coverImage: {
-        url: '',
-        title: ''
-      }
-    });
+    updateForm('coverImage', { url: '', title: '' });
   };
 
   const getTag = () => (
@@ -217,7 +191,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
               <div className={styles.editor_input}>
                 { !isCreateForm ? (
                   <div>
-                    {contentIntact && initialContent !== '' ? (
+                    { contentIntact && initialContent !== '' ? (
                       <HtmlEditor
                         value={form.content}
                         initialContent={initialContent}
@@ -229,7 +203,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
                 ) : (
                   <HtmlEditor
                     value={form.content}
-                    initialContent={initialContent}
+                    initialContent=""
                     onChange={handleContent}
                     placeholder="Write your post content"
                   />
