@@ -135,19 +135,22 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
             </div>
           </Card.Content>
         </div>
-        <AdvancedCommentsFeed
-          comments={post.comments}
-          sendComment={sendComment}
-          sendReply={sendReply}
-          postId={post.id}
-          postAuthorId={post.author.id}
-          userInfo={userInfo}
-          isAuthorized={isAuthorized}
-          handleDislikeComment={handleDislikeComment}
-          handleLikeComment={handleLikeComment}
-          users={users}
-          searchUsersByNickname={searchUsersByNickname}
-        />
+        {!post.draft
+          && (
+          <AdvancedCommentsFeed
+            comments={post.comments}
+            sendComment={sendComment}
+            sendReply={sendReply}
+            postId={post.id}
+            postAuthorId={post.author.id}
+            userInfo={userInfo}
+            isAuthorized={isAuthorized}
+            handleDislikeComment={handleDislikeComment}
+            handleLikeComment={handleLikeComment}
+            users={users}
+            searchUsersByNickname={searchUsersByNickname}
+          />
+          )}
       </Card>
     </div>
   );
