@@ -19,7 +19,7 @@ public class AchievementController {
 		this.achievementService = achievementService;
 	}
 
-	@GetMapping("byUser/{id}")
+	@GetMapping("/byUser/{id}")
 	public List<AchievementDto> getAllByUserId(@PathVariable UUID id){
 		return achievementService.getAllByUserId(id);
 	}

@@ -1,3 +1,4 @@
+import { IAchievement } from './IAchievement';
 import { IUser } from '@screens/ProfilePage/models/IUser';
 
 export interface IDataProfile {
@@ -14,4 +15,5 @@ export interface IDataProfile {
     url: string;
     isLoaded: boolean;
   };
+  achievements: IAchievement [];
 }

@@ -3,7 +3,11 @@ import {
   sendNicknameRoutine,
   sendFormRoutine,
   sendAvatarRoutine,
-  openPasswordChangeModalRoutine, sendChangePasswordFormRoutine, fetchUserRoutine, deleteAvatarRoutine
+  openPasswordChangeModalRoutine,
+  sendChangePasswordFormRoutine,
+  fetchUserRoutine,
+  deleteAvatarRoutine,
+  fetchAchievementsByUserRoutine
 } from '@screens/ProfilePage/routines';
 import { IDataProfile } from '@screens/ProfilePage/models/IDataProfile';
 
@@ -33,7 +37,8 @@ const initialState: IDataProfile = {
   savingAvatar: {
     url: '',
     isLoaded: true
-  }
+  },
+  achievements: []
 };
 
 export const profilePageReducer = createReducer(initialState, {
@@ -105,5 +110,8 @@ export const profilePageReducer = createReducer(initialState, {
   },
   [deleteAvatarRoutine.FAILURE]: state => {
     state.savingAvatar.isLoaded = true;
+  },
+  [fetchAchievementsByUserRoutine.SUCCESS]: (state, action) => {
+    state.achievements = action.payload;
   }
 });

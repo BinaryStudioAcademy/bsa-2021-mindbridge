@@ -59,7 +59,8 @@ const profilePageService = {
         data: payload }
     );
     return response;
-  }
+  },
+  fetchAchievements: async userId => api.get(`/api/achievement/byUser/${userId}`)
 };
 
 export default profilePageService;

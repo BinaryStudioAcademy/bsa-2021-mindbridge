@@ -10,13 +10,26 @@ import FollowersSvg from '@screens/ProfilePage/components/svg/followersSvg';
 import PostsSvg from '@screens/ProfilePage/components/svg/posts';
 import ContributorsSvg from '@screens/ProfilePage/components/svg/contributorsSvg';
 import { IUser } from '@screens/ProfilePage/models/IUser';
+import { IBindingCallback1 } from '@root/models/Callbacks';
+import { fetchAchievementsByUserRoutine } from '../../routines';
+import { connect } from 'react-redux';
+import { IAchievement } from '../../models/IAchievement';
 
-interface IPublicProfileCardProps {
+interface IPublicProfileCardProps extends IState, IActions {
   user: IUser;
   isUserLoaded: boolean;
 }
+
+interface IState {
+  achievements: IAchievement[];
+}
+
+interface IActions {
+  fetchAchievements: IBindingCallback1<string>;
+}
+
 const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
-  { user, isUserLoaded }
+  { user, isUserLoaded, achievements, fetchAchievements }
 ) => {
   const [userData, setUserData] = useState(user);
 
@@ -24,13 +37,21 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
     setUserData(user);
   }, [user]);
 
+  useEffect(() => {
+    if(user.id){
+      fetchAchievements(user.id);
+    }
+  }, [user.id]);
+
+  console.log(achievements);
+
   return (
     <div className={styles.viewCard}>
       {isUserLoaded ? (
         <div className={styles.contentWrp}>
           <div className={styles.avatarWrp}>
             <div className={styles.imgContainer}>
-              { (userData.avatar === '' || userData.avatar === null) ? (
+              {(userData.avatar === '' || userData.avatar === null) ? (
                 <img
                   className={styles.avatar}
                   src="https://react.semantic-ui.com/images/wireframe/square-image.png"
@@ -54,11 +75,11 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
                     {' '}
                     {userData.lastName}
                   </span>
-                  { userData.nickname !== null && (
-                  <span className={styles.nickname}>
-                    {`@${userData.nickname}`}
-                  </span>
-                  ) }
+                  {userData.nickname !== null && (
+                    <span className={styles.nickname}>
+                      {`@${userData.nickname}`}
+                    </span>
+                  )}
                   <span className={styles.period}>
                     {getHowLong(userData.createdAt)}
                   </span>
@@ -125,6 +146,17 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
                 </div>
               </div>
             </div>
+            <div className={styles.achievementsWrp}>
+              <span className={styles.subTitle}>
+                Awards
+              </span>
+              {achievements.map(achievement => (
+                <div key = {achievement.id} >
+                  {achievement.title}
+                </div>
+              )
+              )}
+            </div>
             <div className={styles.articlesWrp} />
             <span className={styles.subTitle}>
               {`Articles by ${userData.firstName}`}
@@ -145,4 +177,12 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
   );
 };
 
-export default PublicProfileCard;
+const mapStateToProps: (state) => IState = state => ({
+  achievements: state.profilePageReducer.data.achievements
+});
+
+const mapDispatchToProps: IActions = {
+  fetchAchievements: fetchAchievementsByUserRoutine
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PublicProfileCard);
