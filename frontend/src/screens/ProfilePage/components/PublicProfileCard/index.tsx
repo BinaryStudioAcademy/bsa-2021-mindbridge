@@ -152,8 +152,7 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
               <div className={styles.achievements}>
                 {achievements.map(achievement => (
                   <Achievement achievement={achievement} />
-                )
-                )}
+                ))}
               </div>
             </div>
             <div className={styles.articlesWrp} />

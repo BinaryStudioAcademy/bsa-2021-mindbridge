@@ -5,6 +5,10 @@ import { IAchievement } from '@root/screens/ProfilePage/models/IAchievement';
 import { Popup } from 'semantic-ui-react';
 import WriterSvg from './AchievementsSVGs/WriterSvg';
 import ContributorSvg from './AchievementsSVGs/ContributorSvg';
+import { AchievementType } from './Types';
+import AwesomeSvg from './AchievementsSVGs/AwesomeSvg';
+import PopularSvg from './AchievementsSVGs/PopularSvg';
+import TimeSvg from './AchievementsSVGs/TimeSvg';
 
 // eslint-disable-next-line max-len
 interface IAchievementProps {
@@ -13,27 +17,48 @@ interface IAchievementProps {
 }
 
 const Achievement = ({ className, achievement }: IAchievementProps) => {
-
   let svg;
   switch (achievement.type) {
-    case "Write": svg = <WriterSvg />
+    case AchievementType.write: svg = <WriterSvg />;
       break;
-    case "Contributor": svg = <ContributorSvg />
+    case AchievementType.contributor: svg = <ContributorSvg />;
       break;
+    case AchievementType.awesome: svg = <AwesomeSvg />;
+      break;
+    case AchievementType.popular: svg = <PopularSvg />;
+      break;
+    case AchievementType.time: svg = <TimeSvg />;
+      break;
+    default: svg = null;
+  }
+
+  let stars;
+  switch (achievement.level) {
+    case 1: stars = <div className={styles.stars}>★☆☆☆</div>;
+      break;
+    case 2: stars = <div className={styles.stars}>★★☆☆</div>;
+      break;
+    case 3: stars = <div className={styles.stars}>★★★☆</div>;
+      break;
+    case 4: stars = <div className={styles.stars}>★★★★</div>;
+      break;
+    default: stars = null;
   }
 
   return (
     <div className={classNames(className, styles.achievement)}>
       <Popup
-        trigger={<div>
-          <div className={styles.svg}>{svg}</div>
-          <div>{achievement.title}</div>
-        </div>}
+        trigger={(
+          <div>
+            <div className={styles.svg}>{svg}</div>
+            {stars}
+          </div>
+)}
         content={achievement.text}
-        position='bottom center'
+        position="bottom center"
       />
     </div>
   );
-}
+};
 
 export default Achievement;

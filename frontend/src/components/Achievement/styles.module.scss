@@ -7,6 +7,19 @@
   padding: 1rem;
   .svg{
     margin: auto;
+    background-color: $background-card;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    
+  }
+  .stars{
+    color: $icon-blue;
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
   }
 }
 
