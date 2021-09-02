@@ -4,6 +4,7 @@ import { IUser } from '@screens/ViewPost/models/IUser';
 import styles from './styles.module.scss';
 import AdvancedComment from '@components/AdvancedCommentCard/AdvancedComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 interface ICommentProps {
   text: string;
@@ -25,6 +26,8 @@ interface ICommentProps {
   handleLikeComment: any;
   handleDislikeComment: any;
   depthOfComments: number;
+  searchUsersByNickname: any;
+  users: IMentionsUser[];
 }
 
 const Reply: React.FC<ICommentProps> = (
@@ -47,7 +50,9 @@ const Reply: React.FC<ICommentProps> = (
     postAuthorId,
     handleLikeComment,
     handleDislikeComment,
-    depthOfComments
+    depthOfComments,
+    searchUsersByNickname,
+    users
   }
 ) => {
   const closeCommentRef = useRef(true);
@@ -81,6 +86,8 @@ const Reply: React.FC<ICommentProps> = (
         postAuthorId={postAuthorId}
         handleLikeComment={handleLikeComment}
         handleDislikeComment={handleDislikeComment}
+        users={users}
+        searchUsersByNickname={searchUsersByNickname}
       />
       {repliesLength && (
         <div className={!isMaxDepthOfComments && styles.leftBorder}>
@@ -107,6 +114,8 @@ const Reply: React.FC<ICommentProps> = (
                     handleDislikeComment={handleDislikeComment}
                     handleLikeComment={handleLikeComment}
                     depthOfComments={depthOfComments + 1}
+                    users={users}
+                    searchUsersByNickname={searchUsersByNickname}
                   />
                 ))}
             </div>

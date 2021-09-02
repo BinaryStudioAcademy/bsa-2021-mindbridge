@@ -20,6 +20,7 @@ import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 import readingTime from 'reading-time';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { useDebouncedCallback } from 'use-debounce';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -35,6 +36,8 @@ interface IViewPostCardProps {
   isAuthorized: boolean;
   handleLikeComment: IBindingCallback1<string>;
   handleDislikeComment: IBindingCallback1<string>;
+  searchUsersByNickname: any;
+  users: IMentionsUser[];
 }
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
@@ -50,7 +53,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   sendReply,
   isAuthorized,
   handleLikeComment,
-  handleDislikeComment
+  handleDislikeComment,
+  searchUsersByNickname,
+  users
 }) => {
   const highlighter = new Highlighter({
     wrapTag: 'i',
@@ -59,6 +64,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
       className: styles.highlightWrapper
     }
   });
+
   const history = useHistory();
   const [xPos, setXPos] = useState(0);
   const [yPos, setYPos] = useState(0);
@@ -242,6 +248,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
           isAuthorized={isAuthorized}
           handleDislikeComment={handleDislikeComment}
           handleLikeComment={handleLikeComment}
+          users={users}
+          searchUsersByNickname={searchUsersByNickname}
         />
       </Card>
     </div>

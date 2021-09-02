@@ -6,7 +6,7 @@ import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
 import {
   fetchDataRoutine, leaveReactionOnCommentRoutine,
-  leaveReactionOnPostViewPageRoutine,
+  leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
   sendReplyRoutine,
   saveHighlightRoutine
@@ -23,6 +23,8 @@ import { deleteHighlightRoutine, fetchHighlightsRoutine,
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import { useDebouncedCallback } from 'use-debounce';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -34,6 +36,7 @@ export interface IViewPostProps extends IState, IActions {
 interface IState {
   data: IData;
   dataDeleting: boolean;
+  users: IMentionsUser[];
 }
 
 interface IActions {
@@ -49,6 +52,7 @@ interface IActions {
   likeComment: IBindingCallback1<string>;
   dislikeComment: IBindingCallback1<string>;
   leaveReactionOnComment: IBindingCallback1<object>;
+  searchUsersByNickname: IBindingCallback1<string>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -69,7 +73,9 @@ const ViewPost: React.FC<IViewPostProps> = (
     isAuthorized,
     likeComment,
     dislikeComment,
-    leaveReactionOnComment
+    leaveReactionOnComment,
+    searchUsersByNickname,
+    users
   }
 ) => {
   const { postId } = useParams();
@@ -172,6 +178,8 @@ const ViewPost: React.FC<IViewPostProps> = (
           sendComment={sendComment}
           sendReply={sendReply}
           isAuthorized={isAuthorized}
+          users={users}
+          searchUsersByNickname={searchUsersByNickname}
         />
       </div>
     </div>
@@ -185,6 +193,7 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   userInfo: state.postPageReducer.data.profile,
   highlights: state.highlightsReducer.data.highlights,
   dataDeleting: extractHighlightDeletion(state)
+  users: extractData(state).users
 });
 
 const mapDispatchToProps: IActions = {
@@ -199,7 +208,8 @@ const mapDispatchToProps: IActions = {
   deleteHighlight: deleteHighlightRoutine,
   likeComment: likeCommentViewRoutine,
   dislikeComment: disLikeCommentViewRoutine,
-  leaveReactionOnComment: leaveReactionOnCommentRoutine
+  leaveReactionOnComment: leaveReactionOnCommentRoutine,
+  searchUsersByNickname: searchUserByNicknameRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);
