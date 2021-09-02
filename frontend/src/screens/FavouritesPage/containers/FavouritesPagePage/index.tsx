@@ -8,7 +8,8 @@ import { fetchFavouritePostsRoutine } from '@screens/FavouritesPage/routines';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import PostCard from '@components/PostCard';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { userInfo } from 'os';
+import { extractFetchFavouritePostsLoading } from '@screens/FavouritesPage/reducers';
+import LoaderWrapper from '@components/LoaderWrapper';
 
 export interface IFavouritesPageProps extends IState, IActions {
   userInfo: IUserProfile;
@@ -17,6 +18,7 @@ export interface IFavouritesPageProps extends IState, IActions {
 interface IState {
   favouritePosts: IPost[];
   currentUser: ICurrentUser;
+  dataLoading: boolean;
 }
 
 interface IActions {
@@ -24,13 +26,23 @@ interface IActions {
 }
 
 const FavouritesPage: React.FC<IFavouritesPageProps> = (
-  { favouritePosts, currentUser, fetchFavouritePosts, userInfo }
+  { favouritePosts, currentUser, fetchFavouritePosts, userInfo, dataLoading }
 ) => {
   useEffect(() => {
     if (currentUser.id) {
       fetchFavouritePosts({ id: currentUser.id, from: 0, count: 50 });
     }
   }, [currentUser]);
+
+  if (dataLoading) {
+    return (
+      <div className={styles.feedPage}>
+        <div className={styles.main}>
+          <LoaderWrapper className={styles.loader} loading={dataLoading} />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       {favouritePosts ? (
@@ -56,7 +68,8 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
 const mapStateToProps: (state) => IState = state => ({
   favouritePosts: state.favouritesPageReducer.data.favouritePosts,
   currentUser: state.auth.auth.user,
-  userInfo: state.postPageReducer.data.profile
+  userInfo: state.postPageReducer.data.profile,
+  dataLoading: extractFetchFavouritePostsLoading(state)
 });
 
 const mapDispatchToProps: IActions = {

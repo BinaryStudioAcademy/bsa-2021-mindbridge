@@ -19,3 +19,4 @@ const reqs = (state: RootState) => state.favouritesPageReducer.requests;
 const data = (state: RootState) => state.favouritesPageReducer.data;
 
 /* PlopJS request_extractor placeholder. Do not remove */
+export const extractFetchFavouritePostsLoading = state => reqs(state).fetchFavouritePostsRequest.loading;
