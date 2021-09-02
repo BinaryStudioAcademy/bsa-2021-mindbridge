@@ -15,6 +15,7 @@ import { useHistory } from 'react-router-dom';
 import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 import readingTime from 'reading-time';
 import { IBindingCallback1 } from '@models/Callbacks';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -27,6 +28,8 @@ interface IViewPostCardProps {
   isAuthorized: boolean;
   handleLikeComment: IBindingCallback1<string>;
   handleDislikeComment: IBindingCallback1<string>;
+  searchUsersByNickname: any;
+  users: IMentionsUser[];
 }
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
   {
@@ -39,7 +42,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
     sendReply,
     isAuthorized,
     handleLikeComment,
-    handleDislikeComment
+    handleDislikeComment,
+    searchUsersByNickname,
+    users
   }
 ) => {
   const history = useHistory();
@@ -140,6 +145,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
           isAuthorized={isAuthorized}
           handleDislikeComment={handleDislikeComment}
           handleLikeComment={handleLikeComment}
+          users={users}
+          searchUsersByNickname={searchUsersByNickname}
         />
       </Card>
     </div>
