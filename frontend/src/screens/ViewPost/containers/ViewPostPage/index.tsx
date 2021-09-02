@@ -192,7 +192,7 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   currentUser: state.auth.auth.user,
   userInfo: state.postPageReducer.data.profile,
   highlights: state.highlightsReducer.data.highlights,
-  dataDeleting: extractHighlightDeletion(state)
+  dataDeleting: extractHighlightDeletion(state),
   users: extractData(state).users
 });
 
