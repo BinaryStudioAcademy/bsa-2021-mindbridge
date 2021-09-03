@@ -8,42 +8,45 @@ import { verifiedKeyRoutine } from '@screens/EmailSuccessConfirmation/routines';
 import { useParams } from 'react-router-dom';
 import { extractData } from '@screens/EmailSuccessConfirmation/reducers';
 import { emailSuccessConfirmationReducer } from '@screens/EmailSuccessConfirmation/containers/EmailSuccessConfirmationPage/reducer';
-import {IStateProfile} from "@screens/PostPage/models/IStateProfile";
 
 export interface IEmailSuccessConfirmationProps extends IState, IActions {
   user: IUserProfile;
 }
 
 interface IState {
-  userInfo: IStateProfile;
+  userInfo: IUserProfile;
 }
 
 interface IActions {
-
+  fetchUser: IBindingCallback1<string>;
 }
 
 const EmailSuccessConfirmation: React.FC<IEmailSuccessConfirmationProps> = (
-  { userInfo }
+  { userInfo, fetchUser }
 ) => {
+  const { code } = useParams();
 
+  useEffect(() => {
+    fetchUser(code);
+  }, [code]);
   return (
     <div>
       <p>
         ASdasd
         <p>
-          {userInfo.profile.emailVerified}
+          {userInfo.emailVerified}
         </p>
         <p>
-          {userInfo.profile.id}
+          {userInfo.id}
         </p>
-        {userInfo.profile.emailVerified}
+        {userInfo.emailVerified}
       </p>
     </div>
   );
 };
 
 const mapStateToProps: (state) => IState = state => ({
-  userInfo: extractData(state)
+  userInfo: extractData(state).profile
 });
 
 const mapDispatchToProps: IActions = {

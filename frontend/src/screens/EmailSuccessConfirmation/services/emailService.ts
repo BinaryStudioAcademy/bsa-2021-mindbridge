@@ -1,7 +1,7 @@
 import api from '@helpers/api.helper';
 
 const emailService = {
-  getUserProfile: async verifiedKey => api.get(`/api/activate/${verifiedKey}`)
+  getUserProfile: async code => api.get(`/api/activate/${code}`)
 };
 
 export default emailService;
