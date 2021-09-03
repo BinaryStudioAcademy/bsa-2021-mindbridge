@@ -15,6 +15,8 @@ public class UserReactionsCommentsDto {
 	private Boolean liked;
 
 	public static UserReactionsCommentsDto fromEntity(CommentReaction commentReaction) {
-		return UserReactionsCommentsDto.builder().commentId(commentReaction.getComment().getId()).liked(commentReaction.getLiked()).build();
+		return UserReactionsCommentsDto.builder().commentId(commentReaction.getComment().getId())
+				.liked(commentReaction.getLiked()).build();
 	}
+
 }

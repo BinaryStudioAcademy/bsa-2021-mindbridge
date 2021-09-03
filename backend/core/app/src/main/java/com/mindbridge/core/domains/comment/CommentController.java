@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/comment")
 @Validated
@@ -20,7 +19,6 @@ public class CommentController {
 		this.commentService = commentService;
 	}
 
-
 	@PostMapping("/add")
 	public Comment addComment(@RequestBody CreateCommentDto comment) {
 		return commentService.addComment(comment);
@@ -30,4 +28,5 @@ public class CommentController {
 	public Comment addReplyToComment(@RequestBody ReplyCommentDto reply) {
 		return commentService.addReplyToComment(reply);
 	}
+
 }
