@@ -1,7 +1,7 @@
-import styles from '@screens/Header/containers/HeaderPage/styles.module.scss';
 import React, { FunctionComponent } from 'react';
 import { IPost } from '@screens/Header/models/IPost';
 import { Link } from 'react-router-dom';
+import styles from './styles.module.scss';
 
 interface IFoundPostsList {
   post: IPost;

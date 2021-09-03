@@ -49,12 +49,12 @@ public class PostPRService {
 	@Lazy
 	@Autowired
 	public PostPRService(PostPRRepository postPRRepository, TagRepository tagRepository, PostService postService,
-						 NotificationService notificationService, UserService userService) {
+			NotificationService notificationService, UserService userService) {
 		this.postPRRepository = postPRRepository;
 		this.tagRepository = tagRepository;
 		this.postService = postService;
 		this.notificationService = notificationService;
-    	this.userService = userService;
+		this.userService = userService;
 	}
 
 	public void create(CreatePostPRDto createPostPRDto) {
@@ -64,11 +64,9 @@ public class PostPRService {
 		postPR.setState(State.open);
 		postPRRepository.save(postPR);
 
-		notificationService.createNotification(
-			postService.getPostById(createPostPRDto.getPostId()).getAuthor().getId(),
-			userService.getUserById(createPostPRDto.getContributorId()).getNickname(),
-			postPR.getId(),
-			Notification.Type.newPR);
+		notificationService.createNotification(postService.getPostById(createPostPRDto.getPostId()).getAuthor().getId(),
+				userService.getUserById(createPostPRDto.getContributorId()).getNickname(), postPR.getId(),
+				Notification.Type.newPR);
 	}
 
 	public PostPRDetailsDto getPR(UUID id) {
