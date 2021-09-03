@@ -25,12 +25,14 @@ const FeedTagsSideBar: FunctionComponent = () => {
               key={tag.id}
               className={styles.tag}
             >
-              {tag.name}
+              <p className="tagsSd">{tag.name}</p>
             </button>
           ))}
         </div>
       </div>
-      <button type="button" className={`${styles.dark_button} ${styles.searchBtn}`}>Search</button>
+      <button type="button" className={`${styles.dark_button} ${styles.searchBtn}`}>
+        <span className={styles.searchLabel}>Search</span>
+      </button>
     </div>
   );
 };

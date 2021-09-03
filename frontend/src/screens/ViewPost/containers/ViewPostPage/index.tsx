@@ -8,7 +8,8 @@ import {
   fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
-  sendReplyRoutine
+  sendReplyRoutine,
+  saveHighlightRoutine
 } from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import { IData } from '@screens/ViewPost/models/IData';
@@ -17,7 +18,11 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { disLikeCommentViewRoutine, disLikePostViewRoutine, likeCommentViewRoutine, likePostViewRoutine }
   from '@screens/PostPage/routines';
+import { deleteHighlightRoutine, fetchHighlightsRoutine,
+  fetchHighlightsWithoutPaginationRoutine } from '@screens/HighlightsPage/routines';
+import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import LoaderWrapper from '@root/components/LoaderWrapper';
+import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { history } from '@helpers/history.helper';
 import {toastr} from "react-redux-toastr";
@@ -25,11 +30,13 @@ import {toastr} from "react-redux-toastr";
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
   currentUser: ICurrentUser;
+  highlights: IHighlight[];
   userInfo: IUserProfile;
 }
 
 interface IState {
   data: IData;
+  dataDeleting: boolean;
   users: IMentionsUser[];
 }
 
@@ -38,6 +45,9 @@ interface IActions {
   leaveReaction: IBindingCallback1<object>;
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
+  saveHighlight: IBindingCallback1<object>;
+  fetchHighlights: IBindingCallback1<string>;
+  deleteHighlight: IBindingCallback1<string>;
   sendComment: IBindingCallback1<object>;
   sendReply: IBindingCallback1<object>;
   likeComment: IBindingCallback1<string>;
@@ -57,6 +67,10 @@ const ViewPost: React.FC<IViewPostProps> = (
     leaveReaction,
     likePostView,
     disLikePostView,
+    saveHighlight,
+    fetchHighlights,
+    highlights,
+    deleteHighlight,
     isAuthorized,
     likeComment,
     dislikeComment,
@@ -71,6 +85,12 @@ const ViewPost: React.FC<IViewPostProps> = (
     fetchData(postId);
   }, [postId]);
 
+  useEffect(() => {
+    if (currentUser.id) {
+      fetchHighlights(currentUser.id);
+    }
+  }, [currentUser, fetchHighlights]);
+
   const handleLikePost = id => {
     if (currentUser.id) {
       const post = {
@@ -84,6 +104,27 @@ const ViewPost: React.FC<IViewPostProps> = (
       history.push('/login');
       toastr.error('Error', 'Please log in to perform that action');
     }
+  };
+
+  const handleDeleteHighlight = id => {
+    if (id.length !== 0) {
+      deleteHighlight(id);
+    }
+  };
+
+  const handleSaveHighlight = content => {
+    const highlight = {
+      authorId: currentUser.id,
+      postId,
+      text: content.startMeta.textOffset === 0 ? (`${content.text}...`) : (`...${content.text}...`),
+      tagNameStart: content.startMeta.parentTagName,
+      tagNameEnd: content.endMeta.parentTagName,
+      indexStart: content.startMeta.parentIndex,
+      indexEnd: content.endMeta.parentIndex,
+      offSetStart: content.startMeta.textOffset,
+      offSetEnd: content.endMeta.textOffset
+    };
+    saveHighlight(highlight);
   };
 
   const handleDisLikePost = id => {
@@ -152,6 +193,9 @@ const ViewPost: React.FC<IViewPostProps> = (
           handleDislikeComment={handleDisLikeComment}
           userInfo={userInfo}
           isAuthor={data.post.author.id === currentUser.id}
+          handleSaveHighlight={handleSaveHighlight}
+          highlights={highlights}
+          handleDeleteHighlight={handleDeleteHighlight}
           sendComment={sendComment}
           sendReply={sendReply}
           isAuthorized={isAuthorized}
@@ -169,6 +213,8 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
   userInfo: state.postPageReducer.data.profile,
+  highlights: state.highlightsReducer.data.highlights,
+  dataDeleting: extractHighlightDeletion(state),
   users: extractData(state).users
 });
 
@@ -179,6 +225,9 @@ const mapDispatchToProps: IActions = {
   leaveReaction: leaveReactionOnPostViewPageRoutine,
   likePostView: likePostViewRoutine,
   disLikePostView: disLikePostViewRoutine,
+  saveHighlight: saveHighlightRoutine,
+  fetchHighlights: fetchHighlightsWithoutPaginationRoutine,
+  deleteHighlight: deleteHighlightRoutine,
   likeComment: likeCommentViewRoutine,
   dislikeComment: disLikeCommentViewRoutine,
   leaveReactionOnComment: leaveReactionOnCommentRoutine,
