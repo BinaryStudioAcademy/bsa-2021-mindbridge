@@ -16,5 +16,6 @@ export interface IPost {
   avatar: string;
   coverImage: string;
   markdown: boolean;
+  isFavourite: boolean;
 }
 

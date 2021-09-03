@@ -14,6 +14,7 @@ import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { useHistory } from 'react-router-dom';
 import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import { saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -29,28 +30,34 @@ interface IState {
 }
 
 interface IActions {
-  fetchData: IBindingCallback1<Record<string, number>>;
+  fetchData: IBindingCallback1<object>;
   likePost: IBindingCallback1<object>;
   fetchUserProfile: IBindingCallback1<string>;
   setLoadMorePosts: IBindingAction;
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
   loadUser: IBindingAction;
+  saveFavouritePost: IBindingCallback1<object>;
 }
 
 const params = {
   from: 0,
-  count: 10
+  count: 10,
+  userId: ''
 };
 
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
     currentUser, userInfo, likePost, likePostView,
-    disLikePostView, isAuthorized }
+    disLikePostView, saveFavouritePost }
 ) => {
   useEffect(() => {
-    fetchData(params);
-  }, [fetchData]);
+    if (currentUser.id) {
+      fetchData({ from: 0, count: 10, userId: currentUser.id });
+    } else {
+      fetchData(params);
+    }
+  }, [fetchData, currentUser]);
   const history = useHistory();
   const handleLoadMorePosts = filtersPayload => {
     fetchData(filtersPayload);
@@ -65,6 +72,10 @@ const FeedPage: React.FC<IFeedPageProps> = (
       likePostView(postId);
       likePost(post);
     }
+  };
+
+  const handleAddToFavourites = postId => {
+    saveFavouritePost({ userId: currentUser.id, postId });
   };
 
   const handleDisLikePost = postId => {
@@ -115,6 +126,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
                 key={post.id}
                 handleLikePost={handleLikePost}
                 handleDisLikePost={handleDisLikePost}
+                handleAddToFavourites={handleAddToFavourites}
                 post={post}
                 userInfo={userInfo}
               />
@@ -148,7 +160,8 @@ const mapDispatchToProps: IActions = {
   likePost: likePostRoutine,
   likePostView: likePostViewRoutine,
   disLikePostView: disLikePostViewRoutine,
-  loadUser: loadCurrentUserRoutine
+  loadUser: loadCurrentUserRoutine,
+  saveFavouritePost: saveFavouritePostRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);

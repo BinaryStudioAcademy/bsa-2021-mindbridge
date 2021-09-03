@@ -6,3 +6,4 @@ const createFavouritesPageRoutine = <T extends unknown>(actionName: string) => c
 
 /* PlopJS routine placeholder. Do not remove */
 export const fetchFavouritePostsRoutine = createFavouritesPageRoutine('FETCH_FAVOURITE_POSTS_ROUTINE');
+export const saveFavouritePostRoutine = createFavouritesPageRoutine('SAVA_FAVOURITE_POST_ROUTINE');

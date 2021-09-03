@@ -3,6 +3,7 @@ import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine } from '@screens
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import { isEmptyArray } from 'formik';
+import {saveFavouritePostRoutine} from "@screens/FavouritesPage/routines";
 
 export interface IFeedPageReducerState {
   posts: [IPost];
@@ -26,7 +27,8 @@ const initialState: IFeedPageReducerState = {
     postRating: 0,
     avatar: '',
     coverImage: '',
-    markdown: false
+    markdown: false,
+    isFavourite: false
   }],
 
   hasMore: false,
@@ -67,5 +69,8 @@ export const feedPageReducer = createReducer(initialState, {
       post.disLikesCount += action.payload.difference;
       post.postRating -= action.payload.difference;
     }
+  },
+  [saveFavouritePostRoutine.SUCCESS]: (state, action) => {
+    state.posts.find(post => post.id === action.payload).isFavourite = true;
   }
 });

@@ -1,6 +1,6 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPost } from '@screens/FeedPage/models/IPost';
-import { fetchFavouritePostsRoutine } from '@screens/FavouritesPage/routines';
+import { fetchFavouritePostsRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 
 export interface IFavouritesPageReducerState {
   favouritePosts: IPost[];

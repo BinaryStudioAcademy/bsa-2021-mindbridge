@@ -34,6 +34,10 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
     }
   }, [currentUser]);
 
+  const handleAddToFavourites = () => {
+    console.log('Click');
+  };
+
   if (dataLoading) {
     return (
       <div className={styles.feedPage}>
@@ -52,6 +56,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
             post={post}
             handleLikePost=""
             handleDisLikePost=""
+            handleAddToFavourites={handleAddToFavourites}
             userInfo={userInfo}
           />
         ))

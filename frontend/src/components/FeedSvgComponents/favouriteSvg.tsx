@@ -1,8 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 
-const FavouriteSvg: FunctionComponent = () => (
+interface IFavouriteSvgProps {
+  handleAddToFavourites: any;
+  color: string;
+}
+
+const FavouriteSvg: FunctionComponent<IFavouriteSvgProps> = ({ handleAddToFavourites, color }) => (
   <svg
+    onClick={handleAddToFavourites}
     className={styles.favouriteSvg}
     width="18"
     height="20"
@@ -17,7 +23,7 @@ const FavouriteSvg: FunctionComponent = () => (
     17.1047 0 16.5663 0V0ZM16.371 18.6315C16.371 18.7725 16.2271 18.8669 16.0978 18.8105L9.54544 15.96C9.1988 15.8092
     8.80126 15.8093 8.45466 15.96L1.90231 18.8105C1.77302 18.8668 1.62911 18.7726 1.62911
     18.6315V1.17184H16.3709V18.6315H16.371Z"
-      fill="#66B9FF"
+      fill={color}
     />
   </svg>
 );

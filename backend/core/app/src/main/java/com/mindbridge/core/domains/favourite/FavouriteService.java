@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.favourite;
 
+import com.mindbridge.core.domains.favourite.dto.CreateFavouriteDto;
 import com.mindbridge.core.domains.post.PostMapper;
 import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import com.mindbridge.data.domains.favorite.FavoriteRepository;
@@ -21,6 +22,7 @@ public class FavouriteService {
 
 	private final PostRepository postRepository;
 
+
 	@Autowired
 	@Lazy
 	public FavouriteService(FavoriteRepository favouriteRepository, PostRepository postRepository) {
@@ -38,4 +40,9 @@ public class FavouriteService {
 	}
 
 
+    public UUID saveFavourite(CreateFavouriteDto favouriteDto) {
+		var favouritePost = FavouriteMapper.MAPPER.createFavouriteDtoToFavourite(favouriteDto);
+		var savedPostId = favouriteRepository.save(favouritePost);
+		return savedPostId.getPost().getId();
+    }
 }
