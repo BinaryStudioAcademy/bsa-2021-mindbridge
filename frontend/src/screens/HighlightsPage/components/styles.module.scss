@@ -1,0 +1,53 @@
+.container {
+  :global(.ui.card) {
+    box-shadow: rgb(230, 230, 230) 0 1px 4px;
+    border: 1px solid rgba(230, 230, 230, 1);
+    min-width: 73rem;
+    min-height: 10rem;
+    padding-bottom: 1rem;
+    margin-top: 2em;
+  }
+
+  .quoteText {
+    padding: 1rem;
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    color: #353535;
+  }
+
+  .postHeader {
+    padding: 1.5rem 1rem 0 1rem;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: rgba(53, 53, 53, 0.6);
+  }
+
+  .arrowDown {
+    text-align: -webkit-right;
+    padding-right: 1rem;
+    cursor: pointer;
+  }
+
+  .title {
+    color: rgba(53, 53, 53, 0.6);
+  }
+
+  .title:hover {
+    text-decoration: underline;
+  }
+
+  .highlightQuotes {
+    line-height: 2rem;
+    background-color: #f3f9fe;
+  }
+
+  .deleteHighlight {
+    background-color: white;
+    display: block;
+    position: absolute;
+    margin-left: 68.5rem;
+    margin-top: -2.8571rem;
+    color: #14253F;
+    opacity: 0.4;
+  }
+}

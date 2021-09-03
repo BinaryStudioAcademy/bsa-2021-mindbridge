@@ -4,6 +4,8 @@ import { reducerCreator } from '@helpers/reducer.helper';
 import { viewPostReducer } from '@screens/ViewPost/containers/ViewPostPage/reducer';
 /* PlopJS import placeholder. Do not remove */
 import {
+  fetchHighlightsRoutine,
+  saveHighlightRoutine,
   fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine,
   sendCommentRoutine,
@@ -14,6 +16,8 @@ const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
   fetchDataRequest: reducerCreator([fetchDataRoutine.TRIGGER]),
   leaveReactionOnPostViewPageRequest: reducerCreator([leaveReactionOnPostViewPageRoutine.TRIGGER]),
+  saveHighlightRequest: reducerCreator([saveHighlightRoutine.TRIGGER]),
+  fetchHighlightsRequest: reducerCreator([fetchHighlightsRoutine.TRIGGER]),
   sendCommentRequest: reducerCreator([sendCommentRoutine.TRIGGER]),
   sendReplyRequest: reducerCreator([sendReplyRoutine.TRIGGER]),
   leaveReactionOnCommentRequest: reducerCreator([leaveReactionOnCommentRoutine.TRIGGER])

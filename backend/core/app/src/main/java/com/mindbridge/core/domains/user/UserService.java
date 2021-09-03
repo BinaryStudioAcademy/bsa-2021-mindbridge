@@ -1,6 +1,6 @@
 package com.mindbridge.core.domains.user;
-
 import com.mindbridge.core.domains.commentReaction.dto.UserReactionsCommentsDto;
+import com.mindbridge.core.domains.helpers.mailSender.MailSender;
 import com.mindbridge.core.domains.user.dto.*;
 import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
 import com.mindbridge.data.domains.post.dto.PostTitleDto;
@@ -21,6 +21,7 @@ import com.mindbridge.data.domains.user.UserRepository;
 import com.mindbridge.data.domains.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,22 +57,28 @@ public class UserService implements UserDetailsService {
 
 	private final CommentReactionRepository commentReactionRepository;
 
+	private final MailSender mailSender;
+
 	private final Random random = new Random();
 
 	public static final String PHONE_REGEX = "^\\d{10}$";
 
 	public static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z].{2})(?=.*[A-Z])(?=\\S+$).{8,40}$";
 
+	@Value("${app.domain.name}")
+	private String appDomain;
+
 	@Lazy
 	@Autowired
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
 			CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository,
 			PostPRRepository postPRRepository, PostReactionRepository postReactionRepository,
-			CommentReactionRepository commentReactionRepository) {
+			CommentReactionRepository commentReactionRepository, MailSender mailSender) {
 		this.userRepository = userRepository;
 		this.commentRepository = commentRepository;
 		this.postPRRepository = postPRRepository;
 		this.postReactionRepository = postReactionRepository;
+		this.mailSender = mailSender;
 		this.passwordEncoder = new PasswordConfig().passwordEncoder();
 		this.followerRepository = followerRepository;
 		this.postRepository = postRepository;
@@ -125,7 +132,22 @@ public class UserService implements UserDetailsService {
 		user.setEmail(registrationRequest.getEmail());
 		user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 		user.setEmailVerified(false);
+		user.setActivationCode(UUID.randomUUID().toString());
 		userRepository.save(user);
+
+		String message = String.format(
+			"Dear %s! \n" +
+				"You successfully registration on MindBridge \n" +
+				"\n" +
+				"please follow the link to activate your account: "+ "%s" +"activate/%s" +
+				"\n" +
+				"\n" +
+				"Best regards, MindBride administration",
+			user.getNickname(),
+			appDomain,
+			user.getActivationCode()
+		);
+		mailSender.sendEmail(user.getEmail(), "Thank you for registration on MindBridge", message);
 	}
 
 	@Override
