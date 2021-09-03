@@ -6,7 +6,7 @@ import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import DividerSvg from '@components/FeedSvgComponents/dividerSvg';
 import { Link, useHistory } from 'react-router-dom';
 import Image from '@components/Image';
-import {defaultAvatar} from "@images/defaultImages";
+import { defaultAvatar } from '@images/defaultImages';
 
 export interface IPostVersionItemProps {
   postVersion: IPostVersion;

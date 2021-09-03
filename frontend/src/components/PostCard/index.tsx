@@ -16,7 +16,7 @@ import TextRenderer from '../TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import readingTime from 'reading-time';
 import Image from '@components/Image';
-import {defaultCoverImage} from "@images/defaultImages";
+import { defaultCoverImage } from '@images/defaultImages';
 
 interface IPostCardProps {
   post: IPost;

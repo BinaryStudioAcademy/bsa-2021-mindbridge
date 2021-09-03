@@ -17,7 +17,7 @@ import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentiti
 import TextRender from '@components/TextRenderer';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import Image from '@components/Image';
-import {defaultAvatar} from "@images/defaultImages";
+import { defaultAvatar } from '@images/defaultImages';
 
 interface IBasicCommentProps {
   createdAt: string;

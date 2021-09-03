@@ -7,7 +7,7 @@ import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerS
 import { timeToLocal } from '@helpers/dataTimeToLocalData';
 import { Link } from 'react-router-dom';
 import Image from '@components/Image';
-import {defaultAvatar, defaultCoverImage} from "@images/defaultImages";
+import { defaultAvatar, defaultCoverImage } from '@images/defaultImages';
 
 interface IRelatedPostsProps {
   relatedPosts: IRelatedPost[];

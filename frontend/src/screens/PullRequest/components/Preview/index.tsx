@@ -8,7 +8,7 @@ import TextDiff from '@root/components/TextDiff';
 import TextRenderWithDiff from '@root/components/TextRenderWithDiff';
 import SeeDiffTags from '../SeeDiffInTags';
 import Image from '@components/Image';
-import {defaultCoverImage} from "@images/defaultImages";
+import { defaultCoverImage } from '@images/defaultImages';
 
 // eslint-disable-next-line max-len
 interface IPreviewProps {

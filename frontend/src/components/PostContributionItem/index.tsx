@@ -6,7 +6,7 @@ import DividerSvg from '@components/FeedSvgComponents/dividerSvg';
 import { Link, useHistory } from 'react-router-dom';
 import { IContribution } from '@root/screens/ViewPost/models/IContribution';
 import Image from '@components/Image';
-import {defaultAvatar} from "@images/defaultImages";
+import { defaultAvatar } from '@images/defaultImages';
 
 export interface IPostContributionItemProps {
   postContribution: IContribution;

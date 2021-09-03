@@ -12,7 +12,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import { handleOnClickSignOut } from '@helpers/signOut.helper';
 import Image from '@components/Image';
-import {defaultAvatar} from "@images/defaultImages";
+import { defaultAvatar } from '@images/defaultImages';
 
 export interface IProfileSidebarProps {
 }

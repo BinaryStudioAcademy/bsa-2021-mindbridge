@@ -4,7 +4,7 @@ import React, { FunctionComponent } from 'react';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
 import Image from '@components/Image';
-import {defaultAvatar} from "@images/defaultImages";
+import { defaultAvatar } from '@images/defaultImages';
 
 interface IBasicCommentProps {
   createdAt: string;

@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import DividerSvg from '@components/FeedSvgComponents/dividerSvg';
 import { Link } from 'react-router-dom';
 import Image from '@components/Image';
-import {defaultAvatar} from "@images/defaultImages";
+import { defaultAvatar } from '@images/defaultImages';
 
 interface IPostHeaderInformationProps {
   authorId: string;

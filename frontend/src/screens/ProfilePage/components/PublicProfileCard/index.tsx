@@ -11,7 +11,7 @@ import PostsSvg from '@screens/ProfilePage/components/svg/posts';
 import ContributorsSvg from '@screens/ProfilePage/components/svg/contributorsSvg';
 import { IUser } from '@screens/ProfilePage/models/IUser';
 import Image from '@components/Image';
-import {defaultAvatar} from "@images/defaultImages";
+import { defaultAvatar } from '@images/defaultImages';
 
 interface IPublicProfileCardProps {
   user: IUser;

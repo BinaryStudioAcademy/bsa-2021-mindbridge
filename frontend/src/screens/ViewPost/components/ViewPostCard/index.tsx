@@ -18,7 +18,7 @@ import RelatedPosts from '@screens/ViewPost/components/RelatedPosts';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import Image from '@components/Image';
-import {defaultCoverImage} from "@images/defaultImages";
+import { defaultCoverImage } from '@images/defaultImages';
 
 interface IViewPostCardProps {
   post: IPost;

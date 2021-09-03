@@ -6,7 +6,7 @@ import { timeToLocal } from '@helpers/dataTimeToLocalData';
 import { Link } from 'react-router-dom';
 import DraftLabel from '@components/DraftLabel';
 import Image from '@components/Image';
-import {defaultAvatar} from "@images/defaultImages";
+import { defaultAvatar } from '@images/defaultImages';
 
 interface IPostInformationProps {
   id: string;

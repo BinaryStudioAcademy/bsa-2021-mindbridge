@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { timeToLocal } from '@helpers/dataTimeToLocalData';
 import Image from '@components/Image';
-import {defaultAvatar} from "@images/defaultImages";
+import { defaultAvatar } from '@images/defaultImages';
 
 // eslint-disable-next-line max-len
 interface IAuthorAndDateProps {

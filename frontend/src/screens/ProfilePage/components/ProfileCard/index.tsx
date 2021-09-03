@@ -20,7 +20,7 @@ import LoaderWrapper from '@components/LoaderWrapper';
 // import { checkImage } from '@helpers/image.helper';
 import CrossSvg from '@screens/ProfilePage/components/svg/crossSvg';
 import Image from '@components/Image';
-import {defaultAvatar} from "@images/defaultImages";
+import { defaultAvatar } from '@images/defaultImages';
 
 interface IProfileCardProps {
   initialData: {
