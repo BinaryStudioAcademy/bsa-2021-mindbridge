@@ -1,9 +1,8 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import postPageService from '@screens/PostPage/services/PostPage';
-import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
 import emailService from '@screens/EmailSuccessConfirmation/services/emailService';
 import { fetchDataRoutine } from '@screens/EmailSuccessConfirmation/routines';
 import { toastr } from 'react-redux-toastr';
+import { history } from '@helpers/history.helper';
 
 export default function* emailSuccessConfirmationPageSagas() {
   function* fetchData(action) {
@@ -13,7 +12,7 @@ export default function* emailSuccessConfirmationPageSagas() {
       toastr.success('Success', 'Loading data success');
     } catch (error) {
       yield put(fetchDataRoutine.failure(error?.message));
-      toastr.error('Error', 'Loading data failed');
+      history.push('/');
     }
   }
   function* watchDataRequest() {

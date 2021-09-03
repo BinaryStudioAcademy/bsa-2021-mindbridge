@@ -4,11 +4,12 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IBindingCallback1 } from '@models/Callbacks';
-import {fetchDataRoutine} from '@screens/EmailSuccessConfirmation/routines';
+import { fetchDataRoutine } from '@screens/EmailSuccessConfirmation/routines';
 import { useParams } from 'react-router-dom';
 import { extractData } from '@screens/EmailSuccessConfirmation/reducers';
 import { history } from '@helpers/history.helper';
 import { IStateProfile } from '@screens/PostPage/models/IStateProfile';
+import EmailConfirmation from '@screens/EmailConfirmation/containers/EmailConfirmationPage';
 
 export interface IEmailSuccessConfirmationProps extends IState, IActions {
 
@@ -34,18 +35,20 @@ const EmailSuccessConfirmation: React.FC<IEmailSuccessConfirmationProps> = (
   return (
     <div>
       {data.emailVerified ? (
-        history.push('/')
-      ) : (
-        <p>
-          Nop
-          <div>
-            <p>{data.id.toString()}</p>
-            <p>{code}</p>
+        <div className={styles.container}>
+          <div className={styles.wrapper_block}>
+            <div className={styles.wrapper_title}>
+              <div className={styles.success}>Success!</div>
+            </div>
+            <div className={styles.success_block}>
+              <div className={styles.success_block_placeholder}>
+                The email has been successfully verified.
+              </div>
+            </div>
           </div>
-          <p />
-          <p />
-
-        </p>
+        </div>
+      ) : (
+        <EmailConfirmation />
       )}
     </div>
   );
