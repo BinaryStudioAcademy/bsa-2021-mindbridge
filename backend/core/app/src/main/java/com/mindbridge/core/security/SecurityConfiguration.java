@@ -59,10 +59,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	private void applyOAuth2Config(HttpSecurity http) throws Exception {
-		http.oauth2Login(oauth2Config -> oauth2Config.authorizationEndpoint(auth -> {
-			auth.baseUri("/auth/oauth2/authorize");
-			auth.authorizationRequestRepository(authorizationRequestRepository());
-		}).redirectionEndpoint(redir -> redir.baseUri("/auth/oauth2/code/*")).successHandler(oAuth2SuccessHandler()));
+		http
+			.oauth2Login(oauth2Config -> oauth2Config
+				.authorizationEndpoint(auth -> {
+					auth.baseUri("/auth/oauth2/authorize");
+					auth.authorizationRequestRepository(authorizationRequestRepository());
+				})
+				.redirectionEndpoint(redir -> redir.baseUri("/auth/oauth2/code/*"))
+				.successHandler(oAuth2SuccessHandler()));
 	}
 
 	@Bean
