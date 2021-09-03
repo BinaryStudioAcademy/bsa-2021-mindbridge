@@ -3,12 +3,12 @@ import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
 // eslint-disable-next-line max-len
 import { emailSuccessConfirmationReducer } from '@screens/EmailSuccessConfirmation/containers/EmailSuccessConfirmationPage/reducer';
-import { verifiedKeyRoutine } from '@screens/EmailSuccessConfirmation/routines';
+import {fetchDataRoutine} from '@screens/EmailSuccessConfirmation/routines';
 /* PlopJS import placeholder. Do not remove */
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
-  fetchVerifiedKeyRequest: reducerCreator([verifiedKeyRoutine.TRIGGER])
+  fetchDataRequest: reducerCreator([fetchDataRoutine.TRIGGER])
 });
 
 export default combineReducers({

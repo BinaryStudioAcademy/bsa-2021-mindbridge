@@ -4,53 +4,59 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IBindingCallback1 } from '@models/Callbacks';
-import { verifiedKeyRoutine } from '@screens/EmailSuccessConfirmation/routines';
+import {fetchDataRoutine} from '@screens/EmailSuccessConfirmation/routines';
 import { useParams } from 'react-router-dom';
 import { extractData } from '@screens/EmailSuccessConfirmation/reducers';
-import { emailSuccessConfirmationReducer } from '@screens/EmailSuccessConfirmation/containers/EmailSuccessConfirmationPage/reducer';
+import { history } from '@helpers/history.helper';
+import { IStateProfile } from '@screens/PostPage/models/IStateProfile';
 
 export interface IEmailSuccessConfirmationProps extends IState, IActions {
-  user: IUserProfile;
+
 }
 
 interface IState {
-  userInfo: IUserProfile;
+  data: IUserProfile;
 }
 
 interface IActions {
-  fetchUser: IBindingCallback1<string>;
+  fetchData: IBindingCallback1<string>;
 }
 
 const EmailSuccessConfirmation: React.FC<IEmailSuccessConfirmationProps> = (
-  { userInfo, fetchUser }
+  { fetchData, data }
 ) => {
   const { code } = useParams();
 
   useEffect(() => {
-    fetchUser(code);
+    fetchData(code);
   }, [code]);
+
   return (
     <div>
-      <p>
-        ASdasd
+      {data.emailVerified ? (
+        history.push('/')
+      ) : (
         <p>
-          {userInfo.emailVerified}
+          Nop
+          <div>
+            <p>{data.id.toString()}</p>
+            <p>{code}</p>
+          </div>
+          <p />
+          <p />
+
         </p>
-        <p>
-          {userInfo.id}
-        </p>
-        {userInfo.emailVerified}
-      </p>
+      )}
     </div>
   );
 };
 
 const mapStateToProps: (state) => IState = state => ({
-  userInfo: extractData(state).profile
+  data: extractData(state).user
 });
 
 const mapDispatchToProps: IActions = {
-  fetchUser: verifiedKeyRoutine
+  fetchData: fetchDataRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmailSuccessConfirmation);

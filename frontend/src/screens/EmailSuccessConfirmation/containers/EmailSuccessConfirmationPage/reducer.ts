@@ -1,13 +1,13 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { verifiedKeyRoutine } from '@screens/EmailSuccessConfirmation/routines';
+import {fetchDataRoutine} from "@screens/EmailSuccessConfirmation/routines";
 
 export interface IEmailSuccessConfirmationReducerState {
-  profile: IUserProfile;
+  user: IUserProfile;
 }
 
 const initialState: IEmailSuccessConfirmationReducerState = {
-  profile: {
+  user: {
     id: '',
     fullName: undefined,
     nickname: undefined,
@@ -22,7 +22,7 @@ const initialState: IEmailSuccessConfirmationReducerState = {
 };
 
 export const emailSuccessConfirmationReducer = createReducer(initialState, {
-  [verifiedKeyRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
-    state.profile = payload;
+  [fetchDataRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUserProfile>) => {
+    state.user = payload;
   }
 });
