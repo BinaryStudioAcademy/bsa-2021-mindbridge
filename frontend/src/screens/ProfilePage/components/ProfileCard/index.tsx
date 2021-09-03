@@ -17,7 +17,8 @@ import { isDeepEqual } from 'react-use/lib/util';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { IProfileFormRequest } from '@screens/ProfilePage/containers/ProfilePage';
 import LoaderWrapper from '@components/LoaderWrapper';
-import { toastr } from 'react-redux-toastr';
+// import { checkImage } from '@helpers/image.helper';
+import CrossSvg from '@screens/ProfilePage/components/svg/crossSvg';
 
 interface IProfileCardProps {
   initialData: {
@@ -42,6 +43,7 @@ interface IProfileCardProps {
   sendAvatar: IBindingCallback1<object>;
   sendNickname: IBindingCallback1<string>;
   openPasswordChangeModal: IBindingCallback1<boolean>;
+  deleteAvatar: IBindingCallback1<string>;
 }
 const ProfileCard: FunctionComponent<IProfileCardProps> = (
   {
@@ -49,7 +51,9 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
     initialState,
     sendForm, sendAvatar,
     sendNickname,
-    openPasswordChangeModal }
+    openPasswordChangeModal,
+    deleteAvatar
+  }
 ) => {
   const validationInitialState = {
     isNameValid: true,
@@ -113,38 +117,12 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
   }, [profileData.isNicknameEngaged, profileData.isNicknameLoaded]);
 
   useEffect(() => {
-    if (profileData.savingAvatar.url !== '') {
-      updateForm('avatar', profileData.savingAvatar.url);
-    }
+    updateForm('avatar', profileData.savingAvatar.url);
   }, [profileData.savingAvatar.url]);
 
-  const checkImage = file => {
-    const BYTES_IN_MEGABYTE = 1024 * 1024;
-    if (!file.name.match(/\.(jpg|jpeg|png|gif)$/)) {
-      toastr.error('Error', 'Select a valid image!');
-      return false;
-    }
-    if (file.size > (BYTES_IN_MEGABYTE)) {
-      toastr.error('Error', 'File is too large, use image less than 1Mb!');
-      return false;
-    }
-    return true;
-  };
-
   const handleImgChange = (event: any) => {
-    if (checkImage(event.target.files[0])) {
-      setImgToSave(event.target.files[0]);
-      updateForm('avatar', URL.createObjectURL(event.target.files[0]));
-    }
-  };
-
-  const handleOnBlur = val => {
-    if (val !== initialData.nickname && validationData.isNicknameValid) {
-      sendNickname(val);
-    } else {
-      setCanChangeNick(true);
-      setIsSubmitBlocked(false);
-    }
+    setImgToSave(event.target.files[0]);
+    updateForm('avatar', URL.createObjectURL(event.target.files[0]));
   };
 
   const setDafaultState = () => {
@@ -155,6 +133,20 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
     setImgToSave(null);
     setCanChangeNick(true);
     setIsSubmitBlocked(false);
+  };
+
+  const handleImgDelete = () => {
+    deleteAvatar(userForm.id);
+    setDafaultState();
+  };
+
+  const handleOnBlur = val => {
+    if (val !== initialData.nickname && validationData.isNicknameValid) {
+      sendNickname(val);
+    } else {
+      setCanChangeNick(true);
+      setIsSubmitBlocked(false);
+    }
   };
 
   const handleChangePasswordClick = () => {
@@ -203,6 +195,13 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
                           <EditSvg />
                           <input id="image-input-1" className={styles.invisible} type="file" accept="image/*" />
                         </label>
+                        { (profileData.savingAvatar.url !== '') && (
+                        <label className={styles.file_input_rectangle} title="Delete avatar">
+                          <button className={styles.deleteImgButton} type="button" onClick={handleImgDelete}>
+                            <CrossSvg />
+                          </button>
+                        </label>
+                        ) }
                       </div>
                     </div>
                   )

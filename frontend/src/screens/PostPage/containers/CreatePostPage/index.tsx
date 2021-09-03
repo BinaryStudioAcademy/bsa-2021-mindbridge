@@ -228,6 +228,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
               <CreatePostForm
                 isCreateForm
                 form={form}
+                initialPostContent=""
                 modes={modes}
                 setForm={setForm}
                 sendImage={sendImage}

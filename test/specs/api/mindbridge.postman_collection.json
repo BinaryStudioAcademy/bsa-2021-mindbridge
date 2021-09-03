@@ -1,0 +1,2138 @@
+{
+	"info": {
+		"_postman_id": "c8f3b393-a008-4dd6-b688-017265ba6d03",
+		"name": "MindBridge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "REGISTRATION",
+			"item": [
+				{
+					"name": "smoke registration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                \"tokens\": { \"type\": \"object\",",
+									"                \"properties\": {",
+									"                    \"accessToken\": { \"type\": \"string\" },",
+									"                    \"refreshToken\": { \"type\": \"string\" }",
+									"                },",
+									"                \"required\": [\"accessToken\", \"refreshToken\"],",
+									"                \"user\": { \"type\": \"object\",",
+									"                \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"createdAt\": { \"type\": \"string\" },",
+									"                    \"nickname\": { \"type\": \"string\" },",
+									"                    \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"                    \"email\": { \"type\": \"string\" },",
+									"                    \"firstName\": { \"type\": \"string\" },",
+									"                    \"lastname\": { \"type\": \"string\" },",
+									"                },",
+									"                \"required\": [\"id\", \"createdAt\", \"nickname\", \"avatar\", \"email\", \"firstName\", \"lastname\"],",
+									"            }",
+									"        }",
+									"    }",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"token\", response.tokens.refreshToken);",
+									"pm.collectionVariables.set(\"email\", response.user.email);",
+									"pm.collectionVariables.set(\"userId\", response.user.id);",
+									"pm.collectionVariables.set(\"nickname\", response.user.nickname);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"name\": \"{{$randomFirstName}}\",\n    \"nickname\": \"{{$randomFirstName}}\",\n    \"password\": \"Pa55word\",\n    \"surname\": \"{{$randomLastName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                \"tokens\": { \"type\": \"object\",",
+									"                \"properties\": {",
+									"                    \"accessToken\": { \"type\": \"string\" },",
+									"                    \"refreshToken\": { \"type\": \"string\" }",
+									"                },",
+									"                \"required\": [\"accessToken\", \"refreshToken\"],",
+									"                \"user\": { \"type\": \"object\",",
+									"                \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"createdAt\": { \"type\": \"string\" },",
+									"                    \"nickname\": { \"type\": \"string\" },",
+									"                    \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"                    \"email\": { \"type\": \"string\" },",
+									"                    \"firstName\": { \"type\": \"string\" },",
+									"                    \"lastname\": { \"type\": \"string\" },",
+									"                },",
+									"                \"required\": [\"id\", \"createdAt\", \"nickname\", \"avatar\", \"email\", \"firstName\", \"lastname\"],",
+									"            }",
+									"        }",
+									"    }",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"tokenPR\", response.tokens.refreshToken);",
+									"pm.collectionVariables.set(\"emailPR\", response.user.email);",
+									"pm.collectionVariables.set(\"userIdPR\", response.user.id);",
+									"pm.collectionVariables.set(\"nicknamePR\", response.user.nickname);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"name\": \"{{$randomFirstName}}\",\n    \"nickname\": \"{{$randomFirstName}}\",\n    \"password\": \"Pa55word\",\n    \"surname\": \"{{$randomLastName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "nodata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                \"status\": { \"type\": \"string\" },",
+									"                \"code\": { \"type\": \"string\" },",
+									"                \"message\": { \"type\": \"string\" },",
+									"                \"path\": { \"type\": \"string\" },",
+									"                },",
+									"    \"required\": [\"status\", \"code\", \"message\", \"path\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"\",\n    \"name\": \"\",\n    \"nickname\": \"\",\n    \"password\": \"\",\n    \"surname\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "not valid email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"",
+									"tests[\"Verify code message\"] = response.code === \"[Email is not valid.]\";",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                \"status\": { \"type\": \"string\" },",
+									"                \"code\": { \"type\": \"string\" },",
+									"                \"message\": { \"type\": \"string\" },",
+									"                \"path\": { \"type\": \"string\" },",
+									"                },",
+									"    \"required\": [\"status\", \"code\", \"message\", \"path\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"JohnSmith{{$randomInt}}@@gmail.com\",\n    \"name\": \"John\",\n    \"nickname\": \"Smithy{{$randomInt}}\",\n    \"password\": \"Pa55word\",\n    \"surname\": \"Smith\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alredyregister",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"var email = pm.collectionVariables.get(\"email\");",
+									"",
+									"tests[\"Verify email is alredy used\"] = response.message === \"User with email '\" + email + \"' is already registered.\";",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                \"status\": { \"type\": \"string\" },",
+									"                \"code\": { \"type\": \"string\" },",
+									"                \"message\": { \"type\": \"string\" },",
+									"                \"path\": { \"type\": \"string\" },",
+									"                },",
+									"    \"required\": [\"status\", \"code\", \"message\", \"path\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{email}}\",\n    \"name\": \"John\",\n    \"nickname\": \"Smithy\",\n    \"password\": \"Pa55word\",\n    \"surname\": \"Smith\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LOGIN",
+			"item": [
+				{
+					"name": "smoke login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"VerifyStatus code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                \"tokens\": { \"type\": \"object\",",
+									"                \"properties\": {",
+									"                    \"accessToken\": { \"type\": \"string\" },",
+									"                    \"refreshToken\": { \"type\": \"string\" }",
+									"                },",
+									"                \"required\": [\"accessToken\", \"refreshToken\"],",
+									"                \"user\": { \"type\": \"object\",",
+									"                \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"nickname\": { \"type\": \"string\" },",
+									"                    \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"                    \"firstName\": { \"type\": \"string\" },",
+									"                    \"lastname\": { \"type\": \"string\" }",
+									"                },",
+									"                \"required\": [\"id\", \"nickname\", \"avatar\", \"firstName\", \"lastname\"],",
+									"            }",
+									"        }",
+									"    }",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"var email = pm.collectionVariables.get(\"email\");",
+									"tests[\"Verify email\"] = response.user.email === email;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"Pa55word\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"VerifyStatus code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                \"tokens\": { \"type\": \"object\",",
+									"                \"properties\": {",
+									"                    \"accessToken\": { \"type\": \"string\" },",
+									"                    \"refreshToken\": { \"type\": \"string\" }",
+									"                },",
+									"                \"required\": [\"accessToken\", \"refreshToken\"],",
+									"                \"user\": { \"type\": \"object\",",
+									"                \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"nickname\": { \"type\": \"string\" },",
+									"                    \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"                    \"firstName\": { \"type\": \"string\" },",
+									"                    \"lastname\": { \"type\": \"string\" }",
+									"                },",
+									"                \"required\": [\"id\", \"nickname\", \"avatar\", \"firstName\", \"lastname\"],",
+									"            }",
+									"        }",
+									"    }",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"var email = pm.collectionVariables.get(\"emailPR\");",
+									"tests[\"Verify email\"] = response.user.email === email;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{emailPR}}\",\n  \"password\": \"Pa55word\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "invalidpassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"VerifyStatus code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"",
+									"tests[\"Verify code message\"] = response.code === \"Invalid password\";",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                \"status\": { \"type\": \"string\" },",
+									"                \"code\": { \"type\": \"string\" },",
+									"                \"message\": { \"type\": \"string\" },",
+									"                \"path\": { \"type\": \"string\" },",
+									"                },",
+									"    \"required\": [\"status\", \"code\", \"message\", \"path\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"",
+									"tests[\"Verify code message\"] = response.code === \"Invalid password\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"Pa55wor{{$randomInt}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "invalidemail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"VerifyStatus code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"",
+									"tests[\"Verify code message\"] = response.code === \"email-not-found\";",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                \"status\": { \"type\": \"string\" },",
+									"                \"code\": { \"type\": \"string\" },",
+									"                \"message\": { \"type\": \"string\" },",
+									"                \"path\": { \"type\": \"string\" },",
+									"                },",
+									"    \"required\": [\"status\", \"code\", \"message\", \"path\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"johnsmithy{{$randomInt}}@gmail.com\",\n  \"password\": \"Pa55word\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                \"id\": { \"type\": \"string\" },",
+									"                \"createdAt\": { \"type\": \"string\" },",
+									"                \"nickname\": { \"type\": \"string\" },",
+									"                \"avatar\": { \"type\": [\"string\", \"null\"] },",
+									"                \"firstName\": { \"type\": \"string\" },",
+									"                \"lastName\": { \"type\": \"string\" },",
+									"    },",
+									"    \"required\": [\"id\", \"createdAt\", \"nickname\", \"avatar\", \"firstName\", \"lastName\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"var email = pm.collectionVariables.get(\"email\");",
+									"tests[\"Verify email\"] = response.email === email;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refreshToken\": \"{{token}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/getUser",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"getUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh token pair",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                \"accessToken\": { \"type\": \"string\" },",
+									"                \"refreshToken\": { \"type\": \"string\" }",
+									"        },",
+									"    \"required\": [\"accessToken\", \"refreshToken\"]",
+									"    };",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refreshToken\": \"{{token}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/refresh",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POSTS",
+			"item": [
+				{
+					"name": "all posts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"array\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"title\": { \"type\": \"string\" },",
+									"        \"text\": { \"type\": \"string\" },",
+									"        \"authorName\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"string\" },",
+									"        \"commentsCount\": { \"type\": \"number\"},",
+									"        \"likesCount\": { \"type\": \"number\"},",
+									"        \"disLikesCount\": { \"type\": \"number\"},",
+									"        \"postRating\": { \"type\": \"number\"},",
+									"        \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"        \"usersCount\": { \"type\": \"number\"},",
+									"        \"tags\": { \"type\": \"array\",",
+									"                    \"properties\": {",
+									"                        \"id\": { \"type\": \"string\" },",
+									"                        \"name\": { \"type\": \"string\" }",
+									"                    },",
+									"                    \"required\": [\"id\", \"name\"]},",
+									"        \"coverImage\": { \"type\": [\"string\", \"null\"] },",
+									"        \"markdown\": { \"type\": \"boolean\" }",
+									"    },",
+									"    \"required\": [\"id\", \"title\", \"text\", \"authorName\", \"createdAt\", \"commentsCount\", \"likesCount\", \"disLikesCount\", \"postRating\", \"avatar\", \"usersCount\", \"tags\", \"coverImage\", \"markdown\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"idPost\", response[0].id);",
+									"pm.collectionVariables.set(\"title\", response[0].title);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/post/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"post",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"string\" },",
+									"        \"updatedAt\": { \"type\": \"string\" },",
+									"        \"title\": { \"type\": \"string\" },",
+									"        \"text\": { \"type\": \"string\" },",
+									"        \"author\": { \"type\": \"object\",",
+									"                    \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"createdAt\": { \"type\": \"string\" },",
+									"                    \"nickname\": { \"type\": \"string\" },",
+									"                    \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"                    \"email\": { \"type\": \"string\" },",
+									"                    \"firstName\": { \"type\": \"string\" },",
+									"                    \"lastName\": { \"type\": \"string\" },",
+									"                },",
+									"                \"required\": [\"id\", \"createdAt\", \"nickname\", \"avatar\", \"email\", \"firstName\", \"lastName\"]",
+									"                },",
+									"        \"tags\": { \"type\": \"array\",",
+									"                    \"properties\": {",
+									"                        \"id\": { \"type\": \"string\" },",
+									"                        \"name\": { \"type\": \"string\" }",
+									"                    },",
+									"                    \"required\": [\"id\", \"name\"]",
+									"                    },",
+									"        \"rating\": { \"type\": \"number\" },",
+									"        \"comments\": { \"type\": \"array\",",
+									"                    \"properties\": {",
+									"                        \"id\": { \"type\": \"string\" },",
+									"                        \"createdAt\": { \"type\": \"string\" },",
+									"                        \"updatedAt\": { \"type\": \"string\" },",
+									"                        \"text\": { \"type\": \"string\" },",
+									"                        \"author\": { \"type\": \"object\",",
+									"                                \"properties\": {",
+									"                                \"id\": { \"type\": \"string\" },",
+									"                                \"createdAt\": { \"type\": \"string\" },",
+									"                                \"nickname\": { \"type\": \"string\" },",
+									"                                \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"                                \"email\": { \"type\": \"string\" },",
+									"                                \"firstName\": { \"type\": \"string\" },",
+									"                                \"lastName\": { \"type\": \"string\" },",
+									"                                },",
+									"                                \"required\": [\"id\", \"createdAt\", \"nickname\", \"avatar\", \"email\", \"firstName\", \"lastName\"]",
+									"                        },",
+									"                        \"rating\": { \"type\": \"number\" },",
+									"                        \"comments\": { \"type\": \"array\"}",
+									"            },",
+									"        },",
+									"        \"coverImage\": { \"type\": [\"string\", \"null\"] },",
+									"        \"markdown\": { \"type\": \"boolean\" }",
+									"    },",
+									"    \"required\": [\"id\", \"createdAt\", \"updatedAt\", \"title\", \"text\", \"author\", \"tags\", \"rating\", \"comments\", \"coverImage\", \"markdown\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"var idPost = pm.collectionVariables.get(\"idPost\");",
+									"",
+									"tests[\"Verify id of post\"] = response.id === idPost;"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}/post/{{idPost}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"post",
+								"{{idPost}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var idTitle = pm.collectionVariables.get(\"title\");",
+									"",
+									"tests[\"Verify title of post\"] = responseBody === idTitle;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/post/title/{{idPost}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"post",
+								"title",
+								"{{idPost}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const isUUID = ( uuid ) => {",
+									"    let s = \"\" + uuid;",
+									"    s = s.match('^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$');",
+									"    if (s === null) {",
+									"      return false;",
+									"    }",
+									"    return true;",
+									"}",
+									"",
+									"pm.test(\"valid UUID\", function () {",
+									"    pm.expect(isUUID(pm.response.text()));",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"",
+									"pm.collectionVariables.set(\"idPostContribution\", response);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"draft\": false,\n  \"editorId\": \"{{userId}}\",\n  \"markdown\": false,\n  \"postId\": \"{{idPost}}\",\n  \"tags\": [\"a099b732-23ba-49aa-9b94-a9541b1c18b7\"],\n  \"text\": \"{{$randomLoremParagraph}}\",\n  \"title\": \"{{$randomLoremSentence}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/post/edit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"post",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all drafts by user id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"array\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"title\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"string\" },",
+									"        \"tags\": { \"type\": \"string\" },",
+									"        \"coverImage\": { \"type\": [\"null\", \"string\"] },",
+									"    }",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/post/drafts/{{userId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"post",
+								"drafts",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TAGS",
+			"item": [
+				{
+					"name": "tags",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"array\",",
+									"    \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"name\": { \"type\": \"string\" }",
+									"                },",
+									"    \"required\": [\"id\", \"name\"]",
+									"    };",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tag/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tag",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NOTIFICATIONS",
+			"item": [
+				{
+					"name": "count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}/notification/count/{{userId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notification",
+								"count",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"array\",",
+									"    \"properties\": {",
+									"        \"createdAt\": {\"type\": \"string\" },",
+									"        \"id\": {\"type\": \"string\" },",
+									"        \"isRead\": {\"type\": \"boolean\" },",
+									"        \"sourceId\": {\"type\": \"string\" },",
+									"        \"text\": {\"type\": \"string\" },",
+									"        \"type\": {\"type\": \"string\" }",
+									"    }",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notification/list/{{userId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notification",
+								"list",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USER INFO",
+			"item": [
+				{
+					"name": "smoke user info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"fullName\": { \"type\": \"null\" },",
+									"                    \"nickname\": { \"type\": \"string\" },",
+									"                    \"avatar\": { \"type\": [\"string\", \"null\"] },",
+									"                    \"postsQuantity\": { \"type\": \"number\" },",
+									"                    \"followersQuantity\": { \"type\": \"number\" },",
+									"                    \"rating\": { \"type\": \"number\" }",
+									"            },",
+									"    \"required\": [\"id\", \"fullName\", \"nickname\", \"avatar\", \"postsQuantity\", \"followersQuantity\", \"rating\"]",
+									"    };",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"var nickname = pm.collectionVariables.get(\"nickname\");",
+									"",
+									"tests[\"Verify nickname of user\"] = response.nickname === nickname;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/{{userId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"fullName\": { \"type\": \"null\" },",
+									"                    \"nickname\": { \"type\": \"string\" },",
+									"                    \"avatar\": { \"type\": [\"string\", \"null\"] },",
+									"                    \"postsQuantity\": { \"type\": \"number\" },",
+									"                    \"followersQuantity\": { \"type\": \"number\" },",
+									"                    \"rating\": { \"type\": \"number\" }",
+									"            },",
+									"    \"required\": [\"id\", \"fullName\", \"nickname\", \"avatar\", \"postsQuantity\", \"followersQuantity\", \"rating\"]",
+									"    };",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"var nickname = pm.collectionVariables.get(\"nicknamePR\");",
+									"",
+									"tests[\"Verify nickname of user\"] = response.nickname === nickname;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/{{userIdPR}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"{{userIdPR}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"createdAt\": { \"type\": \"string\" },",
+									"                    \"nickname\": { \"type\": \"string\" },",
+									"                    \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"                    \"email\": { \"type\": \"string\" },",
+									"                    \"firstName\": { \"type\": \"string\" },",
+									"                    \"lastName\": { \"type\": \"string\" },",
+									"            },",
+									"    \"required\": [\"id\", \"createdAt\", \"nickname\", \"avatar\", \"email\", \"firstName\", \"lastName\"]",
+									"        };",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"nickname\", response.nickname);",
+									"var email = pm.collectionVariables.get(\"email\");",
+									"tests[\"Verify email after update user profile\"] = response.email === email;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{$randomEmail}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"nickname\": \"{{$randomFirstName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user/update/{{userId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"update",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "REACTIONS",
+			"item": [
+				{
+					"name": "like",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const response = JSON.parse(responseBody);",
+									"",
+									"if (response != null) { ",
+									"tests[\"should be able to like post\"] = response.liked === true;",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPR}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"liked\": true,\n  \"postId\": \"{{idPost}}\",\n  \"userId\": \"{{userIdPR}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/postreaction",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"postreaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dislike",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const response = JSON.parse(responseBody);",
+									"",
+									"if (response != null) { ",
+									"tests[\"should be able to dislike post\"] = response.liked === false;",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenPR}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"liked\": false,\n  \"postId\": \"{{idPost}}\",\n  \"userId\": \"{{userIdPR}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/postreaction",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"postreaction"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"                    \"id\": { \"type\": \"string\" },",
+							"                    \"postId\": { \"type\": \"string\" },",
+							"                    \"liked\": { \"type\": \"boolean\" },",
+							"                    \"userId\": { \"type\": \"string\" },",
+							"                    \"authorId\": { \"type\": \"string\" },",
+							"                    \"isFirstReaction\": { \"type\": \"boolean\" }",
+							"                },",
+							"    \"required\": [\"id\", \"postId\", \"liked\", \"userId\", \"authorId\", \"isFirstReaction\"]",
+							"            };",
+							"",
+							"const response = JSON.parse(responseBody);",
+							"",
+							"if (response != null) { ",
+							"pm.test(\"Validate schema\", () => {",
+							"    pm.response.to.have.jsonSchema(schema);",
+							"});",
+							"}"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "PULLREQUEST",
+			"item": [
+				{
+					"name": "create PR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"contributorId\": \"{{userIdPR}}\",\n  \"markdown\": false,\n  \"postId\": \"{{idPostContribution}}\",\n  \"tags\": [\n    \"1d54cf59-ec61-47e8-8560-2e7fb142e40b\"\n  ],\n  \"text\": \"{{$randomLoremParagraph}}\",\n  \"title\": \"{{$randomLoremSentence}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/postPR/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"postPR",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all PRs of post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"array\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"string\" },",
+									"        \"author\": { \"type\": \"object\",",
+									"            \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"firstName\": { \"type\": \"string\" },",
+									"                    \"lastName\": { \"type\": \"string\" },",
+									"                    \"nickname\": { \"type\": \"string\" },",
+									"                    \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"                },",
+									"                \"required\": [\"id\", \"firstName\", \"lastName\", \"nickname\", \"avatar\"] ",
+									"            },",
+									"        \"state\": { \"type\": \"string\" }",
+									"    },",
+									"    \"required\": [\"id\", \"createdAt\", \"author\", \"state\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"idPR\", response[0].id);",
+									"var authorId = pm.collectionVariables.get(\"userIdPR\");",
+									"tests[\"Verify userId of PR\"] = response[0].author.id === authorId;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/postPR/all/{{idPostContribution}}?count=4&from=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"postPR",
+								"all",
+								"{{idPostContribution}}"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "4"
+								},
+								{
+									"key": "from",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get PR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"string\" },",
+									"        \"updatedAt\": { \"type\": \"string\" },",
+									"        \"contributor\": { \"type\": \"object\",",
+									"            \"properties\": { ",
+									"                \"id\": { \"type\": \"string\" },",
+									"                    \"createdAt\": { \"type\": \"string\" },",
+									"                    \"nickname\": { \"type\": \"string\" },",
+									"                    \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"                    \"email\": { \"type\": \"string\" },",
+									"                    \"firstName\": { \"type\": \"string\" },",
+									"                    \"lastName\": { \"type\": \"string\" },",
+									"            },",
+									"            \"required\": [\"createdAt\", \"nickname\", \"avatar\", \"email\", \"firstName\", \"lastName\"]",
+									"        },",
+									"        \"post\": { \"type\": \"object\",",
+									"            \"properties\": { ",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"createdAt\": { \"type\": \"string\" },",
+									"                    \"updatedAt\": { \"type\": \"string\" },",
+									"                    \"title\": { \"type\": \"string\" },",
+									"                    \"text\": { \"type\": \"string\" },",
+									"                    \"author\": { \"type\": \"object\" },",
+									"                    \"tags\": { \"type\": \"array\" },",
+									"                    \"rating\": { \"type\": \"number\" },",
+									"                    \"comments\": { \"type\": \"array\" },",
+									"                    \"coverImage\": { \"type\": [\"string\", \"null\"] },",
+									"                    \"markdown\": { \"type\": \"boolean\" },",
+									"                    \"draft\": { \"type\": \"boolean\" }",
+									"            },",
+									"            \"requird\": [\"id\", \"createdAt\", \"updatedAt\", \"title\", \"text\", \"author\", \"tags\", \"rating\", \"comments\", \"coverImage\", \"markdown\", \"draft\"]",
+									"        },",
+									"        \"title\": { \"type\": \"string\" },",
+									"        \"text\": { \"type\": \"string\" },",
+									"        \"markdown\": { \"type\": \"boolean\" },",
+									"        \"coverImage\": { \"type\": [\"string\", \"null\"] },",
+									"        \"state\": { \"type\": \"string\" },",
+									"        \"deleted\": { \"type\": \"boolean\" },",
+									"        \"tags\": { \"type\": \"array\",",
+									"                    \"properties\": {",
+									"                        \"id\": { \"type\": \"string\" },",
+									"                        \"name\": { \"type\": \"string\" }",
+									"                    },",
+									"                    \"required\": [\"id\", \"name\"]",
+									"            },",
+									"        },",
+									"        \"required\": [\"id\", \"createdAt\", \"updatedAt\", \"contributor\", \"post\", \"title\", \"text\", \"markdown\", \"coverImage\", \"state\", \"deleted\", \"tags\"]",
+									"    };",
+									"",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"var contributorId = pm.collectionVariables.get(\"userIdPR\");",
+									"tests[\"Verify contributor id\"] = response.contributor.id === contributorId;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/postPR/{{idPR}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"postPR",
+								"{{idPR}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit PR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"{{idPR}}\",\n  \"tags\": [],\n  \"text\": \"{{$randomLoremParagraph}}\",\n  \"title\": \"{{$randomLoremSentence}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/postPR/edit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"postPR",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "close PR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/postPR/close/{{idPR}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"postPR",
+								"close",
+								"{{idPR}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all PRs of user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"array\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"string\" },",
+									"        \"updatedAt\": { \"type\": \"string\" },",
+									"        \"contributor\": { \"type\": \"object\" },",
+									"        \"post\": { \"type\": \"object\" },",
+									"        \"title\": { \"type\": \"string\" },",
+									"        \"text\": { \"type\": \"string\" },",
+									"        \"markdown\": { \"type\": \"boolean\" },",
+									"        \"coverImage\": { \"type\": [\"null\", \"string\"] },",
+									"        \"state\": { \"type\": \"string\" },",
+									"        \"deleted\": { \"type\": \"boolean\" },",
+									"        \"tags\": { \"type\": \"array\" },",
+									"    },",
+									"    \"required\": [\"id\", \"createdAt\", \"updatedAt\", \"contributor\", \"post\", \"title\", \"text\", \"markdown\", \"coverImage\", \"state\", \"deleted\", \"tags\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"var postId = pm.collectionVariables.get(\"idPostContribution\");",
+									"tests[\"Verify post id of pull request\"] = response[0].post.id === postId;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/postPR/byUser/{{userIdPR}}?count=4&from=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"postPR",
+								"byUser",
+								"{{userIdPR}}"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "4"
+								},
+								{
+									"key": "from",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{tokenPR}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "POSTVERSION",
+			"item": [
+				{
+					"name": "all versions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const schema = {",
+									"    \"type\": \"array\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"string\" },",
+									"        \"author\": { \"type\": \"object\",",
+									"                    \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"firstName\": { \"type\": \"string\" },",
+									"                    \"lastName\": { \"type\": \"string\" },",
+									"                    \"createdAt\": { \"type\": \"string\" },",
+									"                    \"nickname\": { \"type\": \"string\" },",
+									"                    \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"                },",
+									"                \"required\": [\"id\", \"firstName\", \"lastName\", \"createdAt\", \"nickname\", \"avatar\"]",
+									"            }",
+									"        },",
+									"        \"required\": [\"id\", \"createdAt\", \"author\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"idVersion\", response[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/postVersion/all/{{idPostContribution}}?count=10&from=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"postVersion",
+								"all",
+								"{{idPostContribution}}"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "10"
+								},
+								{
+									"key": "from",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post version by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"string\" },",
+									"        \"updatedAt\": { \"type\": \"string\" },",
+									"        \"preVersion\": { \"type\": [\"null\", \"object\"],",
+									"                      \"properties\": {",
+									"                        \"id\": { \"type\": \"string\" },",
+									"                        \"createdAt\": { \"type\": \"string\" },",
+									"                        \"updatedAt\": { \"type\": \"string\" },",
+									"                        \"preVersion\": {\"type\": [\"null\", \"object\"] },",
+									"                        \"author\": {\"type\": \"object\"},",
+									"                        \"title\": { \"type\": \"string\" },",
+									"                        \"text\": { \"type\": \"string\" },",
+									"                        \"markdown\": {\"type\": \"boolean\"},",
+									"                        \"deleted\": {\"type\": \"boolean\"},",
+									"                        \"coverImage\": { \"type\": [\"null\", \"string\"] },",
+									"                        \"tags\": { \"type\": \"array\" },",
+									"                      }",
+									"                    },",
+									"        \"author\": {\"type\": \"object\"},",
+									"        \"title\": { \"type\": \"string\" },",
+									"        \"text\": { \"type\": \"string\" },",
+									"        \"markdown\": {\"type\": \"boolean\"},",
+									"        \"coverImage\": { \"type\": [\"null\", \"string\"] },",
+									"        \"deleted\": {\"type\": \"boolean\"},",
+									"        \"tags\": { \"type\": \"array\" }",
+									"    },",
+									"    \"required\": [\"id\", \"createdAt\", \"updatedAt\", \"preVersion\", \"author\", \"title\", \"text\", \"markdown\", \"coverImage\", \"deleted\", \"tags\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/postVersion/{{idVersion}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"postVersion",
+								"{{idVersion}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "tokenPR",
+			"value": ""
+		},
+		{
+			"key": "idPR",
+			"value": ""
+		},
+		{
+			"key": "PR",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "emailPR",
+			"value": ""
+		},
+		{
+			"key": "idPost",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "userIdPR",
+			"value": ""
+		},
+		{
+			"key": "title",
+			"value": ""
+		},
+		{
+			"key": "nickname",
+			"value": ""
+		},
+		{
+			"key": "nicknamePR",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "idPostContribution",
+			"value": ""
+		},
+		{
+			"key": "tokenPRContribution",
+			"value": ""
+		},
+		{
+			"key": "idVersion",
+			"value": ""
+		}
+	]
+}

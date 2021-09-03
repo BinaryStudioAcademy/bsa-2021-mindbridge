@@ -14,6 +14,10 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class Notification extends BaseAuditableEntity {
 
+	public enum Type {
+		newPost, newPR, newFollower
+	}
+
 	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "receiver_id")
 	private User receiver;
@@ -24,7 +28,7 @@ public class Notification extends BaseAuditableEntity {
 	private String text;
 
 	@Column(name = "is_read")
-	private Boolean isRead;
+	private Boolean isRead = false;
 
 	private String type;
 

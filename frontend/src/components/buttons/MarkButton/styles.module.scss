@@ -1,0 +1,38 @@
+.markButtonInverted {
+  padding: 0.2rem;
+  border-radius: 0.2rem;
+
+  div {
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+    background-color: #5fafe0;
+    border: 1px solid #7db7e2;
+  }
+
+  &:hover {
+
+    div {
+      background-color: #4ba2e0;
+    }
+  }
+}
+
+.markButton {
+  padding: 0.2rem;
+  border-radius: 0.2rem;
+
+  div {
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  &:hover {
+
+    div {
+      background-color: #7db7e2;
+    }
+  }
+}

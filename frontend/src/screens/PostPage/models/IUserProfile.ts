@@ -1,4 +1,5 @@
 import { IUserReactions } from '@screens/PostPage/models/IUserReactions';
+import { IUserReactionsComments } from '@screens/PostPage/models/IUserReactionComments';
 
 export interface IUserProfile {
   id: string;
@@ -8,5 +9,7 @@ export interface IUserProfile {
   postsQuantity: number;
   followersQuantity: number;
   rating: number;
+  emailVerified: boolean;
   userReactions: IUserReactions[];
+  userReactionsComments: IUserReactionsComments[];
 }

@@ -12,9 +12,6 @@ import ViewPost from '@screens/ViewPost/containers/ViewPostPage';
 import LoginPage from 'screens/Login/containers/LoginPage';
 import RegistrationPage from 'screens/Login/containers/RegisterPage';
 import oauth2handler from '@components/OAuth2RedirectHandler/OAuth2RedirectHandler';
-import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
-import { toastr } from 'react-redux-toastr';
 import { history } from '@helpers/history.helper';
 import Header from '@screens/Header/containers/HeaderPage';
 import PrivateRoute from '@components/PrivateRoute';
@@ -24,6 +21,7 @@ import PostVersions from '@screens/PostVersions/containers/PostVersionsPage';
 import EditPrPage from '@root/screens/PostPage/containers/EditPrPage';
 import MyContributionsPage from '@root/screens/PostVersions/containers/MyContributionsPage';
 import { checkHeaderShown } from '@helpers/headerBlackList.hepler';
+import HighlightsPage from '@screens/HighlightsPage/containers/HighlightsPage';
 import PostVersionPage from '@screens/PostVersionPage/containers/PostVersionPage';
 import Drafts from '@screens/Drafts/containers/DraftsPage';
 
@@ -32,16 +30,6 @@ export interface IRoutingProps {
 }
 
 const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
-  React.useEffect(() => {
-    const stompClient = Stomp.over(() => new SockJS('/ws'));
-    stompClient.reconnectDelay = 10000;
-    stompClient.connect({}, () => {
-      stompClient.subscribe('/topic/greeting', () => {
-        toastr.success('Success', 'Socket loaded!');
-      });
-    });
-  });
-
   const [isHeaderShown, setIsHeaderShown] = useState(checkHeaderShown());
   history.listen(() => {
     setIsHeaderShown(checkHeaderShown());
@@ -57,24 +45,23 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/registration" component={RegistrationPage} />
         <PublicRoute exact path="/oauth2/resolve" component={oauth2handler} />
         <PublicRoute exact path="/post/:postId" component={ViewPost} />
-        <PublicRoute exact path="/create/post" component={CreatePostPage} />
-        <PublicRoute exact path="/profile" component={ProfilePage} />
+        <PrivateRoute exact path="/create/post" component={CreatePostPage} />
+        <PrivateRoute exact path="/profile" component={ProfilePage} />
         <PublicRoute exact path="/user/:userId" component={PublicProfilePage} />
-        <PublicRoute exact path="/pullRequest/:id" component={PullRequestPage} />
-        <PublicRoute exact path="/pullRequest/edit/:id" component={EditPrPage} />
-        <PublicRoute exact path="/create/post" component={CreatePostPage} />
-        <PublicRoute exact path="/post/edit/:id" component={EditPostPage} />
-        <PublicRoute exact path="/postVersion/:id" component={PostVersionPage} />
-        <PublicRoute exact path="/post/versions/:id" component={PostVersions} />
+        <PrivateRoute exact path="/pullRequest/:id" component={PullRequestPage} />
+        <PrivateRoute exact path="/pullRequest/edit/:id" component={EditPrPage} />
+        <PrivateRoute exact path="/post/edit/:id" component={EditPostPage} />
+        <PrivateRoute exact path="/postVersion/:id" component={PostVersionPage} />
+        <PrivateRoute exact path="/post/versions/:id" component={PostVersions} />
         <PublicRoute exact path="/post/contributions/:id" component={PostVersions} />
-        <PublicRoute exact path="/my/contributions" component={MyContributionsPage} />
-        <PublicRoute exact path="/drafts" component={Drafts} />
+        <PrivateRoute exact path="/highlights" component={HighlightsPage} />
+        <PrivateRoute exact path="/my/contributions" component={MyContributionsPage} />
+        <PrivateRoute exact path="/drafts" component={Drafts} />
         <PublicRoute component={NotFoundPage} />
 
         <div>
           <LoaderWrapper loading={isLoading}>
             <Switch>
-              <PrivateRoute exact path="/create/post" component={CreatePostPage} />
               <Route path="/*">
                 <Redirect to="/public" />
               </Route>

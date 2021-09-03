@@ -1,9 +1,57 @@
-.list {
+.notificationWrapper {
   top: 4rem;
+  left: -36.5%;
   position: absolute;
   background-color: #fff;
-  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
-  width: 20rem;
-  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25rem;
+  z-index: 5;
+
+
+  .notificationTitle {
+    font-weight: normal;
+    padding: 0.7rem 0;
+    text-align: center;
+    width: 90%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  .filters {
+    display: flex;
+    padding: 1rem 0;
+    justify-content: space-around;
+    width: 90%;
+
+    button {
+      background-color: #f3f9fe;
+      padding: 0.5rem 1rem;
+      transition: 0.1s;
+
+      &:hover {
+        background-color: #e2edff;
+      }
+    }
+  }
+
+  .list {
+    width: 100%;
+  }
+
+  .emptyResult {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem 0;
+    gap: 1rem;
+  }
+
+  .loaderWrapper {
+    position: relative;
+    height: 7rem;
+  }
 }

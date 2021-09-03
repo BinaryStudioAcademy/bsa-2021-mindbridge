@@ -27,6 +27,9 @@ import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { IPostPR } from '@root/screens/PullRequest/models/IPostPR';
 import { editPrRoutine, fetchPrRoutine } from '@root/screens/PullRequest/routines';
 import { history } from '@root/helpers/history.helper';
+import Checkbox from '@root/screens/PullRequest/components/Checkbox';
+import Preview from '@root/screens/PullRequest/components/Preview';
+import { ITag } from '@root/screens/FeedPage/models/ITag';
 
 export interface IEditPrProps extends IState, IActions {
   isAuthorized: boolean;
@@ -88,6 +91,12 @@ const EditPrPage: React.FC<IEditPrProps> = (
     editPR
   }
 ) => {
+  const [seeDiff, setSeeDiff] = useState(false);
+
+  const handleCheckbox = () => {
+    setSeeDiff(!seeDiff);
+  };
+
   const [modes, setModes] = useState({
     htmlMode: true,
     markdownMode: false,
@@ -217,6 +226,17 @@ const EditPrPage: React.FC<IEditPrProps> = (
     );
   }
 
+  const tags: ITag[] = [];
+  form.tags.forEach(tagId => {
+    let tagName = '';
+    allTags.forEach(tag => {
+      if (tag.key === tagId) {
+        tagName = tag.text;
+      }
+    });
+    tags.push({ id: tagId, name: tagName });
+  });
+
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       <div className={styles.form_and_sidebar_container}>
@@ -265,6 +285,14 @@ const EditPrPage: React.FC<IEditPrProps> = (
                   />
                 </div>
               )}
+                {modes.viewMode
+              && (
+              <Checkbox
+                className={styles.checkbox}
+                seeDiff={seeDiff}
+                handleCheckbox={handleCheckbox}
+              />
+              )}
                 {modes.editMode
                   ? (
                     <BlueButton
@@ -311,6 +339,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
                   <CreatePostForm
                     isCreateForm={false}
                     form={form}
+                    initialPostContent={postPR.text}
                     modes={modes}
                     setForm={changeForm}
                     sendImage={sendImage}
@@ -321,7 +350,19 @@ const EditPrPage: React.FC<IEditPrProps> = (
                     isContentEmpty={isContentEmpty}
                   />
                 )
-                : <PostPreview form={form} modes={modes} allTags={allTags} />}
+                : (
+                  <Preview
+                    seeDiff={seeDiff}
+                    markdown={postPR.markdown}
+                    coverImage={postPR.coverImage}
+                    title={form.title}
+                    oldTitle={postPR.title}
+                    text={form.content}
+                    oldText={postPR.text}
+                    tags={tags}
+                    oldTags={postPR.tags}
+                  />
+                )}
               <div className={styles.footer}>
                 <DarkBorderButton content="Cancel edition" onClick={handleCancel} />
                 <DarkButton

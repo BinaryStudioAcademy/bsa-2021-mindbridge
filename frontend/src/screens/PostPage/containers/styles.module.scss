@@ -17,7 +17,7 @@
     button{
         font-family: lato;
     }
-    z-index: 1;
+    z-index: 0.5;
 }
 
 .header{
@@ -30,6 +30,12 @@
         font-size: 0.9rem;
         font-weight: 600;
         height: 2.36rem;
+    }
+    .checkbox{
+        grid-column: 2/4;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
     }
 
     .html_button{

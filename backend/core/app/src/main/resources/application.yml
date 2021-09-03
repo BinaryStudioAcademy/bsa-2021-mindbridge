@@ -27,8 +27,8 @@ spring:
                         clientSecret: ${GITHUB_CLIENT_SECRET}
                         redirectUri: ${OAUTH2_REDIRECT_URI}
                         scope:
-                            - email
-                            - public_profile
+                            - read:user
+                            - user:email
                     facebook:
                         clientId: ${FACEBOOK_CLIENT_ID}
                         clientSecret: ${FACEBOOK_CLIENT_SECRET}

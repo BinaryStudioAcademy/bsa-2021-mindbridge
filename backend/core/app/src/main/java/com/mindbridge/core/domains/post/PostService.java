@@ -1,24 +1,23 @@
 package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.comment.CommentService;
-import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
+import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
-import com.mindbridge.core.domains.postVersion.dto.PostVersionsListDto;
+import com.mindbridge.core.domains.tag.dto.TagDto;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
-
-import java.util.HashSet;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -58,10 +57,20 @@ public class PostService {
 	public PostDetailsDto getPostById(UUID id) {
 		var post = postRepository.findById(id).map(PostMapper.MAPPER::postToPostDetailsDto).orElseThrow();
 
+		List<String> tags = post.getTags().stream().map(TagDto::getName).collect(Collectors.toList());
+		List<RelatedPostDto> relatedPostsDto = postRepository.getRelatedPostsByTags(id, tags, PageRequest.of(0, 3))
+			.stream()
+			.map(PostMapper.MAPPER::postToRelatedPostDto)
+			.collect(Collectors.toList());
+
+		relatedPostsDto.forEach(p -> p.setRating(postReactionService.calcPostRatingById(p.getId())));
+		relatedPostsDto.sort(Comparator.comparingLong(RelatedPostDto::getRating).reversed());
+
 		var comments = commentService.findAllByPostId(id);
 		post.setComments(comments);
 
 		post.setRating(postReactionService.calcPostRatingById(id));
+		post.setRelatedPosts(relatedPostsDto);
 
 		return post;
 	}
@@ -95,7 +104,8 @@ public class PostService {
 		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
 		post.setTags(tags);
 		var savedPost = postRepository.save(post);
-		postReactionService.setReaction(new ReceivedPostReactionDto(savedPost.getId(), createPostDto.getAuthor(), true));
+		postReactionService
+				.setReaction(new ReceivedPostReactionDto(savedPost.getId(), createPostDto.getAuthor(), true));
 		if (!savedPost.getDraft()) {
 			elasticService.put(savedPost);
 		}
@@ -107,9 +117,7 @@ public class PostService {
 	}
 
 	public List<DraftsListDto> getAllDrafts(UUID userId) {
-		return postRepository.getDraftsByUser(userId).stream()
-			.map(PostMapper.MAPPER::postToDraftDto)
-			.collect(Collectors.toList());
+		return postRepository.getDraftsByUser(userId).stream().map(PostMapper.MAPPER::postToDraftDto)
+				.collect(Collectors.toList());
 	}
-
 }

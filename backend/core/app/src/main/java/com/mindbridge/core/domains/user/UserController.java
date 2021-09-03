@@ -1,12 +1,11 @@
 package com.mindbridge.core.domains.user;
 
-import com.mindbridge.core.domains.user.dto.UserDto;
-import com.mindbridge.core.domains.user.dto.UserProfileDataDto;
-import com.mindbridge.core.domains.user.dto.UserProfileDto;
+import com.mindbridge.core.domains.user.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -50,6 +49,16 @@ public class UserController {
 	@PostMapping("/update/password/{id}")
 	public UserDto updateUserPassword(@PathVariable UUID id, @RequestBody String newPassword) {
 		return userService.updateUserPasswordById(id, newPassword);
+	}
+
+	@GetMapping("/find")
+	public List<UserMentionsDto> getAllUserByNickname(@RequestParam("query") String query) {
+		return userService.getAllUser(query);
+	}
+
+	@PostMapping("/delete/avatar/{id}")
+	public UserDto deleteUserAvatar(@PathVariable UUID id) {
+		return userService.deleteUserAvatar(id);
 	}
 
 }

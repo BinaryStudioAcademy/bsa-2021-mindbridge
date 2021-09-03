@@ -3,6 +3,7 @@ package com.mindbridge.core.domains.post;
 import com.mindbridge.core.domains.post.dto.CreatePostDto;
 import com.mindbridge.core.domains.post.dto.DraftsListDto;
 import com.mindbridge.core.domains.post.dto.PostDetailsDto;
+import com.mindbridge.core.domains.post.dto.RelatedPostDto;
 import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postVersion.model.PostVersion;
 import org.mapstruct.Mapper;
@@ -18,6 +19,8 @@ public interface PostMapper {
 	@Mapping(target = "rating", ignore = true)
 	PostDetailsDto postToPostDetailsDto(Post post);
 
+	RelatedPostDto postToRelatedPostDto(Post post);
+
 	@Mapping(source = "author", target = "author.id")
 	@Mapping(target = "tags", ignore = true)
 	Post createPostDtoToPost(CreatePostDto createPostDto);
@@ -26,4 +29,5 @@ public interface PostMapper {
 	PostVersion postToPostVersion(Post post);
 
 	DraftsListDto postToDraftDto(Post post);
+
 }
