@@ -97,8 +97,7 @@ public class AuthService {
 	}
 
 	public UserProfileDto activateEmail(UUID code) {
-		User user = userRepository.findByActivationCode(code);
-
+		var user = userRepository.findByActivationCode(code.toString()).orElseThrow();
 		user.setActivationCode(null);
 		user.setEmailVerified(true);
 		var savedUser = userRepository.save(user);
