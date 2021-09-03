@@ -49,8 +49,8 @@ public class AuthService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid password");
 		}
 
-		var tokens = AuthResponse.of(jwtProvider.generateToken(userDetails, "30min"),
-				jwtProvider.generateToken(userDetails, "30days"));
+		var tokens = AuthResponse.of(jwtProvider.generateToken(userDetails.getUsername(), "30min"),
+				jwtProvider.generateToken(userDetails.getUsername(), "30days"));
 		var userDto = userService.loadUserDtoByEmail(authRequest.getEmail());
 		return new TokensWithUser(tokens, userDto);
 	}
@@ -80,8 +80,8 @@ public class AuthService {
 
 		if (!userEmail.isEmpty()) {
 			var userDetails = userService.loadUserByEmail(userEmail);
-			return AuthResponse.of(jwtProvider.generateToken(userDetails, "30min"),
-					jwtProvider.generateToken(userDetails, "30days"));
+			return AuthResponse.of(jwtProvider.generateToken(userDetails.getUsername(), "30min"),
+					jwtProvider.generateToken(userDetails.getUsername(), "30days"));
 		}
 		else
 			throw new UsernameNotFoundException("Сouldn`t find a user with such refresh token.");

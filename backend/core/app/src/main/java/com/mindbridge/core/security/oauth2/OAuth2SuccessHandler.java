@@ -2,10 +2,12 @@ package com.mindbridge.core.security.oauth2;
 
 import com.mindbridge.core.security.auth.UserPrincipal;
 import com.mindbridge.core.security.jwt.JwtProvider;
+import com.mindbridge.core.security.oauth2.userInfo.OAuth2UserInfoFactory;
 import com.mindbridge.data.domains.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,18 +33,22 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 	private OAuth2Properties oAuth2Properties;
 
 	@Override
-	protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) {
+	protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		var redirUrl = extractRedirectUri(request)
 				.orElseGet(() -> super.determineTargetUrl(request, response, authentication));
 		if (redirUrlIsUnknown(redirUrl)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Redirect uri is unknown");
 		}
-		var oauthUser = (OAuth2User) authentication.getPrincipal();
-		var storedUser = new UserPrincipal(userRepository.findByEmail(oauthUser.getAttribute("email")).orElseThrow());
+		var registrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
+		var principal = (OAuth2User) authentication.getPrincipal();
+		var oauthUser = OAuth2UserInfoFactory.getOAuth2UserInfo(registrationId, principal.getAttributes());
+		var storedUser = oauthUser.getEmail() != null
+			? userRepository.findByEmail(oauthUser.getEmail()).orElseThrow()
+			: userRepository.findByNickname(oauthUser.getNickname()).orElseThrow();
+		var userPrincipal = new UserPrincipal(storedUser);
 
-		var accessToken = jwtProvider.generateToken(storedUser, "30min");
-		var refreshToken = jwtProvider.generateToken(storedUser, "30days");
+		var accessToken = jwtProvider.generateToken(userPrincipal.getUsername(), "30min");
+		var refreshToken = jwtProvider.generateToken(userPrincipal.getUsername(), "30days");
 		return UriComponentsBuilder.fromUriString(redirUrl).queryParam("token", accessToken)
 				.queryParam("refresh", refreshToken).build().toUriString();
 	}

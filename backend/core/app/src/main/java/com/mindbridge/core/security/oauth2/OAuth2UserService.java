@@ -5,6 +5,7 @@ import com.mindbridge.core.security.oauth2.userInfo.OAuth2UserInfo;
 import com.mindbridge.core.security.oauth2.userInfo.OAuth2UserInfoFactory;
 import com.mindbridge.data.domains.user.UserRepository;
 import com.mindbridge.data.domains.user.model.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -16,6 +17,8 @@ import org.springframework.util.StringUtils;
 public class OAuth2UserService extends DefaultOAuth2UserService {
 
 	private final UserRepository userRepository;
+	@Value("${app.domain.pure}")
+	private String domainName;
 
 	public OAuth2UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -66,8 +69,11 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 		var nickName = StringUtils.isEmpty(oAuth2UserInfo.getNickname())
 			? getNicknameFromEmail(oAuth2UserInfo.getEmail())
 			: oAuth2UserInfo.getNickname();
+		var email = StringUtils.isEmpty(oAuth2UserInfo.getEmail())
+			? generateEmailFromNickname(nickName)
+			: oAuth2UserInfo.getEmail();
 		newUser.setNickname(nickName);
-		newUser.setEmail(oAuth2UserInfo.getEmail());
+		newUser.setEmail(email);
 		newUser.setAvatar(oAuth2UserInfo.getAvatarUrl());
 		newUser.setEmailVerified(true);
 		newUser.setFirstName(oAuth2UserInfo.getFirstName());
@@ -77,6 +83,10 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 
 	public String getNicknameFromEmail(String email) {
 		return email.substring(0, email.indexOf('@'));
+	}
+
+	public String generateEmailFromNickname(String nickname) {
+		return nickname + "@" + domainName;
 	}
 
 }
