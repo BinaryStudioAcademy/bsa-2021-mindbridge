@@ -27,4 +27,5 @@ public interface UserMapper {
 	UserMentionsDto userToUserMentionsDto(User user);
 
 	UserShortDto userToUserShortDto(User user);
+
 }

@@ -22,6 +22,7 @@ services:
       - EMAIl_USERNAME=fake
       - EMAIL_PASSWORD=fake
       - MAIL_PROTOCOL=smtps
+      - APP_PURE_DOMAIN=testsite.com
     depends_on:
       - db
       - elastic_server
