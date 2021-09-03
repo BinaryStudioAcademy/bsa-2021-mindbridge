@@ -97,11 +97,11 @@ public class AuthService {
 	}
 
 	public UserProfileDto activateEmail(UUID code) {
-		User user = userReposiroty.findByActivationCode(code);
+		User user = userRepository.findByActivationCode(code);
 
 		user.setActivationCode(null);
 		user.setEmailVerified(true);
-		var savedUser = userReposiroty.save(user);
+		var savedUser = userRepository.save(user);
 		return UserMapper.MAPPER.userToUserProfileDto(savedUser);
 	}
 }
