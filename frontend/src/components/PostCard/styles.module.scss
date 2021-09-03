@@ -41,6 +41,13 @@
     font-weight: bold;
     color: #353535;
   }
+
+  img {
+    float: right;
+    height: 9rem;
+    width: 9rem;
+    border-radius: 5px;
+  }
 }
 
 :global(.ui.primary.button) {

@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
-import { Image } from 'semantic-ui-react';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import FollowBtn from '@screens/ViewPost/components/Button/FollowBtn/FollowBtn';
 import { timeToLocal } from '@helpers/dataTimeToLocalData';
 import { Link } from 'react-router-dom';
 import DraftLabel from '@components/DraftLabel';
+import Image from '@components/Image';
+import { defaultAvatar } from '@images/defaultImages';
 
 interface IPostInformationProps {
   id: string;
@@ -28,7 +29,7 @@ const PostInformation: FunctionComponent<IPostInformationProps> = (
   <div className={styles.postHeaderInfo}>
     <Link to={`/user/${id}`}>
       <div className={styles.userBlock}>
-        <Image src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'} avatar size="big" />
+        <Image src={avatar ?? defaultAvatar} />
         <div className={styles.userName}>
           { nickname }
         </div>
