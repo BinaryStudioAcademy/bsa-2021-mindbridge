@@ -13,6 +13,7 @@ import defaultReducer from '@screens/Default/reducers';
 import auth from '@screens/Login/reducers';
 import profilePageReducer from '@screens/ProfilePage/reducers';
 import viewPostReducer from '@screens/ViewPost/reducers';
+import { privateRouteReducer } from '@components/PrivateRoute/reducer';
 
 export default combineReducers({
   toastr,
@@ -28,5 +29,6 @@ export default combineReducers({
   profilePageReducer,
   viewPostReducer,
   auth,
-  defaultReducer
+  defaultReducer,
+  privateRouteReducer
 });

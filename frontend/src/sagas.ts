@@ -13,6 +13,7 @@ import postVersionsPageSagas from '@screens/PostVersions/containers/PostVersions
 import sidebarSagas from '@screens/Sidebar/sagas';
 import highlightsPageSagas from '@screens/HighlightsPage/containers/HighlightsPage/sagas';
 import draftsSagas from '@screens/Drafts/sagas';
+import privateRouteSagas from '@components/PrivateRoute/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -29,6 +30,7 @@ export default function* rootSaga() {
     defaultSagas(),
     postVersionsPageSagas(),
     sidebarSagas(),
-    draftsSagas()
+    draftsSagas(),
+    privateRouteSagas()
   ]);
 }
