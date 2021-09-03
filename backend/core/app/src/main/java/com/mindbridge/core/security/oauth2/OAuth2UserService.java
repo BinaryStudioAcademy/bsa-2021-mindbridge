@@ -30,20 +30,16 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 
 	private void processOauth2Request(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
 		var oauth2Provider = userRequest.getClientRegistration().getRegistrationId();
-		OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(
-			oauth2Provider,
-			oAuth2User.getAttributes()
-		);
+		OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oauth2Provider,
+				oAuth2User.getAttributes());
 		var noEmail = StringUtils.isEmpty(oAuth2UserInfo.getEmail());
 		var noNickname = StringUtils.isEmpty(oAuth2UserInfo.getNickname());
 		if (noEmail && noNickname) {
 			throw new OAuth2NotFoundException(
-				"Email and Nickname not found from OAuth2 provider '" + oauth2Provider + "'."
-			);
+					"Email and Nickname not found from OAuth2 provider '" + oauth2Provider + "'.");
 		}
-		var foundUser = noEmail
-			? userRepository.findByNickname(oAuth2UserInfo.getNickname())
-			: userRepository.findByEmail(oAuth2UserInfo.getEmail());
+		var foundUser = noEmail ? userRepository.findByNickname(oAuth2UserInfo.getNickname())
+				: userRepository.findByEmail(oAuth2UserInfo.getEmail());
 		if (foundUser.isPresent()) {
 			updateUser(foundUser.get(), oAuth2UserInfo);
 		}
@@ -64,8 +60,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 	private void createNewUser(OAuth2UserInfo oAuth2UserInfo) {
 		User newUser = new User();
 		var nickName = StringUtils.isEmpty(oAuth2UserInfo.getNickname())
-			? getNicknameFromEmail(oAuth2UserInfo.getEmail())
-			: oAuth2UserInfo.getNickname();
+				? getNicknameFromEmail(oAuth2UserInfo.getEmail()) : oAuth2UserInfo.getNickname();
 		newUser.setNickname(nickName);
 		newUser.setEmail(oAuth2UserInfo.getEmail());
 		newUser.setAvatar(oAuth2UserInfo.getAvatarUrl());

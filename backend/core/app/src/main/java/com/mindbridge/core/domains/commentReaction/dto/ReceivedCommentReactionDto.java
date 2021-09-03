@@ -14,4 +14,5 @@ public class ReceivedCommentReactionDto {
 	private UUID userId;
 
 	private Boolean liked;
+
 }

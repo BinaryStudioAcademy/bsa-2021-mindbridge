@@ -66,21 +66,18 @@ public class NotificationService {
 		createNotificationDto.setText(description);
 		notificationRepository.save(NotificationMapper.MAPPER.createDtoToNotification(createNotificationDto));
 
-		template.convertAndSendToUser(
-			receiverId.toString(),
-			destination,
-			description
-		);
+		template.convertAndSendToUser(receiverId.toString(), destination, description);
 	}
 
 	public List<NotificationDto> getNotificationList(UUID userId, Boolean onlyUnread, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 		if (onlyUnread) {
 			return notificationRepository.getUnreadNotificationList(userId, pageable).stream()
-				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
-		} else {
+					.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+		}
+		else {
 			return notificationRepository.getNotificationList(userId, pageable).stream()
-				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+					.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
 		}
 	}
 
