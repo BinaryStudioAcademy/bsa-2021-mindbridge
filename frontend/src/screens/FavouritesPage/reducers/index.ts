@@ -2,13 +2,18 @@ import { combineReducers } from 'redux';
 import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
 import { favouritesPageReducer } from '@screens/FavouritesPage/containers/FavouritesPagePage/reducer';
-import { fetchFavouritePostsRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
+import {
+  fetchFavouritePostsRoutine,
+  saveFavouritePostRoutine,
+  setLoadMorePostsRoutine
+} from '@screens/FavouritesPage/routines';
 /* PlopJS import placeholder. Do not remove */
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
   fetchFavouritePostsRequest: reducerCreator([fetchFavouritePostsRoutine.TRIGGER]),
-  saveFavouritePost: reducerCreator([saveFavouritePostRoutine.TRIGGER])
+  saveFavouritePostRequest: reducerCreator([saveFavouritePostRoutine.TRIGGER]),
+  setLoadMorePostsRequest: reducerCreator([setLoadMorePostsRoutine.TRIGGER])
 });
 
 export default combineReducers({

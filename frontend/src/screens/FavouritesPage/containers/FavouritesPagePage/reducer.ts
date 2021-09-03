@@ -1,6 +1,11 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPost } from '@screens/FeedPage/models/IPost';
-import { fetchFavouritePostsRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
+import {
+  fetchFavouritePostsRoutine,
+  saveFavouritePostRoutine,
+  setLoadMorePostsRoutine
+} from '@screens/FavouritesPage/routines';
+import {isEmptyArray} from "formik";
 
 export interface IFavouritesPageReducerState {
   favouritePosts: IPost[];
@@ -16,6 +21,14 @@ const initialState: IFavouritesPageReducerState = {
 
 export const favouritesPageReducer = createReducer(initialState, {
   [fetchFavouritePostsRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPost[]>) => {
-    state.favouritePosts = payload;
+    if (!state.loadMore) {
+      state.favouritePosts = payload;
+    } else {
+      state.favouritePosts = state.favouritePosts.concat(payload);
+    }
+    state.hasMore = !isEmptyArray(payload);
+  },
+  [setLoadMorePostsRoutine.TRIGGER]: (state, { payload }: PayloadAction<boolean>) => {
+    state.loadMore = payload;
   }
 });
