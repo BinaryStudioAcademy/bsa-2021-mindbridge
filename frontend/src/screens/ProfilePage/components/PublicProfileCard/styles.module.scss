@@ -86,3 +86,13 @@
   background-color: rgba(0,0,0,0);
   color: $dark-grey;
 }
+.revert_dark_button {
+  background-color: rgba(0,0,0,0);
+  border: solid 2px #14253f;
+  transition: 0.1s;
+
+  &:hover {
+    background-color: $dark-grey;
+    color: #fff;
+  }
+}

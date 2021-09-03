@@ -6,12 +6,13 @@ import {
   sendChangePasswordFormRoutine,
   openPasswordChangeModalRoutine,
   fetchUserRoutine,
-  deleteAvatarRoutine
+  deleteAvatarRoutine, toggleFollowUserRoutine
 } from '@screens/ProfilePage/routines';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import profilePageService from '@screens/ProfilePage/services/profilePage';
 import { updateUserAvatar, updateUserRoutine } from '@screens/Login/routines';
+import {Routine} from "redux-saga-routines";
 
 /* eslint-disable max-len*/
 
@@ -23,6 +24,17 @@ function* fetchUserData(action) {
     yield put(fetchUserRoutine.failure(error?.message));
   }
 }
+
+function* toggleFollowUser({ payload }: Routine<any>) {
+  try {
+    const response = yield call(profilePageService.toggleFollowUser, payload);
+    yield put(toggleFollowUserRoutine.success(response));
+  } catch (error) {
+    yield put(toggleFollowUserRoutine.failure(error?.message));
+    toastr.error('Error', 'Following user failed');
+  }
+}
+
 function* sendForm(action) {
   try {
     const response = yield call(profilePageService.sendForm, { endpoint: action.payload.id, payload: action.payload });
@@ -126,6 +138,10 @@ function* watchSendAvatarRequest() {
   yield takeEvery(sendAvatarRoutine.TRIGGER, sendAvatar);
 }
 
+function* watchToggleFollowUser() {
+  yield takeEvery(toggleFollowUserRoutine.TRIGGER, toggleFollowUser);
+}
+
 export default function* defaultProfileSagas() {
   yield all([
     watchFetchUserDataRequest(),
@@ -133,7 +149,8 @@ export default function* defaultProfileSagas() {
     watchSendChangePasswordFormRequest(),
     watchSendNicknameRequest(),
     watchSendAvatarRequest(),
-    deleteAvatarRequest()
+    deleteAvatarRequest(),
+    watchToggleFollowUser()
   ]);
 }
 
