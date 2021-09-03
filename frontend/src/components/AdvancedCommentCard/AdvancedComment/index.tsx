@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
@@ -15,7 +15,6 @@ import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
 import { Popup } from 'semantic-ui-react';
 import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
 import parse from 'html-react-parser';
-import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 interface IBasicCommentProps {
   createdAt: string;

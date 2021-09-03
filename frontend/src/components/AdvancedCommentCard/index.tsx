@@ -1,14 +1,8 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
-import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import { IComments } from '@screens/ViewPost/models/IComments';
 import Reply from '@components/AdvancedCommentCard/Reply';
-import { IComment } from '@screens/ViewPost/models/IComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
-import classNames from '@components/AdvancedCommentCard/mentition/styles.module.scss';
-import { useDebouncedCallback } from 'use-debounce';
-import { MentionsInput, Mention } from 'react-mentions';
 import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
 
 interface ICommentProps {
@@ -63,14 +57,14 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
         )
       </p>
       {isAuthorized ? (
-          <AsyncUserMentions
-            isReply={false}
-            userInfo={userInfo}
-            sendComment={sendComment}
-            postId={postId}
-            searchUsersByNickname={searchUsersByNickname}
-            users={users}
-          />
+        <AsyncUserMentions
+          isReply={false}
+          userInfo={userInfo}
+          sendComment={sendComment}
+          postId={postId}
+          searchUsersByNickname={searchUsersByNickname}
+          users={users}
+        />
       ) : (
         <div className={styles.nonAuthorizedHeading}>
           <p>
