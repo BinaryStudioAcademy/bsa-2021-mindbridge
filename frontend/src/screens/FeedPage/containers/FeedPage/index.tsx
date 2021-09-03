@@ -14,7 +14,7 @@ import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { useHistory } from 'react-router-dom';
 import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import {toastr} from "react-redux-toastr";
+import { toastr } from 'react-redux-toastr';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;

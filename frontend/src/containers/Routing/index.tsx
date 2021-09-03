@@ -24,6 +24,7 @@ import { checkHeaderShown } from '@helpers/headerBlackList.hepler';
 import HighlightsPage from '@screens/HighlightsPage/containers/HighlightsPage';
 import PostVersionPage from '@screens/PostVersionPage/containers/PostVersionPage';
 import Drafts from '@screens/Drafts/containers/DraftsPage';
+import EmailSuccessConfirmation from '@screens/EmailSuccessConfirmation/containers/EmailSuccessConfirmationPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -57,6 +58,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PrivateRoute exact path="/highlights" component={HighlightsPage} />
         <PrivateRoute exact path="/my/contributions" component={MyContributionsPage} />
         <PrivateRoute exact path="/drafts" component={Drafts} />
+        <PublicRoute exact path="/activate/:code" component={EmailSuccessConfirmation} />
         <PublicRoute component={NotFoundPage} />
 
         <div>

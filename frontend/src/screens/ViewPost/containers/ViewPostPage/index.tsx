@@ -25,7 +25,7 @@ import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { history } from '@helpers/history.helper';
-import {toastr} from "react-redux-toastr";
+import { toastr } from 'react-redux-toastr';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -165,10 +165,9 @@ const ViewPost: React.FC<IViewPostProps> = (
         liked: false
       };
       dislikeComment(id);
-      leaveReactionOnComment(comment); {
-        history.push('/login');
-        toastr.error('Error', 'Please log in to perform that action');
-      }
+    } else {
+      history.push('/login');
+      toastr.error('Error', 'Please log in to perform that action');
     }
   };
 

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as toastr } from 'react-redux-toastr';
 /* PlopJS import placeholder. Do not remove */
+import emailSuccessConfirmationReducer from '@screens/EmailSuccessConfirmation/reducers';
 import highlightsReducer from '@screens/HighlightsPage/reducers';
 import draftsReducer from '@screens/Drafts/reducers';
 import postVersionPageReducer from '@screens/PostVersionPage/reducers';
@@ -18,6 +19,7 @@ import { privateRouteReducer } from '@components/PrivateRoute/reducer';
 export default combineReducers({
   toastr,
   /* PlopJS reducer placeholder. Do not remove */
+  emailSuccessConfirmationReducer,
   highlightsReducer,
   draftsReducer,
   postVersionPageReducer,

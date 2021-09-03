@@ -131,7 +131,7 @@ public class UserService implements UserDetailsService {
 		user.setEmail(registrationRequest.getEmail());
 		user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 		user.setEmailVerified(false);
-		user.setActivationCode(UUID.randomUUID().toString());
+		user.setActivationCode(UUID.randomUUID());
 		userRepository.save(user);
 
 		String message = String.format(
