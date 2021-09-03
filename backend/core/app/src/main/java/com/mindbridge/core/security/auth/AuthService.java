@@ -22,14 +22,14 @@ public class AuthService {
 
 	private final JwtProvider jwtProvider;
 
-	private final UserRepository userReposiroty;
+	private final UserRepository userRepository;
 
 	public AuthService(UserService userService, PasswordEncoder passwordEncoder, JwtProvider jwtProvider,
-			UserRepository userReposiroty) {
+					   UserRepository userRepository) {
 		this.userService = userService;
 		this.passwordEncoder = passwordEncoder;
 		this.jwtProvider = jwtProvider;
-		this.userReposiroty = userReposiroty;
+		this.userRepository = userRepository;
 	}
 
 	public UserDto getUserByToken(RefreshTokenRequest token) {
@@ -49,8 +49,10 @@ public class AuthService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid password");
 		}
 
-		var tokens = AuthResponse.of(jwtProvider.generateToken(userDetails.getUsername(), "30min"),
-				jwtProvider.generateToken(userDetails.getUsername(), "30days"));
+		var tokens = AuthResponse.of(
+			jwtProvider.generateAccessToken(userDetails.getUsername()),
+			jwtProvider.generateRefreshToken(userDetails.getUsername())
+		);
 		var userDto = userService.loadUserDtoByEmail(authRequest.getEmail());
 		return new TokensWithUser(tokens, userDto);
 	}
@@ -60,13 +62,13 @@ public class AuthService {
 	}
 
 	public TokensWithUser performRegister(RegistrationRequest registrationRequest) {
-		if (userReposiroty.existsByEmail(registrationRequest.getEmail())) {
+		if (userRepository.existsByEmail(registrationRequest.getEmail())) {
 			throw new UserAlreadyExistException(
-					"User with email '" + registrationRequest.getEmail() + "' is already registered.");
+				"User with email '" + registrationRequest.getEmail() + "' is already registered.");
 		}
-		if (userReposiroty.existsByNickname(registrationRequest.getNickname())) {
+		if (userRepository.existsByNickname(registrationRequest.getNickname())) {
 			throw new UserAlreadyExistException(
-					"User with nickname '" + registrationRequest.getNickname() + "' is already registered.");
+				"User with nickname '" + registrationRequest.getNickname() + "' is already registered.");
 		}
 		userService.registerNewUserAccount(registrationRequest);
 
@@ -80,22 +82,25 @@ public class AuthService {
 
 		if (!userEmail.isEmpty()) {
 			var userDetails = userService.loadUserByEmail(userEmail);
-			return AuthResponse.of(jwtProvider.generateToken(userDetails.getUsername(), "30min"),
-					jwtProvider.generateToken(userDetails.getUsername(), "30days"));
+			return AuthResponse.of(
+				jwtProvider.generateAccessToken(userDetails.getUsername()),
+				jwtProvider.generateRefreshToken(userDetails.getUsername())
+			);
 		}
-		else
+		else {
 			throw new UsernameNotFoundException("Сouldn`t find a user with such refresh token.");
+		}
 	}
 
 	public boolean activateEmail(String code) {
-		User user = userReposiroty.findByActivationCode(code);
+		User user = userRepository.findByActivationCode(code);
 
-		if(user == null) {
+		if (user == null) {
 			return false;
 		}
 		user.setActivationCode(null);
 		user.setEmailVerified(true);
-		userReposiroty.save(user);
+		userRepository.save(user);
 		return true;
 	}
 }
