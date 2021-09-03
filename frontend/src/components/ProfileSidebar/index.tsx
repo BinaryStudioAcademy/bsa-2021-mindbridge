@@ -12,6 +12,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import { handleOnClickSignOut } from '@helpers/signOut.helper';
 import Image from '@components/Image';
+import {defaultAvatar} from "@images/defaultImages";
 
 export interface IProfileSidebarProps {
 }
@@ -30,7 +31,7 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
           <Link to={`/user/${id}`}>
             <Image
               className={styles.avatar}
-              src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'}
+              src={avatar ?? defaultAvatar}
               alt="avatar"
             />
             <span className={styles.user_name}>{userName}</span>

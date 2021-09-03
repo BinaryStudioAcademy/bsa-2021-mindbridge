@@ -11,6 +11,7 @@ import PostsSvg from '@screens/ProfilePage/components/svg/posts';
 import ContributorsSvg from '@screens/ProfilePage/components/svg/contributorsSvg';
 import { IUser } from '@screens/ProfilePage/models/IUser';
 import Image from '@components/Image';
+import {defaultAvatar} from "@images/defaultImages";
 
 interface IPublicProfileCardProps {
   user: IUser;
@@ -34,7 +35,7 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
               { (userData.avatar === '' || userData.avatar === null) ? (
                 <Image
                   className={styles.avatar}
-                  src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+                  src={defaultAvatar}
                   alt="avatar"
                 />
               ) : (

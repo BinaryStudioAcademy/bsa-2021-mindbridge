@@ -6,6 +6,7 @@ import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import DividerSvg from '@components/FeedSvgComponents/dividerSvg';
 import { Link, useHistory } from 'react-router-dom';
 import Image from '@components/Image';
+import {defaultAvatar} from "@images/defaultImages";
 
 export interface IPostVersionItemProps {
   postVersion: IPostVersion;
@@ -25,7 +26,7 @@ const PostVersionItem: FunctionComponent<IPostVersionItemProps> = ({ postVersion
   return (
     <div className={styles.versionItem} onClick={goToVersion}>
       <Link onClick={e => handleClick(e)} to={`/user/${postVersion.author?.id}`} className={styles.userName}>
-        <Image src={postVersion.author?.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} alt="avatar" />
+        <Image src={postVersion.author?.avatar ?? defaultAvatar} alt="avatar" />
         {postVersion.author?.nickname}
       </Link>
       <DividerSvg />

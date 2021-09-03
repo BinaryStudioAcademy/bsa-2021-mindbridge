@@ -6,6 +6,7 @@ import { ITag } from '@screens/FeedPage/models/ITag';
 import { Link } from 'react-router-dom';
 import DraftLabel from '@components/DraftLabel';
 import Image from '@components/Image';
+import {defaultCoverImage} from "@images/defaultImages";
 
 interface IDraftListItemProps {
   id: string;
@@ -41,7 +42,7 @@ const DraftListItem: FunctionComponent<IDraftListItemProps> = (
         ))}
       </div>
     </div>
-    <Image src={coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'} alt="Preview" />
+    <Image src={coverImage ?? defaultCoverImage} alt="Preview" />
   </div>
 );
 

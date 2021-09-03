@@ -6,6 +6,7 @@ import DividerSvg from '@components/FeedSvgComponents/dividerSvg';
 import { Link, useHistory } from 'react-router-dom';
 import { IContribution } from '@root/screens/ViewPost/models/IContribution';
 import Image from '@components/Image';
+import {defaultAvatar} from "@images/defaultImages";
 
 export interface IPostContributionItemProps {
   postContribution: IContribution;
@@ -26,7 +27,7 @@ const PostContributionItem: FunctionComponent<IPostContributionItemProps> = ({ p
     <div className={styles.versionItem} onClick={goToVersion}>
       <div>
         <Link onClick={e => handleClick(e)} to={`/user/${postContribution.author?.id}`} className={styles.userName}>
-          <Image src={postContribution.author?.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
+          <Image src={postContribution.author?.avatar ?? defaultAvatar} />
           {postContribution.author?.nickname}
         </Link>
         <DividerSvg />

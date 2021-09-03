@@ -7,6 +7,7 @@ import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerS
 import { timeToLocal } from '@helpers/dataTimeToLocalData';
 import { Link } from 'react-router-dom';
 import Image from '@components/Image';
+import {defaultAvatar, defaultCoverImage} from "@images/defaultImages";
 
 interface IRelatedPostsProps {
   relatedPosts: IRelatedPost[];
@@ -20,7 +21,7 @@ const RelatedPosts: FunctionComponent<IRelatedPostsProps> = ({ relatedPosts }) =
         <Card>
           <Image
             className={styles.coverImage}
-            src={relatedPost.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'}
+            src={relatedPost.coverImage ?? defaultCoverImage}
             alt="media"
           />
           <Card.Content>
@@ -32,7 +33,7 @@ const RelatedPosts: FunctionComponent<IRelatedPostsProps> = ({ relatedPosts }) =
 
                 <div className={styles.userBlock}>
                   <Link to={`/user/${relatedPost.author.id}`}>
-                    <Image src={relatedPost.author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
+                    <Image src={relatedPost.author.avatar ?? defaultAvatar} />
                   </Link>
                   <div className={styles.headerInfo}>
                     <Link to={`/user/${relatedPost.author.id}`}>

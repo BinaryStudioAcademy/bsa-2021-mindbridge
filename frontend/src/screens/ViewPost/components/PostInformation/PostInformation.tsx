@@ -6,6 +6,7 @@ import { timeToLocal } from '@helpers/dataTimeToLocalData';
 import { Link } from 'react-router-dom';
 import DraftLabel from '@components/DraftLabel';
 import Image from '@components/Image';
+import {defaultAvatar} from "@images/defaultImages";
 
 interface IPostInformationProps {
   id: string;
@@ -28,7 +29,7 @@ const PostInformation: FunctionComponent<IPostInformationProps> = (
   <div className={styles.postHeaderInfo}>
     <Link to={`/user/${id}`}>
       <div className={styles.userBlock}>
-        <Image src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
+        <Image src={avatar ?? defaultAvatar} />
         <div className={styles.userName}>
           { nickname }
         </div>

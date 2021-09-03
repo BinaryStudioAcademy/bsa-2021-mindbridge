@@ -16,6 +16,7 @@ import TextRenderer from '../TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import readingTime from 'reading-time';
 import Image from '@components/Image';
+import {defaultCoverImage} from "@images/defaultImages";
 
 interface IPostCardProps {
   post: IPost;
@@ -61,7 +62,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
         </div>
       </Feed>
       <Card.Description>
-        <Image src={post.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'} />
+        <Image src={post.coverImage ?? defaultCoverImage} />
         <Link to={`/post/${post.id}`} className={styles.postName}>{post.title}</Link>
         <TextRenderer
           className={styles.post_content}
