@@ -1,11 +1,14 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import {
+  fetchHighlightsRoutine,
+  saveHighlightRoutine,
   fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
   sendReplyRoutine
 } from '@screens/ViewPost/routines';
 import { IPost } from '../../models/IPost';
+import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 import { IUsers } from '@screens/ViewPost/models/IUsers';
@@ -15,6 +18,7 @@ export interface IViewPostReducerState {
   post: IPost;
   comment: IComment;
   reply: ICommentReply;
+  highlights: IHighlight[];
   users: IMentionsUser[];
 }
 
@@ -36,6 +40,7 @@ const initialState: IViewPostReducerState = {
     relatedPosts: [],
     comments: []
   },
+  highlights: undefined,
   comment: {
     text: '',
     author: '',
@@ -86,6 +91,9 @@ export const viewPostReducer = createReducer(initialState, {
       state.post.rating -= action.payload.difference;
       state.post.rating -= action.payload.difference;
     }
+  },
+  [fetchHighlightsRoutine.SUCCESS]: (state, action) => {
+    state.highlights = action.payload;
   },
   [sendCommentRoutine.SUCCESS]: (state, action) => {
     state.comment = initialState.comment;
