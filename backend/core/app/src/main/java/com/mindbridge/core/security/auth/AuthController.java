@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
@@ -56,6 +53,11 @@ public class AuthController {
 	@PostMapping("/getUser")
 	public UserDto getUserByToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
 		return authService.getUserByToken(refreshTokenRequest);
+	}
+
+	@GetMapping("/activate/{code}")
+	public void activateUserEmail(@PathVariable String code) {
+		authService.activateEmail(code);
 	}
 
 }

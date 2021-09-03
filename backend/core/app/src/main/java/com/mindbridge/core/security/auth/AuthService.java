@@ -6,6 +6,7 @@ import com.mindbridge.core.exceptions.custom.UserAlreadyExistException;
 import com.mindbridge.core.security.auth.dto.*;
 import com.mindbridge.core.security.jwt.JwtProvider;
 import com.mindbridge.data.domains.user.UserRepository;
+import com.mindbridge.data.domains.user.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -86,4 +87,15 @@ public class AuthService {
 			throw new UsernameNotFoundException("Сouldn`t find a user with such refresh token.");
 	}
 
+	public boolean activateEmail(String code) {
+		User user = userReposiroty.findByActivationCode(code);
+
+		if(user == null) {
+			return false;
+		}
+		user.setActivationCode(null);
+		user.setEmailVerified(true);
+		userReposiroty.save(user);
+		return true;
+	}
 }
