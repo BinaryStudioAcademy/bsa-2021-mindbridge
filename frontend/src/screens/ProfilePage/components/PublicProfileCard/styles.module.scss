@@ -45,12 +45,19 @@
 .achievementsWrp {
   padding-top: 1.6rem;
   border-bottom: 1px solid #E5E5E5;
+  padding-bottom: 1.6rem;
 }
 
 .achievements{
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  :first-child{
+    margin-left: 0;
+  }
+  :last-child{
+    margin-right: 0;
+  }
 }
 
 .statCell {
