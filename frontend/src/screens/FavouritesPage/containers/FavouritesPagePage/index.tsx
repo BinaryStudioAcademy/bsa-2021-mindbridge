@@ -15,6 +15,8 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { extractFetchFavouritePostsLoading } from '@screens/FavouritesPage/reducers';
 import LoaderWrapper from '@components/LoaderWrapper';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { isEmptyArray } from 'formik';
+import NoResultsSvg from '@components/svgs/NoResultsSvg';
 
 export interface IFavouritesPageProps extends IState, IActions {
   userInfo: IUserProfile;
@@ -80,7 +82,8 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
   }
   return (
     <div className={classNames('content_wrapper', styles.container)}>
-      <div className={styles.pageTitle}>Your favourites</div>
+      {!isEmptyArray(favouritePosts) && favouritePosts
+      && <div className={styles.pageTitle}>Your favourites</div>}
       <InfiniteScroll
         style={{ overflow: 'none' }}
         next={getMorePosts}
@@ -89,7 +92,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
         dataLength={favouritePosts ? favouritePosts.length : 0}
         scrollThreshold={0.9}
       >
-        {favouritePosts ? (
+        {!isEmptyArray(favouritePosts) && favouritePosts ? (
           favouritePosts.map(post => (
             <PostCard
               key={post.id}
@@ -101,10 +104,12 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
             />
           ))
         ) : (
-          <p>
-            🔍 Seems like there are no posts...
-            Please try another query
-          </p>
+          <div className={styles.emptyFavourites}>
+            <NoResultsSvg width="35%" height="35%" />
+            <p className={styles.emptyLabel}>
+              Favourites list is empty
+            </p>
+          </div>
         )}
       </InfiniteScroll>
     </div>
