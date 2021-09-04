@@ -3,7 +3,7 @@ import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine } from '@screens
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import { isEmptyArray } from 'formik';
-import {deleteFavouritePostRoutine, saveFavouritePostRoutine} from '@screens/FavouritesPage/routines';
+import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 
 export interface IFeedPageReducerState {
   posts: [IPost];

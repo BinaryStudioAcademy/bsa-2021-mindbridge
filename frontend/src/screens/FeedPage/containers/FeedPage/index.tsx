@@ -6,7 +6,11 @@ import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { RootState } from '@root/store';
 import { extractData, extractFetchDataLoading } from '@screens/FeedPage/reducers';
-import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine } from '@screens/FeedPage/routines';
+import {
+  addMorePostsRoutine,
+  fetchDataRoutine,
+  likePostRoutine
+} from '@screens/FeedPage/routines';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';

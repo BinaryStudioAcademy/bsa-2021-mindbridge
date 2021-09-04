@@ -33,6 +33,8 @@ export const favouritesPageReducer = createReducer(initialState, {
     state.loadMore = payload;
   },
   [deleteFavouritePostRoutine.SUCCESS]: (state, action) => {
-    state.favouritePosts = state.favouritePosts.filter(hs => hs.id !== action.payload);
+    if (state.favouritePosts) {
+      state.favouritePosts = state.favouritePosts.filter(hs => hs.id !== action.payload);
+    }
   }
 });
