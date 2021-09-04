@@ -13,7 +13,7 @@ import {
   loadCountResultsRoutine,
   searchPostsRoutine
 } from '@screens/FeedPage/routines';
-import { IPostList } from '@screens/FeedPage/models/IPostList';
+import { IPostFeed } from '@screens/FeedPage/models/IPostFeed';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
@@ -37,7 +37,7 @@ export interface IFeedPageProps extends IState, IActions {
 }
 
 interface IState {
-  data: IPostList;
+  data: IPostFeed[];
   dataLoading: boolean;
   hasMore: boolean;
   loadMore: boolean;
@@ -227,7 +227,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
             )}
           </div>
         )}
-        {isSearch && data.posts.length > 0 && (
+        {isSearch && data && (
           <h4>
             {`On your request "${searchRequest}" found `}
             <span className={styles.countPosts}>{countResults}</span>
@@ -239,14 +239,14 @@ const FeedPage: React.FC<IFeedPageProps> = (
       <div className={styles.main}>
         <InfiniteScroll
           style={{ overflow: 'none' }}
-          dataLength={data.posts.length}
+          dataLength={data.length}
           next={getMorePosts}
           hasMore={hasMore}
           loader={' '}
           scrollThreshold={0.9}
         >
-          {data.posts.length ? (
-            data.posts.map(post => (
+          {data ? (
+            data.map(post => (
               <PostCard
                 key={post.id}
                 handleLikePost={handleLikePost}
@@ -271,7 +271,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
 };
 
 const mapStateToProps: (state: RootState) => IState = state => ({
-  data: extractData(state),
+  data: state.feedPageReducer.data.posts,
   dataLoading: extractFetchDataLoading(state) || extractSearchPostsLoading(state),
   hasMore: state.feedPageReducer.data.hasMore,
   countResults: state.feedPageReducer.data.countResults,

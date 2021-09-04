@@ -75,6 +75,8 @@ public class PostService {
 		post.setRating(postReactionService.calcPostRatingById(id));
 		post.setRelatedPosts(relatedPostsDto);
 
+		var favourite = favouriteRepository.getFavoriteByPostId(id);
+		post.setIsFavourite(favourite.isPresent());
 		return post;
 	}
 

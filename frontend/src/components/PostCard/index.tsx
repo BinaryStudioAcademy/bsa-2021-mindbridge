@@ -10,7 +10,7 @@ import ViewsSvg from '@components/FeedSvgComponents/viewsSvg';
 import LikeSvg from '@components/FeedSvgComponents/likeSvg';
 import DisLikeSvg from '@components/FeedSvgComponents/disLikeSvg';
 import styles from './styles.module.scss';
-import { IPost } from '@screens/FeedPage/models/IPost';
+import { IPostFeed } from '@screens/FeedPage/models/IPostFeed';
 import { Link } from 'react-router-dom';
 import TextRenderer from '../TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
@@ -18,7 +18,7 @@ import readingTime from 'reading-time';
 import Image from '@components/Image';
 
 interface IPostCardProps {
-  post: IPost;
+  post: IPostFeed;
   handleLikePost: any;
   handleDisLikePost: any;
   userInfo: IUserProfile;

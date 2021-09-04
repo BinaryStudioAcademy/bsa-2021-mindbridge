@@ -24,6 +24,7 @@ import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -52,6 +53,8 @@ interface IActions {
   dislikeComment: IBindingCallback1<string>;
   leaveReactionOnComment: IBindingCallback1<object>;
   searchUsersByNickname: IBindingCallback1<string>;
+  saveFavouritePost: IBindingCallback1<object>;
+  deleteFavouritePost: IBindingCallback1<string>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -74,7 +77,9 @@ const ViewPost: React.FC<IViewPostProps> = (
     dislikeComment,
     leaveReactionOnComment,
     searchUsersByNickname,
-    users
+    users,
+    saveFavouritePost,
+    deleteFavouritePost
   }
 ) => {
   const { postId } = useParams();
@@ -168,6 +173,14 @@ const ViewPost: React.FC<IViewPostProps> = (
     );
   }
 
+  const handleFavouriteAction = post => {
+    if (!post.isFavourite) {
+      saveFavouritePost({ userId: currentUser.id, postId: post.id });
+    } else {
+      deleteFavouritePost(post.id);
+    }
+  };
+
   return (
     <div className={styles.viewPost}>
       <div className={styles.main}>
@@ -187,6 +200,7 @@ const ViewPost: React.FC<IViewPostProps> = (
           isAuthorized={isAuthorized}
           users={users}
           searchUsersByNickname={searchUsersByNickname}
+          handleFavouriteAction={handleFavouriteAction}
         />
       </div>
     </div>
@@ -217,7 +231,9 @@ const mapDispatchToProps: IActions = {
   likeComment: likeCommentViewRoutine,
   dislikeComment: disLikeCommentViewRoutine,
   leaveReactionOnComment: leaveReactionOnCommentRoutine,
-  searchUsersByNickname: searchUserByNicknameRoutine
+  searchUsersByNickname: searchUserByNicknameRoutine,
+  saveFavouritePost: saveFavouritePostRoutine,
+  deleteFavouritePost: deleteFavouritePostRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);

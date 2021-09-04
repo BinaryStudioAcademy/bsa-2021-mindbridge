@@ -48,7 +48,7 @@ public class FavouriteService {
 
 	public UUID deleteFavouritePosts(UUID id) {
 		var post = favouriteRepository.getFavoriteByPostId(id);
-		favouriteRepository.delete(post);
+		favouriteRepository.delete(post.orElseThrow());
 		return id;
 	}
 }

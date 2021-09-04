@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { IPost } from '@screens/FeedPage/models/IPost';
+import { IPostFeed } from '@screens/FeedPage/models/IPostFeed';
 import { IBindingCallback1 } from '@models/Callbacks';
 import {
   deleteFavouritePostRoutine,
@@ -23,7 +23,7 @@ export interface IFavouritesPageProps extends IState, IActions {
 }
 
 interface IState {
-  favouritePosts: IPost[];
+  favouritePosts: IPostFeed[];
   currentUser: ICurrentUser;
   dataLoading: boolean;
   loadMore: boolean;
