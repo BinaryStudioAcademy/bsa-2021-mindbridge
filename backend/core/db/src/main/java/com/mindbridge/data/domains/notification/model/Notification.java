@@ -16,7 +16,7 @@ public class Notification extends BaseAuditableEntity {
 
 	public enum Type {
 
-		newPost, newPR, newFollower
+		newPost, newPR, newFollower, newAchievement
 
 	}
 

@@ -1,5 +1,7 @@
 package com.mindbridge.core.domains.post;
 
+import com.mindbridge.core.domains.achievement.AchievementHelper;
+import com.mindbridge.core.domains.achievement.AchievementService;
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
@@ -41,11 +43,14 @@ public class PostService {
 
 	private final ElasticService elasticService;
 
+	private final AchievementHelper achievementHelper;
+
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService,
 			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-			PostVersionRepository postVersionRepository, ElasticService elasticService) {
+			PostVersionRepository postVersionRepository, ElasticService elasticService,
+			AchievementHelper achievementHelper) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
@@ -53,6 +58,7 @@ public class PostService {
 		this.tagRepository = tagRepository;
 		this.postVersionRepository = postVersionRepository;
 		this.elasticService = elasticService;
+		this.achievementHelper = achievementHelper;
 	}
 
 	public PostDetailsDto getPostById(UUID id) {
@@ -100,6 +106,7 @@ public class PostService {
 		if (!savedPost.getDraft()) {
 			elasticService.put(savedPost);
 		}
+		achievementHelper.checkPostCount(post.getAuthor());
 		return savedPost.getId();
 	}
 

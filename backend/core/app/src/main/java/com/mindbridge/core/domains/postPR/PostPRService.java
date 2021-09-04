@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.postPR;
 
+import com.mindbridge.core.domains.achievement.AchievementHelper;
 import com.mindbridge.core.domains.notification.NotificationService;
 import com.mindbridge.core.domains.notification.dto.CreateNotificationDto;
 import com.mindbridge.core.domains.post.PostService;
@@ -46,15 +47,18 @@ public class PostPRService {
 
 	private final UserService userService;
 
+	private final AchievementHelper achievementHelper;
+
 	@Lazy
 	@Autowired
 	public PostPRService(PostPRRepository postPRRepository, TagRepository tagRepository, PostService postService,
-			NotificationService notificationService, UserService userService) {
+			NotificationService notificationService, UserService userService, AchievementHelper achievementHelper) {
 		this.postPRRepository = postPRRepository;
 		this.tagRepository = tagRepository;
 		this.postService = postService;
 		this.notificationService = notificationService;
 		this.userService = userService;
+		this.achievementHelper = achievementHelper;
 	}
 
 	public void create(CreatePostPRDto createPostPRDto) {
@@ -94,6 +98,7 @@ public class PostPRService {
 			EditPostDto editPostDto = EditPostDto.fromPostPR(postPR);
 			postService.editPost(editPostDto);
 			postPRRepository.setPRAccepted(id);
+			achievementHelper.checkAcceptedPRsCount(postPR.getContributor());
 			return true;
 		}
 		else
