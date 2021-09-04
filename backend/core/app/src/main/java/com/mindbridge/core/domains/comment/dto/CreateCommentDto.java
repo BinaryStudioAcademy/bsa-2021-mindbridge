@@ -17,5 +17,6 @@ public class CreateCommentDto {
 
 	private String avatar;
 
+	private long rating;
 
 }

@@ -56,7 +56,8 @@ function AsyncUserMentions(
         author: userInfo.id,
         postId,
         avatar: userInfo.avatar,
-        nickname: userInfo.nickname
+        nickname: userInfo.nickname,
+        rating: 0
       };
       sendComment(addComment);
       setNewComment({
@@ -109,7 +110,8 @@ function AsyncUserMentions(
         postId,
         replyCommentId: commentId,
         avatar: userInfo.avatar,
-        nickname: userInfo.nickname
+        nickname: userInfo.nickname,
+        rating: 0
       };
       sendReply(addComment);
       setDisabled(false);

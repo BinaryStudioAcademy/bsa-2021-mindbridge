@@ -109,27 +109,37 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
             </div>
           </div>
           <div className={styles.commentRightAction}>
-            { userInfo.id !== author.id && (
-            <div className={styles.ratingComponent}>
+            { userInfo.id !== author.id ? (
+              <div className={styles.ratingComponent}>
+                <RatingComponent
+                  postRating={commentRating || 0}
+                  handleDisLikePost={handleDislikeComment}
+                  handleLikePost={handleLikeComment}
+                  postId={commentId}
+                  userInfo={userInfo}
+                  arrowUpColor={userInfo.userReactionsComments
+                    .find(commentReaction => commentReaction.commentId === commentId && commentReaction.liked)
+                    ? ('#8AC858'
+                    ) : (
+                      '#66B9FF'
+                    )}
+                  arrowDownColor={userInfo.userReactionsComments.find(commentReaction => commentReaction.commentId === commentId && !commentReaction.liked)
+                    ? ('#F75C48'
+                    ) : (
+                      '#66B9FF'
+                    )}
+                />
+              </div>
+            ) : (
               <RatingComponent
-                postRating={commentRating}
+                postRating={commentRating || 0}
                 handleDisLikePost={handleDislikeComment}
                 handleLikePost={handleLikeComment}
-                postId={commentId}
+                postId={postId}
                 userInfo={userInfo}
-                arrowUpColor={userInfo.userReactionsComments
-                  .find(commentReaction => commentReaction.commentId === commentId && commentReaction.liked)
-                  ? ('#8AC858'
-                  ) : (
-                    '#66B9FF'
-                  )}
-                arrowDownColor={userInfo.userReactionsComments.find(commentReaction => commentReaction.commentId === commentId && !commentReaction.liked)
-                  ? ('#F75C48'
-                  ) : (
-                    '#66B9FF'
-                  )}
+                arrowUpColor="#808080"
+                arrowDownColor="#808080"
               />
-            </div>
             )}
             { shouldRender
           && (
