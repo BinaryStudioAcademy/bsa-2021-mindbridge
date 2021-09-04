@@ -1,7 +1,6 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import emailService from '@screens/EmailSuccessConfirmation/services/emailService';
 import { fetchUserRoutine } from '@screens/EmailSuccessConfirmation/routines';
-import { history } from '@helpers/history.helper';
 
 export default function* emailSuccessConfirmationPageSagas() {
   function* fetchData(action) {

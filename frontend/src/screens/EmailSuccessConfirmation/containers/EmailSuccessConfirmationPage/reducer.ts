@@ -8,7 +8,7 @@ export interface IEmailSuccessConfirmationReducerState {
 
 const initialState: IEmailSuccessConfirmationReducerState = {
   user: {
-    isViewed: undefined,
+    viewed: undefined,
     emailVerified: undefined
   }
 };

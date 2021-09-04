@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 import { IBindingCallback1 } from '@models/Callbacks';
@@ -6,8 +6,9 @@ import { fetchUserRoutine } from '@screens/EmailSuccessConfirmation/routines';
 import { useParams } from 'react-router-dom';
 import { extractData } from '@screens/EmailSuccessConfirmation/reducers';
 import { IUserConfirmationEmail } from '@screens/EmailSuccessConfirmation/models/IUserConfirmationEmail';
-import {history} from "@helpers/history.helper";
-import NotFoundPage from "@screens/NotFound/containers/NotFoundPage";
+import NotFoundPage from '@screens/NotFound/containers/NotFoundPage';
+import LoaderWrapper from '@components/LoaderWrapper';
+import InvalidActivationCode from '@screens/EmailSuccessConfirmation/containers/InvalidActivationCode';
 
 export interface IEmailSuccessConfirmationProps extends IState, IActions {
 }
@@ -24,48 +25,46 @@ const EmailSuccessConfirmation: React.FC<IEmailSuccessConfirmationProps> = (
   { fetchUser, user }
 ) => {
   const { code } = useParams();
+  const [isLoad, setIsLoad] = useState(true);
 
   useEffect(() => {
     fetchUser(code);
   }, [code]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoad(false);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div>
-      {!user.emailVerified ? (
-        <div>
-          {user.isViewed ? (
-            <div className={styles.container}>
-              <div className={styles.wrapper_block}>
-                <div className={styles.wrapper_title}>
-                  <div className={styles.success}>Success!</div>
-                </div>
-                <div className={styles.success_block}>
-                  <div className={styles.success_block_placeholder}>
-                    The email has been successfully verified.
+    <LoaderWrapper loading={isLoad}>
+      <div>
+        {user.emailVerified ? (
+          <div>
+            {!user.viewed ? (
+              <div className={styles.container}>
+                <div className={styles.wrapper_block}>
+                  <div className={styles.wrapper_title}>
+                    <div className={styles.success}>Success!</div>
+                  </div>
+                  <div className={styles.success_block}>
+                    <div className={styles.success_block_placeholder}>
+                      The email has been successfully verified.
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            <NotFoundPage />
-          )}
-        </div>
-      ) : (
-        <div className={styles.container}>
-          <div className={styles.wrapper_block}>
-            <div className={styles.wrapper_title}>
-              <div className={styles.success}>Failed!</div>
-            </div>
-            <div className={styles.success_block}>
-              <div className={styles.error_block_placeholder}>
-                Invalid activation code. Please check your inbox or spam.
-              </div>
-            </div>
+            ) : (
+              <NotFoundPage />
+            )}
           </div>
-        </div>
-      )}
-    </div>
-
+        ) : (
+          <InvalidActivationCode />
+        )}
+      </div>
+    </LoaderWrapper>
   );
 };
 
