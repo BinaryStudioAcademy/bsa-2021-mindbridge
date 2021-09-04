@@ -172,18 +172,6 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                 </span>
               )}
             />
-            <Popup
-              content="Share comment"
-              mouseEnterDelay={1000}
-              closeOnTriggerClick
-              on="hover"
-              position="top center"
-              trigger={(
-                <a href="/">
-                  <ShareCommentSvg />
-                </a>
-              )}
-            />
           </div>
         </div>
         <div className="text">
