@@ -59,8 +59,7 @@ const Achievement = ({ className, achievement }: IAchievementProps) => {
             <div className={styles.title}>{achievement.title}</div>
             <div>{achievement.text}</div>
           </div>
-        )
-        }
+        )}
         position="bottom center"
         mouseEnterDelay={500}
         mouseLeaveDelay={500}

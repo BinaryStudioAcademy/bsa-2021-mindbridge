@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
 import styles from './styles.module.scss';
 import { getHowLong } from '@helpers/date.helper';
 import LoaderWrapper from '@components/LoaderWrapper';
@@ -15,6 +15,8 @@ import { fetchAchievementsByUserRoutine } from '../../routines';
 import { connect } from 'react-redux';
 import { IAchievement } from '../../models/IAchievement';
 import Achievement from '@root/components/Achievement';
+import ScrollLifeSvg from './svg/scrollLiftSvg';
+import ScrollRightSvg from './svg/scrollRightSvg';
 
 interface IPublicProfileCardProps extends IState, IActions {
   user: IUser;
@@ -43,6 +45,12 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
       fetchAchievements(user.id);
     }
   }, [user.id]);
+
+  const ref = useRef(null);
+
+  const scroll = scrollOffset => {
+    ref.current.scrollLeft += scrollOffset;
+  };
 
   return (
     <div className={styles.viewCard}>
@@ -149,10 +157,20 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
               <span className={styles.subTitle}>
                 Awards
               </span>
-              <div className={styles.achievements}>
-                {achievements.map(achievement => (
-                  <Achievement achievement={achievement} />
-                ))}
+              <div className={styles.scrollWpr}>
+                <button className={styles.scrollButton} type="button" onClick={() => scroll(-30)}><ScrollLifeSvg /></button>
+                <div className={styles.achievements} ref={ref}>
+                  {achievements.map(achievement => (
+                    <Achievement achievement={achievement} />
+                  ))}
+                  {achievements.map(achievement => (
+                    <Achievement achievement={achievement} />
+                  ))}
+                  {achievements.map(achievement => (
+                    <Achievement achievement={achievement} />
+                  ))}
+                </div>
+                <button className={styles.scrollButton} type="button" onClick={() => scroll(30)}><ScrollRightSvg /></button>
               </div>
             </div>
             <div className={styles.articlesWrp} />
