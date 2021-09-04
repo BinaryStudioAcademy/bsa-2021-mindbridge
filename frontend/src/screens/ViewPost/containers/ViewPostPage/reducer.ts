@@ -12,7 +12,7 @@ import { IComment } from '@screens/ViewPost/models/IComment';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 import { IUsers } from '@screens/ViewPost/models/IUsers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
-import {deleteFavouritePostRoutine, saveFavouritePostRoutine} from "@screens/FavouritesPage/routines";
+import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 
 export interface IViewPostReducerState {
   post: IPost;
