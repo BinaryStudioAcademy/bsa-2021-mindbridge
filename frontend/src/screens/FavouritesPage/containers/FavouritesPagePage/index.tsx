@@ -4,7 +4,11 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { IBindingCallback1 } from '@models/Callbacks';
-import {fetchFavouritePostsRoutine, setLoadMorePostsRoutine} from '@screens/FavouritesPage/routines';
+import {
+  deleteFavouritePostRoutine,
+  fetchFavouritePostsRoutine,
+  setLoadMorePostsRoutine
+} from '@screens/FavouritesPage/routines';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import PostCard from '@components/PostCard';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
@@ -26,6 +30,7 @@ interface IState {
 interface IActions {
   fetchFavouritePosts: IBindingCallback1<object>;
   setLoadMorePosts: IBindingCallback1<boolean>;
+  deleteFavouritePost: IBindingCallback1<string>;
 }
 
 const params = {
@@ -36,7 +41,7 @@ const params = {
 
 const FavouritesPage: React.FC<IFavouritesPageProps> = (
   { favouritePosts, currentUser, fetchFavouritePosts, userInfo, dataLoading,
-    setLoadMorePosts, loadMore }
+    setLoadMorePosts, loadMore, deleteFavouritePost }
 ) => {
   useEffect(() => {
     if (currentUser.id) {
@@ -46,8 +51,8 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
     }
   }, [currentUser]);
 
-  const handleAddToFavourites = () => {
-    console.log('Click');
+  const handleFavouriteAction = post => {
+    deleteFavouritePost(post.id);
   };
 
   const handleLoadMorePosts = filtersPayload => {
@@ -75,6 +80,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
   }
   return (
     <div className={classNames('content_wrapper', styles.container)}>
+      <div className={styles.pageTitle}>Your favourites</div>
       <InfiniteScroll
         style={{ overflow: 'none' }}
         next={getMorePosts}
@@ -88,9 +94,9 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
             <PostCard
               key={post.id}
               post={post}
-              handleLikePost=""
-              handleDisLikePost=""
-              handleAddToFavourites={handleAddToFavourites}
+              handleLikePost={undefined}
+              handleDisLikePost={undefined}
+              handleFavouriteAction={handleFavouriteAction}
               userInfo={userInfo}
             />
           ))
@@ -115,7 +121,8 @@ const mapStateToProps: (state) => IState = state => ({
 
 const mapDispatchToProps: IActions = {
   fetchFavouritePosts: fetchFavouritePostsRoutine,
-  setLoadMorePosts: setLoadMorePostsRoutine
+  setLoadMorePosts: setLoadMorePostsRoutine,
+  deleteFavouritePost: deleteFavouritePostRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FavouritesPage);

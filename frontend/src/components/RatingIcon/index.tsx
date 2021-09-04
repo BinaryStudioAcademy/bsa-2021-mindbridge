@@ -14,10 +14,14 @@ interface IRatingIconProps {
 const RatingComponent: FunctionComponent<IRatingIconProps> = ({ postRating, handleLikePost, handleDisLikePost,
   postId, arrowUpColor, arrowDownColor }) => {
   const likePost = () => {
-    handleLikePost(postId);
+    if (handleLikePost) {
+      handleLikePost(postId);
+    }
   };
   const disLikePost = () => {
-    handleDisLikePost(postId);
+    if (handleDisLikePost) {
+      handleDisLikePost(postId);
+    }
   };
   return (
     <div className={styles.ratingElement}>

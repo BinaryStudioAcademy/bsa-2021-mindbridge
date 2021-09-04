@@ -1,6 +1,10 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { favouritesPageService } from '@screens/FavouritesPage/service';
-import { fetchFavouritePostsRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
+import {
+  deleteFavouritePostRoutine,
+  fetchFavouritePostsRoutine,
+  saveFavouritePostRoutine
+} from '@screens/FavouritesPage/routines';
 import { toastr } from 'react-redux-toastr';
 
 function* fetchFavouritePosts(action) {
@@ -23,6 +27,17 @@ function* saveFavouritePost(action) {
   }
 }
 
+function* deleteFavouritePost(action) {
+  try {
+    const response = yield call(favouritesPageService.deleteFavouritePost, action.payload);
+    yield put(deleteFavouritePostRoutine.success(response));
+    toastr.success('Success', 'Post removed');
+  } catch (error) {
+    yield put(deleteFavouritePostRoutine.failure(error?.message));
+    toastr.error('Error', 'Deleting failed');
+  }
+}
+
 function* watchFetchFavouritePosts() {
   yield takeEvery(fetchFavouritePostsRoutine.TRIGGER, fetchFavouritePosts);
 }
@@ -31,9 +46,14 @@ function* watchSaveFavouritePost() {
   yield takeEvery(saveFavouritePostRoutine.TRIGGER, saveFavouritePost);
 }
 
+function* watchDeleteFavouritePost() {
+  yield takeEvery(deleteFavouritePostRoutine.TRIGGER, deleteFavouritePost);
+}
+
 export default function* favouritesPagePageSagas() {
   yield all([
     watchFetchFavouritePosts(),
-    watchSaveFavouritePost()
+    watchSaveFavouritePost(),
+    watchDeleteFavouritePost()
   ]);
 }

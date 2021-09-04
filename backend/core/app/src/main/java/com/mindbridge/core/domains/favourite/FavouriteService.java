@@ -45,4 +45,10 @@ public class FavouriteService {
 		var savedPostId = favouriteRepository.save(favouritePost);
 		return savedPostId.getPost().getId();
     }
+
+	public UUID deleteFavouritePosts(UUID id) {
+		var post = favouriteRepository.getFavoriteByPostId(id);
+		favouriteRepository.delete(post);
+		return id;
+	}
 }

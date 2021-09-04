@@ -21,13 +21,13 @@ interface IPostCardProps {
   handleLikePost: any;
   handleDisLikePost: any;
   userInfo: IUserProfile;
-  handleAddToFavourites: any;
+  handleFavouriteAction: any;
 }
 
 const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, handleDisLikePost,
-  userInfo, handleAddToFavourites }) => {
-  const addPostToFavourite = postId => {
-    handleAddToFavourites(post.id);
+  userInfo, handleFavouriteAction }) => {
+  const getFavouriteAction = () => {
+    handleFavouriteAction(post);
   };
 
   return (
@@ -62,7 +62,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
                     '#66B9FF'
                   )}
               />
-              <FavouriteSvg handleAddToFavourites={addPostToFavourite} color={post.isFavourite ? 'green' : '#66B9FF'} />
+              <FavouriteSvg handleFavouriteAction={getFavouriteAction} color={post.isFavourite ? 'green' : '#66B9FF'} />
             </div>
           </div>
         </Feed>

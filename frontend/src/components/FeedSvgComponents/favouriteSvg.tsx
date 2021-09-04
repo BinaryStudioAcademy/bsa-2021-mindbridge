@@ -2,13 +2,13 @@ import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 
 interface IFavouriteSvgProps {
-  handleAddToFavourites: any;
+  handleFavouriteAction: any;
   color: string;
 }
 
-const FavouriteSvg: FunctionComponent<IFavouriteSvgProps> = ({ handleAddToFavourites, color }) => (
+const FavouriteSvg: FunctionComponent<IFavouriteSvgProps> = ({ handleFavouriteAction, color }) => (
   <svg
-    onClick={handleAddToFavourites}
+    onClick={handleFavouriteAction}
     className={styles.favouriteSvg}
     width="18"
     height="20"

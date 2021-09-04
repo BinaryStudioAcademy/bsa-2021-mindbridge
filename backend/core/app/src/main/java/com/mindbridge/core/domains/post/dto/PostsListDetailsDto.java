@@ -54,7 +54,7 @@ public class PostsListDetailsDto {
 				.likesCount(postsReactionsQueryResult.likeCount).disLikesCount(postsReactionsQueryResult.disLikeCount)
 				.postRating(postsReactionsQueryResult.likeCount - postsReactionsQueryResult.disLikeCount)
 				.markdown(post.getMarkdown()).coverImage(post.getCoverImage()).avatar(post.getAuthor().getAvatar())
-				.isFavourite(false)
+				.isFavourite(true)
 				.build();
 	}
 

@@ -31,4 +31,9 @@ public class FavouriteController {
 	public UUID saveFavouritePost(@RequestBody CreateFavouriteDto favouriteDto) {
 		return favouriteService.saveFavourite(favouriteDto);
 	}
+
+	@DeleteMapping("/delete/{id}")
+	public UUID deleteFavouritePosts(@PathVariable UUID id) {
+		return favouriteService.deleteFavouritePosts(id);
+	}
 }
