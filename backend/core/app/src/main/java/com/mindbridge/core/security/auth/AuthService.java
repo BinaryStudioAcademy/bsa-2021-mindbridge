@@ -3,12 +3,11 @@ package com.mindbridge.core.security.auth;
 import com.mindbridge.core.domains.user.UserMapper;
 import com.mindbridge.core.domains.user.UserService;
 import com.mindbridge.core.domains.user.dto.UserDto;
-import com.mindbridge.core.domains.user.dto.UserProfileDto;
+import com.mindbridge.core.domains.user.dto.UserEmailConfirmationDto;
 import com.mindbridge.core.exceptions.custom.UserAlreadyExistException;
 import com.mindbridge.core.security.auth.dto.*;
 import com.mindbridge.core.security.jwt.JwtProvider;
 import com.mindbridge.data.domains.user.UserRepository;
-import com.mindbridge.data.domains.user.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -96,11 +95,12 @@ public class AuthService {
 		}
 	}
 
-	public UserProfileDto activateEmail(UUID code) {
+	public UserEmailConfirmationDto activateEmail(UUID code) {
 		var user = userRepository.findByActivationCode(code.toString()).orElseThrow();
 		user.setActivationCode(null);
 		user.setEmailVerified(true);
+		user.setViewed(true);
 		var savedUser = userRepository.save(user);
-		return UserMapper.MAPPER.userToUserProfileDto(savedUser);
+		return UserMapper.MAPPER.userToUserEmailConfirmation(savedUser);
 	}
 }
