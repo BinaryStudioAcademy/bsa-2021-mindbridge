@@ -54,7 +54,7 @@ function* leaveReaction(action) {
     yield put(leaveReactionOnPostViewPageRoutine.success(postReaction));
   } catch (error) {
     yield put(leaveReactionOnPostViewPageRoutine.failure(error?.message));
-    toastr.error('Error', 'Leave reaction on post failed');
+    toastr.error('Error', 'You don\'t have the rights to do that');
   }
 }
 
@@ -96,6 +96,7 @@ function* leaveCommentReaction(action) {
     yield put(leaveReactionOnCommentRoutine.success(commentReaction));
   } catch (error) {
     yield put(leaveReactionOnCommentRoutine.failure(error?.message));
+    toastr.error('Error', 'You don\'t have the rights to do that');
   }
 }
 
