@@ -78,6 +78,10 @@ const Header: React.FC<IHeaderProps> = (
         toastr.info('New follower', message.body);
         fetchNotificationCount(currentUser.id);
       });
+      stompClient.subscribe(`/user/${currentUser.id}/newPost`, message => {
+        toastr.info('New Post', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
     }, warning => {
       toastr.warning('Warning', 'Internet connection is unstable');
       console.log(warning);

@@ -10,8 +10,8 @@ import FollowersSvg from '@screens/ProfilePage/components/svg/followersSvg';
 import PostsSvg from '@screens/ProfilePage/components/svg/posts';
 import ContributorsSvg from '@screens/ProfilePage/components/svg/contributorsSvg';
 import { IUser } from '@screens/ProfilePage/models/IUser';
-import {ICurrentUser} from "@screens/Login/models/ICurrentUser";
-import {IBindingCallback1} from "@models/Callbacks";
+import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
+import { IBindingCallback1 } from '@models/Callbacks';
 
 interface IPublicProfileCardProps {
   user: IUser;
@@ -29,7 +29,7 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
   }, [user]);
 
   const handleFollowUser = () => {
-    toggleFollowUser({followerId: currentUser.id, followedId: userData.id});
+    toggleFollowUser({ followerId: currentUser.id, followedId: userData.id });
   };
 
   const renderFollowButton = () => {
@@ -42,13 +42,12 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
           <span>Unfollow</span>
         </button>
       );
-    } else {
-      return (
-        <button type="button" onClick={handleFollowUser} className={styles.dark_button}>
-          <span>Follow</span>
-        </button>
-      );
     }
+    return (
+      <button type="button" onClick={handleFollowUser} className={styles.dark_button}>
+        <span>Follow</span>
+      </button>
+    );
   };
 
   return (

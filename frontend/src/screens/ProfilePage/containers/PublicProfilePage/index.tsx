@@ -11,7 +11,7 @@ import { NotFoundPage } from '@screens/NotFound/containers/NotFoundPage';
 import LoaderWrapper from '@components/LoaderWrapper';
 import PublicProfileCard from '@screens/ProfilePage/components/PublicProfileCard';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import {ICurrentUser} from "@screens/Login/models/ICurrentUser";
+import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 
 export interface IPublicProfilePageProps extends IState, IActions {
   userProfileData: any;

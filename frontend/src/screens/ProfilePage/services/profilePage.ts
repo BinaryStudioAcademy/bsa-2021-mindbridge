@@ -60,7 +60,7 @@ const profilePageService = {
     );
     return response;
   },
-  toggleFollowUser: async (request: object) => api.put('/api/user/follow', {data: request})
+  toggleFollowUser: async (request: object) => api.put('/api/user/follow', { data: request })
 };
 
 export default profilePageService;

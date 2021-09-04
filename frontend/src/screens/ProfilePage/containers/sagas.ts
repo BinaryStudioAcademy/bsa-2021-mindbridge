@@ -12,7 +12,7 @@ import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import profilePageService from '@screens/ProfilePage/services/profilePage';
 import { updateUserAvatar, updateUserRoutine } from '@screens/Login/routines';
-import {Routine} from "redux-saga-routines";
+import { Routine } from 'redux-saga-routines';
 
 /* eslint-disable max-len*/
 

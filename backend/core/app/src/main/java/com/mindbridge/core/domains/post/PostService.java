@@ -2,6 +2,7 @@ package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
+import com.mindbridge.core.domains.notification.NotificationService;
 import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
@@ -40,9 +41,11 @@ public class PostService {
 
 	private final ElasticService elasticService;
 
+	private final NotificationService notificationService;
+
 	@Lazy
 	@Autowired
-	public PostService(PostRepository postRepository, CommentService commentService,
+	public PostService(PostRepository postRepository, CommentService commentService, NotificationService notificationService,
 			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
 			PostVersionRepository postVersionRepository, ElasticService elasticService) {
 		this.postRepository = postRepository;
@@ -52,6 +55,7 @@ public class PostService {
 		this.tagRepository = tagRepository;
 		this.postVersionRepository = postVersionRepository;
 		this.elasticService = elasticService;
+		this.notificationService = notificationService;
 	}
 
 	public PostDetailsDto getPostById(UUID id) {
@@ -104,6 +108,7 @@ public class PostService {
 		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
 		post.setTags(tags);
 		var savedPost = postRepository.save(post);
+		notificationService.sendFollowersNewPost(createPostDto.getAuthor(), savedPost.getId());
 		postReactionService
 				.setReaction(new ReceivedPostReactionDto(savedPost.getId(), createPostDto.getAuthor(), true));
 		if (!savedPost.getDraft()) {
