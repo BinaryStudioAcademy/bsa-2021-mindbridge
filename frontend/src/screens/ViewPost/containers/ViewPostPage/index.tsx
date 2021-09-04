@@ -159,7 +159,7 @@ const ViewPost: React.FC<IViewPostProps> = (
     }
   };
 
-  if (!data.post.id) {
+  if (postId !== data.post.id) {
     return (
       <div className={styles.viewPost}>
         <div className={styles.main}>
