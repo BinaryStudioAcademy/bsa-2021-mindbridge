@@ -136,7 +136,7 @@ const ViewPost: React.FC<IViewPostProps> = (
   };
 
   const handleLikeComment = id => {
-    if (currentUser.id) {
+    if (currentUser.id && currentUser.id !== data.post.author.id) {
       const comment = {
         commentId: id,
         userId: currentUser.id,
