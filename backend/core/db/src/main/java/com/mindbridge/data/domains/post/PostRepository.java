@@ -35,6 +35,9 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 	@Query("SELECT p FROM Post p WHERE p.deleted = false AND p.author.id = :userId and p.draft = true")
 	List<Post> getDraftsByUser(UUID userId);
 
+	@Query("select p from Post p where p.deleted = false and p.author.id = :userId")
+	List<Post> getPostsByUser(UUID userId);
+
 	@Query(value = "SELECT p.* " +
 		"    FROM Posts p " +
 		"        INNER JOIN Post2tag tg " +
