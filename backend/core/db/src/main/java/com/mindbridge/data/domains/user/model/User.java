@@ -35,8 +35,8 @@ public class User extends BaseAuditableEntity {
 
 	private String activationCode;
 
-	@Column(nullable = false)
-	private Boolean isViewed;
+	@Column(name = "is_viewed", nullable = false)
+	private boolean isViewed;
 
 	public String getFullName() {
 		return firstName + " " + lastName;
