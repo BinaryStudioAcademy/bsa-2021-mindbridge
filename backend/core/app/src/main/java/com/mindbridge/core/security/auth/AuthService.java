@@ -97,8 +97,11 @@ public class AuthService {
 
 	public UserEmailConfirmationDto activateEmail(UUID code) {
 		var user = userRepository.findByActivationCode(code.toString()).orElseThrow();
-		user.setActivationCode(null);
-		user.setEmailVerified(true);
+		if (!user.isEmailVerified()) {
+			user.setEmailVerified(true);
+			var savedUser = userRepository.save(user);
+			return UserMapper.MAPPER.userToUserEmailConfirmation(savedUser);
+		}
 		user.setViewed(true);
 		var savedUser = userRepository.save(user);
 		return UserMapper.MAPPER.userToUserEmailConfirmation(savedUser);
