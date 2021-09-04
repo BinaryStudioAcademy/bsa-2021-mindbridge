@@ -18,7 +18,7 @@ import parse from 'html-react-parser';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
-import {IComments} from "@screens/ViewPost/models/IComments";
+import { IComments } from '@screens/ViewPost/models/IComments';
 
 interface IBasicCommentProps {
   createdAt: string;
