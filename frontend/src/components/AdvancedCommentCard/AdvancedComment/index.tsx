@@ -6,7 +6,6 @@ import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
 import UpToParentCommentSvg from '@components/AdvancedCommentCard/svg/UpToParentCommentSvg';
-import ShareCommentSvg from '@components/AdvancedCommentCard/svg/shareCommentSvg';
 import ArrowCloseComment from '@components/AdvancedCommentCard/svg/ArrowCloseComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
