@@ -811,7 +811,7 @@
 									"                    \"nickname\": { \"type\": \"string\" },",
 									"                    \"avatar\": { \"type\": [\"null\", \"string\"] },",
 									"                },",
-									"                \"required\": [\"id\", \"createdAt\", \"nickname\", \"avatar\", \"email\", \"firstName\", \"lastName\"]",
+									"                \"required\": [\"id\", \"nickname\", \"avatar\"]",
 									"                },",
 									"        \"tags\": { \"type\": \"array\",",
 									"                    \"properties\": {",
