@@ -1,14 +1,15 @@
 import { combineReducers } from 'redux';
 import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
-// eslint-disable-next-line max-len
-import { emailSuccessConfirmationReducer } from '@screens/EmailSuccessConfirmation/containers/EmailSuccessConfirmationPage/reducer';
-import {fetchDataRoutine} from '@screens/EmailSuccessConfirmation/routines';
+import { emailSuccessConfirmationReducer }
+  from '@screens/EmailSuccessConfirmation/containers/EmailSuccessConfirmationPage/reducer';
+import { fetchUserRoutine } from '@screens/EmailSuccessConfirmation/routines';
+
 /* PlopJS import placeholder. Do not remove */
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
-  fetchDataRequest: reducerCreator([fetchDataRoutine.TRIGGER])
+  fetchUserRequest: reducerCreator([fetchUserRoutine.TRIGGER])
 });
 
 export default combineReducers({

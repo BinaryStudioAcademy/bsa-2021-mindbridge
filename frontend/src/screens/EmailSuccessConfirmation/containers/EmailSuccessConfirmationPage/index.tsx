@@ -1,65 +1,80 @@
 import React, { useEffect } from 'react';
 import styles from './styles.module.scss';
-import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IBindingCallback1 } from '@models/Callbacks';
-import { fetchDataRoutine } from '@screens/EmailSuccessConfirmation/routines';
+import { fetchUserRoutine } from '@screens/EmailSuccessConfirmation/routines';
 import { useParams } from 'react-router-dom';
 import { extractData } from '@screens/EmailSuccessConfirmation/reducers';
-import { history } from '@helpers/history.helper';
-import { IStateProfile } from '@screens/PostPage/models/IStateProfile';
-import EmailConfirmation from '@screens/EmailConfirmation/containers/EmailConfirmationPage';
+import { IUserConfirmationEmail } from '@screens/EmailSuccessConfirmation/models/IUserConfirmationEmail';
+import {history} from "@helpers/history.helper";
+import NotFoundPage from "@screens/NotFound/containers/NotFoundPage";
 
 export interface IEmailSuccessConfirmationProps extends IState, IActions {
-
 }
 
 interface IState {
-  data: IUserProfile;
+  user: IUserConfirmationEmail;
 }
 
 interface IActions {
-  fetchData: IBindingCallback1<string>;
+  fetchUser: IBindingCallback1<string>;
 }
 
 const EmailSuccessConfirmation: React.FC<IEmailSuccessConfirmationProps> = (
-  { fetchData, data }
+  { fetchUser, user }
 ) => {
   const { code } = useParams();
 
   useEffect(() => {
-    fetchData(code);
+    fetchUser(code);
   }, [code]);
 
   return (
     <div>
-      {data.emailVerified ? (
+      {!user.emailVerified ? (
+        <div>
+          {user.isViewed ? (
+            <div className={styles.container}>
+              <div className={styles.wrapper_block}>
+                <div className={styles.wrapper_title}>
+                  <div className={styles.success}>Success!</div>
+                </div>
+                <div className={styles.success_block}>
+                  <div className={styles.success_block_placeholder}>
+                    The email has been successfully verified.
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <NotFoundPage />
+          )}
+        </div>
+      ) : (
         <div className={styles.container}>
           <div className={styles.wrapper_block}>
             <div className={styles.wrapper_title}>
-              <div className={styles.success}>Success!</div>
+              <div className={styles.success}>Failed!</div>
             </div>
             <div className={styles.success_block}>
-              <div className={styles.success_block_placeholder}>
-                The email has been successfully verified.
+              <div className={styles.error_block_placeholder}>
+                Invalid activation code. Please check your inbox or spam.
               </div>
             </div>
           </div>
         </div>
-      ) : (
-        <EmailConfirmation />
       )}
     </div>
+
   );
 };
 
 const mapStateToProps: (state) => IState = state => ({
-  data: extractData(state).user
+  user: extractData(state).user
 });
 
 const mapDispatchToProps: IActions = {
-  fetchData: fetchDataRoutine
+  fetchUser: fetchUserRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmailSuccessConfirmation);
