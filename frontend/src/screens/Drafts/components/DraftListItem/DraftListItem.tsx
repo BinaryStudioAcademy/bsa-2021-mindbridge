@@ -1,7 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
-import { IDraft } from '@screens/Drafts/models/IDraft';
-import { Image, Label } from 'semantic-ui-react';
 import DividerSvg from '@components/FeedSvgComponents/dividerSvg';
 import TagsMenu from '@components/TagComponent';
 import { ITag } from '@screens/FeedPage/models/ITag';

@@ -3,7 +3,6 @@ import { IPost } from '@screens/FeedPage/models/IPost';
 import {
   deleteFavouritePostRoutine,
   fetchFavouritePostsRoutine,
-  saveFavouritePostRoutine,
   setLoadMorePostsRoutine
 } from '@screens/FavouritesPage/routines';
 import { isEmptyArray } from 'formik';

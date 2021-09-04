@@ -19,7 +19,6 @@ import { disLikeCommentViewRoutine, disLikePostViewRoutine, likeCommentViewRouti
   from '@screens/PostPage/routines';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
-import { useDebouncedCallback } from 'use-debounce';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;

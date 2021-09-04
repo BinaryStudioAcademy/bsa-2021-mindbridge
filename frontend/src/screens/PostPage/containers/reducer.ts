@@ -124,7 +124,7 @@ export const postPageReducer = createReducer(initialState, {
       isInContent: action.payload.inContent
     };
   },
-  [sendImageRoutine.FAILURE]: (state, action) => {
+  [sendImageRoutine.FAILURE]: state => {
     if (state.imageTag.isPresent) {
       state.imageTag = {
         isPresent: false,

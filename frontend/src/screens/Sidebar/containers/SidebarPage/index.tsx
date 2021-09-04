@@ -48,7 +48,6 @@ const Sidebar: React.FC<ISidebarProps> = (
     fetchPostContributions,
     getPostVersions,
     currentUser,
-    userInfo,
     post,
     loadCurrentUser
   }

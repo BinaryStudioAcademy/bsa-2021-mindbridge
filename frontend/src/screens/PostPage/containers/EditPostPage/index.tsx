@@ -3,7 +3,6 @@ import styles from '../styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import ProfileSidebar from '@root/components/ProfileSidebar';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
 import EditSvgPart1 from '@screens/PostPage/components/svg/editSvgPart1';
