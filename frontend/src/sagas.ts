@@ -11,12 +11,14 @@ import pullRequestSagas from './screens/PullRequest/sagas';
 import postVersionSagas from '@screens/PostVersionPage/sagas';
 import postVersionsPageSagas from '@screens/PostVersions/containers/PostVersionsPage/sagas';
 import sidebarSagas from '@screens/Sidebar/sagas';
+import highlightsPageSagas from '@screens/HighlightsPage/containers/HighlightsPage/sagas';
 import draftsSagas from '@screens/Drafts/sagas';
 import favouritesPageSagas from '@screens/FavouritesPage/sagas';
 
 export default function* rootSaga() {
   yield all([
     /* PlopJS sagas placeholder. Do not remove */
+    highlightsPageSagas(),
     postVersionSagas(),
     pullRequestSagas(),
     headerSagas(),

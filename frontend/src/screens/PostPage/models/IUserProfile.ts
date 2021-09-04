@@ -9,6 +9,7 @@ export interface IUserProfile {
   postsQuantity: number;
   followersQuantity: number;
   rating: number;
+  emailVerified: boolean;
   userReactions: IUserReactions[];
   userReactionsComments: IUserReactionsComments[];
 }

@@ -3,6 +3,8 @@ import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerS
 import React, { FunctionComponent } from 'react';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
+import Image from '@components/Image';
+import { defaultAvatar } from '@images/defaultImages';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -15,7 +17,7 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({ createdAt, text, 
     <div className={styles.header}>
       <div className={styles.commentAuthor}>
         <a href="/" className="avatar">
-          <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
+          <Image alt="avatar" src={author.avatar ?? defaultAvatar} />
         </a>
         <a href="/" className="author">
           {author.nickname}

@@ -61,4 +61,5 @@ public class CommentService {
 		var comment = commentRepository.findById(id).map(CommentMapper.MAPPER::commentToCommentDto).orElseThrow();
 		return comment;
 	}
+
 }

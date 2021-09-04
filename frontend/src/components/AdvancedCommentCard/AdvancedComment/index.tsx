@@ -14,8 +14,10 @@ import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
 import { Popup } from 'semantic-ui-react';
 import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
-import TextRender from '@components/TextRenderer';
+import parse from 'html-react-parser';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import Image from '@components/Image';
+import { defaultAvatar } from '@images/defaultImages';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -100,7 +102,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           )}
           <div className={styles.commentAuthor}>
             <a href={`/user/${author.id}`} className="avatar">
-              <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
+              <Image alt="avatar" src={author.avatar ?? defaultAvatar} />
             </a>
             <a
               href={`/user/${author.id}`}
@@ -192,11 +194,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           </div>
         </div>
         <div className="text">
-          <TextRender
-            className={styles.commentText}
-            markdown={false}
-            content={checkForNickname(text)}
-          />
+          {parse(checkForNickname(text))}
         </div>
         { isAuthorized && (
         <div className={styles.dsa}>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Card, Feed } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
@@ -8,15 +8,22 @@ import FavouriteSvg from '@screens/ViewPost/components/svgs/SvgComponents/favour
 import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
 import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
 import { IPost } from '@screens/ViewPost/models/IPost';
-import TextRenderer from '@root/components/TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useHistory } from 'react-router-dom';
+import Highlighter from 'web-highlighter';
+import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
+import HighlightPopup from '@screens/ViewPost/components/Popups/HighlightPopup';
+import { validateSelection } from '@screens/ViewPost/helpers/validateSelection';
+import { cursorPosition } from '@screens/ViewPost/helpers/cursorPosition';
 import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 import readingTime from 'reading-time';
 import RelatedPosts from '@screens/ViewPost/components/RelatedPosts';
 import { IBindingCallback1 } from '@models/Callbacks';
+import { useDebouncedCallback } from 'use-debounce';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import Image from '@components/Image';
+import { defaultCoverImage } from '@images/defaultImages';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -24,6 +31,9 @@ interface IViewPostCardProps {
   handleLikePost: any;
   handleDisLikePost: any;
   userInfo: IUserProfile;
+  handleSaveHighlight: any;
+  highlights: IHighlight[];
+  handleDeleteHighlight: any;
   sendComment: IBindingCallback1<object>;
   sendReply: IBindingCallback1<object>;
   isAuthorized: boolean;
@@ -32,26 +42,117 @@ interface IViewPostCardProps {
   searchUsersByNickname: any;
   users: IMentionsUser[];
 }
-const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
-  {
-    sendComment,
-    post,
-    isAuthor,
-    handleLikePost,
-    handleDisLikePost,
-    userInfo,
-    sendReply,
-    isAuthorized,
-    handleLikeComment,
-    handleDislikeComment,
-    searchUsersByNickname,
-    users
-  }
-) => {
-  const history = useHistory();
 
+const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
+  post,
+  isAuthor,
+  handleLikePost,
+  handleDisLikePost,
+  userInfo,
+  handleSaveHighlight,
+  highlights,
+  handleDeleteHighlight,
+  sendComment,
+  sendReply,
+  isAuthorized,
+  handleLikeComment,
+  handleDislikeComment,
+  searchUsersByNickname,
+  users
+}) => {
+  const highlighter = new Highlighter({
+    wrapTag: 'i',
+    exceptSelectors: ['span', '.tagsSd'],
+    style: {
+      className: styles.highlightWrapper
+    }
+  });
+
+  const history = useHistory();
+  const [xPos, setXPos] = useState(0);
+  const [yPos, setYPos] = useState(0);
+  const [isPopUpShown, setIsPopUpShown] = useState(false);
+  const [isDeletion, setIsDeletion] = useState(false);
+
+  const deleteHighlight = highlightId => {
+    handleDeleteHighlight(highlightId);
+    highlighter.remove(highlightId);
+  };
+
+  const debounced = useDebouncedCallback(
+    () => {
+      if (isDeletion) {
+        setIsPopUpShown(true);
+      }
+    },
+    400
+  );
+
+  const handleHoverAction = highlightId => {
+    highlighter.addClass(styles.highlightWrapperHover, highlightId);
+    setXPos(cursorPosition().x - 75);
+    setYPos(cursorPosition().y);
+  };
+
+  const handleHoverOutAction = highlightId => {
+    highlighter.removeClass(styles.highlightWrapperHover, highlightId);
+    setIsDeletion(false);
+    setIsPopUpShown(false);
+  };
+
+  useEffect(() => {
+    if (highlights) {
+      highlights.forEach(highlight => highlight.postId === post.id && highlighter.getDoms(highlight.id).length === 0
+        && highlighter.fromStore({
+          parentTagName: highlight.tagNameStart,
+          parentIndex: highlight.indexStart,
+          textOffset: highlight.offSetStart
+        }, {
+          parentTagName: highlight.tagNameEnd,
+          parentIndex: highlight.indexEnd,
+          textOffset: highlight.offSetEnd
+        }, highlight.text, highlight.id));
+    }
+  }, [highlights, post.id]);
+
+  useEffect(() => {
+    highlighter
+      .on(Highlighter.event.CLICK, ({ id }) => {
+        deleteHighlight(id);
+      })
+      .on(Highlighter.event.HOVER, ({ id }) => {
+        handleHoverAction(id);
+        setIsDeletion(true);
+        debounced();
+      })
+      .on(Highlighter.event.HOVER_OUT, ({ id }) => {
+        handleHoverOutAction(id);
+      });
+  }, []);
   const goToEdit = () => {
     history.push(`/post/edit/${post.id}`);
+  };
+
+  const handleMouseUp = () => {
+    setIsDeletion(false);
+    if (!window.getSelection().toString().trim()) {
+      setIsPopUpShown(false);
+    } else {
+      const elements = Array.prototype.slice.call(window.getSelection().getRangeAt(0).cloneContents().children);
+      if (validateSelection(elements)) {
+        setYPos(cursorPosition().y);
+        setXPos(cursorPosition().x - 25);
+        setIsPopUpShown(true);
+      }
+    }
+  };
+
+  const handleClosePopUp = () => {
+    const highlighterObject = highlighter.fromRange(window.getSelection().getRangeAt(0));
+    handleSaveHighlight(highlighterObject);
+    highlighter.remove(highlighterObject.id);
+    window.getSelection().removeAllRanges();
+    setIsPopUpShown(false);
   };
 
   return (
@@ -100,13 +201,12 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
                   </div>
                   )}
                 </div>
-                <img
+                <Image
                   className={styles.image}
-                  src={post.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'}
+                  src={post.coverImage ?? defaultCoverImage}
                   alt="media"
                 />
               </div>
-
               <div className={styles.postName}>{post.title}</div>
               <div className={styles.btnWrapper}>
                 {post.tags.map(tag => (
@@ -127,11 +227,16 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = (
                 />
               </div>
             </Feed>
-            <div className={styles.postBody}>
-              <TextRenderer
-                className={styles.content}
+            {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+            <div className={styles.postBody} onMouseUp={handleMouseUp}>
+              <HighlightPopup
+                isDeletion={isDeletion}
+                isPopUpShown={isPopUpShown}
+                xPos={xPos}
+                yPos={yPos}
+                handleClosePopUp={handleClosePopUp}
                 markdown={post.markdown}
-                content={post.text}
+                text={post.text}
               />
             </div>
           </Card.Content>

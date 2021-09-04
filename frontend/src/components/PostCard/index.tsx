@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Card, Feed, Image } from 'semantic-ui-react';
+import { Card, Feed } from 'semantic-ui-react';
 import ShareSvg from '@components/FeedSvgComponents/shareSvg';
 import RatingComponent from '@components/RatingIcon';
 import FavouriteSvg from '@components/FeedSvgComponents/favouriteSvg';
@@ -15,6 +15,8 @@ import { Link } from 'react-router-dom';
 import TextRenderer from '../TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import readingTime from 'reading-time';
+import Image from '@components/Image';
+import { defaultCoverImage } from '@images/defaultImages';
 
 interface IPostCardProps {
   post: IPost;
