@@ -97,10 +97,11 @@ public class NotificationService {
 		var pageable = PageRequest.of(from / count, count);
 		if (onlyUnread) {
 			return notificationRepository.getUnreadNotificationList(userId, pageable).stream()
-				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
-		} else {
+					.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+		}
+		else {
 			return notificationRepository.getNotificationList(userId, pageable).stream()
-				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+					.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
 		}
 	}
 

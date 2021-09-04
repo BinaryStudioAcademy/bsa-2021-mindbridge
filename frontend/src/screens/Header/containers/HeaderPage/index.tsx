@@ -180,6 +180,12 @@ const Header: React.FC<IHeaderProps> = (
     }
   };
 
+  const goToSearchPage = () => {
+    setIsSearchInputFilled(false);
+    setElasticContent('');
+    history.push(`/search?query=${elasticContent}`);
+  };
+
   const handleBlur = (event: any) => {
     if (!event.relatedTarget) {
       setIsSearchInputFilled(false);
@@ -230,7 +236,7 @@ const Header: React.FC<IHeaderProps> = (
           />
           {isSearchInputFilled
           && <button type="button" className={styles.close_image} onClick={handleLinkClick}>✖</button>}
-          <button type="button">
+          <button type="button" onClick={goToSearchPage}>
             <SearchSvg />
           </button>
           {isSearchInputFilled

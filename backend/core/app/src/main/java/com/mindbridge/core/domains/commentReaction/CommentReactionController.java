@@ -18,7 +18,9 @@ public class CommentReactionController {
 	private CommentReactionService commentReactionService;
 
 	@PutMapping
-	public Optional<ResponseCommentReactionDto> setReaction(@RequestBody ReceivedCommentReactionDto commentReactionDto) {
+	public Optional<ResponseCommentReactionDto> setReaction(
+			@RequestBody ReceivedCommentReactionDto commentReactionDto) {
 		return commentReactionService.setReaction(commentReactionDto);
 	}
+
 }
