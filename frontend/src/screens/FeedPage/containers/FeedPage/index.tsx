@@ -69,15 +69,8 @@ const params = {
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
     currentUser, userInfo, likePost, likePostView, searchTitlesByElastic, countResults,
-    disLikePostView, isAuthorized, searchPostsByElastic, searchPosts, loadCountResults, saveFavouritePost, deleteFavouritePost }
+    disLikePostView, searchPostsByElastic, searchPosts, loadCountResults, saveFavouritePost, deleteFavouritePost }
 ) => {
-  useEffect(() => {
-    if (currentUser.id) {
-      fetchData({ from: 0, count: 10, userId: currentUser.id });
-    } else {
-      fetchData(params);
-    }
-  }, [fetchData, currentUser]);
   const location = useLocation();
   const history = useHistory();
   const [isSearch, setIsSearch] = useState(false);
@@ -98,10 +91,14 @@ const FeedPage: React.FC<IFeedPageProps> = (
       setIsSearch(true);
     } else {
       setSearchRequest('');
-      fetchData(params);
+      if (currentUser) {
+        fetchData({ from: 0, count: 10, userId: currentUser.id });
+      } else {
+        fetchData(params);
+      }
       setIsSearch(false);
     }
-  }, [fetchData, location]);
+  }, [fetchData, location, currentUser]);
 
   const handleLoadMorePosts = filtersPayload => {
     fetchData(filtersPayload);
