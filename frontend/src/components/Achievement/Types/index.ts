@@ -3,5 +3,6 @@ export enum AchievementType {
   contributor = 'Contributor',
   time = 'Time',
   awesome = 'Awesome',
-  popular = 'Subscribers'
+  popular = 'Subscribers',
+  comments = 'Comments'
 }
