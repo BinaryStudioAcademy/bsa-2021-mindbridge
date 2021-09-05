@@ -6,7 +6,7 @@ import { IBindingCallback1 } from '@models/Callbacks';
 import { fetchDraftsRoutine } from '@screens/Drafts/routines';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import DraftListItem from '@screens/Drafts/components/DraftListItem/DraftListItem';
-import NoResultsSvg from "@components/svgs/NoResultsSvg";
+import NoResultsSvg from '@components/svgs/NoResultsSvg';
 
 export interface IDraftsProps extends IState, IActions {
 }
