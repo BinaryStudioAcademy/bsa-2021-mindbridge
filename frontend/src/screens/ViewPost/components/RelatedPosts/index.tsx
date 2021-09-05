@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
-import { Card, Feed, Image } from 'semantic-ui-react';
+import { Card, Feed } from 'semantic-ui-react';
 import { IRelatedPost } from '@screens/ViewPost/models/IRelatedPost';
-import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
 import readingTime from 'reading-time';
-import FollowBtn from '@screens/ViewPost/components/Button/FollowBtn/FollowBtn';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import { timeToLocal } from '@helpers/dataTimeToLocalData';
 import { Link } from 'react-router-dom';
+import Image from '@components/Image';
+import { defaultAvatar, defaultCoverImage } from '@images/defaultImages';
 
 interface IRelatedPostsProps {
   relatedPosts: IRelatedPost[];
@@ -19,9 +19,9 @@ const RelatedPosts: FunctionComponent<IRelatedPostsProps> = ({ relatedPosts }) =
     <Card.Group>
       {relatedPosts.map(relatedPost => (
         <Card>
-          <img
+          <Image
             className={styles.coverImage}
-            src={relatedPost.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'}
+            src={relatedPost.coverImage ?? defaultCoverImage}
             alt="media"
           />
           <Card.Content>
@@ -33,7 +33,7 @@ const RelatedPosts: FunctionComponent<IRelatedPostsProps> = ({ relatedPosts }) =
 
                 <div className={styles.userBlock}>
                   <Link to={`/user/${relatedPost.author.id}`}>
-                    <Image src={relatedPost.author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} avatar size="big" />
+                    <Image src={relatedPost.author.avatar ?? defaultAvatar} />
                   </Link>
                   <div className={styles.headerInfo}>
                     <Link to={`/user/${relatedPost.author.id}`}>

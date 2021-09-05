@@ -66,6 +66,12 @@
     flex-direction: row;
     align-items: center;
     grid-gap: 0.3571rem;
+
+    img {
+      height: 2.8rem;
+      width: 2.8rem;
+      border-radius: 50%;
+    }
   }
 
   :global(.ui.cards) {

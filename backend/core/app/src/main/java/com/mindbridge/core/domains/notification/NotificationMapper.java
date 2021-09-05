@@ -16,4 +16,5 @@ public interface NotificationMapper {
 
 	@Mapping(source = "receiverId", target = "receiver.id")
 	Notification createDtoToNotification(CreateNotificationDto createNotificationDto);
+
 }
