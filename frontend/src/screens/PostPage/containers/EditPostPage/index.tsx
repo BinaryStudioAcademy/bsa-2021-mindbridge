@@ -274,6 +274,9 @@ const EditPost: React.FC<IEditPostProps> = (
             </form>
           ) : (
             <form className={styles.create_post_container}>
+              <h3>Pull request to</h3>
+              <h2 className={styles.postName}>{post?.title}</h2>
+
               <div className={styles.header}>
                 { post?.markdown ? (
                   <div style={{ display: 'flex' }}>
