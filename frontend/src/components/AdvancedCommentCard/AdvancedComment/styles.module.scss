@@ -143,6 +143,10 @@
       gap: 1em;
       margin-right: 1.8371em;
 
+      .editMode {
+        cursor: pointer;
+      }
+
       .ratingComponent {
         padding-right: 0.2em;
         margin-top: -0.7857rem;
@@ -183,4 +187,5 @@
     background: #FFFFFF !important;
   }
 }
+
 

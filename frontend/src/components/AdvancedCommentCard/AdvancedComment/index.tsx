@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useRef, useState } from 'react';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
@@ -12,9 +12,13 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
-import { Popup } from 'semantic-ui-react';
+import { Modal, Popup } from 'semantic-ui-react';
 import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
 import parse from 'html-react-parser';
+import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
+import { IEditComment } from '@screens/ViewPost/models/IEditComment';
+import EditCommentModal from '@components/AdvancedCommentCard/EditCommentModal';
+import useMeasureDirty from 'react-use/lib/useMeasureDirty';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -36,6 +40,7 @@ interface IBasicCommentProps {
   handleDislikeComment: any;
   searchUsersByNickname: any;
   users: any;
+  editComment: any;
 }
 /* eslint-disable max-len */
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
@@ -58,12 +63,14 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     handleLikeComment,
     handleDislikeComment,
     searchUsersByNickname,
-    users
+    users,
+    editComment
   }
 ) => {
   const [disabled, setDisabled] = useState(false);
   const [rotateArrowHook, setRotateArrowHook] = useState(false);
   const [shouldRender] = useState(setShouldRender);
+  const [editCommentMode, setEditCommentMode] = useState(false);
 
   const rotateArrow = {
     width: '0.7142em',
@@ -109,6 +116,19 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
             </div>
           </div>
           <div className={styles.commentRightAction}>
+            <button type="button" onClick={() => setEditCommentMode(true)}>
+              {editCommentMode && (
+                <EditCommentModal
+                  editCommentMode={editCommentMode}
+                  text={text}
+                  editComment={editComment}
+                  commentId={commentId}
+                  users={users}
+                  searchUsersByNickname={searchUsersByNickname}
+                />
+              )}
+              <EditSvg />
+            </button>
             { userInfo.id !== author.id && (
             <div className={styles.ratingComponent}>
               <RatingComponent
@@ -203,8 +223,11 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
               commentId={commentId}
               sendReply={sendReply}
               users={users}
+              editComment={editComment}
               searchUsersByNickname={searchUsersByNickname}
               isReply
+              editCommentMode={editCommentMode}
+              text
             />
           </div>
           )}

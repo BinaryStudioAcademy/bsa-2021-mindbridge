@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, FunctionComponent, useState } from 'react';
 import styles from './styles.module.scss';
 import provideValue from './provideValue';
 import { MentionsInput, Mention } from 'react-mentions';
@@ -8,6 +8,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import commentInputStyle from './commentInputStyle.module.scss';
 import replyInputStyle from './replyInputStyle.module.scss';
+import { IEditComment } from '@screens/ViewPost/models/IEditComment';
 
 function AsyncUserMentions(
   {
@@ -20,7 +21,10 @@ function AsyncUserMentions(
     commentId,
     searchUsersByNickname,
     users,
-    isReply
+    isReply,
+    editComment,
+    editCommentMode,
+    text
   }
 ) {
   const [newReply, setNewReply] = useState<ICommentReply>({
