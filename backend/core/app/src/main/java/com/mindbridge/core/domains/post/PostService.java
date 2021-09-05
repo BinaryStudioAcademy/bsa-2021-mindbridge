@@ -5,6 +5,7 @@ import com.mindbridge.core.domains.elasticsearch.ElasticService;
 import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
+import com.mindbridge.core.domains.tag.dto.TagDto;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -55,10 +57,20 @@ public class PostService {
 	public PostDetailsDto getPostById(UUID id) {
 		var post = postRepository.findById(id).map(PostMapper.MAPPER::postToPostDetailsDto).orElseThrow();
 
+		List<String> tags = post.getTags().stream().map(TagDto::getName).collect(Collectors.toList());
+		List<RelatedPostDto> relatedPostsDto = postRepository.getRelatedPostsByTags(id, tags, PageRequest.of(0, 3))
+			.stream()
+			.map(PostMapper.MAPPER::postToRelatedPostDto)
+			.collect(Collectors.toList());
+
+		relatedPostsDto.forEach(p -> p.setRating(postReactionService.calcPostRatingById(p.getId())));
+		relatedPostsDto.sort(Comparator.comparingLong(RelatedPostDto::getRating).reversed());
+
 		var comments = commentService.findAllByPostId(id);
 		post.setComments(comments);
 
 		post.setRating(postReactionService.calcPostRatingById(id));
+		post.setRelatedPosts(relatedPostsDto);
 
 		return post;
 	}
@@ -130,4 +142,11 @@ public class PostService {
 		return postRepository.getDraftsByUser(userId).stream().map(PostMapper.MAPPER::postToDraftDto)
 				.collect(Collectors.toList());
 	}
+
+	public List<PostsListDetailsDto> listIDsToListPosts(List<UUID> postIds) {
+		return postRepository.findAllById(postIds).stream()
+				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+				.collect(Collectors.toList());
+	}
+
 }

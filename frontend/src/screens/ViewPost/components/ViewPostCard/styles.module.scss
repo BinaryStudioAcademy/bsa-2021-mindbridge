@@ -5,16 +5,22 @@
     max-width: 100%;
     box-shadow: none;
     width: 100%;
-    margin-bottom: 15vh;
   }
 
-  :global(.ui.card>:only-child) {
-    border-radius: 10px !important;
+  :global(.ui.card>:first-child) {
+    border-radius: 0.7143rem !important;
   }
 }
 
 .postBody {
-  margin-left: 10.3rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5em;
+  padding-right: 5em;
+  padding-bottom: 5em;
+  font-size: 1.2857rem;
+  color: #353535;
 }
 
 .cardContent {
@@ -58,6 +64,7 @@
   font-style: normal;
   font-weight: 400;
   margin-bottom: 15vh;
+  padding-left: 10px;
 }
 
 .image {
@@ -105,5 +112,42 @@
   margin-top: -0.8571rem;
 }
 
+.highlightPopup {
+  :global(i.icon.quote.left) {
+    color: cornflowerblue;
+  }
 
+  :global(.ui.top.popup:before) {
+    background-color: rgb(244, 249, 255);
+  }
 
+  :global(.ui.icon.button, .ui.icon.buttons .button) {
+    background-color: rgb(244, 249, 255);
+  }
+}
+
+.cardContent {
+  .highlightWrapper {
+    background-color: #d8ecfd;
+    cursor: pointer;
+  }
+
+  .highlightDeleteWrapper {
+    background-color: white;
+  }
+
+  .highlightWrapperHover {
+    background-color: #c3e0fa;
+  }
+
+  .highlightWrapper {
+    font-family: Lato, sans-serif;
+    font-style: normal;
+  }
+}
+
+.deleteLabel {
+  font-family: Lato, sans-serif;
+  size: 14px;
+  color: #353535;
+}

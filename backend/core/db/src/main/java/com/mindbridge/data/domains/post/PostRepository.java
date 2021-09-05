@@ -66,4 +66,15 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 	@Query("SELECT p FROM Post p WHERE p.deleted = false AND p.author.id = :userId and p.draft = true")
 	List<Post> getDraftsByUser(UUID userId);
 
+	@Query(value = "SELECT p.* " +
+		"    FROM Posts p " +
+		"        INNER JOIN Post2tag tg " +
+		"            ON p.id = tg.post_id " +
+		"        INNER JOIN Tags t " +
+		"            ON tg.tag_id = t.id " +
+		"    WHERE t.name in (:tags) and p.id != :id" +
+		"    GROUP BY p.id " +
+		"    ORDER BY count(tg.tag_id) DESC", nativeQuery = true)
+	List<Post> getRelatedPostsByTags(UUID id, List<String> tags, Pageable pageable);
+
 }

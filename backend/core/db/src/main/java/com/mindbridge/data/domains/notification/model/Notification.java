@@ -15,7 +15,9 @@ import java.util.UUID;
 public class Notification extends BaseAuditableEntity {
 
 	public enum Type {
+
 		newPost, newPR, newFollower
+
 	}
 
 	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)

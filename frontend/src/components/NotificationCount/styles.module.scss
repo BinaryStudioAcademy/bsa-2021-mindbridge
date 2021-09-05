@@ -1,6 +1,7 @@
 @import "../../styles/common.sass";
 
 .notification_count{
+  margin-left: -10px;
   grid-row: 1/2;
   background-color: $red-notification;
   height: 0.85rem;

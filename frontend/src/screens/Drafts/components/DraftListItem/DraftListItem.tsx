@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
-import { IDraft } from '@screens/Drafts/models/IDraft';
-import { Image, Label } from 'semantic-ui-react';
 import DividerSvg from '@components/FeedSvgComponents/dividerSvg';
 import TagsMenu from '@components/TagComponent';
 import { ITag } from '@screens/FeedPage/models/ITag';
 import { Link } from 'react-router-dom';
 import DraftLabel from '@components/DraftLabel';
+import Image from '@components/Image';
+import { defaultCoverImage } from '@images/defaultImages';
 
 interface IDraftListItemProps {
   id: string;
@@ -42,7 +42,7 @@ const DraftListItem: FunctionComponent<IDraftListItemProps> = (
         ))}
       </div>
     </div>
-    <img src={coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'} alt="Preview" />
+    <Image src={coverImage ?? defaultCoverImage} alt="Preview" />
   </div>
 );
 

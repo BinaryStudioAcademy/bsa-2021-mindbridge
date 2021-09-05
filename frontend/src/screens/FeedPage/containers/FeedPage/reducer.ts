@@ -1,5 +1,12 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine, resetDataRoutine } from '@screens/FeedPage/routines';
+/* import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine, resetDataRoutine } from '@screens/FeedPage/routines';*/
+import {
+  addMorePostsRoutine,
+  fetchDataRoutine,
+  likePostRoutine,
+  loadCountResultsRoutine, resetDataRoutine,
+  searchPostsRoutine
+} from '@screens/FeedPage/routines';
 import { IPost } from '@screens/FeedPage/models/IPost';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import { isEmptyArray } from 'formik';
@@ -8,11 +15,31 @@ export interface IFeedPageReducerState {
   posts: IPost[];
   hasMore: boolean;
   loadMore: boolean;
+  countResults: number;
 }
 
 const initialState: IFeedPageReducerState = {
-  posts: [],
-  hasMore: false,
+  /* posts: [],
+  hasMore: false,*/
+  posts: [{
+    id: '',
+    title: '',
+    text: '',
+    authorId: '',
+    authorName: '',
+    nickname: '',
+    commentsCount: 0,
+    likesCount: 0,
+    disLikesCount: 0,
+    tags: [{ id: '', name: '' }],
+    createdAt: '',
+    postRating: 0,
+    avatar: '',
+    coverImage: '',
+    markdown: false
+  }],
+  countResults: 0,
+  hasMore: true,
   loadMore: false
 };
 
@@ -25,8 +52,19 @@ export const feedPageReducer = createReducer(initialState, {
     }
     state.hasMore = !isEmptyArray(payload.posts);
   },
-  [addMorePostsRoutine.TRIGGER]: state => {
-    state.loadMore = true;
+  [addMorePostsRoutine.TRIGGER]: (state, { payload }: PayloadAction<boolean>) => {
+    state.loadMore = payload;
+  },
+  [searchPostsRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPostList>) => {
+    if (!state.loadMore) {
+      state.posts = payload.posts;
+    } else {
+      payload.posts.map(post => state.posts.push(post));
+    }
+    state.hasMore = !isEmptyArray(payload.posts);
+  },
+  [loadCountResultsRoutine.SUCCESS]: (state, { payload }: PayloadAction<number>) => {
+    state.countResults = payload;
   },
   [likePostRoutine.SUCCESS]: (state, action) => {
     const { response, postId, reactionStatus } = action.payload;

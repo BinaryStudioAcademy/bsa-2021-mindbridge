@@ -8,7 +8,7 @@ import ContributionsSidebar from '@components/ContributionsSidebar';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import { useScroll } from '@helpers/scrollPosition.helper';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
-import { fetchPostContributionsRoutine } from '@screens/PostVersions/routines';
+import { fetchOpenPostContributionsRoutine, fetchPostContributionsRoutine } from '@screens/PostVersions/routines';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { IContribution } from '@screens/ViewPost/models/IContribution';
@@ -35,7 +35,7 @@ interface IState {
 }
 
 interface IActions {
-  fetchPostContributions: IBindingCallback1<object>;
+  fetchPostContributions: IBindingCallback1<string>;
   fetchUserProfile: IBindingCallback1<string>;
   getPostVersions: IBindingCallback1<object>;
   loadCurrentUser: IBindingAction;
@@ -81,7 +81,7 @@ const Sidebar: React.FC<ISidebarProps> = (
   useEffect(() => {
     if (postId) {
       getPostVersions({ postId });
-      fetchPostContributions({ postId });
+      fetchPostContributions(postId);
     }
   }, [postId]);
 
@@ -186,9 +186,9 @@ const mapStateToProps: (state) => IState = state => ({
 const mapDispatchToProps: IActions = {
   getPostVersions: getPostVersionsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
-  fetchPostContributions: fetchPostContributionsRoutine,
-  loadCurrentUser: loadCurrentUserRoutine,
-  fetchPopularTags: fetchPopularTagsRoutine
+  fetchPopularTags: fetchPopularTagsRoutine,
+  fetchPostContributions: fetchOpenPostContributionsRoutine,
+  loadCurrentUser: loadCurrentUserRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

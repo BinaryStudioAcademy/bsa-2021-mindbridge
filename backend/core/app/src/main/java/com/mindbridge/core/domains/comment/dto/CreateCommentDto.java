@@ -17,5 +17,4 @@ public class CreateCommentDto {
 
 	private String avatar;
 
-
 }

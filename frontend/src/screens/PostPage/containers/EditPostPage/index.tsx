@@ -365,7 +365,7 @@ const EditPost: React.FC<IEditPostProps> = (
                 ? (
                   <CreatePostForm
                     isCreateForm={false}
-                    postContent={post?.text}
+                    initialPostContent={post?.text}
                     form={form}
                     modes={modes}
                     setForm={changeForm}

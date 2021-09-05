@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.user;
 
+import com.mindbridge.core.domains.user.dto.UserMentionsDto;
 import com.mindbridge.core.domains.user.dto.UserProfileDto;
 import com.mindbridge.core.domains.user.dto.UserDto;
 import com.mindbridge.core.domains.user.dto.UserShortDto;
@@ -23,5 +24,8 @@ public interface UserMapper {
 
 	public abstract UserDto userToUserDto(User user);
 
+	UserMentionsDto userToUserMentionsDto(User user);
+
 	UserShortDto userToUserShortDto(User user);
+
 }

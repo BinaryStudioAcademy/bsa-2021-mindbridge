@@ -23,4 +23,5 @@ public interface CommentReactionRepository
 	Optional<CommentReaction> getCommentReaction(UUID userId, UUID commentId);
 
 	List<CommentReaction> getCommentReactionByAuthorId(UUID id);
+
 }
