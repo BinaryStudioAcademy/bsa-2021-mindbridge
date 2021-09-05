@@ -12,6 +12,7 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
 import { PrState } from '@root/screens/PullRequest/models/IPostPR';
 import PostContributionItem from '@root/components/PostContributionItem';
+import NoResultsSvg from "@components/svgs/NoResultsSvg";
 
 export interface IPostVersionsProps extends IState, IActions {
 }
@@ -121,9 +122,10 @@ const PostVersions: React.FC<IPostVersionsProps> = (
           ))
         ) : contributionsList}
         {!versionsOfPost && !contributionsOfPost && (
-          <p>
-            🔍 Seems like there are no result...
-          </p>
+          <div className={styles.emptyList}>
+            <NoResultsSvg width="35%" height="35%" />
+            <p>🔍 Seems like there are no result...</p>
+          </div>
         )}
       </div>
     </div>

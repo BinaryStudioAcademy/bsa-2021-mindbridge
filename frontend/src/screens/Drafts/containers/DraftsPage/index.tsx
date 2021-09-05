@@ -6,6 +6,7 @@ import { IBindingCallback1 } from '@models/Callbacks';
 import { fetchDraftsRoutine } from '@screens/Drafts/routines';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import DraftListItem from '@screens/Drafts/components/DraftListItem/DraftListItem';
+import NoResultsSvg from "@components/svgs/NoResultsSvg";
 
 export interface IDraftsProps extends IState, IActions {
 }
@@ -43,9 +44,10 @@ const Drafts: React.FC<IDraftsProps> = (
             />
           ))
         ) : (
-          <p>
-            🔍 Seems like there are no drafts...
-          </p>
+          <div className={styles.emptyList}>
+            <NoResultsSvg width="35%" height="35%" />
+            <p>🔍 Seems like there are no drafts...</p>
+          </div>
         )}
       </div>
     </div>
