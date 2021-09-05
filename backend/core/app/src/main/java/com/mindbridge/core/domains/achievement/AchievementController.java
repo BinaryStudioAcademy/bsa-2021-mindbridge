@@ -1,6 +1,6 @@
 package com.mindbridge.core.domains.achievement;
 
-import com.mindbridge.core.domains.achievement.dto.AchievementDto;
+import com.mindbridge.core.domains.achievement.dto.AchievementToUserDto;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +20,7 @@ public class AchievementController {
 	}
 
 	@GetMapping("/byUser/{id}")
-	public List<AchievementDto> getAllByUserId(@PathVariable UUID id){
+	public List<AchievementToUserDto> getAllByUserId(@PathVariable UUID id){
 		return achievementService.getAllByUserId(id);
 	}
 }

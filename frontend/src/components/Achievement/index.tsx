@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
-import { IAchievement } from '@root/screens/ProfilePage/models/IAchievement';
+import { IAchievementToUser } from '@root/screens/ProfilePage/models/IAchievementToUser';
 import { Popup } from 'semantic-ui-react';
 import WriterSvg from './AchievementsSVGs/WriterSvg';
 import ContributorSvg from './AchievementsSVGs/ContributorSvg';
@@ -13,7 +13,7 @@ import TimeSvg from './AchievementsSVGs/TimeSvg';
 // eslint-disable-next-line max-len
 interface IAchievementProps {
   className?: string;
-  achievement: IAchievement;
+  achievement: IAchievementToUser;
 }
 
 const Achievement = ({ className, achievement }: IAchievementProps) => {
@@ -29,20 +29,7 @@ const Achievement = ({ className, achievement }: IAchievementProps) => {
       break;
     case AchievementType.time: svg = <TimeSvg />;
       break;
-    default: svg = null;
-  }
-
-  let stars;
-  switch (achievement.level) {
-    case 1: stars = <div className={styles.stars}>★☆☆☆</div>;
-      break;
-    case 2: stars = <div className={styles.stars}>★★☆☆</div>;
-      break;
-    case 3: stars = <div className={styles.stars}>★★★☆</div>;
-      break;
-    case 4: stars = <div className={styles.stars}>★★★★</div>;
-      break;
-    default: stars = null;
+    default: svg = <TimeSvg />;
   }
 
   return (
@@ -51,7 +38,7 @@ const Achievement = ({ className, achievement }: IAchievementProps) => {
         trigger={(
           <div>
             <div className={styles.svg}>{svg}</div>
-            {stars}
+            {!achievement.hasAchievement && 'has not'}
           </div>
         )}
         content={(

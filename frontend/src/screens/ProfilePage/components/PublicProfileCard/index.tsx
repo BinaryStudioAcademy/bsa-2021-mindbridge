@@ -13,7 +13,7 @@ import { IUser } from '@screens/ProfilePage/models/IUser';
 import { IBindingCallback1 } from '@root/models/Callbacks';
 import { fetchAchievementsByUserRoutine } from '../../routines';
 import { connect } from 'react-redux';
-import { IAchievement } from '../../models/IAchievement';
+import { IAchievementToUser } from '../../models/IAchievementToUser';
 import Achievement from '@root/components/Achievement';
 import ScrollLifeSvg from './svg/scrollLiftSvg';
 import ScrollRightSvg from './svg/scrollRightSvg';
@@ -24,7 +24,7 @@ interface IPublicProfileCardProps extends IState, IActions {
 }
 
 interface IState {
-  achievements: IAchievement[];
+  achievements: IAchievementToUser[];
 }
 
 interface IActions {
@@ -158,19 +158,13 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
                 Awards
               </span>
               <div className={styles.scrollWpr}>
-                <button className={styles.scrollButton} type="button" onClick={() => scroll(-30)}><ScrollLifeSvg /></button>
+                <button className={styles.scrollButton} aria-label="scrollLeft" type="button" onClick={() => scroll(-30)}><ScrollLifeSvg /></button>
                 <div className={styles.achievements} ref={ref}>
                   {achievements.map(achievement => (
                     <Achievement achievement={achievement} />
                   ))}
-                  {achievements.map(achievement => (
-                    <Achievement achievement={achievement} />
-                  ))}
-                  {achievements.map(achievement => (
-                    <Achievement achievement={achievement} />
-                  ))}
                 </div>
-                <button className={styles.scrollButton} type="button" onClick={() => scroll(30)}><ScrollRightSvg /></button>
+                <button className={styles.scrollButton} aria-label="scrollRight" type="button" onClick={() => scroll(30)}><ScrollRightSvg /></button>
               </div>
             </div>
             <div className={styles.articlesWrp} />

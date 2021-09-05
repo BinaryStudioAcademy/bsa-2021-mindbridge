@@ -4,7 +4,7 @@ import java.util.UUID;
 import lombok.Data;
 
 @Data
-public class AchievementDto {
+public class AchievementToUserDto {
 	private UUID id;
 
 	private String text;
@@ -14,4 +14,6 @@ public class AchievementDto {
 	private String type;
 
 	private Integer level;
+
+	private boolean hasAchievement;
 }
