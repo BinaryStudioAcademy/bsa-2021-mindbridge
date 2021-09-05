@@ -80,6 +80,7 @@ const initialState: IPostPageReducerState = {
     deleted: false,
     id: '',
     markdown: false,
+    comments: [],
     post: {
       author: { id: '', nickname: '', avatar: '', lastName: '', firstName: '' },
       coverImage: '',
