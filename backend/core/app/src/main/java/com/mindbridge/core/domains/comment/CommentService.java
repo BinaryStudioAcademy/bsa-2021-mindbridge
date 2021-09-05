@@ -2,6 +2,7 @@ package com.mindbridge.core.domains.comment;
 
 import com.mindbridge.core.domains.comment.dto.CommentDto;
 import com.mindbridge.core.domains.comment.dto.CreateCommentDto;
+import com.mindbridge.core.domains.comment.dto.EditCommentDto;
 import com.mindbridge.core.domains.comment.dto.ReplyCommentDto;
 import com.mindbridge.data.domains.comment.CommentRepository;
 import com.mindbridge.data.domains.comment.model.Comment;
@@ -61,4 +62,10 @@ public class CommentService {
 		var comment = commentRepository.findById(id).map(CommentMapper.MAPPER::commentToCommentDto).orElseThrow();
 		return comment;
 	}
+
+    public Comment editComment(EditCommentDto editComment) {
+		var comment = commentRepository.getOne(editComment.getCommentId());
+		comment.setText(editComment.getText());
+		return commentRepository.save(comment);
+    }
 }
