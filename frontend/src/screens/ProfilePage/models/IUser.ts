@@ -10,7 +10,10 @@ export interface IUser {
   commentsQuantity: number;
   postsQuantity: number;
   contributionsQuantity: number;
+  followers: [{ id: string; nickname: string; avatar: string; followerId: string }];
+  following: [{ id: string; nickname: string; avatar: string; followerId: string }];
   followersQuantity: number;
+  followingQuantity: number;
   lastArticleTitles: IPostTitle[];
   createdAt: string;
 }

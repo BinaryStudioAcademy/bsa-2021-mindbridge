@@ -26,7 +26,10 @@ const initialState: IDataProfile = {
     commentsQuantity: 0,
     postsQuantity: 0,
     contributionsQuantity: 0,
+    followers: [{ id: '', nickname: '', avatar: '', followerId: '' }],
+    following: [{ id: '', nickname: '', avatar: '', followerId: '' }],
     followersQuantity: 0,
+    followingQuantity: 0,
     lastArticleTitles: [{ id: '', title: '' }],
     createdAt: ''
   },
