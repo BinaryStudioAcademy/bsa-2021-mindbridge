@@ -5,7 +5,6 @@ import ProfileSidebar from '@components/ProfileSidebar';
 import SuggestChangesCard from '@screens/ViewPost/components/SuggestChangesCard';
 import HistorySidebar from '@components/PostHistorySidebar';
 import ContributionsSidebar from '@components/ContributionsSidebar';
-import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import { useScroll } from '@helpers/scrollPosition.helper';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
@@ -19,6 +18,8 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IPost } from '@screens/ViewPost/models/IPost';
 import { REFRESH_TOKEN } from '@screens/Login/constants/auth_constants';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
+import { fetchPopularTagsRoutine } from '@screens/Sidebar/routines';
+import FeedTagsSideBar from '@components/FeedTagsSideBar';
 
 export interface ISidebarProps extends IState, IActions {
 }
@@ -30,6 +31,7 @@ interface IState {
   contributionsOfPost: IContribution[];
   currentUser: ICurrentUser;
   post: IPost;
+  initialTagsData: any;
 }
 
 interface IActions {
@@ -37,6 +39,7 @@ interface IActions {
   fetchUserProfile: IBindingCallback1<string>;
   getPostVersions: IBindingCallback1<object>;
   loadCurrentUser: IBindingAction;
+  fetchPopularTags: IBindingAction;
 }
 
 const Sidebar: React.FC<ISidebarProps> = (
@@ -47,9 +50,11 @@ const Sidebar: React.FC<ISidebarProps> = (
     contributionsOfPost,
     fetchPostContributions,
     getPostVersions,
+    fetchPopularTags,
     currentUser,
     userInfo,
     post,
+    initialTagsData,
     loadCurrentUser
   }
 ) => {
@@ -69,6 +74,7 @@ const Sidebar: React.FC<ISidebarProps> = (
   useEffect(() => {
     if (currentUser?.id) {
       fetchUserProfile(currentUser.id);
+      fetchPopularTags();
     }
   }, [currentUser?.id]);
 
@@ -148,14 +154,14 @@ const Sidebar: React.FC<ISidebarProps> = (
               </div>
             )}
             <div className={styles.tagsSideBar}>
-              <FeedTagsSideBar />
+              <FeedTagsSideBar initialTagsData={initialTagsData} />
             </div>
           </div>
         ) : (
           <div className={styles.logInSideBar}>
             <FeedLogInSidebar />
             <div className={styles.tagsSideBar}>
-              <FeedTagsSideBar />
+              <FeedTagsSideBar initialTagsData={initialTagsData} />
             </div>
           </div>
         )}
@@ -170,14 +176,19 @@ const mapStateToProps: (state) => IState = state => ({
   userInfo: state.postPageReducer.data.profile,
   currentUser: state.auth.auth.user,
   versionsOfPost: state.postPageReducer.data.versionsOfPost,
-  contributionsOfPost: state.postVersionsReducer.data.postContributions
+  contributionsOfPost: state.postVersionsReducer.data.postContributions,
+  initialTagsData: {
+    popularTags: state.sidebarReducer.data.tags,
+    isTagsLoaded: state.sidebarReducer.data.isTagsLoaded
+  }
 });
 
 const mapDispatchToProps: IActions = {
   getPostVersions: getPostVersionsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
   fetchPostContributions: fetchPostContributionsRoutine,
-  loadCurrentUser: loadCurrentUserRoutine
+  loadCurrentUser: loadCurrentUserRoutine,
+  fetchPopularTags: fetchPopularTagsRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

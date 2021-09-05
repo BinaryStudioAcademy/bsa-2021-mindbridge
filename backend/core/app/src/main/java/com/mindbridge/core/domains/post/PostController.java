@@ -53,6 +53,13 @@ public class PostController {
 		return postService.getBestPosts(from, count);
 	}
 
+	@GetMapping("/tag/{tags}")
+	public List<PostsListDetailsDto> getPostsByTagName(@PathVariable String tags,
+													   @RequestParam(defaultValue = "0") Integer from,
+												  @RequestParam(defaultValue = "10") Integer count) {
+		return postService.getPostsByTags(tags, from, count);
+	}
+
 	@GetMapping("/title/{id}")
 	public String getTitle(@PathVariable UUID id) {
 		return postService.getTitleOfPost(id);

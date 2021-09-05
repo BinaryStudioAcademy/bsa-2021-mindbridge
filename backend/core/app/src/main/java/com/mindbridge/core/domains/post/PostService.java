@@ -84,6 +84,14 @@ public class PostService {
 			.collect(Collectors.toList());
 	}
 
+	public List<PostsListDetailsDto> getPostsByTags(String tagQuery, Integer from, Integer count) {
+		List<String> tags = List.of(tagQuery.split("\\+"));
+		var pageable = PageRequest.of(from / count, count);
+		return postRepository.getPostsByTags(tags, tags.size(), pageable).stream()
+			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+			.collect(Collectors.toList());
+	}
+
 	public UUID editPost(EditPostDto editPostDto) {
 		var currentPost = postRepository.getOne(editPostDto.getPostId());
 		if (!editPostDto.getDraft()) {

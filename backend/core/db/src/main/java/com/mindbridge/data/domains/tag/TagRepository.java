@@ -5,10 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-import org.springframework.transaction.annotation.Transactional;
 
 public interface TagRepository extends JpaRepository<Tag, UUID>, JpaSpecificationExecutor<Tag> {
 
@@ -27,4 +27,11 @@ public interface TagRepository extends JpaRepository<Tag, UUID>, JpaSpecificatio
 			nativeQuery = true)
 	void saveTagToPr(UUID postPrId, UUID tagId);
 
+	@Query(value = "SELECT t.* " +
+		"FROM tags t " +
+		"INNER JOIN post2tag pt ON pt.tag_id = t.id " +
+		"GROUP BY t.id " +
+		"ORDER BY COUNT(*) desc " +
+		"LIMIT 20", nativeQuery = true)
+	List<Tag> findPopularTags();
 }

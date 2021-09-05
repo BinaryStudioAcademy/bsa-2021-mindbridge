@@ -12,6 +12,7 @@ import defaultReducer from '@screens/Default/reducers';
 import auth from '@screens/Login/reducers';
 import profilePageReducer from '@screens/ProfilePage/reducers';
 import viewPostReducer from '@screens/ViewPost/reducers';
+import sidebarReducer from '@screens/Sidebar/reducers';
 
 export default combineReducers({
   toastr,
@@ -20,6 +21,7 @@ export default combineReducers({
   postVersionPageReducer,
   pullRequestReducer,
   postVersionsReducer,
+  sidebarReducer,
   headerReducer,
   postPageReducer,
   feedPageReducer,
