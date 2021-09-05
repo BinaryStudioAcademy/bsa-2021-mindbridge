@@ -17,6 +17,8 @@ export interface IPost {
   avatar: string;
   markdown: boolean;
   draft: boolean;
+  reacted: boolean;
+  isLiked: boolean;
   relatedPosts: IRelatedPost[];
   comments: IComments[];
 }

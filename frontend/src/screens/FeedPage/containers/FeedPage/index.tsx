@@ -18,7 +18,7 @@ import LoaderWrapper from '@components/LoaderWrapper';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { useHistory } from 'react-router-dom';
-import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
+import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { useLocation } from 'react-use';
 import NoResultsSvg from '@components/svgs/NoResultsSvg';
@@ -50,8 +50,6 @@ interface IActions {
   fetchUserProfile: IBindingCallback1<string>;
   setLoadMorePosts: IBindingCallback1<boolean>;
   searchTitlesByElastic: IBindingCallback1<string>;
-  likePostView: IBindingCallback1<string>;
-  disLikePostView: IBindingCallback1<string>;
   loadUser: IBindingAction;
   searchPostsByElastic: IBindingCallback1<object>;
   loadCountResults: IBindingCallback1<string>;
@@ -64,8 +62,8 @@ const params = {
 
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
-    currentUser, userInfo, likePost, likePostView, searchTitlesByElastic, countResults,
-    disLikePostView, isAuthorized, searchPostsByElastic, searchPosts, loadCountResults }
+    currentUser, userInfo, likePost, searchTitlesByElastic, countResults,
+    isAuthorized, searchPostsByElastic, searchPosts, loadCountResults }
 ) => {
   const location = useLocation();
   const history = useHistory();
@@ -111,7 +109,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
         userId: currentUser.id,
         liked: true
       };
-      likePostView(postId);
       likePost(post);
     }
   };
@@ -123,7 +120,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
         userId: currentUser.id,
         liked: false
       };
-      disLikePostView(postId);
       likePost(post);
     } else {
       history.push('/login');
@@ -270,8 +266,6 @@ const mapDispatchToProps: IActions = {
   setLoadMorePosts: addMorePostsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
   likePost: likePostRoutine,
-  likePostView: likePostViewRoutine,
-  disLikePostView: disLikePostViewRoutine,
   loadUser: loadCurrentUserRoutine,
   searchPostsByElastic: searchPostsRoutine,
   searchTitlesByElastic: searchPostsByElasticRoutine,

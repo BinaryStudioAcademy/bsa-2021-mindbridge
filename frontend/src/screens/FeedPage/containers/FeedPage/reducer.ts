@@ -33,7 +33,9 @@ const initialState: IFeedPageReducerState = {
     postRating: 0,
     avatar: '',
     coverImage: '',
-    markdown: false
+    markdown: false,
+    isLiked: false,
+    reacted: false
   }],
   countResults: 0,
   hasMore: true,
@@ -70,20 +72,26 @@ export const feedPageReducer = createReducer(initialState, {
       if (response === null || response.isFirstReaction === true) {
         post.likesCount += action.payload.difference;
         post.postRating += action.payload.difference;
+        post.reacted = action.payload.difference === 1;
+        post.isLiked = action.payload.difference === 1;
       } else {
         post.disLikesCount -= action.payload.difference;
         post.postRating += action.payload.difference;
         post.postRating += action.payload.difference;
         post.likesCount += action.payload.difference;
+        post.isLiked = true;
       }
     } else if (response === null || response.isFirstReaction === true) {
       post.disLikesCount += action.payload.difference;
       post.postRating -= action.payload.difference;
+      post.reacted = action.payload.difference === 1;
+      post.isLiked = action.payload.difference !== 1;
     } else {
       post.likesCount -= action.payload.difference;
       post.postRating -= action.payload.difference;
       post.disLikesCount += action.payload.difference;
       post.postRating -= action.payload.difference;
+      post.isLiked = false;
     }
   }
 });

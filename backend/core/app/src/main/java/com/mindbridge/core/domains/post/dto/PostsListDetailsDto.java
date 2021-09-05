@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Builder
 public class PostsListDetailsDto {
 
-	private String id;
+	private UUID id;
 
 	private String title;
 
@@ -44,8 +44,12 @@ public class PostsListDetailsDto {
 
 	private Boolean markdown;
 
+	private Boolean reacted;
+
+	private Boolean isLiked;
+
 	public static PostsListDetailsDto fromEntity(Post post, PostsReactionsQueryResult postsReactionsQueryResult) {
-		return PostsListDetailsDto.builder().id(post.getId().toString()).title(post.getTitle()).text(post.getText())
+		return PostsListDetailsDto.builder().id(post.getId()).title(post.getTitle()).text(post.getText())
 				.authorId(post.getAuthor().getId().toString()).nickname(post.getAuthor().getNickname())
 				.createdAt(getDate(post.getCreatedAt())).commentsCount(post.getComments().size())
 				.tags(post.getTags().stream().map(TagDto::fromEntity).collect(Collectors.toList()))

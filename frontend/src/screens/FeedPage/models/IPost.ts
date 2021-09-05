@@ -16,5 +16,7 @@ export interface IPost {
   avatar: string;
   coverImage: string;
   markdown: boolean;
+  reacted: boolean;
+  isLiked: boolean;
 }
 
