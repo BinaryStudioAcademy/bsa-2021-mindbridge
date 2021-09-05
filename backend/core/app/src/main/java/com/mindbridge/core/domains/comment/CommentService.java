@@ -54,8 +54,9 @@ public class CommentService {
 
 	public Comment addComment(CreateCommentDto comment) {
 		var commentToDto = CommentMapper.MAPPER.createCommentDtoToComment(comment);
+		Comment result = commentRepository.save(commentToDto);
 		achievementHelper.checkCommentsCount(commentToDto.getAuthor());
-		return commentRepository.save(commentToDto);
+		return result;
 	}
 
 	public Comment addReplyToComment(ReplyCommentDto reply) {
