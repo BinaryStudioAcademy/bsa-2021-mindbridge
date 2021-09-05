@@ -39,6 +39,7 @@ interface IViewPostCardProps {
   handleDislikeComment: IBindingCallback1<string>;
   searchUsersByNickname: any;
   users: IMentionsUser[];
+  editComment: IBindingCallback1<object>;
 }
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
@@ -56,7 +57,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   handleLikeComment,
   handleDislikeComment,
   searchUsersByNickname,
-  users
+  users,
+  editComment
 }) => {
   const highlighter = new Highlighter({
     wrapTag: 'i',
@@ -194,9 +196,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                     <ShareSvg />
                   </div>
                   {isAuthor && (
-                  <div role="button" tabIndex={0} className={styles.bgCircle} onKeyDown={goToEdit} onClick={goToEdit}>
+                  <button onClick={goToEdit}>
                     <EditSvg />
-                  </div>
+                  </button>
                   )}
                 </div>
                 <img
@@ -252,6 +254,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
           handleLikeComment={handleLikeComment}
           users={users}
           searchUsersByNickname={searchUsersByNickname}
+          editComment={editComment}
         />
       </Card>
     </div>
