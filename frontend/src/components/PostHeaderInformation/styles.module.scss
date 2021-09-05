@@ -4,18 +4,57 @@
   font-weight: normal;
   font-size: 0.88rem;
   color: rgba(53, 53, 53, 0.4);
+}
 
-  img {
-    height: 2.8rem;
-    width: 2.8rem;
-    border-radius: 50%;
-  }
+img {
+  height: 2.8rem;
+  width: 2.8rem;
+  border-radius: 50%;
 }
 
 .userName{
   margin-left: 0.4em;
   font-family: Lato, serif;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 1.1429rem;
   color: #353535;
+}
+
+.timeOnPage {
+  color: rgba(53, 53, 53, 0.4);
+  font-family: Lato, sans-serif;
+  font-size: 0.88rem;
+}
+
+.userNamePopup {
+  font-family: Lato, sans-serif;
+  color: #353535;
+  font-size: 1rem;
+}
+
+.overallInformation {
+  border-bottom: 1px solid #E5E5E5;
+  padding-bottom: 0.7143rem;
+}
+
+.followBtn {
+  margin-left: 11.8rem;
+  margin-bottom: -3.3rem;
+  width: 5rem;
+}
+.statInformation {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding-top: 0.7143rem;
+
+  .statCell {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: column;
+    font-family: Lato, sans-serif;
+    color: #353535;
+    font-size: 1rem;
+  }
 }

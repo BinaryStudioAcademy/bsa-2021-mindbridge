@@ -22,6 +22,7 @@ import com.mindbridge.data.domains.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -100,9 +101,23 @@ public class UserService implements UserDetailsService {
 				userCommentReactions.stream().map(UserReactionsCommentsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
-		long rating = postReactionRepository.calcUserPostRating(userId)
-				+ (commentReactionRepository.calcUserCommentRating(userId) / 2);
-		user.setRating(rating);
+		user.setRating(calculateUserRating(userId));
+		return user;
+	}
+
+	public long calculateUserRating(UUID userId) {
+		return postReactionRepository.calcUserPostRating(userId)
+			+ (commentReactionRepository.calcUserCommentRating(userId) / 2);
+	}
+
+	public UserDto setUserStatInformation(UUID userId) {
+		var foundUser = userRepository.findById(userId)
+			.orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found."));
+		var user = UserMapper.MAPPER.userToUserDto(foundUser);
+		user.setCommentsQuantity(commentRepository.countCommentByAuthorId(user.getId()));
+		user.setPostsQuantity(postRepository.countPostByAuthorId(user.getId()));
+		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(user.getId()));
+		user.setRating(calculateUserRating(user.getId()));
 		return user;
 	}
 

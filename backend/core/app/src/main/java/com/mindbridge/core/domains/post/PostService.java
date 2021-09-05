@@ -2,11 +2,17 @@ package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
+import com.mindbridge.core.domains.helpers.DateFormatter;
 import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
 import com.mindbridge.core.domains.tag.dto.TagDto;
+import com.mindbridge.core.domains.user.UserMapper;
+import com.mindbridge.data.domains.post.dto.PostsReactionsQueryResult;
+import com.mindbridge.data.domains.tag.dto.TagDataDto;
+import com.mindbridge.core.domains.user.UserService;
 import com.mindbridge.data.domains.post.PostRepository;
+import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
@@ -40,11 +46,13 @@ public class PostService {
 
 	private final ElasticService elasticService;
 
+	private final UserService userService;
+
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService,
-			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-			PostVersionRepository postVersionRepository, ElasticService elasticService) {
+					   PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
+					   PostVersionRepository postVersionRepository, ElasticService elasticService, UserService userService) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
@@ -52,12 +60,16 @@ public class PostService {
 		this.tagRepository = tagRepository;
 		this.postVersionRepository = postVersionRepository;
 		this.elasticService = elasticService;
+		this.userService = userService;
 	}
 
 	public PostDetailsDto getPostById(UUID id) {
-		var post = postRepository.findById(id).map(PostMapper.MAPPER::postToPostDetailsDto).orElseThrow();
+		var post = postRepository.findById(id);
+		var postDetailsDto = post.map(PostMapper.MAPPER::postToPostDetailsDto).orElseThrow();
 
-		List<String> tags = post.getTags().stream().map(TagDto::getName).collect(Collectors.toList());
+		postDetailsDto.setAuthor(userService.setUserStatInformation(UserMapper.MAPPER.userToUserDto(post.orElseThrow().getAuthor()).getId()));
+
+		List<String> tags = postDetailsDto.getTags().stream().map(TagDto::getName).collect(Collectors.toList());
 		List<RelatedPostDto> relatedPostsDto = postRepository.getRelatedPostsByTags(id, tags, PageRequest.of(0, 3))
 			.stream()
 			.map(PostMapper.MAPPER::postToRelatedPostDto)
@@ -67,19 +79,30 @@ public class PostService {
 		relatedPostsDto.sort(Comparator.comparingLong(RelatedPostDto::getRating).reversed());
 
 		var comments = commentService.findAllByPostId(id);
-		post.setComments(comments);
+		postDetailsDto.setComments(comments);
 
-		post.setRating(postReactionService.calcPostRatingById(id));
-		post.setRelatedPosts(relatedPostsDto);
+		postDetailsDto.setRating(postReactionService.calcPostRatingById(id));
+		postDetailsDto.setRelatedPosts(relatedPostsDto);
 
-		return post;
+		return postDetailsDto;
 	}
 
 	public List<PostsListDetailsDto> getAllPosts(Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
-		return postRepository.getAllPosts(pageable).stream()
-				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
-				.collect(Collectors.toList());
+		return postRepository.getAllPosts(pageable).stream().map(this::mapPost).collect(Collectors.toList());
+	}
+
+	public PostsListDetailsDto mapPost(Post post) {
+		var postListDto = PostMapper.MAPPER.postToPostsListDto(post);
+		postListDto.setAuthor(userService.setUserStatInformation(post.getAuthor().getId()));
+		postListDto.setCommentsCount(post.getComments().size());
+		postListDto.setTags(post.getTags().stream().map(TagDataDto::fromEntity).collect(Collectors.toList()));
+		PostsReactionsQueryResult postsReactionsQueryResult = postRepository.getAllReactionsOnPost(post.getId());
+		postListDto.setLikesCount(postsReactionsQueryResult.likeCount);
+		postListDto.setDisLikesCount(postsReactionsQueryResult.disLikeCount);
+		postListDto.setPostRating(postsReactionsQueryResult.likeCount - postsReactionsQueryResult.disLikeCount);
+		postListDto.setCreatedAt(DateFormatter.getDate(post.getCreatedAt(), "dd MMMM"));
+		return postListDto;
 	}
 
 	public UUID editPost(EditPostDto editPostDto) {
@@ -122,9 +145,7 @@ public class PostService {
 	}
 
 	public List<PostsListDetailsDto> listIDsToListPosts(List<UUID> postIds) {
-		return postRepository.findAllById(postIds).stream()
-				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
-				.collect(Collectors.toList());
+		return postRepository.findAllById(postIds).stream().map(this::mapPost).collect(Collectors.toList());
 	}
 
 }

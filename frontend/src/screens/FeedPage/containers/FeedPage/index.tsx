@@ -28,6 +28,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { IPost } from '@screens/Header/models/IPost';
 
 import { searchPostsByElasticRoutine } from '@screens/Header/routines';
+import {fetchUserRoutine} from "@screens/ProfilePage/routines";
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -55,6 +56,7 @@ interface IActions {
   loadUser: IBindingAction;
   searchPostsByElastic: IBindingCallback1<object>;
   loadCountResults: IBindingCallback1<string>;
+  fetchUserData: IBindingCallback1<string>;
 }
 
 const params = {
@@ -65,7 +67,7 @@ const params = {
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
     currentUser, userInfo, likePost, likePostView, searchTitlesByElastic, countResults,
-    disLikePostView, isAuthorized, searchPostsByElastic, searchPosts, loadCountResults }
+    disLikePostView, searchPostsByElastic, searchPosts, loadCountResults }
 ) => {
   const location = useLocation();
   const history = useHistory();
@@ -275,7 +277,8 @@ const mapDispatchToProps: IActions = {
   loadUser: loadCurrentUserRoutine,
   searchPostsByElastic: searchPostsRoutine,
   searchTitlesByElastic: searchPostsByElasticRoutine,
-  loadCountResults: loadCountResultsRoutine
+  loadCountResults: loadCountResultsRoutine,
+  fetchUserData: fetchUserRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);

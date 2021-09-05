@@ -30,13 +30,14 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
     <Card.Content>
       <Feed>
         <div className={styles.cardHeader}>
+          {post.author
+          && (
           <PostHeaderInformation
-            authorId={post.authorId}
             date={post.createdAt}
             timeRead={readingTime(post.text).text}
-            authorName={post.nickname}
-            avatar={post.avatar}
+            author={post.author}
           />
+          )}
           <div className={styles.leftSide}>
             <RatingComponent
               postRating={post.postRating}

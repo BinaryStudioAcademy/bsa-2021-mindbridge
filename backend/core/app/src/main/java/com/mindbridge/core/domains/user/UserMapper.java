@@ -20,9 +20,13 @@ public interface UserMapper {
 	@Mapping(target = "lastArticleTitles", ignore = true)
 	@Mapping(target = "rating", ignore = true)
 	@Mapping(target = "fullName", ignore = true)
-	public abstract UserProfileDto userToUserProfileDto(User user);
+	UserProfileDto userToUserProfileDto(User user);
 
-	public abstract UserDto userToUserDto(User user);
+	@Mapping(target = "postsQuantity", ignore = true)
+	@Mapping(target = "commentsQuantity", ignore = true)
+	@Mapping(target = "followersQuantity", ignore = true)
+	@Mapping(target = "rating", ignore = true)
+	UserDto userToUserDto(User user);
 
 	UserMentionsDto userToUserMentionsDto(User user);
 
