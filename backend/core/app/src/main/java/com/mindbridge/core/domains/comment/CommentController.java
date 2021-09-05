@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.comment;
 
+import com.mindbridge.core.domains.comment.dto.CommentDto;
 import com.mindbridge.core.domains.comment.dto.CreateCommentDto;
 import com.mindbridge.core.domains.comment.dto.EditCommentDto;
 import com.mindbridge.core.domains.comment.dto.ReplyCommentDto;
@@ -32,8 +33,8 @@ public class CommentController {
 		return commentService.addReplyToComment(reply);
 	}
 
-	@PostMapping("/edit")
-	public Comment editComment(@RequestBody EditCommentDto editComment) {
+	@PutMapping("/edit")
+	public CommentDto editComment(@RequestBody EditCommentDto editComment) {
 		return commentService.editComment(editComment);
 	}
 }

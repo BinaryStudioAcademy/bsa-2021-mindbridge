@@ -63,9 +63,10 @@ public class CommentService {
 		return comment;
 	}
 
-    public Comment editComment(EditCommentDto editComment) {
+    public CommentDto editComment(EditCommentDto editComment) {
 		var comment = commentRepository.getOne(editComment.getCommentId());
 		comment.setText(editComment.getText());
-		return commentRepository.save(comment);
+		var saveComment = commentRepository.save(comment);
+		return CommentMapper.MAPPER.commentToCommentDto(saveComment);
     }
 }
