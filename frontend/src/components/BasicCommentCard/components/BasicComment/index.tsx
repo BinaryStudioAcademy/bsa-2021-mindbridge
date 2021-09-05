@@ -12,14 +12,18 @@ interface IBasicCommentProps {
   author: IUser;
 }
 
-const BasicComment: FunctionComponent<IBasicCommentProps> = ({ createdAt, text, author }) => (
+const BasicComment: FunctionComponent<IBasicCommentProps> = ({
+  createdAt,
+  text,
+  author
+}) => (
   <div className={styles.basicComment}>
     <div className={styles.header}>
       <div className={styles.commentAuthor}>
-        <a href="/" className="avatar">
+        <a href={`/user/${author.id}`} className="avatar">
           <Image alt="avatar" src={author.avatar ?? defaultAvatar} />
         </a>
-        <a href="/" className="author">
+        <a href={`/user/${author.id}`} className="author">
           {author.nickname}
         </a>
         <DividerSvg />
