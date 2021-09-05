@@ -28,7 +28,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { IPost } from '@screens/Header/models/IPost';
 
 import { searchPostsByElasticRoutine } from '@screens/Header/routines';
-import {fetchUserRoutine} from "@screens/ProfilePage/routines";
+import { fetchUserRoutine } from '@screens/ProfilePage/routines';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
