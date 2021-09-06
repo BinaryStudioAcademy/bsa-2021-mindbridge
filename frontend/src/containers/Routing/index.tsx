@@ -60,7 +60,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/drafts" component={Drafts} />
         <PublicRoute exact path="/search" component={FeedPage} />
         <PrivateRoute exact path="/highlights" component={HighlightsPage} />
-        <PublicRoute component={NotFoundPage} />
+        <PublicRoute component={NotFoundPage} isNotFound />
 
         <div>
           <LoaderWrapper loading={isLoading}>
