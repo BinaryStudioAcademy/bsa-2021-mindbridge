@@ -871,7 +871,7 @@
 									"        \"relatedPosts\": { \"type\": \"array\" },",
 									"        \"isFavourite\": { \"type\": \"boolean\" }",
 									"    },",
-									"    \"required\": [\"id\", \"createdAt\", \"updatedAt\", \"title\", \"text\", \"author\", \"tags\", \"rating\", \"comments\", \"coverImage\", \"markdown\", \"isFavourite\", \"draft\", \"relatedPosts\"]",
+									"    \"required\": [\"id\", \"createdAt\", \"updatedAt\", \"title\", \"text\", \"author\", \"tags\", \"rating\", \"comments\", \"coverImage\", \"markdown\", \"draft\", \"relatedPosts\", \"isFavourite\"]",
 									"};",
 									"",
 									"pm.test(\"Validate schema\", () => {",
