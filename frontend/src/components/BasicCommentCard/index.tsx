@@ -6,7 +6,6 @@ import { IComments } from '@screens/PullRequest/models/IComments';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUser } from '@screens/PullRequest/models/IUser';
-import { ICommentPR } from '@screens/PullRequest/models/ICommentPR';
 
 interface ICommentProps {
   comments: IComments[];
@@ -22,38 +21,6 @@ const BasicCommentsFeed: FunctionComponent<ICommentProps> = ({
   userInfo,
   prId
 }) => {
-  const [newPrComment, setNewPrComment] = useState<ICommentPR>({
-    text: '',
-    author: '',
-    prId: '',
-    avatar: null,
-    nickname: ''
-  });
-
-  const handleNewPrComment = (event: any) => {
-    setNewPrComment({
-      ...newPrComment,
-      text: event.target.value
-    });
-  };
-
-  const handleSentPrComment = () => {
-    if (newPrComment.text.trim().length) {
-      const addCommentPr = {
-        text: newPrComment.text.replace(/<(.+?)>/g, '&lt;$1&gt;'),
-        author: userInfo.id,
-        prId,
-        avatar: userInfo.avatar,
-        nickname: userInfo.nickname
-      };
-      setNewPrComment({
-        ...newPrComment,
-        text: ''
-      });
-      sendCommentPR(addCommentPr);
-    }
-  };
-
   return (
     <div className={styles.main}>
       <p className={styles.commentCounter}>
@@ -63,20 +30,6 @@ const BasicCommentsFeed: FunctionComponent<ICommentProps> = ({
         )
         {' '}
       </p>
-      <form className="ui reply form">
-        <div className="field">
-          <textarea
-            value={newPrComment.text}
-            onChange={handleNewPrComment}
-            placeholder="Add to the discussion..."
-          />
-        </div>
-        <DarkBorderButton
-          className={styles.buttonSend}
-          content="Send"
-          onClick={handleSentPrComment}
-        />
-      </form>
       <div className="ui comments">
         <div className="comment">
           {comments.map(comment => (
