@@ -19,4 +19,5 @@ export interface IPost {
   draft: boolean;
   relatedPosts: IRelatedPost[];
   comments: IComments[];
+  isFavourite: boolean;
 }
