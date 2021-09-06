@@ -40,10 +40,8 @@ const params = {
 
 const PostVersions: React.FC<IPostVersionsProps> = (
   {
-    currentUser,
     versionsOfPost,
     getPostVersions,
-    fetchUserProfile,
     fetchPostTitle,
     fetchPostContributions,
     contributionsOfPost,
