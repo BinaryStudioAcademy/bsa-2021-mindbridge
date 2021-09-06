@@ -108,6 +108,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
   });
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isContentEmpty, setIsContentEmpty] = useState(false);
+  const [isTagsEmpty, setIsTagsEmpty] = useState(false);
   const [changesExist, setChangesExist] = useState(false);
 
   const { id } = useParams();
@@ -191,13 +192,15 @@ const EditPrPage: React.FC<IEditPrProps> = (
   };
 
   const handleSendForm = () => {
-    if (!form.title || !form.content) {
+    if (!form.title || !form.content || !form.tags.length) {
       setIsTitleEmpty(!form.title);
       setIsContentEmpty(!form.content);
+      setIsTagsEmpty(!form.tags.length);
       return;
     }
     setIsContentEmpty(false);
     setIsTitleEmpty(false);
+    setIsTagsEmpty(false);
     const prOnEdit = {
       id: postPR.id,
       title: form.title,
@@ -341,6 +344,7 @@ const EditPrPage: React.FC<IEditPrProps> = (
                     resetImageTag={resetImageTag}
                     isTitleEmpty={isTitleEmpty}
                     isContentEmpty={isContentEmpty}
+                    isTagsEmpty={isTagsEmpty}
                   />
                 )
                 : (
