@@ -1,8 +1,10 @@
 package com.mindbridge.core.domains.user;
 import com.mindbridge.core.domains.commentReaction.dto.UserReactionsCommentsDto;
 import com.mindbridge.core.domains.helpers.mailSender.MailSender;
+import com.mindbridge.core.domains.notification.NotificationService;
 import com.mindbridge.core.domains.user.dto.*;
 import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
+import com.mindbridge.data.domains.notification.model.Notification;
 import com.mindbridge.data.domains.post.dto.PostTitleDto;
 import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
 import com.mindbridge.core.exceptions.custom.EmailNotFoundException;
@@ -24,14 +26,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.security.Principal;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -57,6 +62,8 @@ public class UserService implements UserDetailsService {
 
 	private final CommentReactionRepository commentReactionRepository;
 
+	private final NotificationService notificationService;
+
 	private final MailSender mailSender;
 
 	private final Random random = new Random();
@@ -70,7 +77,7 @@ public class UserService implements UserDetailsService {
 
 	@Lazy
 	@Autowired
-	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, NotificationService notificationService,
 			CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository,
 			PostPRRepository postPRRepository, PostReactionRepository postReactionRepository,
 			CommentReactionRepository commentReactionRepository, MailSender mailSender) {
@@ -79,13 +86,15 @@ public class UserService implements UserDetailsService {
 		this.postPRRepository = postPRRepository;
 		this.postReactionRepository = postReactionRepository;
 		this.mailSender = mailSender;
+		this.notificationService = notificationService;
 		this.passwordEncoder = new PasswordConfig().passwordEncoder();
 		this.followerRepository = followerRepository;
 		this.postRepository = postRepository;
 		this.commentReactionRepository = commentReactionRepository;
 	}
 
-	public UserProfileDto getUserProfileInformation(UUID userId) {
+	public UserProfileDto getUserProfileInformation(UUID userId, Principal principal) {
+		var currentUser = loadUserDtoByEmail(principal.getName());
 		var foundUser = userRepository.findById(userId)
 				.orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found."));
 		var user = UserMapper.MAPPER.userToUserProfileDto(foundUser);
@@ -100,6 +109,8 @@ public class UserService implements UserDetailsService {
 				userCommentReactions.stream().map(UserReactionsCommentsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
+		var follower = followerRepository.findFollowerByFollowerAndFollowed(currentUser.getId(), userId);
+		user.setFollowed(follower.isPresent());
 		long rating = postReactionRepository.calcUserPostRating(userId)
 				+ (commentReactionRepository.calcUserCommentRating(userId) / 2);
 		user.setRating(rating);
@@ -166,6 +177,25 @@ public class UserService implements UserDetailsService {
 		userRepository.save(user);
 
 		return loadUserDtoByEmail(user.getEmail());
+	}
+
+	public void followUser(FollowDto followDto, Principal principal) {
+		String currentEmail  = principal.getName();
+		if (currentEmail == null) {
+			return;
+		}
+		var currentUser = loadUserDtoByEmail(currentEmail);
+		var follower = followerRepository.findFollowerByFollowerAndFollowed(currentUser.getId(), followDto.getFollowedId());
+		if (follower.isPresent()) {
+			followerRepository.delete(follower.get());
+		} else {
+			followerRepository.save(UserMapper.MAPPER.FollowDtoToFollower(followDto));
+			notificationService.createNotification(
+				followDto.getFollowedId(),
+				currentUser.getNickname(),
+				currentUser.getId(),
+				Notification.Type.newFollower);
+		}
 	}
 
 	public boolean checkNickname(String nickname) {

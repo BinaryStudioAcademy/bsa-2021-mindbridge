@@ -91,7 +91,7 @@ const NotificationList: React.FC<INotificationListProps> = (
         next={handleFetchMoreNotifications}
         hasMore
         loader={' '}
-        height="50vh"
+        style={{ maxHeight: '50vh' }}
       >
         {list?.map(item => (
           <NotificationListItem
