@@ -31,9 +31,7 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
   { fetchUserData,
     userProfileData,
     isUserLoaded,
-    isUserIdValid,
-    isAuthorized,
-    currentUserInfo
+    isUserIdValid
   }
 ) => {
   const location = useLocation();

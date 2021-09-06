@@ -43,6 +43,7 @@ interface IViewPostCardProps {
   handleDislikeComment: IBindingCallback1<string>;
   searchUsersByNickname: any;
   users: IMentionsUser[];
+  handleFavouriteAction: any;
 }
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
@@ -60,7 +61,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   handleLikeComment,
   handleDislikeComment,
   searchUsersByNickname,
-  users
+  users,
+  handleFavouriteAction
 }) => {
   const highlighter = new Highlighter({
     wrapTag: 'i',
@@ -166,6 +168,10 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
     setIsPopUpShown(false);
   };
 
+  const getFavouriteAction = () => {
+    handleFavouriteAction(post);
+  };
+
   return (
     <div className={styles.container}>
       <Card className={styles.viewCard}>
@@ -180,7 +186,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                         postRating={post.rating}
                         handleLikePost={handleLikePost}
                         handleDisLikePost={handleDisLikePost}
-                        postId={post.id}
+                        post={post}
                         userInfo={userInfo}
                         arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
                           && postReaction.liked)
@@ -198,7 +204,10 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                     </div>
                   </div>
                   <div className={styles.bgCircle}>
-                    <FavouriteSvg />
+                    <FavouriteSvg
+                      handleFavouriteAction={getFavouriteAction}
+                      color={post.isFavourite ? 'green' : '#66B9FF'}
+                    />
                   </div>
                   <div className={styles.bgCircle}>
                     <CommentSvg />
