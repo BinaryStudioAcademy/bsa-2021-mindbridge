@@ -175,7 +175,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                         postRating={post.rating}
                         handleLikePost={handleLikePost}
                         handleDisLikePost={handleDisLikePost}
-                        postId={post.id}
+                        post={post}
                         userInfo={userInfo}
                         arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
                           && postReaction.liked)
