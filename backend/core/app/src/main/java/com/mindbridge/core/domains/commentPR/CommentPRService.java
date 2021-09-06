@@ -28,7 +28,7 @@ public class CommentPRService {
 	}
 
     public CommentPrDto editPrComment(EditPrCommentDto editPrCommentDto) {
-		var comment = commentRepository.getOne(editPrCommentDto.getCommentId());
+		var comment = commentRepository.getOne(editPrCommentDto.getPrCommentId());
 		comment.setText(editPrCommentDto.getText());
 		var savePrComment = commentRepository.save(comment);
 		return CommentPRMapper.MAPPER.commentPrToCommentDto(savePrComment);

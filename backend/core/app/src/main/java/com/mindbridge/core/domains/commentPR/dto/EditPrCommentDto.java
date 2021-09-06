@@ -8,7 +8,7 @@ import java.util.UUID;
 @Data
 public class EditPrCommentDto {
 
-	private UUID commentId;
+	private UUID prCommentId;
 
 	private Date updatedAt;
 
