@@ -22,10 +22,9 @@ import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
-import { useDebouncedCallback } from 'use-debounce';
 import { history } from '@helpers/history.helper';
 import { toastr } from 'react-redux-toastr';
-import { deleteFavouritePostRoutine, saveFavouritePostRoutine }
+import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
