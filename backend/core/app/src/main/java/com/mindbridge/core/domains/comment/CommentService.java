@@ -3,9 +3,13 @@ package com.mindbridge.core.domains.comment;
 import com.mindbridge.core.domains.comment.dto.CommentDto;
 import com.mindbridge.core.domains.comment.dto.CreateCommentDto;
 import com.mindbridge.core.domains.comment.dto.ReplyCommentDto;
+import com.mindbridge.core.domains.notification.NotificationService;
+import com.mindbridge.core.domains.post.PostService;
+import com.mindbridge.core.domains.user.UserService;
 import com.mindbridge.data.domains.comment.CommentRepository;
 import com.mindbridge.data.domains.comment.model.Comment;
 import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
+import com.mindbridge.data.domains.notification.model.Notification;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -22,11 +26,21 @@ public class CommentService {
 
 	private final CommentReactionRepository commentReactionRepository;
 
+	private final NotificationService notificationService;
+
+	private final PostService postService;
+
+	private final UserService userService;
+
 	@Lazy
 	@Autowired
-	public CommentService(CommentRepository commentRepository, CommentReactionRepository commentReactionRepository) {
+	public CommentService(CommentRepository commentRepository, CommentReactionRepository commentReactionRepository,
+						  NotificationService notificationService, PostService postService, UserService userService) {
 		this.commentRepository = commentRepository;
 		this.commentReactionRepository = commentReactionRepository;
+		this.notificationService = notificationService;
+		this.postService = postService;
+		this.userService = userService;
 	}
 
 	public List<CommentDto> findAllByPostId(UUID id) {
@@ -49,11 +63,21 @@ public class CommentService {
 
 	public Comment addComment(CreateCommentDto comment) {
 		var commentToDto = CommentMapper.MAPPER.createCommentDtoToComment(comment);
+		notificationService.createNotification(
+			postService.getPostById(comment.getPostId()).getAuthor().getId(),
+			userService.getUserById(comment.getAuthor()).getNickname(),
+			comment.getPostId(),
+			Notification.Type.newComment);
 		return commentRepository.save(commentToDto);
 	}
 
 	public Comment addReplyToComment(ReplyCommentDto reply) {
 		var commentDtoToReply = CommentMapper.MAPPER.replyToCommentDtoToComment(reply);
+		notificationService.createNotification(
+			getCommentById(reply.getReplyCommentId()).getAuthor().getId(),
+			reply.getNickname(),
+			reply.getPostId(),
+			Notification.Type.newReply);
 		return commentRepository.save(commentDtoToReply);
 	}
 

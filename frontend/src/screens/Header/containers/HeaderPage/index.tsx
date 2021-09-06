@@ -74,6 +74,27 @@ const Header: React.FC<IHeaderProps> = (
         toastr.info('New contribution', message.body);
         fetchNotificationCount(currentUser.id);
       });
+
+      stompClient.subscribe(`/user/${currentUser.id}/PRClosed`, message => {
+        toastr.info('Your pull request has been closed', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/PRAccepted`, message => {
+        toastr.info('Your pull request has been accepted', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/newComment`, message => {
+        toastr.info('New comment on your post', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/newReply`, message => {
+        toastr.info('New reply on your comment', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/newMention`, message => {
+        toastr.info('New mention', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
     }, warning => {
       toastr.warning('Warning', 'Internet connection is unstable');
       console.log(warning);

@@ -80,6 +80,10 @@ public class PostPRService {
 		if (userDto.getId() == postPR.getContributor().getId()
 				|| userDto.getId() == postPR.getPost().getAuthor().getId()) {
 			postPRRepository.setPRClosed(prId);
+			notificationService.createNotification(postPR.getContributor().getId(),
+				userDto.getNickname(),
+				prId,
+				Notification.Type.PRClosed);
 			return true;
 		}
 		else
@@ -94,6 +98,10 @@ public class PostPRService {
 			EditPostDto editPostDto = EditPostDto.fromPostPR(postPR);
 			postService.editPost(editPostDto);
 			postPRRepository.setPRAccepted(id);
+			notificationService.createNotification(postPR.getContributor().getId(),
+				userDto.getNickname(),
+				id,
+				Notification.Type.PRAccepted);
 			return true;
 		}
 		else
