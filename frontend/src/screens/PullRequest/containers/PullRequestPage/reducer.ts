@@ -70,6 +70,6 @@ export const pullRequestReducer = createReducer(initialState, {
   },
   [sendCommentPrRoutine.SUCCESS]: (state, action) => {
     state.commentPr = initialState.commentPr;
-    state.postPR.comments.unshift(action.payload);
+    state.postPR.comments.push(action.payload);
   }
 });
