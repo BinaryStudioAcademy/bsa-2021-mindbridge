@@ -769,7 +769,7 @@
 									"        \"markdown\": { \"type\": \"boolean\" },",
 									"        \"isFavourite\": { \"type\": \"boolean\" }",
 									"    },",
-									"    \"required\": [\"id\", \"title\", \"text\", \"authorName\", \"createdAt\", \"commentsCount\", \"likesCount\", \"disLikesCount\", \"postRating\", \"avatar\", \"usersCount\", \"tags\", \"coverImage\", \"markdown\", \"isFavourite\"]",
+									"    \"required\": [\"id\", \"title\", \"text\", \"createdAt\", \"commentsCount\", \"likesCount\", \"disLikesCount\", \"postRating\", \"usersCount\", \"tags\", \"coverImage\", \"markdown\", \"isFavourite\"]",
 									"};",
 									"",
 									"pm.test(\"Validate schema\", () => {",
