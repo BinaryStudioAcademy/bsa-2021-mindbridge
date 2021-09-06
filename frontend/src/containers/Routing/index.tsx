@@ -25,6 +25,7 @@ import HighlightsPage from '@screens/HighlightsPage/containers/HighlightsPage';
 import PostVersionPage from '@screens/PostVersionPage/containers/PostVersionPage';
 import Drafts from '@screens/Drafts/containers/DraftsPage';
 import EmailSuccessConfirmation from '@screens/EmailSuccessConfirmation/containers/EmailSuccessConfirmationPage';
+import FavouritesPage from '@screens/FavouritesPage/containers/FavouritesPagePage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -55,6 +56,7 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PrivateRoute exact path="/postVersion/:id" component={PostVersionPage} />
         <PrivateRoute exact path="/post/versions/:id" component={PostVersions} />
         <PublicRoute exact path="/post/contributions/:id" component={PostVersions} />
+        <PrivateRoute exact path="/favourites" component={FavouritesPage} />
         <PublicRoute exact path="/my/contributions" component={MyContributionsPage} />
         <PublicRoute exact path="/drafts" component={Drafts} />
         <PublicRoute exact path="/search" component={FeedPage} />

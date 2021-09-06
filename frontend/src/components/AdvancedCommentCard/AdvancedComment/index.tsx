@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
@@ -18,6 +18,7 @@ import parse from 'html-react-parser';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
+import { IComments } from '@screens/ViewPost/models/IComments';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -39,6 +40,7 @@ interface IBasicCommentProps {
   handleDislikeComment: any;
   searchUsersByNickname: any;
   users: IMentionsUser[];
+  comment: IComments;
 }
 /* eslint-disable max-len */
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
@@ -61,7 +63,8 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     handleLikeComment,
     handleDislikeComment,
     searchUsersByNickname,
-    users
+    users,
+    comment
   }
 ) => {
   const [disabled, setDisabled] = useState(false);
@@ -116,13 +119,12 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
             </div>
           </div>
           <div className={styles.commentRightAction}>
-            { userInfo.id !== author.id && (
             <div className={styles.ratingComponent}>
               <RatingComponent
-                postRating={commentRating}
+                postRating={commentRating ?? 0}
                 handleDisLikePost={handleDislikeComment}
                 handleLikePost={handleLikeComment}
-                postId={commentId}
+                post={comment}
                 userInfo={userInfo}
                 arrowUpColor={userInfo.userReactionsComments
                   .find(commentReaction => commentReaction.commentId === commentId && commentReaction.liked)
@@ -137,7 +139,6 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                   )}
               />
             </div>
-            )}
             { shouldRender
           && (
           <Popup
@@ -177,18 +178,6 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                   )}
                   />
                 </span>
-              )}
-            />
-            <Popup
-              content="Share comment"
-              mouseEnterDelay={1000}
-              closeOnTriggerClick
-              on="hover"
-              position="top center"
-              trigger={(
-                <a href="/">
-                  <ShareCommentSvg />
-                </a>
               )}
             />
           </div>
