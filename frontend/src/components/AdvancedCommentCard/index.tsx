@@ -66,6 +66,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
           postId={postId}
           searchUsersByNickname={searchUsersByNickname}
           users={users}
+          editMode={false}
         />
       ) : (
         <div className={styles.nonAuthorizedHeading}>

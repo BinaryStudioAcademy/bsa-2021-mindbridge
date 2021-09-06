@@ -196,9 +196,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                     <ShareSvg />
                   </div>
                   {isAuthor && (
-                  <button onClick={goToEdit}>
-                    <EditSvg />
-                  </button>
+                    <div role="button" tabIndex={0} className={styles.bgCircle} onKeyDown={goToEdit} onClick={goToEdit}>
+                      <EditSvg />
+                    </div>
                   )}
                 </div>
                 <img

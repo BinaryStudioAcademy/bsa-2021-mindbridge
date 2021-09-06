@@ -10,6 +10,14 @@
   color: #FFFFFF !important;
 }
 
+.replyVisibility {
+  visibility: visible;
+}
+
+.replyHidden {
+  visibility: hidden;
+}
+
 .btnReplay {
   border: 0.125em solid $dark-grey;
   box-sizing: border-box;
@@ -26,4 +34,5 @@
   display: flex !important;
   align-items: center;
   justify-content: center;
+  padding: 0.8em 2.2em !important;
 }

@@ -8,9 +8,25 @@ import { useDebouncedCallback } from 'use-debounce';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import commentInputStyle from './commentInputStyle.module.scss';
 import replyInputStyle from './replyInputStyle.module.scss';
-import { IEditComment } from '@screens/ViewPost/models/IEditComment';
 
-function AsyncUserMentions(
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+
+interface IUserMentionsProps {
+  onChange: any;
+  sendReply: any;
+  setDisabled: any;
+  sendComment: any;
+  userInfo: IUserProfile;
+  postId: string;
+  commentId: string;
+  searchUsersByNickname: any;
+  users: any;
+  isReply: boolean;
+  editMode: boolean;
+  asd: boolean;
+}
+
+const AsyncUserMentions: FunctionComponent<IUserMentionsProps> = (
   {
     onChange,
     sendReply,
@@ -22,11 +38,11 @@ function AsyncUserMentions(
     searchUsersByNickname,
     users,
     isReply,
-    editComment,
-    editCommentMode,
-    text
+    editMode
   }
-) {
+) => {
+  console.log('EDIT_MODE');
+  console.log(editMode);
   const [newReply, setNewReply] = useState<ICommentReply>({
     author: '',
     postId: '',
@@ -172,7 +188,7 @@ function AsyncUserMentions(
       )}
     </div>
   );
-}
+};
 
 const asExample = provideValue('');
 
