@@ -10,7 +10,7 @@ const pullRequestService = {
     '/api/commentPR/add',
     { data: comment }
   ),
-  editPrComment: async (comment: object) => api.get(
+  editPrComment: async (comment: object) => api.put(
     '/api/commentPR/edit',
     { data: comment }
   )
