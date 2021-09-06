@@ -10,16 +10,17 @@ import {
   addMorePostsRoutine,
   fetchDataRoutine,
   likePostRoutine,
-  loadCountResultsRoutine, resetDataRoutine,
+  loadCountResultsRoutine,
   searchPostsRoutine
 } from '@screens/FeedPage/routines';
-import { IPostList } from '@screens/FeedPage/models/IPostList';
+import { IPostFeed } from '@screens/FeedPage/models/IPostFeed';
 import LoaderWrapper from '@components/LoaderWrapper';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { useHistory } from 'react-router-dom';
 import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 import { useLocation } from 'react-use';
 import NoResultsSvg from '@components/svgs/NoResultsSvg';
 import SearchSvg from '@components/Header/svg/searchSvg';
@@ -36,7 +37,7 @@ export interface IFeedPageProps extends IState, IActions {
 }
 
 interface IState {
-  data: IPostList;
+  data: IPostFeed[];
   dataLoading: boolean;
   hasMore: boolean;
   loadMore: boolean;
@@ -46,7 +47,6 @@ interface IState {
 
 interface IActions {
   fetchData: IBindingCallback1<object>;
-  resetList: IBindingAction;
   likePost: IBindingCallback1<object>;
   fetchUserProfile: IBindingCallback1<string>;
   setLoadMorePosts: IBindingCallback1<boolean>;
@@ -54,35 +54,22 @@ interface IActions {
   likePostView: IBindingCallback1<string>;
   disLikePostView: IBindingCallback1<string>;
   loadUser: IBindingAction;
+  saveFavouritePost: IBindingCallback1<object>;
+  deleteFavouritePost: IBindingCallback1<string>;
   searchPostsByElastic: IBindingCallback1<object>;
   loadCountResults: IBindingCallback1<string>;
 }
 
 const params = {
   from: 0,
-  count: 10
+  count: 10,
+  userId: ''
 };
 
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
-    /*    currentUser, userInfo, likePost, likePostView,
-    disLikePostView, isAuthorized, resetList }
-) => {
-  const location = useLocation();
-  const filter = location.pathname.substring(1, location.pathname.length);
-
-  useEffect(() => {
-    resetList();
-    params.from = 0;
-    params.count = 10;
-    fetchData({ params, filter });
-  }, [filter]);
-
-  useEffect(() => {
-    fetchData({ params, filter });
-  }, [fetchData]);*/
     currentUser, userInfo, likePost, likePostView, searchTitlesByElastic, countResults,
-    disLikePostView, isAuthorized, searchPostsByElastic, searchPosts, loadCountResults }
+    disLikePostView, searchPostsByElastic, searchPosts, loadCountResults, saveFavouritePost, deleteFavouritePost }
 ) => {
   const location = useLocation();
   const history = useHistory();
@@ -91,12 +78,21 @@ const FeedPage: React.FC<IFeedPageProps> = (
   const [isSearchInputFilled, setIsSearchInputFilled] = useState(false);
   const [elasticContent, setElasticContent] = useState('');
 
-  useEffect(() => {
+  const filter = location.pathname.substring(1, location.pathname.length);
+
+  /* useEffect(() => {
     params.from = 0;
     setLoadMorePosts(false);
     window.scrollTo(0, 0);
     if (location.search) {
-      const query = decodeURI(location.search.replace('?query=', ''));
+      let query;
+
+      if (location.search.startsWith('?query=')) {
+        query = decodeURI(location.search.replace('?query=', ''));
+      }
+      if (location.search.startsWith('?tags=')) {
+        query = decodeURI(location.search.replace('?tags=', ''));
+      }
       setElasticContent(query);
       loadCountResults(query);
       searchPostsByElastic({ query, params });
@@ -104,13 +100,21 @@ const FeedPage: React.FC<IFeedPageProps> = (
       setIsSearch(true);
     } else {
       setSearchRequest('');
-      fetchData(params);
+      if (currentUser) {
+        fetchData({ from: 0, count: 10, userId: currentUser.id, filter });
+      } else {
+        fetchData(params);
+      }
       setIsSearch(false);
     }
-  }, [fetchData, location]);
+  }, [fetchData, location, currentUser]);*/
+
+  useEffect(() => {
+    fetchData({ params, filter });
+  }, [fetchData]);
 
   const handleLoadMorePosts = filtersPayload => {
-    fetchData({ params: filtersPayload/* , filter*/ });
+    fetchData({ params: filtersPayload, filter });
   };
 
   const handleSearchMorePosts = filtersPayload => {
@@ -130,6 +134,14 @@ const FeedPage: React.FC<IFeedPageProps> = (
       };
       likePostView(postId);
       likePost(post);
+    }
+  };
+
+  const handleFavouriteAction = post => {
+    if (!post.isFavourite) {
+      saveFavouritePost({ userId: currentUser.id, postId: post.id });
+    } else {
+      deleteFavouritePost(post.id);
     }
   };
 
@@ -228,7 +240,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
             )}
           </div>
         )}
-        {isSearch && data.posts.length > 0 && (
+        {isSearch && data && (
           <h4>
             {`On your request "${searchRequest}" found `}
             <span className={styles.countPosts}>{countResults}</span>
@@ -240,18 +252,19 @@ const FeedPage: React.FC<IFeedPageProps> = (
       <div className={styles.main}>
         <InfiniteScroll
           style={{ overflow: 'none' }}
-          dataLength={data.posts.length}
+          dataLength={data.length}
           next={getMorePosts}
           hasMore={hasMore}
           loader={' '}
           scrollThreshold={0.9}
         >
-          {data.posts.length ? (
-            data.posts.map(post => (
+          {data.length !== 0 ? (
+            data.map(post => (
               <PostCard
                 key={post.id}
                 handleLikePost={handleLikePost}
                 handleDisLikePost={handleDisLikePost}
+                handleFavouriteAction={handleFavouriteAction}
                 post={post}
                 userInfo={userInfo}
               />
@@ -271,7 +284,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
 };
 
 const mapStateToProps: (state: RootState) => IState = state => ({
-  data: extractData(state),
+  data: state.feedPageReducer.data.posts,
   dataLoading: extractFetchDataLoading(state) || extractSearchPostsLoading(state),
   hasMore: state.feedPageReducer.data.hasMore,
   countResults: state.feedPageReducer.data.countResults,
@@ -284,13 +297,14 @@ const mapStateToProps: (state: RootState) => IState = state => ({
 
 const mapDispatchToProps: IActions = {
   fetchData: fetchDataRoutine,
-  resetList: resetDataRoutine,
   setLoadMorePosts: addMorePostsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
   likePost: likePostRoutine,
   likePostView: likePostViewRoutine,
   disLikePostView: disLikePostViewRoutine,
   loadUser: loadCurrentUserRoutine,
+  saveFavouritePost: saveFavouritePostRoutine,
+  deleteFavouritePost: deleteFavouritePostRoutine,
   searchPostsByElastic: searchPostsRoutine,
   searchTitlesByElastic: searchPostsByElasticRoutine,
   loadCountResults: loadCountResultsRoutine
