@@ -68,5 +68,12 @@ input[type="checkbox"]:checked + div {
   color: $dark-grey;
 }
 
+.emptyList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 2rem;
+  align-items: center;
+}
 
 

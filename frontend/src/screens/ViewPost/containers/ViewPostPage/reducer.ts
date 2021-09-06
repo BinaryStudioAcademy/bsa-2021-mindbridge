@@ -36,6 +36,8 @@ const initialState: IViewPostReducerState = {
     avatar: null,
     markdown: false,
     draft: false,
+    isLiked: false,
+    reacted: false,
     author: { id: '', firstName: '', lastName: '', avatar: null, nickname: '' },
     relatedPosts: [],
     comments: [],
@@ -82,15 +84,21 @@ export const viewPostReducer = createReducer(initialState, {
     if (reactionStatus === true) {
       if (response === null || response.isFirstReaction === true) {
         state.post.rating += action.payload.difference;
+        state.post.reacted = action.payload.difference === 1;
+        state.post.isLiked = action.payload.difference === 1;
       } else {
         state.post.rating += action.payload.difference;
         state.post.rating += action.payload.difference;
+        state.post.isLiked = true;
       }
     } else if (response === null || response.isFirstReaction === true) {
       state.post.rating -= action.payload.difference;
+      state.post.reacted = action.payload.difference === 1;
+      state.post.isLiked = action.payload.difference !== 1;
     } else {
       state.post.rating -= action.payload.difference;
       state.post.rating -= action.payload.difference;
+      state.post.isLiked = false;
     }
   },
   [fetchHighlightsRoutine.SUCCESS]: (state, action) => {

@@ -66,18 +66,16 @@ const PostCard: FunctionComponent<IPostCardProps> = ({
                 handleDisLikePost={handleDisLikePost}
                 postId={post.id}
                 userInfo={userInfo}
-                arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                  && postReaction.liked)
-                  ? ('#8AC858'
-                  ) : (
-                    '#66B9FF'
-                  )}
-                arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                  && !postReaction.liked)
-                  ? ('#F75C48'
-                  ) : (
-                    '#66B9FF'
-                  )}
+                arrowUpColor={
+                  post.reacted && post.isLiked
+                    ? ('#8AC858')
+                    : ('#66B9FF')
+                }
+                arrowDownColor={
+                  post.reacted && !post.isLiked
+                    ? ('#F75C48')
+                    : ('#66B9FF')
+                }
               />
               <FavouriteSvg handleFavouriteAction={getFavouriteAction} color={post.isFavourite ? 'green' : '#66B9FF'} />
             </div>
