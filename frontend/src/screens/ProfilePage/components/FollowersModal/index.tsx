@@ -26,14 +26,21 @@ const FollowersModal: FunctionComponent<IFollowersModalProps> = ({ setIsModalFol
     >
       <Modal.Header>{isModalFollowersOpen ? ('Followers') : ('Following')}</Modal.Header>
       <Modal.Content scrolling>
-        <div className={styles.followerWrapper}>
-          {followers.map(follower => (
-            <FollowerCard
-              key={follower.id}
-              follower={follower}
-            />
-          ))}
-        </div>
+        {followers.length !== 0 ? (
+          <div className={styles.followerWrapper}>
+            {followers.map(follower => (
+              <FollowerCard
+                key={follower.id}
+                follower={follower}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className={styles.emptyLabel}>
+            {isModalFollowersOpen ? ('Followers list is empty')
+              : ('Following list is empty')}
+          </p>
+        )}
       </Modal.Content>
     </Modal>
   );
