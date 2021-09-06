@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import { Card, Feed } from 'semantic-ui-react';
+import React, { FunctionComponent, useState } from 'react';
+import { Card, Feed, Popup } from 'semantic-ui-react';
 import ShareSvg from '@components/FeedSvgComponents/shareSvg';
 import RatingComponent from '@components/RatingIcon';
 import FavouriteSvg from '@components/FeedSvgComponents/favouriteSvg';
@@ -16,6 +16,9 @@ import TextRenderer from '../TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import readingTime from 'reading-time';
 import Image from '@components/Image';
+import { defaultCoverImage } from '@images/defaultImages';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import SharePopup from '@screens/ViewPost/components/Popups/SharePopup';
 
 interface IPostCardProps {
   post: IPostFeed;
@@ -27,7 +30,16 @@ interface IPostCardProps {
 
 const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, handleDisLikePost,
   userInfo, handleFavouriteAction }) => {
-  const getFavouriteAction = () => {
+    const [popupContent, setPopupContent] = useState('Copy link');
+    const handleShare = () => {
+      setPopupContent('Copied');
+    };
+
+    const handleOnClose = () => {
+      setPopupContent('Copy link');
+    };
+  
+    const getFavouriteAction = () => {
     handleFavouriteAction(post);
   };
 
@@ -108,7 +120,17 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
             <p>{post.disLikesCount}</p>
           </div>
           <div className={styles.icon}>
-            <ShareSvg />
+            <SharePopup
+              triggerContent={(
+                <CopyToClipboard text={`${window.location.href}post/${post.id}`}>
+                  <button style={{ background: 'none' }} type="button" onClick={handleShare}>
+                    <ShareSvg />
+                  </button>
+                </CopyToClipboard>
+              )}
+              popupContent={popupContent}
+              handleOnClose={handleOnClose}
+            />
           </div>
         </div>
       </Card.Content>
