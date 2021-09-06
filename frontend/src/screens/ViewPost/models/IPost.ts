@@ -21,4 +21,5 @@ export interface IPost {
   isLiked: boolean;
   relatedPosts: IRelatedPost[];
   comments: IComments[];
+  isFavourite: boolean;
 }

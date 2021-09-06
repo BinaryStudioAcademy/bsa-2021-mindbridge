@@ -1,7 +1,6 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import {
   fetchHighlightsRoutine,
-  saveHighlightRoutine,
   fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
@@ -13,6 +12,7 @@ import { IComment } from '@screens/ViewPost/models/IComment';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 import { IUsers } from '@screens/ViewPost/models/IUsers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 
 export interface IViewPostReducerState {
   post: IPost;
@@ -40,7 +40,8 @@ const initialState: IViewPostReducerState = {
     reacted: false,
     author: { id: '', firstName: '', lastName: '', avatar: null, nickname: '' },
     relatedPosts: [],
-    comments: []
+    comments: [],
+    isFavourite: false
   },
   highlights: undefined,
   comment: {
@@ -132,5 +133,11 @@ export const viewPostReducer = createReducer(initialState, {
   },
   [searchUserByNicknameRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUsers>) => {
     state.users = payload.users;
+  },
+  [saveFavouritePostRoutine.SUCCESS]: state => {
+    state.post.isFavourite = true;
+  },
+  [deleteFavouritePostRoutine.TRIGGER]: state => {
+    state.post.isFavourite = false;
   }
 });

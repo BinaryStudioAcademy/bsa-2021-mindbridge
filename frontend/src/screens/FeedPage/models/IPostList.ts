@@ -1,7 +1,7 @@
-import { IPost } from '@screens/FeedPage/models/IPost';
+import { IPostFeed } from '@screens/FeedPage/models/IPostFeed';
 
 export interface IPostList {
   posts: [
-    IPost
+    IPostFeed
   ];
 }

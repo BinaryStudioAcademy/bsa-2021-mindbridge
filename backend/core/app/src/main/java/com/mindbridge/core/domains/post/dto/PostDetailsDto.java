@@ -2,6 +2,7 @@ package com.mindbridge.core.domains.post.dto;
 
 import com.mindbridge.core.domains.comment.dto.CommentDto;
 import com.mindbridge.core.domains.tag.dto.TagDto;
+import com.mindbridge.core.domains.user.dto.PostAuthorDto;
 import com.mindbridge.core.domains.user.dto.UserDto;
 import lombok.Data;
 
@@ -23,7 +24,7 @@ public class PostDetailsDto {
 
 	private String text;
 
-	private UserDto author;
+	private PostAuthorDto author;
 
 	private Set<TagDto> tags;
 
@@ -42,5 +43,7 @@ public class PostDetailsDto {
 	private Boolean isLiked;
 
 	private List<RelatedPostDto> relatedPosts;
+
+	private Boolean isFavourite;
 
 }

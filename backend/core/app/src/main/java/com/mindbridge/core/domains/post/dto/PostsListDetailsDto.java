@@ -47,6 +47,8 @@ public class PostsListDetailsDto {
 	private Boolean reacted;
 
 	private Boolean isLiked;
+	
+	private Boolean isFavourite;
 
 	public static PostsListDetailsDto fromEntity(Post post, PostsReactionsQueryResult postsReactionsQueryResult) {
 		return PostsListDetailsDto.builder().id(post.getId()).title(post.getTitle()).text(post.getText())
@@ -56,6 +58,7 @@ public class PostsListDetailsDto {
 				.likesCount(postsReactionsQueryResult.likeCount).disLikesCount(postsReactionsQueryResult.disLikeCount)
 				.postRating(postsReactionsQueryResult.likeCount - postsReactionsQueryResult.disLikeCount)
 				.markdown(post.getMarkdown()).coverImage(post.getCoverImage()).avatar(post.getAuthor().getAvatar())
+				.isFavourite(true)
 				.build();
 	}
 

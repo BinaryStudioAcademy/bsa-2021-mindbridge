@@ -1,6 +1,6 @@
 import { ITag } from '@screens/FeedPage/models/ITag';
 
-export interface IPost {
+export interface IPostFeed {
   id: string;
   title: string;
   text: string;
@@ -18,5 +18,6 @@ export interface IPost {
   markdown: boolean;
   reacted: boolean;
   isLiked: boolean;
+  isFavourite: boolean;
 }
 
