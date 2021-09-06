@@ -50,7 +50,7 @@ const initialState: IPullRequestReducerState = {
   },
   endSendingData: false,
   editPrComment: {
-    commentId: '',
+    prCommentId: '',
     text: ''
   }
 };
@@ -79,7 +79,7 @@ export const pullRequestReducer = createReducer(initialState, {
     state.postPR.comments.push(action.payload);
   },
   [editPrCommentRoutine.SUCCESS]: (state, action) => {
-    const message = state.postPR.comments.find(action.payload.id);
-    message.text = action.payload.text;
+    const message = state.postPR.comments.find(comment => comment.id === action.payload.id);
+    message.text = action.payload.editText;
   }
 });

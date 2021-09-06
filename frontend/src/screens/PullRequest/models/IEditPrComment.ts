@@ -1,4 +1,4 @@
 export interface IEditPrComment {
-  commentId: string;
+  prCommentId: string;
   text: string;
 }

@@ -43,20 +43,21 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  // eslint-disable-next-line max-len
-  const checkForNickname = (textComment: string) => textComment.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
-
-  const getLinkToComment = (url: string) => url.split('#')[0];
-
   const [changeablePrComment, setChangeablePrComment] = useState<IEditPrComment>({
     text,
-    commentId: ''
+    prCommentId: ''
   });
-
   const [usersList, setUsersList] = useState({ user: [{
     display: '',
     id: ''
   }] });
+  // eslint-disable-next-line max-len
+  const checkForNickname = (textComment: string) => {
+    const commentText = textComment || changeablePrComment.text;
+    return commentText.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
+  };
+
+  const getLinkToComment = (url: string) => url.split('#')[0];
 
   const handleEditPrComment = (event: any) => {
     setChangeablePrComment({

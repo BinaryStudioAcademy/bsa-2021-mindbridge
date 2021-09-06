@@ -91,7 +91,7 @@ function* sendEditPrComment(action) {
     const editPrComment = {
       response,
       editText: action.payload.text,
-      id: action.payload.commentId
+      id: action.payload.prCommentId
     };
     yield put(editPrCommentRoutine.success(editPrComment));
   } catch (error) {
