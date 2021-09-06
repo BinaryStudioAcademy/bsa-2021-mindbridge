@@ -9,7 +9,7 @@ import FeedTagsSideBar from '@components/FeedTagsSideBar';
 import FeedLogInSidebar from '@components/FeedLogInSidebar';
 import { useScroll } from '@helpers/scrollPosition.helper';
 import { fetchUserProfileRoutine, getPostVersionsRoutine } from '@screens/PostPage/routines';
-import { fetchPostContributionsRoutine } from '@screens/PostVersions/routines';
+import { fetchOpenPostContributionsRoutine, fetchPostContributionsRoutine } from '@screens/PostVersions/routines';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
 import { IContribution } from '@screens/ViewPost/models/IContribution';
@@ -33,7 +33,7 @@ interface IState {
 }
 
 interface IActions {
-  fetchPostContributions: IBindingCallback1<object>;
+  fetchPostContributions: IBindingCallback1<string>;
   fetchUserProfile: IBindingCallback1<string>;
   getPostVersions: IBindingCallback1<object>;
   loadCurrentUser: IBindingAction;
@@ -48,9 +48,9 @@ const Sidebar: React.FC<ISidebarProps> = (
     fetchPostContributions,
     getPostVersions,
     currentUser,
-    userInfo,
     post,
-    loadCurrentUser
+    loadCurrentUser,
+    userInfo
   }
 ) => {
   const { postId } = useParams();
@@ -75,7 +75,7 @@ const Sidebar: React.FC<ISidebarProps> = (
   useEffect(() => {
     if (postId) {
       getPostVersions({ postId });
-      fetchPostContributions({ postId });
+      fetchPostContributions(postId);
     }
   }, [postId]);
 
@@ -111,13 +111,13 @@ const Sidebar: React.FC<ISidebarProps> = (
         {isAuthorized ? (
           <div className={styles.suggestChanges}>
             <div className={styles.profileSideBar}>
-              {currentUser ? (
+              {userInfo ? (
                 <ProfileSidebar
-                  id={currentUser.id}
-                  userName={currentUser.nickname}
-                  avatar={currentUser.avatar}
-                  folloversCount={0}
-                  rating={0}
+                  id={userInfo.id}
+                  userName={userInfo.nickname}
+                  avatar={userInfo.avatar}
+                  folloversCount={userInfo.followersQuantity}
+                  rating={userInfo.rating}
                   postNotificationCount={0}
                 />
               ) : (
@@ -176,7 +176,7 @@ const mapStateToProps: (state) => IState = state => ({
 const mapDispatchToProps: IActions = {
   getPostVersions: getPostVersionsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
-  fetchPostContributions: fetchPostContributionsRoutine,
+  fetchPostContributions: fetchOpenPostContributionsRoutine,
   loadCurrentUser: loadCurrentUserRoutine
 };
 

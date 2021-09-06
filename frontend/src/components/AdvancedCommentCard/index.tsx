@@ -5,6 +5,7 @@ import { IComments } from '@screens/ViewPost/models/IComments';
 import Reply from '@components/AdvancedCommentCard/Reply';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 interface ICommentProps {
   comments: IComments[];
@@ -16,6 +17,8 @@ interface ICommentProps {
   postAuthorId: string;
   handleLikeComment: any;
   handleDislikeComment: any;
+  searchUsersByNickname: any;
+  users: IMentionsUser[];
 }
 
 const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
@@ -28,7 +31,9 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
     isAuthorized,
     postAuthorId,
     handleLikeComment,
-    handleDislikeComment
+    handleDislikeComment,
+    searchUsersByNickname,
+    users
   }
 ) => {
   const [newComment, setNewComment] = useState<IComment>({
@@ -50,7 +55,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
   const handleSendComment = () => {
     if (newComment.text.trim().length) {
       const addComment = {
-        text: newComment.text,
+        text: newComment.text.replace(/<(.+?)>/g, '&lt;$1&gt;'),
         author: userInfo.id,
         postId,
         avatar: userInfo.avatar,
@@ -126,6 +131,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
                 sendComment={sendComment}
                 postId={postId}
                 commentId={comment.id}
+                commentProp={comment}
                 sendReply={sendReply}
                 isAuthorized={isAuthorized}
                 userInfo={userInfo}
@@ -133,6 +139,8 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
                 parentCommentId={comment.id}
                 handleDislikeComment={handleDislikeComment}
                 handleLikeComment={handleLikeComment}
+                users={users}
+                searchUsersByNickname={searchUsersByNickname}
               />
             ))}
           </div>

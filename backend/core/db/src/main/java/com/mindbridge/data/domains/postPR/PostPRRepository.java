@@ -38,6 +38,10 @@ public interface PostPRRepository extends JpaRepository<PostPR, UUID>, JpaSpecif
 	@Query("SELECT pr from PostPR pr where pr.deleted = false and pr.post.id = :postId order by pr.createdAt desc")
 	List<PostPR> getPostPRByPostId(UUID postId, Pageable pageable);
 
+	@Query("SELECT pr from PostPR pr where pr.deleted = false and pr.post.id = :postId and pr.state = :state order by pr.createdAt desc")
+	List<PostPR> getOpenPostPRByPostId(UUID postId, PostPR.State state, Pageable pageable);
+
+
 	int countPostPRByContributorId(UUID id);
 
 	@Query("SELECT pr from PostPR pr where pr.deleted = false and pr.contributor.id = :id order by pr.createdAt desc")

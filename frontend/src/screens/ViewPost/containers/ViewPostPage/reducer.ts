@@ -1,18 +1,25 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import {
+  fetchHighlightsRoutine,
   fetchDataRoutine, leaveReactionOnCommentRoutine,
-  leaveReactionOnPostViewPageRoutine,
+  leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
   sendReplyRoutine
 } from '@screens/ViewPost/routines';
 import { IPost } from '../../models/IPost';
+import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
+import { IUsers } from '@screens/ViewPost/models/IUsers';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 
 export interface IViewPostReducerState {
   post: IPost;
   comment: IComment;
   reply: ICommentReply;
+  highlights: IHighlight[];
+  users: IMentionsUser[];
 }
 
 const initialState: IViewPostReducerState = {
@@ -30,8 +37,11 @@ const initialState: IViewPostReducerState = {
     markdown: false,
     draft: false,
     author: { id: '', firstName: '', lastName: '', avatar: null, nickname: '' },
-    comments: []
+    relatedPosts: [],
+    comments: [],
+    isFavourite: false
   },
+  highlights: undefined,
   comment: {
     text: '',
     author: '',
@@ -48,7 +58,8 @@ const initialState: IViewPostReducerState = {
     avatar: null,
     nickname: '',
     rating: 0
-  }
+  },
+  users: []
 };
 
 const findById = (id, comments, idx = 0) => {
@@ -82,6 +93,9 @@ export const viewPostReducer = createReducer(initialState, {
       state.post.rating -= action.payload.difference;
     }
   },
+  [fetchHighlightsRoutine.SUCCESS]: (state, action) => {
+    state.highlights = action.payload;
+  },
   [sendCommentRoutine.SUCCESS]: (state, action) => {
     state.comment = initialState.comment;
     state.post.comments.unshift(action.payload);
@@ -108,5 +122,14 @@ export const viewPostReducer = createReducer(initialState, {
       message.rating -= action.payload.difference;
       message.rating -= action.payload.difference;
     }
+  },
+  [searchUserByNicknameRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUsers>) => {
+    state.users = payload.users;
+  },
+  [saveFavouritePostRoutine.SUCCESS]: state => {
+    state.post.isFavourite = true;
+  },
+  [deleteFavouritePostRoutine.TRIGGER]: state => {
+    state.post.isFavourite = false;
   }
 });

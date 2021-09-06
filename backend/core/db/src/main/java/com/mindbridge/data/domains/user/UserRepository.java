@@ -51,4 +51,5 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
 			+ "and created_at > (current_date - interval '5 year 1 day') ", nativeQuery = true)
 	List<User> getUsersByFiveYearsAfterRegistration();
 
+  User findByActivationCode(String code);
 }

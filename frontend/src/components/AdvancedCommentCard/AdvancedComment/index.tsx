@@ -14,7 +14,11 @@ import RatingComponent from '@screens/ViewPost/components/svgs/RatingIcon';
 import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
 import { Popup } from 'semantic-ui-react';
 import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
-import TextRender from '@components/TextRenderer';
+import parse from 'html-react-parser';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import Image from '@components/Image';
+import { defaultAvatar } from '@images/defaultImages';
+import { IComments } from '@screens/ViewPost/models/IComments';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -34,6 +38,9 @@ interface IBasicCommentProps {
   parentCommentId: string;
   handleLikeComment: any;
   handleDislikeComment: any;
+  searchUsersByNickname: any;
+  users: IMentionsUser[];
+  comment: IComments;
 }
 /* eslint-disable max-len */
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
@@ -54,12 +61,19 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     parentCommentId,
     postAuthorId,
     handleLikeComment,
-    handleDislikeComment
+    handleDislikeComment,
+    searchUsersByNickname,
+    users,
+    comment
   }
 ) => {
   const [disabled, setDisabled] = useState(false);
   const [rotateArrowHook, setRotateArrowHook] = useState(false);
   const [shouldRender] = useState(setShouldRender);
+  const [usersList, setUsersList] = useState({ user: [{
+    display: '',
+    id: ''
+  }] });
 
   const rotateArrow = {
     width: '0.7142em',
@@ -80,14 +94,6 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
 
   const getLinkToComment = (url: string) => url.split('#')[0];
 
-  function fetchUsers(query, callback) {
-    if (!query) return;
-    fetch(`/api/user/finduser/${query}`)
-      .then(res => res.json())
-      .then(res => res.map(user => ({ display: `@${user.nickname}`, id: user.id })))
-      .then(callback);
-  }
-
   return (
     <ScrollableAnchor id={commentId}>
       <div className={styles.advancedComment}>
@@ -99,7 +105,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           )}
           <div className={styles.commentAuthor}>
             <a href={`/user/${author.id}`} className="avatar">
-              <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
+              <Image alt="avatar" src={author.avatar ?? defaultAvatar} />
             </a>
             <a
               href={`/user/${author.id}`}
@@ -113,13 +119,12 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
             </div>
           </div>
           <div className={styles.commentRightAction}>
-            { userInfo.id !== author.id && (
             <div className={styles.ratingComponent}>
               <RatingComponent
-                postRating={commentRating}
+                postRating={commentRating ?? 0}
                 handleDisLikePost={handleDislikeComment}
                 handleLikePost={handleLikeComment}
-                postId={commentId}
+                post={comment}
                 userInfo={userInfo}
                 arrowUpColor={userInfo.userReactionsComments
                   .find(commentReaction => commentReaction.commentId === commentId && commentReaction.liked)
@@ -134,7 +139,6 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                   )}
               />
             </div>
-            )}
             { shouldRender
           && (
           <Popup
@@ -176,26 +180,10 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                 </span>
               )}
             />
-            <Popup
-              content="Share comment"
-              mouseEnterDelay={1000}
-              closeOnTriggerClick
-              on="hover"
-              position="top center"
-              trigger={(
-                <a href="/">
-                  <ShareCommentSvg />
-                </a>
-              )}
-            />
           </div>
         </div>
         <div className="text">
-          <TextRender
-            className={styles.commentText}
-            markdown={false}
-            content={checkForNickname(text)}
-          />
+          {parse(checkForNickname(text))}
         </div>
         { isAuthorized && (
         <div className={styles.dsa}>
@@ -205,12 +193,13 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           {disabled && (
           <div className={styles.replayBlock}>
             <AsyncUserMentions
-              data={fetchUsers}
               setDisabled={setDisabled}
               userInfo={userInfo}
               postId={postId}
               commentId={commentId}
               sendReply={sendReply}
+              users={users}
+              searchUsersByNickname={searchUsersByNickname}
             />
           </div>
           )}

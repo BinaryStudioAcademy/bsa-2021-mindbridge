@@ -17,6 +17,8 @@ import { IAchievementToUser } from '../../models/IAchievementToUser';
 import Achievement from '@root/components/Achievement';
 import ScrollLifeSvg from './svg/scrollLiftSvg';
 import ScrollRightSvg from './svg/scrollRightSvg';
+import Image from '@components/Image';
+import { defaultAvatar } from '@images/defaultImages';
 
 interface IPublicProfileCardProps extends IState, IActions {
   user: IUser;
@@ -58,14 +60,14 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
         <div className={styles.contentWrp}>
           <div className={styles.avatarWrp}>
             <div className={styles.imgContainer}>
-              {(userData.avatar === '' || userData.avatar === null) ? (
-                <img
+              { (userData.avatar === '' || userData.avatar === null) ? (
+                <Image
                   className={styles.avatar}
-                  src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+                  src={defaultAvatar}
                   alt="avatar"
                 />
               ) : (
-                <img
+                <Image
                   className={styles.avatar}
                   src={userData.avatar}
                   alt="avatar"
