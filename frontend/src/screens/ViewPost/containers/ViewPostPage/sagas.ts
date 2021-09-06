@@ -87,7 +87,12 @@ function* sendReply(action) {
 function* sendEditComment(actions) {
   try {
     const response = yield call(viewPageService.editComment, actions.payload);
-    yield put(editCommentRoutine.success(response));
+    const editComment = {
+      response,
+      editText: actions.payload.text,
+      id: actions.payload.commentId
+    };
+    yield put(editCommentRoutine.success(editComment));
     toastr.success('Success', 'Edit was sent');
   } catch (error) {
     toastr.error('Error', 'Edit send failed');
