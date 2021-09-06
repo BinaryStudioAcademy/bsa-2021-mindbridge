@@ -1,4 +1,5 @@
 import { IPostTitle } from '@screens/ProfilePage/models/IPostTitle';
+import { IFollower } from '@screens/ProfilePage/models/IFollower';
 
 export interface IUser {
   id: string;
@@ -10,8 +11,8 @@ export interface IUser {
   commentsQuantity: number;
   postsQuantity: number;
   contributionsQuantity: number;
-  followers: [{ id: string; nickname: string; avatar: string; followerId: string }];
-  following: [{ id: string; nickname: string; avatar: string; followerId: string }];
+  followers: IFollower[];
+  following: IFollower[];
   followersQuantity: number;
   followingQuantity: number;
   lastArticleTitles: IPostTitle[];
