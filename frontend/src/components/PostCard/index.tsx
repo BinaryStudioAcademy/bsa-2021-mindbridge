@@ -30,16 +30,16 @@ interface IPostCardProps {
 
 const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, handleDisLikePost,
   userInfo, handleFavouriteAction }) => {
-    const [popupContent, setPopupContent] = useState('Copy link');
-    const handleShare = () => {
-      setPopupContent('Copied');
-    };
+  const [popupContent, setPopupContent] = useState('Copy link');
+  const handleShare = () => {
+    setPopupContent('Copied');
+  };
 
-    const handleOnClose = () => {
-      setPopupContent('Copy link');
-    };
-  
-    const getFavouriteAction = () => {
+  const handleOnClose = () => {
+    setPopupContent('Copy link');
+  };
+
+  const getFavouriteAction = () => {
     handleFavouriteAction(post);
   };
 

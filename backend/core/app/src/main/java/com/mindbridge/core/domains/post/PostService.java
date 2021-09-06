@@ -110,7 +110,7 @@ public class PostService {
 		var allPosts = postRepository.getAllPosts(pageable).stream()
 			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
 			.collect(Collectors.toList());
-		var favouritePosts = favouriteRepository.getAllPostByUserId(userId);
+		var favouritePosts = favouriteRepository.getAllPostByUserId(currentUser.getId());
 		allPosts.forEach(post -> setIfFavourite(favouritePosts, post));
 
 		return allPosts.stream().peek(post -> {
@@ -119,7 +119,7 @@ public class PostService {
 			reaction.ifPresent(postReaction -> post.setIsLiked(postReaction.getLiked()));
 		}).collect(Collectors.toList());
 	}
-	
+
 	public void setIfFavourite(List<Favorite> favouritePosts, PostsListDetailsDto post) {
 		var found = favouritePosts.stream().filter(favouritePost -> favouritePost.getPost().getId().toString().equals(post.getId())).findFirst();
 		post.setIsFavourite(found.isPresent());
