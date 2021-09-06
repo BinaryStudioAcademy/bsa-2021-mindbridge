@@ -6,33 +6,20 @@ import {
   loadCountResultsRoutine,
   searchPostsRoutine
 } from '@screens/FeedPage/routines';
-import { IPost } from '@screens/FeedPage/models/IPost';
+import { IPostFeed } from '@screens/FeedPage/models/IPostFeed';
 import { IPostList } from '@screens/FeedPage/models/IPostList';
 import { isEmptyArray } from 'formik';
+import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 
 export interface IFeedPageReducerState {
-  posts: [IPost];
+  posts: IPostFeed[];
   hasMore: boolean;
   loadMore: boolean;
   countResults: number;
 }
 
 const initialState: IFeedPageReducerState = {
-  posts: [{
-    id: '',
-    title: '',
-    text: '',
-    author: undefined,
-    commentsCount: 0,
-    likesCount: 0,
-    disLikesCount: 0,
-    tags: [{ id: '', name: '' }],
-    createdAt: '',
-    postRating: 0,
-    avatar: '',
-    coverImage: '',
-    markdown: false
-  }],
+  posts: [],
   countResults: 0,
   hasMore: true,
   loadMore: false
@@ -82,6 +69,16 @@ export const feedPageReducer = createReducer(initialState, {
       post.postRating -= action.payload.difference;
       post.disLikesCount += action.payload.difference;
       post.postRating -= action.payload.difference;
+    }
+  },
+  [saveFavouritePostRoutine.SUCCESS]: (state, action) => {
+    if (state.posts) {
+      state.posts.find(post => post.id === action.payload).isFavourite = true;
+    }
+  },
+  [deleteFavouritePostRoutine.TRIGGER]: (state, action) => {
+    if (state.posts) {
+      state.posts.find(post => post.id === action.payload).isFavourite = false;
     }
   }
 });

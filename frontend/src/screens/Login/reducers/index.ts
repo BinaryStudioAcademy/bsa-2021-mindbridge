@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { reducerCreator } from '@helpers/reducer.helper';
 import { loadCurrentUserRoutine, loginRoutine, registerRoutine } from '../routines/index';
 import { authReducer } from '@screens/Login/containers/reducer';
-import { RootState } from '@root/store';
 /* PlopJS import placeholder. Do not remove */
 
 const requests = combineReducers({

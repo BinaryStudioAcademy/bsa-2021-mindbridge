@@ -822,7 +822,6 @@
 									"        \"author\": { \"type\": \"object\",",
 									"                    \"properties\": {",
 									"                    \"id\": { \"type\": \"string\" },",
-									"                    \"createdAt\": { \"type\": \"string\" },",
 									"                    \"nickname\": { \"type\": \"string\" },",
 									"                    \"avatar\": { \"type\": [\"null\", \"string\"] },",
 									"                    \"email\": { \"type\": \"string\" },",

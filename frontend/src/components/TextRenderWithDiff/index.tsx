@@ -39,7 +39,6 @@ const addDiffStylesHtml = (diffs: IDiff []) => {
 const TextRenderWithDiff: React.FC<ITextRenderWithDiffProps> = ({ className, content, oldContent, markdown }) => {
   const oldContentHtml: string = markdown ? marked(oldContent) : oldContent;
   const contentHtml: string = markdown ? marked(content) : content;
-  console.log(marked(oldContent));
 
   const options = {
     ignoreAttributes: ['class', 'id'],

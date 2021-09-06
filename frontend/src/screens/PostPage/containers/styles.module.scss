@@ -18,6 +18,14 @@
         font-family: lato;
     }
     z-index: 0.5;
+
+    .postName {
+      margin: 1rem 0 1.5rem 0;
+      font-family: Libre Baskerville, sans-serif;
+      font-weight: bold;
+      font-size: 2rem;
+      line-height: 120%;
+    }
 }
 
 .header{
