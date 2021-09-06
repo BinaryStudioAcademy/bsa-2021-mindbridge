@@ -69,7 +69,7 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
         </Dropdown>
       </div>
       <div className={styles.sidebar_links}>
-        <Link to="/drafts">
+        <Link to="/my/posts">
           <DraftSvg />
           <span>Posts</span>
         </Link>

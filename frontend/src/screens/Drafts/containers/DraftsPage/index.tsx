@@ -26,7 +26,7 @@ interface IActions {
 const Drafts: React.FC<IDraftsProps> = (
   { fetchDrafts, drafts, currentUser, isDataLoading }
 ) => {
-  const [draftsOnly, setDraftsOnly] = useState(true);
+  const [draftsOnly, setDraftsOnly] = useState(false);
 
   useEffect(() => {
     if (currentUser.id) {
@@ -44,8 +44,8 @@ const Drafts: React.FC<IDraftsProps> = (
       <div className={styles.draftsPage}>
         <div className={styles.togglePosts}>
           {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
-          <div onClick={handleTogglePostsType} className={!draftsOnly ? styles.checked : styles.checkbox} />
-          <span>See all posts</span>
+          <div onClick={handleTogglePostsType} className={draftsOnly ? styles.checked : styles.checkbox} />
+          <span>Drafts only</span>
         </div>
         <div className={styles.main}>
           <LoaderWrapper className={styles.loader} loading={isDataLoading} />
@@ -58,8 +58,8 @@ const Drafts: React.FC<IDraftsProps> = (
     <div className={styles.draftsPage}>
       <div className={styles.togglePosts}>
         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
-        <div onClick={handleTogglePostsType} className={!draftsOnly ? styles.checked : styles.checkbox} />
-        <span>See all posts</span>
+        <div onClick={handleTogglePostsType} className={draftsOnly ? styles.checked : styles.checkbox} />
+        <span>Drafts only</span>
       </div>
       <div className={styles.main}>
         {drafts.length ? (
