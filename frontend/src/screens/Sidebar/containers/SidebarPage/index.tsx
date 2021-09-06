@@ -49,7 +49,8 @@ const Sidebar: React.FC<ISidebarProps> = (
     getPostVersions,
     currentUser,
     post,
-    loadCurrentUser
+    loadCurrentUser,
+    userInfo
   }
 ) => {
   const { postId } = useParams();
