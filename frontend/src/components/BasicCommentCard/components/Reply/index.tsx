@@ -11,19 +11,21 @@ interface ICommentProps {
   author: IUser;
   sendCommentPR: IBindingCallback1<object>;
   userInfo: ICurrentUser;
-  prId: string;
+  prCommentId: string;
 }
 
 const Reply: FunctionComponent<ICommentProps> = ({
   author,
   createdAt,
-  text
+  text,
+  prCommentId
 }) => (
   <div className={styles.comment}>
     <BasicComment
       createdAt={createdAt}
       text={text}
       author={author}
+      prCommentId={prCommentId}
     />
   </div>
 );

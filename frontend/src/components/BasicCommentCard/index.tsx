@@ -42,8 +42,8 @@ const BasicCommentsFeed: FunctionComponent<ICommentProps> = ({
             createdAt={comment.createdAt}
             text={comment.text}
             author={comment.author}
+            prCommentId={comment.id}
             userInfo={userInfo}
-            prId={prId}
             sendCommentPR={sendCommentPR}
           />
         ))}
