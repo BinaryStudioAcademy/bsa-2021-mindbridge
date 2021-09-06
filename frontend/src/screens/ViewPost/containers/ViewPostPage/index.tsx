@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
 import {
@@ -25,6 +25,7 @@ import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
+import { getUserIpRoutine } from '@root/screens/Login/routines';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -37,6 +38,7 @@ interface IState {
   data: IData;
   dataDeleting: boolean;
   users: IMentionsUser[];
+  userIp: string;
 }
 
 interface IActions {
@@ -55,6 +57,7 @@ interface IActions {
   searchUsersByNickname: IBindingCallback1<string>;
   saveFavouritePost: IBindingCallback1<object>;
   deleteFavouritePost: IBindingCallback1<string>;
+  getUserIp: IBindingAction;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -79,10 +82,17 @@ const ViewPost: React.FC<IViewPostProps> = (
     searchUsersByNickname,
     users,
     saveFavouritePost,
-    deleteFavouritePost
+    deleteFavouritePost,
+    getUserIp
   }
 ) => {
   const { postId } = useParams();
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      getUserIp();
+    }
+  });
 
   useEffect(() => {
     fetchData(postId);
@@ -215,7 +225,8 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   userInfo: state.postPageReducer.data.profile,
   highlights: state.highlightsReducer.data.highlights,
   dataDeleting: extractHighlightDeletion(state),
-  users: extractData(state).users
+  users: extractData(state).users,
+  userIp: state.auth.auth.userIp
 });
 
 const mapDispatchToProps: IActions = {
@@ -233,7 +244,8 @@ const mapDispatchToProps: IActions = {
   leaveReactionOnComment: leaveReactionOnCommentRoutine,
   searchUsersByNickname: searchUserByNicknameRoutine,
   saveFavouritePost: saveFavouritePostRoutine,
-  deleteFavouritePost: deleteFavouritePostRoutine
+  deleteFavouritePost: deleteFavouritePostRoutine,
+  getUserIp: getUserIpRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);

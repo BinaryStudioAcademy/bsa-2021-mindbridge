@@ -1,6 +1,6 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { authUser, getCurrentUser, setToken } from '@root/services/auth.service';
-import { loadCurrentUserRoutine, loginRoutine, registerRoutine } from '../routines';
+import { authUser, getCurrentUser, setToken, userIp } from '@root/services/auth.service';
+import { getUserIpRoutine, loadCurrentUserRoutine, loginRoutine, registerRoutine } from '../routines';
 import { REFRESH_TOKEN } from '@screens/Login/constants/auth_constants';
 import { toastr } from 'react-redux-toastr';
 
@@ -61,11 +61,27 @@ function* loadCurrentUser() {
 function* watchLoadCurrentUser() {
   yield takeEvery(loadCurrentUserRoutine.TRIGGER, loadCurrentUser);
 }
+
+function* getUserIp() {
+  try {
+    const res: any = yield call(userIp);
+    console.log(res);
+    yield put(getUserIpRoutine.success(res.data.IPv4));
+  } catch (ex) {
+    toastr.error('Error', 'cant get ip');
+  }
+}
+
+function* watchGetUserIp() {
+  yield takeEvery(getUserIpRoutine.TRIGGER, getUserIp);
+}
+
 export default function* authSagas() {
   yield all([
     loadUser(),
     watchLogin(),
     watchRegister(),
-    watchLoadCurrentUser()
+    watchLoadCurrentUser(),
+    watchGetUserIp()
   ]);
 }
