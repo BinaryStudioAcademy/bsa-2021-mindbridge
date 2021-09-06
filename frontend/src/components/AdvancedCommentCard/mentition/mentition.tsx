@@ -41,8 +41,6 @@ const AsyncUserMentions: FunctionComponent<IUserMentionsProps> = (
     editMode
   }
 ) => {
-  console.log('EDIT_MODE');
-  console.log(editMode);
   const [newReply, setNewReply] = useState<ICommentReply>({
     author: '',
     postId: '',
