@@ -30,16 +30,16 @@ interface IPostCardProps {
 
 const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, handleDisLikePost,
   userInfo, handleFavouriteAction }) => {
-    const [popupContent, setPopupContent] = useState('Copy link');
-    const handleShare = () => {
-      setPopupContent('Copied');
-    };
+  const [popupContent, setPopupContent] = useState('Copy link');
+  const handleShare = () => {
+    setPopupContent('Copied');
+  };
 
-    const handleOnClose = () => {
-      setPopupContent('Copy link');
-    };
-  
-    const getFavouriteAction = () => {
+  const handleOnClose = () => {
+    setPopupContent('Copy link');
+  };
+
+  const getFavouriteAction = () => {
     handleFavouriteAction(post);
   };
 
@@ -62,14 +62,12 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
                 handleDisLikePost={handleDisLikePost}
                 postId={post.id}
                 userInfo={userInfo}
-                arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                  && postReaction.liked)
+                arrowUpColor={post.reacted && post.isLiked
                   ? ('#8AC858'
                   ) : (
                     '#66B9FF'
                   )}
-                arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                  && !postReaction.liked)
+                arrowDownColor={post.reacted && !post.isLiked
                   ? ('#F75C48'
                   ) : (
                     '#66B9FF'
