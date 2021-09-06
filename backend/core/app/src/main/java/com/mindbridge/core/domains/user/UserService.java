@@ -1,4 +1,5 @@
 package com.mindbridge.core.domains.user;
+
 import com.mindbridge.core.domains.commentReaction.dto.UserReactionsCommentsDto;
 import com.mindbridge.core.domains.helpers.mailSender.MailSender;
 import com.mindbridge.core.domains.user.dto.*;
@@ -136,17 +137,10 @@ public class UserService implements UserDetailsService {
 		userRepository.save(user);
 
 		String message = String.format(
-			"Dear %s! \n" +
-				"You successfully registration on MindBridge \n" +
-				"\n" +
-				"please follow the link to activate your account: "+ "%s" +"activate/%s" +
-				"\n" +
-				"\n" +
-				"Best regards, MindBride administration",
-			user.getNickname(),
-			appDomain,
-			user.getActivationCode()
-		);
+				"Dear %s! \n" + "You successfully registration on MindBridge \n" + "\n"
+						+ "please follow the link to activate your account: " + "%s" + "activate/%s" + "\n" + "\n"
+						+ "Best regards, MindBride administration",
+				user.getNickname(), appDomain, user.getActivationCode());
 		mailSender.sendEmail(user.getEmail(), "Thank you for registration on MindBridge", message);
 	}
 

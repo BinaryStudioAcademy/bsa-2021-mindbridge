@@ -28,7 +28,7 @@ public class CommentService {
 	@Lazy
 	@Autowired
 	public CommentService(CommentRepository commentRepository, CommentReactionRepository commentReactionRepository,
-		AchievementHelper achievementHelper) {
+			AchievementHelper achievementHelper) {
 		this.commentRepository = commentRepository;
 		this.commentReactionRepository = commentReactionRepository;
 		this.achievementHelper = achievementHelper;

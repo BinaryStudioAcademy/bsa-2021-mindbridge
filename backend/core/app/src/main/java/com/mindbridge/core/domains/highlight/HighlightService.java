@@ -31,17 +31,19 @@ public class HighlightService {
 	public List<HighlightsDetailsDto> getAllHighlights(UUID userId, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 		var highlights = highlightRepository.getAllByUserId(userId, pageable);
-		return highlights.stream().map(HighlightMapper.MAPPER::fromHighlightToHighlightDetailsDto).collect(Collectors.toList());
+		return highlights.stream().map(HighlightMapper.MAPPER::fromHighlightToHighlightDetailsDto)
+				.collect(Collectors.toList());
 	}
 
-
-    public UUID deleteHighlight(UUID id) {
+	public UUID deleteHighlight(UUID id) {
 		highlightRepository.deleteById(id);
 		return id;
-    }
+	}
 
 	public List<HighlightsDetailsDto> getAllHighlights(UUID userId) {
 		var highlights = highlightRepository.getAllByUserId(userId);
-		return highlights.stream().map(HighlightMapper.MAPPER::fromHighlightToHighlightDetailsDto).collect(Collectors.toList());
+		return highlights.stream().map(HighlightMapper.MAPPER::fromHighlightToHighlightDetailsDto)
+				.collect(Collectors.toList());
 	}
+
 }

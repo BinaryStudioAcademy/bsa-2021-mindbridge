@@ -11,5 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 public interface AchievementRepository extends JpaRepository<Achievement, UUID>, JpaSpecificationExecutor<Achievement> {
 
 	@Query("Select ach from Achievement ach order by ach.type, ach.level")
-  	List<Achievement> getAllOrderByType();
+	List<Achievement> getAllOrderByType();
+
 }

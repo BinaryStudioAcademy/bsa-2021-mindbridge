@@ -43,8 +43,8 @@ public class User extends BaseAuditableEntity {
 
 	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinTable(name = "users_achievements", joinColumns = @JoinColumn(name = "user_id"),
-		inverseJoinColumns = @JoinColumn(name = "achievement_id"))
-	private Set<Achievement>  achievements = new HashSet<>();
+			inverseJoinColumns = @JoinColumn(name = "achievement_id"))
+	private Set<Achievement> achievements = new HashSet<>();
 
 	@Override
 	public String toString() {

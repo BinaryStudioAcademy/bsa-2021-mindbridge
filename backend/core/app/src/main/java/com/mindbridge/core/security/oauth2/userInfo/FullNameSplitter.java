@@ -4,7 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class FullNameSplitter {
+
 	private String firstName;
+
 	private String lastName;
 
 	public static FullNameSplitter fromFullName(String fullName) {
@@ -18,4 +20,5 @@ public class FullNameSplitter {
 		}
 		return fullNameSplitter;
 	}
+
 }

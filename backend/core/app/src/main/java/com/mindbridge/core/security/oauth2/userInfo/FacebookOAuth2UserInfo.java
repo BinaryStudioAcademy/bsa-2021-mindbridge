@@ -8,10 +8,15 @@ import java.util.Map;
 @Slf4j
 @Getter
 public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
+
 	private final String avatarUrl;
+
 	private final String firstName;
+
 	private final String lastName;
+
 	private final String nickname;
+
 	private final String email;
 
 	public FacebookOAuth2UserInfo(Map<String, Object> attributes, OAuthProfileHelper profileHelper) {
@@ -32,9 +37,11 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
 			@SuppressWarnings("unchecked")
 			var pictureMap = (Map<String, Map<String, String>>) pictureAttribute;
 			return pictureMap.get("data").get("url");
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error("Can't get facebook avatar", e);
 			return null;
 		}
 	}
+
 }

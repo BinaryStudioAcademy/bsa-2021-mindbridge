@@ -17,4 +17,5 @@ public interface FavoriteRepository extends JpaRepository<Favorite, UUID>, JpaSp
 	List<Favorite> getAllPostByUserId(UUID userId);
 
 	Optional<Favorite> getFavoriteByPostId(UUID id);
+
 }

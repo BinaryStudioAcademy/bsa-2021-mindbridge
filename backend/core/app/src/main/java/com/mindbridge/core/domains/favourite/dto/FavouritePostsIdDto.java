@@ -8,4 +8,5 @@ import java.util.UUID;
 public class FavouritePostsIdDto {
 
 	private UUID postId;
+
 }

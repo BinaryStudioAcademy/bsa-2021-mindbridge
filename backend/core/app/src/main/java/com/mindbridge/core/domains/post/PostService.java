@@ -68,9 +68,7 @@ public class PostService {
 
 		List<String> tags = post.getTags().stream().map(TagDto::getName).collect(Collectors.toList());
 		List<RelatedPostDto> relatedPostsDto = postRepository.getRelatedPostsByTags(id, tags, PageRequest.of(0, 3))
-			.stream()
-			.map(PostMapper.MAPPER::postToRelatedPostDto)
-			.collect(Collectors.toList());
+				.stream().map(PostMapper.MAPPER::postToRelatedPostDto).collect(Collectors.toList());
 
 		relatedPostsDto.forEach(p -> p.setRating(postReactionService.calcPostRatingById(p.getId())));
 		relatedPostsDto.sort(Comparator.comparingLong(RelatedPostDto::getRating).reversed());
@@ -89,15 +87,16 @@ public class PostService {
 	public List<PostsListDetailsDto> getAllPosts(Integer from, Integer count, UUID userId) {
 		var pageable = PageRequest.of(from / count, count);
 		var allPosts = postRepository.getAllPosts(pageable).stream()
-			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
-			.collect(Collectors.toList());
+				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+				.collect(Collectors.toList());
 		var favouritePosts = favouriteRepository.getAllPostByUserId(userId);
 		allPosts.forEach(post -> setIfFavourite(favouritePosts, post));
 		return allPosts;
 	}
 
 	public void setIfFavourite(List<Favorite> favouritePosts, PostsListDetailsDto post) {
-		var found = favouritePosts.stream().filter(favouritePost -> favouritePost.getPost().getId().toString().equals(post.getId())).findFirst();
+		var found = favouritePosts.stream()
+				.filter(favouritePost -> favouritePost.getPost().getId().toString().equals(post.getId())).findFirst();
 		post.setIsFavourite(found.isPresent());
 	}
 

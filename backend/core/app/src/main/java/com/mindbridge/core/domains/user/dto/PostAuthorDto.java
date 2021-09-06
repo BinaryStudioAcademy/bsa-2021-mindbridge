@@ -6,9 +6,11 @@ import java.util.UUID;
 
 @Data
 public class PostAuthorDto {
+
 	private UUID id;
 
 	private String nickname;
 
 	private String avatar;
+
 }

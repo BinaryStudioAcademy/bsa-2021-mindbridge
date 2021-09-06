@@ -34,7 +34,8 @@ public class NotificationService {
 		return notificationRepository.calcUnreadNotifications(userId);
 	}
 
-	public void createNotification(UUID receiverId, String authorNicknameOrAwardTitle, UUID sourceId, Notification.Type type) {
+	public void createNotification(UUID receiverId, String authorNicknameOrAwardTitle, UUID sourceId,
+			Notification.Type type) {
 		CreateNotificationDto createNotificationDto = new CreateNotificationDto();
 		createNotificationDto.setSourceId(sourceId);
 		createNotificationDto.setReceiverId(receiverId);
@@ -59,9 +60,8 @@ public class NotificationService {
 			createNotificationDto.setType("newFollower");
 			break;
 		}
-		case newAchievement:{
-			description = "Congratulations! You get a new award. "
-				+ "\"" + authorNicknameOrAwardTitle + "\"";
+		case newAchievement: {
+			description = "Congratulations! You get a new award. " + "\"" + authorNicknameOrAwardTitle + "\"";
 			destination = "newAchievement";
 			createNotificationDto.setType("newAchievement");
 			break;

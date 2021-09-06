@@ -8,6 +8,7 @@ import java.util.UUID;
 
 @Data
 public class HighlightsDetailsDto {
+
 	private String text;
 
 	private UUID id;
@@ -29,4 +30,5 @@ public class HighlightsDetailsDto {
 	private int offSetStart;
 
 	private int offSetEnd;
+
 }

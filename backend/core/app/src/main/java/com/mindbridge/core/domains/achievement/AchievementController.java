@@ -13,14 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("achievement")
 @Validated
 public class AchievementController {
+
 	private final AchievementService achievementService;
 
-	public AchievementController(AchievementService achievementService){
+	public AchievementController(AchievementService achievementService) {
 		this.achievementService = achievementService;
 	}
 
 	@GetMapping("/byUser/{id}")
-	public List<AchievementToUserDto> getAllByUserId(@PathVariable UUID id){
+	public List<AchievementToUserDto> getAllByUserId(@PathVariable UUID id) {
 		return achievementService.getAllByUserId(id);
 	}
+
 }

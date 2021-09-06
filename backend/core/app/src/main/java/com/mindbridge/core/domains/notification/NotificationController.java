@@ -32,7 +32,6 @@ public class NotificationController {
 		return notificationService.getNotificationList(id, onlyUnread, from, count);
 	}
 
-
 	@PutMapping("/{id}")
 	public void toggleNotificationRead(@PathVariable UUID id) {
 		notificationService.toggleNotificationRead(id);

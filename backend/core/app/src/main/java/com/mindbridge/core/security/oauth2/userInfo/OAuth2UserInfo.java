@@ -5,6 +5,7 @@ import java.util.Map;
 public abstract class OAuth2UserInfo {
 
 	protected Map<String, Object> attributes;
+
 	protected OAuthProfileHelper profileHelper;
 
 	public OAuth2UserInfo(Map<String, Object> attributes, OAuthProfileHelper profileHelper) {

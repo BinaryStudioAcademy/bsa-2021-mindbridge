@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class AchievementToUserDto {
+
 	private UUID id;
 
 	private String text;
@@ -16,4 +17,5 @@ public class AchievementToUserDto {
 	private Integer level;
 
 	private boolean hasAchievement;
+
 }

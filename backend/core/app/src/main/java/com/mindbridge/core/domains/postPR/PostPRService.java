@@ -113,8 +113,8 @@ public class PostPRService {
 
 	public List<PostPRListDto> getOpenPostPRsByPostId(UUID id, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
-		return postPRRepository.getOpenPostPRByPostId(id, State.open, pageable).stream().map(PostPRMapper.MAPPER::postPRToPostPRList)
-			.collect(Collectors.toList());
+		return postPRRepository.getOpenPostPRByPostId(id, State.open, pageable).stream()
+				.map(PostPRMapper.MAPPER::postPRToPostPRList).collect(Collectors.toList());
 	}
 
 	public boolean editPR(EditPostPRDto editPR, UserPrincipal userPrincipal) {

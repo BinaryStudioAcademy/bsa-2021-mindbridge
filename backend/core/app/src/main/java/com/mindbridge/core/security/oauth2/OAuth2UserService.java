@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OAuth2UserService extends DefaultOAuth2UserService {
+
 	private final UserRepository userRepository;
+
 	private final OAuth2UserInfoFactory oAuth2UserInfoFactory;
 
 	public OAuth2UserService(UserRepository userRepository, OAuth2UserInfoFactory oAuth2UserInfoFactory) {
@@ -64,6 +66,5 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 		newUser.setEmailVerified(true);
 		userRepository.save(newUser);
 	}
-
 
 }
