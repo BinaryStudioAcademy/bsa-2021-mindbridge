@@ -4,7 +4,7 @@ import provideValue from './provideValue';
 import { MentionsInput, Mention } from 'react-mentions';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import { useDebouncedCallback } from 'use-debounce';
-import {ICommentPR} from '@screens/PullRequest/models/ICommentPR';
+import { ICommentPR } from '@screens/PullRequest/models/ICommentPR';
 
 function UserPrMentions(
   {

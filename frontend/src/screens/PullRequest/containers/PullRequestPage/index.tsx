@@ -28,6 +28,9 @@ import OpenSvg from '@root/components/MyContributionsItem/svg/openSvg';
 import GoBackButton from '@root/components/buttons/GoBackButton';
 import SyntaxHighlighterComponent from '@root/components/SyntaxHighlighter';
 import BasicCommentsFeed from '@components/BasicCommentCard';
+import { searchUserByNicknameRoutine } from '@screens/ViewPost/routines';
+import { extractData } from '@screens/ViewPost/reducers';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -36,6 +39,7 @@ interface IState {
   currentUser: ICurrentUser;
   postPR: IPostPR;
   endSendingDada: boolean;
+  users: IMentionsUser[];
 }
 
 interface IActions {
@@ -44,6 +48,7 @@ interface IActions {
   resetEndSendingDada: IBindingAction;
   acceptPR: IBindingCallback1<IPostPR>;
   sendCommentPR: IBindingCallback1<object>;
+  searchUsersByNickname: IBindingCallback1<string>;
 }
 
 const PullRequest: React.FC<IPullRequestProps> = (
@@ -54,7 +59,9 @@ const PullRequest: React.FC<IPullRequestProps> = (
     resetEndSendingDada,
     postPR,
     endSendingDada,
-    sendCommentPR
+    sendCommentPR,
+    users,
+    searchUsersByNickname
   }
 ) => {
   const { id } = useParams();
@@ -267,6 +274,8 @@ const PullRequest: React.FC<IPullRequestProps> = (
           userInfo={currentUser}
           prId={postPR.id}
           author={postPR.post.author}
+          users={users}
+          searchUsersByNickname={searchUsersByNickname}
         />
       </div>
     </div>
@@ -276,7 +285,8 @@ const PullRequest: React.FC<IPullRequestProps> = (
 const mapStateToProps: (state) => IState = state => ({
   currentUser: state.auth.auth.user,
   postPR: state.pullRequestReducer.data.postPR,
-  endSendingDada: state.pullRequestReducer.data.endSendingData
+  endSendingDada: state.pullRequestReducer.data.endSendingData,
+  users: extractData(state).users
 });
 
 const mapDispatchToProps: IActions = {
@@ -284,7 +294,8 @@ const mapDispatchToProps: IActions = {
   fetchPR: fetchPrRoutine,
   closePR: closePrRoutine,
   resetEndSendingDada: resetEndSendingDataRoutine,
-  acceptPR: acceptPrRoutine
+  acceptPR: acceptPrRoutine,
+  searchUsersByNickname: searchUserByNicknameRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PullRequest);
