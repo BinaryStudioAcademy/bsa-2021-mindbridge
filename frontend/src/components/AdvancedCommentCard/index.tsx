@@ -6,6 +6,7 @@ import Reply from '@components/AdvancedCommentCard/Reply';
 import { IComment } from '@screens/ViewPost/models/IComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import DarkButton from '@components/buttons/DarcButton';
 
 interface ICommentProps {
   comments: IComments[];
@@ -88,7 +89,6 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
         )
       </p>
       {isAuthorized ? (
-
         <form className="ui reply form">
           <div className="field">
             <textarea
@@ -97,7 +97,8 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
               placeholder="Add to the discussion..."
             />
           </div>
-          <DarkBorderButton
+          <DarkButton
+            disabled={!newComment.text}
             onClick={handleSendComment}
             className={styles.buttonSend}
             content="Send"
@@ -131,6 +132,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
                 sendComment={sendComment}
                 postId={postId}
                 commentId={comment.id}
+                commentProp={comment}
                 sendReply={sendReply}
                 isAuthorized={isAuthorized}
                 userInfo={userInfo}

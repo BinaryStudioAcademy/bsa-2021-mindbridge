@@ -6,18 +6,22 @@ interface IRatingIconProps {
   postRating: number;
   handleLikePost: any;
   handleDisLikePost: any;
-  postId: string;
+  post: any;
   userInfo: IUserProfile;
   arrowUpColor: string;
   arrowDownColor: string;
 }
 const RatingComponent: FunctionComponent<IRatingIconProps> = ({ postRating, handleLikePost, handleDisLikePost,
-  postId, arrowUpColor, arrowDownColor }) => {
+  post, arrowUpColor, arrowDownColor, userInfo }) => {
   const likePost = () => {
-    handleLikePost(postId);
+    if (userInfo.id !== post.author.id) {
+      handleLikePost(post.id);
+    }
   };
   const disLikePost = () => {
-    handleDisLikePost(postId);
+    if (userInfo.id !== post.author.id) {
+      handleDisLikePost(post.id);
+    }
   };
   return (
     <div className={styles.ratingElement}>

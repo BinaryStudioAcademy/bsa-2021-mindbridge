@@ -24,6 +24,8 @@ import { useDebouncedCallback } from 'use-debounce';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import Image from '@components/Image';
 import { defaultCoverImage } from '@images/defaultImages';
+import SharePopup from '@screens/ViewPost/components/Popups/SharePopup';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -41,6 +43,7 @@ interface IViewPostCardProps {
   handleDislikeComment: IBindingCallback1<string>;
   searchUsersByNickname: any;
   users: IMentionsUser[];
+  handleFavouriteAction: any;
 }
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
@@ -58,7 +61,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   handleLikeComment,
   handleDislikeComment,
   searchUsersByNickname,
-  users
+  users,
+  handleFavouriteAction
 }) => {
   const highlighter = new Highlighter({
     wrapTag: 'i',
@@ -77,6 +81,15 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   const deleteHighlight = highlightId => {
     handleDeleteHighlight(highlightId);
     highlighter.remove(highlightId);
+  };
+
+  const [popupContent, setPopupContent] = useState('Copy link');
+  const handleShare = () => {
+    setPopupContent('Copied');
+  };
+
+  const handleOnClose = () => {
+    setPopupContent('Copy link');
   };
 
   const debounced = useDebouncedCallback(
@@ -155,6 +168,10 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
     setIsPopUpShown(false);
   };
 
+  const getFavouriteAction = () => {
+    handleFavouriteAction(post);
+  };
+
   return (
     <div className={styles.container}>
       <Card className={styles.viewCard}>
@@ -169,16 +186,14 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                         postRating={post.rating}
                         handleLikePost={handleLikePost}
                         handleDisLikePost={handleDisLikePost}
-                        postId={post.id}
+                        post={post}
                         userInfo={userInfo}
-                        arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                          && postReaction.liked)
+                        arrowUpColor={post.reacted && post.isLiked
                           ? ('#8AC858'
                           ) : (
                             '#66B9FF'
                           )}
-                        arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                          && !postReaction.liked)
+                        arrowDownColor={post.reacted && !post.isLiked
                           ? ('#F75C48'
                           ) : (
                             '#66B9FF'
@@ -187,13 +202,26 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                     </div>
                   </div>
                   <div className={styles.bgCircle}>
-                    <FavouriteSvg />
+                    <FavouriteSvg
+                      handleFavouriteAction={getFavouriteAction}
+                      color={post.isFavourite ? 'green' : '#66B9FF'}
+                    />
                   </div>
                   <div className={styles.bgCircle}>
                     <CommentSvg />
                   </div>
                   <div className={styles.bgCircle}>
-                    <ShareSvg />
+                    <SharePopup
+                      triggerContent={(
+                        <CopyToClipboard text={`${window.location.href}`}>
+                          <button style={{ background: 'none' }} type="button" onClick={handleShare}>
+                            <ShareSvg />
+                          </button>
+                        </CopyToClipboard>
+                      )}
+                      popupContent={popupContent}
+                      handleOnClose={handleOnClose}
+                    />
                   </div>
                   {isAuthor && (
                   <div role="button" tabIndex={0} className={styles.bgCircle} onKeyDown={goToEdit} onClick={goToEdit}>
