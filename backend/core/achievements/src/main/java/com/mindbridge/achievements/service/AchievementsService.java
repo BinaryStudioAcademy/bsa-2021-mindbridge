@@ -9,6 +9,7 @@ import com.mindbridge.data.domains.usersAchievement.model.UsersAchievement;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +46,7 @@ public class AchievementsService {
 		this.userRepository = userRepository;
 	}
 
-	@Scheduled(cron = "0 0 22 * * *", zone = "Europe/Moscow")
+	@Scheduled(cron = "${start.cron}", zone = "Europe/Moscow")
 	public void checkAchievementsForAllUsers() {
 		List<User> allUsers = userRepository.findAll();
 		allUsers.stream().parallel().forEach(this::checkCoolPostsAndCommentsCount);
