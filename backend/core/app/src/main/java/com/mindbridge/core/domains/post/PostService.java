@@ -7,7 +7,10 @@ import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
 import com.mindbridge.core.domains.tag.dto.TagDto;
+import com.mindbridge.data.domains.favorite.FavoriteRepository;
+import com.mindbridge.data.domains.favorite.model.Favorite;
 import com.mindbridge.data.domains.post.PostRepository;
+import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
@@ -17,10 +20,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,12 +43,14 @@ public class PostService {
 
 	private final NotificationService notificationService;
 
+  private final FavoriteRepository favouriteRepository;
+  
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService, NotificationService notificationService,
 			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-			PostVersionRepository postVersionRepository, ElasticService elasticService) {
-		this.postRepository = postRepository;
+			PostVersionRepository postVersionRepository, ElasticService elasticService, FavoriteRepository favouriteRepository) {
+    this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
 		this.userRepository = userRepository;
@@ -56,6 +58,7 @@ public class PostService {
 		this.postVersionRepository = postVersionRepository;
 		this.elasticService = elasticService;
 		this.notificationService = notificationService;
+		this.favouriteRepository = favouriteRepository;
 	}
 
 	public PostDetailsDto getPostById(UUID id) {
@@ -76,14 +79,24 @@ public class PostService {
 		post.setRating(postReactionService.calcPostRatingById(id));
 		post.setRelatedPosts(relatedPostsDto);
 
+		var favourite = favouriteRepository.getFavoriteByPostId(id);
+		post.setIsFavourite(favourite.isPresent());
 		return post;
 	}
 
-	public List<PostsListDetailsDto> getAllPosts(Integer from, Integer count) {
+	public List<PostsListDetailsDto> getAllPosts(Integer from, Integer count, UUID userId) {
 		var pageable = PageRequest.of(from / count, count);
-		return postRepository.getAllPosts(pageable).stream()
-				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
-				.collect(Collectors.toList());
+		var allPosts = postRepository.getAllPosts(pageable).stream()
+			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+			.collect(Collectors.toList());
+		var favouritePosts = favouriteRepository.getAllPostByUserId(userId);
+		allPosts.forEach(post -> setIfFavourite(favouritePosts, post));
+		return allPosts;
+	}
+
+	public void setIfFavourite(List<Favorite> favouritePosts, PostsListDetailsDto post) {
+		var found = favouritePosts.stream().filter(favouritePost -> favouritePost.getPost().getId().toString().equals(post.getId())).findFirst();
+		post.setIsFavourite(found.isPresent());
 	}
 
 	public UUID editPost(EditPostDto editPostDto) {

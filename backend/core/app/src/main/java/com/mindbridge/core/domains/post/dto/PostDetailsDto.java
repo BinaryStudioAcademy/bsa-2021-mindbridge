@@ -40,4 +40,6 @@ public class PostDetailsDto {
 
 	private List<RelatedPostDto> relatedPosts;
 
+	private Boolean isFavourite;
+
 }

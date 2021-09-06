@@ -28,6 +28,7 @@ interface ICommentProps {
   depthOfComments: number;
   searchUsersByNickname: any;
   users: IMentionsUser[];
+  commentProp: IComments;
 }
 
 const Reply: React.FC<ICommentProps> = (
@@ -52,7 +53,8 @@ const Reply: React.FC<ICommentProps> = (
     handleDislikeComment,
     depthOfComments,
     searchUsersByNickname,
-    users
+    users,
+    commentProp
   }
 ) => {
   const closeCommentRef = useRef(true);
@@ -87,6 +89,7 @@ const Reply: React.FC<ICommentProps> = (
         handleLikeComment={handleLikeComment}
         handleDislikeComment={handleDislikeComment}
         users={users}
+        comment={commentProp}
         searchUsersByNickname={searchUsersByNickname}
       />
       {repliesLength && (
@@ -115,6 +118,7 @@ const Reply: React.FC<ICommentProps> = (
                     handleLikeComment={handleLikeComment}
                     depthOfComments={depthOfComments + 1}
                     users={users}
+                    commentProp={comment}
                     searchUsersByNickname={searchUsersByNickname}
                   />
                 ))}

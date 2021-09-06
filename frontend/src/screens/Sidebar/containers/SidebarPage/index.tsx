@@ -48,7 +48,6 @@ const Sidebar: React.FC<ISidebarProps> = (
     fetchPostContributions,
     getPostVersions,
     currentUser,
-    userInfo,
     post,
     loadCurrentUser
   }
@@ -111,13 +110,13 @@ const Sidebar: React.FC<ISidebarProps> = (
         {isAuthorized ? (
           <div className={styles.suggestChanges}>
             <div className={styles.profileSideBar}>
-              {currentUser ? (
+              {userInfo ? (
                 <ProfileSidebar
-                  id={currentUser.id}
-                  userName={currentUser.nickname}
-                  avatar={currentUser.avatar}
-                  folloversCount={0}
-                  rating={0}
+                  id={userInfo.id}
+                  userName={userInfo.nickname}
+                  avatar={userInfo.avatar}
+                  folloversCount={userInfo.followersQuantity}
+                  rating={userInfo.rating}
                   postNotificationCount={0}
                 />
               ) : (
