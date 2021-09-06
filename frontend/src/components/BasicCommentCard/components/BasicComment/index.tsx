@@ -42,7 +42,6 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
   searchUsersByNickname
 }) => {
   const [editMode, setEditMode] = useState(false);
-  const [disabled, setDisabled] = useState(false);
   const [changeablePrComment, setChangeablePrComment] = useState<IEditPrComment>({
     text,
     prCommentId: ''
@@ -124,8 +123,9 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
               {checkDate(createdAt, updatedAt)}
             </span>
           </div>
+        </div>
           <div className={styles.commentRightAction}>
-            {!disabled && (
+            {!editMode && (
               <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
                 <EditSvg />
               </button>
@@ -157,7 +157,6 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
               )}
             />
           </div>
-        </div>
       </div>
       <div className="text">
         { editMode ? (
@@ -170,6 +169,7 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
               classNames={mentionInputStyle}
             >
               <Mention
+                appendSpaceOnAdd
                 className={mentionInputStyle.mentions__mention__custom}
                 trigger="@"
                 data={usersList}
