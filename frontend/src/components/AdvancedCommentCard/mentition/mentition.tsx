@@ -94,6 +94,7 @@ function AsyncUserMentions(
       </MentionsInput>
       <div className="actions">
         <DarkBorderButton
+          disabled={!newReply.text}
           onClick={handleSendReply}
           className={styles.sendCommentBtn}
           content="Send"
