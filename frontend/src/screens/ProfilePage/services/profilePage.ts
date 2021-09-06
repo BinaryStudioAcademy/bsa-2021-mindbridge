@@ -59,7 +59,8 @@ const profilePageService = {
         data: payload }
     );
     return response;
-  }
+  },
+  toggleFollowUser: async (request: object) => api.put('/api/user/follow', { data: request })
 };
 
 export default profilePageService;
