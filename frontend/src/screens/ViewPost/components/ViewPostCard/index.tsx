@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
 import RatingComponent from '../svgs/RatingIcon';
 import TagsMenu from '@components/TagComponent';
-import FavouriteSvg from '@screens/ViewPost/components/svgs/SvgComponents/favouriteSvg';
+import FavouriteSvg from '@components/FeedSvgComponents/favouriteSvg';
 import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
 import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
 import { IPost } from '@screens/ViewPost/models/IPost';
@@ -193,10 +193,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                     </div>
                   </div>
                   <div className={styles.bgCircle}>
-                    <FavouriteSvg
-                      handleFavouriteAction={getFavouriteAction}
-                      color={post.isFavourite ? 'green' : '#66B9FF'}
-                    />
+                    <FavouriteSvg handleFavouriteAction={getFavouriteAction} isFavourite={post.isFavourite} />
                   </div>
                   <div className={styles.bgCircle}>
                     <CommentSvg />
