@@ -40,7 +40,7 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
     currentUser,
     toggleFollowUser,
     isToggleFollowLoading
-=  }
+ }
 ) => {
   const location = useLocation();
   const currentId = location.pathname.substring(6, location.pathname.length);
