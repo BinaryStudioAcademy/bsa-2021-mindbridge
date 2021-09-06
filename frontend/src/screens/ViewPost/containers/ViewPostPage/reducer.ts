@@ -113,7 +113,8 @@ export const viewPostReducer = createReducer(initialState, {
   [editCommentRoutine.SUCCESS]: (state, action) => {
     state.editComment = initialState.editComment;
     const message = findById(action.payload.commentId, state.post.comments);
-    state.post.comments.concat(action.payload);
+    state.editComment.text = action.payload.text;
+    //state.post.comments.concat(action.payload);
   },
   [leaveReactionOnCommentRoutine.SUCCESS]: (state, action) => {
     const { response, reactionStatus } = action.payload;

@@ -44,6 +44,7 @@ interface IBasicCommentProps {
   users: any;
   editComment: any;
   onChange: any;
+  updatedAt: string;
 }
 /* eslint-disable max-len */
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
@@ -51,6 +52,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     userInfo,
     postId,
     createdAt,
+    updatedAt,
     text,
     author,
     commentRating,
@@ -141,6 +143,19 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     handleEditComment(event);
   };
 
+  const checkDate = (createdDate, updetedDate) => {
+    if (createdDate !== updetedDate) {
+      return (
+        <span>
+          Edit:
+          {' '}
+          {moment(updetedDate).fromNow()}
+        </span>
+      );
+    }
+    return moment(createdDate).fromNow();
+  };
+
   return (
     <ScrollableAnchor id={commentId}>
       <div className={styles.advancedComment}>
@@ -162,7 +177,9 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
             </a>
             <DividerSvg />
             <div className="metadata">
-              <span className="date">{moment(createdAt).fromNow()}</span>
+              <span className="date">
+                {checkDate(createdAt, updatedAt)}
+              </span>
             </div>
           </div>
           <div className={styles.commentRightAction}>

@@ -87,6 +87,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
                 depthOfComments={0}
                 postAuthorId={postAuthorId}
                 createdAt={comment.createdAt}
+                updatedAt={comment.updatedAt}
                 text={comment.text}
                 author={comment.author}
                 replies={comment.comments}
