@@ -14,15 +14,18 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IBindingCallback1 } from '@models/Callbacks';
 import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
+import DarkButton from '@components/buttons/DarcButton';
+import DarkBorderButton from '@components/buttons/DarcBorderButton';
 
 interface IPublicProfileCardProps {
   user: IUser;
   isUserLoaded: boolean;
   currentUser: ICurrentUser;
   toggleFollowUser: IBindingCallback1<object>;
+  isToggleFollowLoading?: boolean;
 }
 const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
-  { user, isUserLoaded, currentUser, toggleFollowUser }
+  { user, isUserLoaded, currentUser, toggleFollowUser, isToggleFollowLoading }
 ) => {
   const [userData, setUserData] = useState(user);
 
@@ -40,15 +43,20 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
     }
     if (userData.followed) {
       return (
-        <button type="button" onClick={handleFollowUser} className={styles.revert_dark_button}>
-          <span>Unfollow</span>
-        </button>
+        <DarkBorderButton
+          content="Unfollow"
+          loading={isToggleFollowLoading}
+          onClick={handleFollowUser}
+        />
       );
     }
     return (
-      <button type="button" onClick={handleFollowUser} className={styles.dark_button}>
-        <span>Follow</span>
-      </button>
+      <DarkButton
+        content="Follow"
+        className={styles.followBtn}
+        loading={isToggleFollowLoading}
+        onClick={handleFollowUser}
+      />
     );
   };
 

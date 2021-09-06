@@ -33,7 +33,10 @@
     margin-top: 1.5em;
   }
 }
-
+.followBtn:hover{
+  background-color: white !important;
+  color: $dark-grey !important;
+}
 .statWrp {
   display: flex;
   flex-wrap: nowrap;

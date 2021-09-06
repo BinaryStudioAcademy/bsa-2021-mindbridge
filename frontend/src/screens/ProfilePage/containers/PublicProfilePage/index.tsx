@@ -12,6 +12,7 @@ import LoaderWrapper from '@components/LoaderWrapper';
 import PublicProfileCard from '@screens/ProfilePage/components/PublicProfileCard';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
+import { extractToggleFollowUserLoading } from '@screens/ProfilePage/reducers';
 
 export interface IPublicProfilePageProps extends IState, IActions {
   userProfileData: any;
@@ -19,6 +20,7 @@ export interface IPublicProfilePageProps extends IState, IActions {
   isUserIdValid: boolean;
   isAuthorized: boolean;
   currentUser: ICurrentUser;
+  isToggleFollowLoading: boolean;
 }
 
 interface IState {
@@ -36,7 +38,8 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
     isUserIdValid,
     isAuthorized,
     currentUser,
-    toggleFollowUser
+    toggleFollowUser,
+    isToggleFollowLoading
   }
 ) => {
   const location = useLocation();
@@ -58,6 +61,7 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
                   currentUser={currentUser}
                   user={userProfileData}
                   isUserLoaded={isUserLoaded}
+                  isToggleFollowLoading={isToggleFollowLoading}
                 />
               </div>
             </div>
@@ -76,6 +80,7 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
 const mapStateToProps = (state: RootState) => {
   const { data } = state.profilePageReducer;
   return ({
+    isToggleFollowLoading: extractToggleFollowUserLoading(state),
     userProfileData: data.user,
     isUserLoaded: data.isUserLoaded,
     isUserIdValid: data.isUserIdValid,
