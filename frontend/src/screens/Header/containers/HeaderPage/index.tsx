@@ -136,6 +136,8 @@ const Header: React.FC<IHeaderProps> = (
   const toggleNotificationList = () => {
     if (!isListOpen) {
       handleFetchNotifications(true, { from: 0, count: 10 });
+    } else {
+      handleFetchNotifications(false, { from: 0, count: 1 });
     }
     setIsListOpen(!isListOpen);
   };
