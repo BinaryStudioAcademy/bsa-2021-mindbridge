@@ -3,11 +3,8 @@ import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { IAchievementToUser } from '@root/screens/ProfilePage/models/IAchievementToUser';
 import { Popup } from 'semantic-ui-react';
-import WriterSvg from './AchievementsSVGs/WriterSvg';
 import Contributor3Svg from './AchievementsSVGs/Contributor_3Svg';
 import { AchievementType } from './Types';
-import AwesomeSvg from './AchievementsSVGs/AwesomeSvg';
-import PopularSvg from './AchievementsSVGs/PopularSvg';
 import TimeSvg from './AchievementsSVGs/TimeSvg';
 import Writer1Svg from './AchievementsSVGs/Writer_1Svg';
 import Writer2Svg from './AchievementsSVGs/Writer_2Svg';
@@ -32,6 +29,7 @@ import Popular1Svg from './AchievementsSVGs/Popular_1Svg';
 import Popular2Svg from './AchievementsSVGs/Popular_2Svg';
 import Popular3Svg from './AchievementsSVGs/Popular_3Svg';
 import Popular4Svg from './AchievementsSVGs/Popular_4Svg';
+import LockSvg from './AchievementsSVGs/Lock';
 
 // eslint-disable-next-line max-len
 interface IAchievementProps {
@@ -40,10 +38,11 @@ interface IAchievementProps {
 }
 
 const colorBlue = '#66B9FF';
+const colorGrey = '#bdc3c7';
 
 const Achievement = ({ className, achievement }: IAchievementProps) => {
   let svg;
-  const fill = '#66B9FF';
+  const fill = achievement.hasAchievement ? colorBlue : colorGrey;
   switch (achievement.type) {
     case AchievementType.write:
       switch (achievement.level) {
@@ -154,14 +153,23 @@ const Achievement = ({ className, achievement }: IAchievementProps) => {
     <div className={classNames(className, styles.achievement)}>
       <Popup
         trigger={(
-          <div>
-            <div className={styles.svg}>{svg}</div>
-            {!achievement.hasAchievement && 'has not'}
+          <div className={styles.svg}>
+            {svg}
           </div>
         )}
         content={(
           <div>
-            <div className={styles.title}>{achievement.title}</div>
+            {!achievement.hasAchievement
+              && (
+                <div className={styles.title}>
+                  <LockSvg fill={colorGrey} />
+                  locked
+                </div>
+              )}
+            <div className={styles.title}>
+              {achievement.title}
+            </div>
+            {achievement.level !== 0 && `(${achievement.type} level ${achievement.level})`}
             <div>{achievement.text}</div>
           </div>
         )}
