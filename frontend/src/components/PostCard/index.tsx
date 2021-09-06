@@ -33,10 +33,10 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
 
   return (
     <Card className={styles.postCard}>
-    <Card.Content>
-      <Feed>
-        <div className={styles.cardHeader}>
-          {post.author
+      <Card.Content>
+        <Feed>
+          <div className={styles.cardHeader}>
+            {post.author
           && (
           <PostHeaderInformation
             date={post.createdAt}
@@ -44,14 +44,14 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
             author={post.author}
           />
           )}
-          <div className={styles.leftSide}>
-            <RatingComponent
-              postRating={post.postRating}
-              handleLikePost={handleLikePost}
-              handleDisLikePost={handleDisLikePost}
-              postId={post.id}
-              userInfo={userInfo}
-              arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
+            <div className={styles.leftSide}>
+              <RatingComponent
+                postRating={post.postRating}
+                handleLikePost={handleLikePost}
+                handleDisLikePost={handleDisLikePost}
+                postId={post.id}
+                userInfo={userInfo}
+                arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
                   && postReaction.liked)
                   ? ('#8AC858'
                   ) : (

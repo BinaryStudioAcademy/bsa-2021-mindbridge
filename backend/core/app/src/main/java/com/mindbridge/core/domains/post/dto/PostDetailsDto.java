@@ -24,7 +24,7 @@ public class PostDetailsDto {
 
 	private String text;
 
-	private PostAuthorDto author;
+	private UserDto author;
 
 	private Set<TagDto> tags;
 

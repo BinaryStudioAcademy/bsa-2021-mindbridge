@@ -36,4 +36,6 @@ public class PostsListDetailsDto {
 
 	private Boolean markdown;
 
+	private Boolean isFavourite;
+
 }
