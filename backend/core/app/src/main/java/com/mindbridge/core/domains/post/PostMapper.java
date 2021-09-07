@@ -38,6 +38,7 @@ public interface PostMapper {
 	@Mapping(target = "usersCount", ignore = true)
 	@Mapping(target = "tags", ignore = true)
 	@Mapping(target = "createdAt", ignore = true)
+	@Mapping(target = "postViewsNumber", ignore = true)
 	PostsListDetailsDto postToPostsListDto(Post post);
 
 }

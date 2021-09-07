@@ -129,7 +129,7 @@ public class PostService {
 		reaction.ifPresent(postReaction -> postDetailsDto.setIsLiked(postReaction.getLiked()));
 		var favourite = favouriteRepository.getFavoriteByPostIdAndUserId(id, currentUser.getId());
 		postDetailsDto.setIsFavourite(favourite.isPresent());
-		postDetailsDto.setPostViewsNumber(postViewsRepository.countByPostId(post.getId()));
+		postDetailsDto.setPostViewsNumber(postViewsRepository.countByPostId(id));
 		return postDetailsDto;
 	}
 
