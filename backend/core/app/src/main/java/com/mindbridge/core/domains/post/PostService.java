@@ -57,7 +57,7 @@ public class PostService {
 
 	private final NotificationService notificationService;
 
-  private final FavoriteRepository favouriteRepository;
+  	private final FavoriteRepository favouriteRepository;
 
 	private final PostReactionRepository postReactionRepository;
 
@@ -68,8 +68,7 @@ public class PostService {
 	public PostService(PostRepository postRepository, CommentService commentService, NotificationService notificationService,
 			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
 			PostVersionRepository postVersionRepository, ElasticService elasticService, FavoriteRepository favouriteRepository,
-			PostReactionRepository postReactionRepository, UserService userService, AchievementHelper achievementHelper, 
-			NotificationService notificationService) {
+			PostReactionRepository postReactionRepository, UserService userService, AchievementHelper achievementHelper) {
     this.postRepository = postRepository;
 
 		this.commentService = commentService;
