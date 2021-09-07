@@ -26,6 +26,7 @@ import Image from '@components/Image';
 import { defaultCoverImage } from '@images/defaultImages';
 import SharePopup from '@screens/ViewPost/components/Popups/SharePopup';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import classNames from 'classnames';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -44,6 +45,7 @@ interface IViewPostCardProps {
   searchUsersByNickname: any;
   users: IMentionsUser[];
   handleFavouriteAction: any;
+  className?: string;
 }
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
@@ -62,7 +64,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   handleDislikeComment,
   searchUsersByNickname,
   users,
-  handleFavouriteAction
+  handleFavouriteAction,
+  className
 }) => {
   const highlighter = new Highlighter({
     wrapTag: 'i',
@@ -173,7 +176,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, className)}>
       <Card className={styles.viewCard}>
         <div className={styles.cardContent}>
           <Card.Content>

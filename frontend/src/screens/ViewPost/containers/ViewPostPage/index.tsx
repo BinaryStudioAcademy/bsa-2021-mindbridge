@@ -23,6 +23,7 @@ import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
+import ScrollUpSvg from '../../components/svgs/SvgComponents/scrollUpSvg';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -196,6 +197,7 @@ const ViewPost: React.FC<IViewPostProps> = (
     <div className={styles.viewPost}>
       <div className={styles.main}>
         <ViewPostCard
+          className={styles.post_card}
           post={data.post}
           handleLikePost={handleLikePost}
           handleDisLikePost={handleDisLikePost}
@@ -213,6 +215,11 @@ const ViewPost: React.FC<IViewPostProps> = (
           searchUsersByNickname={searchUsersByNickname}
           handleFavouriteAction={handleFavouriteAction}
         />
+        <div className={styles.scrollWpr}>
+          <button className={styles.scrollToTopButton} aria-label="scrollTop" type="button" onClick={scrollToTop}>
+            <ScrollUpSvg />
+          </button>
+        </div>
       </div>
     </div>
   );
