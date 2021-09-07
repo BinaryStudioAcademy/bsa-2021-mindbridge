@@ -76,7 +76,7 @@ public class NotificationService {
 				break;
 			}
 			default: {
-				return;
+				return false;
 			}
 		}
 		createNotificationDto.setText(description);

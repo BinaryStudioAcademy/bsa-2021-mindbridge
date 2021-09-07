@@ -59,7 +59,7 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
 
   const scroll = scrollOffset => {
     ref.current.scrollLeft += scrollOffset;
-  }
+  };
   const handleFollowUser = () => {
     if (currentUser?.id) {
       toggleFollowUser({ followerId: currentUser.id, followedId: userData.id });

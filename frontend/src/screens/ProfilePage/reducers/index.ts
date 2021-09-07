@@ -2,7 +2,11 @@ import { combineReducers } from 'redux';
 import { RootState } from '@root/store';
 import { reducerCreator } from '@helpers/reducer.helper';
 import { profilePageReducer } from '@screens/ProfilePage/containers/reducer';
-import { fetchAchievementsByUserRoutine, sendFormRoutine, sendNicknameRoutine, toggleFollowUserRoutine} from '@screens/ProfilePage/routines';
+import {
+  fetchAchievementsByUserRoutine,
+  sendFormRoutine,
+  sendNicknameRoutine,
+  toggleFollowUserRoutine } from '@screens/ProfilePage/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
