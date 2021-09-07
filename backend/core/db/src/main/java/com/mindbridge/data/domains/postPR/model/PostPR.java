@@ -1,5 +1,6 @@
 package com.mindbridge.data.domains.postPR.model;
 
+import com.mindbridge.data.domains.PRComment.model.PRComment;
 import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.tag.model.Tag;
 import com.mindbridge.data.domains.user.model.User;
@@ -8,7 +9,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -47,6 +50,9 @@ public class PostPR extends BaseAuditableEntity {
 	@JoinTable(name = "post_pr2tag", joinColumns = @JoinColumn(name = "post_pr_id"),
 			inverseJoinColumns = @JoinColumn(name = "tag_id"))
 	private Set<Tag> tags = new HashSet<>();
+
+	@OneToMany(mappedBy = "postPR", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<PRComment> comments = new ArrayList<>();
 
 	@Override
 	public String toString() {

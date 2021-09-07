@@ -1,6 +1,6 @@
 package com.mindbridge.core.domains.tag;
 
-import com.mindbridge.data.domains.tag.dto.TagDto;
+import com.mindbridge.data.domains.tag.dto.TagDataDto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +21,7 @@ public class TagController {
 	}
 
 	@GetMapping("/all")
-	public List<TagDto> getTags() {
+	public List<TagDataDto> getTags() {
 		return tagService.getTags();
 	}
 

@@ -1,5 +1,7 @@
 package com.mindbridge.core.domains.post;
 
+import com.mindbridge.core.domains.achievement.AchievementHelper;
+import com.mindbridge.core.domains.achievement.AchievementService;
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
 import com.mindbridge.core.domains.post.dto.CreatePostDto;
@@ -8,15 +10,21 @@ import com.mindbridge.core.domains.post.dto.EditPostDto;
 import com.mindbridge.core.domains.post.dto.PostDetailsDto;
 import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import com.mindbridge.core.domains.post.dto.RelatedPostDto;
+import com.mindbridge.core.domains.helpers.DateFormatter;
 import com.mindbridge.core.domains.notification.NotificationService;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
 import com.mindbridge.core.domains.tag.dto.TagDto;
+import com.mindbridge.core.domains.user.UserMapper;
+import com.mindbridge.data.domains.favorite.model.Favorite;
+import com.mindbridge.data.domains.post.dto.PostsReactionsQueryResult;
+import com.mindbridge.data.domains.tag.dto.TagDataDto;
 import com.mindbridge.core.domains.user.UserService;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postReaction.PostReactionRepository;
 import com.mindbridge.data.domains.favorite.FavoriteRepository;
 import com.mindbridge.data.domains.favorite.model.Favorite;
+import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.postViews.PostViewsRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
@@ -32,6 +40,11 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.security.Principal;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -51,9 +64,11 @@ public class PostService {
 
 	private final ElasticService elasticService;
 
+	private final AchievementHelper achievementHelper;
+
 	private final NotificationService notificationService;
 
-  	private final FavoriteRepository favouriteRepository;
+  private final FavoriteRepository favouriteRepository;
 
 	private final PostReactionRepository postReactionRepository;
 
@@ -69,7 +84,7 @@ public class PostService {
 			TagRepository tagRepository, UserService userService,
 			PostReactionRepository postReactionRepository, NotificationService notificationService,
 			PostVersionRepository postVersionRepository, ElasticService elasticService,
-			FavoriteRepository favouriteRepository, PostViewsRepository postViewsRepository) {
+			FavoriteRepository favouriteRepository, PostViewsRepository postViewsRepository, AchievementHelper achievementHelper) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
@@ -77,17 +92,20 @@ public class PostService {
 		this.tagRepository = tagRepository;
 		this.postVersionRepository = postVersionRepository;
 		this.elasticService = elasticService;
+		this.achievementHelper = achievementHelper;
+		this.notificationService = notificationService;
 		this.postReactionRepository = postReactionRepository;
 		this.userService = userService;
-		this.notificationService = notificationService;
 		this.favouriteRepository = favouriteRepository;
 		this.postViewsRepository = postViewsRepository;
 	}
 
 	public PostDetailsDto getPostById(Principal principal, UUID id) {
-		var post = postRepository.findById(id).map(PostMapper.MAPPER::postToPostDetailsDto).orElseThrow();
+		var post = postRepository.findById(id);
+		var postDetailsDto = post.map(PostMapper.MAPPER::postToPostDetailsDto).orElseThrow();
 
-		List<String> tags = post.getTags().stream().map(TagDto::getName).collect(Collectors.toList());
+		postDetailsDto.setAuthor(userService.setUserStatInformation(UserMapper.MAPPER.userToUserDto(post.orElseThrow().getAuthor()).getId()));
+		List<String> tags = postDetailsDto.getTags().stream().map(TagDto::getName).collect(Collectors.toList());
 		List<RelatedPostDto> relatedPostsDto = postRepository.getRelatedPostsByTags(id, tags, PageRequest.of(0, 3))
 			.stream()
 			.map(PostMapper.MAPPER::postToRelatedPostDto)
@@ -97,45 +115,50 @@ public class PostService {
 		relatedPostsDto.sort(Comparator.comparingLong(RelatedPostDto::getRating).reversed());
 
 		var comments = commentService.findAllByPostId(id);
-		post.setComments(comments);
+		postDetailsDto.setComments(comments);
 
-		post.setRating(postReactionService.calcPostRatingById(id));
-		post.setRelatedPosts(relatedPostsDto);
+		postDetailsDto.setRating(postReactionService.calcPostRatingById(id));
+		postDetailsDto.setRelatedPosts(relatedPostsDto);
 
 		if (principal == null) {
-			return post;
+			return postDetailsDto;
 		}
 		var currentUser = userService.loadUserDtoByEmail(principal.getName());
-		var reaction = postReactionRepository.getPostReaction(currentUser.getId(), post.getId());
-		post.setReacted(reaction.isPresent());
-		reaction.ifPresent(postReaction -> post.setIsLiked(postReaction.getLiked()));
+		var reaction = postReactionRepository.getPostReaction(currentUser.getId(), postDetailsDto.getId());
+		postDetailsDto.setReacted(reaction.isPresent());
+		reaction.ifPresent(postReaction -> postDetailsDto.setIsLiked(postReaction.getLiked()));
 		var favourite = favouriteRepository.getFavoriteByPostIdAndUserId(id, currentUser.getId());
-		post.setIsFavourite(favourite.isPresent());
-		post.setPostViewsNumber(postViewsRepository.countByPostId(post.getId()));
-		return post;
+		postDetailsDto.setIsFavourite(favourite.isPresent());
+		postDetailsDto.setPostViewsNumber(postViewsRepository.countByPostId(post.getId()));
+		return postDetailsDto;
 	}
 
 	public List<PostsListDetailsDto> getAllPosts(Principal principal, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
+		return postRepository.getAllPosts(pageable).stream().map(post -> mapPost(post, principal)).collect(Collectors.toList());
+	}
 
-		var allPosts = postRepository.getAllPosts(pageable).stream()
-			.map(post -> PostsListDetailsDto.fromEntity(
-				post,
-				postRepository.getAllReactionsOnPost(post.getId()),
-				postViewsRepository.countByPostId(post.getId())))
-			.collect(Collectors.toList());
+	public PostsListDetailsDto mapPost(Post post, Principal principal) {
+		var postListDto = PostMapper.MAPPER.postToPostsListDto(post);
+		postListDto.setAuthor(userService.setUserStatInformation(post.getAuthor().getId()));
+		postListDto.setCommentsCount(post.getComments().size());
+		postListDto.setTags(post.getTags().stream().map(TagDataDto::fromEntity).collect(Collectors.toList()));
+		PostsReactionsQueryResult postsReactionsQueryResult = postRepository.getAllReactionsOnPost(post.getId());
+		postListDto.setLikesCount(postsReactionsQueryResult.likeCount);
+		postListDto.setDisLikesCount(postsReactionsQueryResult.disLikeCount);
+		postListDto.setPostRating(postsReactionsQueryResult.likeCount - postsReactionsQueryResult.disLikeCount);
+		postListDto.setCreatedAt(DateFormatter.getDate(post.getCreatedAt(), "dd MMMM"));
+		postListDto.setPostViewsNumber(postViewsRepository.countByPostId(post.getId()));
 		if (principal == null) {
-			return allPosts;
+			return postListDto;
 		}
 		var currentUser = userService.loadUserDtoByEmail(principal.getName());
 		var favouritePosts = favouriteRepository.getAllPostByUserId(currentUser.getId());
-		allPosts.forEach(post -> setIfFavourite(favouritePosts, post));
-
-		return allPosts.stream().peek(post -> {
-			var reaction = postReactionRepository.getPostReaction(currentUser.getId(), post.getId());
-			post.setReacted(reaction.isPresent());
-			reaction.ifPresent(postReaction -> post.setIsLiked(postReaction.getLiked()));
-		}).collect(Collectors.toList());
+		setIfFavourite(favouritePosts, postListDto);
+		var reaction = postReactionRepository.getPostReaction(currentUser.getId(), post.getId());
+		postListDto.setReacted(reaction.isPresent());
+		reaction.ifPresent(postReaction -> postListDto.setIsLiked(postReaction.getLiked()));
+		return postListDto;
 	}
 
 	public void setIfFavourite(List<Favorite> favouritePosts, PostsListDetailsDto post) {
@@ -171,6 +194,7 @@ public class PostService {
 		if (!savedPost.getDraft()) {
 			elasticService.put(savedPost);
 		}
+		achievementHelper.checkPostCount(post.getAuthor());
 		return savedPost.getId();
 	}
 
@@ -188,13 +212,8 @@ public class PostService {
 			.collect(Collectors.toList());
 	}
 
-	public List<PostsListDetailsDto> listIDsToListPosts(List<UUID> postIds) {
-		return postRepository.findAllById(postIds).stream()
-				.map(post -> PostsListDetailsDto.fromEntity(
-						post,
-						postRepository.getAllReactionsOnPost(post.getId()),
-						postViewsRepository.countByPostId(post.getId())))
-				.collect(Collectors.toList());
+	public List<PostsListDetailsDto> listIDsToListPosts(List<UUID> postIds, Principal principal) {
+		return postRepository.findAllById(postIds).stream().map(post -> mapPost(post, principal)).collect(Collectors.toList());
 	}
 
 }

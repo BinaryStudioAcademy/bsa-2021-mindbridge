@@ -1,10 +1,21 @@
-import { acceptPrRoutine, closePrRoutine, resetEndSendingDataRoutine, fetchPrRoutine } from '../../routines/index';
-import { createReducer } from '@reduxjs/toolkit';
+import {
+  acceptPrRoutine,
+  closePrRoutine,
+  resetEndSendingDataRoutine,
+  fetchPrRoutine,
+  sendCommentPrRoutine,
+  editPrCommentRoutine
+} from '../../routines/index';
+import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPostPR, PrState } from '../../models/IPostPR';
+import { ICommentPR } from '@screens/PullRequest/models/ICommentPR';
+import { IEditPrComment } from '@screens/PullRequest/models/IEditPrComment';
 
 export interface IPullRequestReducerState {
   postPR: IPostPR;
   endSendingData: boolean;
+  commentPr: ICommentPR;
+  editPrComment: IEditPrComment;
 }
 
 const initialState: IPullRequestReducerState = {
@@ -28,9 +39,21 @@ const initialState: IPullRequestReducerState = {
     text: '',
     title: '',
     updatedAt: '',
-    tags: []
+    tags: [],
+    comments: []
   },
-  endSendingData: false
+  commentPr: {
+    text: '',
+    prId: '',
+    author: '',
+    avatar: null,
+    nickname: ''
+  },
+  endSendingData: false,
+  editPrComment: {
+    prCommentId: '',
+    text: ''
+  }
 };
 
 export const pullRequestReducer = createReducer(initialState, {
@@ -51,5 +74,13 @@ export const pullRequestReducer = createReducer(initialState, {
   },
   [resetEndSendingDataRoutine.TRIGGER]: state => {
     state.endSendingData = false;
+  },
+  [sendCommentPrRoutine.SUCCESS]: (state, action) => {
+    state.commentPr = initialState.commentPr;
+    state.postPR.comments.push(action.payload);
+  },
+  [editPrCommentRoutine.SUCCESS]: (state, action) => {
+    const message = state.postPR.comments.find(comment => comment.id === action.payload.id);
+    message.text = action.payload.editText;
   }
 });

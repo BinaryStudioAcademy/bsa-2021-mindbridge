@@ -9,7 +9,7 @@ import {
   leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
   sendReplyRoutine,
-  saveHighlightRoutine
+  saveHighlightRoutine, editCommentRoutine
 } from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import { IData } from '@screens/ViewPost/models/IData';
@@ -53,6 +53,7 @@ interface IActions {
   getUserIp: IBindingAction;
   savePostView: IBindingCallback1<{view: {userId: string; userIp: string; postId: string}}>;
   deleteFavouritePost: IBindingCallback1<object>;
+  editComment: IBindingCallback1<object>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -72,6 +73,7 @@ const ViewPost: React.FC<IViewPostProps> = (
     leaveReactionOnComment,
     searchUsersByNickname,
     users,
+    editComment,
     saveFavouritePost,
     deleteFavouritePost,
     getUserIp,
@@ -91,6 +93,14 @@ const ViewPost: React.FC<IViewPostProps> = (
   useEffect(() => {
     fetchData(postId);
   }, [postId]);
+
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
+
+  useEffect(() => {
+    scrollToTop();
+  }, [data.post.id]);
 
   useEffect(() => {
     if ((data.post.author.id !== currentUser.id) && (postId === data.post.id) && (isAuthorized || userIp)) {
@@ -223,6 +233,7 @@ const ViewPost: React.FC<IViewPostProps> = (
           users={users}
           searchUsersByNickname={searchUsersByNickname}
           handleFavouriteAction={handleFavouriteAction}
+          editComment={editComment}
         />
       </div>
     </div>
@@ -244,6 +255,7 @@ const mapStateToProps: (state: RootState) => IState = state => ({
 const mapDispatchToProps: IActions = {
   sendComment: sendCommentRoutine,
   sendReply: sendReplyRoutine,
+  editComment: editCommentRoutine,
   fetchData: fetchDataRoutine,
   leaveReaction: leaveReactionOnPostViewPageRoutine,
   saveHighlight: saveHighlightRoutine,

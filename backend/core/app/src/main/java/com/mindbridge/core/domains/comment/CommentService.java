@@ -1,7 +1,9 @@
 package com.mindbridge.core.domains.comment;
 
+import com.mindbridge.core.domains.achievement.AchievementHelper;
 import com.mindbridge.core.domains.comment.dto.CommentDto;
 import com.mindbridge.core.domains.comment.dto.CreateCommentDto;
+import com.mindbridge.core.domains.comment.dto.EditCommentDto;
 import com.mindbridge.core.domains.comment.dto.ReplyCommentDto;
 import com.mindbridge.data.domains.comment.CommentRepository;
 import com.mindbridge.data.domains.comment.model.Comment;
@@ -22,11 +24,15 @@ public class CommentService {
 
 	private final CommentReactionRepository commentReactionRepository;
 
+	private final AchievementHelper achievementHelper;
+
 	@Lazy
 	@Autowired
-	public CommentService(CommentRepository commentRepository, CommentReactionRepository commentReactionRepository) {
+	public CommentService(CommentRepository commentRepository, CommentReactionRepository commentReactionRepository,
+		AchievementHelper achievementHelper) {
 		this.commentRepository = commentRepository;
 		this.commentReactionRepository = commentReactionRepository;
+		this.achievementHelper = achievementHelper;
 	}
 
 	public List<CommentDto> findAllByPostId(UUID id) {
@@ -49,7 +55,9 @@ public class CommentService {
 
 	public Comment addComment(CreateCommentDto comment) {
 		var commentToDto = CommentMapper.MAPPER.createCommentDtoToComment(comment);
-		return commentRepository.save(commentToDto);
+		Comment result = commentRepository.save(commentToDto);
+		achievementHelper.checkCommentsCount(commentToDto.getAuthor());
+		return result;
 	}
 
 	public Comment addReplyToComment(ReplyCommentDto reply) {
@@ -62,4 +70,10 @@ public class CommentService {
 		return comment;
 	}
 
+    public CommentDto editComment(EditCommentDto editComment) {
+		var comment = commentRepository.getOne(editComment.getCommentId());
+		comment.setText(editComment.getText());
+		var saveComment = commentRepository.save(comment);
+		return CommentMapper.MAPPER.commentToCommentDto(saveComment);
+    }
 }

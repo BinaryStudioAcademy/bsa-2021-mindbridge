@@ -9,7 +9,7 @@ import {
   fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine,
   sendCommentRoutine,
-  sendReplyRoutine
+  sendReplyRoutine, editCommentRoutine
 } from '@screens/ViewPost/routines';
 
 const requests = combineReducers({
@@ -20,7 +20,8 @@ const requests = combineReducers({
   fetchHighlightsRequest: reducerCreator([fetchHighlightsRoutine.TRIGGER]),
   sendCommentRequest: reducerCreator([sendCommentRoutine.TRIGGER]),
   sendReplyRequest: reducerCreator([sendReplyRoutine.TRIGGER]),
-  leaveReactionOnCommentRequest: reducerCreator([leaveReactionOnCommentRoutine.TRIGGER])
+  leaveReactionOnCommentRequest: reducerCreator([leaveReactionOnCommentRoutine.TRIGGER]),
+  editCommentRequest: reducerCreator([editCommentRoutine.TRIGGER])
 });
 
 export default combineReducers({
@@ -36,6 +37,8 @@ export const extractFetchDataLoading = state => reqs(state).fetchDataRequest.loa
 export const extractFetchDataError = state => reqs(state).fetchDataRequest.error;
 
 export const extractData = state => data(state);
+export const editCommentLoading = state => reqs(state).editCommentRequest.loading;
+export const editCommentError = state => reqs(state).editCommentRequest.error;
 export const sendCommentLoading = state => reqs(state).sendCommentRequest.loading;
 export const sendCommentError = state => reqs(state).sendCommentRequest.error;
 export const sendReplyLoading = state => reqs(state).sendCommentRequest.loading;
