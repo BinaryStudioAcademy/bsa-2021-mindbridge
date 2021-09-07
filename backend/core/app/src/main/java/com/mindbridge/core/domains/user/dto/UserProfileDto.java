@@ -26,6 +26,8 @@ public class UserProfileDto {
 
 	private long rating;
 
+	private boolean followed;
+
 	private boolean emailVerified;
 
 	private int commentsQuantity;

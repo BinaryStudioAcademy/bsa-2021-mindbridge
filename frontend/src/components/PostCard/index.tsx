@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Card, Feed } from 'semantic-ui-react';
 import ShareSvg from '@components/FeedSvgComponents/shareSvg';
 import RatingComponent from '@components/RatingIcon';
@@ -16,6 +16,8 @@ import TextRenderer from '../TextRenderer';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import readingTime from 'reading-time';
 import Image from '@components/Image';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import SharePopup from '@screens/ViewPost/components/Popups/SharePopup';
 
 interface IPostCardProps {
   post: IPostFeed;
@@ -25,8 +27,22 @@ interface IPostCardProps {
   handleFavouriteAction: any;
 }
 
-const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, handleDisLikePost,
-  userInfo, handleFavouriteAction }) => {
+const PostCard: FunctionComponent<IPostCardProps> = ({
+  post,
+  handleLikePost,
+  handleDisLikePost,
+  userInfo,
+  handleFavouriteAction
+}) => {
+  const [popupContent, setPopupContent] = useState('Copy link');
+  const handleShare = () => {
+    setPopupContent('Copied');
+  };
+
+  const handleOnClose = () => {
+    setPopupContent('Copy link');
+  };
+
   const getFavouriteAction = () => {
     handleFavouriteAction(post);
   };
@@ -50,18 +66,16 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
                 handleDisLikePost={handleDisLikePost}
                 postId={post.id}
                 userInfo={userInfo}
-                arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                  && postReaction.liked)
-                  ? ('#8AC858'
-                  ) : (
-                    '#66B9FF'
-                  )}
-                arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                  && !postReaction.liked)
-                  ? ('#F75C48'
-                  ) : (
-                    '#66B9FF'
-                  )}
+                arrowUpColor={
+                  post.reacted && post.isLiked
+                    ? ('#8AC858')
+                    : ('#66B9FF')
+                }
+                arrowDownColor={
+                  post.reacted && !post.isLiked
+                    ? ('#F75C48')
+                    : ('#66B9FF')
+                }
               />
               <FavouriteSvg handleFavouriteAction={getFavouriteAction} color={post.isFavourite ? 'green' : '#66B9FF'} />
             </div>
@@ -69,7 +83,10 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
         </Feed>
         <Card.Description>
           <Image
-            style={{ floated: 'right', size: 'mini' }}
+            style={{
+              floated: 'right',
+              size: 'mini'
+            }}
             src={post.coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'}
           />
           <Link to={`/post/${post.id}`} className={styles.postName}>{post.title}</Link>
@@ -108,7 +125,17 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
             <p>{post.disLikesCount}</p>
           </div>
           <div className={styles.icon}>
-            <ShareSvg />
+            <SharePopup
+              triggerContent={(
+                <CopyToClipboard text={`${window.location.href}post/${post.id}`}>
+                  <button style={{ background: 'none' }} type="button" onClick={handleShare}>
+                    <ShareSvg />
+                  </button>
+                </CopyToClipboard>
+              )}
+              popupContent={popupContent}
+              handleOnClose={handleOnClose}
+            />
           </div>
         </div>
       </Card.Content>

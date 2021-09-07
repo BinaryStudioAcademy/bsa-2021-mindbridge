@@ -4,10 +4,14 @@ import com.mindbridge.core.domains.achievement.AchievementHelper;
 import com.mindbridge.core.domains.achievement.AchievementService;
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
+import com.mindbridge.core.domains.notification.NotificationService;
 import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
 import com.mindbridge.core.domains.tag.dto.TagDto;
+import com.mindbridge.core.domains.user.UserService;
+import com.mindbridge.data.domains.post.PostRepository;
+import com.mindbridge.data.domains.postReaction.PostReactionRepository;
 import com.mindbridge.data.domains.favorite.FavoriteRepository;
 import com.mindbridge.data.domains.favorite.model.Favorite;
 import com.mindbridge.data.domains.post.PostRepository;
@@ -21,6 +25,11 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,15 +53,21 @@ public class PostService {
 
 	private final AchievementHelper achievementHelper;
 
-	private final FavoriteRepository favouriteRepository;
+	private final NotificationService notificationService;
+
+  private final FavoriteRepository favouriteRepository;
+
+	private final PostReactionRepository postReactionRepository;
+
+	private final UserService userService;
 
 	@Lazy
 	@Autowired
-	public PostService(PostRepository postRepository, CommentService commentService,
+	public PostService(PostRepository postRepository, CommentService commentService, NotificationService notificationService,
 			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-			PostVersionRepository postVersionRepository, ElasticService elasticService,
-			AchievementHelper achievementHelper, FavoriteRepository favouriteRepository) {
-		this.postRepository = postRepository;
+			PostVersionRepository postVersionRepository, ElasticService elasticService, FavoriteRepository favouriteRepository,
+			PostReactionRepository postReactionRepository, UserService userService, AchievementHelper achievementHelper) {
+    this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
 		this.userRepository = userRepository;
@@ -60,10 +75,13 @@ public class PostService {
 		this.postVersionRepository = postVersionRepository;
 		this.elasticService = elasticService;
 		this.achievementHelper = achievementHelper;
+		this.postReactionRepository = postReactionRepository;
+		this.userService = userService;
+		this.notificationService = notificationService;
 		this.favouriteRepository = favouriteRepository;
 	}
 
-	public PostDetailsDto getPostById(UUID id) {
+	public PostDetailsDto getPostById(Principal principal, UUID id) {
 		var post = postRepository.findById(id).map(PostMapper.MAPPER::postToPostDetailsDto).orElseThrow();
 
 		List<String> tags = post.getTags().stream().map(TagDto::getName).collect(Collectors.toList());
@@ -81,23 +99,41 @@ public class PostService {
 		post.setRating(postReactionService.calcPostRatingById(id));
 		post.setRelatedPosts(relatedPostsDto);
 
-		var favourite = favouriteRepository.getFavoriteByPostId(id);
+		if (principal == null) {
+			return post;
+		}
+		var currentUser = userService.loadUserDtoByEmail(principal.getName());
+		var reaction = postReactionRepository.getPostReaction(currentUser.getId(), post.getId());
+		post.setReacted(reaction.isPresent());
+		reaction.ifPresent(postReaction -> post.setIsLiked(postReaction.getLiked()));
+		var favourite = favouriteRepository.getFavoriteByPostIdAndUserId(id, currentUser.getId());
 		post.setIsFavourite(favourite.isPresent());
+
 		return post;
 	}
 
-	public List<PostsListDetailsDto> getAllPosts(Integer from, Integer count, UUID userId) {
+	public List<PostsListDetailsDto> getAllPosts(Principal principal, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
+
 		var allPosts = postRepository.getAllPosts(pageable).stream()
 			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
 			.collect(Collectors.toList());
-		var favouritePosts = favouriteRepository.getAllPostByUserId(userId);
+		if (principal == null) {
+			return allPosts;
+		}
+		var currentUser = userService.loadUserDtoByEmail(principal.getName());
+		var favouritePosts = favouriteRepository.getAllPostByUserId(currentUser.getId());
 		allPosts.forEach(post -> setIfFavourite(favouritePosts, post));
-		return allPosts;
+
+		return allPosts.stream().peek(post -> {
+			var reaction = postReactionRepository.getPostReaction(currentUser.getId(), post.getId());
+			post.setReacted(reaction.isPresent());
+			reaction.ifPresent(postReaction -> post.setIsLiked(postReaction.getLiked()));
+		}).collect(Collectors.toList());
 	}
 
 	public void setIfFavourite(List<Favorite> favouritePosts, PostsListDetailsDto post) {
-		var found = favouritePosts.stream().filter(favouritePost -> favouritePost.getPost().getId().toString().equals(post.getId())).findFirst();
+		var found = favouritePosts.stream().filter(favouritePost -> favouritePost.getPost().getId().toString().equals(post.getId().toString())).findFirst();
 		post.setIsFavourite(found.isPresent());
 	}
 
@@ -123,6 +159,7 @@ public class PostService {
 		var tags = new HashSet<>(tagRepository.findAllById(createPostDto.getTags()));
 		post.setTags(tags);
 		var savedPost = postRepository.save(post);
+		notificationService.sendFollowersNewPost(createPostDto.getAuthor(), savedPost.getId());
 		postReactionService
 				.setReaction(new ReceivedPostReactionDto(savedPost.getId(), createPostDto.getAuthor(), true));
 		if (!savedPost.getDraft()) {
@@ -139,6 +176,11 @@ public class PostService {
 	public List<DraftsListDto> getAllDrafts(UUID userId) {
 		return postRepository.getDraftsByUser(userId).stream().map(PostMapper.MAPPER::postToDraftDto)
 				.collect(Collectors.toList());
+	}
+
+	public List<DraftsListDto> getAllMyPosts(UUID userId) {
+		return postRepository.getPostsByUser(userId).stream().map(PostMapper.MAPPER::postToDraftDto)
+			.collect(Collectors.toList());
 	}
 
 	public List<PostsListDetailsDto> listIDsToListPosts(List<UUID> postIds) {

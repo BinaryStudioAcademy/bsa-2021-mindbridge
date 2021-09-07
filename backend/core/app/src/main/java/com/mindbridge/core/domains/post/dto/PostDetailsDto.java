@@ -38,6 +38,10 @@ public class PostDetailsDto {
 
 	private Boolean draft;
 
+	private Boolean reacted;
+
+	private Boolean isLiked;
+
 	private List<RelatedPostDto> relatedPosts;
 
 	private Boolean isFavourite;
