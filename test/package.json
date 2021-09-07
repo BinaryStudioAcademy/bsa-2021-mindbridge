@@ -12,13 +12,16 @@
     "dependencies": {
         "@wdio/cli": "^7.7.7",
         "chai": "^4.3.4",
-        "newman": "^5.2.4"
+        "newman": "^5.2.4",
+        "random-sentence": "^1.0.4",
+        "random-title": "^1.0.4"
     },
     "devDependencies": {
         "@wdio/local-runner": "^7.10.0",
         "@wdio/mocha-framework": "^7.10.0",
         "@wdio/spec-reporter": "^7.10.0",
         "chromedriver": "^92.0.1",
+        "prettier": "2.3.2",
         "wdio-chromedriver-service": "^7.2.0"
     }
 }

@@ -19,8 +19,8 @@ describe('Log in', function() {
         await app.homePage.goToLogInForm();
 
         await app.signinPage.login({
-            email: 'walton.schmitt@yahoo.com',
-            password: 'mindbridge'
+            email: 'testt@gmail.com',
+            password: '12345'
         });
 
         await browser.waitUntil(async function() {
@@ -29,7 +29,7 @@ describe('Log in', function() {
         }, { timeout: 5000 }, );
 
         expect(await app.homePage.getNameText()).to.eql({
-            nameText: 'Marlin Rosenbaum'
+            nameText: 'Test'
         });
 
     });

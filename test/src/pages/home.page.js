@@ -9,6 +9,7 @@ class HomePage {
         this.settingsButton = new Button('div.ui.button.floating.labeled.dropdown');
         this.editProfileButton = new Button('span.text=Edit profile');
         this.signOutButton = new Button('span.text=Sign out');
+        this.createPostButton = new Button('button.ui.button.styles_dark_button__2BgOE.styles_create_post_button__1Xsd9');
     }
 
     async goToLogInForm() {
@@ -33,6 +34,10 @@ class HomePage {
     async signOut() {
         await this.settingsButton.click();
         await this.signOutButton.click();
+    }
+
+    async goToCreatePostPage() {
+        await this.createPostButton.click();
     }
 }
 

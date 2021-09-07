@@ -22,10 +22,12 @@ describe('Log in', function() {
 
         await app.homePage.goToSignUpForm();
 
+        const nick = `smithy${nickNameNumber}`
+
         await app.signupPage.signup({
             firstName: 'John',
             lastName: 'Smith',
-            nickname: `smithy${nickNameNumber}`,
+            nickname: nick,
             email: `johnsmith${nickNameNumber}@gmail.com`,
             password: 'Pa55word',
             passwordConfirm: 'Pa55word',
@@ -37,7 +39,7 @@ describe('Log in', function() {
         }, { timeout: 5000 }, );
 
         expect(await app.homePage.getNameText()).to.eql({
-            nameText: 'John Smith'
+            nameText: nick
         });
 
     });
