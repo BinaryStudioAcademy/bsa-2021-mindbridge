@@ -46,6 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers("/webjars/**").permitAll()
 			.antMatchers("/auth/**", "/oauth2/**").permitAll()
 			.antMatchers(HttpMethod.GET, "/search/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/achievement/byUser/*").permitAll()
 			.antMatchers(HttpMethod.GET, "/post/*", "/post/all", "/post/title/*", "/post/drafts/*").permitAll()
 			.antMatchers(HttpMethod.GET, "/postVersion/*", "/postVersion/all/*").permitAll()
 			.antMatchers(HttpMethod.GET, "/user/*").permitAll()
