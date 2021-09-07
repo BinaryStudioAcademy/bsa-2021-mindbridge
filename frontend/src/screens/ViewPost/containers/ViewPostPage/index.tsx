@@ -80,6 +80,14 @@ const ViewPost: React.FC<IViewPostProps> = (
     fetchData(postId);
   }, [postId]);
 
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
+
+  useEffect(() => {
+    scrollToTop();
+  }, [data.post.id]);
+
   useEffect(() => {
     if (currentUser.id) {
       fetchHighlights(currentUser.id);

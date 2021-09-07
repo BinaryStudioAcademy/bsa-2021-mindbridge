@@ -5,6 +5,7 @@ import com.mindbridge.data.domains.elasticsearch.model.ElasticEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -26,8 +27,8 @@ public class ElasticController {
 
 	@GetMapping("/list")
 	public List<PostsListDetailsDto> searchList(@RequestParam("query") String query,
-			@RequestParam(defaultValue = "0") Integer from, @RequestParam(defaultValue = "10") Integer count) {
-		return service.searchList(query, from, count);
+												@RequestParam(defaultValue = "0") Integer from, @RequestParam(defaultValue = "10") Integer count, Principal principal) {
+		return service.searchList(query, from, count, principal);
 	}
 
 	@GetMapping("/count")

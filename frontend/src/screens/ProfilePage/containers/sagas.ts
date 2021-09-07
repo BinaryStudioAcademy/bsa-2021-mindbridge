@@ -6,7 +6,9 @@ import {
   sendChangePasswordFormRoutine,
   openPasswordChangeModalRoutine,
   fetchUserRoutine,
-  deleteAvatarRoutine, toggleFollowUserRoutine
+  deleteAvatarRoutine,
+  fetchAchievementsByUserRoutine,
+  toggleFollowUserRoutine
 } from '@screens/ProfilePage/routines';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
@@ -96,6 +98,16 @@ function* sendPassword(action) {
   }
 }
 
+function* fetchAchievements(action) {
+  try {
+    const response = yield call(profilePageService.fetchAchievements, action.payload);
+    yield put(fetchAchievementsByUserRoutine.success(response));
+  } catch (error) {
+    yield put(fetchAchievementsByUserRoutine.failure(error?.message));
+    toastr.error('Error', 'Loading achievements failed!');
+  }
+}
+
 function* sendChangePasswordForm(action) {
   try {
     const isPasswordRight = yield sendPassword(action);
@@ -138,6 +150,10 @@ function* watchSendAvatarRequest() {
   yield takeEvery(sendAvatarRoutine.TRIGGER, sendAvatar);
 }
 
+function* watchFetchAchievementsByUserRequest() {
+  yield takeEvery(fetchAchievementsByUserRoutine.TRIGGER, fetchAchievements);
+}
+
 function* watchToggleFollowUser() {
   yield takeEvery(toggleFollowUserRoutine.TRIGGER, toggleFollowUser);
 }
@@ -150,6 +166,7 @@ export default function* defaultProfileSagas() {
     watchSendNicknameRequest(),
     watchSendAvatarRequest(),
     deleteAvatarRequest(),
+    watchFetchAchievementsByUserRequest(),
     watchToggleFollowUser()
   ]);
 }

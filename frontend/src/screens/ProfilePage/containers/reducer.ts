@@ -7,6 +7,7 @@ import {
   sendChangePasswordFormRoutine,
   fetchUserRoutine,
   deleteAvatarRoutine,
+  fetchAchievementsByUserRoutine,
   toggleFollowUserRoutine
 } from '@screens/ProfilePage/routines';
 import { IDataProfile } from '@screens/ProfilePage/models/IDataProfile';
@@ -30,7 +31,10 @@ const initialState: IDataProfile = {
     commentsQuantity: 0,
     postsQuantity: 0,
     contributionsQuantity: 0,
+    followers: [],
+    following: [],
     followersQuantity: 0,
+    followingQuantity: 0,
     lastArticleTitles: [{ id: '', title: '' }],
     createdAt: '',
     followed: false
@@ -38,7 +42,8 @@ const initialState: IDataProfile = {
   savingAvatar: {
     url: '',
     isLoaded: true
-  }
+  },
+  achievements: []
 };
 
 export const profilePageReducer = createReducer(initialState, {
@@ -113,5 +118,8 @@ export const profilePageReducer = createReducer(initialState, {
   },
   [deleteAvatarRoutine.FAILURE]: state => {
     state.savingAvatar.isLoaded = true;
+  },
+  [fetchAchievementsByUserRoutine.SUCCESS]: (state, action) => {
+    state.achievements = action.payload;
   }
 });

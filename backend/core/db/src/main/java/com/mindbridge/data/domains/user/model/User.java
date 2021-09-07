@@ -1,6 +1,9 @@
 package com.mindbridge.data.domains.user.model;
 
+import com.mindbridge.data.domains.achievement.model.Achievement;
 import com.mindbridge.data.model.BaseAuditableEntity;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -41,6 +44,11 @@ public class User extends BaseAuditableEntity {
 	public String getFullName() {
 		return firstName + " " + lastName;
 	}
+
+	@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+	@JoinTable(name = "users_achievements", joinColumns = @JoinColumn(name = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "achievement_id"))
+	private Set<Achievement>  achievements = new HashSet<>();
 
 	@Override
 	public String toString() {
