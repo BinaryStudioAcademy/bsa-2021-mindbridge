@@ -1,6 +1,12 @@
 package com.mindbridge.data.domains.achievement.model;
 
+import com.mindbridge.data.domains.user.model.User;
 import com.mindbridge.data.model.BaseAuditableEntity;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,6 +26,9 @@ public class Achievement extends BaseAuditableEntity {
 	private String type;
 
 	private Integer level;
+
+	@ManyToMany(mappedBy = "achievements", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+	private Set<User> users = new HashSet<>();
 
 	@Override
 	public String toString() {
