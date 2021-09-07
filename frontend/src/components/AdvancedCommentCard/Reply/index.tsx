@@ -6,6 +6,7 @@ import AdvancedComment from '@components/AdvancedCommentCard/AdvancedComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
+import {IBindingAction} from "@models/Callbacks";
 
 interface ICommentProps {
   text: string;
@@ -32,6 +33,8 @@ interface ICommentProps {
   editComment: any;
   updatedAt: string;
   commentProp: IComments;
+  resetSendingComment: IBindingAction;
+  sendingEditComment: boolean;
 }
 
 const Reply: React.FC<ICommentProps> = (
@@ -59,7 +62,9 @@ const Reply: React.FC<ICommentProps> = (
     users,
     editComment,
     updatedAt,
-    commentProp
+    commentProp,
+    resetSendingComment,
+    sendingEditComment
   }
 ) => {
   const closeCommentRef = useRef(true);
@@ -98,6 +103,8 @@ const Reply: React.FC<ICommentProps> = (
         searchUsersByNickname={searchUsersByNickname}
         editComment={editComment}
         updatedAt={updatedAt}
+        resetSendingComment={resetSendingComment}
+        sendingEditComment={sendingEditComment}
       />
       {repliesLength && (
         <div className={!isMaxDepthOfComments && styles.leftBorder}>
@@ -129,6 +136,8 @@ const Reply: React.FC<ICommentProps> = (
                     searchUsersByNickname={searchUsersByNickname}
                     editComment={editComment}
                     updatedAt={comment.updatedAt}
+                    resetSendingComment={resetSendingComment}
+                    sendingEditComment={sendingEditComment}
                   />
                 ))}
             </div>

@@ -19,7 +19,7 @@ import { cursorPosition } from '@screens/ViewPost/helpers/cursorPosition';
 import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 import readingTime from 'reading-time';
 import RelatedPosts from '@screens/ViewPost/components/RelatedPosts';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { useDebouncedCallback } from 'use-debounce';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import Image from '@components/Image';
@@ -45,6 +45,8 @@ interface IViewPostCardProps {
   users: IMentionsUser[];
   editComment: IBindingCallback1<object>;
   handleFavouriteAction: any;
+  resetSendingComment: IBindingAction;
+  sendingEditComment: boolean;
 }
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
@@ -64,7 +66,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   searchUsersByNickname,
   users,
   editComment,
-  handleFavouriteAction
+  handleFavouriteAction,
+  resetSendingComment,
+  sendingEditComment
 }) => {
   const highlighter = new Highlighter({
     wrapTag: 'i',
@@ -283,6 +287,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
           users={users}
           searchUsersByNickname={searchUsersByNickname}
           editComment={editComment}
+          resetSendingComment={resetSendingComment}
+          sendingEditComment={sendingEditComment}
         />
       </Card>
     </div>

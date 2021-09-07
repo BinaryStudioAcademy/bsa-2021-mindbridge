@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
 import UpToParentCommentSvg from '@components/AdvancedCommentCard/svg/UpToParentCommentSvg';
@@ -23,6 +23,7 @@ import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
 import { IComments } from '@screens/ViewPost/models/IComments';
 import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
+import { IBindingAction } from '@models/Callbacks';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -48,6 +49,8 @@ interface IBasicCommentProps {
   onChange: any;
   updatedAt: string;
   comment: IComments;
+  resetSendingComment: IBindingAction;
+  sendingEditComment: boolean;
 }
 /* eslint-disable max-len */
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
@@ -74,13 +77,24 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     users,
     comment,
     editComment,
-    onChange
+    onChange,
+    resetSendingComment,
+    sendingEditComment
   }
 ) => {
   const [disabled, setDisabled] = useState(false);
   const [rotateArrowHook, setRotateArrowHook] = useState(false);
   const [shouldRender] = useState(setShouldRender);
   const [editMode, setEditMode] = useState(false);
+  const [preloader, setPreloader] = useState(false);
+  const [isLoadCommentContent, setIsLoadCommentContent] = useState(false);
+
+  useEffect(() => {
+    if (sendingEditComment) {
+      setPreloader(false);
+      resetSendingComment();
+    }
+  });
 
   const rotateArrow = {
     width: '0.7142em',
@@ -97,12 +111,21 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
 
   const [changeableComment, setChangeableComment] = useState<IEditComment>({
     text,
-    commentId: ''
+    commentId: '',
+    sendingEditCommentStatus: false
   });
+
+  const debouncedLoadCommentContent = useDebouncedCallback(() => {
+    setIsLoadCommentContent(!isLoadCommentContent);
+  }, 500);
 
   const checkForNickname = (textComment: string) => {
     const commentText = textComment || changeableComment.text;
-    return commentText.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
+    const content = commentText.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
+    if (isLoadCommentContent) {
+      debouncedLoadCommentContent();
+    }
+    return content;
   };
 
   const checkAuthorPost = (authorPostId, userID) => authorPostId === userID;
@@ -113,6 +136,10 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     display: '',
     id: ''
   }] });
+
+  const sendEditCommentDebounced = useDebouncedCallback(() => {
+    setEditMode(!editMode);
+  }, 400);
 
   const handleEditComment = (event: any) => {
     setChangeableComment({
@@ -128,7 +155,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
         commentId
       };
       editComment(newChangeableComment);
-      setEditMode(!editMode);
+      sendEditCommentDebounced();
     }
   };
 
@@ -280,8 +307,18 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
               </MentionsInput>
 
               <div className={styles.btn_wrapper}>
-                <DarkBorderButton onClick={() => setEditMode(!editMode)} className={styles.btnCancel} content="Cancel" />
-                <DarkBorderButton onClick={handleSendChangeableComment} className={styles.btnEdit} content="Save" />
+                <DarkBorderButton
+                  onClick={() => setEditMode(!editMode)}
+                  className={styles.btnCancel}
+                  content="Cancel"
+                />
+                <DarkBorderButton
+                  onClick={handleSendChangeableComment}
+                  className={styles.btnEdit}
+                  loading={preloader}
+                  disabled={preloader}
+                  content="Save"
+                />
               </div>
             </div>
           ) : (
