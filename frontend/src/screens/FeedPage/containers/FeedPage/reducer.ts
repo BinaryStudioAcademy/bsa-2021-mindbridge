@@ -84,7 +84,10 @@ export const feedPageReducer = createReducer(initialState, {
   },
   [deleteFavouritePostRoutine.TRIGGER]: (state, action) => {
     if (state.posts) {
-      state.posts.find(post => post.id === action.payload).isFavourite = false;
+      const favorite = state.posts.find(post => post.id === action.payload.postId);
+      if (favorite) {
+        favorite.isFavourite = false;
+      }
     }
   }
 });
