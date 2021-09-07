@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c8f3b393-a008-4dd6-b688-017265ba6d03",
+		"_postman_id": "707caeb9-eef6-4290-9c51-d147a4c721d0",
 		"name": "MindBridge",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2024,6 +2024,198 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "UNAUTHORISED",
+			"item": [
+				{
+					"name": "all posts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"array\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"title\": { \"type\": \"string\" },",
+									"        \"text\": { \"type\": \"string\" },",
+									"        \"authorName\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"string\" },",
+									"        \"commentsCount\": { \"type\": \"number\"},",
+									"        \"likesCount\": { \"type\": \"number\"},",
+									"        \"disLikesCount\": { \"type\": \"number\"},",
+									"        \"postRating\": { \"type\": \"number\"},",
+									"        \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"        \"usersCount\": { \"type\": \"number\"},",
+									"        \"tags\": { \"type\": \"array\",",
+									"                    \"properties\": {",
+									"                        \"id\": { \"type\": \"string\" },",
+									"                        \"name\": { \"type\": \"string\" }",
+									"                    },",
+									"                    \"required\": [\"id\", \"name\"]},",
+									"        \"coverImage\": { \"type\": [\"string\", \"null\"] },",
+									"        \"markdown\": { \"type\": \"boolean\" }",
+									"    },",
+									"    \"required\": [\"id\", \"title\", \"text\", \"authorName\", \"createdAt\", \"commentsCount\", \"likesCount\", \"disLikesCount\", \"postRating\", \"avatar\", \"usersCount\", \"tags\", \"coverImage\", \"markdown\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"idPost\", response[0].id);",
+									"pm.collectionVariables.set(\"title\", response[0].title);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/post/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"post",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"id\": { \"type\": \"string\" },",
+									"        \"createdAt\": { \"type\": \"string\" },",
+									"        \"updatedAt\": { \"type\": \"string\" },",
+									"        \"title\": { \"type\": \"string\" },",
+									"        \"text\": { \"type\": \"string\" },",
+									"        \"author\": { \"type\": \"object\",",
+									"                    \"properties\": {",
+									"                    \"id\": { \"type\": \"string\" },",
+									"                    \"nickname\": { \"type\": \"string\" },",
+									"                    \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"                },",
+									"                \"required\": [\"id\", \"nickname\", \"avatar\"]",
+									"                },",
+									"        \"tags\": { \"type\": \"array\",",
+									"                    \"properties\": {",
+									"                        \"id\": { \"type\": \"string\" },",
+									"                        \"name\": { \"type\": \"string\" }",
+									"                    },",
+									"                    \"required\": [\"id\", \"name\"]",
+									"                    },",
+									"        \"rating\": { \"type\": \"number\" },",
+									"        \"comments\": { \"type\": \"array\",",
+									"                    \"properties\": {",
+									"                        \"id\": { \"type\": \"string\" },",
+									"                        \"createdAt\": { \"type\": \"string\" },",
+									"                        \"updatedAt\": { \"type\": \"string\" },",
+									"                        \"text\": { \"type\": \"string\" },",
+									"                        \"author\": { \"type\": \"object\",",
+									"                                \"properties\": {",
+									"                                \"id\": { \"type\": \"string\" },",
+									"                                \"createdAt\": { \"type\": \"string\" },",
+									"                                \"nickname\": { \"type\": \"string\" },",
+									"                                \"avatar\": { \"type\": [\"null\", \"string\"] },",
+									"                                \"email\": { \"type\": \"string\" },",
+									"                                \"firstName\": { \"type\": \"string\" },",
+									"                                \"lastName\": { \"type\": \"string\" },",
+									"                                },",
+									"                                \"required\": [\"id\", \"createdAt\", \"nickname\", \"avatar\", \"email\", \"firstName\", \"lastName\"]",
+									"                        },",
+									"                        \"rating\": { \"type\": \"number\" },",
+									"                        \"comments\": { \"type\": \"array\"}",
+									"            },",
+									"        },",
+									"        \"coverImage\": { \"type\": [\"string\", \"null\"] },",
+									"        \"markdown\": { \"type\": \"boolean\" }",
+									"    },",
+									"    \"required\": [\"id\", \"createdAt\", \"updatedAt\", \"title\", \"text\", \"author\", \"tags\", \"rating\", \"comments\", \"coverImage\", \"markdown\"]",
+									"};",
+									"",
+									"pm.test(\"Validate schema\", () => {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});",
+									"",
+									"var response = JSON.parse(responseBody);",
+									"var idPost = pm.collectionVariables.get(\"idPost\");",
+									"",
+									"tests[\"Verify id of post\"] = response.id === idPost;"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}/post/{{idPost}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"post",
+								"{{idPost}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
 						]
 					}
 				}
