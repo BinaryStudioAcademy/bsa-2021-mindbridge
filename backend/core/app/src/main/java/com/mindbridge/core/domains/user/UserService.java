@@ -107,7 +107,12 @@ public class UserService implements UserDetailsService {
 		user.setUserReactions(userReactions.stream().map(UserReactionsDto::fromEntity).collect(Collectors.toList()));
 		user.setUserReactionsComments(
 				userCommentReactions.stream().map(UserReactionsCommentsDto::fromEntity).collect(Collectors.toList()));
-		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
+		var followers = followerRepository.getAllByFollowedId(userId);
+		var following = followerRepository.getAllByFollowerId(userId);
+		user.setFollowers(followers.stream().map(FollowerDto::fromEntity).collect(Collectors.toList()));
+		user.setFollowing(following.stream().map(FollowingDto::fromEntity).collect(Collectors.toList()));
+		user.setFollowersQuantity(followers.size());
+		user.setFollowingQuantity(following.size());
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
 		user.setRating(calculateUserRating(userId));
 		if (principal == null) {
