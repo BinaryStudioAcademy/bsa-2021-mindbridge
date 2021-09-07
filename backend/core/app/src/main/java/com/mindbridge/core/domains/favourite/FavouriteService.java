@@ -37,7 +37,7 @@ public class FavouriteService {
 	public List<PostsListDetailsDto> getFavouritesPostByUserId(UUID id, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 		var favourites = favouriteRepository.getAllByUserId(id, pageable);
-		return favourites
+		var posts = favourites
 			.stream()
 			.map(fav -> PostsListDetailsDto.fromEntity(
 				fav.getPost(),
@@ -45,6 +45,8 @@ public class FavouriteService {
 				postViewsRepository.countByPostId(fav.getPost().getId())
 			))
 			.collect(Collectors.toList());
+		posts.forEach(fav -> fav.setIsFavourite(true));
+		return posts;
 	}
 
 
@@ -54,9 +56,9 @@ public class FavouriteService {
 		return savedPostId.getPost().getId();
     }
 
-	public UUID deleteFavouritePosts(UUID id) {
-		var post = favouriteRepository.getFavoriteByPostId(id);
+	public UUID deleteFavouritePosts(CreateFavouriteDto favouriteDto) {
+		var post = favouriteRepository.getFavoriteByPostIdAndUserId(favouriteDto.getPostId(), favouriteDto.getUserId());
 		favouriteRepository.delete(post.orElseThrow());
-		return id;
+		return favouriteDto.getPostId();
 	}
 }

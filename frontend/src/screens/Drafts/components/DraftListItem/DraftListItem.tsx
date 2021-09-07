@@ -14,6 +14,7 @@ interface IDraftListItemProps {
   tags: ITag[];
   createdAt: string;
   coverImage: string;
+  isDraft: boolean;
 }
 
 const DraftListItem: FunctionComponent<IDraftListItemProps> = (
@@ -22,11 +23,12 @@ const DraftListItem: FunctionComponent<IDraftListItemProps> = (
     title,
     tags,
     createdAt,
-    coverImage
+    coverImage,
+    isDraft
   }
 ) => (
   <div className={styles.draftItem}>
-    <DraftLabel />
+    {isDraft && <DraftLabel />}
     <div className={styles.upper}>
       <div className={styles.leftSide}>
         <Link to={`/post/${id}`}>{title}</Link>

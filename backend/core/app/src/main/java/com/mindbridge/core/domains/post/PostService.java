@@ -85,11 +85,7 @@ public class PostService {
 	}
 
 	public PostDetailsDto getPostById(Principal principal, UUID id) {
-		var currentUser = userService.loadUserDtoByEmail(principal.getName());
 		var post = postRepository.findById(id).map(PostMapper.MAPPER::postToPostDetailsDto).orElseThrow();
-		var reaction = postReactionRepository.getPostReaction(currentUser.getId(), post.getId());
-		post.setReacted(reaction.isPresent());
-		reaction.ifPresent(postReaction -> post.setIsLiked(postReaction.getLiked()));
 
 		List<String> tags = post.getTags().stream().map(TagDto::getName).collect(Collectors.toList());
 		List<RelatedPostDto> relatedPostsDto = postRepository.getRelatedPostsByTags(id, tags, PageRequest.of(0, 3))
@@ -106,14 +102,20 @@ public class PostService {
 		post.setRating(postReactionService.calcPostRatingById(id));
 		post.setRelatedPosts(relatedPostsDto);
 
-		var favourite = favouriteRepository.getFavoriteByPostId(id);
+		if (principal == null) {
+			return post;
+		}
+		var currentUser = userService.loadUserDtoByEmail(principal.getName());
+		var reaction = postReactionRepository.getPostReaction(currentUser.getId(), post.getId());
+		post.setReacted(reaction.isPresent());
+		reaction.ifPresent(postReaction -> post.setIsLiked(postReaction.getLiked()));
+		var favourite = favouriteRepository.getFavoriteByPostIdAndUserId(id, currentUser.getId());
 		post.setIsFavourite(favourite.isPresent());
 		post.setPostViewsNumber(postViewsRepository.countByPostId(post.getId()));
 		return post;
 	}
 
 	public List<PostsListDetailsDto> getAllPosts(Principal principal, Integer from, Integer count) {
-		var currentUser = userService.loadUserDtoByEmail(principal.getName());
 		var pageable = PageRequest.of(from / count, count);
 
 		var allPosts = postRepository.getAllPosts(pageable).stream()
@@ -122,6 +124,10 @@ public class PostService {
 				postRepository.getAllReactionsOnPost(post.getId()),
 				postViewsRepository.countByPostId(post.getId())))
 			.collect(Collectors.toList());
+		if (principal == null) {
+			return allPosts;
+		}
+		var currentUser = userService.loadUserDtoByEmail(principal.getName());
 		var favouritePosts = favouriteRepository.getAllPostByUserId(currentUser.getId());
 		allPosts.forEach(post -> setIfFavourite(favouritePosts, post));
 
@@ -133,7 +139,7 @@ public class PostService {
 	}
 
 	public void setIfFavourite(List<Favorite> favouritePosts, PostsListDetailsDto post) {
-		var found = favouritePosts.stream().filter(favouritePost -> favouritePost.getPost().getId().toString().equals(post.getId())).findFirst();
+		var found = favouritePosts.stream().filter(favouritePost -> favouritePost.getPost().getId().toString().equals(post.getId().toString())).findFirst();
 		post.setIsFavourite(found.isPresent());
 	}
 
@@ -175,6 +181,11 @@ public class PostService {
 	public List<DraftsListDto> getAllDrafts(UUID userId) {
 		return postRepository.getDraftsByUser(userId).stream().map(PostMapper.MAPPER::postToDraftDto)
 				.collect(Collectors.toList());
+	}
+
+	public List<DraftsListDto> getAllMyPosts(UUID userId) {
+		return postRepository.getPostsByUser(userId).stream().map(PostMapper.MAPPER::postToDraftDto)
+			.collect(Collectors.toList());
 	}
 
 	public List<PostsListDetailsDto> listIDsToListPosts(List<UUID> postIds) {

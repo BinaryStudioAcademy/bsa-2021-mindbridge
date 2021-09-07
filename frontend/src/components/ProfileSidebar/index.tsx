@@ -69,9 +69,9 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
         </Dropdown>
       </div>
       <div className={styles.sidebar_links}>
-        <Link to="/drafts">
+        <Link to="/my/posts">
           <DraftSvg />
-          <span>Drafts</span>
+          <span>Posts</span>
         </Link>
         <Link to="/favourites">
           <FavoritesSvg />
@@ -83,7 +83,7 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
         </Link>
         <Link to="/">
           <PostsSvg />
-          <span>Your posts</span>
+          <span>Suggested changes</span>
           <div className={postNotificationCount ? styles.post_notification_count : styles.invisible}>
             <div className={styles.count}>
               {postNotificationCount}

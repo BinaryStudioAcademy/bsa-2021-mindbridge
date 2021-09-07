@@ -59,4 +59,8 @@ public class PostController {
 		return postService.getAllDrafts(id);
 	}
 
+	@GetMapping("/allMy/{id}")
+	public List<DraftsListDto> getAllMy(@PathVariable UUID id) {
+		return postService.getAllMyPosts(id);
+	}
 }
