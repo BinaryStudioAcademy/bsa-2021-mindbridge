@@ -16,6 +16,8 @@ export interface IPostFeed {
   avatar: string;
   coverImage: string;
   markdown: boolean;
+  reacted: boolean;
+  isLiked: boolean;
   isFavourite: boolean;
   postViewsNumber: number;
 }

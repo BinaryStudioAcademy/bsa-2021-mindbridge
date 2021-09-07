@@ -5,6 +5,8 @@ import com.mindbridge.core.domains.postPR.dto.EditPostPRDto;
 import com.mindbridge.core.domains.postPR.dto.PostPRDetailsDto;
 import com.mindbridge.core.security.auth.UserPrincipal;
 import com.mindbridge.data.domains.user.model.User;
+
+import java.security.Principal;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +37,8 @@ public class PostPRController {
 	}
 
 	@PostMapping("/create")
-	public void create(@RequestBody CreatePostPRDto createPostPRDto) {
-		postPRService.create(createPostPRDto);
+	public void create(@RequestBody CreatePostPRDto createPostPRDto, Principal principal) {
+		postPRService.create(createPostPRDto, principal);
 	}
 
 	@GetMapping("/{id}")

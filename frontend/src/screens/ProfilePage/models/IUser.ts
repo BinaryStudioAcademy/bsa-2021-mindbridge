@@ -13,4 +13,5 @@ export interface IUser {
   followersQuantity: number;
   lastArticleTitles: IPostTitle[];
   createdAt: string;
+  followed: boolean;
 }

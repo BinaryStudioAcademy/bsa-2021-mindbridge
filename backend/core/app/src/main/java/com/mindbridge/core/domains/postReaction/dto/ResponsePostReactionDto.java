@@ -17,8 +17,6 @@ public class ResponsePostReactionDto {
 
 	private UUID userId;
 
-	private UUID authorId;
-
 	private Boolean isFirstReaction;
 
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,8 +22,8 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
-	public UserProfileDto getUserProfileInfo(@PathVariable UUID id) {
-		return userService.getUserProfileInformation(id);
+	public UserProfileDto getUserProfileInfo(@PathVariable UUID id, Principal principal) {
+		return userService.getUserProfileInformation(id, principal);
 	}
 
 	@PostMapping("/update/{id}")
@@ -54,6 +55,11 @@ public class UserController {
 	@GetMapping("/find")
 	public List<UserMentionsDto> getAllUserByNickname(@RequestParam("query") String query) {
 		return userService.getAllUser(query);
+	}
+
+	@PutMapping("/follow")
+	public void followUser(@RequestBody FollowDto followDto, Principal principal) {
+		userService.followUser(followDto, principal);
 	}
 
 	@PostMapping("/delete/avatar/{id}")

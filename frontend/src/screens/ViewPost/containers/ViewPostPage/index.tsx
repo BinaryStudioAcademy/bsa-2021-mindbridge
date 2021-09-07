@@ -16,8 +16,6 @@ import { IData } from '@screens/ViewPost/models/IData';
 import { useParams } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { disLikeCommentViewRoutine, disLikePostViewRoutine, likeCommentViewRoutine, likePostViewRoutine }
-  from '@screens/PostPage/routines';
 import { deleteHighlightRoutine, fetchHighlightsRoutine,
   fetchHighlightsWithoutPaginationRoutine } from '@screens/HighlightsPage/routines';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
@@ -44,15 +42,11 @@ interface IState {
 interface IActions {
   fetchData: IBindingCallback1<string>;
   leaveReaction: IBindingCallback1<object>;
-  likePostView: IBindingCallback1<string>;
-  disLikePostView: IBindingCallback1<string>;
   saveHighlight: IBindingCallback1<object>;
   fetchHighlights: IBindingCallback1<string>;
   deleteHighlight: IBindingCallback1<string>;
   sendComment: IBindingCallback1<object>;
   sendReply: IBindingCallback1<object>;
-  likeComment: IBindingCallback1<string>;
-  dislikeComment: IBindingCallback1<string>;
   leaveReactionOnComment: IBindingCallback1<object>;
   searchUsersByNickname: IBindingCallback1<string>;
   saveFavouritePost: IBindingCallback1<object>;
@@ -70,15 +64,11 @@ const ViewPost: React.FC<IViewPostProps> = (
     currentUser,
     userInfo,
     leaveReaction,
-    likePostView,
-    disLikePostView,
     saveHighlight,
     fetchHighlights,
     highlights,
     deleteHighlight,
     isAuthorized,
-    likeComment,
-    dislikeComment,
     leaveReactionOnComment,
     searchUsersByNickname,
     users,
@@ -120,7 +110,6 @@ const ViewPost: React.FC<IViewPostProps> = (
         userId: currentUser.id,
         liked: true
       };
-      likePostView(id);
       leaveReaction(post);
     }
   };
@@ -153,7 +142,6 @@ const ViewPost: React.FC<IViewPostProps> = (
         userId: currentUser.id,
         liked: false
       };
-      disLikePostView(id);
       leaveReaction(post);
     }
   };
@@ -165,7 +153,6 @@ const ViewPost: React.FC<IViewPostProps> = (
         userId: currentUser.id,
         liked: true
       };
-      likeComment(id);
       leaveReactionOnComment(comment);
     }
   };
@@ -177,7 +164,6 @@ const ViewPost: React.FC<IViewPostProps> = (
         userId: currentUser.id,
         liked: false
       };
-      dislikeComment(id);
       leaveReactionOnComment(comment);
     }
   };
@@ -243,13 +229,9 @@ const mapDispatchToProps: IActions = {
   sendReply: sendReplyRoutine,
   fetchData: fetchDataRoutine,
   leaveReaction: leaveReactionOnPostViewPageRoutine,
-  likePostView: likePostViewRoutine,
-  disLikePostView: disLikePostViewRoutine,
   saveHighlight: saveHighlightRoutine,
   fetchHighlights: fetchHighlightsWithoutPaginationRoutine,
   deleteHighlight: deleteHighlightRoutine,
-  likeComment: likeCommentViewRoutine,
-  dislikeComment: disLikeCommentViewRoutine,
   leaveReactionOnComment: leaveReactionOnCommentRoutine,
   searchUsersByNickname: searchUserByNicknameRoutine,
   saveFavouritePost: saveFavouritePostRoutine,

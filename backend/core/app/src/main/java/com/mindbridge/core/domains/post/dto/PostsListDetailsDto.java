@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Builder
 public class PostsListDetailsDto {
 
-	private String id;
+	private UUID id;
 
 	private String title;
 
@@ -44,6 +44,10 @@ public class PostsListDetailsDto {
 
 	private Boolean markdown;
 
+	private Boolean reacted;
+
+	private Boolean isLiked;
+	
 	private Boolean isFavourite;
 
 	private int postViewsNumber;
