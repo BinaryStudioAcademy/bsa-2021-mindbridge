@@ -10,7 +10,6 @@ interface ICommentProps {
   createdAt: string;
   text: string;
   author: ICommentAuthor;
-  commentRating: number;
   sendCommentPR: IBindingCallback1<object>;
   userInfo: ICurrentUser;
   prCommentId: string;
