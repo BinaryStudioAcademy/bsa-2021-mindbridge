@@ -47,13 +47,13 @@ public class PostsListDetailsDto {
 	private Boolean reacted;
 
 	private Boolean isLiked;
-	
+
 	private Boolean isFavourite;
 
 	private int postViewsNumber;
 
 	public static PostsListDetailsDto fromEntity(Post post, PostsReactionsQueryResult postsReactionsQueryResult, int postViewsNumber) {
-		return PostsListDetailsDto.builder().id(post.getId().toString()).title(post.getTitle()).text(post.getText())
+		return PostsListDetailsDto.builder().id(post.getId()).title(post.getTitle()).text(post.getText())
 				.authorId(post.getAuthor().getId().toString()).nickname(post.getAuthor().getNickname())
 				.createdAt(getDate(post.getCreatedAt())).commentsCount(post.getComments().size())
 				.tags(post.getTags().stream().map(TagDto::fromEntity).collect(Collectors.toList()))

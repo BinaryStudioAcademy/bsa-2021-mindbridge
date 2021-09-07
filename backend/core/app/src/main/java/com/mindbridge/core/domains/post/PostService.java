@@ -17,7 +17,6 @@ import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postReaction.PostReactionRepository;
 import com.mindbridge.data.domains.favorite.FavoriteRepository;
 import com.mindbridge.data.domains.favorite.model.Favorite;
-import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.postViews.PostViewsRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
@@ -33,12 +32,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.security.Principal;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -73,7 +66,8 @@ public class PostService {
 	public PostService(
 			PostRepository postRepository, CommentService commentService,
 			PostReactionService postReactionService, UserRepository userRepository,
-			TagRepository tagRepository,
+			TagRepository tagRepository, UserService userService,
+			PostReactionRepository postReactionRepository, NotificationService notificationService,
 			PostVersionRepository postVersionRepository, ElasticService elasticService,
 			FavoriteRepository favouriteRepository, PostViewsRepository postViewsRepository) {
 		this.postRepository = postRepository;
