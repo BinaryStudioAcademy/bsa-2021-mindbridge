@@ -4,7 +4,7 @@ import { IComments } from '@screens/ViewPost/models/IComments';
 import Reply from '@components/AdvancedCommentCard/Reply';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
-import {IBindingAction} from "@models/Callbacks";
+import { IBindingAction } from '@models/Callbacks';
 
 interface ICommentProps {
   comments: IComments[];

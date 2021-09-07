@@ -6,7 +6,7 @@ import AdvancedComment from '@components/AdvancedCommentCard/AdvancedComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
-import {IBindingAction} from "@models/Callbacks";
+import { IBindingAction } from '@models/Callbacks';
 
 interface ICommentProps {
   text: string;
