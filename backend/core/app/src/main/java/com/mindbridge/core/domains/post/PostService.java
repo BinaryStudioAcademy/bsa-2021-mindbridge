@@ -1,7 +1,6 @@
 package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.achievement.AchievementHelper;
-import com.mindbridge.core.domains.achievement.AchievementService;
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
 import com.mindbridge.core.domains.post.dto.CreatePostDto;
@@ -23,7 +22,6 @@ import com.mindbridge.core.domains.user.UserService;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postReaction.PostReactionRepository;
 import com.mindbridge.data.domains.favorite.FavoriteRepository;
-import com.mindbridge.data.domains.favorite.model.Favorite;
 import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.postViews.PostViewsRepository;
@@ -40,11 +38,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.security.Principal;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
