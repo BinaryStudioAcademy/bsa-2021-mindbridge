@@ -98,7 +98,7 @@ public class NotificationService {
 				createNotificationDto.setType("newMention");
 				break;
 			}
-			case newAchievement:{
+			case newAchievement: {
 				description = "Congratulations! You get a new award. "
 				+ "\"" + authorNicknameOrAwardTitle + "\"";
 				destination = "newAchievement";
