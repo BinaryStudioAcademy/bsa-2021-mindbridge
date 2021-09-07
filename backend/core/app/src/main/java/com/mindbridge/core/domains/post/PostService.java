@@ -9,14 +9,13 @@ import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
 import com.mindbridge.core.domains.tag.dto.TagDto;
 import com.mindbridge.core.domains.user.UserMapper;
+import com.mindbridge.data.domains.favorite.model.Favorite;
 import com.mindbridge.data.domains.post.dto.PostsReactionsQueryResult;
 import com.mindbridge.data.domains.tag.dto.TagDataDto;
-import com.mindbridge.core.domains.user.UserService;
 import com.mindbridge.core.domains.user.UserService;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postReaction.PostReactionRepository;
 import com.mindbridge.data.domains.favorite.FavoriteRepository;
-import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
@@ -32,7 +31,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
-import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,9 +62,9 @@ public class PostService {
 	@Lazy
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService, NotificationService notificationService,
-			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-			PostVersionRepository postVersionRepository, ElasticService elasticService, FavoriteRepository favouriteRepository,
-			PostReactionRepository postReactionRepository, UserService userService) {
+					   PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
+					   PostVersionRepository postVersionRepository, ElasticService elasticService, NotificationService notificationService1, FavoriteRepository favouriteRepository,
+					   PostReactionRepository postReactionRepository, PostReactionRepository postReactionRepository1, UserService userService) {
     	this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
@@ -74,13 +72,17 @@ public class PostService {
 		this.tagRepository = tagRepository;
 		this.postVersionRepository = postVersionRepository;
 		this.elasticService = elasticService;
+		this.notificationService = notificationService1;
+		this.postReactionRepository = postReactionRepository1;
 		this.userService = userService;
 		this.favouriteRepository = favouriteRepository;
 	}
 
 	public PostDetailsDto getPostById(Principal principal, UUID id) {
+		var post = postRepository.findById(id);
 		var postDetailsDto = post.map(PostMapper.MAPPER::postToPostDetailsDto).orElseThrow();
 
+		postDetailsDto.setAuthor(userService.setUserStatInformation(UserMapper.MAPPER.userToUserDto(post.orElseThrow().getAuthor()).getId()));
 		List<String> tags = postDetailsDto.getTags().stream().map(TagDto::getName).collect(Collectors.toList());
 		List<RelatedPostDto> relatedPostsDto = postRepository.getRelatedPostsByTags(id, tags, PageRequest.of(0, 3))
 			.stream()
@@ -95,8 +97,6 @@ public class PostService {
 
 		postDetailsDto.setRating(postReactionService.calcPostRatingById(id));
 		postDetailsDto.setRelatedPosts(relatedPostsDto);
-
-		return postDetailsDto;
 
 		if (principal == null) {
 			return postDetailsDto;
@@ -113,10 +113,10 @@ public class PostService {
 
 	public List<PostsListDetailsDto> getAllPosts(Principal principal, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
-		return postRepository.getAllPosts(pageable).stream().map(this::mapPost).collect(Collectors.toList());
+		return postRepository.getAllPosts(pageable).stream().map(post -> mapPost(post, principal)).collect(Collectors.toList());
 	}
 
-	public PostsListDetailsDto mapPost(Post post) {
+	public PostsListDetailsDto mapPost(Post post, Principal principal) {
 		var postListDto = PostMapper.MAPPER.postToPostsListDto(post);
 		postListDto.setAuthor(userService.setUserStatInformation(post.getAuthor().getId()));
 		postListDto.setCommentsCount(post.getComments().size());
@@ -131,7 +131,7 @@ public class PostService {
 		}
 		var currentUser = userService.loadUserDtoByEmail(principal.getName());
 		var favouritePosts = favouriteRepository.getAllPostByUserId(currentUser.getId());
-		setIfFavourite(favouritePosts, post);
+		setIfFavourite(favouritePosts, postListDto);
 		var reaction = postReactionRepository.getPostReaction(currentUser.getId(), post.getId());
 		postListDto.setReacted(reaction.isPresent());
 		reaction.ifPresent(postReaction -> postListDto.setIsLiked(postReaction.getLiked()));
@@ -188,8 +188,8 @@ public class PostService {
 			.collect(Collectors.toList());
 	}
 
-	public List<PostsListDetailsDto> listIDsToListPosts(List<UUID> postIds) {
-		return postRepository.findAllById(postIds).stream().map(this::mapPost).collect(Collectors.toList());
+	public List<PostsListDetailsDto> listIDsToListPosts(List<UUID> postIds, Principal principal) {
+		return postRepository.findAllById(postIds).stream().map(post -> mapPost(post, principal)).collect(Collectors.toList());
 	}
 
 }

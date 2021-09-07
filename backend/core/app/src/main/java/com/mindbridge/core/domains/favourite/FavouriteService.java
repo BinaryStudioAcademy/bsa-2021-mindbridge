@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.context.annotation.Lazy;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,12 +33,12 @@ public class FavouriteService {
 		this.postService = postService;
 	}
 
-	public List<PostsListDetailsDto> getFavouritesPostByUserId(UUID id, Integer from, Integer count) {
+	public List<PostsListDetailsDto> getFavouritesPostByUserId(UUID id, Integer from, Integer count, Principal principal) {
 		var pageable = PageRequest.of(from / count, count);
 		var favourites = favouriteRepository.getAllByUserId(id, pageable);
 		var posts = favourites
 			.stream()
-			.map(fav -> postService.mapPost(fav.getPost()))
+			.map(fav -> postService.mapPost(fav.getPost(), principal))
 			.collect(Collectors.toList());
 		posts.forEach(fav -> fav.setIsFavourite(true));
 		return posts;

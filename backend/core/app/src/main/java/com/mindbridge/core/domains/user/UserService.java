@@ -110,6 +110,12 @@ public class UserService implements UserDetailsService {
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
 		user.setRating(calculateUserRating(userId));
+		if (principal == null) {
+			return user;
+		}
+		var currentUser = loadUserDtoByEmail(principal.getName());
+		var follower = followerRepository.findFollowerByFollowerAndFollowed(currentUser.getId(), userId);
+		user.setFollowed(follower.isPresent());
 		return user;
 	}
 
@@ -129,12 +135,6 @@ public class UserService implements UserDetailsService {
 		long rating = postReactionRepository.calcUserPostRating(userId)
 				+ (commentReactionRepository.calcUserCommentRating(userId) / 2);
 		user.setRating(rating);
-		if (principal == null) {
-			return user;
-		}
-		var currentUser = loadUserDtoByEmail(principal.getName());
-		var follower = followerRepository.findFollowerByFollowerAndFollowed(currentUser.getId(), userId);
-		user.setFollowed(follower.isPresent());
 		return user;
 	}
 
