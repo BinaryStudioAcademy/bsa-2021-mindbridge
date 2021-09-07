@@ -142,6 +142,9 @@ const Header: React.FC<IHeaderProps> = (
   };
 
   const toggleNotificationList = () => {
+    if (!isAuthorized) {
+      history.push('/login');
+    }
     if (!isListOpen) {
       handleFetchNotifications(true, { from: 0, count: 10 });
     } else {
