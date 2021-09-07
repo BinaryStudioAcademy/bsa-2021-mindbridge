@@ -51,15 +51,16 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
     text,
     prCommentId: ''
   });
-  const [usersList, setUsersList] = useState({ user: [{
-    display: '',
-    id: ''
-  }] });
+  const [usersList, setUsersList] = useState({
+    user: [{
+      display: '',
+      id: ''
+    }]
+  });
   const debouncedLoadCommentContent = useDebouncedCallback(() => {
     setIsLoadCommentContent(!isLoadCommentContent);
   }, 500);
 
-  // eslint-disable-next-line max-len
   const checkForNickname = (textComment: string) => {
     const commentText = textComment || changeablePrComment.text;
     const content = commentText.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
@@ -147,9 +148,9 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
           {author.id === userInfo.id && (
             <div>
               {!editMode && (
-              <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
-                <EditSvg />
-              </button>
+                <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
+                  <EditSvg />
+                </button>
               )}
             </div>
           )}
@@ -174,15 +175,15 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
                         </button>
                       </CopyToClipboard>
                     </span>
-                    )}
+                  )}
                 />
               </span>
-              )}
+            )}
           />
         </div>
       </div>
       <div className="text">
-        { editMode ? (
+        {editMode ? (
           <div>
             <MentionsInput
               value={changeablePrComment.text}
@@ -218,7 +219,7 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
               parse(checkForNickname(text))
             )}
           </div>
-        ) }
+        )}
       </div>
     </div>
   );

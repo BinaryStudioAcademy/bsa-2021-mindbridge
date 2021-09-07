@@ -1,6 +1,5 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
-import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import Reply from '@components/BasicCommentCard/components/Reply';
 import { IComments } from '@screens/PullRequest/models/IComments';
 import { IBindingCallback1 } from '@models/Callbacks';
