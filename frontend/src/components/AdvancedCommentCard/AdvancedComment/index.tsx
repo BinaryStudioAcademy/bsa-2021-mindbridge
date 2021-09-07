@@ -190,12 +190,16 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
             </div>
           </div>
           <div className={styles.commentRightAction}>
-            <div className={styles.ratingComponent}>
-              {!disabled && (
+            {author.id === userInfo.id && (
+              <div>
+                {!disabled && (
                 <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
                   <EditSvg />
                 </button>
-              )}
+                )}
+              </div>
+            )}
+            <div className={styles.ratingComponent}>
               <RatingComponent
                 postRating={commentRating ?? 0}
                 handleDisLikePost={handleDislikeComment}
