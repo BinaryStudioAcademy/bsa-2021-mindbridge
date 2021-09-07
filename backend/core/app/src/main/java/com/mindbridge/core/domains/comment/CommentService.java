@@ -16,6 +16,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,12 +80,30 @@ public class CommentService {
 			reply.getNickname(),
 			reply.getPostId(),
 			Notification.Type.newReply);
+
+		var IDs = findMentionsAtString(reply.getText());
+
 		return commentRepository.save(commentDtoToReply);
 	}
 
 	public CommentDto getCommentById(UUID id) {
 		var comment = commentRepository.findById(id).map(CommentMapper.MAPPER::commentToCommentDto).orElseThrow();
 		return comment;
+	}
+
+	public List<UUID> findMentionsAtString(String text) {
+		Pattern pattern = Pattern.compile("\\((.*?)\\)");
+		Matcher matcher = pattern.matcher(text);
+		List<UUID> IDs = new ArrayList<>();
+		while ( matcher.find() ) {
+			try {
+				UUID id = UUID.fromString(matcher.group(1));
+				IDs.add(id);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			}
+		}
+		return IDs;
 	}
 
 }
