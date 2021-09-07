@@ -63,8 +63,8 @@ public class PostService {
 	@Autowired
 	public PostService(PostRepository postRepository, CommentService commentService, NotificationService notificationService,
 					   PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-					   PostVersionRepository postVersionRepository, ElasticService elasticService, NotificationService notificationService1, FavoriteRepository favouriteRepository,
-					   PostReactionRepository postReactionRepository, PostReactionRepository postReactionRepository1, UserService userService) {
+					   PostVersionRepository postVersionRepository, ElasticService elasticService, FavoriteRepository favouriteRepository,
+					   PostReactionRepository postReactionRepository, UserService userService) {
     	this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
@@ -72,8 +72,8 @@ public class PostService {
 		this.tagRepository = tagRepository;
 		this.postVersionRepository = postVersionRepository;
 		this.elasticService = elasticService;
-		this.notificationService = notificationService1;
-		this.postReactionRepository = postReactionRepository1;
+		this.notificationService = notificationService;
+		this.postReactionRepository = postReactionRepository;
 		this.userService = userService;
 		this.favouriteRepository = favouriteRepository;
 	}
