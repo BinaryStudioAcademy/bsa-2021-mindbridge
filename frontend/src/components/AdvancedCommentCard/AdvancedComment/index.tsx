@@ -19,11 +19,12 @@ import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
 import { IComments } from '@screens/ViewPost/models/IComments';
+import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
 
 interface IBasicCommentProps {
   createdAt: string;
   text: string;
-  author: IUser;
+  author: ICommentAuthor;
   commentRating: number;
   setShouldRender: boolean;
   ref: any;
