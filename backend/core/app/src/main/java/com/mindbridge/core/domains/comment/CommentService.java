@@ -88,7 +88,12 @@ public class CommentService {
 			Notification.Type.newReply);
 
 		var IDs = findMentionsAtString(reply.getText());
-
+		IDs.stream().map(id -> notificationService.createNotification(
+			id,
+			reply.getNickname(),
+			reply.getPostId(),
+			Notification.Type.newMention
+		)).collect(Collectors.toList());
 		return commentRepository.save(commentDtoToReply);
 	}
 
