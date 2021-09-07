@@ -1,7 +1,6 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import {
   fetchHighlightsRoutine,
-  saveHighlightRoutine,
   fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
@@ -13,6 +12,7 @@ import { IComment } from '@screens/ViewPost/models/IComment';
 import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 import { IUsers } from '@screens/ViewPost/models/IUsers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 import { IEditComment } from '@screens/ViewPost/models/IEditComment';
 
 export interface IViewPostReducerState {
@@ -38,9 +38,12 @@ const initialState: IViewPostReducerState = {
     avatar: null,
     markdown: false,
     draft: false,
+    isLiked: false,
+    reacted: false,
     author: { id: '', firstName: '', lastName: '', avatar: null, nickname: '' },
     relatedPosts: [],
-    comments: []
+    comments: [],
+    isFavourite: false
   },
   highlights: undefined,
   comment: {
@@ -87,15 +90,21 @@ export const viewPostReducer = createReducer(initialState, {
     if (reactionStatus === true) {
       if (response === null || response.isFirstReaction === true) {
         state.post.rating += action.payload.difference;
+        state.post.reacted = action.payload.difference === 1;
+        state.post.isLiked = action.payload.difference === 1;
       } else {
         state.post.rating += action.payload.difference;
         state.post.rating += action.payload.difference;
+        state.post.isLiked = true;
       }
     } else if (response === null || response.isFirstReaction === true) {
       state.post.rating -= action.payload.difference;
+      state.post.reacted = action.payload.difference === 1;
+      state.post.isLiked = action.payload.difference !== 1;
     } else {
       state.post.rating -= action.payload.difference;
       state.post.rating -= action.payload.difference;
+      state.post.isLiked = false;
     }
   },
   [fetchHighlightsRoutine.SUCCESS]: (state, action) => {
@@ -133,5 +142,11 @@ export const viewPostReducer = createReducer(initialState, {
   },
   [searchUserByNicknameRoutine.SUCCESS]: (state, { payload }: PayloadAction<IUsers>) => {
     state.users = payload.users;
+  },
+  [saveFavouritePostRoutine.SUCCESS]: state => {
+    state.post.isFavourite = true;
+  },
+  [deleteFavouritePostRoutine.TRIGGER]: state => {
+    state.post.isFavourite = false;
   }
 });

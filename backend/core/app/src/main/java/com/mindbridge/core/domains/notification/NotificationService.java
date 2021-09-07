@@ -2,6 +2,8 @@ package com.mindbridge.core.domains.notification;
 
 import com.mindbridge.core.domains.notification.dto.CreateNotificationDto;
 import com.mindbridge.core.domains.notification.dto.NotificationDto;
+import com.mindbridge.core.domains.user.UserService;
+import com.mindbridge.data.domains.follower.FollowerRepository;
 import com.mindbridge.data.domains.notification.NotificationRepository;
 import com.mindbridge.data.domains.notification.model.Notification;
 import lombok.extern.slf4j.Slf4j;
@@ -23,18 +25,25 @@ public class NotificationService {
 
 	private final SimpMessagingTemplate template;
 
+	private final UserService userService;
+
+	private final FollowerRepository followerRepository;
+
 	@Lazy
 	@Autowired
-	public NotificationService(NotificationRepository notificationRepository, SimpMessagingTemplate template) {
+	public NotificationService(NotificationRepository notificationRepository, SimpMessagingTemplate template,
+							   UserService userService, FollowerRepository followerRepository) {
 		this.notificationRepository = notificationRepository;
 		this.template = template;
+		this.userService = userService;
+		this.followerRepository = followerRepository;
 	}
 
 	public long getNotificationCount(UUID userId) {
 		return notificationRepository.calcUnreadNotifications(userId);
 	}
 
-	public void createNotification(UUID receiverId, String authorNickname, UUID sourceId, Notification.Type type) {
+	public boolean createNotification(UUID receiverId, String authorNickname, UUID sourceId, Notification.Type type) {
 		CreateNotificationDto createNotificationDto = new CreateNotificationDto();
 		createNotificationDto.setSourceId(sourceId);
 		createNotificationDto.setReceiverId(receiverId);
@@ -60,7 +69,7 @@ public class NotificationService {
 				break;
 			}
 			default: {
-				return;
+				return false;
 			}
 		}
 		createNotificationDto.setText(description);
@@ -71,16 +80,28 @@ public class NotificationService {
 			destination,
 			description
 		);
+		return true;
+	}
+
+	public void sendFollowersNewPost(UUID authorId, UUID postId) {
+		var author = userService.getUserById(authorId);
+		var followers = followerRepository.getAllFollowers(authorId);
+		followers.stream().map(follower -> createNotification(
+			follower.getFollower().getId(),
+			author.getNickname(),
+			postId,
+			Notification.Type.newPost)).collect(Collectors.toList());
 	}
 
 	public List<NotificationDto> getNotificationList(UUID userId, Boolean onlyUnread, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 		if (onlyUnread) {
 			return notificationRepository.getUnreadNotificationList(userId, pageable).stream()
-				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
-		} else {
+					.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+		}
+		else {
 			return notificationRepository.getNotificationList(userId, pageable).stream()
-				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+					.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
 		}
 	}
 

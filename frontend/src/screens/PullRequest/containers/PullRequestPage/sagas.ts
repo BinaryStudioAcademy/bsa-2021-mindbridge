@@ -3,7 +3,7 @@ import {
   editPrRoutine,
   closePrRoutine,
   acceptPrRoutine,
-  fetchPrRoutine
+  fetchPrRoutine, sendCommentPrRoutine
 }
   from '../../routines/index';
 import { toastr } from 'react-redux-toastr';
@@ -74,6 +74,17 @@ function* fetchMyPRs(action) {
   }
 }
 
+function* sendCommentToPr(action) {
+  try {
+    const response = yield call(pullRequestService.sendCommentToPr, action.payload);
+    yield put(sendCommentPrRoutine.success(response));
+    toastr.success('Success', 'Comment to PR was send');
+  } catch (error) {
+    yield put(sendCommentPrRoutine.failure(error?.message));
+    toastr.error('Error', 'Comment to PR failed');
+  }
+}
+
 function* watchGetPrRequest() {
   yield takeEvery(fetchPrRoutine.TRIGGER, fetchPR);
 }
@@ -94,12 +105,17 @@ function* watchFetchMyPullRequestsRequest() {
   yield takeEvery(fetchMyPullRequestsRoutine.TRIGGER, fetchMyPRs);
 }
 
+function* watchSendCommentToPrRequest() {
+  yield takeEvery(sendCommentPrRoutine, sendCommentToPr);
+}
+
 export default function* pullRequestPageSagas() {
   yield all([
     watchGetPrRequest(),
     watchClosePrRequest(),
     watchAcceptPrRequest(),
     watchEditPrRequest(),
-    watchFetchMyPullRequestsRequest()
+    watchFetchMyPullRequestsRequest(),
+    watchSendCommentToPrRequest()
   ]);
 }

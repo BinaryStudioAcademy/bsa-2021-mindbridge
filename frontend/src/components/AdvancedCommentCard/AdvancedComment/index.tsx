@@ -21,6 +21,11 @@ import provideValue from '@components/AdvancedCommentCard/mentition/provideValue
 import { useDebouncedCallback } from 'use-debounce';
 import { MentionsInput, Mention } from 'react-mentions';
 import mentionInputStyle from './mentionInputStyles.module.scss';
+import Image from '@components/Image';
+import { defaultAvatar } from '@images/defaultImages';
+import { IComments } from '@screens/ViewPost/models/IComments';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -45,6 +50,7 @@ interface IBasicCommentProps {
   editComment: any;
   onChange: any;
   updatedAt: string;
+  comment: IComments;
 }
 /* eslint-disable max-len */
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
@@ -69,6 +75,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     handleDislikeComment,
     searchUsersByNickname,
     users,
+    comment,
     editComment,
     onChange
   }
@@ -170,7 +177,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           )}
           <div className={styles.commentAuthor}>
             <a href={`/user/${author.id}`} className="avatar">
-              <img alt="avatar" src={author.avatar ?? 'https://i.imgur.com/LaWyPZF.png'} />
+              <Image alt="avatar" src={author.avatar ?? defaultAvatar} />
             </a>
             <a
               href={`/user/${author.id}`}
@@ -186,18 +193,17 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
             </div>
           </div>
           <div className={styles.commentRightAction}>
-            {!disabled && (
-              <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
-                <EditSvg />
-              </button>
-            )}
-            { userInfo.id !== author.id && (
             <div className={styles.ratingComponent}>
+              {!disabled && (
+                <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
+                  <EditSvg />
+                </button>
+              )}
               <RatingComponent
-                postRating={commentRating}
+                postRating={commentRating ?? 0}
                 handleDisLikePost={handleDislikeComment}
                 handleLikePost={handleLikeComment}
-                postId={commentId}
+                post={comment}
                 userInfo={userInfo}
                 arrowUpColor={userInfo.userReactionsComments
                   .find(commentReaction => commentReaction.commentId === commentId && commentReaction.liked)
@@ -212,7 +218,6 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                   )}
               />
             </div>
-            )}
             { shouldRender
           && (
           <Popup
@@ -252,18 +257,6 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                   )}
                   />
                 </span>
-              )}
-            />
-            <Popup
-              content="Share comment"
-              mouseEnterDelay={1000}
-              closeOnTriggerClick
-              on="hover"
-              position="top center"
-              trigger={(
-                <a href="/">
-                  <ShareCommentSvg />
-                </a>
               )}
             />
           </div>

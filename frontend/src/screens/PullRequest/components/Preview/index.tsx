@@ -7,6 +7,8 @@ import { ITag } from '@root/screens/FeedPage/models/ITag';
 import TextDiff from '@root/components/TextDiff';
 import TextRenderWithDiff from '@root/components/TextRenderWithDiff';
 import SeeDiffTags from '../SeeDiffInTags';
+import Image from '@components/Image';
+import { defaultCoverImage } from '@images/defaultImages';
 
 // eslint-disable-next-line max-len
 interface IPreviewProps {
@@ -34,7 +36,7 @@ const Preview = ({
   oldText,
   seeDiff }: IPreviewProps) => (
     <div className={classNames(className, styles.post_preview_container)}>
-      <img className={styles.coverImage} src={coverImage ?? 'https://i.imgur.com/KVI8r34.jpg'} alt="cover" />
+      <Image className={styles.coverImage} src={coverImage ?? defaultCoverImage} alt="cover" />
       <div className={styles.title}>
         <TextDiff oldText={seeDiff ? oldTitle : title} newText={title} />
       </div>

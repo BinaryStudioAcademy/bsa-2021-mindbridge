@@ -13,18 +13,16 @@ import {
 } from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import { IData } from '@screens/ViewPost/models/IData';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { disLikeCommentViewRoutine, disLikePostViewRoutine, likeCommentViewRoutine, likePostViewRoutine }
-  from '@screens/PostPage/routines';
 import { deleteHighlightRoutine, fetchHighlightsRoutine,
   fetchHighlightsWithoutPaginationRoutine } from '@screens/HighlightsPage/routines';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
-import { useDebouncedCallback } from 'use-debounce';
+import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -42,17 +40,15 @@ interface IState {
 interface IActions {
   fetchData: IBindingCallback1<string>;
   leaveReaction: IBindingCallback1<object>;
-  likePostView: IBindingCallback1<string>;
-  disLikePostView: IBindingCallback1<string>;
   saveHighlight: IBindingCallback1<object>;
   fetchHighlights: IBindingCallback1<string>;
   deleteHighlight: IBindingCallback1<string>;
   sendComment: IBindingCallback1<object>;
   sendReply: IBindingCallback1<object>;
-  likeComment: IBindingCallback1<string>;
-  dislikeComment: IBindingCallback1<string>;
   leaveReactionOnComment: IBindingCallback1<object>;
   searchUsersByNickname: IBindingCallback1<string>;
+  saveFavouritePost: IBindingCallback1<object>;
+  deleteFavouritePost: IBindingCallback1<object>;
   editComment: IBindingCallback1<object>;
 }
 
@@ -65,22 +61,21 @@ const ViewPost: React.FC<IViewPostProps> = (
     currentUser,
     userInfo,
     leaveReaction,
-    likePostView,
-    disLikePostView,
     saveHighlight,
     fetchHighlights,
     highlights,
     deleteHighlight,
     isAuthorized,
-    likeComment,
-    dislikeComment,
     leaveReactionOnComment,
     searchUsersByNickname,
     users,
-    editComment
+    editComment,
+    saveFavouritePost,
+    deleteFavouritePost
   }
 ) => {
   const { postId } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     fetchData(postId);
@@ -93,13 +88,16 @@ const ViewPost: React.FC<IViewPostProps> = (
   }, [currentUser, fetchHighlights]);
 
   const handleLikePost = id => {
+    if (!currentUser?.id) {
+      history.push('/login');
+      return;
+    }
     if (currentUser.id) {
       const post = {
         postId: id,
         userId: currentUser.id,
         liked: true
       };
-      likePostView(id);
       leaveReaction(post);
     }
   };
@@ -111,6 +109,10 @@ const ViewPost: React.FC<IViewPostProps> = (
   };
 
   const handleSaveHighlight = content => {
+    if (!currentUser?.id) {
+      history.push('/login');
+      return;
+    }
     const highlight = {
       authorId: currentUser.id,
       postId,
@@ -126,25 +128,27 @@ const ViewPost: React.FC<IViewPostProps> = (
   };
 
   const handleDisLikePost = id => {
+    if (!currentUser?.id) {
+      history.push('/login');
+      return;
+    }
     if (currentUser.id) {
       const post = {
         postId: id,
         userId: currentUser.id,
         liked: false
       };
-      disLikePostView(id);
       leaveReaction(post);
     }
   };
 
   const handleLikeComment = id => {
-    if (currentUser.id) {
+    if (currentUser.id && currentUser.id !== data.post.author.id) {
       const comment = {
         commentId: id,
         userId: currentUser.id,
         liked: true
       };
-      likeComment(id);
       leaveReactionOnComment(comment);
     }
   };
@@ -156,12 +160,11 @@ const ViewPost: React.FC<IViewPostProps> = (
         userId: currentUser.id,
         liked: false
       };
-      dislikeComment(id);
       leaveReactionOnComment(comment);
     }
   };
 
-  if (!data.post.id) {
+  if (postId !== data.post.id) {
     return (
       <div className={styles.viewPost}>
         <div className={styles.main}>
@@ -170,6 +173,18 @@ const ViewPost: React.FC<IViewPostProps> = (
       </div>
     );
   }
+
+  const handleFavouriteAction = post => {
+    if (!currentUser?.id) {
+      history.push('/login');
+      return;
+    }
+    if (!post.isFavourite) {
+      saveFavouritePost({ userId: currentUser.id, postId: post.id });
+    } else {
+      deleteFavouritePost({ userId: currentUser.id, postId: post.id });
+    }
+  };
 
   return (
     <div className={styles.viewPost}>
@@ -190,6 +205,7 @@ const ViewPost: React.FC<IViewPostProps> = (
           isAuthorized={isAuthorized}
           users={users}
           searchUsersByNickname={searchUsersByNickname}
+          handleFavouriteAction={handleFavouriteAction}
           editComment={editComment}
         />
       </div>
@@ -214,15 +230,13 @@ const mapDispatchToProps: IActions = {
   editComment: editCommentRoutine,
   fetchData: fetchDataRoutine,
   leaveReaction: leaveReactionOnPostViewPageRoutine,
-  likePostView: likePostViewRoutine,
-  disLikePostView: disLikePostViewRoutine,
   saveHighlight: saveHighlightRoutine,
   fetchHighlights: fetchHighlightsWithoutPaginationRoutine,
   deleteHighlight: deleteHighlightRoutine,
-  likeComment: likeCommentViewRoutine,
-  dislikeComment: disLikeCommentViewRoutine,
   leaveReactionOnComment: leaveReactionOnCommentRoutine,
-  searchUsersByNickname: searchUserByNicknameRoutine
+  searchUsersByNickname: searchUserByNicknameRoutine,
+  saveFavouritePost: saveFavouritePostRoutine,
+  deleteFavouritePost: deleteFavouritePostRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);

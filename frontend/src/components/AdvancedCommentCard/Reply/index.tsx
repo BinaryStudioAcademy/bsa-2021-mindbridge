@@ -30,6 +30,7 @@ interface ICommentProps {
   users: IMentionsUser[];
   editComment: any;
   updatedAt: string;
+  commentProp: IComments;
 }
 
 const Reply: React.FC<ICommentProps> = (
@@ -56,7 +57,8 @@ const Reply: React.FC<ICommentProps> = (
     searchUsersByNickname,
     users,
     editComment,
-    updatedAt
+    updatedAt,
+    commentProp
   }
 ) => {
   const closeCommentRef = useRef(true);
@@ -91,6 +93,7 @@ const Reply: React.FC<ICommentProps> = (
         handleLikeComment={handleLikeComment}
         handleDislikeComment={handleDislikeComment}
         users={users}
+        comment={commentProp}
         searchUsersByNickname={searchUsersByNickname}
         editComment={editComment}
         updatedAt={updatedAt}
@@ -121,6 +124,7 @@ const Reply: React.FC<ICommentProps> = (
                     handleLikeComment={handleLikeComment}
                     depthOfComments={depthOfComments + 1}
                     users={users}
+                    commentProp={comment}
                     searchUsersByNickname={searchUsersByNickname}
                     editComment={editComment}
                     updatedAt={comment.updatedAt}

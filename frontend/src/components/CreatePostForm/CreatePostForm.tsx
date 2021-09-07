@@ -30,6 +30,7 @@ interface ICreatePostFormProps {
   resetImageTag: IBindingAction;
   isTitleEmpty: boolean;
   isContentEmpty: boolean;
+  isTagsEmpty: boolean;
 }
 
 const CreatePostForm: React.FC<ICreatePostFormProps> = (
@@ -44,7 +45,8 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
     resetImageTag,
     isCreateForm,
     isTitleEmpty,
-    isContentEmpty
+    isContentEmpty,
+    isTagsEmpty
   }
 ) => {
   const [initialContent, setInitialContent] = useState(initialPostContent);
@@ -103,7 +105,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
 
   const getTag = () => (
     modes.htmlMode
-      ? `<img src=${imageTag.url} alt="image" />`
+      ? `<Image src=${imageTag.url} alt="image" />`
       : `![Alt Text](${imageTag.url})`
   );
 
@@ -230,8 +232,8 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
         trigger={(
           <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
         )}
-        content="Max amount of tags has reached"
-        open={form.tags.length === 5}
+        content={form.tags.length ? 'Maximum number of tags has been reached' : 'At least one tag required'}
+        open={form.tags.length === 5 || (form.tags.length === 0 && isTagsEmpty)}
         position="left center"
       />
     </div>

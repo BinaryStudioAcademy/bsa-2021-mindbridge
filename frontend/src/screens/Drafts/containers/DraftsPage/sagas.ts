@@ -6,9 +6,13 @@ import draftsService from '@screens/Drafts/services/Drafts';
 
 function* fetchDrafts({ payload }: Routine<any>) {
   try {
-    console.log('htrerer');
-    const response = yield call(draftsService.fetchDrafts, payload);
-    yield put(fetchDraftsRoutine.success(response));
+    if (payload.draftsOnly) {
+      const response = yield call(draftsService.fetchDrafts, payload.userId);
+      yield put(fetchDraftsRoutine.success(response));
+    } else {
+      const response = yield call(draftsService.fetchMyPosts, payload.userId);
+      yield put(fetchDraftsRoutine.success(response));
+    }
   } catch (e) {
     yield put(fetchDraftsRoutine.failure(e?.message));
     toastr.error('Error', 'Loading drafts failed');

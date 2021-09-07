@@ -1,8 +1,10 @@
 package com.mindbridge.core.domains.user;
 import com.mindbridge.core.domains.commentReaction.dto.UserReactionsCommentsDto;
 import com.mindbridge.core.domains.helpers.mailSender.MailSender;
+import com.mindbridge.core.domains.notification.NotificationService;
 import com.mindbridge.core.domains.user.dto.*;
 import com.mindbridge.data.domains.commentReaction.CommentReactionRepository;
+import com.mindbridge.data.domains.notification.model.Notification;
 import com.mindbridge.data.domains.post.dto.PostTitleDto;
 import com.mindbridge.core.domains.postReaction.dto.UserReactionsDto;
 import com.mindbridge.core.exceptions.custom.EmailNotFoundException;
@@ -24,14 +26,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.security.Principal;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -57,6 +62,8 @@ public class UserService implements UserDetailsService {
 
 	private final CommentReactionRepository commentReactionRepository;
 
+	private final NotificationService notificationService;
+
 	private final MailSender mailSender;
 
 	private final Random random = new Random();
@@ -70,7 +77,7 @@ public class UserService implements UserDetailsService {
 
 	@Lazy
 	@Autowired
-	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, NotificationService notificationService,
 			CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository,
 			PostPRRepository postPRRepository, PostReactionRepository postReactionRepository,
 			CommentReactionRepository commentReactionRepository, MailSender mailSender) {
@@ -79,13 +86,14 @@ public class UserService implements UserDetailsService {
 		this.postPRRepository = postPRRepository;
 		this.postReactionRepository = postReactionRepository;
 		this.mailSender = mailSender;
+		this.notificationService = notificationService;
 		this.passwordEncoder = new PasswordConfig().passwordEncoder();
 		this.followerRepository = followerRepository;
 		this.postRepository = postRepository;
 		this.commentReactionRepository = commentReactionRepository;
 	}
 
-	public UserProfileDto getUserProfileInformation(UUID userId) {
+	public UserProfileDto getUserProfileInformation(UUID userId, Principal principal) {
 		var foundUser = userRepository.findById(userId)
 				.orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found."));
 		var user = UserMapper.MAPPER.userToUserProfileDto(foundUser);
@@ -96,12 +104,20 @@ public class UserService implements UserDetailsService {
 		user.setPostsQuantity(postRepository.countPostByAuthorId(userId));
 		user.setContributionsQuantity(postPRRepository.countPostPRByContributorId(userId));
 		user.setUserReactions(userReactions.stream().map(UserReactionsDto::fromEntity).collect(Collectors.toList()));
-		user.setUserReactionsComments(userCommentReactions.stream().map(UserReactionsCommentsDto::fromEntity).collect(Collectors.toList()));
+		user.setUserReactionsComments(
+				userCommentReactions.stream().map(UserReactionsCommentsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
 		long rating = postReactionRepository.calcUserPostRating(userId)
 				+ (commentReactionRepository.calcUserCommentRating(userId) / 2);
 		user.setRating(rating);
+		if (principal == null) {
+			return user;
+		}
+		var currentUser = loadUserDtoByEmail(principal.getName());
+		var follower = followerRepository.findFollowerByFollowerAndFollowed(currentUser.getId(), userId);
+		user.setFollowed(follower.isPresent());
+
 		return user;
 	}
 
@@ -167,6 +183,25 @@ public class UserService implements UserDetailsService {
 		return loadUserDtoByEmail(user.getEmail());
 	}
 
+	public void followUser(FollowDto followDto, Principal principal) {
+		if (principal == null) {
+			return;
+		}
+		String currentEmail  = principal.getName();
+		var currentUser = loadUserDtoByEmail(currentEmail);
+		var follower = followerRepository.findFollowerByFollowerAndFollowed(currentUser.getId(), followDto.getFollowedId());
+		if (follower.isPresent()) {
+			followerRepository.delete(follower.get());
+		} else {
+			followerRepository.save(UserMapper.MAPPER.FollowDtoToFollower(followDto));
+			notificationService.createNotification(
+				followDto.getFollowedId(),
+				currentUser.getNickname(),
+				currentUser.getId(),
+				Notification.Type.newFollower);
+		}
+	}
+
 	public boolean checkNickname(String nickname) {
 		return userRepository.existsByNickname(nickname);
 	}
@@ -199,7 +234,7 @@ public class UserService implements UserDetailsService {
 
 	public UserDto deleteUserAvatar(UUID id) {
 		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
+				.orElseThrow(() -> new IdNotFoundException("User with id : " + id + " not found."));
 		user.setAvatar(null);
 		userRepository.save(user);
 
@@ -211,4 +246,5 @@ public class UserService implements UserDetailsService {
 		var allUser = userRepository.findAllByNicknameIsContaining(nicknameWithoutAtSign);
 		return allUser.stream().map(UserMapper.MAPPER::userToUserMentionsDto).collect(Collectors.toList());
 	}
+
 }

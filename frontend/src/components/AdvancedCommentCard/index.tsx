@@ -97,6 +97,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
                 sendComment={sendComment}
                 postId={postId}
                 commentId={comment.id}
+                commentProp={comment}
                 sendReply={sendReply}
                 isAuthorized={isAuthorized}
                 userInfo={userInfo}

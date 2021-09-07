@@ -11,6 +11,8 @@ import ContributorsSvg from './svg/contributors';
 import { Link, useHistory } from 'react-router-dom';
 import { Dropdown } from 'semantic-ui-react';
 import { handleOnClickSignOut } from '@helpers/signOut.helper';
+import Image from '@components/Image';
+import { defaultAvatar } from '@images/defaultImages';
 
 export interface IProfileSidebarProps {
 }
@@ -27,9 +29,9 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
       <div className={styles.top_group}>
         <div className={styles.avatar_and_name_group}>
           <Link to={`/user/${id}`}>
-            <img
+            <Image
               className={styles.avatar}
-              src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'}
+              src={avatar ?? defaultAvatar}
               alt="avatar"
             />
             <span className={styles.user_name}>{userName}</span>
@@ -67,11 +69,11 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
         </Dropdown>
       </div>
       <div className={styles.sidebar_links}>
-        <Link to="/drafts">
+        <Link to="/my/posts">
           <DraftSvg />
-          <span>Drafts</span>
+          <span>Posts</span>
         </Link>
-        <Link to="/">
+        <Link to="/favourites">
           <FavoritesSvg />
           <span>Favorites</span>
         </Link>
@@ -81,7 +83,7 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
         </Link>
         <Link to="/">
           <PostsSvg />
-          <span>Your posts</span>
+          <span>Suggested changes</span>
           <div className={postNotificationCount ? styles.post_notification_count : styles.invisible}>
             <div className={styles.count}>
               {postNotificationCount}
