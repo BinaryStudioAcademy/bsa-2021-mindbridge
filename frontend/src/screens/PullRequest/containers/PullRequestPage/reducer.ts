@@ -3,7 +3,8 @@ import {
   closePrRoutine,
   resetEndSendingDataRoutine,
   fetchPrRoutine,
-  sendCommentPrRoutine, editPrCommentRoutine
+  sendCommentPrRoutine,
+  editPrCommentRoutine
 } from '../../routines/index';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPostPR, PrState } from '../../models/IPostPR';

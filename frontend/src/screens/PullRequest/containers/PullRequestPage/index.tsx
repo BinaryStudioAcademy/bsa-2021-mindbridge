@@ -7,7 +7,8 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import {
   acceptPrRoutine,
-  closePrRoutine, editPrCommentRoutine,
+  closePrRoutine,
+  editPrCommentRoutine,
   fetchPrRoutine,
   resetEndSendingDataRoutine,
   sendCommentPrRoutine

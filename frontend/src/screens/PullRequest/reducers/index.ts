@@ -9,7 +9,8 @@ import {
   closePrRoutine,
   fetchPrRoutine,
   editPrRoutine,
-  fetchMyPullRequestsRoutine, editPrCommentRoutine
+  fetchMyPullRequestsRoutine,
+  editPrCommentRoutine
 }
   from '@screens/PullRequest/routines';
 
