@@ -6,7 +6,6 @@ import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
 import UpToParentCommentSvg from '@components/AdvancedCommentCard/svg/UpToParentCommentSvg';
-import ShareCommentSvg from '@components/AdvancedCommentCard/svg/shareCommentSvg';
 import ArrowCloseComment from '@components/AdvancedCommentCard/svg/ArrowCloseComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -15,11 +14,11 @@ import ScrollableAnchor, { configureAnchors } from 'react-scrollable-anchor';
 import { Popup } from 'semantic-ui-react';
 import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
 import parse from 'html-react-parser';
-import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
 import { IComments } from '@screens/ViewPost/models/IComments';
 import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -71,10 +70,6 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   const [disabled, setDisabled] = useState(false);
   const [rotateArrowHook, setRotateArrowHook] = useState(false);
   const [shouldRender] = useState(setShouldRender);
-  const [usersList, setUsersList] = useState({ user: [{
-    display: '',
-    id: ''
-  }] });
 
   const rotateArrow = {
     width: '0.7142em',
@@ -201,6 +196,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
               sendReply={sendReply}
               users={users}
               searchUsersByNickname={searchUsersByNickname}
+              isReply
             />
           </div>
           )}
