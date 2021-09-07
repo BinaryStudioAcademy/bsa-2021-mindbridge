@@ -9,7 +9,7 @@ import {
   leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
   sendReplyRoutine,
-  saveHighlightRoutine
+  saveHighlightRoutine, editCommentRoutine
 } from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import { IData } from '@screens/ViewPost/models/IData';
@@ -51,6 +51,7 @@ interface IActions {
   searchUsersByNickname: IBindingCallback1<string>;
   saveFavouritePost: IBindingCallback1<object>;
   deleteFavouritePost: IBindingCallback1<object>;
+  editComment: IBindingCallback1<object>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -70,6 +71,7 @@ const ViewPost: React.FC<IViewPostProps> = (
     leaveReactionOnComment,
     searchUsersByNickname,
     users,
+    editComment,
     saveFavouritePost,
     deleteFavouritePost
   }
@@ -225,6 +227,7 @@ const ViewPost: React.FC<IViewPostProps> = (
           users={users}
           searchUsersByNickname={searchUsersByNickname}
           handleFavouriteAction={handleFavouriteAction}
+          editComment={editComment}
         />
       </div>
     </div>
@@ -245,6 +248,7 @@ const mapStateToProps: (state: RootState) => IState = state => ({
 const mapDispatchToProps: IActions = {
   sendComment: sendCommentRoutine,
   sendReply: sendReplyRoutine,
+  editComment: editCommentRoutine,
   fetchData: fetchDataRoutine,
   leaveReaction: leaveReactionOnPostViewPageRoutine,
   saveHighlight: saveHighlightRoutine,

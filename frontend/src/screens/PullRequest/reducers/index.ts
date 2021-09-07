@@ -9,7 +9,8 @@ import {
   closePrRoutine,
   fetchPrRoutine,
   editPrRoutine,
-  fetchMyPullRequestsRoutine
+  fetchMyPullRequestsRoutine,
+  editPrCommentRoutine
 }
   from '@screens/PullRequest/routines';
 
@@ -20,7 +21,8 @@ const requests = combineReducers({
   acceptPrRequest: reducerCreator([acceptPrRoutine.TRIGGER]),
   resetEndSendingDataRequest: reducerCreator([resetEndSendingDataRoutine.TRIGGER]),
   closePrRequest: reducerCreator([closePrRoutine.TRIGGER]),
-  fetchPrRequest: reducerCreator([fetchPrRoutine.TRIGGER])
+  fetchPrRequest: reducerCreator([fetchPrRoutine.TRIGGER]),
+  editPrCommentRequest: reducerCreator([editPrCommentRoutine.TRIGGER])
 });
 
 export default combineReducers({
@@ -35,6 +37,8 @@ const data = (state: RootState) => state.pullRequestReducer.data;
 export const extractFetchMyPullRequestsLoading = state => reqs(state).fetchMyPullRequestsRequest.loading;
 export const extractFetchMyPullRequestsError = state => reqs(state).fetchMyPullRequestsRequest.error;
 export const extractEditPrLoading = state => reqs(state).editPrRequest.loading;
+export const editPrCommentLoading = state => reqs(state).editPrCommentRequest.loading;
+export const editPrCommentError = state => reqs(state).editPrCommentRequest.error;
 export const extractEditPrError = state => reqs(state).editPrRequest.error;
 export const extractAcceptPrLoading = state => reqs(state).acceptPrRequest.loading;
 export const extractAcceptPrError = state => reqs(state).acceptPrRequest.error;

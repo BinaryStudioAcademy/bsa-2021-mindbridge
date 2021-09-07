@@ -7,7 +7,7 @@ import {
   fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
-  sendReplyRoutine
+  sendReplyRoutine, editCommentRoutine
 } from '@screens/ViewPost/routines';
 import feedPageService from '@screens/FeedPage/services/feedPage';
 import { Routine } from 'redux-saga-routines';
@@ -84,6 +84,22 @@ function* sendReply(action) {
   }
 }
 
+function* sendEditComment(actions) {
+  try {
+    const response = yield call(viewPageService.editComment, actions.payload);
+    const editComment = {
+      response,
+      editText: actions.payload.text,
+      id: actions.payload.commentId
+    };
+    yield put(editCommentRoutine.success(editComment));
+    toastr.success('Success', 'Edit was sent');
+  } catch (error) {
+    toastr.error('Error', 'Edit send failed');
+    yield put(editCommentRoutine.failure(error?.message));
+  }
+}
+
 function* leaveCommentReaction(action) {
   try {
     const response = yield call(viewPageService.leaveReactionComment, action.payload);
@@ -146,6 +162,10 @@ function* watchFetchHighlights() {
 function* watchLeaveReactionOnPost() {
   yield takeEvery(leaveReactionOnPostViewPageRoutine.TRIGGER, leaveReaction);
 }
+
+function* watchSendEditComment() {
+  yield takeEvery(editCommentRoutine.TRIGGER, sendEditComment);
+}
 export default function* viewPostPageSagas() {
   yield all([
     watchDataRequest(),
@@ -155,7 +175,8 @@ export default function* viewPostPageSagas() {
     watchSendCommentRequest(),
     watchSendReplyRequest(),
     watchLeaveCommentReaction(),
-    watchSearchUsersByNickname()
+    watchSearchUsersByNickname(),
+    watchSendEditComment()
   ]);
 }
 

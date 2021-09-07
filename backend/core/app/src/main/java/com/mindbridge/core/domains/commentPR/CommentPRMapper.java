@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.commentPR;
 
 import com.mindbridge.core.domains.commentPR.dto.CreateCommentPrDto;
+import com.mindbridge.core.domains.postPR.dto.CommentPrDto;
 import com.mindbridge.data.domains.PRComment.model.PRComment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,4 +17,6 @@ public interface CommentPRMapper {
 	@Mapping(source = "prId", target = "postPR.id")
 	@Mapping(source = "avatar", target = "author.avatar")
 	PRComment createCommentPrDtoToComment(CreateCommentPrDto commentPrDto);
+
+    CommentPrDto commentPrToCommentDto(PRComment savePrComment);
 }

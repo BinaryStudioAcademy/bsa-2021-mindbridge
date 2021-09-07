@@ -12,3 +12,4 @@ export const resetEndSendingDataRoutine = createPullRequestRoutine('RESET_FAIL_S
 export const closePrRoutine = createPullRequestRoutine('CLOSE_PR');
 export const fetchPrRoutine = createPullRequestRoutine('FETCH_PR');
 export const sendCommentPrRoutine = createPullRequestRoutine('SEND_COMMENT_PR');
+export const editPrCommentRoutine = createPullRequestRoutine('EDIT_PR_COMMENT');
