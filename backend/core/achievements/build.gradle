@@ -52,6 +52,7 @@ dependencies {
 	testImplementation 'com.h2database:h2'
 
 	compile project(':db')
+	compile project(':app')
 }
 
 test {

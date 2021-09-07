@@ -1,6 +1,8 @@
 package com.mindbridge.achievements.service;
 
+import com.mindbridge.core.domains.notification.NotificationService;
 import com.mindbridge.data.domains.achievement.AchievementRepository;
+import com.mindbridge.data.domains.notification.model.Notification;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.user.UserRepository;
 import com.mindbridge.data.domains.user.model.User;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -38,12 +41,15 @@ public class AchievementsService {
 
 	private final UserRepository userRepository;
 
+	private final NotificationService notificationService;
+
 	@Autowired
-	public AchievementsService(PostRepository postRepository, UsersAchievementRepository userAchievementRepository,
+	public AchievementsService(UsersAchievementRepository userAchievementRepository, NotificationService notificationService,
 			AchievementRepository achievementRepository, UserRepository userRepository) {
 		this.usersAchievementRepository = userAchievementRepository;
 		this.achievementRepository = achievementRepository;
 		this.userRepository = userRepository;
+		this.notificationService = notificationService;
 	}
 
 	@Scheduled(cron = "${start.cron}", zone = "Europe/Moscow")
@@ -89,7 +95,13 @@ public class AchievementsService {
 
 	private void addAchievementToUser(UUID achievementId, User user) {
 		if (usersAchievementRepository.findByUserIdAndAchievementId(user.getId(), achievementId).isEmpty()) {
-			usersAchievementRepository.save(new UsersAchievement(user, achievementRepository.getOne(achievementId)));
+			var achievement = usersAchievementRepository.save(new UsersAchievement(user, achievementRepository.getOne(achievementId)));
+			notificationService.createNotification(
+				user.getId(),
+				achievement.getAchievement().getText(),
+				achievementId,
+				Notification.Type.newAchievement
+			);
 		}
 	}
 
