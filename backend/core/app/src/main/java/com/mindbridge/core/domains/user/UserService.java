@@ -94,7 +94,6 @@ public class UserService implements UserDetailsService {
 	}
 
 	public UserProfileDto getUserProfileInformation(UUID userId, Principal principal) {
-		var currentUser = loadUserDtoByEmail(principal.getName());
 		var foundUser = userRepository.findById(userId)
 				.orElseThrow(() -> new IdNotFoundException("User with id : " + userId + " not found."));
 		var user = UserMapper.MAPPER.userToUserProfileDto(foundUser);
@@ -109,11 +108,16 @@ public class UserService implements UserDetailsService {
 				userCommentReactions.stream().map(UserReactionsCommentsDto::fromEntity).collect(Collectors.toList()));
 		user.setFollowersQuantity(followerRepository.countFollowerByFollowedId(userId));
 		user.setLastArticleTitles(top5Posts.stream().map(PostTitleDto::fromEntity).collect(Collectors.toList()));
-		var follower = followerRepository.findFollowerByFollowerAndFollowed(currentUser.getId(), userId);
-		user.setFollowed(follower.isPresent());
 		long rating = postReactionRepository.calcUserPostRating(userId)
 				+ (commentReactionRepository.calcUserCommentRating(userId) / 2);
 		user.setRating(rating);
+		if (principal == null) {
+			return user;
+		}
+		var currentUser = loadUserDtoByEmail(principal.getName());
+		var follower = followerRepository.findFollowerByFollowerAndFollowed(currentUser.getId(), userId);
+		user.setFollowed(follower.isPresent());
+
 		return user;
 	}
 
@@ -179,10 +183,10 @@ public class UserService implements UserDetailsService {
 	}
 
 	public void followUser(FollowDto followDto, Principal principal) {
-		String currentEmail  = principal.getName();
-		if (currentEmail == null) {
+		if (principal == null) {
 			return;
 		}
+		String currentEmail  = principal.getName();
 		var currentUser = loadUserDtoByEmail(currentEmail);
 		var follower = followerRepository.findFollowerByFollowerAndFollowed(currentUser.getId(), followDto.getFollowedId());
 		if (follower.isPresent()) {

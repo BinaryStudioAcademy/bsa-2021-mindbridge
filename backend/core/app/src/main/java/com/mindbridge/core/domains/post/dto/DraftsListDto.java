@@ -19,4 +19,6 @@ public class DraftsListDto {
 
 	private String coverImage;
 
+	private Boolean draft;
+
 }

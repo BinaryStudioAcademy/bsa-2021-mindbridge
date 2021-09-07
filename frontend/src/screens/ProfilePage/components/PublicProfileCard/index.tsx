@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { getHowLong } from '@helpers/date.helper';
 import LoaderWrapper from '@components/LoaderWrapper';
 import RatingSvg from '@screens/ProfilePage/components/svg/ratingSvg';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import CommentSvg from '@screens/ProfilePage/components/svg/commentSvg';
 import FollowersSvg from '@screens/ProfilePage/components/svg/followersSvg';
 import PostsSvg from '@screens/ProfilePage/components/svg/posts';
@@ -28,13 +28,18 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
   { user, isUserLoaded, currentUser, toggleFollowUser, isToggleFollowLoading }
 ) => {
   const [userData, setUserData] = useState(user);
+  const history = useHistory();
 
   useEffect(() => {
     setUserData(user);
   }, [user]);
 
   const handleFollowUser = () => {
-    toggleFollowUser({ followerId: currentUser.id, followedId: userData.id });
+    if (currentUser?.id) {
+      toggleFollowUser({ followerId: currentUser.id, followedId: userData.id });
+    } else {
+      history.push('/login');
+    }
   };
 
   const renderFollowButton = () => {
