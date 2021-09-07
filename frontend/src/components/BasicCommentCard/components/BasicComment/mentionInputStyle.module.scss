@@ -1,71 +1,53 @@
 .mentions {
   margin: 1em 0;
-  position: static !important;
 }
 
 .mentions--singleLine .mentions__control {
-  position: static !important;
   display: inline-block;
   width: 0.7142em;
 }
 .mentions--singleLine .mentions__highlighter {
   border: 0.14285em inset transparent;
-  position: static !important;
 }
 .mentions--singleLine .mentions__input {
   border: 0.14285em inset;
-  position: static !important;
+  height: 8em;
 }
 
 .mentions--multiLine .mentions__control {
   font-family: Lato, sans-serif;
   font-size: 1em;
   line-height: 1.2em;
-  position: static !important;
 }
 .mentions--multiLine .mentions__highlighter {
   border: 0.07142em solid transparent;
   min-height: 4.5em;
-  position: static !important;
 
 }
 .mentions--multiLine .mentions__input {
   border: none;
-  position: static !important;
   background-color: #F3F9FE !important;
   border-radius: 0.3125em;
+  margin-right: 1em;
   padding: 0.6428em;
   outline: 0;
-  height: 9em !important;
+  max-width: 98% !important;
 }
 
 .mentions__suggestions__list {
   border: 0.07142em solid rgba(0, 0, 0, 0.15);
-  font-size: 20pt !important;
+  font-size: 10pt;
   overflow-y: scroll;
   max-height: 16em;
   border-radius: 0.32em;
-  position: static !important;
 }
 
 .mentions__suggestions__item {
   padding: 0.3571em 1.0714em;
   border-bottom: 0.07142em solid rgba(168, 85, 85, 0.15);
-  position: static !important;
 }
 
 .mentions__suggestions__item--focused {
   background-color:  #F3F9FE;
-  position: static !important;
-}
 
-.buttonSend {
-  border: none !important;
-  width: 5.5em;
-  height: 2.6875em;
-  background: #DEDEDE !important;
-  border-radius: 0.3125em;
-  font-size: 1.1em !important;
-  line-height: 1.5em;
-  color: #FFFFFF !important;
 }

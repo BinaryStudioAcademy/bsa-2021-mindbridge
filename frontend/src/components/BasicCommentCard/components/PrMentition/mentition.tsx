@@ -81,6 +81,7 @@ function UserPrMentions(
         classNames={styles}
       >
         <Mention
+          appendSpaceOnAdd
           className={styles.mentions__mention__custom}
           trigger="@"
           data={usersList}
