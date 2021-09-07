@@ -17,4 +17,5 @@ export interface IUser {
   followingQuantity: number;
   lastArticleTitles: IPostTitle[];
   createdAt: string;
+  followed: boolean;
 }

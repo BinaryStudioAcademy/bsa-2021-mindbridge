@@ -74,6 +74,14 @@ const Header: React.FC<IHeaderProps> = (
         toastr.info('New contribution', message.body);
         fetchNotificationCount(currentUser.id);
       });
+      stompClient.subscribe(`/user/${currentUser.id}/newFollower`, message => {
+        toastr.info('New follower', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/newPost`, message => {
+        toastr.info('New Post', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
     }, warning => {
       toastr.warning('Warning', 'Internet connection is unstable');
       console.log(warning);
@@ -134,8 +142,13 @@ const Header: React.FC<IHeaderProps> = (
   };
 
   const toggleNotificationList = () => {
+    if (!isAuthorized) {
+      history.push('/login');
+    }
     if (!isListOpen) {
       handleFetchNotifications(true, { from: 0, count: 10 });
+    } else {
+      handleFetchNotifications(false, { from: 0, count: 1 });
     }
     setIsListOpen(!isListOpen);
   };

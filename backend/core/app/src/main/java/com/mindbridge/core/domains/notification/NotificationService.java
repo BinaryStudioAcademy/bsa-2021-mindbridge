@@ -2,6 +2,8 @@ package com.mindbridge.core.domains.notification;
 
 import com.mindbridge.core.domains.notification.dto.CreateNotificationDto;
 import com.mindbridge.core.domains.notification.dto.NotificationDto;
+import com.mindbridge.core.domains.user.UserService;
+import com.mindbridge.data.domains.follower.FollowerRepository;
 import com.mindbridge.data.domains.notification.NotificationRepository;
 import com.mindbridge.data.domains.notification.model.Notification;
 import lombok.extern.slf4j.Slf4j;
@@ -23,18 +25,25 @@ public class NotificationService {
 
 	private final SimpMessagingTemplate template;
 
+	private final UserService userService;
+
+	private final FollowerRepository followerRepository;
+
 	@Lazy
 	@Autowired
-	public NotificationService(NotificationRepository notificationRepository, SimpMessagingTemplate template) {
+	public NotificationService(NotificationRepository notificationRepository, SimpMessagingTemplate template,
+							   UserService userService, FollowerRepository followerRepository) {
 		this.notificationRepository = notificationRepository;
 		this.template = template;
+		this.userService = userService;
+		this.followerRepository = followerRepository;
 	}
 
 	public long getNotificationCount(UUID userId) {
 		return notificationRepository.calcUnreadNotifications(userId);
 	}
 
-	public void createNotification(UUID receiverId, String authorNickname, UUID sourceId, Notification.Type type) {
+	public boolean createNotification(UUID receiverId, String authorNicknameOrAwardTitle, UUID sourceId, Notification.Type type) {
 		CreateNotificationDto createNotificationDto = new CreateNotificationDto();
 		createNotificationDto.setSourceId(sourceId);
 		createNotificationDto.setReceiverId(receiverId);
@@ -42,31 +51,53 @@ public class NotificationService {
 		String destination;
 		switch (type) {
 			case newPR: {
-				description = authorNickname + " has contributed to your post";
+				description = authorNicknameOrAwardTitle + " has contributed to your post";
 				destination = "newPR";
 				createNotificationDto.setType("newPR");
 				break;
 			}
 			case newPost: {
-				description = authorNickname + " has published a new post";
+				description = authorNicknameOrAwardTitle + " has published a new post";
 				destination = "newPost";
 				createNotificationDto.setType("newPost");
 				break;
 			}
 			case newFollower: {
-				description = authorNickname + " now follows you";
+				description = authorNicknameOrAwardTitle + " now follows you";
 				destination = "newFollower";
 				createNotificationDto.setType("newFollower");
 				break;
 			}
+			case newAchievement:{
+				description = "Congratulations! You get a new award. "
+				+ "\"" + authorNicknameOrAwardTitle + "\"";
+				destination = "newAchievement";
+				createNotificationDto.setType("newAchievement");
+				break;
+			}
 			default: {
-				return;
+				return false;
 			}
 		}
 		createNotificationDto.setText(description);
 		notificationRepository.save(NotificationMapper.MAPPER.createDtoToNotification(createNotificationDto));
 
-		template.convertAndSendToUser(receiverId.toString(), destination, description);
+		template.convertAndSendToUser(
+			receiverId.toString(),
+			destination,
+			description
+		);
+		return true;
+	}
+
+	public void sendFollowersNewPost(UUID authorId, UUID postId) {
+		var author = userService.getUserById(authorId);
+		var followers = followerRepository.getAllFollowers(authorId);
+		followers.stream().map(follower -> createNotification(
+			follower.getFollower().getId(),
+			author.getNickname(),
+			postId,
+			Notification.Type.newPost)).collect(Collectors.toList());
 	}
 
 	public List<NotificationDto> getNotificationList(UUID userId, Boolean onlyUnread, Integer from, Integer count) {
