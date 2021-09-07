@@ -25,7 +25,7 @@ import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
-import { getUserIpRoutine } from '@root/screens/Login/routines';
+import { getUserIpRoutine, savePostViewRoutine } from '@root/screens/Login/routines';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -58,6 +58,7 @@ interface IActions {
   saveFavouritePost: IBindingCallback1<object>;
   deleteFavouritePost: IBindingCallback1<string>;
   getUserIp: IBindingAction;
+  savePostView: IBindingCallback1<{view: {userId: string; userIp: string; postId: string}}>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -83,7 +84,9 @@ const ViewPost: React.FC<IViewPostProps> = (
     users,
     saveFavouritePost,
     deleteFavouritePost,
-    getUserIp
+    getUserIp,
+    savePostView,
+    userIp
   }
 ) => {
   const { postId } = useParams();
@@ -97,6 +100,12 @@ const ViewPost: React.FC<IViewPostProps> = (
   useEffect(() => {
     fetchData(postId);
   }, [postId]);
+
+  useEffect(() => {
+    if ((data.post.author.id !== currentUser.id) && (postId === data.post.id) && (isAuthorized || userIp)) {
+      savePostView({ view: { userId: currentUser.id, userIp, postId } });
+    }
+  }, [postId, userIp, isAuthorized, data.post.id]);
 
   useEffect(() => {
     if (currentUser.id) {
@@ -245,7 +254,8 @@ const mapDispatchToProps: IActions = {
   searchUsersByNickname: searchUserByNicknameRoutine,
   saveFavouritePost: saveFavouritePostRoutine,
   deleteFavouritePost: deleteFavouritePostRoutine,
-  getUserIp: getUserIpRoutine
+  getUserIp: getUserIpRoutine,
+  savePostView: savePostViewRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);

@@ -18,6 +18,7 @@ public interface PostMapper {
 	@Mapping(target = "comments", ignore = true)
 	@Mapping(target = "rating", ignore = true)
 	@Mapping(target = "isFavourite", ignore = true)
+	@Mapping(target = "postViewsNumber", ignore = true)
 	PostDetailsDto postToPostDetailsDto(Post post);
 
 	RelatedPostDto postToRelatedPostDto(Post post);

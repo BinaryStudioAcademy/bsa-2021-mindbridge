@@ -39,7 +39,8 @@ const initialState: IViewPostReducerState = {
     author: { id: '', firstName: '', lastName: '', avatar: null, nickname: '' },
     relatedPosts: [],
     comments: [],
-    isFavourite: false
+    isFavourite: false,
+    postViewsNumber: 0
   },
   highlights: undefined,
   comment: {

@@ -2,25 +2,32 @@ package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
-import com.mindbridge.core.domains.post.dto.*;
+import com.mindbridge.core.domains.post.dto.CreatePostDto;
+import com.mindbridge.core.domains.post.dto.DraftsListDto;
+import com.mindbridge.core.domains.post.dto.EditPostDto;
+import com.mindbridge.core.domains.post.dto.PostDetailsDto;
+import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
+import com.mindbridge.core.domains.post.dto.RelatedPostDto;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
 import com.mindbridge.core.domains.tag.dto.TagDto;
 import com.mindbridge.data.domains.favorite.FavoriteRepository;
 import com.mindbridge.data.domains.favorite.model.Favorite;
 import com.mindbridge.data.domains.post.PostRepository;
-import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
+import com.mindbridge.data.domains.postViews.PostViewsRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -42,11 +49,16 @@ public class PostService {
 
 	private final FavoriteRepository favouriteRepository;
 
+	private final PostViewsRepository postViewsRepository;
+
 	@Lazy
 	@Autowired
-	public PostService(PostRepository postRepository, CommentService commentService,
-					   PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-					   PostVersionRepository postVersionRepository, ElasticService elasticService, FavoriteRepository favouriteRepository) {
+	public PostService(
+		PostRepository postRepository, CommentService commentService,
+		PostReactionService postReactionService, UserRepository userRepository,
+		TagRepository tagRepository,
+		PostVersionRepository postVersionRepository, ElasticService elasticService,
+		FavoriteRepository favouriteRepository, PostViewsRepository postViewsRepository) {
 		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
@@ -55,6 +67,7 @@ public class PostService {
 		this.postVersionRepository = postVersionRepository;
 		this.elasticService = elasticService;
 		this.favouriteRepository = favouriteRepository;
+		this.postViewsRepository = postViewsRepository;
 	}
 
 	public PostDetailsDto getPostById(UUID id) {
@@ -77,13 +90,17 @@ public class PostService {
 
 		var favourite = favouriteRepository.getFavoriteByPostId(id);
 		post.setIsFavourite(favourite.isPresent());
+		post.setPostViewsNumber(postViewsRepository.countByPostId(post.getId()));
 		return post;
 	}
 
 	public List<PostsListDetailsDto> getAllPosts(Integer from, Integer count, UUID userId) {
 		var pageable = PageRequest.of(from / count, count);
 		var allPosts = postRepository.getAllPosts(pageable).stream()
-			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+			.map(post -> PostsListDetailsDto.fromEntity(
+				post,
+				postRepository.getAllReactionsOnPost(post.getId()),
+				postViewsRepository.countByPostId(post.getId())))
 			.collect(Collectors.toList());
 		var favouritePosts = favouriteRepository.getAllPostByUserId(userId);
 		allPosts.forEach(post -> setIfFavourite(favouritePosts, post));
@@ -136,7 +153,10 @@ public class PostService {
 
 	public List<PostsListDetailsDto> listIDsToListPosts(List<UUID> postIds) {
 		return postRepository.findAllById(postIds).stream()
-				.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
+				.map(post -> PostsListDetailsDto.fromEntity(
+						post,
+						postRepository.getAllReactionsOnPost(post.getId()),
+						postViewsRepository.countByPostId(post.getId())))
 				.collect(Collectors.toList());
 	}
 

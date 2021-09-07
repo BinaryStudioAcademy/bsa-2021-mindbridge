@@ -17,5 +17,6 @@ export interface IPostFeed {
   coverImage: string;
   markdown: boolean;
   isFavourite: boolean;
+  postViewsNumber: number;
 }
 

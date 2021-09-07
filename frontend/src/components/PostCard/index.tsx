@@ -96,7 +96,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({ post, handleLikePost, han
           </div>
           <div className={styles.icon}>
             <ViewsSvg />
-            <p>{7}</p>
+            <p>{post.postViewsNumber}</p>
           </div>
           {}
           <div className={styles.icon}>

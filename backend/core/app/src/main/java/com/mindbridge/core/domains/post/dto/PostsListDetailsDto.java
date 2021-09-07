@@ -46,7 +46,9 @@ public class PostsListDetailsDto {
 
 	private Boolean isFavourite;
 
-	public static PostsListDetailsDto fromEntity(Post post, PostsReactionsQueryResult postsReactionsQueryResult) {
+	private int postViewsNumber;
+
+	public static PostsListDetailsDto fromEntity(Post post, PostsReactionsQueryResult postsReactionsQueryResult, int postViewsNumber) {
 		return PostsListDetailsDto.builder().id(post.getId().toString()).title(post.getTitle()).text(post.getText())
 				.authorId(post.getAuthor().getId().toString()).nickname(post.getAuthor().getNickname())
 				.createdAt(getDate(post.getCreatedAt())).commentsCount(post.getComments().size())
@@ -54,6 +56,7 @@ public class PostsListDetailsDto {
 				.likesCount(postsReactionsQueryResult.likeCount).disLikesCount(postsReactionsQueryResult.disLikeCount)
 				.postRating(postsReactionsQueryResult.likeCount - postsReactionsQueryResult.disLikeCount)
 				.markdown(post.getMarkdown()).coverImage(post.getCoverImage()).avatar(post.getAuthor().getAvatar())
+				.postViewsNumber(postViewsNumber)
 				.isFavourite(true)
 				.build();
 	}
