@@ -18,6 +18,7 @@ import provideValue from '../PrMentition/provideValue';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import mentionInputStyle from './mentionInputStyle.module.scss';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
+import LoaderWrapper from '@components/LoaderWrapper';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -45,6 +46,7 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
   userInfo
 }) => {
   const [editMode, setEditMode] = useState(false);
+  const [isLoadCommentContent, setIsLoadCommentContent] = useState(false);
   const [changeablePrComment, setChangeablePrComment] = useState<IEditPrComment>({
     text,
     prCommentId: ''
@@ -53,10 +55,18 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
     display: '',
     id: ''
   }] });
+  const debouncedLoadCommentContent = useDebouncedCallback(() => {
+    setIsLoadCommentContent(!isLoadCommentContent);
+  }, 500);
+
   // eslint-disable-next-line max-len
   const checkForNickname = (textComment: string) => {
     const commentText = textComment || changeablePrComment.text;
-    return commentText.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
+    const content = commentText.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
+    if (isLoadCommentContent) {
+      debouncedLoadCommentContent();
+    }
+    return content;
   };
 
   const getLinkToComment = (url: string) => url.split('#')[0];
@@ -68,14 +78,20 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
     });
   };
 
+  const sendEditCommentDebounced = useDebouncedCallback(value => {
+    editPrComment(value);
+    setEditMode(!editMode);
+    setIsLoadCommentContent(false);
+    setIsLoadCommentContent(true);
+  }, 400);
+
   const handleSendChangeablePrComment = (event: any) => {
     if (changeablePrComment.text.trim().length) {
       const comment = {
         text: changeablePrComment.text.replace(/<(.+?)>/g, '&lt;$1&gt;'),
         prCommentId
       };
-      editPrComment(comment);
-      setEditMode(!editMode);
+      sendEditCommentDebounced(comment);
     }
   };
 
@@ -185,12 +201,22 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
 
             <div className={styles.btn_wrapper}>
               <DarkBorderButton onClick={() => setEditMode(!editMode)} className={styles.btnCancel} content="Cancel" />
-              <DarkBorderButton onClick={handleSendChangeablePrComment} className={styles.btnEdit} content="Save" />
+              <DarkBorderButton
+                onClick={handleSendChangeablePrComment}
+                className={styles.btnEdit}
+                content="Save"
+              />
             </div>
           </div>
         ) : (
           <div>
-            {parse(checkForNickname(text))}
+            {isLoadCommentContent ? (
+              <LoaderWrapper inline="centered" loading={isLoadCommentContent}>
+                {parse(checkForNickname(text))}
+              </LoaderWrapper>
+            ) : (
+              parse(checkForNickname(text))
+            )}
           </div>
         ) }
       </div>
