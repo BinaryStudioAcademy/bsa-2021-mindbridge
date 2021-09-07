@@ -5,11 +5,12 @@ import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
 import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
+import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
 
 interface IBasicCommentProps {
   createdAt: string;
   text: string;
-  author: IUser;
+  author: ICommentAuthor;
 }
 
 const BasicComment: FunctionComponent<IBasicCommentProps> = ({ createdAt, text, author }) => (
