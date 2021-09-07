@@ -38,6 +38,8 @@ public class UserProfileDto {
 
 	private int followersQuantity;
 
+	private int followingQuantity;
+
 	private List<PostTitleDto> lastArticleTitles;
 
 	private Timestamp createdAt;
@@ -45,5 +47,9 @@ public class UserProfileDto {
 	private List<UserReactionsDto> userReactions;
 
 	private List<UserReactionsCommentsDto> userReactionsComments;
+
+	private List<FollowerDto> followers;
+
+	private List<FollowingDto> following;
 
 }

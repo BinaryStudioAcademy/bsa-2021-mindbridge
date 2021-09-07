@@ -7,12 +7,10 @@ const FeedLogInSidebar: FunctionComponent = () => {
 
   const handleLoginButton = () => {
     history.push('/login');
-    history.go();
   };
 
   const handleRegistrationButton = () => {
     history.push('/registration');
-    history.go();
   };
 
   return (

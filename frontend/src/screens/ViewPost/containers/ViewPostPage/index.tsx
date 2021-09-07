@@ -13,7 +13,7 @@ import {
 } from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import { IData } from '@screens/ViewPost/models/IData';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { deleteHighlightRoutine, fetchHighlightsRoutine,
@@ -48,7 +48,7 @@ interface IActions {
   leaveReactionOnComment: IBindingCallback1<object>;
   searchUsersByNickname: IBindingCallback1<string>;
   saveFavouritePost: IBindingCallback1<object>;
-  deleteFavouritePost: IBindingCallback1<string>;
+  deleteFavouritePost: IBindingCallback1<object>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -73,10 +73,19 @@ const ViewPost: React.FC<IViewPostProps> = (
   }
 ) => {
   const { postId } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     fetchData(postId);
   }, [postId]);
+
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
+
+  useEffect(() => {
+    scrollToTop();
+  }, [data.post.id]);
 
   useEffect(() => {
     if (currentUser.id) {
@@ -85,6 +94,10 @@ const ViewPost: React.FC<IViewPostProps> = (
   }, [currentUser, fetchHighlights]);
 
   const handleLikePost = id => {
+    if (!currentUser?.id) {
+      history.push('/login');
+      return;
+    }
     if (currentUser.id) {
       const post = {
         postId: id,
@@ -102,6 +115,10 @@ const ViewPost: React.FC<IViewPostProps> = (
   };
 
   const handleSaveHighlight = content => {
+    if (!currentUser?.id) {
+      history.push('/login');
+      return;
+    }
     const highlight = {
       authorId: currentUser.id,
       postId,
@@ -117,6 +134,10 @@ const ViewPost: React.FC<IViewPostProps> = (
   };
 
   const handleDisLikePost = id => {
+    if (!currentUser?.id) {
+      history.push('/login');
+      return;
+    }
     if (currentUser.id) {
       const post = {
         postId: id,
@@ -160,10 +181,14 @@ const ViewPost: React.FC<IViewPostProps> = (
   }
 
   const handleFavouriteAction = post => {
+    if (!currentUser?.id) {
+      history.push('/login');
+      return;
+    }
     if (!post.isFavourite) {
       saveFavouritePost({ userId: currentUser.id, postId: post.id });
     } else {
-      deleteFavouritePost(post.id);
+      deleteFavouritePost({ userId: currentUser.id, postId: post.id });
     }
   };
 

@@ -1,17 +1,13 @@
 package com.mindbridge.core.domains.post.dto;
 
-import com.mindbridge.data.domains.post.dto.PostsReactionsQueryResult;
-import com.mindbridge.data.domains.post.model.Post;
-import com.mindbridge.data.domains.tag.dto.TagDto;
-import lombok.Builder;
+import com.mindbridge.core.domains.user.dto.UserDto;
+import com.mindbridge.core.domains.user.dto.UserProfileDto;
+import com.mindbridge.data.domains.tag.dto.TagDataDto;
 import lombok.Data;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Data
-@Builder
 public class PostsListDetailsDto {
 
 	private UUID id;
@@ -20,9 +16,7 @@ public class PostsListDetailsDto {
 
 	private String text;
 
-	private String authorId;
-
-	private String nickname;
+	private UserDto author;
 
 	private String createdAt;
 
@@ -34,11 +28,9 @@ public class PostsListDetailsDto {
 
 	private long postRating;
 
-	private String avatar;
-
 	private int usersCount;
 
-	private List<TagDto> tags;
+	private List<TagDataDto> tags;
 
 	private String coverImage;
 
@@ -47,24 +39,7 @@ public class PostsListDetailsDto {
 	private Boolean reacted;
 
 	private Boolean isLiked;
-	
+
 	private Boolean isFavourite;
-
-	public static PostsListDetailsDto fromEntity(Post post, PostsReactionsQueryResult postsReactionsQueryResult) {
-		return PostsListDetailsDto.builder().id(post.getId()).title(post.getTitle()).text(post.getText())
-				.authorId(post.getAuthor().getId().toString()).nickname(post.getAuthor().getNickname())
-				.createdAt(getDate(post.getCreatedAt())).commentsCount(post.getComments().size())
-				.tags(post.getTags().stream().map(TagDto::fromEntity).collect(Collectors.toList()))
-				.likesCount(postsReactionsQueryResult.likeCount).disLikesCount(postsReactionsQueryResult.disLikeCount)
-				.postRating(postsReactionsQueryResult.likeCount - postsReactionsQueryResult.disLikeCount)
-				.markdown(post.getMarkdown()).coverImage(post.getCoverImage()).avatar(post.getAuthor().getAvatar())
-				.isFavourite(true)
-				.build();
-	}
-
-	public static String getDate(Date date) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM", Locale.ENGLISH);
-		return dateFormat.format(date);
-	}
 
 }
