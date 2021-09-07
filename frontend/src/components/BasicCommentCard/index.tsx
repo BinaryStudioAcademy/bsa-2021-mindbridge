@@ -17,6 +17,7 @@ interface ICommentProps {
   author: IUser;
   searchUsersByNickname: any;
   users: IMentionsUser[];
+  editPrComment: IBindingCallback1<object>;
 }
 
 const BasicCommentsFeed: FunctionComponent<ICommentProps> = ({
@@ -25,7 +26,8 @@ const BasicCommentsFeed: FunctionComponent<ICommentProps> = ({
   userInfo,
   prId,
   users,
-  searchUsersByNickname
+  searchUsersByNickname,
+  editPrComment
 }) => (
   <div className={styles.main}>
     <p className={styles.commentCounter}>
@@ -35,20 +37,28 @@ const BasicCommentsFeed: FunctionComponent<ICommentProps> = ({
       )
       {' '}
     </p>
+    {comments.length > 0 && (
     <div className="ui comments">
       <div className="comment">
-        {comments.map(comment => (
-          <Reply
-            createdAt={comment.createdAt}
-            text={comment.text}
-            author={comment.author}
-            prCommentId={comment.id}
-            userInfo={userInfo}
-            sendCommentPR={sendCommentPR}
-          />
-        ))}
+        <div>
+          {comments.map(comment => (
+            <Reply
+              createdAt={comment.createdAt}
+              text={comment.text}
+              updatedAt={comment.updatedAt}
+              author={comment.author}
+              prCommentId={comment.id}
+              userInfo={userInfo}
+              sendCommentPR={sendCommentPR}
+              editPrComment={editPrComment}
+              users={users}
+              searchUsersByNickname={searchUsersByNickname}
+            />
+          ))}
+        </div>
       </div>
     </div>
+    )}
     <UserPrMentions
       userInfo={userInfo}
       prId={prId}

@@ -8,6 +8,7 @@ import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import {
   acceptPrRoutine,
   closePrRoutine,
+  editPrCommentRoutine,
   fetchPrRoutine,
   resetEndSendingDataRoutine,
   sendCommentPrRoutine
@@ -49,6 +50,7 @@ interface IActions {
   acceptPR: IBindingCallback1<IPostPR>;
   sendCommentPR: IBindingCallback1<object>;
   searchUsersByNickname: IBindingCallback1<string>;
+  editPrComment: IBindingCallback1<object>;
 }
 
 const PullRequest: React.FC<IPullRequestProps> = (
@@ -61,7 +63,8 @@ const PullRequest: React.FC<IPullRequestProps> = (
     endSendingDada,
     sendCommentPR,
     users,
-    searchUsersByNickname
+    searchUsersByNickname,
+    editPrComment
   }
 ) => {
   const { id } = useParams();
@@ -276,6 +279,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
           author={postPR.post.author}
           users={users}
           searchUsersByNickname={searchUsersByNickname}
+          editPrComment={editPrComment}
         />
       </div>
     </div>
@@ -295,7 +299,8 @@ const mapDispatchToProps: IActions = {
   closePR: closePrRoutine,
   resetEndSendingDada: resetEndSendingDataRoutine,
   acceptPR: acceptPrRoutine,
-  searchUsersByNickname: searchUserByNicknameRoutine
+  searchUsersByNickname: searchUserByNicknameRoutine,
+  editPrComment: editPrCommentRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PullRequest);
