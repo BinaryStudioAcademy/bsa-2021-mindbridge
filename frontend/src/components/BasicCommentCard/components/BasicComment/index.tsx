@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
 import Image from '@components/Image';
@@ -9,7 +9,7 @@ import parse from 'html-react-parser';
 import { Popup } from 'semantic-ui-react';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { IEditPrComment } from '@screens/PullRequest/models/IEditPrComment';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useDebouncedCallback } from 'use-debounce';
@@ -31,6 +31,8 @@ interface IBasicCommentProps {
   searchUsersByNickname: any;
   onChange: any;
   userInfo: ICurrentUser;
+  resetSendingPrComment: IBindingAction;
+  sendingEditPrComment: boolean;
 }
 
 const BasicComment: FunctionComponent<IBasicCommentProps> = ({
@@ -43,13 +45,17 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
   updatedAt,
   users,
   searchUsersByNickname,
-  userInfo
+  userInfo,
+  resetSendingPrComment,
+  sendingEditPrComment
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [isLoadCommentContent, setIsLoadCommentContent] = useState(false);
+  const [preloader, setPreloader] = useState(false);
   const [changeablePrComment, setChangeablePrComment] = useState<IEditPrComment>({
     text,
-    prCommentId: ''
+    prCommentId: '',
+    sendingEditCommentStatus: false
   });
   const [usersList, setUsersList] = useState({
     user: [{
@@ -57,6 +63,14 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
       id: ''
     }]
   });
+
+  useEffect(() => {
+    if (sendingEditPrComment) {
+      setPreloader(false);
+      resetSendingPrComment();
+    }
+  });
+
   const debouncedLoadCommentContent = useDebouncedCallback(() => {
     setIsLoadCommentContent(!isLoadCommentContent);
   }, 500);
@@ -79,20 +93,19 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
     });
   };
 
-  const sendEditCommentDebounced = useDebouncedCallback(value => {
-    editPrComment(value);
+  const sendEditCommentDebounced = useDebouncedCallback(() => {
     setEditMode(!editMode);
-    setIsLoadCommentContent(false);
-    setIsLoadCommentContent(true);
   }, 400);
 
   const handleSendChangeablePrComment = (event: any) => {
+    setPreloader(true);
     if (changeablePrComment.text.trim().length) {
       const comment = {
         text: changeablePrComment.text.replace(/<(.+?)>/g, '&lt;$1&gt;'),
         prCommentId
       };
-      sendEditCommentDebounced(comment);
+      editPrComment(comment);
+      sendEditCommentDebounced();
     }
   };
 
@@ -204,6 +217,8 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
               <DarkBorderButton onClick={() => setEditMode(!editMode)} className={styles.btnCancel} content="Cancel" />
               <DarkBorderButton
                 onClick={handleSendChangeablePrComment}
+                loading={preloader}
+                disabled={preloader}
                 className={styles.btnEdit}
                 content="Save"
               />

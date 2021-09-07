@@ -96,6 +96,8 @@ function* sendEditPrComment(action) {
     yield put(editPrCommentRoutine.success(editPrComment));
   } catch (error) {
     yield put(editPrCommentRoutine.failure(error?.message));
+  } finally {
+    yield put(editPrCommentRoutine.fulfill());
   }
 }
 
