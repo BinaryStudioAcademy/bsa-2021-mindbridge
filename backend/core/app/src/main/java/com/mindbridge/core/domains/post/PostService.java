@@ -70,7 +70,6 @@ public class PostService {
 			PostVersionRepository postVersionRepository, ElasticService elasticService, FavoriteRepository favouriteRepository,
 			PostReactionRepository postReactionRepository, UserService userService, AchievementHelper achievementHelper) {
     this.postRepository = postRepository;
-
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
 		this.userRepository = userRepository;
