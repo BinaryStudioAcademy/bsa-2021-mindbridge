@@ -4,6 +4,7 @@ import com.mindbridge.data.domains.comment.model.Comment;
 import com.mindbridge.data.domains.postPR.model.PostPR;
 import com.mindbridge.data.domains.postReaction.model.PostReaction;
 import com.mindbridge.data.domains.postVersion.model.PostVersion;
+import com.mindbridge.data.domains.postViews.model.PostView;
 import com.mindbridge.data.domains.tag.model.Tag;
 import com.mindbridge.data.domains.user.model.User;
 import com.mindbridge.data.model.BaseAuditableEntity;

@@ -18,5 +18,6 @@ export interface IPostFeed {
   reacted: boolean;
   isLiked: boolean;
   isFavourite: boolean;
+  postViewsNumber: number;
 }
 

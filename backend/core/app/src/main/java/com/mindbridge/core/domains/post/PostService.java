@@ -1,12 +1,16 @@
 package com.mindbridge.core.domains.post;
 
 import com.mindbridge.core.domains.achievement.AchievementHelper;
-import com.mindbridge.core.domains.achievement.AchievementService;
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
+import com.mindbridge.core.domains.post.dto.CreatePostDto;
+import com.mindbridge.core.domains.post.dto.DraftsListDto;
+import com.mindbridge.core.domains.post.dto.EditPostDto;
+import com.mindbridge.core.domains.post.dto.PostDetailsDto;
+import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
+import com.mindbridge.core.domains.post.dto.RelatedPostDto;
 import com.mindbridge.core.domains.helpers.DateFormatter;
 import com.mindbridge.core.domains.notification.NotificationService;
-import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
 import com.mindbridge.core.domains.tag.dto.TagDto;
@@ -20,20 +24,20 @@ import com.mindbridge.data.domains.postReaction.PostReactionRepository;
 import com.mindbridge.data.domains.favorite.FavoriteRepository;
 import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
+import com.mindbridge.data.domains.postViews.PostViewsRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-
-import java.security.Principal;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import java.security.Principal;
 
 @Service
 @Slf4j
@@ -57,19 +61,24 @@ public class PostService {
 
 	private final NotificationService notificationService;
 
-  	private final FavoriteRepository favouriteRepository;
+  private final FavoriteRepository favouriteRepository;
 
 	private final PostReactionRepository postReactionRepository;
 
 	private final UserService userService;
 
+	private final PostViewsRepository postViewsRepository;
+
 	@Lazy
 	@Autowired
-	public PostService(PostRepository postRepository, CommentService commentService, NotificationService notificationService,
-			PostReactionService postReactionService, UserRepository userRepository, TagRepository tagRepository,
-			PostVersionRepository postVersionRepository, ElasticService elasticService, FavoriteRepository favouriteRepository,
-			PostReactionRepository postReactionRepository, UserService userService, AchievementHelper achievementHelper) {
-    this.postRepository = postRepository;
+	public PostService(
+			PostRepository postRepository, CommentService commentService,
+			PostReactionService postReactionService, UserRepository userRepository,
+			TagRepository tagRepository, UserService userService,
+			PostReactionRepository postReactionRepository, NotificationService notificationService,
+			PostVersionRepository postVersionRepository, ElasticService elasticService,
+			FavoriteRepository favouriteRepository, PostViewsRepository postViewsRepository, AchievementHelper achievementHelper) {
+		this.postRepository = postRepository;
 		this.commentService = commentService;
 		this.postReactionService = postReactionService;
 		this.userRepository = userRepository;
@@ -81,6 +90,7 @@ public class PostService {
 		this.postReactionRepository = postReactionRepository;
 		this.userService = userService;
 		this.favouriteRepository = favouriteRepository;
+		this.postViewsRepository = postViewsRepository;
 	}
 
 	public PostDetailsDto getPostById(Principal principal, UUID id) {
@@ -112,7 +122,7 @@ public class PostService {
 		reaction.ifPresent(postReaction -> postDetailsDto.setIsLiked(postReaction.getLiked()));
 		var favourite = favouriteRepository.getFavoriteByPostIdAndUserId(id, currentUser.getId());
 		postDetailsDto.setIsFavourite(favourite.isPresent());
-
+		postDetailsDto.setPostViewsNumber(postViewsRepository.countByPostId(id));
 		return postDetailsDto;
 	}
 
@@ -131,6 +141,7 @@ public class PostService {
 		postListDto.setDisLikesCount(postsReactionsQueryResult.disLikeCount);
 		postListDto.setPostRating(postsReactionsQueryResult.likeCount - postsReactionsQueryResult.disLikeCount);
 		postListDto.setCreatedAt(DateFormatter.getDate(post.getCreatedAt(), "dd MMMM"));
+		postListDto.setPostViewsNumber(postViewsRepository.countByPostId(post.getId()));
 		if (principal == null) {
 			return postListDto;
 		}

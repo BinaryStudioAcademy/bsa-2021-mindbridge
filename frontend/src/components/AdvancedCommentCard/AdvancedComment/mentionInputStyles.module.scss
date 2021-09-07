@@ -12,7 +12,6 @@
 .mentions--singleLine .mentions__input {
   border: 0.14285em inset;
   height: 8em;
-
 }
 
 .mentions--multiLine .mentions__control {
@@ -29,9 +28,10 @@
   border: none;
   background-color: #F3F9FE !important;
   border-radius: 0.3125em;
-  max-width: 98% !important;
+  margin-right: 1em;
   padding: 0.6428em;
   outline: 0;
+  max-width: 98% !important;
 }
 
 .mentions__suggestions__list {

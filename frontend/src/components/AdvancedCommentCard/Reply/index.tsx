@@ -29,6 +29,8 @@ interface ICommentProps {
   depthOfComments: number;
   searchUsersByNickname: any;
   users: IMentionsUser[];
+  editComment: any;
+  updatedAt: string;
   commentProp: IComments;
 }
 
@@ -55,6 +57,8 @@ const Reply: React.FC<ICommentProps> = (
     depthOfComments,
     searchUsersByNickname,
     users,
+    editComment,
+    updatedAt,
     commentProp
   }
 ) => {
@@ -92,6 +96,8 @@ const Reply: React.FC<ICommentProps> = (
         users={users}
         comment={commentProp}
         searchUsersByNickname={searchUsersByNickname}
+        editComment={editComment}
+        updatedAt={updatedAt}
       />
       {repliesLength && (
         <div className={!isMaxDepthOfComments && styles.leftBorder}>
@@ -121,6 +127,8 @@ const Reply: React.FC<ICommentProps> = (
                     users={users}
                     commentProp={comment}
                     searchUsersByNickname={searchUsersByNickname}
+                    editComment={editComment}
+                    updatedAt={comment.updatedAt}
                   />
                 ))}
             </div>
