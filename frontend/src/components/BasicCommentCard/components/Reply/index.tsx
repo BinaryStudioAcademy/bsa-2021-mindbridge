@@ -27,10 +27,12 @@ const Reply: FunctionComponent<ICommentProps> = ({
   editPrComment,
   updatedAt,
   users,
-  searchUsersByNickname
+  searchUsersByNickname,
+  userInfo
 }) => (
   <div className={styles.comment}>
     <BasicComment
+      userInfo={userInfo}
       createdAt={createdAt}
       text={text}
       author={author}

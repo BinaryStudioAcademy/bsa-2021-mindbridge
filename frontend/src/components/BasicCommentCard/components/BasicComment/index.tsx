@@ -17,6 +17,7 @@ import { MentionsInput, Mention } from 'react-mentions';
 import provideValue from '../PrMentition/provideValue';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import mentionInputStyle from './mentionInputStyle.module.scss';
+import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -28,6 +29,7 @@ interface IBasicCommentProps {
   users: any;
   searchUsersByNickname: any;
   onChange: any;
+  userInfo: ICurrentUser;
 }
 
 const BasicComment: FunctionComponent<IBasicCommentProps> = ({
@@ -39,7 +41,8 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
   editPrComment,
   updatedAt,
   users,
-  searchUsersByNickname
+  searchUsersByNickname,
+  userInfo
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [changeablePrComment, setChangeablePrComment] = useState<IEditPrComment>({
@@ -125,10 +128,14 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
           </div>
         </div>
         <div className={styles.commentRightAction}>
-          {!editMode && (
-          <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
-            <EditSvg />
-          </button>
+          {author.id === userInfo.id && (
+            <div>
+              {!editMode && (
+              <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
+                <EditSvg />
+              </button>
+              )}
+            </div>
           )}
           <Popup
             content="Copy link"
