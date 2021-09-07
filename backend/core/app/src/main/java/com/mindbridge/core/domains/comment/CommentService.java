@@ -46,8 +46,6 @@ public class CommentService {
 		this.notificationService = notificationService;
 		this.postService = postService;
 		this.userService = userService;
-		this.commentRepository = commentRepository;
-		this.commentReactionRepository = commentReactionRepository;
 		this.achievementHelper = achievementHelper;
 	}
 
@@ -72,7 +70,7 @@ public class CommentService {
 	public Comment addComment(CreateCommentDto comment) {
 		var commentToDto = CommentMapper.MAPPER.createCommentDtoToComment(comment);
 		notificationService.createNotification(
-			postService.getPostById(comment.getPostId()).getAuthor().getId(),
+			postService.getPostById(null, comment.getPostId()).getAuthor().getId(),
 			userService.getUserById(comment.getAuthor()).getNickname(),
 			comment.getPostId(),
 			Notification.Type.newComment);

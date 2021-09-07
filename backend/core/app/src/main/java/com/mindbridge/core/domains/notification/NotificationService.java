@@ -69,31 +69,31 @@ public class NotificationService {
 				break;
 			}
 			case PRClosed: {
-				description = authorNickname + " closed your pull request";
+				description = authorNicknameOrAwardTitle + " closed your pull request";
 				destination = "PRClosed";
 				createNotificationDto.setType("PRClosed");
 				break;
 			}
 			case PRAccepted: {
-				description = authorNickname + " accepted your pull request";
+				description = authorNicknameOrAwardTitle + " accepted your pull request";
 				destination = "PRAccepted";
 				createNotificationDto.setType("PRAccepted");
 				break;
 			}
 			case newComment: {
-				description = authorNickname + " commented your post";
+				description = authorNicknameOrAwardTitle + " commented your post";
 				destination = "newComment";
 				createNotificationDto.setType("newComment");
 				break;
 			}
 			case newReply: {
-				description = authorNickname + " replied on your comment";
+				description = authorNicknameOrAwardTitle + " replied on your comment";
 				destination = "newReply";
 				createNotificationDto.setType("newReply");
 				break;
 			}
 			case newMention: {
-				description = authorNickname + " mentioned you in comment";
+				description = authorNicknameOrAwardTitle + " mentioned you in comment";
 				destination = "newMention";
 				createNotificationDto.setType("newMention");
 				break;
