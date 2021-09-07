@@ -124,39 +124,39 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
             </span>
           </div>
         </div>
-          <div className={styles.commentRightAction}>
-            {!editMode && (
-              <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
-                <EditSvg />
-              </button>
-            )}
-            <Popup
-              content="Copy link"
-              mouseEnterDelay={1000}
-              closeOnTriggerClick
-              position="top center"
-              on="hover"
-              trigger={(
-                <span>
-                  <Popup
-                    content="Copied!"
-                    on="click"
-                    closeOnTriggerMouseLeave
-                    position="top center"
-                    trigger={(
-                      <span>
-                        <CopyToClipboard text={`${getLinkToComment(window.location.href)}#${prCommentId}`}>
-                          <button style={{ background: 'none' }} type="button">
-                            <LinkSvg />
-                          </button>
-                        </CopyToClipboard>
-                      </span>
+        <div className={styles.commentRightAction}>
+          {!editMode && (
+          <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
+            <EditSvg />
+          </button>
+          )}
+          <Popup
+            content="Copy link"
+            mouseEnterDelay={1000}
+            closeOnTriggerClick
+            position="top center"
+            on="hover"
+            trigger={(
+              <span>
+                <Popup
+                  content="Copied!"
+                  on="click"
+                  closeOnTriggerMouseLeave
+                  position="top center"
+                  trigger={(
+                    <span>
+                      <CopyToClipboard text={`${getLinkToComment(window.location.href)}#${prCommentId}`}>
+                        <button style={{ background: 'none' }} type="button">
+                          <LinkSvg />
+                        </button>
+                      </CopyToClipboard>
+                    </span>
                     )}
-                  />
-                </span>
+                />
+              </span>
               )}
-            />
-          </div>
+          />
+        </div>
       </div>
       <div className="text">
         { editMode ? (

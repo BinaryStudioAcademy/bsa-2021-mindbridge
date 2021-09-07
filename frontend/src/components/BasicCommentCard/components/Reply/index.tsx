@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import BasicComment from '@components/BasicCommentCard/components/BasicComment';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
-import {IMentionsUser} from "@screens/ViewPost/models/IMentionsUser";
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 interface ICommentProps {
   createdAt: string;
