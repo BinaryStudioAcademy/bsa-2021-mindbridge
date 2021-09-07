@@ -8,7 +8,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface AchievementMapper {
-
 	AchievementMapper MAPPER = Mappers.getMapper(AchievementMapper.class);
 
 	@Mapping(target = "hasAchievement", ignore = true)

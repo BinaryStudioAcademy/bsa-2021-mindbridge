@@ -17,5 +17,4 @@ public interface UsersAchievementRepository
 	Optional<UsersAchievement> findByUserIdAndAchievementId(UUID id, UUID achievementId);
 
 	List<UsersAchievement> findByUserIdOrderByCreatedAtDesc(UUID id);
-
 }

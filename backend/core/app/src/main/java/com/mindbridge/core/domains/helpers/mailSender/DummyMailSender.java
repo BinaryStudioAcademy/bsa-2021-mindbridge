@@ -5,11 +5,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Profile("test")
-public class DummyMailSender implements MailSender {
-
+public class DummyMailSender implements MailSender{
 	@Override
 	public void sendEmail(String emailTo, String subject, String message) {
 
 	}
-
 }

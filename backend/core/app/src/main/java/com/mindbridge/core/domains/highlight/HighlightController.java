@@ -31,8 +31,8 @@ public class HighlightController {
 	}
 
 	@GetMapping("/infinite/{id}")
-	public List<HighlightsDetailsDto> getHighlights(@PathVariable UUID id,
-			@RequestParam(defaultValue = "0") Integer from, @RequestParam(defaultValue = "10") Integer count) {
+	public List<HighlightsDetailsDto> getHighlights(@PathVariable UUID id, @RequestParam(defaultValue = "0") Integer from,
+													@RequestParam(defaultValue = "10") Integer count) {
 		return highlightService.getAllHighlights(id, from, count);
 	}
 
@@ -40,5 +40,4 @@ public class HighlightController {
 	public UUID deleteHighlight(@PathVariable UUID id) {
 		return highlightService.deleteHighlight(id);
 	}
-
 }

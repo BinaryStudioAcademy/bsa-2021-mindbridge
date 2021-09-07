@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AchievementHelper {
-
 	private final UUID WRITER_LEVEL1 = UUID.fromString("31ed1a82-4758-4c3c-a053-55c541f54cb3");
 
 	private final UUID WRITER_LEVEL2 = UUID.fromString("4650f4bc-27f7-4499-8b3c-b02fc4546c49");
@@ -66,9 +65,9 @@ public class AchievementHelper {
 
 	@Autowired
 	public AchievementHelper(PostRepository postRepository, UsersAchievementRepository userAchievementRepository,
-			AchievementRepository achievementRepository, FollowerRepository followerRepository,
-			PostPRRepository postPRRepository, NotificationService notificationService,
-			CommentRepository commentRepository) {
+		AchievementRepository achievementRepository,
+		FollowerRepository followerRepository, PostPRRepository postPRRepository,
+		NotificationService notificationService, CommentRepository commentRepository) {
 		this.postRepository = postRepository;
 		this.usersAchievementRepository = userAchievementRepository;
 		this.achievementRepository = achievementRepository;
@@ -97,22 +96,22 @@ public class AchievementHelper {
 	public void checkFollowersCount(User user) {
 		int followersCount = followerRepository.countFollowerByFollowedId(user.getId());
 		if (followersCount == 1) {
-			if (!hasAchievement(SUBSCRIBERS_LEVEL1, user)) {
+			if(!hasAchievement(SUBSCRIBERS_LEVEL1, user)) {
 				addAchievementToUser(SUBSCRIBERS_LEVEL1, user);
 			}
 		}
 		else if (followersCount == 50) {
-			if (!hasAchievement(SUBSCRIBERS_LEVEL2, user)) {
+			if(!hasAchievement(SUBSCRIBERS_LEVEL2, user)) {
 				addAchievementToUser(SUBSCRIBERS_LEVEL2, user);
 			}
 		}
 		else if (followersCount == 100) {
-			if (!hasAchievement(SUBSCRIBERS_LEVEL3, user)) {
+			if(!hasAchievement(SUBSCRIBERS_LEVEL3, user)) {
 				addAchievementToUser(SUBSCRIBERS_LEVEL3, user);
 			}
 		}
 		else if (followersCount == 500) {
-			if (!hasAchievement(SUBSCRIBERS_LEVEL4, user)) {
+			if(!hasAchievement(SUBSCRIBERS_LEVEL4, user)) {
 				addAchievementToUser(SUBSCRIBERS_LEVEL4, user);
 			}
 		}
@@ -134,23 +133,23 @@ public class AchievementHelper {
 		}
 	}
 
-	public void checkCommentsCount(User user) {
+	public void checkCommentsCount(User user){
 		int commentCount = commentRepository.countCommentByAuthorId(user.getId());
-		if (commentCount == 10) {
+		if(commentCount == 10){
 			addAchievementToUser(COMMENTS_LEVEL1, user);
 		}
-		else if (commentCount == 50) {
+		else if(commentCount == 50){
 			addAchievementToUser(COMMENTS_LEVEL2, user);
 		}
-		else if (commentCount == 100) {
+		else if(commentCount == 100){
 			addAchievementToUser(COMMENTS_LEVEL3, user);
 		}
-		else if (commentCount == 500) {
+		else if(commentCount == 500){
 			addAchievementToUser(COMMENTS_LEVEL4, user);
 		}
 	}
 
-	public boolean hasAchievement(UUID achievementId, User user) {
+	public boolean hasAchievement(UUID achievementId, User user){
 		return usersAchievementRepository.findByUserIdAndAchievementId(user.getId(), achievementId).isEmpty();
 	}
 
@@ -158,8 +157,7 @@ public class AchievementHelper {
 		Achievement achievement = achievementRepository.getOne(achievementId);
 		usersAchievementRepository.save(new UsersAchievement(user, achievement));
 
-		notificationService.createNotification(user.getId(), achievement.getTitle(), achievementId,
-				Type.newAchievement);
+		notificationService.createNotification(user.getId(), achievement.getTitle(), achievementId, Type.newAchievement);
 	}
 
 }

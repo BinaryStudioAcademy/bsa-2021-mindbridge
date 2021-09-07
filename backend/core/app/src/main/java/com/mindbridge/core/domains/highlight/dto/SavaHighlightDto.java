@@ -6,7 +6,6 @@ import java.util.UUID;
 
 @Data
 public class SavaHighlightDto {
-
 	private UUID authorId;
 
 	private UUID postId;
@@ -24,5 +23,4 @@ public class SavaHighlightDto {
 	private int offSetStart;
 
 	private int offSetEnd;
-
 }

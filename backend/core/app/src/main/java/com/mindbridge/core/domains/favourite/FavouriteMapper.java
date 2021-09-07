@@ -8,11 +8,9 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface FavouriteMapper {
-
 	FavouriteMapper MAPPER = Mappers.getMapper(FavouriteMapper.class);
 
 	@Mapping(source = "userId", target = "user.id")
 	@Mapping(source = "postId", target = "post.id")
 	Favorite createFavouriteDtoToFavourite(CreateFavouriteDto favouriteDto);
-
 }

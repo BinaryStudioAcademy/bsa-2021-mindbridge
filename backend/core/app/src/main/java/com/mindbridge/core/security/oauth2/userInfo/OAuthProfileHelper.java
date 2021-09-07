@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OAuthProfileHelper {
-
 	@Value("${app.domain.pure}")
 	private String domainName;
 
@@ -16,5 +15,4 @@ public class OAuthProfileHelper {
 	public String generateEmailFromNickname(String nickname) {
 		return nickname + "@" + domainName;
 	}
-
 }

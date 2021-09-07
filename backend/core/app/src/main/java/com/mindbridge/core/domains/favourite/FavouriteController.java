@@ -22,8 +22,8 @@ public class FavouriteController {
 	}
 
 	@GetMapping("/{id}")
-	public List<PostsListDetailsDto> getAllFavourite(@PathVariable UUID id,
-			@RequestParam(defaultValue = "0") Integer from, @RequestParam(defaultValue = "10") Integer count) {
+	public List<PostsListDetailsDto> getAllFavourite(@PathVariable UUID id, @RequestParam(defaultValue = "0") Integer from,
+													 @RequestParam(defaultValue = "10") Integer count) {
 		return favouriteService.getFavouritesPostByUserId(id, from, count);
 	}
 
@@ -36,5 +36,4 @@ public class FavouriteController {
 	public UUID deleteFavouritePosts(@PathVariable UUID id) {
 		return favouriteService.deleteFavouritePosts(id);
 	}
-
 }

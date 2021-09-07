@@ -10,5 +10,4 @@ public class CreateFavouriteDto {
 	private UUID userId;
 
 	private UUID postId;
-
 }

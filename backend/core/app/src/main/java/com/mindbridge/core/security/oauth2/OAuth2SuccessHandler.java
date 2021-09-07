@@ -36,10 +36,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 	private OAuth2UserInfoFactory oAuth2UserInfoFactory;
 
 	@Override
-	protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) {
+	protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		var redirUrl = extractRedirectUri(request)
-				.orElseGet(() -> super.determineTargetUrl(request, response, authentication));
+			.orElseGet(() -> super.determineTargetUrl(request, response, authentication));
 		if (redirUrlIsUnknown(redirUrl)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Redirect uri is unknown");
 		}
@@ -52,7 +51,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		var accessToken = jwtProvider.generateAccessToken(userPrincipal.getUsername());
 		var refreshToken = jwtProvider.generateRefreshToken(userPrincipal.getUsername());
 		return UriComponentsBuilder.fromUriString(redirUrl).queryParam("token", accessToken)
-				.queryParam("refresh", refreshToken).build().toUriString();
+			.queryParam("refresh", refreshToken).build().toUriString();
 	}
 
 	private Optional<String> extractRedirectUri(HttpServletRequest request) {
@@ -69,7 +68,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		return oAuth2Properties.getRedirectUris().stream().noneMatch(authorizedRedirectUri -> {
 			URI authorizedURI = URI.create(authorizedRedirectUri);
 			return authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
-					&& authorizedURI.getPort() == clientRedirectUri.getPort();
+				&& authorizedURI.getPort() == clientRedirectUri.getPort();
 		});
 	}
 

@@ -25,7 +25,7 @@ public class AuthService {
 	private final UserRepository userRepository;
 
 	public AuthService(UserService userService, PasswordEncoder passwordEncoder, JwtProvider jwtProvider,
-			UserRepository userRepository) {
+					   UserRepository userRepository) {
 		this.userService = userService;
 		this.passwordEncoder = passwordEncoder;
 		this.jwtProvider = jwtProvider;
@@ -49,8 +49,10 @@ public class AuthService {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid password");
 		}
 
-		var tokens = AuthResponse.of(jwtProvider.generateAccessToken(userDetails.getUsername()),
-				jwtProvider.generateRefreshToken(userDetails.getUsername()));
+		var tokens = AuthResponse.of(
+			jwtProvider.generateAccessToken(userDetails.getUsername()),
+			jwtProvider.generateRefreshToken(userDetails.getUsername())
+		);
 		var userDto = userService.loadUserDtoByEmail(authRequest.getEmail());
 		return new TokensWithUser(tokens, userDto);
 	}
@@ -62,11 +64,11 @@ public class AuthService {
 	public TokensWithUser performRegister(RegistrationRequest registrationRequest) {
 		if (userRepository.existsByEmail(registrationRequest.getEmail())) {
 			throw new UserAlreadyExistException(
-					"User with email '" + registrationRequest.getEmail() + "' is already registered.");
+				"User with email '" + registrationRequest.getEmail() + "' is already registered.");
 		}
 		if (userRepository.existsByNickname(registrationRequest.getNickname())) {
 			throw new UserAlreadyExistException(
-					"User with nickname '" + registrationRequest.getNickname() + "' is already registered.");
+				"User with nickname '" + registrationRequest.getNickname() + "' is already registered.");
 		}
 		userService.registerNewUserAccount(registrationRequest);
 
@@ -80,8 +82,10 @@ public class AuthService {
 
 		if (!userEmail.isEmpty()) {
 			var userDetails = userService.loadUserByEmail(userEmail);
-			return AuthResponse.of(jwtProvider.generateAccessToken(userDetails.getUsername()),
-					jwtProvider.generateRefreshToken(userDetails.getUsername()));
+			return AuthResponse.of(
+				jwtProvider.generateAccessToken(userDetails.getUsername()),
+				jwtProvider.generateRefreshToken(userDetails.getUsername())
+			);
 		}
 		else {
 			throw new UsernameNotFoundException("Сouldn`t find a user with such refresh token.");
@@ -99,5 +103,4 @@ public class AuthService {
 		userRepository.save(user);
 		return true;
 	}
-
 }

@@ -42,11 +42,17 @@ public class JwtProvider {
 	}
 
 	private Date generateTokenDate(long seconds) {
-		return Date.from(ZonedDateTime.now(Clock.systemUTC()).plusSeconds(seconds).toInstant());
+		return Date.from(ZonedDateTime.now(Clock.systemUTC())
+			.plusSeconds(seconds)
+			.toInstant());
 	}
 
 	private String generateToken(String username, long seconds) {
-		return Jwts.builder().setSubject(username).setExpiration(generateTokenDate(seconds)).signWith(key()).compact();
+		return Jwts.builder()
+			.setSubject(username)
+			.setExpiration(generateTokenDate(seconds))
+			.signWith(key())
+			.compact();
 	}
 
 	public String generateAccessToken(String username) {
@@ -65,20 +71,15 @@ public class JwtProvider {
 	private Claims parseToken(String token) {
 		try {
 			return jwtParser().parseClaimsJws(token).getBody();
-		}
-		catch (ExpiredJwtException expEx) {
+		} catch (ExpiredJwtException expEx) {
 			throw new JwtException("Token expired", "jwt-expired");
-		}
-		catch (UnsupportedJwtException unsEx) {
+		} catch (UnsupportedJwtException unsEx) {
 			throw new JwtException("Unsupported jwt", "jwt-unsupported");
-		}
-		catch (MalformedJwtException mjEx) {
+		} catch (MalformedJwtException mjEx) {
 			throw new JwtException("Malformed jwt", "jwt-malformed");
-		}
-		catch (SignatureException sEx) {
+		} catch (SignatureException sEx) {
 			throw new JwtException("Invalid signature", "jwt-signature");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new JwtException("Invalid token", "jwt-invalid");
 		}
 	}

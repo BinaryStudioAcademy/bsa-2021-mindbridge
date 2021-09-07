@@ -54,7 +54,8 @@ public class PostsListDetailsDto {
 				.likesCount(postsReactionsQueryResult.likeCount).disLikesCount(postsReactionsQueryResult.disLikeCount)
 				.postRating(postsReactionsQueryResult.likeCount - postsReactionsQueryResult.disLikeCount)
 				.markdown(post.getMarkdown()).coverImage(post.getCoverImage()).avatar(post.getAuthor().getAvatar())
-				.isFavourite(true).build();
+				.isFavourite(true)
+				.build();
 	}
 
 	public static String getDate(Date date) {

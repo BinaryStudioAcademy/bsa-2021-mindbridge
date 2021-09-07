@@ -22,6 +22,7 @@ public class FavouriteService {
 
 	private final PostRepository postRepository;
 
+
 	@Autowired
 	@Lazy
 	public FavouriteService(FavoriteRepository favouriteRepository, PostRepository postRepository) {
@@ -32,20 +33,22 @@ public class FavouriteService {
 	public List<PostsListDetailsDto> getFavouritesPostByUserId(UUID id, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
 		var favourites = favouriteRepository.getAllByUserId(id, pageable);
-		return favourites.stream().map(fav -> PostsListDetailsDto.fromEntity(fav.getPost(),
-				postRepository.getAllReactionsOnPost(fav.getPost().getId()))).collect(Collectors.toList());
+		return favourites
+			.stream()
+			.map(fav -> PostsListDetailsDto.fromEntity(fav.getPost(), postRepository.getAllReactionsOnPost(fav.getPost().getId())))
+			.collect(Collectors.toList());
 	}
 
-	public UUID saveFavourite(CreateFavouriteDto favouriteDto) {
+
+    public UUID saveFavourite(CreateFavouriteDto favouriteDto) {
 		var favouritePost = FavouriteMapper.MAPPER.createFavouriteDtoToFavourite(favouriteDto);
 		var savedPostId = favouriteRepository.save(favouritePost);
 		return savedPostId.getPost().getId();
-	}
+    }
 
 	public UUID deleteFavouritePosts(UUID id) {
 		var post = favouriteRepository.getFavoriteByPostId(id);
 		favouriteRepository.delete(post.orElseThrow());
 		return id;
 	}
-
 }
