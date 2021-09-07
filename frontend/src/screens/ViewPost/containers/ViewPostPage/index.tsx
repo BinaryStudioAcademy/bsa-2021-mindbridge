@@ -75,7 +75,6 @@ const ViewPost: React.FC<IViewPostProps> = (
   }
 ) => {
   const { postId } = useParams();
-  const history = useHistory();
 
   useEffect(() => {
     fetchData(postId);
