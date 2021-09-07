@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.*;
 
 @RestController
@@ -23,8 +24,8 @@ public class FavouriteController {
 
 	@GetMapping("/{id}")
 	public List<PostsListDetailsDto> getAllFavourite(@PathVariable UUID id, @RequestParam(defaultValue = "0") Integer from,
-													 @RequestParam(defaultValue = "10") Integer count) {
-		return favouriteService.getFavouritesPostByUserId(id, from, count);
+													 @RequestParam(defaultValue = "10") Integer count, Principal principal) {
+		return favouriteService.getFavouritesPostByUserId(id, from, count, principal);
 	}
 
 	@PostMapping("/save")

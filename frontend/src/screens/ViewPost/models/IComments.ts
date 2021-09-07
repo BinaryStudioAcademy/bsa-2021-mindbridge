@@ -1,10 +1,10 @@
-import { IUser } from '@screens/ViewPost/models/IUser';
+import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
 
 export interface IComments {
   id: string;
   createdAt: string;
   text: string;
-  author: IUser;
+  author: ICommentAuthor;
   comments: IComments[];
   rating: number;
 }

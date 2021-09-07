@@ -23,4 +23,12 @@ public class UserDto {
 
 	private String lastName;
 
+	private long rating;
+
+	private int commentsQuantity;
+
+	private int postsQuantity;
+
+	private int followersQuantity;
+
 }

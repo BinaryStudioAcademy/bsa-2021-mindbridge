@@ -1,9 +1,6 @@
 package com.mindbridge.core.domains.post;
 
-import com.mindbridge.core.domains.post.dto.CreatePostDto;
-import com.mindbridge.core.domains.post.dto.DraftsListDto;
-import com.mindbridge.core.domains.post.dto.PostDetailsDto;
-import com.mindbridge.core.domains.post.dto.RelatedPostDto;
+import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postVersion.model.PostVersion;
 import org.mapstruct.Mapper;
@@ -17,6 +14,7 @@ public interface PostMapper {
 
 	@Mapping(target = "comments", ignore = true)
 	@Mapping(target = "rating", ignore = true)
+	@Mapping(target = "author", ignore = true)
 	@Mapping(target = "isFavourite", ignore = true)
 	PostDetailsDto postToPostDetailsDto(Post post);
 
@@ -30,5 +28,15 @@ public interface PostMapper {
 	PostVersion postToPostVersion(Post post);
 
 	DraftsListDto postToDraftDto(Post post);
+
+	@Mapping(target = "author", ignore = true)
+	@Mapping(target = "commentsCount", ignore = true)
+	@Mapping(target = "likesCount", ignore = true)
+	@Mapping(target = "disLikesCount", ignore = true)
+	@Mapping(target = "postRating", ignore = true)
+	@Mapping(target = "usersCount", ignore = true)
+	@Mapping(target = "tags", ignore = true)
+	@Mapping(target = "createdAt", ignore = true)
+	PostsListDetailsDto postToPostsListDto(Post post);
 
 }
