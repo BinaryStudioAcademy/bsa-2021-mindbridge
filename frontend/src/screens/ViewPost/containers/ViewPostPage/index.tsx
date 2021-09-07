@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
@@ -16,13 +16,16 @@ import { IData } from '@screens/ViewPost/models/IData';
 import { useParams, useHistory } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { deleteHighlightRoutine, fetchHighlightsRoutine,
-  fetchHighlightsWithoutPaginationRoutine } from '@screens/HighlightsPage/routines';
+import {
+  deleteHighlightRoutine, fetchHighlightsRoutine,
+  fetchHighlightsWithoutPaginationRoutine
+} from '@screens/HighlightsPage/routines';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
+import ScrollUpSvg from '../../components/svgs/SvgComponents/scrollUpSvg';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -72,6 +75,7 @@ const ViewPost: React.FC<IViewPostProps> = (
     deleteFavouritePost
   }
 ) => {
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const { postId } = useParams();
   const history = useHistory();
 
@@ -192,10 +196,17 @@ const ViewPost: React.FC<IViewPostProps> = (
     }
   };
 
+  const halfHeightOfTheScreen = document.documentElement.clientHeight / 2;
+
+  window.addEventListener('scroll', () => {
+    setShowScrollButton(window.scrollY > halfHeightOfTheScreen);
+  });
+
   return (
     <div className={styles.viewPost}>
       <div className={styles.main}>
         <ViewPostCard
+          className={styles.post_card}
           post={data.post}
           handleLikePost={handleLikePost}
           handleDisLikePost={handleDisLikePost}
@@ -213,6 +224,12 @@ const ViewPost: React.FC<IViewPostProps> = (
           searchUsersByNickname={searchUsersByNickname}
           handleFavouriteAction={handleFavouriteAction}
         />
+        {showScrollButton
+          && (
+          <button className={styles.scrollToTopButton} aria-label="scrollTop" type="button" onClick={scrollToTop}>
+            <ScrollUpSvg />
+          </button>
+          )}
       </div>
     </div>
   );
