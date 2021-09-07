@@ -29,6 +29,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { IPost } from '@screens/Header/models/IPost';
 
 import { searchPostsByElasticRoutine } from '@screens/Header/routines';
+import { fetchUserRoutine } from '@screens/ProfilePage/routines';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -56,6 +57,7 @@ interface IActions {
   deleteFavouritePost: IBindingCallback1<object>;
   searchPostsByElastic: IBindingCallback1<object>;
   loadCountResults: IBindingCallback1<string>;
+  fetchUserData: IBindingCallback1<string>;
 }
 
 const params = {
@@ -294,7 +296,8 @@ const mapDispatchToProps: IActions = {
   deleteFavouritePost: deleteFavouritePostRoutine,
   searchPostsByElastic: searchPostsRoutine,
   searchTitlesByElastic: searchPostsByElasticRoutine,
-  loadCountResults: loadCountResultsRoutine
+  loadCountResults: loadCountResultsRoutine,
+  fetchUserData: fetchUserRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);

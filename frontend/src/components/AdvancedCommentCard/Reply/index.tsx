@@ -5,10 +5,11 @@ import styles from './styles.module.scss';
 import AdvancedComment from '@components/AdvancedCommentCard/AdvancedComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
 
 interface ICommentProps {
   text: string;
-  author: IUser;
+  author: ICommentAuthor;
   replies: IComments[];
   createdAt: string;
   commentRating: number;

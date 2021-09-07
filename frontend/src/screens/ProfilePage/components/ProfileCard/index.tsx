@@ -24,13 +24,13 @@ import { defaultAvatar } from '@images/defaultImages';
 
 interface IProfileCardProps {
   initialData: {
-  id: '';
-  nickname: '';
-  avatar: '';
-  email: '';
-  firstName: '';
-  lastName: '';
-  createdAt: '';
+  id: string;
+  nickname: string;
+  avatar: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  createdAt: string;
 };
   initialState: {
     isNicknameEngaged: false;
@@ -119,7 +119,9 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
   }, [profileData.isNicknameEngaged, profileData.isNicknameLoaded]);
 
   useEffect(() => {
-    updateForm('avatar', profileData.savingAvatar.url);
+    if (profileData.savingAvatar.url) {
+      updateForm('avatar', profileData.savingAvatar.url);
+    }
   }, [profileData.savingAvatar.url]);
 
   const handleImgChange = (event: any) => {
@@ -197,7 +199,7 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
                           <EditSvg />
                           <input id="image-input-1" className={styles.invisible} type="file" accept="image/*" />
                         </label>
-                        { (profileData.savingAvatar.url !== '') && (
+                        { (profileData.savingAvatar.url || userForm.avatar) && (
                         <label className={styles.file_input_rectangle} title="Delete avatar">
                           <button className={styles.deleteImgButton} type="button" onClick={handleImgDelete}>
                             <CrossSvg />

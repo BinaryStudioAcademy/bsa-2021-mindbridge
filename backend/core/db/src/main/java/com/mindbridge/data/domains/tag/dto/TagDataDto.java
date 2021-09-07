@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
-public class TagDto {
+public class TagDataDto {
 
 	String id;
 
 	String name;
 
-	public static TagDto fromEntity(Tag tag) {
-		return TagDto.builder().id(tag.getId().toString()).name(tag.getName()).build();
+	public static TagDataDto fromEntity(Tag tag) {
+		return TagDataDto.builder().id(tag.getId().toString()).name(tag.getName()).build();
 	}
 
 }

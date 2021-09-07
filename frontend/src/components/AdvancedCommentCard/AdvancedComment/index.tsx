@@ -2,7 +2,6 @@ import styles from './styles.module.scss';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import React, { FunctionComponent, useState } from 'react';
-import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
 import UpToParentCommentSvg from '@components/AdvancedCommentCard/svg/UpToParentCommentSvg';
@@ -23,11 +22,12 @@ import mentionInputStyle from './mentionInputStyles.module.scss';
 import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
 import { IComments } from '@screens/ViewPost/models/IComments';
+import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
 
 interface IBasicCommentProps {
   createdAt: string;
   text: string;
-  author: IUser;
+  author: ICommentAuthor;
   commentRating: number;
   setShouldRender: boolean;
   ref: any;
