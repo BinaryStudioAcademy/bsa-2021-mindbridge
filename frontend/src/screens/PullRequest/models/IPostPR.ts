@@ -1,5 +1,6 @@
 import { ITag } from '@root/screens/FeedPage/models/ITag';
 import { IUser } from './IUser';
+import { IComments } from './IComments';
 
 export enum PrState {
   closed = 'closed',
@@ -28,4 +29,5 @@ export interface IPostPR {
   title: string;
   updatedAt: string;
   tags: ITag [];
+  comments: IComments[];
 }

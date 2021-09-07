@@ -74,7 +74,6 @@ const Header: React.FC<IHeaderProps> = (
         toastr.info('New contribution', message.body);
         fetchNotificationCount(currentUser.id);
       });
-
       stompClient.subscribe(`/user/${currentUser.id}/PRClosed`, message => {
         toastr.info('Your pull request has been closed', message.body);
         fetchNotificationCount(currentUser.id);
@@ -93,6 +92,14 @@ const Header: React.FC<IHeaderProps> = (
       });
       stompClient.subscribe(`/user/${currentUser.id}/newMention`, message => {
         toastr.info('New mention', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/newFollower`, message => {
+        toastr.info('New follower', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/newPost`, message => {
+        toastr.info('New Post', message.body);
         fetchNotificationCount(currentUser.id);
       });
     }, warning => {
@@ -155,8 +162,13 @@ const Header: React.FC<IHeaderProps> = (
   };
 
   const toggleNotificationList = () => {
+    if (!isAuthorized) {
+      history.push('/login');
+    }
     if (!isListOpen) {
       handleFetchNotifications(true, { from: 0, count: 10 });
+    } else {
+      handleFetchNotifications(false, { from: 0, count: 1 });
     }
     setIsListOpen(!isListOpen);
   };

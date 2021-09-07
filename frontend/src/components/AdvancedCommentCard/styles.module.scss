@@ -9,12 +9,12 @@
   margin-top: 2.1428em;
 
   .commentCounter {
-      padding-bottom: 0.9375em;
       font-size: 1.2857em;
       line-height: 1.375em;
       color: #353535;
       font-style: normal;
       font-weight: bold;
+      margin-bottom: -3.5em;
   }
 
   :global(.ui.comments) {
@@ -54,18 +54,6 @@
     }
   }
 }
-
-.buttonSend {
-  border: none !important;
-  width: 5.5em;
-  height: 2.6875em;
-  background: #DEDEDE !important;
-  border-radius: 0.3125em;
-  font-size: 1.1em !important;
-  line-height: 1.5em;
-  color: #FFFFFF !important;
-}
-
 
 .nonAuthorizedHeading {
   font-size: 1.5em;

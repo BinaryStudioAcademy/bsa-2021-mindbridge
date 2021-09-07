@@ -16,5 +16,7 @@ public interface FavoriteRepository extends JpaRepository<Favorite, UUID>, JpaSp
 	@Query("SELECT f from Favorite f where f.deleted = false and f.user.id = :userId")
 	List<Favorite> getAllPostByUserId(UUID userId);
 
+	Optional<Favorite> getFavoriteByPostIdAndUserId(UUID postId, UUID userId);
+
 	Optional<Favorite> getFavoriteByPostId(UUID id);
 }

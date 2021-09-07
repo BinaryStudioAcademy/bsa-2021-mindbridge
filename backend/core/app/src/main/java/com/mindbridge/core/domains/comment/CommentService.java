@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.comment;
 
+import com.mindbridge.core.domains.achievement.AchievementHelper;
 import com.mindbridge.core.domains.comment.dto.CommentDto;
 import com.mindbridge.core.domains.comment.dto.CreateCommentDto;
 import com.mindbridge.core.domains.comment.dto.ReplyCommentDto;
@@ -34,15 +35,20 @@ public class CommentService {
 
 	private final UserService userService;
 
+	private final AchievementHelper achievementHelper;
+
 	@Lazy
 	@Autowired
 	public CommentService(CommentRepository commentRepository, CommentReactionRepository commentReactionRepository,
-						  NotificationService notificationService, PostService postService, UserService userService) {
+						  NotificationService notificationService, PostService postService, UserService userService, AchievementHelper achievementHelper) {
 		this.commentRepository = commentRepository;
 		this.commentReactionRepository = commentReactionRepository;
 		this.notificationService = notificationService;
 		this.postService = postService;
 		this.userService = userService;
+		this.commentRepository = commentRepository;
+		this.commentReactionRepository = commentReactionRepository;
+		this.achievementHelper = achievementHelper;
 	}
 
 	public List<CommentDto> findAllByPostId(UUID id) {
@@ -70,7 +76,9 @@ public class CommentService {
 			userService.getUserById(comment.getAuthor()).getNickname(),
 			comment.getPostId(),
 			Notification.Type.newComment);
-		return commentRepository.save(commentToDto);
+		Comment result = commentRepository.save(commentToDto);
+		achievementHelper.checkCommentsCount(commentToDto.getAuthor());
+		return result;
 	}
 
 	public Comment addReplyToComment(ReplyCommentDto reply) {

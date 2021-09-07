@@ -4,4 +4,8 @@ export interface IUser {
   firstName: string;
   lastName: string;
   nickname: string;
+  rating: number;
+  commentsQuantity: number;
+  postsQuantity: number;
+  followersQuantity: number;
 }

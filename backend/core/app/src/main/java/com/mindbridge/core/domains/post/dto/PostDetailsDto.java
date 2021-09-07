@@ -24,7 +24,7 @@ public class PostDetailsDto {
 
 	private String text;
 
-	private PostAuthorDto author;
+	private UserDto author;
 
 	private Set<TagDto> tags;
 
@@ -37,6 +37,10 @@ public class PostDetailsDto {
 	private Boolean markdown;
 
 	private Boolean draft;
+
+	private Boolean reacted;
+
+	private Boolean isLiked;
 
 	private List<RelatedPostDto> relatedPosts;
 
