@@ -3,7 +3,11 @@ import {
   sendNicknameRoutine,
   sendFormRoutine,
   sendAvatarRoutine,
-  openPasswordChangeModalRoutine, sendChangePasswordFormRoutine, fetchUserRoutine, deleteAvatarRoutine
+  openPasswordChangeModalRoutine,
+  sendChangePasswordFormRoutine,
+  fetchUserRoutine,
+  deleteAvatarRoutine,
+  toggleFollowUserRoutine
 } from '@screens/ProfilePage/routines';
 import { IDataProfile } from '@screens/ProfilePage/models/IDataProfile';
 
@@ -28,7 +32,8 @@ const initialState: IDataProfile = {
     contributionsQuantity: 0,
     followersQuantity: 0,
     lastArticleTitles: [{ id: '', title: '' }],
-    createdAt: ''
+    createdAt: '',
+    followed: false
   },
   savingAvatar: {
     url: '',
@@ -48,6 +53,9 @@ export const profilePageReducer = createReducer(initialState, {
   [fetchUserRoutine.FAILURE]: state => {
     state.isUserLoaded = true;
     state.isUserIdValid = false;
+  },
+  [toggleFollowUserRoutine.SUCCESS]: state => {
+    state.user.followed = !state.user.followed;
   },
   [sendNicknameRoutine.TRIGGER]: state => {
     state.isNicknameLoaded = false;

@@ -24,6 +24,8 @@ import { useDebouncedCallback } from 'use-debounce';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import Image from '@components/Image';
 import { defaultCoverImage } from '@images/defaultImages';
+import SharePopup from '@screens/ViewPost/components/Popups/SharePopup';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -79,6 +81,15 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   const deleteHighlight = highlightId => {
     handleDeleteHighlight(highlightId);
     highlighter.remove(highlightId);
+  };
+
+  const [popupContent, setPopupContent] = useState('Copy link');
+  const handleShare = () => {
+    setPopupContent('Copied');
+  };
+
+  const handleOnClose = () => {
+    setPopupContent('Copy link');
   };
 
   const debounced = useDebouncedCallback(
@@ -177,14 +188,12 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                         handleDisLikePost={handleDisLikePost}
                         post={post}
                         userInfo={userInfo}
-                        arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                          && postReaction.liked)
+                        arrowUpColor={post.reacted && post.isLiked
                           ? ('#8AC858'
                           ) : (
                             '#66B9FF'
                           )}
-                        arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                          && !postReaction.liked)
+                        arrowDownColor={post.reacted && !post.isLiked
                           ? ('#F75C48'
                           ) : (
                             '#66B9FF'
@@ -202,7 +211,17 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                     <CommentSvg />
                   </div>
                   <div className={styles.bgCircle}>
-                    <ShareSvg />
+                    <SharePopup
+                      triggerContent={(
+                        <CopyToClipboard text={`${window.location.href}`}>
+                          <button style={{ background: 'none' }} type="button" onClick={handleShare}>
+                            <ShareSvg />
+                          </button>
+                        </CopyToClipboard>
+                      )}
+                      popupContent={popupContent}
+                      handleOnClose={handleOnClose}
+                    />
                   </div>
                   {isAuthor && (
                   <div role="button" tabIndex={0} className={styles.bgCircle} onKeyDown={goToEdit} onClick={goToEdit}>

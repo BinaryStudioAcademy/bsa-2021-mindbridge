@@ -4,27 +4,66 @@ import styles from './styles.module.scss';
 import { getHowLong } from '@helpers/date.helper';
 import LoaderWrapper from '@components/LoaderWrapper';
 import RatingSvg from '@screens/ProfilePage/components/svg/ratingSvg';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import CommentSvg from '@screens/ProfilePage/components/svg/commentSvg';
 import FollowersSvg from '@screens/ProfilePage/components/svg/followersSvg';
 import PostsSvg from '@screens/ProfilePage/components/svg/posts';
 import ContributorsSvg from '@screens/ProfilePage/components/svg/contributorsSvg';
 import { IUser } from '@screens/ProfilePage/models/IUser';
+import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
+import { IBindingCallback1 } from '@models/Callbacks';
 import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
+import DarkButton from '@components/buttons/DarcButton';
+import DarkBorderButton from '@components/buttons/DarcBorderButton';
 
 interface IPublicProfileCardProps {
   user: IUser;
   isUserLoaded: boolean;
+  currentUser: ICurrentUser;
+  toggleFollowUser: IBindingCallback1<object>;
+  isToggleFollowLoading?: boolean;
 }
 const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
-  { user, isUserLoaded }
+  { user, isUserLoaded, currentUser, toggleFollowUser, isToggleFollowLoading }
 ) => {
   const [userData, setUserData] = useState(user);
+  const history = useHistory();
 
   useEffect(() => {
     setUserData(user);
   }, [user]);
+
+  const handleFollowUser = () => {
+    if (currentUser?.id) {
+      toggleFollowUser({ followerId: currentUser.id, followedId: userData.id });
+    } else {
+      history.push('/login');
+    }
+  };
+
+  const renderFollowButton = () => {
+    if (currentUser.id === userData.id) {
+      return null;
+    }
+    if (userData.followed) {
+      return (
+        <DarkBorderButton
+          content="Unfollow"
+          loading={isToggleFollowLoading}
+          onClick={handleFollowUser}
+        />
+      );
+    }
+    return (
+      <DarkButton
+        content="Follow"
+        className={styles.followBtn}
+        loading={isToggleFollowLoading}
+        onClick={handleFollowUser}
+      />
+    );
+  };
 
   return (
     <div className={styles.viewCard}>
@@ -65,9 +104,7 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
                     {getHowLong(userData.createdAt)}
                   </span>
                 </div>
-                <button type="button" className={styles.dark_button}>
-                  <span>Follow</span>
-                </button>
+                {renderFollowButton()}
               </div>
             </div>
             <div className={styles.statWrp}>

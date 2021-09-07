@@ -32,7 +32,7 @@ interface IState {
 interface IActions {
   fetchFavouritePosts: IBindingCallback1<object>;
   setLoadMorePosts: IBindingCallback1<boolean>;
-  deleteFavouritePost: IBindingCallback1<string>;
+  deleteFavouritePost: IBindingCallback1<object>;
 }
 
 const params = {
@@ -54,7 +54,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
   }, [currentUser]);
 
   const handleFavouriteAction = post => {
-    deleteFavouritePost(post.id);
+    deleteFavouritePost({ postId: post.id, userId: currentUser.id });
   };
 
   const handleLoadMorePosts = filtersPayload => {

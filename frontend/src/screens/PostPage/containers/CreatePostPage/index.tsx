@@ -84,6 +84,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
   });
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isContentEmpty, setIsContentEmpty] = useState(false);
+  const [isTagsEmpty, setIsTagsEmpty] = useState(false);
 
   useEffect(() => {
     if (currentUserId) {
@@ -146,13 +147,15 @@ const CreatePost: React.FC<ICreatePostProps> = (
   };
 
   const handleSendForm = isDraft => {
-    if (!form.title || !form.content) {
+    if (!form.title || !form.content || !form.tags.length) {
       setIsTitleEmpty(!form.title);
       setIsContentEmpty(!form.content);
+      setIsTagsEmpty(!form.tags.length);
       return;
     }
     setIsContentEmpty(false);
     setIsTitleEmpty(false);
+    setIsTagsEmpty(false);
     const postOnAdd = {
       title: form.title,
       text: form.content,
@@ -237,6 +240,7 @@ const CreatePost: React.FC<ICreatePostProps> = (
                 resetImageTag={resetImageTag}
                 isTitleEmpty={isTitleEmpty}
                 isContentEmpty={isContentEmpty}
+                isTagsEmpty={isTagsEmpty}
               />
             )
             : <PostPreview form={form} modes={modes} allTags={allTags} />}

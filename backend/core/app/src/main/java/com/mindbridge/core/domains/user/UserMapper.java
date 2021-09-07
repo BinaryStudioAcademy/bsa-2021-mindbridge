@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.user;
 
 import com.mindbridge.core.domains.user.dto.*;
+import com.mindbridge.data.domains.follower.model.Follower;
 import com.mindbridge.data.domains.user.model.User;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -17,7 +18,8 @@ public interface UserMapper {
 	@Mapping(target = "lastArticleTitles", ignore = true)
 	@Mapping(target = "rating", ignore = true)
 	@Mapping(target = "fullName", ignore = true)
-	UserProfileDto userToUserProfileDto(User user);
+	@Mapping(target = "followed", ignore = true)
+	public abstract UserProfileDto userToUserProfileDto(User user);
 
 	@Mapping(target = "postsQuantity", ignore = true)
 	@Mapping(target = "commentsQuantity", ignore = true)
@@ -29,4 +31,7 @@ public interface UserMapper {
 
 	UserShortDto userToUserShortDto(User user);
 
+	@Mapping(target = "follower.id", source = "followerId")
+	@Mapping(target = "followed.id", source = "followedId")
+	Follower FollowDtoToFollower(FollowDto followDto);
 }
