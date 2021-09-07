@@ -1,11 +1,13 @@
-export interface IUser {
+export interface IFeedAuthor {
   id: string;
-  avatar: string;
+  fullName: string;
   firstName: string;
   lastName: string;
   nickname: string;
+  avatar: string;
   rating: number;
   commentsQuantity: number;
   postsQuantity: number;
   followersQuantity: number;
+  createdAt: string;
 }
