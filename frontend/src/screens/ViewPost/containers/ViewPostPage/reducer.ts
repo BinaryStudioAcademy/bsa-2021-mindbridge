@@ -51,7 +51,8 @@ const initialState: IViewPostReducerState = {
     reacted: false,
     relatedPosts: [],
     comments: [],
-    isFavourite: false
+    isFavourite: false,
+    postViewsNumber: 0
   },
   highlights: undefined,
   comment: {
