@@ -3,6 +3,7 @@ package com.mindbridge.core.domains.comment;
 import com.mindbridge.core.domains.achievement.AchievementHelper;
 import com.mindbridge.core.domains.comment.dto.CommentDto;
 import com.mindbridge.core.domains.comment.dto.CreateCommentDto;
+import com.mindbridge.core.domains.comment.dto.EditCommentDto;
 import com.mindbridge.core.domains.comment.dto.ReplyCommentDto;
 import com.mindbridge.core.domains.notification.NotificationService;
 import com.mindbridge.core.domains.post.PostService;
@@ -116,5 +117,12 @@ public class CommentService {
 		}
 		return IDs;
 	}
+
+    public CommentDto editComment(EditCommentDto editComment) {
+		var comment = commentRepository.getOne(editComment.getCommentId());
+		comment.setText(editComment.getText());
+		var saveComment = commentRepository.save(comment);
+		return CommentMapper.MAPPER.commentToCommentDto(saveComment);
+    }
 
 }

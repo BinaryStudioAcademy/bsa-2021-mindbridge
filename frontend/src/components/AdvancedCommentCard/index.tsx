@@ -17,6 +17,7 @@ interface ICommentProps {
   handleDislikeComment: any;
   searchUsersByNickname: any;
   users: any;
+  editComment: any;
 }
 
 const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
@@ -31,7 +32,8 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
     handleLikeComment,
     handleDislikeComment,
     searchUsersByNickname,
-    users
+    users,
+    editComment
   }
 ) => {
   function getMaximumCommentsFoldCount(commentsDepth, foldCount = 0) {
@@ -64,6 +66,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
           postId={postId}
           searchUsersByNickname={searchUsersByNickname}
           users={users}
+          editMode={false}
         />
       ) : (
         <div className={styles.nonAuthorizedHeading}>
@@ -84,6 +87,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
                 depthOfComments={0}
                 postAuthorId={postAuthorId}
                 createdAt={comment.createdAt}
+                updatedAt={comment.updatedAt}
                 text={comment.text}
                 author={comment.author}
                 replies={comment.comments}
@@ -103,6 +107,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
                 handleLikeComment={handleLikeComment}
                 users={users}
                 searchUsersByNickname={searchUsersByNickname}
+                editComment={editComment}
               />
             ))}
           </div>

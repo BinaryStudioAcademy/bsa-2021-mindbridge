@@ -221,6 +221,14 @@ const Header: React.FC<IHeaderProps> = (
     }
   };
 
+  const handleEnterDown = (event: any) => {
+    if (event.keyCode === 13) {
+      setIsSearchInputFilled(false);
+      setElasticContent('');
+      history.push(`/search?query=${elasticContent}`);
+    }
+  };
+
   return (
     <div className={styles.header_container}>
       <div className={styles.left}>
@@ -262,6 +270,7 @@ const Header: React.FC<IHeaderProps> = (
             placeholder="Search..."
             onChange={handleInputContent}
             value={elasticContent}
+            onKeyDown={handleEnterDown}
           />
           {isSearchInputFilled
           && <button type="button" className={styles.close_image} onClick={handleLinkClick}>✖</button>}

@@ -5,6 +5,7 @@ import com.mindbridge.core.domains.post.PostService;
 import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import com.mindbridge.data.domains.favorite.FavoriteRepository;
 import com.mindbridge.data.domains.post.PostRepository;
+import com.mindbridge.data.domains.postViews.PostViewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,17 @@ public class FavouriteService {
 
 	private final PostRepository postRepository;
 
+	private final PostViewsRepository postViewsRepository;
+	
 	private final PostService postService;
-
 
 	@Autowired
 	@Lazy
-	public FavouriteService(FavoriteRepository favouriteRepository, PostRepository postRepository, PostService postService) {
+	public FavouriteService(FavoriteRepository favouriteRepository, PostRepository postRepository,
+	PostViewsRepository postViewsRepository, PostService postService) {
 		this.favouriteRepository = favouriteRepository;
 		this.postRepository = postRepository;
+		this.postViewsRepository = postViewsRepository;
 		this.postService = postService;
 	}
 
