@@ -6,7 +6,6 @@ import { IUser } from '@screens/ViewPost/models/IUser';
 import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
 import UpToParentCommentSvg from '@components/AdvancedCommentCard/svg/UpToParentCommentSvg';
-import ShareCommentSvg from '@components/AdvancedCommentCard/svg/shareCommentSvg';
 import ArrowCloseComment from '@components/AdvancedCommentCard/svg/ArrowCloseComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -24,8 +23,6 @@ import mentionInputStyle from './mentionInputStyles.module.scss';
 import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
 import { IComments } from '@screens/ViewPost/models/IComments';
-import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
-
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -126,11 +123,11 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
 
   const handleSendChangeableComment = (event: any) => {
     if (changeableComment.text.trim().length) {
-      const comment = {
+      const newChangeableComment = {
         text: changeableComment.text.replace(/<(.+?)>/g, '&lt;$1&gt;'),
         commentId
       };
-      editComment(comment);
+      editComment(newChangeableComment);
       setEditMode(!editMode);
     }
   };
