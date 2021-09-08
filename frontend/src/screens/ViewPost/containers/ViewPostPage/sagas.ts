@@ -55,7 +55,6 @@ function* leaveReaction(action) {
     yield put(leaveReactionOnPostViewPageRoutine.success(postReaction));
   } catch (error) {
     yield put(leaveReactionOnPostViewPageRoutine.failure(error?.message));
-    toastr.error('Error', 'Leave reaction on post failed');
   }
 }
 
@@ -63,10 +62,8 @@ function* sendComment(action) {
   try {
     const response = yield call(viewPageService.sendComment, action.payload);
     yield put(sendCommentRoutine.success(response));
-    toastr.success('Success', 'Comment was sent!');
   } catch (error) {
     yield put(sendCommentRoutine.failure(error?.message));
-    toastr.error('Error', 'Comment send failed!');
   } finally {
     yield put(sendCommentRoutine.fulfill());
   }
@@ -76,10 +73,8 @@ function* sendReply(action) {
   try {
     const response = yield call(viewPageService.sendReply, action.payload);
     yield put(sendReplyRoutine.success(response));
-    toastr.success('Success', 'Reply was sent');
   } catch (error) {
     yield put(sendReplyRoutine.failure(error?.message));
-    toastr.error('Error', 'Reply send failed');
   } finally {
     yield put(sendReplyRoutine.fulfill());
   }
@@ -94,10 +89,10 @@ function* sendEditComment(actions) {
       id: actions.payload.commentId
     };
     yield put(editCommentRoutine.success(editComment));
-    toastr.success('Success', 'Edit was sent');
   } catch (error) {
-    toastr.error('Error', 'Edit send failed');
     yield put(editCommentRoutine.failure(error?.message));
+  } finally {
+    yield put(editCommentRoutine.fulfill());
   }
 }
 

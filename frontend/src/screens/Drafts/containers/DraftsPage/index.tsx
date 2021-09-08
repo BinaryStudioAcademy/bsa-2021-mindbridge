@@ -8,7 +8,8 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import DraftListItem from '@screens/Drafts/components/DraftListItem/DraftListItem';
 import { extractFetchDraftsLoading } from '@screens/Drafts/reducers';
 import LoaderWrapper from '@components/LoaderWrapper';
-import NoResultsSvg from '@components/svgs/NoResultsSvg';
+import NotFoundContent from '@components/NotFoundContetn';
+import { isEmptyArray } from 'formik';
 
 export interface IDraftsProps extends IState, IActions {
 }
@@ -42,45 +43,60 @@ const Drafts: React.FC<IDraftsProps> = (
   if (isDataLoading) {
     return (
       <div className={styles.draftsPage}>
-        <div className={styles.togglePosts}>
-          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
-          <div onClick={handleTogglePostsType} className={draftsOnly ? styles.checked : styles.checkbox} />
-          <span>Drafts only</span>
-        </div>
-        <div className={styles.main}>
-          <LoaderWrapper className={styles.loader} loading={isDataLoading} />
-        </div>
+        <LoaderWrapper className={styles.loader} loading={isDataLoading}>
+          <p className={styles.pageTitle}>Your posts</p>
+          {!isEmptyArray(drafts) || draftsOnly ? (
+            <div className={styles.togglePosts}>
+              {/* eslint-disable-next-line max-len */}
+              {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
+              <div onClick={handleTogglePostsType} className={draftsOnly ? styles.checked : styles.checkbox} />
+              <span>Drafts only</span>
+            </div>
+          ) : (
+            <NotFoundContent description="Posts list is empty" />
+          )}
+          <div className={styles.main}>
+            <LoaderWrapper className={styles.loader} loading={isDataLoading} />
+          </div>
+        </LoaderWrapper>
       </div>
     );
   }
 
   return (
-    <div className={styles.draftsPage}>
-      <div className={styles.togglePosts}>
-        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
-        <div onClick={handleTogglePostsType} className={draftsOnly ? styles.checked : styles.checkbox} />
-        <span>Drafts only</span>
-      </div>
-      <div className={styles.main}>
-        {drafts.length ? (
-          drafts.map(draft => (
-            <DraftListItem
-              key={draft.id}
-              id={draft.id}
-              title={draft.title}
-              tags={draft.tags}
-              isDraft={draft.draft}
-              createdAt={draft.createdAt}
-              coverImage={draft.coverImage}
-            />
-          ))) : (
-            <div className={styles.emptyList}>
-              <NoResultsSvg width="35%" height="35%" />
-              <p>You have no posts</p>
+    <LoaderWrapper loading={isDataLoading}>
+      <div className={styles.draftsPage}>
+        <p className={styles.pageTitle}>Your posts</p>
+        {!isEmptyArray(drafts) || draftsOnly ? (
+          <div>
+            <div className={styles.togglePosts}>
+              {/* eslint-disable-next-line max-len */}
+              {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
+              <div onClick={handleTogglePostsType} className={draftsOnly ? styles.checked : styles.checkbox} />
+              <span>Drafts only</span>
             </div>
-        )}
+            <div className={styles.main}>
+              {!isEmptyArray(drafts) ? (
+                drafts.map(draft => (
+                  <DraftListItem
+                    key={draft.id}
+                    id={draft.id}
+                    title={draft.title}
+                    tags={draft.tags}
+                    isDraft={draft.draft}
+                    createdAt={draft.createdAt}
+                    coverImage={draft.coverImage}
+                  />
+                ))) : (
+                  <NotFoundContent description="Posts list is empty" />
+              )}
+            </div>
+          </div>
+        ) : (
+          <NotFoundContent description="Posts list is empty" />
+        ) }
       </div>
-    </div>
+    </LoaderWrapper>
   );
 };
 

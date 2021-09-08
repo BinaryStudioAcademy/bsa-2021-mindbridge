@@ -4,7 +4,7 @@ import {
   fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
-  sendReplyRoutine, editCommentRoutine
+  sendReplyRoutine, editCommentRoutine, resetSendingEditCommentStatusRoutine
 } from '@screens/ViewPost/routines';
 import { IPost } from '../../models/IPost';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
@@ -22,6 +22,7 @@ export interface IViewPostReducerState {
   reply: ICommentReply;
   highlights: IHighlight[];
   users: IMentionsUser[];
+  endSendingData: boolean;
 }
 
 const initialState: IViewPostReducerState = {
@@ -73,9 +74,11 @@ const initialState: IViewPostReducerState = {
     rating: 0
   },
   users: [],
+  endSendingData: false,
   editComment: {
     commentId: '',
-    text: ''
+    text: '',
+    sendingEditCommentStatus: false
   }
 };
 
@@ -157,5 +160,11 @@ export const viewPostReducer = createReducer(initialState, {
   },
   [deleteFavouritePostRoutine.TRIGGER]: state => {
     state.post.isFavourite = false;
+  },
+  [editCommentRoutine.FULFILL]: state => {
+    state.endSendingData = true;
+  },
+  [resetSendingEditCommentStatusRoutine.TRIGGER]: state => {
+    state.endSendingData = false;
   }
 });

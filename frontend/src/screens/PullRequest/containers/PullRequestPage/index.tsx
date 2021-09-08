@@ -10,7 +10,7 @@ import {
   closePrRoutine,
   editPrCommentRoutine,
   fetchPrRoutine,
-  resetEndSendingDataRoutine,
+  resetEndSendingDataRoutine, resetSendingEditCommentStatusRoutine,
   sendCommentPrRoutine
 } from '../../routines';
 import TextDiff from '@root/components/TextDiff';
@@ -41,6 +41,7 @@ interface IState {
   postPR: IPostPR;
   endSendingDada: boolean;
   users: IMentionsUser[];
+  sendingEditPrComment: boolean;
 }
 
 interface IActions {
@@ -51,6 +52,7 @@ interface IActions {
   sendCommentPR: IBindingCallback1<object>;
   searchUsersByNickname: IBindingCallback1<string>;
   editPrComment: IBindingCallback1<object>;
+  resetSendingPrComment: IBindingAction;
 }
 
 const PullRequest: React.FC<IPullRequestProps> = (
@@ -64,7 +66,9 @@ const PullRequest: React.FC<IPullRequestProps> = (
     sendCommentPR,
     users,
     searchUsersByNickname,
-    editPrComment
+    editPrComment,
+    resetSendingPrComment,
+    sendingEditPrComment
   }
 ) => {
   const { id } = useParams();
@@ -280,6 +284,8 @@ const PullRequest: React.FC<IPullRequestProps> = (
           users={users}
           searchUsersByNickname={searchUsersByNickname}
           editPrComment={editPrComment}
+          resetSendingPrComment={resetSendingPrComment}
+          sendingEditPrComment={sendingEditPrComment}
         />
       </div>
     </div>
@@ -290,7 +296,8 @@ const mapStateToProps: (state) => IState = state => ({
   currentUser: state.auth.auth.user,
   postPR: state.pullRequestReducer.data.postPR,
   endSendingDada: state.pullRequestReducer.data.endSendingData,
-  users: extractData(state).users
+  users: extractData(state).users,
+  sendingEditPrComment: state.pullRequestReducer.data.endSendingData
 });
 
 const mapDispatchToProps: IActions = {
@@ -300,7 +307,8 @@ const mapDispatchToProps: IActions = {
   resetEndSendingDada: resetEndSendingDataRoutine,
   acceptPR: acceptPrRoutine,
   searchUsersByNickname: searchUserByNicknameRoutine,
-  editPrComment: editPrCommentRoutine
+  editPrComment: editPrCommentRoutine,
+  resetSendingPrComment: resetSendingEditCommentStatusRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PullRequest);

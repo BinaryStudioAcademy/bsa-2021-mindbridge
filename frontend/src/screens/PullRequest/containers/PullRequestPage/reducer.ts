@@ -4,7 +4,7 @@ import {
   resetEndSendingDataRoutine,
   fetchPrRoutine,
   sendCommentPrRoutine,
-  editPrCommentRoutine
+  editPrCommentRoutine, resetSendingEditCommentStatusRoutine
 } from '../../routines/index';
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IPostPR, PrState } from '../../models/IPostPR';
@@ -52,7 +52,8 @@ const initialState: IPullRequestReducerState = {
   endSendingData: false,
   editPrComment: {
     prCommentId: '',
-    text: ''
+    text: '',
+    sendingEditCommentStatus: false
   }
 };
 
@@ -82,5 +83,11 @@ export const pullRequestReducer = createReducer(initialState, {
   [editPrCommentRoutine.SUCCESS]: (state, action) => {
     const message = state.postPR.comments.find(comment => comment.id === action.payload.id);
     message.text = action.payload.editText;
+  },
+  [editPrCommentRoutine.FULFILL]: state => {
+    state.endSendingData = true;
+  },
+  [resetSendingEditCommentStatusRoutine.TRIGGER]: state => {
+    state.endSendingData = false;
   }
 });

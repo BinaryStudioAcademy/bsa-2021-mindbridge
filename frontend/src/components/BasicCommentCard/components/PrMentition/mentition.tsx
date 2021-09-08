@@ -24,10 +24,12 @@ function UserPrMentions(
     nickname: ''
   });
 
-  const [usersList, setUsersList] = useState({ user: [{
-    display: '',
-    id: ''
-  }] });
+  const [usersList, setUsersList] = useState({
+    user: [{
+      display: '',
+      id: ''
+    }]
+  });
 
   const updateUserList = () => {
     setUsersList(users.map(user => (({ display: `@${user.nickname}`, id: user.id }))));
