@@ -80,6 +80,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
       </div>
     );
   }
+
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       {!isEmptyArray(favouritePosts) && favouritePosts
@@ -95,7 +96,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
         {!isEmptyArray(favouritePosts) && favouritePosts ? (
           favouritePosts.map(post => (
             <PostCard
-              dataLoading={dataLoading}
+              dataLoading={dataLoading && !loadMore}
               key={post.id}
               post={post}
               handleLikePost={undefined}

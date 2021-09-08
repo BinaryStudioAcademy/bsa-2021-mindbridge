@@ -105,6 +105,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
 
   const handleLoadMorePosts = filtersPayload => {
     fetchData(filtersPayload);
+    setLoadMorePosts(true);
   };
 
   const handleSearchMorePosts = filtersPayload => {
@@ -190,7 +191,8 @@ const FeedPage: React.FC<IFeedPageProps> = (
       setIsSearchInputFilled(false);
     }
   };
-  if (data.length === 0 && dataLoading && !loadMore) {
+
+  if (dataLoading && !loadMore) {
     return (
       <PostCard
         dataLoading={dataLoading}
@@ -265,7 +267,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
           {data ? (
             data.map(post => (
               <PostCard
-                dataLoading={dataLoading}
+                dataLoading={dataLoading && !loadMore}
                 key={post.id}
                 handleLikePost={handleLikePost}
                 handleDisLikePost={handleDisLikePost}

@@ -18,7 +18,6 @@ import readingTime from 'reading-time';
 import Image from '@components/Image';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SharePopup from '@screens/ViewPost/components/Popups/SharePopup';
-import ReactPlaceholder from 'react-placeholder';
 import { RectShape } from 'react-placeholder/lib/placeholders';
 
 interface IPostCardProps {
@@ -47,7 +46,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({
     width: 30,
     height: 20,
     display: 'inline-block',
-    borderRadius: '.28571429rem'
+    borderRadius: '.28571429rem',
   };
 
   const iconPlaceholderStyle = {
