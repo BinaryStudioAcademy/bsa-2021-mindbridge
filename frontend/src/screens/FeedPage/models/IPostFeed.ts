@@ -1,12 +1,11 @@
 import { ITag } from '@screens/FeedPage/models/ITag';
+import { IFeedAuthor } from '@screens/FeedPage/models/IFeedAuthor';
 
-export interface IPost {
+export interface IPostFeed {
   id: string;
   title: string;
   text: string;
-  authorId: string;
-  authorName: string;
-  nickname: string;
+  author: IFeedAuthor;
   commentsCount: number;
   likesCount: number;
   disLikesCount: number;
@@ -16,5 +15,9 @@ export interface IPost {
   avatar: string;
   coverImage: string;
   markdown: boolean;
+  reacted: boolean;
+  isLiked: boolean;
+  isFavourite: boolean;
+  postViewsNumber: number;
 }
 

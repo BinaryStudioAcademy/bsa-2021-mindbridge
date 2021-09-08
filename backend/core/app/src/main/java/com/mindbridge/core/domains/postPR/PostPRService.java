@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.postPR;
 
+import com.mindbridge.core.domains.achievement.AchievementHelper;
 import com.mindbridge.core.domains.notification.NotificationService;
 import com.mindbridge.core.domains.notification.dto.CreateNotificationDto;
 import com.mindbridge.core.domains.post.PostService;
@@ -16,6 +17,8 @@ import com.mindbridge.data.domains.postPR.model.PostPR;
 import com.mindbridge.data.domains.postPR.model.PostPR.State;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.model.User;
+
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -46,29 +49,30 @@ public class PostPRService {
 
 	private final UserService userService;
 
+	private final AchievementHelper achievementHelper;
+
 	@Lazy
 	@Autowired
 	public PostPRService(PostPRRepository postPRRepository, TagRepository tagRepository, PostService postService,
-						 NotificationService notificationService, UserService userService) {
+			NotificationService notificationService, UserService userService, AchievementHelper achievementHelper) {
 		this.postPRRepository = postPRRepository;
 		this.tagRepository = tagRepository;
 		this.postService = postService;
 		this.notificationService = notificationService;
-    	this.userService = userService;
+		this.userService = userService;
+		this.achievementHelper = achievementHelper;
 	}
 
-	public void create(CreatePostPRDto createPostPRDto) {
+	public void create(CreatePostPRDto createPostPRDto, Principal principal) {
 		var postPR = PostPRMapper.MAPPER.createPostPRDtoToPostPr(createPostPRDto);
 		var tags = new HashSet<>(tagRepository.findAllById(createPostPRDto.getTags()));
 		postPR.setTags(tags);
 		postPR.setState(State.open);
 		postPRRepository.save(postPR);
 
-		notificationService.createNotification(
-			postService.getPostById(createPostPRDto.getPostId()).getAuthor().getId(),
-			userService.getUserById(createPostPRDto.getContributorId()).getNickname(),
-			postPR.getId(),
-			Notification.Type.newPR);
+		notificationService.createNotification(postService.getPostById(principal, createPostPRDto.getPostId()).getAuthor().getId(),
+				userService.getUserById(createPostPRDto.getContributorId()).getNickname(), postPR.getId(),
+				Notification.Type.newPR);
 	}
 
 	public PostPRDetailsDto getPR(UUID id) {
@@ -82,6 +86,10 @@ public class PostPRService {
 		if (userDto.getId() == postPR.getContributor().getId()
 				|| userDto.getId() == postPR.getPost().getAuthor().getId()) {
 			postPRRepository.setPRClosed(prId);
+			notificationService.createNotification(postPR.getContributor().getId(),
+				userDto.getNickname(),
+				prId,
+				Notification.Type.PRClosed);
 			return true;
 		}
 		else
@@ -96,6 +104,11 @@ public class PostPRService {
 			EditPostDto editPostDto = EditPostDto.fromPostPR(postPR);
 			postService.editPost(editPostDto);
 			postPRRepository.setPRAccepted(id);
+			notificationService.createNotification(postPR.getContributor().getId(),
+				userDto.getNickname(),
+				id,
+				Notification.Type.PRAccepted);
+			achievementHelper.checkAcceptedPRsCount(postPR.getContributor());
 			return true;
 		}
 		else
@@ -106,6 +119,12 @@ public class PostPRService {
 		var pageable = PageRequest.of(from / count, count);
 		return postPRRepository.getPostPRByPostId(id, pageable).stream().map(PostPRMapper.MAPPER::postPRToPostPRList)
 				.collect(Collectors.toList());
+	}
+
+	public List<PostPRListDto> getOpenPostPRsByPostId(UUID id, Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+		return postPRRepository.getOpenPostPRByPostId(id, State.open, pageable).stream().map(PostPRMapper.MAPPER::postPRToPostPRList)
+			.collect(Collectors.toList());
 	}
 
 	public boolean editPR(EditPostPRDto editPR, UserPrincipal userPrincipal) {
@@ -127,4 +146,9 @@ public class PostPRService {
 				.map(PostPRMapper.MAPPER::postPRToPostPRDetailsDto).collect(Collectors.toList());
 	}
 
+	public List<PostPRListDto> getPostPRByPostsAuthorId(UUID id, Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+		return postPRRepository.getPostPRByPostAuthorId(id, pageable).stream()
+			.map(PostPRMapper.MAPPER::postPRToPostPRList).collect(Collectors.toList());
+	}
 }

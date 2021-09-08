@@ -17,4 +17,5 @@ public interface CommentReactionMapper {
 	@Mapping(target = "createdAt", ignore = true)
 	@Mapping(target = "updatedAt", ignore = true)
 	CommentReaction dtoToPosReaction(ReceivedCommentReactionDto commentReactionDto);
+
 }

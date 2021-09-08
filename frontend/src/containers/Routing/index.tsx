@@ -21,8 +21,11 @@ import PostVersions from '@screens/PostVersions/containers/PostVersionsPage';
 import EditPrPage from '@root/screens/PostPage/containers/EditPrPage';
 import MyContributionsPage from '@root/screens/PostVersions/containers/MyContributionsPage';
 import { checkHeaderShown } from '@helpers/headerBlackList.hepler';
+import HighlightsPage from '@screens/HighlightsPage/containers/HighlightsPage';
 import PostVersionPage from '@screens/PostVersionPage/containers/PostVersionPage';
 import Drafts from '@screens/Drafts/containers/DraftsPage';
+import FavouritesPage from '@screens/FavouritesPage/containers/FavouritesPagePage';
+import ContributionsToMyPostsPage from '@root/screens/PostVersions/containers/ContributionsToMyPostsPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -44,24 +47,26 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/registration" component={RegistrationPage} />
         <PublicRoute exact path="/oauth2/resolve" component={oauth2handler} />
         <PublicRoute exact path="/post/:postId" component={ViewPost} />
-        <PublicRoute exact path="/create/post" component={CreatePostPage} />
-        <PublicRoute exact path="/profile" component={ProfilePage} />
+        <PrivateRoute exact path="/create/post" component={CreatePostPage} />
+        <PrivateRoute exact path="/profile" component={ProfilePage} />
         <PublicRoute exact path="/user/:userId" component={PublicProfilePage} />
-        <PublicRoute exact path="/pullRequest/:id" component={PullRequestPage} />
-        <PublicRoute exact path="/pullRequest/edit/:id" component={EditPrPage} />
-        <PublicRoute exact path="/create/post" component={CreatePostPage} />
-        <PublicRoute exact path="/post/edit/:id" component={EditPostPage} />
-        <PublicRoute exact path="/postVersion/:id" component={PostVersionPage} />
-        <PublicRoute exact path="/post/versions/:id" component={PostVersions} />
+        <PrivateRoute exact path="/pullRequest/:id" component={PullRequestPage} />
+        <PrivateRoute exact path="/pullRequest/edit/:id" component={EditPrPage} />
+        <PrivateRoute exact path="/post/edit/:id" component={EditPostPage} />
+        <PrivateRoute exact path="/postVersion/:id" component={PostVersionPage} />
+        <PrivateRoute exact path="/post/versions/:id" component={PostVersions} />
         <PublicRoute exact path="/post/contributions/:id" component={PostVersions} />
+        <PrivateRoute exact path="/favourites" component={FavouritesPage} />
         <PublicRoute exact path="/my/contributions" component={MyContributionsPage} />
-        <PublicRoute exact path="/drafts" component={Drafts} />
-        <PublicRoute component={NotFoundPage} />
+        <PrivateRoute exact path="/my/posts" component={Drafts} />
+        <PublicRoute exact path="/search" component={FeedPage} />
+        <PrivateRoute exact path="/highlights" component={HighlightsPage} />
+        <PublicRoute exact path="/my/posts/contributions" component={ContributionsToMyPostsPage} />
+        <PublicRoute component={NotFoundPage} isNotFound />
 
         <div>
           <LoaderWrapper loading={isLoading}>
             <Switch>
-              <PrivateRoute exact path="/create/post" component={CreatePostPage} />
               <Route path="/*">
                 <Redirect to="/public" />
               </Route>

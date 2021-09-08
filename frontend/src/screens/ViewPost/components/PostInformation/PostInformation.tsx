@@ -1,40 +1,28 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
-import { Image } from 'semantic-ui-react';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import FollowBtn from '@screens/ViewPost/components/Button/FollowBtn/FollowBtn';
 import { timeToLocal } from '@helpers/dataTimeToLocalData';
-import { Link } from 'react-router-dom';
 import DraftLabel from '@components/DraftLabel';
+import { IUser } from '@screens/ViewPost/models/IUser';
+import UserInfoPopup from '@screens/ViewPost/components/Popups/UserInfoPopup';
 
 interface IPostInformationProps {
-  id: string;
+  author: IUser;
   date: string;
-  nickname: string;
-  avatar: string;
   readTime: string;
   draft: boolean;
 }
 
 const PostInformation: FunctionComponent<IPostInformationProps> = (
-  { id,
-    nickname,
+  { author,
     date,
-    avatar,
     draft,
     readTime
   }
 ) => (
   <div className={styles.postHeaderInfo}>
-    <Link to={`/user/${id}`}>
-      <div className={styles.userBlock}>
-        <Image src={avatar ?? 'https://i.imgur.com/LaWyPZF.png'} avatar size="big" />
-        <div className={styles.userName}>
-          { nickname }
-        </div>
-      </div>
-    </Link>
-    <FollowBtn />
+    <UserInfoPopup author={author} />
     <DividerSvg />
     <span className={styles.additionalInformation}>
       { timeToLocal(date) }

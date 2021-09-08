@@ -11,3 +11,5 @@ export const deleteAvatarRoutine = profilePageRoutine('DELETE_AVATAR');
 export const sendNicknameRoutine = profilePageRoutine('SEND_NICKNAME');
 export const sendPasswordRoutine = profilePageRoutine('SEND_PASSWORD');
 export const openPasswordChangeModalRoutine = profilePageRoutine('OPEN_PASSWORD_CHANGE_MODAL');
+export const fetchAchievementsByUserRoutine = profilePageRoutine('FETCH_ACHIEVEMENTS_BY_USER');
+export const toggleFollowUserRoutine = profilePageRoutine('TOGGLE_FOLLOW_USER');

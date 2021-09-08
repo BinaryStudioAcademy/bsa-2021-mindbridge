@@ -18,4 +18,5 @@ public class ReplyCommentDto {
 	private String nickname;
 
 	private String avatar;
+
 }

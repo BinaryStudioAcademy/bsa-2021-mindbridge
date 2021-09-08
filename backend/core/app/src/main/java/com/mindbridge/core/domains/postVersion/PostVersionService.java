@@ -24,13 +24,13 @@ public class PostVersionService {
 
 	public List<PostVersionsListDto> getAllVersionsByPostId(UUID id, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
-		return postVersionRepository.getPostVersionsByPostId(id, pageable).stream()
+		return postVersionRepository.getPostVersionByPostId(id, pageable).stream()
 				.map(PostVersionMapper.MAPPER::postVersionToPostVersionList).collect(Collectors.toList());
 	}
 
 	public PostVersionDetailsDto getPostVersion(UUID id) {
 		var postVersion = postVersionRepository.findById(id).orElseThrow();
-		var allPostVersions = postVersionRepository.getPostVersionByPostId(postVersion.getPost().getId());
+		var allPostVersions = postVersionRepository.getPostVersionsByPostId(postVersion.getPost().getId());
 		var indexOfVersion = allPostVersions.indexOf(postVersion);
 		if (indexOfVersion == allPostVersions.size() - 1) {
 			var postVersionDetailsDto = PostVersionMapper.MAPPER.PostVersionToPostVersionDetailsDto(postVersion);

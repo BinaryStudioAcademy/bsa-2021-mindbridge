@@ -1,12 +1,13 @@
 package com.mindbridge.core.domains.comment;
 
+import com.mindbridge.core.domains.comment.dto.CommentDto;
 import com.mindbridge.core.domains.comment.dto.CreateCommentDto;
+import com.mindbridge.core.domains.comment.dto.EditCommentDto;
 import com.mindbridge.core.domains.comment.dto.ReplyCommentDto;
 import com.mindbridge.data.domains.comment.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/comment")
@@ -20,7 +21,6 @@ public class CommentController {
 		this.commentService = commentService;
 	}
 
-
 	@PostMapping("/add")
 	public Comment addComment(@RequestBody CreateCommentDto comment) {
 		return commentService.addComment(comment);
@@ -29,5 +29,10 @@ public class CommentController {
 	@PostMapping("/reply")
 	public Comment addReplyToComment(@RequestBody ReplyCommentDto reply) {
 		return commentService.addReplyToComment(reply);
+	}
+
+	@PutMapping("/edit")
+	public CommentDto editComment(@RequestBody EditCommentDto editComment) {
+		return commentService.editComment(editComment);
 	}
 }

@@ -1,5 +1,7 @@
 package com.mindbridge.core.domains.elasticsearch;
 
+import com.mindbridge.core.domains.post.PostService;
+import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
 import com.mindbridge.data.domains.elasticsearch.ElasticRepository;
 import com.mindbridge.data.domains.elasticsearch.model.EMapper;
 import com.mindbridge.data.domains.elasticsearch.model.ElasticEntity;
@@ -9,6 +11,7 @@ import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.model.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -16,8 +19,11 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
@@ -40,6 +46,9 @@ public class ElasticService {
 
 	@Autowired
 	private PostRepository postRepository;
+
+	@Autowired
+	private PostService postService;
 
 	public void update(BaseEntity data) {
 
@@ -67,29 +76,47 @@ public class ElasticService {
 	public List<ElasticEntity> search(String query) {
 		String searchByTitle = "title";
 
-		return getSearchResult(query, searchByTitle);
+		return getSearchResult(query, searchByTitle, 0, 10);
+	}
+
+	public List<PostsListDetailsDto> searchList(String query, Integer from, Integer count, Principal principal) {
+		String searchByTitle = "title";
+
+		var searchResult = getSearchResult(query, searchByTitle, from, count);
+
+		return postService
+				.listIDsToListPosts(searchResult.stream().map(ElasticEntity::getSourceId).collect(Collectors.toList()), principal);
 	}
 
 	public List<ElasticEntity> searchByAuthor(String query) {
 		String searchByAuthor = "author";
 
-		return getSearchResult(query, searchByAuthor);
+		return getSearchResult(query, searchByAuthor, 0, 10);
 	}
 
 	public List<ElasticEntity> searchByTags(String query) {
 		String searchByTags = "tags";
 
-		return getSearchResult(query, searchByTags);
+		return getSearchResult(query, searchByTags, 0, 10);
 	}
 
-	private List<ElasticEntity> getSearchResult(String query, String searchBy) {
-		NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery(searchBy, query)).build();
+	private List<ElasticEntity> getSearchResult(String query, String searchBy, Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+
+		NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery(searchBy, query))
+				.withPageable(pageable).build();
 
 		SearchHits<ElasticEntity> entities = elasticsearchTemplate.search(searchQuery, ElasticEntity.class);
 
 		List<ElasticEntity> result = entities.getSearchHits().stream().map(SearchHit::getContent).distinct()
 				.collect(Collectors.toList());
 		return result;
+	}
+
+	public long getCountOfResults(String query) {
+		NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("title", query)).build();
+		return elasticsearchTemplate.count(searchQuery, ElasticEntity.class);
+
 	}
 
 	private ElasticEntity convertToEntity(BaseEntity data) {

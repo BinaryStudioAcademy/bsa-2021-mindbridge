@@ -19,16 +19,18 @@ import { IProfileFormRequest } from '@screens/ProfilePage/containers/ProfilePage
 import LoaderWrapper from '@components/LoaderWrapper';
 // import { checkImage } from '@helpers/image.helper';
 import CrossSvg from '@screens/ProfilePage/components/svg/crossSvg';
+import Image from '@components/Image';
+import { defaultAvatar } from '@images/defaultImages';
 
 interface IProfileCardProps {
   initialData: {
-  id: '';
-  nickname: '';
-  avatar: '';
-  email: '';
-  firstName: '';
-  lastName: '';
-  createdAt: '';
+  id: string;
+  nickname: string;
+  avatar: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  createdAt: string;
 };
   initialState: {
     isNicknameEngaged: false;
@@ -117,7 +119,9 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
   }, [profileData.isNicknameEngaged, profileData.isNicknameLoaded]);
 
   useEffect(() => {
-    updateForm('avatar', profileData.savingAvatar.url);
+    if (profileData.savingAvatar.url) {
+      updateForm('avatar', profileData.savingAvatar.url);
+    }
   }, [profileData.savingAvatar.url]);
 
   const handleImgChange = (event: any) => {
@@ -175,13 +179,13 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
             <div className={styles.avatarWrp}>
               <div className={styles.imgContainer}>
                 {(userForm.avatar == null || userForm.avatar === '') ? (
-                  <img
+                  <Image
                     className={styles.avatar}
-                    src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+                    src={defaultAvatar}
                     alt="avatar"
                   />
                 ) : (
-                  <img
+                  <Image
                     className={styles.avatar}
                     src={userForm.avatar}
                     alt="avatar"
@@ -195,7 +199,7 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
                           <EditSvg />
                           <input id="image-input-1" className={styles.invisible} type="file" accept="image/*" />
                         </label>
-                        { (profileData.savingAvatar.url !== '') && (
+                        { (profileData.savingAvatar.url || userForm.avatar) && (
                         <label className={styles.file_input_rectangle} title="Delete avatar">
                           <button className={styles.deleteImgButton} type="button" onClick={handleImgDelete}>
                             <CrossSvg />

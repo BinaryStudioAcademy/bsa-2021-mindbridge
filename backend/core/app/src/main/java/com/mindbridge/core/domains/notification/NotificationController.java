@@ -27,11 +27,11 @@ public class NotificationController {
 
 	@GetMapping("/list/{id}")
 	public List<NotificationDto> getNotificationList(@PathVariable(name = "id") UUID id,
-													 @RequestParam(defaultValue = "true") Boolean onlyUnread,
-													 @RequestParam(defaultValue = "0") Integer from,
-													 @RequestParam(defaultValue = "10") Integer count) {
+			@RequestParam(defaultValue = "true") Boolean onlyUnread, @RequestParam(defaultValue = "0") Integer from,
+			@RequestParam(defaultValue = "10") Integer count) {
 		return notificationService.getNotificationList(id, onlyUnread, from, count);
 	}
+
 
 	@PutMapping("/{id}")
 	public void toggleNotificationRead(@PathVariable UUID id) {

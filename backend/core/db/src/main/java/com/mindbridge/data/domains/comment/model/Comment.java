@@ -41,8 +41,11 @@ public class Comment extends BaseAuditableEntity {
 	public String toString() {
 		return "Comment{" +
 			"author=" + author +
-			", text='" + text + '\'' +
-			", reactions=" + reactions.size() +
-			'}';
+			", " +
+			"text='" + text +
+			'\'' +
+			", " +
+			"reactions=" + reactions.size() + '}';
 	}
+
 }
