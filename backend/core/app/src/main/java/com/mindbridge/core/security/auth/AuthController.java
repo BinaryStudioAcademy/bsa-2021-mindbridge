@@ -1,6 +1,7 @@
 package com.mindbridge.core.security.auth;
 
 import com.mindbridge.core.domains.user.dto.UserDto;
+import com.mindbridge.core.domains.user.dto.UserEmailConfirmationDto;
 import com.mindbridge.core.security.auth.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -56,8 +58,8 @@ public class AuthController {
 	}
 
 	@GetMapping("/activate/{code}")
-	public void activateUserEmail(@PathVariable String code) {
-		authService.activateEmail(code);
+	public UserEmailConfirmationDto activateUserEmail(@PathVariable UUID code) {
+		return authService.activateEmail(code);
 	}
 
 }

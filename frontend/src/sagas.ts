@@ -14,6 +14,8 @@ import sidebarSagas from '@screens/Sidebar/sagas';
 import highlightsPageSagas from '@screens/HighlightsPage/containers/HighlightsPage/sagas';
 import draftsSagas from '@screens/Drafts/sagas';
 import favouritesPageSagas from '@screens/FavouritesPage/sagas';
+import privateRouteSagas from '@components/PrivateRoute/sagas';
+import emailSuccessConfirmationSagas from '@screens/EmailSuccessConfirmation/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -31,6 +33,8 @@ export default function* rootSaga() {
     postVersionsPageSagas(),
     sidebarSagas(),
     draftsSagas(),
+    privateRouteSagas(),
+    emailSuccessConfirmationSagas(),
     favouritesPageSagas()
   ]);
 }

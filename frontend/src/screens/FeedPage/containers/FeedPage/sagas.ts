@@ -33,7 +33,7 @@ function* likePost(action) {
     yield put(likePostRoutine.success(postReaction));
   } catch (error) {
     yield put(likePostRoutine.failure(error?.message));
-    toastr.error('Error', 'Like post failed');
+    toastr.error('Error', 'You don\'t have the rights to do that');
   }
 }
 
@@ -49,7 +49,7 @@ function* disLikePost(action) {
     yield put(disLikePostRoutine.success(post));
   } catch (error) {
     yield put(disLikePostRoutine.failure(error?.message));
-    toastr.error('Error', 'Dislike post failed');
+    toastr.error('Error', 'You don\'t have the rights to do that');
   }
 }
 

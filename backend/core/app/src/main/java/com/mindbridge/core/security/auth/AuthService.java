@@ -1,17 +1,20 @@
 package com.mindbridge.core.security.auth;
 
+import com.mindbridge.core.domains.user.UserMapper;
 import com.mindbridge.core.domains.user.UserService;
 import com.mindbridge.core.domains.user.dto.UserDto;
+import com.mindbridge.core.domains.user.dto.UserEmailConfirmationDto;
 import com.mindbridge.core.exceptions.custom.UserAlreadyExistException;
 import com.mindbridge.core.security.auth.dto.*;
 import com.mindbridge.core.security.jwt.JwtProvider;
 import com.mindbridge.data.domains.user.UserRepository;
-import com.mindbridge.data.domains.user.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -92,15 +95,15 @@ public class AuthService {
 		}
 	}
 
-	public boolean activateEmail(String code) {
-		User user = userRepository.findByActivationCode(code);
-
-		if (user == null) {
-			return false;
+	public UserEmailConfirmationDto activateEmail(UUID code) {
+		var user = userRepository.findByActivationCode(code.toString()).orElseThrow();
+		if (!user.isEmailVerified()) {
+			user.setEmailVerified(true);
+			var savedUser = userRepository.save(user);
+			return UserMapper.MAPPER.userToUserEmailConfirmation(savedUser);
 		}
-		user.setActivationCode(null);
-		user.setEmailVerified(true);
-		userRepository.save(user);
-		return true;
+		user.setViewed(true);
+		var savedUser = userRepository.save(user);
+		return UserMapper.MAPPER.userToUserEmailConfirmation(savedUser);
 	}
 }

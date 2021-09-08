@@ -1,29 +1,13 @@
-.main_container {
+.text {
   color: #353535;
+  font-family: Lato, sans-serif;
+  display: flex;
   padding-top: 5.7rem;
-  height: 100vh;
+  height: 90vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 2rem;
-}
-
-.text {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-items: center;
-  font-family: Lato, sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 3em;
-  line-height: 1.81em;
-  color: #000000;
-  position: center;
-
-  .p {
-    font-size: 1em;
-  }
 }
 
 

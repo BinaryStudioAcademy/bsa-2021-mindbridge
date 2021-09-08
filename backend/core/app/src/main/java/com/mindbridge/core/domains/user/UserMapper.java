@@ -31,6 +31,8 @@ public interface UserMapper {
 
 	UserShortDto userToUserShortDto(User user);
 
+	UserEmailConfirmationDto userToUserEmailConfirmation(User user);
+
 	@Mapping(target = "follower.id", source = "followerId")
 	@Mapping(target = "followed.id", source = "followedId")
 	Follower FollowDtoToFollower(FollowDto followDto);

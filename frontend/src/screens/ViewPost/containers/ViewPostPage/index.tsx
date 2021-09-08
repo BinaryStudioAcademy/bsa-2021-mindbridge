@@ -22,6 +22,8 @@ import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import { history } from '@helpers/history.helper';
+import { toastr } from 'react-redux-toastr';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 import { getUserIpRoutine, savePostViewRoutine } from '@root/screens/Login/routines';
 
@@ -82,7 +84,6 @@ const ViewPost: React.FC<IViewPostProps> = (
   }
 ) => {
   const { postId } = useParams();
-  const history = useHistory();
 
   useEffect(() => {
     if (!isAuthorized) {
@@ -126,6 +127,9 @@ const ViewPost: React.FC<IViewPostProps> = (
         liked: true
       };
       leaveReaction(post);
+    } else {
+      history.push('/login');
+      toastr.error('Error', 'Please log in to perform that action');
     }
   };
 
@@ -166,6 +170,9 @@ const ViewPost: React.FC<IViewPostProps> = (
         liked: false
       };
       leaveReaction(post);
+    } else {
+      history.push('/login');
+      toastr.error('Error', 'Please log in to perform that action');
     }
   };
 
@@ -177,6 +184,9 @@ const ViewPost: React.FC<IViewPostProps> = (
         liked: true
       };
       leaveReactionOnComment(comment);
+    } else {
+      history.push('/login');
+      toastr.error('Error', 'Please log in to perform that action');
     }
   };
 
@@ -188,6 +198,9 @@ const ViewPost: React.FC<IViewPostProps> = (
         liked: false
       };
       leaveReactionOnComment(comment);
+    } else {
+      history.push('/login');
+      toastr.error('Error', 'Please log in to perform that action');
     }
   };
 

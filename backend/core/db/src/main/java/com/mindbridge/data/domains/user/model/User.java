@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -36,6 +37,9 @@ public class User extends BaseAuditableEntity {
 	private String avatar;
 
 	private String activationCode;
+
+	@Column(name = "is_viewed", nullable = false)
+	private boolean isViewed;
 
 	public String getFullName() {
 		return firstName + " " + lastName;

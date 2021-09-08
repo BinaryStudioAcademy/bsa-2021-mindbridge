@@ -20,8 +20,9 @@ import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { useHistory } from 'react-router-dom';
 import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 import { useLocation } from 'react-use';
+import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
+import { toastr } from 'react-redux-toastr';
 import NoResultsSvg from '@components/svgs/NoResultsSvg';
 import SearchSvg from '@components/Header/svg/searchSvg';
 import FoundPostsList from '@components/FoundPostsList';
@@ -124,6 +125,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
       likePost(post);
     } else {
       history.push('/login');
+      toastr.error('Error', 'Please log in to perform that action');
     }
   };
 
@@ -149,6 +151,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
       likePost(post);
     } else {
       history.push('/login');
+      toastr.error('Error', 'Please log in to perform that action');
     }
   };
 

@@ -1,41 +1,13 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
 
-export interface IEmailConfirmationProps extends IState, IActions {
-  currentUserEmailVerified: boolean;
-}
-
-interface IState {
-}
-
-interface IActions {
-}
-
-const EmailConfirmation: React.FC<IEmailConfirmationProps> = (
-  { currentUserEmailVerified }
-) => (
-  <div className={classNames('content_wrapper', styles.container)}>
-    { currentUserEmailVerified ? (
-      <div className={styles.text}>
-        Your email is confirmed
-      </div>
-    ) : (
-      <div className={styles.text}>
-        Oops... Your email not confirmed
-        <p>Please confirm you`&apos;`re email</p>
-      </div>
-    )}
+const EmailConfirmation: React.FC = () => (
+  <div className={styles.text}>
+    <h1>Please confirm your email</h1>
+    {/* eslint-disable-next-line max-len */}
+    <h3>We have sent you an email with the instructions on how to activate your email. Please check your inbox or spam.</h3>
   </div>
 );
 
-const mapStateToProps: (state) => IState = state => ({
-  currentUserEmailVerified: state.postPageReducer.data.profile.emailVerified
-});
-
-const mapDispatchToProps: IActions = {
-
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(EmailConfirmation);
+export default EmailConfirmation;
