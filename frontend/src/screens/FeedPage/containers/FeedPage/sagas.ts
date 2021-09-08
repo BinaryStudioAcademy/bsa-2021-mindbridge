@@ -3,6 +3,7 @@ import feedPageService from '@screens/FeedPage/services/feedPage';
 import { toastr } from 'react-redux-toastr';
 import {
   disLikePostRoutine,
+  fetchAllUsersNumberRoutine,
   fetchDataRoutine,
   likePostRoutine,
   loadCountResultsRoutine,
@@ -74,6 +75,16 @@ function* loadCountResults({ payload }: Routine<any>) {
   }
 }
 
+function* fetchAllUsersNumber() {
+  try {
+    const response = yield call(feedPageService.fetchAllUsersNumber);
+    yield put(fetchAllUsersNumberRoutine.success(response));
+  } catch (error) {
+    yield put(fetchAllUsersNumberRoutine.failure(error?.message));
+    toastr.error('Error', 'Load count of users failed');
+  }
+}
+
 function* watchLoadCountResults() {
   yield takeEvery(loadCountResultsRoutine.TRIGGER, loadCountResults);
 }
@@ -93,12 +104,18 @@ function* watchLikePost() {
 function* watchDisLikePost() {
   yield takeEvery(disLikePostRoutine.TRIGGER, disLikePost);
 }
+
+function* watchFetchAllUsersNumber() {
+  yield takeEvery(fetchAllUsersNumberRoutine.TRIGGER, fetchAllUsersNumber);
+}
+
 export default function* feedPageSagas() {
   yield all([
     watchGetDataRequest(),
     watchLikePost(),
     watchDisLikePost(),
     watchSearchPosts(),
-    watchLoadCountResults()
+    watchLoadCountResults(),
+    watchFetchAllUsersNumber()
   ]);
 }
