@@ -92,7 +92,7 @@ const HighlightsPage: React.FC<IHighlightsProps> = (
           ))}
         </InfiniteScroll>
       ) : (
-        <NotFoundContent description="Highlights list is empty" />
+        <NotFoundContent />
       )}
     </div>
   );

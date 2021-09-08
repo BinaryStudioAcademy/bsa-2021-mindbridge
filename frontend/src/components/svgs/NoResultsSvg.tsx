@@ -3,7 +3,7 @@ import React from 'react';
 /* eslint-disable max-len */
 function NoResultsSvg({ width, height }) {
   return (
-    <svg width={width} height={height} viewBox="0 0 256 247" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={width} height={height} viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="122.5" cy="124.5" r="122.5" fill="#F8F8F8" />
       <rect x="29" y="45" width="187" height="26" rx="6.14286" fill="#F3F9FE" />
       <rect x="28.5143" y="68.9854" width="187.357" height="137.6" rx="6.14286" fill="white" />

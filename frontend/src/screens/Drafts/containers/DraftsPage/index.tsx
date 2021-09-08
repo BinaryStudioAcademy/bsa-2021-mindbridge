@@ -53,7 +53,7 @@ const Drafts: React.FC<IDraftsProps> = (
               <span>Drafts only</span>
             </div>
           ) : (
-            <NotFoundContent description="Posts list is empty" />
+            <NotFoundContent />
           )}
           <div className={styles.main}>
             <LoaderWrapper className={styles.loader} loading={isDataLoading} />
@@ -88,12 +88,12 @@ const Drafts: React.FC<IDraftsProps> = (
                     coverImage={draft.coverImage}
                   />
                 ))) : (
-                  <NotFoundContent description="Posts list is empty" />
+                  <NotFoundContent />
               )}
             </div>
           </div>
         ) : (
-          <NotFoundContent description="Posts list is empty" />
+          <NotFoundContent />
         ) }
       </div>
     </LoaderWrapper>
