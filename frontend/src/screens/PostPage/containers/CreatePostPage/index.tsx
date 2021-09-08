@@ -169,99 +169,99 @@ const CreatePost: React.FC<ICreatePostProps> = (
   };
 
   return (
-      <div className={classNames('content_wrapper', styles.container)}>
-        <div className={styles.form_and_sidebar_container}>
-          <form className={styles.create_post_container}>
-            <div className={styles.header}>
-              {modes.htmlMode
-                ? <BlueButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />
-                : <ColorlessButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />}
-              {modes.markdownMode
-                ? <BlueButton content="Markdown" onClick={changeHtmlMarkdownMode} className={styles.markdown_button} />
-                : (
-                  <ColorlessButton
-                    content="Markdown"
-                    onClick={changeHtmlMarkdownMode}
-                    className={styles.markdown_button}
-                  />
-                )}
-              {modes.editMode
-                ? (
-                  <BlueButton
-                    content={(
-                      <div>
-                        <EditSvgPart1 />
-                        <EditSvgPart2 />
-                      </div>
-                )}
-                    onClick={changeEditViewMode}
-                    className={styles.edit_button}
-                  />
-                )
-                : (
-                  <ColorlessButton
-                    content={(
-                      <div>
-                        <EditSvgPart1 />
-                        <EditSvgPart2 />
-                      </div>
-                  )}
-                    onClick={changeEditViewMode}
-                    className={styles.edit_button}
-                  />
-                )}
-              {modes.viewMode
-                ? (
-                  <BlueButton
-                    content={<ViewSvg />}
-                    className={classNames(styles.view_button)}
-                    onClick={changeEditViewMode}
-                  />
-                )
-                : (
-                  <ColorlessButton
-                    content={<ViewSvg />}
-                    className={classNames(styles.view_button)}
-                    onClick={changeEditViewMode}
-                  />
-                )}
-            </div>
+    <div className={classNames('content_wrapper', styles.container)}>
+      <div className={styles.form_and_sidebar_container}>
+        <form className={styles.create_post_container}>
+          <div className={styles.header}>
+            {modes.htmlMode
+              ? <BlueButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />
+              : <ColorlessButton content="HTML" onClick={changeHtmlMarkdownMode} className={styles.html_button} />}
+            {modes.markdownMode
+              ? <BlueButton content="Markdown" onClick={changeHtmlMarkdownMode} className={styles.markdown_button} />
+              : (
+                <ColorlessButton
+                  content="Markdown"
+                  onClick={changeHtmlMarkdownMode}
+                  className={styles.markdown_button}
+                />
+              )}
             {modes.editMode
               ? (
-                <CreatePostForm
-                  isCreateForm
-                  form={form}
-                  initialPostContent=""
-                  modes={modes}
-                  setForm={setForm}
-                  sendImage={sendImage}
-                  allTags={allTags}
-                  imageTag={imageTag}
-                  resetImageTag={resetImageTag}
-                  isTitleEmpty={isTitleEmpty}
-                  isContentEmpty={isContentEmpty}
-                  isTagsEmpty={isTagsEmpty}
+                <BlueButton
+                  content={(
+                    <div>
+                      <EditSvgPart1 />
+                      <EditSvgPart2 />
+                    </div>
+                )}
+                  onClick={changeEditViewMode}
+                  className={styles.edit_button}
                 />
               )
-              : <PostPreview form={form} modes={modes} allTags={allTags} />}
-            <div className={styles.footer}>
-              <DarkBorderButton content="Cancel" onClick={handleCancel} />
-              <DarkBorderButton
-                content="Save draft"
-                disabled={preloader.publishButton}
-                loading={preloader.draftButton}
-                onClick={() => handleSendForm(true)}
+              : (
+                <ColorlessButton
+                  content={(
+                    <div>
+                      <EditSvgPart1 />
+                      <EditSvgPart2 />
+                    </div>
+                  )}
+                  onClick={changeEditViewMode}
+                  className={styles.edit_button}
+                />
+              )}
+            {modes.viewMode
+              ? (
+                <BlueButton
+                  content={<ViewSvg />}
+                  className={classNames(styles.view_button)}
+                  onClick={changeEditViewMode}
+                />
+              )
+              : (
+                <ColorlessButton
+                  content={<ViewSvg />}
+                  className={classNames(styles.view_button)}
+                  onClick={changeEditViewMode}
+                />
+              )}
+          </div>
+          {modes.editMode
+            ? (
+              <CreatePostForm
+                isCreateForm
+                form={form}
+                initialPostContent=""
+                modes={modes}
+                setForm={setForm}
+                sendImage={sendImage}
+                allTags={allTags}
+                imageTag={imageTag}
+                resetImageTag={resetImageTag}
+                isTitleEmpty={isTitleEmpty}
+                isContentEmpty={isContentEmpty}
+                isTagsEmpty={isTagsEmpty}
               />
-              <DarkButton
-                content="Publish"
-                disabled={preloader.draftButton}
-                loading={preloader.publishButton}
-                onClick={() => handleSendForm(false)}
-              />
-            </div>
-          </form>
-        </div>
+            )
+            : <PostPreview form={form} modes={modes} allTags={allTags} />}
+          <div className={styles.footer}>
+            <DarkBorderButton content="Cancel" onClick={handleCancel} />
+            <DarkBorderButton
+              content="Save draft"
+              disabled={preloader.publishButton}
+              loading={preloader.draftButton}
+              onClick={() => handleSendForm(true)}
+            />
+            <DarkButton
+              content="Publish"
+              disabled={preloader.draftButton}
+              loading={preloader.publishButton}
+              onClick={() => handleSendForm(false)}
+            />
+          </div>
+        </form>
       </div>
+    </div>
   );
 };
 
