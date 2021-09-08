@@ -26,6 +26,7 @@ import Image from '@components/Image';
 import { defaultCoverImage } from '@images/defaultImages';
 import SharePopup from '@screens/ViewPost/components/Popups/SharePopup';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import classNames from 'classnames';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -45,6 +46,7 @@ interface IViewPostCardProps {
   users: IMentionsUser[];
   editComment: IBindingCallback1<object>;
   handleFavouriteAction: any;
+  className?: string;
   resetSendingComment: IBindingAction;
   sendingEditComment: boolean;
 }
@@ -65,6 +67,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   handleDislikeComment,
   searchUsersByNickname,
   users,
+  className,
   editComment,
   handleFavouriteAction,
   resetSendingComment,
@@ -179,7 +182,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, className)}>
       <Card className={styles.viewCard}>
         <div className={styles.cardContent}>
           <Card.Content>
