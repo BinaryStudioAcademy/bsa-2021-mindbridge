@@ -221,16 +221,3 @@
   from {background-color: $light-blue;}
   to {background-color: white;}
 }
-
-.highlight2{
-  animation-name: highlighting2;
-  animation-duration: 4s;
-}
-
-@keyframes highlighting2 {
-  from {
-    background-color: $light-blue;
-    box-shadow: $light-blue 10px;
-  }
-  to {background-color: white;}
-}

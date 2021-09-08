@@ -173,7 +173,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
 
   return (
     <ScrollableAnchor id={commentId}>
-      <div className={highlight ? classNames(styles.advancedComment, styles.highlight2) : styles.advancedComment}>
+      <div className={highlight ? classNames(styles.advancedComment, styles.highlight) : styles.advancedComment}>
         <div className={styles.header}>
           { shouldRenderArrowCloseComment && (
           <button ref={ref} id="button" className={styles.closeCommentBtn} type="button" onClick={() => handleClick()}>
