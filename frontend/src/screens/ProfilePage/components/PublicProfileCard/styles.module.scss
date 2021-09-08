@@ -130,6 +130,11 @@
   background-color: rgba(0,0,0,0);
   color: $dark-grey;
 }
+
+.followersNumber {
+  cursor: pointer;
+}
+
 .revert_dark_button {
   background-color: rgba(0,0,0,0);
   border: solid 2px #14253f;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
 import {
@@ -9,7 +9,7 @@ import {
   leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
   sendReplyRoutine,
-  saveHighlightRoutine
+  saveHighlightRoutine, editCommentRoutine
 } from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import { IData } from '@screens/ViewPost/models/IData';
@@ -26,6 +26,7 @@ import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 import ScrollUpSvg from '../../components/svgs/SvgComponents/scrollUpSvg';
+import { getUserIpRoutine, savePostViewRoutine } from '@root/screens/Login/routines';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -38,6 +39,7 @@ interface IState {
   data: IData;
   dataDeleting: boolean;
   users: IMentionsUser[];
+  userIp: string;
 }
 
 interface IActions {
@@ -51,7 +53,10 @@ interface IActions {
   leaveReactionOnComment: IBindingCallback1<object>;
   searchUsersByNickname: IBindingCallback1<string>;
   saveFavouritePost: IBindingCallback1<object>;
+  getUserIp: IBindingAction;
+  savePostView: IBindingCallback1<{view: {userId: string; userIp: string; postId: string}}>;
   deleteFavouritePost: IBindingCallback1<object>;
+  editComment: IBindingCallback1<object>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -71,13 +76,23 @@ const ViewPost: React.FC<IViewPostProps> = (
     leaveReactionOnComment,
     searchUsersByNickname,
     users,
+    editComment,
     saveFavouritePost,
-    deleteFavouritePost
+    deleteFavouritePost,
+    getUserIp,
+    savePostView,
+    userIp
   }
 ) => {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const { postId } = useParams();
   const history = useHistory();
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      getUserIp();
+    }
+  });
 
   useEffect(() => {
     fetchData(postId);
@@ -90,6 +105,12 @@ const ViewPost: React.FC<IViewPostProps> = (
   useEffect(() => {
     scrollToTop();
   }, [data.post.id]);
+
+  useEffect(() => {
+    if ((data.post.author.id !== currentUser.id) && (postId === data.post.id) && (isAuthorized || userIp)) {
+      savePostView({ view: { userId: currentUser.id, userIp, postId } });
+    }
+  }, [postId, userIp, isAuthorized, data.post.id]);
 
   useEffect(() => {
     if (currentUser.id) {
@@ -223,6 +244,7 @@ const ViewPost: React.FC<IViewPostProps> = (
           users={users}
           searchUsersByNickname={searchUsersByNickname}
           handleFavouriteAction={handleFavouriteAction}
+          editComment={editComment}
         />
         {showScrollButton
           && (
@@ -243,12 +265,14 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   userInfo: state.postPageReducer.data.profile,
   highlights: state.highlightsReducer.data.highlights,
   dataDeleting: extractHighlightDeletion(state),
-  users: extractData(state).users
+  users: extractData(state).users,
+  userIp: state.auth.auth.userIp
 });
 
 const mapDispatchToProps: IActions = {
   sendComment: sendCommentRoutine,
   sendReply: sendReplyRoutine,
+  editComment: editCommentRoutine,
   fetchData: fetchDataRoutine,
   leaveReaction: leaveReactionOnPostViewPageRoutine,
   saveHighlight: saveHighlightRoutine,
@@ -257,7 +281,9 @@ const mapDispatchToProps: IActions = {
   leaveReactionOnComment: leaveReactionOnCommentRoutine,
   searchUsersByNickname: searchUserByNicknameRoutine,
   saveFavouritePost: saveFavouritePostRoutine,
-  deleteFavouritePost: deleteFavouritePostRoutine
+  deleteFavouritePost: deleteFavouritePostRoutine,
+  getUserIp: getUserIpRoutine,
+  savePostView: savePostViewRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);

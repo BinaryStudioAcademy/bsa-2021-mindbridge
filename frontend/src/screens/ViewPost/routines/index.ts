@@ -13,3 +13,4 @@ export const sendCommentRoutine = createViewPostRoutine('SEND_COMMENT_ROUTINE');
 export const sendReplyRoutine = createViewPostRoutine('SEND_REPLY_ROUTINE');
 export const leaveReactionOnCommentRoutine = createViewPostRoutine('LEAVE_REACTION_ROUTINE');
 export const searchUserByNicknameRoutine = createViewPostRoutine('SEARCH_USER');
+export const editCommentRoutine = createRoutine('EDIT_COMMENT');

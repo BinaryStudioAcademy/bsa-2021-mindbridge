@@ -1,3 +1,4 @@
+import { savePostViewRoutine } from '../../../Login/routines/index';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import viewPageService from '@screens/ViewPost/services/viewPage';
 import { toastr } from 'react-redux-toastr';
@@ -7,7 +8,7 @@ import {
   fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
-  sendReplyRoutine
+  sendReplyRoutine, editCommentRoutine
 } from '@screens/ViewPost/routines';
 import feedPageService from '@screens/FeedPage/services/feedPage';
 import { Routine } from 'redux-saga-routines';
@@ -84,6 +85,22 @@ function* sendReply(action) {
   }
 }
 
+function* sendEditComment(actions) {
+  try {
+    const response = yield call(viewPageService.editComment, actions.payload);
+    const editComment = {
+      response,
+      editText: actions.payload.text,
+      id: actions.payload.commentId
+    };
+    yield put(editCommentRoutine.success(editComment));
+    toastr.success('Success', 'Edit was sent');
+  } catch (error) {
+    toastr.error('Error', 'Edit send failed');
+    yield put(editCommentRoutine.failure(error?.message));
+  }
+}
+
 function* leaveCommentReaction(action) {
   try {
     const response = yield call(viewPageService.leaveReactionComment, action.payload);
@@ -145,6 +162,25 @@ function* watchFetchHighlights() {
 function* watchLeaveReactionOnPost() {
   yield takeEvery(leaveReactionOnPostViewPageRoutine.TRIGGER, leaveReaction);
 }
+
+export function* savePostView(action: any) {
+  try {
+    const response = yield call(viewPageService.sendPostView, action.payload.view);
+    yield put(savePostViewRoutine.success(response));
+  } catch (ex) {
+    yield put(savePostViewRoutine.failure(ex.message));
+    toastr.error('Error', 'Send post view failed');
+  }
+}
+
+function* watchSavePostView() {
+  yield takeEvery(savePostViewRoutine.TRIGGER, savePostView);
+}
+
+function* watchSendEditComment() {
+  yield takeEvery(editCommentRoutine.TRIGGER, sendEditComment);
+}
+
 export default function* viewPostPageSagas() {
   yield all([
     watchDataRequest(),
@@ -154,7 +190,9 @@ export default function* viewPostPageSagas() {
     watchSendCommentRequest(),
     watchSendReplyRequest(),
     watchLeaveCommentReaction(),
-    watchSearchUsersByNickname()
+    watchSearchUsersByNickname(),
+    watchSavePostView(),
+    watchSendEditComment()
   ]);
 }
 

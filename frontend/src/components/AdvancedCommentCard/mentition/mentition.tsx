@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, FunctionComponent, useState } from 'react';
 import styles from './styles.module.scss';
 import provideValue from './provideValue';
 import { MentionsInput, Mention } from 'react-mentions';
@@ -9,7 +9,24 @@ import { IComment } from '@screens/ViewPost/models/IComment';
 import commentInputStyle from './commentInputStyle.module.scss';
 import replyInputStyle from './replyInputStyle.module.scss';
 
-function AsyncUserMentions(
+import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+
+interface IUserMentionsProps {
+  onChange: any;
+  sendReply: any;
+  setDisabled: any;
+  sendComment: any;
+  userInfo: IUserProfile;
+  postId: string;
+  commentId: string;
+  searchUsersByNickname: any;
+  users: any;
+  isReply: boolean;
+  editMode: boolean;
+  asd: boolean;
+}
+
+const AsyncUserMentions: FunctionComponent<IUserMentionsProps> = (
   {
     onChange,
     sendReply,
@@ -20,9 +37,10 @@ function AsyncUserMentions(
     commentId,
     searchUsersByNickname,
     users,
-    isReply
+    isReply,
+    editMode
   }
-) {
+) => {
   const [newReply, setNewReply] = useState<ICommentReply>({
     author: '',
     postId: '',
@@ -168,7 +186,7 @@ function AsyncUserMentions(
       )}
     </div>
   );
-}
+};
 
 const asExample = provideValue('');
 
