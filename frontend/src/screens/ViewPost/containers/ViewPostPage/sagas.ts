@@ -1,3 +1,4 @@
+import { savePostViewRoutine } from '../../../Login/routines/index';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import viewPageService from '@screens/ViewPost/services/viewPage';
 import { toastr } from 'react-redux-toastr';
@@ -162,9 +163,24 @@ function* watchLeaveReactionOnPost() {
   yield takeEvery(leaveReactionOnPostViewPageRoutine.TRIGGER, leaveReaction);
 }
 
+export function* savePostView(action: any) {
+  try {
+    const response = yield call(viewPageService.sendPostView, action.payload.view);
+    yield put(savePostViewRoutine.success(response));
+  } catch (ex) {
+    yield put(savePostViewRoutine.failure(ex.message));
+    toastr.error('Error', 'Send post view failed');
+  }
+}
+
+function* watchSavePostView() {
+  yield takeEvery(savePostViewRoutine.TRIGGER, savePostView);
+}
+
 function* watchSendEditComment() {
   yield takeEvery(editCommentRoutine.TRIGGER, sendEditComment);
 }
+
 export default function* viewPostPageSagas() {
   yield all([
     watchDataRequest(),
@@ -175,6 +191,7 @@ export default function* viewPostPageSagas() {
     watchSendReplyRequest(),
     watchLeaveCommentReaction(),
     watchSearchUsersByNickname(),
+    watchSavePostView(),
     watchSendEditComment()
   ]);
 }

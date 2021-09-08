@@ -42,4 +42,5 @@ public class PostsListDetailsDto {
 
 	private Boolean isFavourite;
 
+	private int postViewsNumber;
 }

@@ -22,4 +22,5 @@ export interface IPost {
   relatedPosts: IRelatedPost[];
   comments: IComments[];
   isFavourite: boolean;
+  postViewsNumber: number;
 }

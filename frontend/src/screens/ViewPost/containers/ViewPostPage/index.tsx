@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
 import {
@@ -23,6 +23,7 @@ import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
+import { getUserIpRoutine, savePostViewRoutine } from '@root/screens/Login/routines';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -35,6 +36,7 @@ interface IState {
   data: IData;
   dataDeleting: boolean;
   users: IMentionsUser[];
+  userIp: string;
 }
 
 interface IActions {
@@ -48,6 +50,8 @@ interface IActions {
   leaveReactionOnComment: IBindingCallback1<object>;
   searchUsersByNickname: IBindingCallback1<string>;
   saveFavouritePost: IBindingCallback1<object>;
+  getUserIp: IBindingAction;
+  savePostView: IBindingCallback1<{view: {userId: string; userIp: string; postId: string}}>;
   deleteFavouritePost: IBindingCallback1<object>;
   editComment: IBindingCallback1<object>;
 }
@@ -71,11 +75,20 @@ const ViewPost: React.FC<IViewPostProps> = (
     users,
     editComment,
     saveFavouritePost,
-    deleteFavouritePost
+    deleteFavouritePost,
+    getUserIp,
+    savePostView,
+    userIp
   }
 ) => {
   const { postId } = useParams();
   const history = useHistory();
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      getUserIp();
+    }
+  });
 
   useEffect(() => {
     fetchData(postId);
@@ -88,6 +101,12 @@ const ViewPost: React.FC<IViewPostProps> = (
   useEffect(() => {
     scrollToTop();
   }, [data.post.id]);
+
+  useEffect(() => {
+    if ((data.post.author.id !== currentUser.id) && (postId === data.post.id) && (isAuthorized || userIp)) {
+      savePostView({ view: { userId: currentUser.id, userIp, postId } });
+    }
+  }, [postId, userIp, isAuthorized, data.post.id]);
 
   useEffect(() => {
     if (currentUser.id) {
@@ -229,7 +248,8 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   userInfo: state.postPageReducer.data.profile,
   highlights: state.highlightsReducer.data.highlights,
   dataDeleting: extractHighlightDeletion(state),
-  users: extractData(state).users
+  users: extractData(state).users,
+  userIp: state.auth.auth.userIp
 });
 
 const mapDispatchToProps: IActions = {
@@ -244,7 +264,9 @@ const mapDispatchToProps: IActions = {
   leaveReactionOnComment: leaveReactionOnCommentRoutine,
   searchUsersByNickname: searchUserByNicknameRoutine,
   saveFavouritePost: saveFavouritePostRoutine,
-  deleteFavouritePost: deleteFavouritePostRoutine
+  deleteFavouritePost: deleteFavouritePostRoutine,
+  getUserIp: getUserIpRoutine,
+  savePostView: savePostViewRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);
