@@ -8,7 +8,7 @@ import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
 import { fetchPrsOfMyPostsRoutine } from '../../routines';
 import PostContributionItem from '@root/components/PostContributionItem';
 import { IContribution } from '@root/screens/ViewPost/models/IContribution';
-import NotFoundContent from '@components/NotFoundContetn';
+import NoResultsSvg from '@root/components/svgs/NoResultsSvg';
 
 export interface IContributionsToMyProps extends IState, IActions {
 }
@@ -43,9 +43,9 @@ const ContributionsToMyPosts: React.FC<IContributionsToMyProps> = (
   return (
     <div className={styles.postVersions}>
       <div className={styles.main}>
-        <p className={styles.pageTitle}>
+        <h3>
           Contributions to your posts
-        </p>
+        </h3>
         {
           contributionsOfMyPosts.map(contribution => (
             <PostContributionItem
@@ -55,7 +55,10 @@ const ContributionsToMyPosts: React.FC<IContributionsToMyProps> = (
           ))
         }
         {!contributionsOfMyPosts[0] && (
-          <NotFoundContent />
+          <div>
+            <NoResultsSvg width="35%" height="35%" />
+            <p> Seems like there are no result...</p>
+          </div>
         )}
       </div>
     </div>
