@@ -140,6 +140,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   };
 
   const handleSendChangeableComment = (event: any) => {
+    setPreloader(true);
     if (changeableComment.text.trim().length) {
       const newChangeableComment = {
         text: changeableComment.text.replace(/<(.+?)>/g, '&lt;$1&gt;'),
