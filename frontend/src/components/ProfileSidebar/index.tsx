@@ -27,7 +27,7 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
 
   return (
     <div className={styles.profile_sidebar_container}>
-      {userLoading ? (
+      {!userLoading ? (
         <div className={styles.top_group}>
           <div className={styles.avatar_and_name_group}>
             <Link to={`/user/${id}`}>
@@ -81,7 +81,7 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
         </div>
       )}
       <div className={styles.sidebar_links}>
-        {userLoading ? (
+        {!userLoading ? (
           <div>
             <Link to="/my/posts">
               <DraftSvg />

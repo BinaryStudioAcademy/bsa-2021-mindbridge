@@ -32,7 +32,7 @@ const HistorySidebar: FunctionComponent<IProfileSidebarProps> = ({ history, post
           <span>History of your post</span>
         </Link>
       </div>
-      {userLoading ? (
+      {!userLoading ? (
         <div className={styles.history_links}>
           {links}
         </div>
