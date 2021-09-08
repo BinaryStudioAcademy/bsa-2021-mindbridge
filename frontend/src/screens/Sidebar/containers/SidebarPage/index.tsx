@@ -33,7 +33,7 @@ interface IState {
 }
 
 interface IActions {
-  fetchPostContributions: IBindingCallback1<string>;
+  fetchPostContributions: IBindingCallback1<any>;
   fetchUserProfile: IBindingCallback1<string>;
   getPostVersions: IBindingCallback1<object>;
   loadCurrentUser: IBindingAction;
@@ -75,7 +75,7 @@ const Sidebar: React.FC<ISidebarProps> = (
   useEffect(() => {
     if (postId) {
       getPostVersions({ postId });
-      fetchPostContributions(postId);
+      fetchPostContributions({ postId });
     }
   }, [postId]);
 
@@ -176,7 +176,7 @@ const mapStateToProps: (state) => IState = state => ({
 const mapDispatchToProps: IActions = {
   getPostVersions: getPostVersionsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
-  fetchPostContributions: fetchOpenPostContributionsRoutine,
+  fetchPostContributions: fetchPostContributionsRoutine,
   loadCurrentUser: loadCurrentUserRoutine
 };
 

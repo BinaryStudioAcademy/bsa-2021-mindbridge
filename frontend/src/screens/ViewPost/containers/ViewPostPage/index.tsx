@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
@@ -29,6 +29,7 @@ import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
+import ScrollUpSvg from '../../components/svgs/SvgComponents/scrollUpSvg';
 import { getUserIpRoutine, savePostViewRoutine } from '@root/screens/Login/routines';
 
 export interface IViewPostProps extends IState, IActions {
@@ -92,6 +93,7 @@ const ViewPost: React.FC<IViewPostProps> = (
     sendingEditComment
   }
 ) => {
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const { postId } = useParams();
   const history = useHistory();
 
@@ -224,10 +226,17 @@ const ViewPost: React.FC<IViewPostProps> = (
     }
   };
 
+  const halfHeightOfTheScreen = document.documentElement.clientHeight / 2;
+
+  window.addEventListener('scroll', () => {
+    setShowScrollButton(window.scrollY > halfHeightOfTheScreen);
+  });
+
   return (
     <div className={styles.viewPost}>
       <div className={styles.main}>
         <ViewPostCard
+          className={styles.post_card}
           post={data.post}
           handleLikePost={handleLikePost}
           handleDisLikePost={handleDisLikePost}
@@ -248,6 +257,12 @@ const ViewPost: React.FC<IViewPostProps> = (
           resetSendingComment={resetSendingComment}
           sendingEditComment={sendingEditComment}
         />
+        {showScrollButton
+          && (
+          <button className={styles.scrollToTopButton} aria-label="scrollTop" type="button" onClick={scrollToTop}>
+            <ScrollUpSvg />
+          </button>
+          )}
       </div>
     </div>
   );

@@ -23,6 +23,7 @@ import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
 import { IComments } from '@screens/ViewPost/models/IComments';
 import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
+import classNames from 'classnames';
 import { IBindingAction } from '@models/Callbacks';
 
 interface IBasicCommentProps {
@@ -87,6 +88,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   const [rotateArrowHook, setRotateArrowHook] = useState(false);
   const [shouldRender] = useState(setShouldRender);
   const [editMode, setEditMode] = useState(false);
+  const [highlight, setHighlight] = useState(false);
   const [preloader, setPreloader] = useState(false);
 
   useEffect(() => {
@@ -104,6 +106,12 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     transition: 'transform 300ms ease'
   };
   configureAnchors({ offset: -90, scrollDuration: 500 });
+  useEffect(() => {
+    if (window.location.toString().split('#')[1]
+    && window.location.toString().split('#')[1] === comment.id) {
+      setHighlight(true);
+    }
+  }, [window.location]);
 
   const handleClick = () => {
     handleIsOpenedComment();
@@ -183,7 +191,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
 
   return (
     <ScrollableAnchor id={commentId}>
-      <div className={styles.advancedComment}>
+      <div className={highlight ? classNames(styles.advancedComment, styles.highlight) : styles.advancedComment}>
         <div className={styles.header}>
           {shouldRenderArrowCloseComment && (
             <button
