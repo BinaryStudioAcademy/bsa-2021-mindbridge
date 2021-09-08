@@ -5,18 +5,19 @@ import { IBindingAction } from '@root/models/Callbacks';
 import { RootState } from '@root/store';
 import { connect } from 'react-redux';
 import { fetchAllUsersNumberRoutine } from '@root/screens/FeedPage/routines';
+
 export interface IFeedLoginSidebarProps extends IState, IActions {
 }
 
 interface IState {
-  numberOfAllUser: number;
+  numberOfAllUsers: number;
 }
 
 interface IActions {
   getNumberOfAllUsers: IBindingAction;
 }
 
-const FeedLogInSidebar: FunctionComponent<IFeedLoginSidebarProps> = ({numberOfAllUser, getNumberOfAllUsers}) => {
+const FeedLogInSidebar: FunctionComponent<IFeedLoginSidebarProps> = ({ numberOfAllUsers, getNumberOfAllUsers }) => {
   const history = useHistory();
 
   useEffect(() => {
@@ -34,7 +35,11 @@ const FeedLogInSidebar: FunctionComponent<IFeedLoginSidebarProps> = ({numberOfAl
   return (
     <div className={styles.logInSideBar}>
       <div className={styles.title}>
-        `MindBridge is a community of ${numberOfAllUser} amazing developers`
+        MindBridge is a community of
+        {' '}
+        {new Intl.NumberFormat().format(numberOfAllUsers)}
+        {' '}
+        amazing developers
       </div>
       <div className={styles.description}>
         We&apos;re a place where coders share, stay up-to-date and grow their careers.
@@ -50,11 +55,11 @@ const FeedLogInSidebar: FunctionComponent<IFeedLoginSidebarProps> = ({numberOfAl
 };
 
 const mapStateToProps: (state: RootState) => IState = state => ({
-  numberOfAllUser: state.feedPageReducer.data.numberOfAllUsers
+  numberOfAllUsers: state.feedPageReducer.data.numberOfAllUsers
 });
 
 const mapDispatchToProps: IActions = {
   getNumberOfAllUsers: fetchAllUsersNumberRoutine
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedLogInSidebar);

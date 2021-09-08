@@ -269,4 +269,7 @@ public class UserService implements UserDetailsService {
 		return allUser.stream().map(UserMapper.MAPPER::userToUserMentionsDto).collect(Collectors.toList());
 	}
 
+  public long getAllUsersCount() {
+		return userRepository.count();
+  }
 }
