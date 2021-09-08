@@ -1,9 +1,6 @@
 .postVersions {
   min-width: 43.75em;
 
-  h3 {
-    margin-bottom: 1.5rem;
-  }
   .postName {
     margin: 1rem 0 0.8rem 0;
     font-family: Libre Baskerville, sans-serif;
@@ -25,4 +22,13 @@
     margin-top: 2.7vw;
     margin-bottom: 2em;
   }
+}
+
+.pageTitle {
+  font-family: Lato Bolt, sans-serif;
+  font-weight: 500;
+  font-size: 2em;
+  line-height: 1em;
+  color: #282828;
+  margin-bottom: 1em;
 }

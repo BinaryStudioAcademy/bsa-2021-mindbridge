@@ -8,6 +8,8 @@ import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
 import { IPostPR } from '@root/screens/PullRequest/models/IPostPR';
 import { fetchMyPullRequestsRoutine } from '@root/screens/PullRequest/routines';
 import MyContributionItem from '@root/components/MyContributionsItem';
+import { isEmptyArray } from 'formik';
+import NotFoundContent from '@components/NotFoundContetn';
 
 export interface IMyContributionsProps extends IState, IActions {
 }
@@ -42,21 +44,22 @@ const MyContributions: React.FC<IMyContributionsProps> = (
   return (
     <div className={styles.postVersions}>
       <div className={styles.main}>
-        <h3>
+        <p className={styles.pageTitle}>
           Your contributions
-        </h3>
-        {
-          contributionsOfAuthor.map(contribution => (
-            <MyContributionItem
-              key={contribution.id}
-              contribution={contribution}
-            />
-          ))
-        }
-        {!contributionsOfAuthor && (
-          <p>
-            🔍 Seems like there are no result...
-          </p>
+        </p>
+        {!isEmptyArray(contributionsOfAuthor) ? (
+          <div>
+            {
+            contributionsOfAuthor.map(contribution => (
+              <MyContributionItem
+                key={contribution.id}
+                contribution={contribution}
+              />
+            ))
+          }
+          </div>
+        ) : (
+          <NotFoundContent description="Contributions list is empty" />
         )}
       </div>
     </div>
