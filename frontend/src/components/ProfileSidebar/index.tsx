@@ -81,7 +81,7 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
           <HighlightsSvg />
           <span>Highlights</span>
         </Link>
-        <Link to="/">
+        <Link to="/my/posts/contributions">
           <PostsSvg />
           <span>Suggested changes</span>
           <div className={postNotificationCount ? styles.post_notification_count : styles.invisible}>
