@@ -46,7 +46,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({
     width: 30,
     height: 20,
     display: 'inline-block',
-    borderRadius: '.28571429rem',
+    borderRadius: '.28571429rem'
   };
 
   const iconPlaceholderStyle = {
