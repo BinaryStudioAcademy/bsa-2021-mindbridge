@@ -186,7 +186,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
             <Feed>
               <div className={styles.gridColumn}>
                 <div className={styles.leftSide}>
-                  <div className={styles.bgCircle}>
+                  <div className={!post.draft ? styles.bgCircle : styles.hiddenElement}>
                     <div className={styles.ratingComponent}>
                       <RatingComponent
                         postRating={post.rating}
@@ -207,13 +207,13 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                       />
                     </div>
                   </div>
-                  <div className={styles.bgCircle}>
+                  <div className={!post.draft ? styles.bgCircle : styles.hiddenElement}>
                     <FavouriteSvg handleFavouriteAction={getFavouriteAction} isFavourite={post.isFavourite} />
                   </div>
-                  <div className={styles.bgCircle}>
+                  <div className={!post.draft ? styles.bgCircle : styles.hiddenElement}>
                     <CommentSvg />
                   </div>
-                  <div className={styles.bgCircle}>
+                  <div className={!post.draft ? styles.bgCircle : styles.hiddenElement}>
                     <SharePopup
                       triggerContent={(
                         <CopyToClipboard text={`${window.location.href}`}>
@@ -270,23 +270,27 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
             </div>
           </Card.Content>
         </div>
-        { post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} /> }
-        <AdvancedCommentsFeed
-          comments={post.comments}
-          sendComment={sendComment}
-          sendReply={sendReply}
-          postId={post.id}
-          postAuthorId={post.author.id}
-          userInfo={userInfo}
-          isAuthorized={isAuthorized}
-          handleDislikeComment={handleDislikeComment}
-          handleLikeComment={handleLikeComment}
-          users={users}
-          searchUsersByNickname={searchUsersByNickname}
-          editComment={editComment}
-          resetSendingComment={resetSendingComment}
-          sendingEditComment={sendingEditComment}
-        />
+        {!post.draft && (
+          <div>
+            { post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} /> }
+            <AdvancedCommentsFeed
+              comments={post.comments}
+              sendComment={sendComment}
+              sendReply={sendReply}
+              postId={post.id}
+              postAuthorId={post.author.id}
+              userInfo={userInfo}
+              isAuthorized={isAuthorized}
+              handleDislikeComment={handleDislikeComment}
+              handleLikeComment={handleLikeComment}
+              users={users}
+              searchUsersByNickname={searchUsersByNickname}
+              editComment={editComment}
+              resetSendingComment={resetSendingComment}
+              sendingEditComment={sendingEditComment}
+            />
+          </div>
+        )}
       </Card>
     </div>
   );
