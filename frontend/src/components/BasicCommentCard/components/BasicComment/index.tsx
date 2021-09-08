@@ -13,12 +13,11 @@ import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { IEditPrComment } from '@screens/PullRequest/models/IEditPrComment';
 import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { useDebouncedCallback } from 'use-debounce';
-import { MentionsInput, Mention } from 'react-mentions';
+import { Mention, MentionsInput } from 'react-mentions';
 import provideValue from '../PrMentition/provideValue';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import mentionInputStyle from './mentionInputStyle.module.scss';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
-import LoaderWrapper from '@components/LoaderWrapper';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -50,52 +49,39 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
   sendingEditPrComment
 }) => {
   const [editMode, setEditMode] = useState(false);
-  const [isLoadCommentContent, setIsLoadCommentContent] = useState(false);
   const [preloader, setPreloader] = useState(false);
   const [changeablePrComment, setChangeablePrComment] = useState<IEditPrComment>({
     text,
     prCommentId: '',
     sendingEditCommentStatus: false
   });
+
   const [usersList, setUsersList] = useState({
     user: [{
       display: '',
       id: ''
     }]
   });
-
   useEffect(() => {
     if (sendingEditPrComment) {
       setPreloader(false);
       resetSendingPrComment();
+      setEditMode(false);
     }
   });
 
-  const debouncedLoadCommentContent = useDebouncedCallback(() => {
-    setIsLoadCommentContent(!isLoadCommentContent);
-  }, 500);
-
   const checkForNickname = (textComment: string) => {
     const commentText = textComment || changeablePrComment.text;
-    const content = commentText.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
-    if (isLoadCommentContent) {
-      debouncedLoadCommentContent();
-    }
-    return content;
+    return commentText.replace(/@\[([^()]+)\]\(([^()]+)\)/g, '<a href=/user/$2>$1</a>');
   };
 
   const getLinkToComment = (url: string) => url.split('#')[0];
-
   const handleEditPrComment = (event: any) => {
     setChangeablePrComment({
       ...changeablePrComment,
       text: event.target.value
     });
   };
-
-  const sendEditCommentDebounced = useDebouncedCallback(() => {
-    setEditMode(!editMode);
-  }, 400);
 
   const handleSendChangeablePrComment = (event: any) => {
     setPreloader(true);
@@ -105,7 +91,6 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
         prCommentId
       };
       editPrComment(comment);
-      sendEditCommentDebounced();
     }
   };
 
@@ -226,13 +211,7 @@ const BasicComment: FunctionComponent<IBasicCommentProps> = ({
           </div>
         ) : (
           <div>
-            {isLoadCommentContent ? (
-              <LoaderWrapper inline="centered" loading={isLoadCommentContent}>
-                {parse(checkForNickname(text))}
-              </LoaderWrapper>
-            ) : (
-              parse(checkForNickname(text))
-            )}
+            { parse(checkForNickname(text)) }
           </div>
         )}
       </div>
