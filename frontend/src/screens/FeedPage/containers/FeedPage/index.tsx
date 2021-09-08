@@ -67,6 +67,8 @@ const params = {
   userId: ''
 };
 
+const ENTER_CHAR_CODE = 13;
+
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
     currentUser, userInfo, likePost, searchTitlesByElastic, countResults,
@@ -162,16 +164,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
     }
   };
 
-  // if (dataLoading && !loadMore) {
-  //   return (
-  //     <div className={styles.feedPage}>
-  //       <div className={styles.main}>
-  //         <LoaderWrapper className={styles.loader} loading={dataLoading} />
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   const handleLinkClick = () => {
     setIsSearchInputFilled(false);
     searchTitlesByElastic('');
@@ -210,6 +202,14 @@ const FeedPage: React.FC<IFeedPageProps> = (
       />
     );
   }
+
+  const handleEnterDown = (event: any) => {
+    if (event.keyCode === ENTER_CHAR_CODE) {
+      setIsSearchInputFilled(false);
+      history.push(`/search?query=${elasticContent}`);
+    }
+  };
+
   return (
     <div className={styles.feedPage}>
       <div className={styles.searchTitle}>
@@ -220,6 +220,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
               placeholder="Search..."
               onChange={handleInputContent}
               value={elasticContent}
+              onKeyDown={handleEnterDown}
             />
             {isSearchInputFilled
             && <button type="button" className={styles.close_image} onClick={handleLinkClick}>✖</button>}

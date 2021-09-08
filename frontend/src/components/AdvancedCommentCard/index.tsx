@@ -4,6 +4,7 @@ import { IComments } from '@screens/ViewPost/models/IComments';
 import Reply from '@components/AdvancedCommentCard/Reply';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
+import { IBindingAction } from '@models/Callbacks';
 
 interface ICommentProps {
   comments: IComments[];
@@ -17,6 +18,9 @@ interface ICommentProps {
   handleDislikeComment: any;
   searchUsersByNickname: any;
   users: any;
+  editComment: any;
+  resetSendingComment: IBindingAction;
+  sendingEditComment: boolean;
 }
 
 const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
@@ -31,7 +35,10 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
     handleLikeComment,
     handleDislikeComment,
     searchUsersByNickname,
-    users
+    users,
+    editComment,
+    resetSendingComment,
+    sendingEditComment
   }
 ) => {
   function getMaximumCommentsFoldCount(commentsDepth, foldCount = 0) {
@@ -64,6 +71,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
           postId={postId}
           searchUsersByNickname={searchUsersByNickname}
           users={users}
+          editMode={false}
         />
       ) : (
         <div className={styles.nonAuthorizedHeading}>
@@ -84,6 +92,7 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
                 depthOfComments={0}
                 postAuthorId={postAuthorId}
                 createdAt={comment.createdAt}
+                updatedAt={comment.updatedAt}
                 text={comment.text}
                 author={comment.author}
                 replies={comment.comments}
@@ -103,6 +112,9 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
                 handleLikeComment={handleLikeComment}
                 users={users}
                 searchUsersByNickname={searchUsersByNickname}
+                editComment={editComment}
+                resetSendingComment={resetSendingComment}
+                sendingEditComment={sendingEditComment}
               />
             ))}
           </div>

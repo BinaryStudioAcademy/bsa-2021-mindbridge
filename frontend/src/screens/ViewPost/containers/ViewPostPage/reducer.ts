@@ -4,7 +4,7 @@ import {
   fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
-  sendReplyRoutine
+  sendReplyRoutine, editCommentRoutine, resetSendingEditCommentStatusRoutine
 } from '@screens/ViewPost/routines';
 import { IPost } from '../../models/IPost';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
@@ -13,13 +13,16 @@ import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 import { IUsers } from '@screens/ViewPost/models/IUsers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
+import { IEditComment } from '@screens/ViewPost/models/IEditComment';
 
 export interface IViewPostReducerState {
   post: IPost;
   comment: IComment;
+  editComment: IEditComment;
   reply: ICommentReply;
   highlights: IHighlight[];
   users: IMentionsUser[];
+  endSendingData: boolean;
 }
 
 const initialState: IViewPostReducerState = {
@@ -49,7 +52,8 @@ const initialState: IViewPostReducerState = {
     reacted: false,
     relatedPosts: [],
     comments: [],
-    isFavourite: false
+    isFavourite: false,
+    postViewsNumber: 0
   },
   highlights: undefined,
   comment: {
@@ -69,7 +73,13 @@ const initialState: IViewPostReducerState = {
     nickname: '',
     rating: 0
   },
-  users: []
+  users: [],
+  endSendingData: false,
+  editComment: {
+    commentId: '',
+    text: '',
+    sendingEditCommentStatus: false
+  }
 };
 
 const findById = (id, comments, idx = 0) => {
@@ -121,7 +131,10 @@ export const viewPostReducer = createReducer(initialState, {
     const message = findById(action.payload.comment.id, state.post.comments);
     message.comments.unshift(action.payload);
   },
-
+  [editCommentRoutine.SUCCESS]: (state, action) => {
+    const message = findById(action.payload.id, state.post.comments);
+    message.text = action.payload.text;
+  },
   [leaveReactionOnCommentRoutine.SUCCESS]: (state, action) => {
     const { response, reactionStatus } = action.payload;
     const message = findById(action.payload.commentId, state.post.comments);
@@ -147,5 +160,11 @@ export const viewPostReducer = createReducer(initialState, {
   },
   [deleteFavouritePostRoutine.TRIGGER]: state => {
     state.post.isFavourite = false;
+  },
+  [editCommentRoutine.FULFILL]: state => {
+    state.endSendingData = true;
+  },
+  [resetSendingEditCommentStatusRoutine.TRIGGER]: state => {
+    state.endSendingData = false;
   }
 });

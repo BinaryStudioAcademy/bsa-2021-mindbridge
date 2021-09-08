@@ -6,11 +6,14 @@
   display: inline-block;
   width: 0.7142em;
 }
+
 .mentions--singleLine .mentions__highlighter {
   border: 0.14285em inset transparent;
 }
+
 .mentions--singleLine .mentions__input {
   border: 0.14285em inset;
+  height: 8em;
 }
 
 .mentions--multiLine .mentions__control {
@@ -18,24 +21,30 @@
   font-size: 1em;
   line-height: 1.2em;
 }
+
 .mentions--multiLine .mentions__highlighter {
   border: 0.07142em solid transparent;
-  min-height: 4.5em;
-
+  min-height: 8.35em;
+  max-height: 8.35em;
 }
+
 .mentions--multiLine .mentions__input {
   border: none;
   background-color: #F3F9FE !important;
   border-radius: 0.3125em;
+  margin-right: 1em;
   padding: 0.6428em;
   outline: 0;
+  font-size: 12pt !important;
+  overflow-y: scroll !important;
+  max-width: 100% !important;
 }
 
 .mentions__suggestions__list {
   border: 0.07142em solid rgba(0, 0, 0, 0.15);
   font-size: 10pt;
   overflow-y: scroll;
-  max-height: 16em;
+  max-height: 8em;
   border-radius: 0.32em;
 }
 
@@ -45,7 +54,8 @@
 }
 
 .mentions__suggestions__item--focused {
-  background-color:  #F3F9FE;
+  background-color: #F3F9FE;
+
 }
 
 .buttonSend {

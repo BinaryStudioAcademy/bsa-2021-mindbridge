@@ -3,7 +3,7 @@ import {
   editPrRoutine,
   closePrRoutine,
   acceptPrRoutine,
-  fetchPrRoutine, sendCommentPrRoutine
+  fetchPrRoutine, sendCommentPrRoutine, editPrCommentRoutine
 }
   from '../../routines/index';
 import { toastr } from 'react-redux-toastr';
@@ -85,6 +85,22 @@ function* sendCommentToPr(action) {
   }
 }
 
+function* sendEditPrComment(action) {
+  try {
+    const response = yield call(pullRequestService.editPrComment, action.payload);
+    const editPrComment = {
+      response,
+      editText: action.payload.text,
+      id: action.payload.prCommentId
+    };
+    yield put(editPrCommentRoutine.success(editPrComment));
+  } catch (error) {
+    yield put(editPrCommentRoutine.failure(error?.message));
+  } finally {
+    yield put(editPrCommentRoutine.fulfill());
+  }
+}
+
 function* watchGetPrRequest() {
   yield takeEvery(fetchPrRoutine.TRIGGER, fetchPR);
 }
@@ -109,6 +125,10 @@ function* watchSendCommentToPrRequest() {
   yield takeEvery(sendCommentPrRoutine, sendCommentToPr);
 }
 
+function* watchSendEditPrComment() {
+  yield takeEvery(editPrCommentRoutine, sendEditPrComment);
+}
+
 export default function* pullRequestPageSagas() {
   yield all([
     watchGetPrRequest(),
@@ -116,6 +136,7 @@ export default function* pullRequestPageSagas() {
     watchAcceptPrRequest(),
     watchEditPrRequest(),
     watchFetchMyPullRequestsRequest(),
-    watchSendCommentToPrRequest()
+    watchSendCommentToPrRequest(),
+    watchSendEditPrComment()
   ]);
 }

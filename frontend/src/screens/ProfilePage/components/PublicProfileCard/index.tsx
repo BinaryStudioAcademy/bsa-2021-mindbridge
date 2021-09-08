@@ -20,6 +20,8 @@ import ScrollRightSvg from './svg/scrollRightSvg';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
+import FollowersModal from '@screens/ProfilePage/components/FollowersModal';
+import classNames from 'classnames';
 import DarkButton from '@components/buttons/DarcButton';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
 
@@ -43,6 +45,8 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
   { user, isUserLoaded, currentUser, toggleFollowUser, isToggleFollowLoading, achievements, fetchAchievements }
 ) => {
   const [userData, setUserData] = useState(user);
+  const [isModalFollowersOpen, setIsModalFollowersOpen] = useState(false);
+  const [isModalFollowingOpen, setIsModalFollowingOpen] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -95,6 +99,13 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
     <div className={styles.viewCard}>
       {isUserLoaded ? (
         <div className={styles.contentWrp}>
+          <FollowersModal
+            followers={isModalFollowersOpen ? (user.followers) : (user.following)}
+            setIsModalFollowersOpen={setIsModalFollowersOpen}
+            isModalFollowersOpen={isModalFollowersOpen}
+            setIsModalFollowingOpen={setIsModalFollowingOpen}
+            isModalFollowingOpen={isModalFollowingOpen}
+          />
           <div className={styles.avatarWrp}>
             <div className={styles.imgContainer}>
               { (userData.avatar === '' || userData.avatar === null) ? (
@@ -145,7 +156,8 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
                   </span>
                 </div>
               </div>
-              <div className={styles.statCell}>
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+              <div className={classNames(styles.statCell, styles.followersNumber)} onClick={() => setIsModalFollowersOpen(true)}>
                 <FollowersSvg />
                 <div className={styles.statInfo}>
                   <span className={styles.statNumber}>
@@ -153,6 +165,18 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
                   </span>
                   <span>
                     followers
+                  </span>
+                </div>
+              </div>
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+              <div className={classNames(styles.statCell, styles.followersNumber)} onClick={() => setIsModalFollowingOpen(true)}>
+                <FollowersSvg />
+                <div className={styles.statInfo}>
+                  <span className={styles.statNumber}>
+                    {userData.followingQuantity}
+                  </span>
+                  <span>
+                    following
                   </span>
                 </div>
               </div>

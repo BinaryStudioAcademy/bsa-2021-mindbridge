@@ -16,7 +16,7 @@ import { extractFetchFavouritePostsLoading } from '@screens/FavouritesPage/reduc
 import LoaderWrapper from '@components/LoaderWrapper';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { isEmptyArray } from 'formik';
-import NoResultsSvg from '@components/svgs/NoResultsSvg';
+import NotFoundContent from '@components/NotFoundContetn';
 
 export interface IFavouritesPageProps extends IState, IActions {
   userInfo: IUserProfile;
@@ -105,12 +105,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
             />
           ))
         ) : (
-          <div className={styles.emptyFavourites}>
-            <NoResultsSvg width="35%" height="35%" />
-            <p className={styles.emptyLabel}>
-              Favourites list is empty
-            </p>
-          </div>
+          <NotFoundContent description="Favourites list is empty" />
         )}
       </InfiniteScroll>
     </div>

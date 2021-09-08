@@ -1,9 +1,8 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
-import DarkBorderButton from '@components/buttons/DarcBorderButton';
 import Reply from '@components/BasicCommentCard/components/Reply';
 import { IComments } from '@screens/PullRequest/models/IComments';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUser } from '@screens/PullRequest/models/IUser';
 import UserPrMentions from '@components/BasicCommentCard/components/PrMentition/mentition';
@@ -17,6 +16,9 @@ interface ICommentProps {
   author: IUser;
   searchUsersByNickname: any;
   users: IMentionsUser[];
+  editPrComment: IBindingCallback1<object>;
+  resetSendingPrComment: IBindingAction;
+  sendingEditPrComment: boolean;
 }
 
 const BasicCommentsFeed: FunctionComponent<ICommentProps> = ({
@@ -25,7 +27,10 @@ const BasicCommentsFeed: FunctionComponent<ICommentProps> = ({
   userInfo,
   prId,
   users,
-  searchUsersByNickname
+  searchUsersByNickname,
+  editPrComment,
+  resetSendingPrComment,
+  sendingEditPrComment
 }) => (
   <div className={styles.main}>
     <p className={styles.commentCounter}>
@@ -35,20 +40,30 @@ const BasicCommentsFeed: FunctionComponent<ICommentProps> = ({
       )
       {' '}
     </p>
+    {comments.length > 0 && (
     <div className="ui comments">
       <div className="comment">
-        {comments.map(comment => (
-          <Reply
-            createdAt={comment.createdAt}
-            text={comment.text}
-            author={comment.author}
-            prCommentId={comment.id}
-            userInfo={userInfo}
-            sendCommentPR={sendCommentPR}
-          />
-        ))}
+        <div>
+          {comments.map(comment => (
+            <Reply
+              createdAt={comment.createdAt}
+              text={comment.text}
+              updatedAt={comment.updatedAt}
+              author={comment.author}
+              prCommentId={comment.id}
+              userInfo={userInfo}
+              sendCommentPR={sendCommentPR}
+              editPrComment={editPrComment}
+              users={users}
+              searchUsersByNickname={searchUsersByNickname}
+              resetSendingPrComment={resetSendingPrComment}
+              sendingEditPrComment={sendingEditPrComment}
+            />
+          ))}
+        </div>
       </div>
     </div>
+    )}
     <UserPrMentions
       userInfo={userInfo}
       prId={prId}

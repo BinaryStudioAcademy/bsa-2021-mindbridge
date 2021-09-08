@@ -86,6 +86,10 @@ public class PostPRService {
 		if (userDto.getId() == postPR.getContributor().getId()
 				|| userDto.getId() == postPR.getPost().getAuthor().getId()) {
 			postPRRepository.setPRClosed(prId);
+			notificationService.createNotification(postPR.getContributor().getId(),
+				userDto.getNickname(),
+				prId,
+				Notification.Type.PRClosed);
 			return true;
 		}
 		else
@@ -100,6 +104,10 @@ public class PostPRService {
 			EditPostDto editPostDto = EditPostDto.fromPostPR(postPR);
 			postService.editPost(editPostDto);
 			postPRRepository.setPRAccepted(id);
+			notificationService.createNotification(postPR.getContributor().getId(),
+				userDto.getNickname(),
+				id,
+				Notification.Type.PRAccepted);
 			achievementHelper.checkAcceptedPRsCount(postPR.getContributor());
 			return true;
 		}
@@ -138,4 +146,9 @@ public class PostPRService {
 				.map(PostPRMapper.MAPPER::postPRToPostPRDetailsDto).collect(Collectors.toList());
 	}
 
+	public List<PostPRListDto> getPostPRByPostsAuthorId(UUID id, Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+		return postPRRepository.getPostPRByPostAuthorId(id, pageable).stream()
+			.map(PostPRMapper.MAPPER::postPRToPostPRList).collect(Collectors.toList());
+	}
 }

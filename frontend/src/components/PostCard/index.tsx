@@ -95,11 +95,7 @@ const PostCard: FunctionComponent<IPostCardProps> = ({
                     : ('#66B9FF')
                 }
                 />
-                <FavouriteSvg
-                  handleFavouriteAction={getFavouriteAction}
-                  color={post.isFavourite
-                    ? 'green' : '#66B9FF'}
-                />
+                <FavouriteSvg handleFavouriteAction={getFavouriteAction} isFavourite={post.isFavourite} />
               </div>
             </div>
           ) : (

@@ -8,8 +8,9 @@ import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import {
   acceptPrRoutine,
   closePrRoutine,
+  editPrCommentRoutine,
   fetchPrRoutine,
-  resetEndSendingDataRoutine,
+  resetEndSendingDataRoutine, resetSendingEditCommentStatusRoutine,
   sendCommentPrRoutine
 } from '../../routines';
 import TextDiff from '@root/components/TextDiff';
@@ -40,6 +41,7 @@ interface IState {
   postPR: IPostPR;
   endSendingDada: boolean;
   users: IMentionsUser[];
+  sendingEditPrComment: boolean;
 }
 
 interface IActions {
@@ -49,6 +51,8 @@ interface IActions {
   acceptPR: IBindingCallback1<IPostPR>;
   sendCommentPR: IBindingCallback1<object>;
   searchUsersByNickname: IBindingCallback1<string>;
+  editPrComment: IBindingCallback1<object>;
+  resetSendingPrComment: IBindingAction;
 }
 
 const PullRequest: React.FC<IPullRequestProps> = (
@@ -61,7 +65,10 @@ const PullRequest: React.FC<IPullRequestProps> = (
     endSendingDada,
     sendCommentPR,
     users,
-    searchUsersByNickname
+    searchUsersByNickname,
+    editPrComment,
+    resetSendingPrComment,
+    sendingEditPrComment
   }
 ) => {
   const { id } = useParams();
@@ -276,6 +283,9 @@ const PullRequest: React.FC<IPullRequestProps> = (
           author={postPR.post.author}
           users={users}
           searchUsersByNickname={searchUsersByNickname}
+          editPrComment={editPrComment}
+          resetSendingPrComment={resetSendingPrComment}
+          sendingEditPrComment={sendingEditPrComment}
         />
       </div>
     </div>
@@ -286,7 +296,8 @@ const mapStateToProps: (state) => IState = state => ({
   currentUser: state.auth.auth.user,
   postPR: state.pullRequestReducer.data.postPR,
   endSendingDada: state.pullRequestReducer.data.endSendingData,
-  users: extractData(state).users
+  users: extractData(state).users,
+  sendingEditPrComment: state.pullRequestReducer.data.endSendingData
 });
 
 const mapDispatchToProps: IActions = {
@@ -295,7 +306,9 @@ const mapDispatchToProps: IActions = {
   closePR: closePrRoutine,
   resetEndSendingDada: resetEndSendingDataRoutine,
   acceptPR: acceptPrRoutine,
-  searchUsersByNickname: searchUserByNicknameRoutine
+  searchUsersByNickname: searchUserByNicknameRoutine,
+  editPrComment: editPrCommentRoutine,
+  resetSendingPrComment: resetSendingEditCommentStatusRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PullRequest);

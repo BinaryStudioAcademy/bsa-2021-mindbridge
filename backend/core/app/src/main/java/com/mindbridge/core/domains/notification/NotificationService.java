@@ -1,5 +1,6 @@
 package com.mindbridge.core.domains.notification;
 
+import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.notification.dto.CreateNotificationDto;
 import com.mindbridge.core.domains.notification.dto.NotificationDto;
 import com.mindbridge.core.domains.user.UserService;
@@ -29,14 +30,17 @@ public class NotificationService {
 
 	private final FollowerRepository followerRepository;
 
+	private final CommentService commentService;
+
 	@Lazy
 	@Autowired
 	public NotificationService(NotificationRepository notificationRepository, SimpMessagingTemplate template,
-							   UserService userService, FollowerRepository followerRepository) {
+							   UserService userService, FollowerRepository followerRepository, CommentService commentService) {
 		this.notificationRepository = notificationRepository;
 		this.template = template;
 		this.userService = userService;
 		this.followerRepository = followerRepository;
+		this.commentService = commentService;
 	}
 
 	public long getNotificationCount(UUID userId) {
@@ -68,7 +72,37 @@ public class NotificationService {
 				createNotificationDto.setType("newFollower");
 				break;
 			}
-			case newAchievement:{
+			case PRClosed: {
+				description = authorNicknameOrAwardTitle + " closed your pull request";
+				destination = "PRClosed";
+				createNotificationDto.setType("PRClosed");
+				break;
+			}
+			case PRAccepted: {
+				description = authorNicknameOrAwardTitle + " accepted your pull request";
+				destination = "PRAccepted";
+				createNotificationDto.setType("PRAccepted");
+				break;
+			}
+			case newComment: {
+				description = authorNicknameOrAwardTitle + " commented your post";
+				destination = "newComment";
+				createNotificationDto.setType("newComment");
+				break;
+			}
+			case newReply: {
+				description = authorNicknameOrAwardTitle + " replied on your comment";
+				destination = "newReply";
+				createNotificationDto.setType("newReply");
+				break;
+			}
+			case newMention: {
+				description = authorNicknameOrAwardTitle + " mentioned you in comment";
+				destination = "newMention";
+				createNotificationDto.setType("newMention");
+				break;
+			}
+			case newAchievement: {
 				description = "Congratulations! You get a new award. "
 				+ "\"" + authorNicknameOrAwardTitle + "\"";
 				destination = "newAchievement";
@@ -102,14 +136,21 @@ public class NotificationService {
 
 	public List<NotificationDto> getNotificationList(UUID userId, Boolean onlyUnread, Integer from, Integer count) {
 		var pageable = PageRequest.of(from / count, count);
+		List<NotificationDto> list;
 		if (onlyUnread) {
-			return notificationRepository.getUnreadNotificationList(userId, pageable).stream()
-					.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+			list = notificationRepository.getUnreadNotificationList(userId, pageable).stream()
+				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+		} else {
+			list = notificationRepository.getNotificationList(userId, pageable).stream()
+				.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
 		}
-		else {
-			return notificationRepository.getNotificationList(userId, pageable).stream()
-					.map(NotificationMapper.MAPPER::notificationToNotificationDto).collect(Collectors.toList());
+		for (NotificationDto notif : list) {
+			if (notif.getType().equals("newReply") || notif.getType().equals("newComment") || notif.getType().equals("newMention")) {
+				notif.setSourceId(commentService.getCommentById(UUID.fromString(notif.getSourceId())).getPostId().toString() + "#" + notif.getSourceId());
+			}
 		}
+
+		return list;
 	}
 
 	public void toggleNotificationRead(UUID id) {

@@ -1,4 +1,5 @@
 import {
+  getUserIpRoutine,
   loadCurrentUserRoutine,
   loginRoutine,
   registerRoutine,
@@ -23,7 +24,8 @@ const initialState: IDataAuth = {
     postsQuantity: 0,
     followersQuantity: 0,
     rating: 0
-  }
+  },
+  userIp: ''
 };
 
 export const authReducer = createReducer(initialState, {
@@ -51,5 +53,9 @@ export const authReducer = createReducer(initialState, {
   },
   [loadCurrentUserRoutine.SUCCESS]: (state, { payload }: PayloadAction<ICurrentUser>) => {
     state.user = payload;
+    state.userIp = '';
+  },
+  [getUserIpRoutine.SUCCESS]: (state, { payload }: PayloadAction<string>) => {
+    state.userIp = payload;
   }
 });

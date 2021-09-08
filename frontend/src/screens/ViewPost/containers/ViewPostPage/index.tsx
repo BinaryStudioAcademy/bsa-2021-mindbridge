@@ -1,40 +1,50 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
 import {
-  fetchDataRoutine, leaveReactionOnCommentRoutine,
-  leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
+  fetchDataRoutine,
+  leaveReactionOnCommentRoutine,
+  leaveReactionOnPostViewPageRoutine,
+  searchUserByNicknameRoutine,
   sendCommentRoutine,
   sendReplyRoutine,
-  saveHighlightRoutine
+  saveHighlightRoutine,
+  editCommentRoutine, resetSendingEditCommentStatusRoutine
 } from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import { IData } from '@screens/ViewPost/models/IData';
 import { useParams, useHistory } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { deleteHighlightRoutine, fetchHighlightsRoutine,
-  fetchHighlightsWithoutPaginationRoutine } from '@screens/HighlightsPage/routines';
+import {
+  deleteHighlightRoutine,
+  fetchHighlightsRoutine,
+  fetchHighlightsWithoutPaginationRoutine
+} from '@screens/HighlightsPage/routines';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import LoaderWrapper from '@root/components/LoaderWrapper';
 import { extractHighlightDeletion } from '@screens/HighlightsPage/reducers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
+import { getUserIpRoutine, savePostViewRoutine } from '@root/screens/Login/routines';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
   currentUser: ICurrentUser;
   highlights: IHighlight[];
   userInfo: IUserProfile;
+  endSendingDada: boolean;
+  sendingEditComment: boolean;
 }
 
 interface IState {
   data: IData;
   dataDeleting: boolean;
   users: IMentionsUser[];
+  userIp: string;
 }
 
 interface IActions {
@@ -48,7 +58,11 @@ interface IActions {
   leaveReactionOnComment: IBindingCallback1<object>;
   searchUsersByNickname: IBindingCallback1<string>;
   saveFavouritePost: IBindingCallback1<object>;
+  getUserIp: IBindingAction;
+  savePostView: IBindingCallback1<{view: {userId: string; userIp: string; postId: string}}>;
   deleteFavouritePost: IBindingCallback1<object>;
+  editComment: IBindingCallback1<object>;
+  resetSendingComment: IBindingAction;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -68,12 +82,24 @@ const ViewPost: React.FC<IViewPostProps> = (
     leaveReactionOnComment,
     searchUsersByNickname,
     users,
+    editComment,
     saveFavouritePost,
-    deleteFavouritePost
+    deleteFavouritePost,
+    getUserIp,
+    savePostView,
+    userIp,
+    resetSendingComment,
+    sendingEditComment
   }
 ) => {
   const { postId } = useParams();
   const history = useHistory();
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      getUserIp();
+    }
+  });
 
   useEffect(() => {
     fetchData(postId);
@@ -86,6 +112,12 @@ const ViewPost: React.FC<IViewPostProps> = (
   useEffect(() => {
     scrollToTop();
   }, [data.post.id]);
+
+  useEffect(() => {
+    if ((data.post.author.id !== currentUser.id) && (postId === data.post.id) && (isAuthorized || userIp)) {
+      savePostView({ view: { userId: currentUser.id, userIp, postId } });
+    }
+  }, [postId, userIp, isAuthorized, data.post.id]);
 
   useEffect(() => {
     if (currentUser.id) {
@@ -213,6 +245,9 @@ const ViewPost: React.FC<IViewPostProps> = (
           postId={postId}
           searchUsersByNickname={searchUsersByNickname}
           handleFavouriteAction={handleFavouriteAction}
+          editComment={editComment}
+          resetSendingComment={resetSendingComment}
+          sendingEditComment={sendingEditComment}
         />
       </div>
     </div>
@@ -227,12 +262,15 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   userInfo: state.postPageReducer.data.profile,
   highlights: state.highlightsReducer.data.highlights,
   dataDeleting: extractHighlightDeletion(state),
-  users: extractData(state).users
+  users: extractData(state).users,
+  userIp: state.auth.auth.userIp,
+  sendingEditComment: state.viewPostReducer.data.endSendingData
 });
 
 const mapDispatchToProps: IActions = {
   sendComment: sendCommentRoutine,
   sendReply: sendReplyRoutine,
+  editComment: editCommentRoutine,
   fetchData: fetchDataRoutine,
   leaveReaction: leaveReactionOnPostViewPageRoutine,
   saveHighlight: saveHighlightRoutine,
@@ -241,7 +279,10 @@ const mapDispatchToProps: IActions = {
   leaveReactionOnComment: leaveReactionOnCommentRoutine,
   searchUsersByNickname: searchUserByNicknameRoutine,
   saveFavouritePost: saveFavouritePostRoutine,
-  deleteFavouritePost: deleteFavouritePostRoutine
+  deleteFavouritePost: deleteFavouritePostRoutine,
+  getUserIp: getUserIpRoutine,
+  savePostView: savePostViewRoutine,
+  resetSendingComment: resetSendingEditCommentStatusRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);
