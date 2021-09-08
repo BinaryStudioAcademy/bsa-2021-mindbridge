@@ -2,13 +2,19 @@ import React from 'react';
 import NoResultsSvg from '@components/svgs/NoResultsSvg';
 import styles from './styles.module.scss';
 
-const NotFoundContent: React.FC = () => (
-  <div className={styles.container}>
-    <div className={styles.emptyContent}>
-      <NoResultsSvg width="100%" height="100%" />
-    </div>
+interface INotFoundContent {
+  description: string;
+}
+
+const NotFoundContent: React.FC<INotFoundContent> = (
+  {
+    description
+  }
+) => (
+  <div className={styles.emptyContent}>
+    <NoResultsSvg width="35%" height="35%" />
     <p className={styles.emptyLabel}>
-      Seems like there are no result...
+      {description}
     </p>
   </div>
 );

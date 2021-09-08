@@ -59,7 +59,7 @@ const MyContributions: React.FC<IMyContributionsProps> = (
           }
           </div>
         ) : (
-          <NotFoundContent />
+          <NotFoundContent description="Contributions list is empty" />
         )}
       </div>
     </div>

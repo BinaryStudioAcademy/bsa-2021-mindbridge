@@ -105,7 +105,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
             )))}
         </InfiniteScroll>
       ) : (
-        <NotFoundContent />
+        <NotFoundContent description="Favourites list is empty" />
       )}
     </div>
   );
