@@ -93,4 +93,10 @@ public class PostPRController {
 		return postPRService.getPostPRByUserId(id, from, count);
 	}
 
+	@GetMapping("/byPostsAuthor/{id}")
+	public List<PostPRListDto> getPostPRsByPostsAuthor(@PathVariable UUID id,
+		@RequestParam(defaultValue = "0") Integer from, @RequestParam(defaultValue = "4") Integer count) {
+		return postPRService.getPostPRByPostsAuthorId(id, from, count);
+	}
+
 }
