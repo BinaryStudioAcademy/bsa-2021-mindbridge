@@ -2,13 +2,15 @@ import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
 import { IPostVersion } from '@screens/PostVersions/models/IPostVersion';
+import { Placeholder } from 'semantic-ui-react';
 
 export interface IProfileSidebarProps {
   history: IPostVersion[];
   postId: string;
+  userLoading: boolean;
 }
 
-const HistorySidebar: FunctionComponent<IProfileSidebarProps> = ({ history, postId }) => {
+const HistorySidebar: FunctionComponent<IProfileSidebarProps> = ({ history, postId, userLoading }) => {
   if (history.length === 0) {
     return null;
   }
@@ -30,9 +32,19 @@ const HistorySidebar: FunctionComponent<IProfileSidebarProps> = ({ history, post
           <span>History of your post</span>
         </Link>
       </div>
-      <div className={styles.history_links}>
-        {links}
-      </div>
+      {userLoading ? (
+        <div className={styles.history_links}>
+          {links}
+        </div>
+      ) : (
+        <Placeholder>
+          <Placeholder.Line length="very long" />
+          <Placeholder.Line length="very long" />
+          <Placeholder.Line length="very long" />
+          <Placeholder.Line length="very long" />
+          <Placeholder.Line length="very long" />
+        </Placeholder>
+      )}
     </div>
   );
 };

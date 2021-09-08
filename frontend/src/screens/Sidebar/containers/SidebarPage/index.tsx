@@ -19,6 +19,7 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IPost } from '@screens/ViewPost/models/IPost';
 import { REFRESH_TOKEN } from '@screens/Login/constants/auth_constants';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
+import { extractFetchUserLoading } from '@screens/PostPage/reducers';
 
 export interface ISidebarProps extends IState, IActions {
 }
@@ -30,6 +31,7 @@ interface IState {
   contributionsOfPost: IContribution[];
   currentUser: ICurrentUser;
   post: IPost;
+  userLoading: boolean;
 }
 
 interface IActions {
@@ -50,7 +52,8 @@ const Sidebar: React.FC<ISidebarProps> = (
     currentUser,
     post,
     loadCurrentUser,
-    userInfo
+    userInfo,
+    userLoading
   }
 ) => {
   const { postId } = useParams();
@@ -104,7 +107,6 @@ const Sidebar: React.FC<ISidebarProps> = (
       setIsFixed(true);
     }
   }, [scroll]);
-
   return (
     <div className={styles.sidebar}>
       <div ref={sidebar} className={styles.viewPostSideBar} style={sidebarStyles}>
@@ -119,6 +121,7 @@ const Sidebar: React.FC<ISidebarProps> = (
                   folloversCount={userInfo.followersQuantity}
                   rating={userInfo.rating}
                   postNotificationCount={0}
+                  userLoading={userLoading}
                 />
               ) : (
                 <ProfileSidebar
@@ -128,6 +131,7 @@ const Sidebar: React.FC<ISidebarProps> = (
                   folloversCount={0}
                   rating={0}
                   postNotificationCount={0}
+                  userLoading={userLoading}
                 />
               )}
             </div>
@@ -144,7 +148,7 @@ const Sidebar: React.FC<ISidebarProps> = (
             )}
             {postId && currentUser.id === post?.author?.id && (
               <div className={styles.history_sidebar_container}>
-                <HistorySidebar history={versionsOfPost} postId={postId} />
+                <HistorySidebar history={versionsOfPost} postId={postId} userLoading={userLoading} />
               </div>
             )}
             <div className={styles.tagsSideBar}>
@@ -170,7 +174,8 @@ const mapStateToProps: (state) => IState = state => ({
   userInfo: state.postPageReducer.data.profile,
   currentUser: state.auth.auth.user,
   versionsOfPost: state.postPageReducer.data.versionsOfPost,
-  contributionsOfPost: state.postVersionsReducer.data.postContributions
+  contributionsOfPost: state.postVersionsReducer.data.postContributions,
+  userLoading: extractFetchUserLoading(state)
 });
 
 const mapDispatchToProps: IActions = {

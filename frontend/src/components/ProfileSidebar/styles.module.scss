@@ -8,6 +8,10 @@
     a:hover{
         cursor: pointer;
     }
+
+    :global(.ui.placeholder .line){
+      background-color: #f3f9fe;
+    }
 }
 
 .top_group{
@@ -20,6 +24,17 @@
     padding-bottom: 1rem;
 }
 
+.topGroupPlaceholders {
+  display: block;
+  border-bottom: solid 2px rgba(172, 186, 215, 0.2);
+  padding-left: 1.8rem;
+  padding-top: 1.8rem;
+  padding-bottom: 1rem;
+
+  :global(.ui.placeholder .image.header:after){
+    background-color: #f3f9fe;
+  }
+}
 .avatar_and_name_group{
     grid-column: 1/4;
     grid-row: 1/2;
@@ -54,6 +69,10 @@
     flex-direction: row;
     padding-top: 0.3rem;
     padding-left: 0.8rem;
+
+    :global(.ui.placeholder .line) {
+      width: 18em;
+  }
 }
 
 .following, .rating {
@@ -94,6 +113,12 @@
     padding: 1rem 1.45rem 2.5rem 1.45rem;
     :first-child{
         margin-top: 0;
+    }
+
+    .followerPlaceholder {
+      :global(.ui.placeholder .line) {
+        width: 19rem;
+      }
     }
     a{
         display: flex;
