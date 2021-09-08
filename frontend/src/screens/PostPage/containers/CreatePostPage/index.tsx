@@ -169,8 +169,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
   };
 
   return (
-    <div>
-      <p className={styles.pageTitle}>Create post</p>
       <div className={classNames('content_wrapper', styles.container)}>
         <div className={styles.form_and_sidebar_container}>
           <form className={styles.create_post_container}>
@@ -264,7 +262,6 @@ const CreatePost: React.FC<ICreatePostProps> = (
           </form>
         </div>
       </div>
-    </div>
   );
 };
 
