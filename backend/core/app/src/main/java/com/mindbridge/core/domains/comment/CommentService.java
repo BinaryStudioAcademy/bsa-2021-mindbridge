@@ -70,32 +70,36 @@ public class CommentService {
 
 	public Comment addComment(CreateCommentDto comment) {
 		var commentToDto = CommentMapper.MAPPER.createCommentDtoToComment(comment);
+		Comment result = commentRepository.save(commentToDto);
 		notificationService.createNotification(
 			postService.getPostById(null, comment.getPostId()).getAuthor().getId(),
 			userService.getUserById(comment.getAuthor()).getNickname(),
-			comment.getPostId(),
+			result.getId(),
 			Notification.Type.newComment);
-		Comment result = commentRepository.save(commentToDto);
+
 		achievementHelper.checkCommentsCount(commentToDto.getAuthor());
 		return result;
 	}
 
 	public Comment addReplyToComment(ReplyCommentDto reply) {
 		var commentDtoToReply = CommentMapper.MAPPER.replyToCommentDtoToComment(reply);
+		var IDs = findMentionsAtString(reply.getText());
+		var comment = commentRepository.save(commentDtoToReply);
+
 		notificationService.createNotification(
 			getCommentById(reply.getReplyCommentId()).getAuthor().getId(),
 			reply.getNickname(),
-			reply.getPostId(),
+			comment.getId(),
 			Notification.Type.newReply);
 
-		var IDs = findMentionsAtString(reply.getText());
 		IDs.stream().map(id -> notificationService.createNotification(
 			id,
 			reply.getNickname(),
-			reply.getPostId(),
+			comment.getId(),
 			Notification.Type.newMention
 		)).collect(Collectors.toList());
-		return commentRepository.save(commentDtoToReply);
+
+		return comment;
 	}
 
 	public CommentDto getCommentById(UUID id) {

@@ -15,6 +15,7 @@ public interface CommentMapper {
 	CommentMapper MAPPER = Mappers.getMapper(CommentMapper.class);
 
 	@Mapping(target = "rating", ignore = true)
+	@Mapping(target = "postId", source = "post.id")
 	CommentDto commentToCommentDto(Comment comment);
 
 	@Mapping(source = "author", target = "author.id")
