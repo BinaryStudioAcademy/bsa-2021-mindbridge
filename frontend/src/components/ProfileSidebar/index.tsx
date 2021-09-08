@@ -43,7 +43,7 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
             <div className={styles.followers_count}>
               {folloversCount}
               {' '}
-              following
+              followers
             </div>
           </button>
           <div className={styles.dot} />
