@@ -42,6 +42,7 @@ const Drafts: React.FC<IDraftsProps> = (
   if (isDataLoading) {
     return (
       <div className={styles.draftsPage}>
+        <p className={styles.pageTitle}>Your posts</p>
         <div className={styles.togglePosts}>
           {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
           <div onClick={handleTogglePostsType} className={draftsOnly ? styles.checked : styles.checkbox} />
@@ -56,6 +57,7 @@ const Drafts: React.FC<IDraftsProps> = (
 
   return (
     <div className={styles.draftsPage}>
+      <p className={styles.pageTitle}>Your posts</p>
       <div className={styles.togglePosts}>
         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
         <div onClick={handleTogglePostsType} className={draftsOnly ? styles.checked : styles.checkbox} />
