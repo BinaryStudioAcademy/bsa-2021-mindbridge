@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
 import UpToParentCommentSvg from '@components/AdvancedCommentCard/svg/UpToParentCommentSvg';
@@ -17,13 +17,14 @@ import EditSvg from '@screens/ViewPost/components/svgs/SvgComponents/editSvg';
 import { IEditComment } from '@screens/ViewPost/models/IEditComment';
 import provideValue from '@components/AdvancedCommentCard/mentition/provideValue';
 import { useDebouncedCallback } from 'use-debounce';
-import { MentionsInput, Mention } from 'react-mentions';
+import { Mention, MentionsInput } from 'react-mentions';
 import mentionInputStyle from './mentionInputStyles.module.scss';
 import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
 import { IComments } from '@screens/ViewPost/models/IComments';
 import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
 import classNames from 'classnames';
+import { IBindingAction } from '@models/Callbacks';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -49,7 +50,10 @@ interface IBasicCommentProps {
   onChange: any;
   updatedAt: string;
   comment: IComments;
+  resetSendingComment: IBindingAction;
+  sendingEditComment: boolean;
 }
+
 /* eslint-disable max-len */
 const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef((
   {
@@ -75,7 +79,9 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     users,
     comment,
     editComment,
-    onChange
+    onChange,
+    resetSendingComment,
+    sendingEditComment
   }
 ) => {
   const [disabled, setDisabled] = useState(false);
@@ -83,6 +89,15 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   const [shouldRender] = useState(setShouldRender);
   const [editMode, setEditMode] = useState(false);
   const [highlight, setHighlight] = useState(false);
+  const [preloader, setPreloader] = useState(false);
+
+  useEffect(() => {
+    if (sendingEditComment) {
+      setPreloader(false);
+      resetSendingComment();
+      setEditMode(false);
+    }
+  });
 
   const rotateArrow = {
     width: '0.7142em',
@@ -105,7 +120,8 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
 
   const [changeableComment, setChangeableComment] = useState<IEditComment>({
     text,
-    commentId: ''
+    commentId: '',
+    sendingEditCommentStatus: false
   });
 
   const checkForNickname = (textComment: string) => {
@@ -117,10 +133,12 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
 
   const getLinkToComment = (url: string) => url.split('#')[0];
 
-  const [usersList, setUsersList] = useState({ user: [{
-    display: '',
-    id: ''
-  }] });
+  const [usersList, setUsersList] = useState({
+    user: [{
+      display: '',
+      id: ''
+    }]
+  });
 
   const handleEditComment = (event: any) => {
     setChangeableComment({
@@ -130,13 +148,13 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   };
 
   const handleSendChangeableComment = (event: any) => {
+    setPreloader(true);
     if (changeableComment.text.trim().length) {
       const newChangeableComment = {
         text: changeableComment.text.replace(/<(.+?)>/g, '&lt;$1&gt;'),
         commentId
       };
       editComment(newChangeableComment);
-      setEditMode(!editMode);
     }
   };
 
@@ -175,10 +193,16 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     <ScrollableAnchor id={commentId}>
       <div className={highlight ? classNames(styles.advancedComment, styles.highlight) : styles.advancedComment}>
         <div className={styles.header}>
-          { shouldRenderArrowCloseComment && (
-          <button ref={ref} id="button" className={styles.closeCommentBtn} type="button" onClick={() => handleClick()}>
-            <div className={styles.arrowClose} style={rotateArrow}><ArrowCloseComment /></div>
-          </button>
+          {shouldRenderArrowCloseComment && (
+            <button
+              ref={ref}
+              id="button"
+              className={styles.closeCommentBtn}
+              type="button"
+              onClick={() => handleClick()}
+            >
+              <div className={styles.arrowClose} style={rotateArrow}><ArrowCloseComment /></div>
+            </button>
           )}
           <div className={styles.commentAuthor}>
             <a href={`/user/${author.id}`} className="avatar">
@@ -201,9 +225,9 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
             {author.id === userInfo.id && (
               <div>
                 {!disabled && (
-                <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
-                  <EditSvg />
-                </button>
+                  <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
+                    <EditSvg />
+                  </button>
                 )}
               </div>
             )}
@@ -227,21 +251,21 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                   )}
               />
             </div>
-            { shouldRender
-          && (
-          <Popup
-            content="Up to main comment"
-            mouseEnterDelay={1000}
-            closeOnTriggerClick
-            position="top center"
-            on="hover"
-            trigger={(
-              <a href={`#${parentCommentId}`}>
-                <UpToParentCommentSvg />
-              </a>
+            {shouldRender
+            && (
+              <Popup
+                content="Up to main comment"
+                mouseEnterDelay={1000}
+                closeOnTriggerClick
+                position="top center"
+                on="hover"
+                trigger={(
+                  <a href={`#${parentCommentId}`}>
+                    <UpToParentCommentSvg />
+                  </a>
                 )}
-          />
-          )}
+              />
+            )}
             <Popup
               content="Copy link"
               mouseEnterDelay={1000}
@@ -263,7 +287,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                           </button>
                         </CopyToClipboard>
                       </span>
-                  )}
+                    )}
                   />
                 </span>
               )}
@@ -271,7 +295,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
           </div>
         </div>
         <div className="text">
-          { editMode ? (
+          {editMode ? (
             <div>
               <MentionsInput
                 value={changeableComment.text}
@@ -288,41 +312,51 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
               </MentionsInput>
 
               <div className={styles.btn_wrapper}>
-                <DarkBorderButton onClick={() => setEditMode(!editMode)} className={styles.btnCancel} content="Cancel" />
-                <DarkBorderButton onClick={handleSendChangeableComment} className={styles.btnEdit} content="Save" />
+                <DarkBorderButton
+                  onClick={() => setEditMode(!editMode)}
+                  className={styles.btnCancel}
+                  content="Cancel"
+                />
+                <DarkBorderButton
+                  onClick={handleSendChangeableComment}
+                  className={styles.btnEdit}
+                  loading={preloader}
+                  disabled={preloader}
+                  content="Save"
+                />
               </div>
             </div>
           ) : (
             <div>
               {parse(checkForNickname(text))}
             </div>
-          ) }
+          )}
 
         </div>
-        { isAuthorized && (
-        <div className={styles.reply}>
-          <div className="actions">
-            {!editMode && (
-              <DarkBorderButton className={styles.btnReplay} content="Reply" onClick={() => setDisabled(!disabled)} />
+        {isAuthorized && (
+          <div className={styles.reply}>
+            <div className="actions">
+              {!editMode && (
+                <DarkBorderButton className={styles.btnReplay} content="Reply" onClick={() => setDisabled(!disabled)} />
+              )}
+            </div>
+            {disabled && (
+              <div className={styles.replayBlock}>
+                <AsyncUserMentions
+                  setDisabled={setDisabled}
+                  userInfo={userInfo}
+                  postId={postId}
+                  commentId={commentId}
+                  sendReply={sendReply}
+                  users={users}
+                  searchUsersByNickname={searchUsersByNickname}
+                  isReply
+                  editMode
+                />
+              </div>
             )}
           </div>
-          {disabled && (
-          <div className={styles.replayBlock}>
-            <AsyncUserMentions
-              setDisabled={setDisabled}
-              userInfo={userInfo}
-              postId={postId}
-              commentId={commentId}
-              sendReply={sendReply}
-              users={users}
-              searchUsersByNickname={searchUsersByNickname}
-              isReply
-              editMode
-            />
-          </div>
-          )}
-        </div>
-        ) }
+        )}
       </div>
     </ScrollableAnchor>
   );

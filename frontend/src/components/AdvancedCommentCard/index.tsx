@@ -4,6 +4,7 @@ import { IComments } from '@screens/ViewPost/models/IComments';
 import Reply from '@components/AdvancedCommentCard/Reply';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import AsyncUserMentions from '@components/AdvancedCommentCard/mentition/mentition';
+import { IBindingAction } from '@models/Callbacks';
 
 interface ICommentProps {
   comments: IComments[];
@@ -18,6 +19,8 @@ interface ICommentProps {
   searchUsersByNickname: any;
   users: any;
   editComment: any;
+  resetSendingComment: IBindingAction;
+  sendingEditComment: boolean;
 }
 
 const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
@@ -33,7 +36,9 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
     handleDislikeComment,
     searchUsersByNickname,
     users,
-    editComment
+    editComment,
+    resetSendingComment,
+    sendingEditComment
   }
 ) => {
   function getMaximumCommentsFoldCount(commentsDepth, foldCount = 0) {
@@ -108,6 +113,8 @@ const AdvancedCommentsFeed: FunctionComponent<ICommentProps> = (
                 users={users}
                 searchUsersByNickname={searchUsersByNickname}
                 editComment={editComment}
+                resetSendingComment={resetSendingComment}
+                sendingEditComment={sendingEditComment}
               />
             ))}
           </div>

@@ -16,7 +16,7 @@ import { extractFetchFavouritePostsLoading } from '@screens/FavouritesPage/reduc
 import LoaderWrapper from '@components/LoaderWrapper';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { isEmptyArray } from 'formik';
-import NoResultsSvg from '@components/svgs/NoResultsSvg';
+import NotFoundContent from '@components/NotFoundContetn';
 
 export interface IFavouritesPageProps extends IState, IActions {
   userInfo: IUserProfile;
@@ -82,36 +82,31 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
   }
   return (
     <div className={classNames('content_wrapper', styles.container)}>
-      {!isEmptyArray(favouritePosts) && favouritePosts
-      && <div className={styles.pageTitle}>Your favourites</div>}
-      <InfiniteScroll
-        style={{ overflow: 'none' }}
-        next={getMorePosts}
-        hasMore
-        loader={' '}
-        dataLength={favouritePosts ? favouritePosts.length : 0}
-        scrollThreshold={0.9}
-      >
-        {!isEmptyArray(favouritePosts) && favouritePosts ? (
-          favouritePosts.map(post => (
-            <PostCard
-              key={post.id}
-              post={post}
-              handleLikePost={undefined}
-              handleDisLikePost={undefined}
-              handleFavouriteAction={handleFavouriteAction}
-              userInfo={userInfo}
-            />
-          ))
-        ) : (
-          <div className={styles.emptyFavourites}>
-            <NoResultsSvg width="35%" height="35%" />
-            <p className={styles.emptyLabel}>
-              Favourites list is empty
-            </p>
-          </div>
-        )}
-      </InfiniteScroll>
+      <p className={styles.pageTitle}>Your favorite posts</p>
+      {!isEmptyArray(favouritePosts) ? (
+        <InfiniteScroll
+          style={{ overflow: 'none' }}
+          next={getMorePosts}
+          hasMore
+          loader={' '}
+          dataLength={favouritePosts ? favouritePosts.length : 0}
+          scrollThreshold={0.9}
+        >
+          {!isEmptyArray(favouritePosts) && favouritePosts && (
+            favouritePosts.map(post => (
+              <PostCard
+                key={post.id}
+                post={post}
+                handleLikePost={undefined}
+                handleDisLikePost={undefined}
+                handleFavouriteAction={handleFavouriteAction}
+                userInfo={userInfo}
+              />
+            )))}
+        </InfiniteScroll>
+      ) : (
+        <NotFoundContent description="Favourites list is empty" />
+      )}
     </div>
   );
 };

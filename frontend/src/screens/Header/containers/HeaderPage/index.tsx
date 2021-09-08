@@ -258,7 +258,7 @@ const Header: React.FC<IHeaderProps> = (
           fetchNotifications={handleFetchNotifications}
           bellRef={bellRef}
           markNotificationRead={markNotificationRead}
-          setIsListOpen={setIsListOpen}
+          setIsListOpen={toggleNotificationList}
           list={notificationList}
         />
         )}
