@@ -18,7 +18,7 @@ import LoaderWrapper from '@components/LoaderWrapper';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { useHistory } from 'react-router-dom';
-import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
+import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 import { useLocation } from 'react-use';
@@ -29,6 +29,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { IPost } from '@screens/Header/models/IPost';
 
 import { searchPostsByElasticRoutine } from '@screens/Header/routines';
+import { fetchUserRoutine } from '@screens/ProfilePage/routines';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -51,13 +52,12 @@ interface IActions {
   fetchUserProfile: IBindingCallback1<string>;
   setLoadMorePosts: IBindingCallback1<boolean>;
   searchTitlesByElastic: IBindingCallback1<string>;
-  likePostView: IBindingCallback1<string>;
-  disLikePostView: IBindingCallback1<string>;
   loadUser: IBindingAction;
   saveFavouritePost: IBindingCallback1<object>;
-  deleteFavouritePost: IBindingCallback1<string>;
+  deleteFavouritePost: IBindingCallback1<object>;
   searchPostsByElastic: IBindingCallback1<object>;
   loadCountResults: IBindingCallback1<string>;
+  fetchUserData: IBindingCallback1<string>;
 }
 
 const params = {
@@ -66,10 +66,12 @@ const params = {
   userId: ''
 };
 
+const ENTER_CHAR_CODE = 13;
+
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
-    currentUser, userInfo, likePost, likePostView, searchTitlesByElastic, countResults,
-    disLikePostView, searchPostsByElastic, searchPosts, loadCountResults, saveFavouritePost, deleteFavouritePost }
+    currentUser, userInfo, likePost, searchTitlesByElastic, countResults,
+    searchPostsByElastic, searchPosts, loadCountResults, saveFavouritePost, deleteFavouritePost }
 ) => {
   const location = useLocation();
   const history = useHistory();
@@ -119,16 +121,21 @@ const FeedPage: React.FC<IFeedPageProps> = (
         userId: currentUser.id,
         liked: true
       };
-      likePostView(postId);
       likePost(post);
+    } else {
+      history.push('/login');
     }
   };
 
   const handleFavouriteAction = post => {
+    if (!currentUser?.id) {
+      history.push('/login');
+      return;
+    }
     if (!post.isFavourite) {
       saveFavouritePost({ userId: currentUser.id, postId: post.id });
     } else {
-      deleteFavouritePost(post.id);
+      deleteFavouritePost({ userId: currentUser.id, postId: post.id });
     }
   };
 
@@ -139,7 +146,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
         userId: currentUser.id,
         liked: false
       };
-      disLikePostView(postId);
       likePost(post);
     } else {
       history.push('/login');
@@ -194,6 +200,13 @@ const FeedPage: React.FC<IFeedPageProps> = (
     }
   };
 
+  const handleEnterDown = (event: any) => {
+    if (event.keyCode === ENTER_CHAR_CODE) {
+      setIsSearchInputFilled(false);
+      history.push(`/search?query=${elasticContent}`);
+    }
+  };
+
   return (
     <div className={styles.feedPage}>
       <div className={styles.searchTitle}>
@@ -204,6 +217,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
               placeholder="Search..."
               onChange={handleInputContent}
               value={elasticContent}
+              onKeyDown={handleEnterDown}
             />
             {isSearchInputFilled
             && <button type="button" className={styles.close_image} onClick={handleLinkClick}>✖</button>}
@@ -287,14 +301,13 @@ const mapDispatchToProps: IActions = {
   setLoadMorePosts: addMorePostsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
   likePost: likePostRoutine,
-  likePostView: likePostViewRoutine,
-  disLikePostView: disLikePostViewRoutine,
   loadUser: loadCurrentUserRoutine,
   saveFavouritePost: saveFavouritePostRoutine,
   deleteFavouritePost: deleteFavouritePostRoutine,
   searchPostsByElastic: searchPostsRoutine,
   searchTitlesByElastic: searchPostsByElasticRoutine,
-  loadCountResults: loadCountResultsRoutine
+  loadCountResults: loadCountResultsRoutine,
+  fetchUserData: fetchUserRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);

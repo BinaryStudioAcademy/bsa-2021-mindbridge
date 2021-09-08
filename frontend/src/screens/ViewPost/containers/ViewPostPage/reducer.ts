@@ -4,7 +4,7 @@ import {
   fetchDataRoutine, leaveReactionOnCommentRoutine,
   leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
   sendCommentRoutine,
-  sendReplyRoutine
+  sendReplyRoutine, editCommentRoutine
 } from '@screens/ViewPost/routines';
 import { IPost } from '../../models/IPost';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
@@ -13,10 +13,12 @@ import { ICommentReply } from '@screens/ViewPost/models/ICommentReply';
 import { IUsers } from '@screens/ViewPost/models/IUsers';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
+import { IEditComment } from '@screens/ViewPost/models/IEditComment';
 
 export interface IViewPostReducerState {
   post: IPost;
   comment: IComment;
+  editComment: IEditComment;
   reply: ICommentReply;
   highlights: IHighlight[];
   users: IMentionsUser[];
@@ -36,10 +38,21 @@ const initialState: IViewPostReducerState = {
     avatar: null,
     markdown: false,
     draft: false,
-    author: { id: '', firstName: '', lastName: '', avatar: null, nickname: '' },
+    author: { id: '',
+      firstName: '',
+      lastName: '',
+      avatar: null,
+      nickname: '',
+      rating: 0,
+      commentsQuantity: 0,
+      postsQuantity: 0,
+      followersQuantity: 0 },
+    isLiked: false,
+    reacted: false,
     relatedPosts: [],
     comments: [],
-    isFavourite: false
+    isFavourite: false,
+    postViewsNumber: 0
   },
   highlights: undefined,
   comment: {
@@ -59,7 +72,11 @@ const initialState: IViewPostReducerState = {
     nickname: '',
     rating: 0
   },
-  users: []
+  users: [],
+  editComment: {
+    commentId: '',
+    text: ''
+  }
 };
 
 const findById = (id, comments, idx = 0) => {
@@ -82,15 +99,21 @@ export const viewPostReducer = createReducer(initialState, {
     if (reactionStatus === true) {
       if (response === null || response.isFirstReaction === true) {
         state.post.rating += action.payload.difference;
+        state.post.reacted = action.payload.difference === 1;
+        state.post.isLiked = action.payload.difference === 1;
       } else {
         state.post.rating += action.payload.difference;
         state.post.rating += action.payload.difference;
+        state.post.isLiked = true;
       }
     } else if (response === null || response.isFirstReaction === true) {
       state.post.rating -= action.payload.difference;
+      state.post.reacted = action.payload.difference === 1;
+      state.post.isLiked = action.payload.difference !== 1;
     } else {
       state.post.rating -= action.payload.difference;
       state.post.rating -= action.payload.difference;
+      state.post.isLiked = false;
     }
   },
   [fetchHighlightsRoutine.SUCCESS]: (state, action) => {
@@ -105,7 +128,10 @@ export const viewPostReducer = createReducer(initialState, {
     const message = findById(action.payload.comment.id, state.post.comments);
     message.comments.unshift(action.payload);
   },
-
+  [editCommentRoutine.SUCCESS]: (state, action) => {
+    const message = findById(action.payload.id, state.post.comments);
+    message.text = action.payload.text;
+  },
   [leaveReactionOnCommentRoutine.SUCCESS]: (state, action) => {
     const { response, reactionStatus } = action.payload;
     const message = findById(action.payload.commentId, state.post.comments);

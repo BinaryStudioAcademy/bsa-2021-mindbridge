@@ -14,7 +14,7 @@ const PublicRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props => (isSidebarShown ? (
+      render={props => (isSidebarShown && !rest.isNotFound ? (
         <div className={styles.wrapper}>
           <Component {...props} />
           <Sidebar />

@@ -1,0 +1,38 @@
+@import '../../styles/common_variables.sass';
+
+.achievement{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  
+  .svg{
+    margin: auto;
+    background-color: $background-card;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .stars{
+    color: $icon-blue;
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
+    cursor: default;
+  }
+}
+
+.title{
+  border-bottom: 1px solid #E5E5E5;
+  font-weight: bold;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  svg{
+    margin-right: 1rem;
+  }
+}
+

@@ -3,7 +3,12 @@ import {
   sendNicknameRoutine,
   sendFormRoutine,
   sendAvatarRoutine,
-  openPasswordChangeModalRoutine, sendChangePasswordFormRoutine, fetchUserRoutine, deleteAvatarRoutine
+  openPasswordChangeModalRoutine,
+  sendChangePasswordFormRoutine,
+  fetchUserRoutine,
+  deleteAvatarRoutine,
+  fetchAchievementsByUserRoutine,
+  toggleFollowUserRoutine
 } from '@screens/ProfilePage/routines';
 import { IDataProfile } from '@screens/ProfilePage/models/IDataProfile';
 
@@ -26,14 +31,19 @@ const initialState: IDataProfile = {
     commentsQuantity: 0,
     postsQuantity: 0,
     contributionsQuantity: 0,
+    followers: [],
+    following: [],
     followersQuantity: 0,
+    followingQuantity: 0,
     lastArticleTitles: [{ id: '', title: '' }],
-    createdAt: ''
+    createdAt: '',
+    followed: false
   },
   savingAvatar: {
     url: '',
     isLoaded: true
-  }
+  },
+  achievements: []
 };
 
 export const profilePageReducer = createReducer(initialState, {
@@ -48,6 +58,9 @@ export const profilePageReducer = createReducer(initialState, {
   [fetchUserRoutine.FAILURE]: state => {
     state.isUserLoaded = true;
     state.isUserIdValid = false;
+  },
+  [toggleFollowUserRoutine.SUCCESS]: state => {
+    state.user.followed = !state.user.followed;
   },
   [sendNicknameRoutine.TRIGGER]: state => {
     state.isNicknameLoaded = false;
@@ -105,5 +118,8 @@ export const profilePageReducer = createReducer(initialState, {
   },
   [deleteAvatarRoutine.FAILURE]: state => {
     state.savingAvatar.isLoaded = true;
+  },
+  [fetchAchievementsByUserRoutine.SUCCESS]: (state, action) => {
+    state.achievements = action.payload;
   }
 });

@@ -59,7 +59,9 @@ const profilePageService = {
         data: payload }
     );
     return response;
-  }
+  },
+  fetchAchievements: async userId => api.get(`/api/achievement/byUser/${userId}`),
+  toggleFollowUser: async (request: object) => api.put('/api/user/follow', { data: request })
 };
 
 export default profilePageService;

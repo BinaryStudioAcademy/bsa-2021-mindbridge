@@ -32,7 +32,6 @@ public class PostReactionService {
 
 	public Optional<ResponsePostReactionDto> setReaction(ReceivedPostReactionDto postReaction) {
 		var reaction = postReactionRepository.getPostReaction(postReaction.getUserId(), postReaction.getPostId());
-		System.out.println(postReaction);
 		if (reaction.isPresent()) {
 			var react = reaction.get();
 			if (react.getLiked() == postReaction.getLiked()) {
@@ -42,19 +41,15 @@ public class PostReactionService {
 			else {
 				react.setLiked(postReaction.getLiked());
 				var result = postReactionRepository.save(react);
-				var post = postService.getPostById(result.getPost().getId());
 				return Optional.of(ResponsePostReactionDto.builder().id(result.getId()).liked(result.getLiked())
-						.userId(result.getAuthor().getId()).postId(post.getId()).authorId(post.getAuthor().getId())
-						.isFirstReaction(false).build());
+						.userId(result.getAuthor().getId()).postId(postReaction.getPostId()).isFirstReaction(false).build());
 			}
 		}
 		else {
 			var postReact = PostReactionMapper.MAPPER.dtoToPostReaction(postReaction);
 			var result = postReactionRepository.save(postReact);
-			var post = postService.getPostById(result.getPost().getId());
 			return Optional.of(ResponsePostReactionDto.builder().id(result.getId()).liked(result.getLiked())
-					.userId(result.getAuthor().getId()).postId(post.getId()).authorId(post.getAuthor().getId())
-					.isFirstReaction(true).build());
+					.userId(result.getAuthor().getId()).postId(postReaction.getPostId()).isFirstReaction(true).build());
 		}
 	}
 

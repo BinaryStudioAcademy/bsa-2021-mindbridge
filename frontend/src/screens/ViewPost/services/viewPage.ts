@@ -23,7 +23,14 @@ const viewPageService = {
       data: comment
     }
   ),
-  getUsersByNickname: async (query: object) => api.get('/api/user/find/', { params: query })
+  getUsersByNickname: async (query: object) => api.get('/api/user/find/', { params: query }),
+
+  sendPostView: async payload => (api.post('/api/postView/save', { data: payload })),
+
+  editComment: async (comment: object) => api.put(
+    '/api/comment/edit',
+    { data: comment }
+  )
 };
 
 export default viewPageService;

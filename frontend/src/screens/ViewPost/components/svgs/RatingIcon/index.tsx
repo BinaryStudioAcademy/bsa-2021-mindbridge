@@ -35,7 +35,11 @@ const RatingComponent: FunctionComponent<IRatingIconProps> = ({ postRating, hand
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path fill={arrowUpColor} clipRule="evenodd" d="M10 5L5 -4.37114e-07L0 5L10 5Z" />
+          <path
+            fill={userInfo.id !== post.author.id ? (arrowUpColor) : ('rgba(53, 53, 53, 0.4)')}
+            clipRule="evenodd"
+            d="M10 5L5 -4.37114e-07L0 5L10 5Z"
+          />
         </svg>
       </div>
       <div className={styles.ratingNumber}>
@@ -51,7 +55,11 @@ const RatingComponent: FunctionComponent<IRatingIconProps> = ({ postRating, hand
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path fill={arrowDownColor} clipRule="evenodd" d="M0 0L5 5L10 0L0 0Z" />
+          <path
+            fill={userInfo.id !== post.author.id ? (styles.arrowDownColor) : ('rgba(53, 53, 53, 0.4)')}
+            clipRule="evenodd"
+            d="M0 0L5 5L10 0L0 0Z"
+          />
         </svg>
       </div>
     </div>

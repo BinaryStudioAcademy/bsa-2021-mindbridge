@@ -49,6 +49,8 @@ interface IActions {
   fetchMoreNotifications: IBindingCallback1<object>;
 }
 
+const ENTER_CHAR_CODE = 13;
+
 const Header: React.FC<IHeaderProps> = (
   {
     isAuthorized,
@@ -72,6 +74,38 @@ const Header: React.FC<IHeaderProps> = (
     stompClient.connect('', '', () => {
       stompClient.subscribe(`/user/${currentUser.id}/newPR`, message => {
         toastr.info('New contribution', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/PRClosed`, message => {
+        toastr.info('Your pull request has been closed', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/PRAccepted`, message => {
+        toastr.info('Your pull request has been accepted', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/newComment`, message => {
+        toastr.info('New comment on your post', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/newReply`, message => {
+        toastr.info('New reply on your comment', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/newMention`, message => {
+        toastr.info('New mention', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/newFollower`, message => {
+        toastr.info('New follower', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/newPost`, message => {
+        toastr.info('New Post', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
+      stompClient.subscribe(`/user/${currentUser.id}/newAchievement`, message => {
+        toastr.info('You get a new award', message.body);
         fetchNotificationCount(currentUser.id);
       });
     }, warning => {
@@ -134,8 +168,13 @@ const Header: React.FC<IHeaderProps> = (
   };
 
   const toggleNotificationList = () => {
+    if (!isAuthorized) {
+      history.push('/login');
+    }
     if (!isListOpen) {
       handleFetchNotifications(true, { from: 0, count: 10 });
+    } else {
+      handleFetchNotifications(false, { from: 0, count: 1 });
     }
     setIsListOpen(!isListOpen);
   };
@@ -184,6 +223,14 @@ const Header: React.FC<IHeaderProps> = (
     }
   };
 
+  const handleEnterDown = (event: any) => {
+    if (event.keyCode === ENTER_CHAR_CODE) {
+      setIsSearchInputFilled(false);
+      setElasticContent('');
+      history.push(`/search?query=${elasticContent}`);
+    }
+  };
+
   return (
     <div className={styles.header_container}>
       <div className={styles.left}>
@@ -225,6 +272,7 @@ const Header: React.FC<IHeaderProps> = (
             placeholder="Search..."
             onChange={handleInputContent}
             value={elasticContent}
+            onKeyDown={handleEnterDown}
           />
           {isSearchInputFilled
           && <button type="button" className={styles.close_image} onClick={handleLinkClick}>✖</button>}

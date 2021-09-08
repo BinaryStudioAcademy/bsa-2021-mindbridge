@@ -63,7 +63,7 @@ const ProfilePage: React.FC<IProfilePageProps> = (
   }
 ) => (
   <div>
-    {initialData.id !== '' ? (
+    {initialData.id ? (
       <div className={styles.profilePage}>
         <PasswordChangeModal
           userId={initialData.id}

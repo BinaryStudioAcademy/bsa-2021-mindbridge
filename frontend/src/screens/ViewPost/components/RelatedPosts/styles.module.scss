@@ -87,6 +87,9 @@
     width: auto;
   }
 
+  :global(.ui.card>:first-child) {
+    border-radius: .28571429rem .28571429rem 0 0!important;
+  }
 }
 
 
