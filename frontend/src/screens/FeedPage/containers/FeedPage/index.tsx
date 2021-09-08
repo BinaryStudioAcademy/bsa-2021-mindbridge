@@ -30,6 +30,7 @@ import { IPost } from '@screens/Header/models/IPost';
 
 import { searchPostsByElasticRoutine } from '@screens/Header/routines';
 import { fetchUserRoutine } from '@screens/ProfilePage/routines';
+import { da } from 'suneditor/src/lang';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -197,7 +198,18 @@ const FeedPage: React.FC<IFeedPageProps> = (
       setIsSearchInputFilled(false);
     }
   };
-
+  if (data.length === 0 && dataLoading && !loadMore) {
+    return (
+      <PostCard
+        dataLoading={dataLoading}
+        handleLikePost={handleLikePost}
+        handleDisLikePost={handleDisLikePost}
+        handleFavouriteAction={handleFavouriteAction}
+        post={data[0]}
+        userInfo={userInfo}
+      />
+    );
+  }
   return (
     <div className={styles.feedPage}>
       <div className={styles.searchTitle}>
@@ -249,17 +261,26 @@ const FeedPage: React.FC<IFeedPageProps> = (
           loader={' '}
           scrollThreshold={0.9}
         >
-          {data.map(post => (
-            <PostCard
-              dataLoading={dataLoading}
-              key={post.id}
-              handleLikePost={handleLikePost}
-              handleDisLikePost={handleDisLikePost}
-              handleFavouriteAction={handleFavouriteAction}
-              post={post}
-              userInfo={userInfo}
-            />
-          ))}
+          {data ? (
+            data.map(post => (
+              <PostCard
+                dataLoading={dataLoading}
+                key={post.id}
+                handleLikePost={handleLikePost}
+                handleDisLikePost={handleDisLikePost}
+                handleFavouriteAction={handleFavouriteAction}
+                post={post}
+                userInfo={userInfo}
+              />
+            ))
+          ) : (
+            <div className={styles.emptyList}>
+              <NoResultsSvg width="35%" height="35%" />
+              <p>
+                No results were found for your request
+              </p>
+            </div>
+          )}
         </InfiniteScroll>
       </div>
     </div>

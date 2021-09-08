@@ -43,6 +43,19 @@ const PostCard: FunctionComponent<IPostCardProps> = ({
     setPopupContent('Copied');
   };
 
+  const tagPlaceholderStyle = {
+    width: 30,
+    height: 20,
+    display: 'inline-block',
+    borderRadius: '.28571429rem'
+  };
+
+  const iconPlaceholderStyle = {
+    width: 30,
+    height: 20,
+    display: 'inline-block'
+  };
+
   const handleOnClose = () => {
     setPopupContent('Copy link');
   };
@@ -50,7 +63,6 @@ const PostCard: FunctionComponent<IPostCardProps> = ({
   const getFavouriteAction = () => {
     handleFavouriteAction(post);
   };
-
   return (
     <Card className={styles.postCard}>
       <Card.Content>
@@ -144,10 +156,11 @@ const PostCard: FunctionComponent<IPostCardProps> = ({
               <div className={styles.tagsPlaceholder}>
                 <RectShape
                   color="#E0E0E0"
-                  style={{ width: 30,
-                    height: 20,
-                    display: 'inline-block',
-                    borderRadius: '.28571429rem' }}
+                  style={tagPlaceholderStyle}
+                />
+                <RectShape
+                  color="#E0E0E0"
+                  style={tagPlaceholderStyle}
                 />
                 <RectShape
                   color="#E0E0E0"
@@ -158,24 +171,11 @@ const PostCard: FunctionComponent<IPostCardProps> = ({
                 />
                 <RectShape
                   color="#E0E0E0"
-                  style={{ width: 30,
-                    height: 20,
-                    display: 'inline-block',
-                    borderRadius: '.28571429rem' }}
+                  style={tagPlaceholderStyle}
                 />
                 <RectShape
                   color="#E0E0E0"
-                  style={{ width: 30,
-                    height: 20,
-                    display: 'inline-block',
-                    borderRadius: '.28571429rem' }}
-                />
-                <RectShape
-                  color="#E0E0E0"
-                  style={{ width: 30,
-                    height: 20,
-                    display: 'inline-block',
-                    borderRadius: '.28571429rem' }}
+                  style={tagPlaceholderStyle}
                 />
               </div>
             </div>
@@ -183,45 +183,48 @@ const PostCard: FunctionComponent<IPostCardProps> = ({
         </Card.Description>
       </Card.Content>
       <Card.Content extra className={styles.extraContent}>
-        {/* <div className={styles.postIcons}>*/}
-        {/*  <div className={styles.icon}>*/}
-        {/*    <CommentSvg />*/}
-        {/*    <p>{post.commentsCount}</p>*/}
-        {/*  </div>*/}
-        {/*  <div className={styles.icon}>*/}
-        {/*    <ViewsSvg />*/}
-        {/*    <p>{7}</p>*/}
-        {/*  </div>*/}
-        {/*  {}*/}
-        {/*  <div className={styles.icon}>*/}
-        {/*    <LikeSvg />*/}
-        {/*    <p>{post.likesCount}</p>*/}
-        {/*  </div>*/}
-        {/*  <div className={styles.icon}>*/}
-        {/*    <DisLikeSvg />*/}
-        {/*    <p>{post.disLikesCount}</p>*/}
-        {/*  </div>*/}
-        {/*  <div className={styles.icon}>*/}
-        {/*    <SharePopup*/}
-        {/*      triggerContent={(*/}
-        {/*        <CopyToClipboard text={`${window.location.href}post/${post.id}`}>*/}
-        {/*          <button style={{ background: 'none' }} type="button" onClick={handleShare}>*/}
-        {/*            <ShareSvg />*/}
-        {/*          </button>*/}
-        {/*        </CopyToClipboard>*/}
-        {/*      )}*/}
-        {/*      popupContent={popupContent}*/}
-        {/*      handleOnClose={handleOnClose}*/}
-        {/*    />*/}
-        {/*  </div>*/}
-        {/* </div>*/}
-        <div className={styles.iconsPlaceholder}>
-          <RectShape color="#E0E0E0" style={{ width: 30, height: 20, display: 'inline-block' }} />
-          <RectShape color="#E0E0E0" style={{ width: 30, height: 20, display: 'inline-block' }} />
-          <RectShape color="#E0E0E0" style={{ width: 30, height: 20, display: 'inline-block' }} />
-          <RectShape color="#E0E0E0" style={{ width: 30, height: 20, display: 'inline-block' }} />
-          <RectShape color="#E0E0E0" style={{ width: 30, height: 20, display: 'inline-block' }} />
-        </div>
+        {!dataLoading ? (
+          <div className={styles.postIcons}>
+            <div className={styles.icon}>
+              <CommentSvg />
+              <p>{post.commentsCount}</p>
+            </div>
+            <div className={styles.icon}>
+              <ViewsSvg />
+              <p>{7}</p>
+            </div>
+            {}
+            <div className={styles.icon}>
+              <LikeSvg />
+              <p>{post.likesCount}</p>
+            </div>
+            <div className={styles.icon}>
+              <DisLikeSvg />
+              <p>{post.disLikesCount}</p>
+            </div>
+            <div className={styles.icon}>
+              <SharePopup
+                triggerContent={(
+                  <CopyToClipboard text={`${window.location.href}post/${post.id}`}>
+                    <button style={{ background: 'none' }} type="button" onClick={handleShare}>
+                      <ShareSvg />
+                    </button>
+                  </CopyToClipboard>
+              )}
+                popupContent={popupContent}
+                handleOnClose={handleOnClose}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className={styles.iconsPlaceholder}>
+            <RectShape color="#E0E0E0" style={iconPlaceholderStyle} />
+            <RectShape color="#E0E0E0" style={iconPlaceholderStyle} />
+            <RectShape color="#E0E0E0" style={iconPlaceholderStyle} />
+            <RectShape color="#E0E0E0" style={iconPlaceholderStyle} />
+            <RectShape color="#E0E0E0" style={iconPlaceholderStyle} />
+          </div>
+        )}
       </Card.Content>
     </Card>
   );
