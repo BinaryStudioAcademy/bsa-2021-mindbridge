@@ -1,4 +1,5 @@
 package com.mindbridge.core.domains.user;
+import com.mindbridge.core.domains.achievement.AchievementHelper;
 import com.mindbridge.core.domains.commentReaction.dto.UserReactionsCommentsDto;
 import com.mindbridge.core.domains.helpers.mailSender.MailSender;
 import com.mindbridge.core.domains.notification.NotificationService;
@@ -73,6 +74,8 @@ public class UserService implements UserDetailsService {
 
 	public static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z].{2})(?=.*[A-Z])(?=\\S+$).{8,40}$";
 
+	private final AchievementHelper achievementHelper;
+
 	@Value("${app.domain.name}")
 	private String appDomain;
 
@@ -81,7 +84,8 @@ public class UserService implements UserDetailsService {
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, NotificationService notificationService,
 			CommentRepository commentRepository, FollowerRepository followerRepository, PostRepository postRepository,
 			PostPRRepository postPRRepository, PostReactionRepository postReactionRepository,
-			CommentReactionRepository commentReactionRepository, MailSender mailSender) {
+			CommentReactionRepository commentReactionRepository, MailSender mailSender,
+			AchievementHelper achievementHelper) {
 		this.userRepository = userRepository;
 		this.commentRepository = commentRepository;
 		this.postPRRepository = postPRRepository;
@@ -92,6 +96,7 @@ public class UserService implements UserDetailsService {
 		this.followerRepository = followerRepository;
 		this.postRepository = postRepository;
 		this.commentReactionRepository = commentReactionRepository;
+		this.achievementHelper = achievementHelper;
 	}
 
 	public UserProfileDto getUserProfileInformation(UUID userId, Principal principal) {
@@ -221,6 +226,7 @@ public class UserService implements UserDetailsService {
 				currentUser.getNickname(),
 				currentUser.getId(),
 				Notification.Type.newFollower);
+			achievementHelper.checkFollowersCount(followDto.getFollowedId());
 		}
 	}
 

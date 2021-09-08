@@ -8,6 +8,7 @@ import com.mindbridge.data.domains.follower.FollowerRepository;
 import com.mindbridge.data.domains.notification.model.Notification.Type;
 import com.mindbridge.data.domains.post.PostRepository;
 import com.mindbridge.data.domains.postPR.PostPRRepository;
+import com.mindbridge.data.domains.user.UserRepository;
 import com.mindbridge.data.domains.user.model.User;
 import com.mindbridge.data.domains.usersAchievement.UsersAchievementRepository;
 import com.mindbridge.data.domains.usersAchievement.model.UsersAchievement;
@@ -63,11 +64,14 @@ public class AchievementHelper {
 
 	private final CommentRepository commentRepository;
 
+	private final UserRepository userRepository;
+
 	@Autowired
 	public AchievementHelper(PostRepository postRepository, UsersAchievementRepository userAchievementRepository,
 		AchievementRepository achievementRepository,
 		FollowerRepository followerRepository, PostPRRepository postPRRepository,
-		NotificationService notificationService, CommentRepository commentRepository) {
+		NotificationService notificationService, CommentRepository commentRepository,
+		UserRepository userRepository) {
 		this.postRepository = postRepository;
 		this.usersAchievementRepository = userAchievementRepository;
 		this.achievementRepository = achievementRepository;
@@ -75,6 +79,7 @@ public class AchievementHelper {
 		this.postPRRepository = postPRRepository;
 		this.notificationService = notificationService;
 		this.commentRepository = commentRepository;
+		this.userRepository = userRepository;
 	}
 
 	public void checkPostCount(User user) {
@@ -93,25 +98,29 @@ public class AchievementHelper {
 		}
 	}
 
-	public void checkFollowersCount(User user) {
-		int followersCount = followerRepository.countFollowerByFollowedId(user.getId());
+	public void checkFollowersCount(UUID userId) {
+		int followersCount = followerRepository.countFollowerByFollowedId(userId);
 		if (followersCount == 1) {
-			if(!hasAchievement(SUBSCRIBERS_LEVEL1, user)) {
+			User user = userRepository.getOne(userId);
+			if(hasNotAchievement(SUBSCRIBERS_LEVEL1, user)) {
 				addAchievementToUser(SUBSCRIBERS_LEVEL1, user);
 			}
 		}
 		else if (followersCount == 50) {
-			if(!hasAchievement(SUBSCRIBERS_LEVEL2, user)) {
+			User user = userRepository.getOne(userId);
+			if(hasNotAchievement(SUBSCRIBERS_LEVEL2, user)) {
 				addAchievementToUser(SUBSCRIBERS_LEVEL2, user);
 			}
 		}
 		else if (followersCount == 100) {
-			if(!hasAchievement(SUBSCRIBERS_LEVEL3, user)) {
+			User user = userRepository.getOne(userId);
+			if(hasNotAchievement(SUBSCRIBERS_LEVEL3, user)) {
 				addAchievementToUser(SUBSCRIBERS_LEVEL3, user);
 			}
 		}
 		else if (followersCount == 500) {
-			if(!hasAchievement(SUBSCRIBERS_LEVEL4, user)) {
+			User user = userRepository.getOne(userId);
+			if(hasNotAchievement(SUBSCRIBERS_LEVEL4, user)) {
 				addAchievementToUser(SUBSCRIBERS_LEVEL4, user);
 			}
 		}
@@ -149,7 +158,7 @@ public class AchievementHelper {
 		}
 	}
 
-	public boolean hasAchievement(UUID achievementId, User user){
+	public boolean hasNotAchievement(UUID achievementId, User user){
 		return usersAchievementRepository.findByUserIdAndAchievementId(user.getId(), achievementId).isEmpty();
 	}
 
