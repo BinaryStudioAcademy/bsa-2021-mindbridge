@@ -18,6 +18,8 @@ public class CommentDto {
 
 	private String text;
 
+	private UUID postId;
+
 	private UserDto author;
 
 	private long rating;
