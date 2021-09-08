@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
 import RatingComponent from '../svgs/RatingIcon';
 import TagsMenu from '@components/TagComponent';
-import FavouriteSvg from '@screens/ViewPost/components/svgs/SvgComponents/favouriteSvg';
+import FavouriteSvg from '@components/FeedSvgComponents/favouriteSvg';
 import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
 import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
 import { IPost } from '@screens/ViewPost/models/IPost';
@@ -19,7 +19,7 @@ import { cursorPosition } from '@screens/ViewPost/helpers/cursorPosition';
 import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 import readingTime from 'reading-time';
 import RelatedPosts from '@screens/ViewPost/components/RelatedPosts';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { useDebouncedCallback } from 'use-debounce';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import Image from '@components/Image';
@@ -47,6 +47,8 @@ interface IViewPostCardProps {
   editComment: IBindingCallback1<object>;
   handleFavouriteAction: any;
   className?: string;
+  resetSendingComment: IBindingAction;
+  sendingEditComment: boolean;
 }
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
@@ -67,7 +69,9 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   users,
   className,
   editComment,
-  handleFavouriteAction
+  handleFavouriteAction,
+  resetSendingComment,
+  sendingEditComment
 }) => {
   const highlighter = new Highlighter({
     wrapTag: 'i',
@@ -207,10 +211,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                     </div>
                   </div>
                   <div className={styles.bgCircle}>
-                    <FavouriteSvg
-                      handleFavouriteAction={getFavouriteAction}
-                      color={post.isFavourite ? 'green' : '#66B9FF'}
-                    />
+                    <FavouriteSvg handleFavouriteAction={getFavouriteAction} isFavourite={post.isFavourite} />
                   </div>
                   <div className={styles.bgCircle}>
                     <CommentSvg />
@@ -286,6 +287,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
           users={users}
           searchUsersByNickname={searchUsersByNickname}
           editComment={editComment}
+          resetSendingComment={resetSendingComment}
+          sendingEditComment={sendingEditComment}
         />
       </Card>
     </div>

@@ -5,11 +5,14 @@ import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { RootState } from '@root/store';
 import { extractData } from '@screens/ViewPost/reducers';
 import {
-  fetchDataRoutine, leaveReactionOnCommentRoutine,
-  leaveReactionOnPostViewPageRoutine, searchUserByNicknameRoutine,
+  fetchDataRoutine,
+  leaveReactionOnCommentRoutine,
+  leaveReactionOnPostViewPageRoutine,
+  searchUserByNicknameRoutine,
   sendCommentRoutine,
   sendReplyRoutine,
-  saveHighlightRoutine, editCommentRoutine
+  saveHighlightRoutine,
+  editCommentRoutine, resetSendingEditCommentStatusRoutine
 } from '@screens/ViewPost/routines';
 import ViewPostCard from '@screens/ViewPost/components/ViewPostCard';
 import { IData } from '@screens/ViewPost/models/IData';
@@ -17,7 +20,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import {
-  deleteHighlightRoutine, fetchHighlightsRoutine,
+  deleteHighlightRoutine,
+  fetchHighlightsRoutine,
   fetchHighlightsWithoutPaginationRoutine
 } from '@screens/HighlightsPage/routines';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
@@ -33,6 +37,8 @@ export interface IViewPostProps extends IState, IActions {
   currentUser: ICurrentUser;
   highlights: IHighlight[];
   userInfo: IUserProfile;
+  endSendingDada: boolean;
+  sendingEditComment: boolean;
 }
 
 interface IState {
@@ -57,6 +63,7 @@ interface IActions {
   savePostView: IBindingCallback1<{view: {userId: string; userIp: string; postId: string}}>;
   deleteFavouritePost: IBindingCallback1<object>;
   editComment: IBindingCallback1<object>;
+  resetSendingComment: IBindingAction;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -81,7 +88,9 @@ const ViewPost: React.FC<IViewPostProps> = (
     deleteFavouritePost,
     getUserIp,
     savePostView,
-    userIp
+    userIp,
+    resetSendingComment,
+    sendingEditComment
   }
 ) => {
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -245,6 +254,8 @@ const ViewPost: React.FC<IViewPostProps> = (
           searchUsersByNickname={searchUsersByNickname}
           handleFavouriteAction={handleFavouriteAction}
           editComment={editComment}
+          resetSendingComment={resetSendingComment}
+          sendingEditComment={sendingEditComment}
         />
         {showScrollButton
           && (
@@ -266,7 +277,8 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   highlights: state.highlightsReducer.data.highlights,
   dataDeleting: extractHighlightDeletion(state),
   users: extractData(state).users,
-  userIp: state.auth.auth.userIp
+  userIp: state.auth.auth.userIp,
+  sendingEditComment: state.viewPostReducer.data.endSendingData
 });
 
 const mapDispatchToProps: IActions = {
@@ -283,7 +295,8 @@ const mapDispatchToProps: IActions = {
   saveFavouritePost: saveFavouritePostRoutine,
   deleteFavouritePost: deleteFavouritePostRoutine,
   getUserIp: getUserIpRoutine,
-  savePostView: savePostViewRoutine
+  savePostView: savePostViewRoutine,
+  resetSendingComment: resetSendingEditCommentStatusRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);

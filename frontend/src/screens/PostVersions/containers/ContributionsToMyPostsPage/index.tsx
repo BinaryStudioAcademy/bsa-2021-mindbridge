@@ -5,61 +5,60 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
-import { IPostPR } from '@root/screens/PullRequest/models/IPostPR';
-import { fetchMyPullRequestsRoutine } from '@root/screens/PullRequest/routines';
-import MyContributionItem from '@root/components/MyContributionsItem';
-import { isEmptyArray } from 'formik';
-import NotFoundContent from '@components/NotFoundContetn';
+import { fetchPrsOfMyPostsRoutine } from '../../routines';
+import PostContributionItem from '@root/components/PostContributionItem';
+import { IContribution } from '@root/screens/ViewPost/models/IContribution';
+import NoResultsSvg from '@root/components/svgs/NoResultsSvg';
 
-export interface IMyContributionsProps extends IState, IActions {
+export interface IContributionsToMyProps extends IState, IActions {
 }
 
 interface IState {
   isAuthorized: boolean;
   currentUser: ICurrentUser;
   userInfo: IUserProfile;
-  contributionsOfAuthor: IPostPR[];
+  contributionsOfMyPosts: IContribution[];
 }
 
 interface IActions {
   fetchUserProfile: IBindingCallback1<string>;
-  fetchMyPRs: IBindingCallback1<string>;
+  fetchPrsOfMyPosts: IBindingCallback1<string>;
 }
 
-const MyContributions: React.FC<IMyContributionsProps> = (
+const ContributionsToMyPosts: React.FC<IContributionsToMyProps> = (
   {
     currentUser,
     fetchUserProfile,
-    contributionsOfAuthor,
-    fetchMyPRs
+    contributionsOfMyPosts,
+    fetchPrsOfMyPosts
   }
 ) => {
   useEffect(() => {
     if (currentUser.id) {
       fetchUserProfile(currentUser.id);
-      fetchMyPRs(currentUser.id);
+      fetchPrsOfMyPosts(currentUser.id);
     }
   }, [currentUser]);
 
   return (
     <div className={styles.postVersions}>
       <div className={styles.main}>
-        <p className={styles.pageTitle}>
-          Your contributions
-        </p>
-        {!isEmptyArray(contributionsOfAuthor) ? (
+        <h3>
+          Contributions to your posts
+        </h3>
+        {
+          contributionsOfMyPosts.map(contribution => (
+            <PostContributionItem
+              key={contribution.id}
+              postContribution={contribution}
+            />
+          ))
+        }
+        {!contributionsOfMyPosts[0] && (
           <div>
-            {
-            contributionsOfAuthor.map(contribution => (
-              <MyContributionItem
-                key={contribution.id}
-                contribution={contribution}
-              />
-            ))
-          }
+            <NoResultsSvg width="35%" height="35%" />
+            <p> Seems like there are no result...</p>
           </div>
-        ) : (
-          <NotFoundContent description="Contributions list is empty" />
         )}
       </div>
     </div>
@@ -69,7 +68,7 @@ const MyContributions: React.FC<IMyContributionsProps> = (
 const mapStateToProps: (state) => IState = state => ({
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
-  contributionsOfAuthor: state.postVersionsReducer.data.authorContributions,
+  contributionsOfMyPosts: state.postVersionsReducer.data.myPostsContributions,
   userInfo: state.postPageReducer.data.profile,
   versionsOfPost: state.postPageReducer.data.versionsOfPost,
   postTitle: state.postVersionsReducer.data.postTitle
@@ -77,7 +76,7 @@ const mapStateToProps: (state) => IState = state => ({
 
 const mapDispatchToProps: IActions = {
   fetchUserProfile: fetchUserProfileRoutine,
-  fetchMyPRs: fetchMyPullRequestsRoutine
+  fetchPrsOfMyPosts: fetchPrsOfMyPostsRoutine
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyContributions);
+export default connect(mapStateToProps, mapDispatchToProps)(ContributionsToMyPosts);

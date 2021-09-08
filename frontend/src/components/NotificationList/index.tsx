@@ -10,7 +10,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 export interface INotificationListProps {
   list: INotification[];
-  setIsListOpen: IBindingCallback1<boolean>;
+  setIsListOpen: IBindingAction;
   markNotificationRead: IBindingCallback1<string>;
   bellRef: any;
   fetchNotifications: IBindingCallback2<boolean, object>;
@@ -20,8 +20,8 @@ export interface INotificationListProps {
 }
 
 const params = {
-  from: 5,
-  count: 5
+  from: 10,
+  count: 10
 };
 
 const NotificationList: React.FC<INotificationListProps> = (
@@ -47,6 +47,7 @@ const NotificationList: React.FC<INotificationListProps> = (
 
   const handleFetchMoreNotifications = () => {
     const { from, count } = params;
+    console.log('asdsdsdsd');
     fetchMoreNotifications(onlyUnread, { from, count });
     params.from = from + count;
   };
@@ -56,7 +57,7 @@ const NotificationList: React.FC<INotificationListProps> = (
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target)
             && bellRef.current && !bellRef.current.contains(event.target)) {
-          setIsListOpen(false);
+          setIsListOpen();
         }
       }
       document.addEventListener('mousedown', handleClickOutside);
@@ -91,7 +92,7 @@ const NotificationList: React.FC<INotificationListProps> = (
         next={handleFetchMoreNotifications}
         hasMore
         loader={' '}
-        style={{ maxHeight: '50vh' }}
+        height="50vh"
       >
         {list?.map(item => (
           <NotificationListItem

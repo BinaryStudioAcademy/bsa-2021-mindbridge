@@ -1,11 +1,11 @@
-import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { Routine } from 'redux-saga-routines';
-import postVersionService from '@screens/PostVersions/services/postVersion';
-import {
+import { fetchPrsOfMyPostsRoutine,
   fetchOpenPostContributionsRoutine,
   fetchPostContributionsRoutine,
   fetchPostTitleRoutine
-} from '@screens/PostVersions/routines';
+} from '../../routines/index';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { Routine } from 'redux-saga-routines';
+import postVersionService from '@screens/PostVersions/services/postVersion';
 import { toastr } from 'react-redux-toastr';
 
 function* fetchPostTitle({ payload }: Routine<any>) {
@@ -38,6 +38,16 @@ function* fetchOpenPostContributions({ payload }: Routine<any>) {
   }
 }
 
+function* fetchMyPostsContributions({ payload }: Routine<any>) {
+  try {
+    const response = yield call(postVersionService.getMyPostsContributions, payload);
+    yield put(fetchPrsOfMyPostsRoutine.success(response));
+  } catch (e) {
+    yield put(fetchPrsOfMyPostsRoutine.failure(e?.message));
+    toastr.error('Error', 'Loading contributions failed!');
+  }
+}
+
 function* watchFetchOpenPostContributions() {
   yield takeEvery(fetchOpenPostContributionsRoutine.TRIGGER, fetchOpenPostContributions);
 }
@@ -50,10 +60,15 @@ function* watchFetchPostTitle() {
   yield takeEvery(fetchPostTitleRoutine.TRIGGER, fetchPostTitle);
 }
 
+function* watchFetchMyPostsContributions() {
+  yield takeEvery(fetchPrsOfMyPostsRoutine.TRIGGER, fetchMyPostsContributions);
+}
+
 export default function* postVersionsPageSagas() {
   yield all([
     watchFetchPostTitle(),
     watchFetchPostContributions(),
-    watchFetchOpenPostContributions()
+    watchFetchOpenPostContributions(),
+    watchFetchMyPostsContributions()
   ]);
 }

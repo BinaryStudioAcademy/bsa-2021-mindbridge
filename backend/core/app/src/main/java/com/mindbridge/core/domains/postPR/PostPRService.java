@@ -146,4 +146,9 @@ public class PostPRService {
 				.map(PostPRMapper.MAPPER::postPRToPostPRDetailsDto).collect(Collectors.toList());
 	}
 
+	public List<PostPRListDto> getPostPRByPostsAuthorId(UUID id, Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+		return postPRRepository.getPostPRByPostAuthorId(id, pageable).stream()
+			.map(PostPRMapper.MAPPER::postPRToPostPRList).collect(Collectors.toList());
+	}
 }

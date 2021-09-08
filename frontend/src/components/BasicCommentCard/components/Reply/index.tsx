@@ -1,9 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { IUser } from '@screens/ViewPost/models/IUser';
 import styles from './styles.module.scss';
 import BasicComment from '@components/BasicCommentCard/components/BasicComment';
 import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
@@ -18,6 +17,8 @@ interface ICommentProps {
   updatedAt: string;
   users: IMentionsUser[];
   searchUsersByNickname: any;
+  resetSendingPrComment: IBindingAction;
+  sendingEditPrComment: boolean;
 }
 
 const Reply: FunctionComponent<ICommentProps> = ({
@@ -29,7 +30,9 @@ const Reply: FunctionComponent<ICommentProps> = ({
   updatedAt,
   users,
   searchUsersByNickname,
-  userInfo
+  userInfo,
+  resetSendingPrComment,
+  sendingEditPrComment
 }) => (
   <div className={styles.comment}>
     <BasicComment
@@ -42,6 +45,8 @@ const Reply: FunctionComponent<ICommentProps> = ({
       updatedAt={updatedAt}
       users={users}
       searchUsersByNickname={searchUsersByNickname}
+      resetSendingPrComment={resetSendingPrComment}
+      sendingEditPrComment={sendingEditPrComment}
     />
   </div>
 );
