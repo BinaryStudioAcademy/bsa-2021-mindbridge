@@ -26,7 +26,6 @@ import LoaderWrapper from '@root/components/LoaderWrapper';
 import { history } from '@helpers/history.helper';
 import ClosedPRSvg from '@root/components/MyContributionsItem/svg/closedPrSvg';
 import OpenSvg from '@root/components/MyContributionsItem/svg/openSvg';
-import GoBackButton from '@root/components/buttons/GoBackButton';
 import SyntaxHighlighterComponent from '@root/components/SyntaxHighlighter';
 import BasicCommentsFeed from '@components/BasicCommentCard';
 import { searchUserByNicknameRoutine } from '@screens/ViewPost/routines';
@@ -112,6 +111,10 @@ const PullRequest: React.FC<IPullRequestProps> = (
     setSeeDiff(!seeDiff);
   };
 
+  const goToPost = () => {
+    history.push(`/post/${postPR.post.id}`);
+  };
+
   const contributor = (
     <AuthorAndDate
       className={styles.contributor}
@@ -128,7 +131,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
   if (postPR.post.author.id === currentUser.id) {
     buttons = (
       <div className={styles.footer}>
-        <GoBackButton />
+        <DarkBorderButton content="Go to post" onClick={goToPost} />
         <DarkBorderButton
           loading={preloader.firstButton}
           disabled={preloader.firstButton || preloader.secondButton}
@@ -146,7 +149,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
   } else if (postPR.contributor.id === currentUser.id) {
     buttons = (
       <div className={styles.footer}>
-        <GoBackButton />
+        <DarkBorderButton content="Go to post" onClick={goToPost} />
         <DarkBorderButton
           loading={preloader.firstButton}
           disabled={preloader.firstButton || preloader.secondButton}
@@ -164,7 +167,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
   } else {
     buttons = (
       <div className={styles.footer}>
-        <GoBackButton />
+        <DarkBorderButton content="Go to post" onClick={goToPost} />
       </div>
     );
   }
@@ -172,7 +175,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
   if (postPR.state !== PrState.open) {
     buttons = (
       <div className={styles.footer}>
-        <GoBackButton />
+        <DarkBorderButton content="Go to post" onClick={goToPost} />
       </div>
     );
   }

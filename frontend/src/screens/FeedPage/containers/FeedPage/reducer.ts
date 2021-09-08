@@ -1,6 +1,7 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import {
   addMorePostsRoutine,
+  fetchAllUsersNumberRoutine,
   fetchDataRoutine,
   likePostRoutine,
   loadCountResultsRoutine,
@@ -16,13 +17,15 @@ export interface IFeedPageReducerState {
   hasMore: boolean;
   loadMore: boolean;
   countResults: number;
+  numberOfAllUsers: number;
 }
 
 const initialState: IFeedPageReducerState = {
   posts: [],
   countResults: 0,
   hasMore: true,
-  loadMore: false
+  loadMore: false,
+  numberOfAllUsers: 0
 };
 
 export const feedPageReducer = createReducer(initialState, {
@@ -89,5 +92,8 @@ export const feedPageReducer = createReducer(initialState, {
         favorite.isFavourite = false;
       }
     }
+  },
+  [fetchAllUsersNumberRoutine.SUCCESS]: (state, action) => {
+    state.numberOfAllUsers = action.payload;
   }
 });
