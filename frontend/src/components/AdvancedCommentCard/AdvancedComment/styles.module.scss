@@ -211,3 +211,13 @@
   padding-right: 0.8em !important;
   padding-left: 0.8em !important;
 }
+
+.highlight{
+  animation-name: highlighting;
+  animation-duration: 4s;
+}
+
+@keyframes highlighting {
+  from {background-color: $light-blue;}
+  to {background-color: white;}
+}

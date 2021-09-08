@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import DividerSvg from '@screens/ViewPost/components/svgs/SvgComponents/dividerSvg';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import moment from 'moment';
 import LinkSvg from '@components/AdvancedCommentCard/svg/LinkSvg';
 import UpToParentCommentSvg from '@components/AdvancedCommentCard/svg/UpToParentCommentSvg';
@@ -23,6 +23,7 @@ import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
 import { IComments } from '@screens/ViewPost/models/IComments';
 import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
+import classNames from 'classnames';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -81,6 +82,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
   const [rotateArrowHook, setRotateArrowHook] = useState(false);
   const [shouldRender] = useState(setShouldRender);
   const [editMode, setEditMode] = useState(false);
+  const [highlight, setHighlight] = useState(false);
 
   const rotateArrow = {
     width: '0.7142em',
@@ -89,6 +91,12 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     transition: 'transform 300ms ease'
   };
   configureAnchors({ offset: -90, scrollDuration: 500 });
+  useEffect(() => {
+    if(window.location.toString().split('#')[1] 
+    && window.location.toString().split('#')[1] === comment.id){
+      setHighlight(true);
+    }
+  }, [window.location]);
 
   const handleClick = () => {
     handleIsOpenedComment();
@@ -165,7 +173,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
 
   return (
     <ScrollableAnchor id={commentId}>
-      <div className={styles.advancedComment}>
+      <div className={highlight ? classNames(styles.advancedComment, styles.highlight) : styles.advancedComment}>
         <div className={styles.header}>
           { shouldRenderArrowCloseComment && (
           <button ref={ref} id="button" className={styles.closeCommentBtn} type="button" onClick={() => handleClick()}>
