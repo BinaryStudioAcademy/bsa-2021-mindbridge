@@ -161,15 +161,15 @@ const FeedPage: React.FC<IFeedPageProps> = (
     }
   };
 
-  if (dataLoading && !loadMore) {
-    return (
-      <div className={styles.feedPage}>
-        <div className={styles.main}>
-          <LoaderWrapper className={styles.loader} loading={dataLoading} />
-        </div>
-      </div>
-    );
-  }
+  // if (dataLoading && !loadMore) {
+  //   return (
+  //     <div className={styles.feedPage}>
+  //       <div className={styles.main}>
+  //         <LoaderWrapper className={styles.loader} loading={dataLoading} />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   const handleLinkClick = () => {
     setIsSearchInputFilled(false);
@@ -249,25 +249,17 @@ const FeedPage: React.FC<IFeedPageProps> = (
           loader={' '}
           scrollThreshold={0.9}
         >
-          {data ? (
-            data.map(post => (
-              <PostCard
-                key={post.id}
-                handleLikePost={handleLikePost}
-                handleDisLikePost={handleDisLikePost}
-                handleFavouriteAction={handleFavouriteAction}
-                post={post}
-                userInfo={userInfo}
-              />
-            ))
-          ) : (
-            <div className={styles.emptyList}>
-              <NoResultsSvg width="35%" height="35%" />
-              <p>
-                No results were found for your request
-              </p>
-            </div>
-          )}
+          {data.map(post => (
+            <PostCard
+              dataLoading={dataLoading}
+              key={post.id}
+              handleLikePost={handleLikePost}
+              handleDisLikePost={handleDisLikePost}
+              handleFavouriteAction={handleFavouriteAction}
+              post={post}
+              userInfo={userInfo}
+            />
+          ))}
         </InfiniteScroll>
       </div>
     </div>

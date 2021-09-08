@@ -95,6 +95,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
         {!isEmptyArray(favouritePosts) && favouritePosts ? (
           favouritePosts.map(post => (
             <PostCard
+              dataLoading={dataLoading}
               key={post.id}
               post={post}
               handleLikePost={undefined}
