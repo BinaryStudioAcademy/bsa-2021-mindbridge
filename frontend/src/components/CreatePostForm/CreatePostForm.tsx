@@ -99,8 +99,9 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
     }
   };
 
-  const closeCoverImage = () => {
-    updateForm('coverImage', { url: '', title: '' });
+  const closeCoverImage = (e) => {
+    e.preventDefault();
+    updateForm('coverImage', { url: null, title: '' });
   };
 
   const getTag = () => (
@@ -153,7 +154,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
               <div>
                 <span>{form.coverImage.title}</span>
                 {form.coverImage.title !== 'loading...'
-                && <button type="button" className={styles.close_image} onClick={closeCoverImage}>✖</button>}
+                && <button type="button" className={styles.close_image} onClick={e => closeCoverImage(e)}>✖</button>}
               </div>
             )}
           <input
