@@ -12,7 +12,9 @@ const NotFoundContent: React.FC<INotFoundContent> = (
   }
 ) => (
   <div className={styles.emptyContent}>
-    <NoResultsSvg width="35%" height="35%" />
+    <div className={styles.notResultSvg}>
+      <NoResultsSvg width="100%" height="100%" />
+    </div>
     <p className={styles.emptyLabel}>
       {description}
     </p>
