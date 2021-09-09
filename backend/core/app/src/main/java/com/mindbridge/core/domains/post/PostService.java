@@ -203,7 +203,9 @@ public class PostService {
 		if (!savedPost.getDraft()) {
 			elasticService.put(savedPost);
 		}
-		achievementHelper.checkPostCount(post.getAuthor());
+		if(!savedPost.getDraft()) {
+			achievementHelper.checkPostCount(post.getAuthor());
+		}
 		return savedPost.getId();
 	}
 

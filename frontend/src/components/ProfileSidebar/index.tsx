@@ -9,11 +9,10 @@ import HighlightsSvg from './svg/highlightsSvg';
 import PostsSvg from './svg/posts';
 import ContributorsSvg from './svg/contributors';
 import { Link, useHistory } from 'react-router-dom';
-import { Dropdown, Placeholder, PlaceholderImage, PlaceholderLine } from 'semantic-ui-react';
+import { Dropdown, Placeholder } from 'semantic-ui-react';
 import { handleOnClickSignOut } from '@helpers/signOut.helper';
 import Image from '@components/Image';
 import { defaultAvatar } from '@images/defaultImages';
-import classNames from 'classnames';
 
 export interface IProfileSidebarProps {
 }
@@ -95,7 +94,7 @@ function ProfileSidebar({ id, avatar, userName, folloversCount, rating, postNoti
               <HighlightsSvg />
               <span>Highlights</span>
             </Link>
-            <Link to="/">
+            <Link to="/my/posts/contributions">
               <PostsSvg />
               <span>Suggested changes</span>
               <div className={postNotificationCount ? styles.post_notification_count : styles.invisible}>

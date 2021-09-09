@@ -22,21 +22,18 @@ interface IState {
 }
 
 interface IActions {
-  fetchUserProfile: IBindingCallback1<string>;
   fetchMyPRs: IBindingCallback1<string>;
 }
 
 const MyContributions: React.FC<IMyContributionsProps> = (
   {
     currentUser,
-    fetchUserProfile,
     contributionsOfAuthor,
     fetchMyPRs
   }
 ) => {
   useEffect(() => {
     if (currentUser.id) {
-      fetchUserProfile(currentUser.id);
       fetchMyPRs(currentUser.id);
     }
   }, [currentUser]);
@@ -76,7 +73,6 @@ const mapStateToProps: (state) => IState = state => ({
 });
 
 const mapDispatchToProps: IActions = {
-  fetchUserProfile: fetchUserProfileRoutine,
   fetchMyPRs: fetchMyPullRequestsRoutine
 };
 

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Card, Feed, Placeholder, PlaceholderLine } from 'semantic-ui-react';
+import { Card, Feed, Placeholder } from 'semantic-ui-react';
 import ShareSvg from '@components/FeedSvgComponents/shareSvg';
 import RatingComponent from '@components/RatingIcon';
 import FavouriteSvg from '@components/FeedSvgComponents/favouriteSvg';
@@ -94,7 +94,11 @@ const PostCard: FunctionComponent<IPostCardProps> = ({
                     : ('#66B9FF')
                 }
                 />
-                <FavouriteSvg handleFavouriteAction={getFavouriteAction} isFavourite={post.isFavourite} />
+                <FavouriteSvg
+                  handleFavouriteAction={getFavouriteAction}
+                  isFavourite={post.isFavourite}
+                  color="#66B9FF"
+                />
               </div>
             </div>
           ) : (

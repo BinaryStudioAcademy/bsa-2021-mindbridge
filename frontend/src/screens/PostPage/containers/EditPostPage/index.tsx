@@ -385,14 +385,14 @@ const EditPost: React.FC<IEditPostProps> = (
                 : (
                   <Preview
                     seeDiff={seeDiff}
-                    markdown={post.markdown}
-                    coverImage={post.coverImage}
+                    markdown={post?.markdown}
+                    coverImage={post?.coverImage}
                     title={form.title}
-                    oldTitle={post.title}
+                    oldTitle={post?.title}
                     text={form.content}
-                    oldText={post.text}
+                    oldText={post?.text}
                     tags={tags}
-                    oldTags={post.tags}
+                    oldTags={post?.tags}
                   />
                 )}
               <div className={styles.footer}>
