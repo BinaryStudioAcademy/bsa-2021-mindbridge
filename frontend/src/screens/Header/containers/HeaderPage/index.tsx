@@ -284,13 +284,15 @@ const Header: React.FC<IHeaderProps> = (
             <div className={styles.foundPosts}>
               <ul>
                 {posts[0]
-                && posts.map(post => (
+                ? posts.map(post => (
                   <FoundPostsList
                     linkClick={handleLinkClick}
                     key={post.sourceId}
                     post={post}
                   />
-                ))}
+                )) : (
+                  <p>No results</p>
+                  )}
               </ul>
             </div>
             )}
