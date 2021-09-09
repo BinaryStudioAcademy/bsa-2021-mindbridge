@@ -147,9 +147,9 @@ const CreatePost: React.FC<ICreatePostProps> = (
   };
 
   const handleSendForm = isDraft => {
-    if (!form.title || !form.content || !form.tags.length) {
+    if (!form.title || !form.content || !form.tags.length || form.content === '<p><br></p>') {
       setIsTitleEmpty(!form.title);
-      setIsContentEmpty(!form.content);
+      setIsContentEmpty(!form.content || form.content === '<p><br></p>');
       setIsTagsEmpty(!form.tags.length);
       return;
     }
