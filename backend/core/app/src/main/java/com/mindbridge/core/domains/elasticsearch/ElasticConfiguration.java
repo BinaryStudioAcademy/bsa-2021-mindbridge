@@ -39,7 +39,7 @@ public class ElasticConfiguration extends ElasticsearchConfigurationSupport {
 		final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
 		credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
 
-		RestClientBuilder builder = RestClient.builder(new HttpHost(host, port, "http")).setHttpClientConfigCallback(
+		RestClientBuilder builder = RestClient.builder(new HttpHost(host, port, "https")).setHttpClientConfigCallback(
 				httpClientBuilder -> httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
 
 		RestHighLevelClient client = new RestHighLevelClient(builder);
