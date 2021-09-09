@@ -15,4 +15,12 @@ img {
 
 .followerCard {
   margin-bottom: 2em;
+
+  a {
+    display: block;
+  }
+  button {
+    float: right;
+    margin-top: -6% !important;
+  }
 }

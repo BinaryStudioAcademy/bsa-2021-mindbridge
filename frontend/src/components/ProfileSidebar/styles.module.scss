@@ -143,6 +143,12 @@
 :global(.ui.floating.dropdown>.menu) {
   top: 0;
   left: 3em;
+  outline: none !important;
+  border-radius: 10px !important;
+  div {
+    border-radius: 10px !important;
+
+  }
 }
 
 :global(.menu.transition.visible) {

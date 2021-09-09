@@ -6,14 +6,16 @@ import {
   fetchAchievementsByUserRoutine,
   sendFormRoutine,
   sendNicknameRoutine,
-  toggleFollowUserRoutine } from '@screens/ProfilePage/routines';
+  toggleFollowUserRoutine, unfollowUserFromModalRoutine
+} from '@screens/ProfilePage/routines';
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
   fetchAchievementsByUserRequest: reducerCreator([fetchAchievementsByUserRoutine.TRIGGER]),
   sendFormRequest: reducerCreator([sendFormRoutine.TRIGGER]),
   sendNicknameRequest: reducerCreator([sendNicknameRoutine.TRIGGER, sendNicknameRoutine.SUCCESS]),
-  toggleFollowUserRequest: reducerCreator([toggleFollowUserRoutine.TRIGGER])
+  toggleFollowUserRequest: reducerCreator([toggleFollowUserRoutine.TRIGGER]),
+  unfollowUserFromModalRequest: reducerCreator([unfollowUserFromModalRoutine.TRIGGER])
 });
 
 export default combineReducers({
@@ -27,6 +29,7 @@ const data = (state: RootState) => state.profilePageReducer.data;
 /* PlopJS request_extractor placeholder. Do not remove */
 export const extractFetchAchievementsByUserLoading = state => reqs(state).fetchAchievementsByUserRequest.loading;
 export const extractFetchAchievementsByUserError = state => reqs(state).fetchAchievementsByUserRequest.error;
+export const extractUnfollowUserFromModalLoading = state => reqs(state).unfollowUserFromModalRequest.loading;
 export const extractToggleFollowUserLoading = state => reqs(state).toggleFollowUserRequest.loading;
 export const extractSendFormLoading = state => reqs(state).sendFormRequest.loading;
 export const extractSendFormError = state => reqs(state).sendFormRequest.error;

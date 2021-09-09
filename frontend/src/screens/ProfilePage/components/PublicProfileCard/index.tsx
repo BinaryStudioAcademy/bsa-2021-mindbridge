@@ -24,6 +24,7 @@ import FollowersModal from '@screens/ProfilePage/components/FollowersModal';
 import classNames from 'classnames';
 import DarkButton from '@components/buttons/DarcButton';
 import DarkBorderButton from '@components/buttons/DarcBorderButton';
+import FollowingSvg from '@screens/ProfilePage/components/svg/followingSvg';
 
 interface IPublicProfileCardProps extends IState, IActions {
   user: IUser;
@@ -31,6 +32,8 @@ interface IPublicProfileCardProps extends IState, IActions {
   currentUser: ICurrentUser;
   toggleFollowUser: IBindingCallback1<object>;
   isToggleFollowLoading?: boolean;
+  unfollowUser: IBindingCallback1<object>;
+  isUnfollowLoading: boolean;
 }
 
 interface IState {
@@ -42,7 +45,17 @@ interface IActions {
 }
 
 const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
-  { user, isUserLoaded, currentUser, toggleFollowUser, isToggleFollowLoading, achievements, fetchAchievements }
+  {
+    user,
+    isUserLoaded,
+    currentUser,
+    toggleFollowUser,
+    isToggleFollowLoading,
+    achievements,
+    fetchAchievements,
+    unfollowUser,
+    isUnfollowLoading
+  }
 ) => {
   const [userData, setUserData] = useState(user);
   const [isModalFollowersOpen, setIsModalFollowersOpen] = useState(false);
@@ -70,6 +83,10 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
     } else {
       history.push('/login');
     }
+  };
+
+  const handleUnfollowUser = followingUser => {
+    unfollowUser({ followerId: currentUser.id, followedId: followingUser });
   };
 
   const renderFollowButton = () => {
@@ -100,6 +117,9 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
       {isUserLoaded ? (
         <div className={styles.contentWrp}>
           <FollowersModal
+            isUnfollowLoading={isUnfollowLoading}
+            handleFollowUser={handleUnfollowUser}
+            isOwnProfile={user.id === currentUser.id}
             followers={isModalFollowersOpen ? (user.followers) : (user.following)}
             setIsModalFollowersOpen={setIsModalFollowersOpen}
             isModalFollowersOpen={isModalFollowersOpen}
@@ -170,7 +190,7 @@ const PublicProfileCard: FunctionComponent<IPublicProfileCardProps> = (
               </div>
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
               <div className={classNames(styles.statCell, styles.followersNumber)} onClick={() => setIsModalFollowingOpen(true)}>
-                <FollowersSvg />
+                <FollowingSvg />
                 <div className={styles.statInfo}>
                   <span className={styles.statNumber}>
                     {userData.followingQuantity}
