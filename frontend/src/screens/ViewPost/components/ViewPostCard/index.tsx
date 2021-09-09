@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Card, Feed, Placeholder, PlaceholderImage, PlaceholderLine } from 'semantic-ui-react';
+import { Card, Feed, Popup, Placeholder, PlaceholderImage, PlaceholderLine } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
 import RatingComponent from '../svgs/RatingIcon';
@@ -51,6 +51,8 @@ interface IViewPostCardProps {
   resetSendingComment: IBindingAction;
   sendingEditComment: boolean;
 }
+
+const commentBlockId = 'commentsFeed';
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   post,
@@ -183,6 +185,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
     handleFavouriteAction(post);
   };
 
+  const stubOnClickIconsDraftPage = () => 'Hello :)';
+
   return (
     <div className={classNames(styles.container, className)}>
       <Card className={styles.viewCard}>
@@ -214,27 +218,63 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                         />
                       </div>
                     </div>
-                    <div className={styles.bgCircle}>
+                    {!post.draft ? (
                       <div className={styles.bgCircle}>
                         <FavouriteSvg handleFavouriteAction={getFavouriteAction} isFavourite={post.isFavourite} />
                       </div>
-                    </div>
-                    <div className={styles.bgCircle}>
-                      <CommentSvg />
-                    </div>
-                    <div className={styles.bgCircle}>
-                      <SharePopup
-                        triggerContent={(
-                          <CopyToClipboard text={`${window.location.href}`}>
-                            <button style={{ background: 'none' }} type="button" onClick={handleShare}>
+                    ) : (
+                      <Popup
+                        content="This is a draft"
+                        trigger={(
+                          <div className={styles.bgCircle}>
+                            <FavouriteSvg
+                              handleFavouriteAction={stubOnClickIconsDraftPage}
+                              isFavourite={post.isFavourite}
+                            />
+                          </div>
+                      )}
+                      />
+                    )}
+                    {!post.draft ? (
+                      <a href={`#${commentBlockId}`} className={styles.bgCircle}>
+                        <CommentSvg />
+                      </a>
+                    ) : (
+                      <Popup
+                        content="This is a draft"
+                        trigger={(
+                          <div className={styles.bgCircle}>
+                            <CommentSvg />
+                          </div>
+                      )}
+                      />
+                    )}
+                    {!post.draft ? (
+                      <div className={styles.bgCircle}>
+                        <SharePopup
+                          triggerContent={(
+                            <CopyToClipboard text={`${window.location.href}`}>
+                              <button style={{ background: 'none' }} type="button" onClick={handleShare}>
+                                <ShareSvg />
+                              </button>
+                            </CopyToClipboard>
+                        )}
+                          popupContent={popupContent}
+                          handleOnClose={handleOnClose}
+                        />
+                      </div>
+                    ) : (
+                      <Popup
+                        content="This is a draft"
+                        trigger={(
+                          <div className={styles.bgCircle}>
+                            <button style={{ background: 'none' }} type="button" onClick={stubOnClickIconsDraftPage}>
                               <ShareSvg />
                             </button>
-                          </CopyToClipboard>
+                          </div>
                       )}
-                        popupContent={popupContent}
-                        handleOnClose={handleOnClose}
                       />
-                    </div>
+                    )}
                     {isAuthor && (
                     <div role="button" tabIndex={0} className={styles.bgCircle} onKeyDown={goToEdit} onClick={goToEdit}>
                       <EditSvg />
@@ -329,25 +369,26 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
             )}
           </Card.Content>
         </div>
-        { post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} /> }
-        {!post.draft
-        && (
-        <AdvancedCommentsFeed
-          comments={post.comments}
-          sendComment={sendComment}
-          sendReply={sendReply}
-          postId={post.id}
-          postAuthorId={post.author.id}
-          userInfo={userInfo}
-          isAuthorized={isAuthorized}
-          handleDislikeComment={handleDislikeComment}
-          handleLikeComment={handleLikeComment}
-          users={users}
-          searchUsersByNickname={searchUsersByNickname}
-          editComment={editComment}
-          resetSendingComment={resetSendingComment}
-          sendingEditComment={sendingEditComment}
-        />
+        {!post.draft && (
+          <div>
+            {post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} />}
+            <AdvancedCommentsFeed
+              comments={post.comments}
+              sendComment={sendComment}
+              sendReply={sendReply}
+              postId={post.id}
+              postAuthorId={post.author.id}
+              userInfo={userInfo}
+              isAuthorized={isAuthorized}
+              handleDislikeComment={handleDislikeComment}
+              handleLikeComment={handleLikeComment}
+              users={users}
+              searchUsersByNickname={searchUsersByNickname}
+              editComment={editComment}
+              resetSendingComment={resetSendingComment}
+              sendingEditComment={sendingEditComment}
+            />
+          </div>
         )}
       </Card>
     </div>
