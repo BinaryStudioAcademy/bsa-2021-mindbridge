@@ -99,7 +99,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
     }
   };
 
-  const closeCoverImage = (e) => {
+  const closeCoverImage = e => {
     e.preventDefault();
     updateForm('coverImage', { url: null, title: '' });
   };
@@ -111,8 +111,8 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
   );
 
   const stylePopup = {
-    width: "10rem"
-  }
+    width: '10rem'
+  };
 
   let dropzoneOrTag;
   if (!imageTag.isPresent) {
@@ -230,7 +230,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
           </div>
         )}
         content="Content is required"
-        open={!form.content && isContentEmpty || form.content === "<p><br></p>"}
+        open={(!form.content && isContentEmpty) || form.content === '<p><br></p>'}
         position="left center"
         style={stylePopup}
       />

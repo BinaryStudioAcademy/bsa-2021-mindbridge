@@ -211,9 +211,9 @@ const EditPost: React.FC<IEditPostProps> = (
   };
 
   const handleSendForm = isDraft => {
-    if (!form.title || !form.content || !form.tags.length || form.content === "<p><br></p>") {
+    if (!form.title || !form.content || !form.tags.length || form.content === '<p><br></p>') {
       setIsTitleEmpty(!form.title);
-      setIsContentEmpty(!form.content || form.content === "<p><br></p>");
+      setIsContentEmpty(!form.content || form.content === '<p><br></p>');
       setIsTagsEmpty(!form.tags.length);
       return;
     }
