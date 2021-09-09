@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Card, Feed } from 'semantic-ui-react';
+import { Card, Feed, Popup } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
 import RatingComponent from '../svgs/RatingIcon';
@@ -50,6 +50,8 @@ interface IViewPostCardProps {
   resetSendingComment: IBindingAction;
   sendingEditComment: boolean;
 }
+
+const commentBlockId = 'commentsFeed';
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   post,
@@ -181,6 +183,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
     handleFavouriteAction(post);
   };
 
+  const stubOnClickIconsDraftPage = () => 'Hello :)';
+
   return (
     <div className={classNames(styles.container, className)}>
       <Card className={styles.viewCard}>
@@ -189,7 +193,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
             <Feed>
               <div className={styles.gridColumn}>
                 <div className={styles.leftSide}>
-                  <div className={!post.draft ? styles.bgCircle : styles.hiddenElement}>
+                  <div className={styles.bgCircle}>
                     <div className={styles.ratingComponent}>
                       <RatingComponent
                         postRating={post.rating}
@@ -210,25 +214,63 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                       />
                     </div>
                   </div>
-                  <div className={!post.draft ? styles.bgCircle : styles.hiddenElement}>
-                    <FavouriteSvg handleFavouriteAction={getFavouriteAction} isFavourite={post.isFavourite} />
-                  </div>
-                  <div className={!post.draft ? styles.bgCircle : styles.hiddenElement}>
-                    <CommentSvg />
-                  </div>
-                  <div className={!post.draft ? styles.bgCircle : styles.hiddenElement}>
-                    <SharePopup
-                      triggerContent={(
-                        <CopyToClipboard text={`${window.location.href}`}>
-                          <button style={{ background: 'none' }} type="button" onClick={handleShare}>
+                  {!post.draft ? (
+                    <div className={styles.bgCircle}>
+                      <FavouriteSvg handleFavouriteAction={getFavouriteAction} isFavourite={post.isFavourite} />
+                    </div>
+                  ) : (
+                    <Popup
+                      content="This is a draft"
+                      trigger={(
+                        <div className={styles.bgCircle}>
+                          <FavouriteSvg
+                            handleFavouriteAction={stubOnClickIconsDraftPage}
+                            isFavourite={post.isFavourite}
+                          />
+                        </div>
+                      )}
+                    />
+                  )}
+                  {!post.draft ? (
+                    <a href={`#${commentBlockId}`} className={styles.bgCircle}>
+                      <CommentSvg />
+                    </a>
+                  ) : (
+                    <Popup
+                      content="This is a draft"
+                      trigger={(
+                        <div className={styles.bgCircle}>
+                          <CommentSvg />
+                        </div>
+                      )}
+                    />
+                  )}
+                  {!post.draft ? (
+                    <div className={styles.bgCircle}>
+                      <SharePopup
+                        triggerContent={(
+                          <CopyToClipboard text={`${window.location.href}`}>
+                            <button style={{ background: 'none' }} type="button" onClick={handleShare}>
+                              <ShareSvg />
+                            </button>
+                          </CopyToClipboard>
+                        )}
+                        popupContent={popupContent}
+                        handleOnClose={handleOnClose}
+                      />
+                    </div>
+                  ) : (
+                    <Popup
+                      content="This is a draft"
+                      trigger={(
+                        <div className={styles.bgCircle}>
+                          <button style={{ background: 'none' }} type="button" onClick={stubOnClickIconsDraftPage}>
                             <ShareSvg />
                           </button>
-                        </CopyToClipboard>
+                        </div>
                       )}
-                      popupContent={popupContent}
-                      handleOnClose={handleOnClose}
                     />
-                  </div>
+                  )}
                   {isAuthor && (
                     <div role="button" tabIndex={0} className={styles.bgCircle} onKeyDown={goToEdit} onClick={goToEdit}>
                       <EditSvg />
@@ -275,7 +317,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
         </div>
         {!post.draft && (
           <div>
-            { post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} /> }
+            {post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} />}
             <AdvancedCommentsFeed
               comments={post.comments}
               sendComment={sendComment}
