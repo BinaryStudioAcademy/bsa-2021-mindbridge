@@ -30,6 +30,7 @@ interface ICreatePostFormProps {
   resetImageTag: IBindingAction;
   isTitleEmpty: boolean;
   isContentEmpty: boolean;
+  isTagsEmpty: boolean;
 }
 
 const CreatePostForm: React.FC<ICreatePostFormProps> = (
@@ -44,7 +45,8 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
     resetImageTag,
     isCreateForm,
     isTitleEmpty,
-    isContentEmpty
+    isContentEmpty,
+    isTagsEmpty
   }
 ) => {
   const [initialContent, setInitialContent] = useState(initialPostContent);
@@ -97,8 +99,9 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
     }
   };
 
-  const closeCoverImage = () => {
-    updateForm('coverImage', { url: '', title: '' });
+  const closeCoverImage = e => {
+    e.preventDefault();
+    updateForm('coverImage', { url: null, title: '' });
   };
 
   const getTag = () => (
@@ -106,6 +109,10 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
       ? `<Image src=${imageTag.url} alt="image" />`
       : `![Alt Text](${imageTag.url})`
   );
+
+  const stylePopup = {
+    width: '10rem'
+  };
 
   let dropzoneOrTag;
   if (!imageTag.isPresent) {
@@ -151,7 +158,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
               <div>
                 <span>{form.coverImage.title}</span>
                 {form.coverImage.title !== 'loading...'
-                && <button type="button" className={styles.close_image} onClick={closeCoverImage}>✖</button>}
+                && <button type="button" className={styles.close_image} onClick={e => closeCoverImage(e)}>✖</button>}
               </div>
             )}
           <input
@@ -174,6 +181,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
           content="You can't add a cover image when post was created"
           on="hover"
           position="left center"
+          style={stylePopup}
         />
       )}
       <Popup
@@ -183,6 +191,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
         content="Title is required"
         open={!form.title && isTitleEmpty}
         position="left center"
+        style={stylePopup}
       />
       <Popup
         trigger={(
@@ -221,8 +230,9 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
           </div>
         )}
         content="Content is required"
-        open={!form.content && isContentEmpty}
+        open={(!form.content && isContentEmpty) || form.content === '<p><br></p>'}
         position="left center"
+        style={stylePopup}
       />
 
       { modes.markdownMode && dropzoneOrTag}
@@ -230,9 +240,10 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
         trigger={(
           <TagsDropdown onChange={handleTags} data={form.tags} allTags={allTags} />
         )}
-        content="Max amount of tags has reached"
-        open={form.tags.length === 5}
+        content={form.tags.length ? 'Maximum number of tags has been reached' : 'At least one tag required'}
+        open={form.tags.length === 5 || (form.tags.length === 0 && isTagsEmpty)}
         position="left center"
+        style={stylePopup}
       />
     </div>
   );

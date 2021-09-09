@@ -20,6 +20,7 @@ import { REFRESH_TOKEN } from '@screens/Login/constants/auth_constants';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { fetchPopularTagsRoutine } from '@screens/Sidebar/routines';
 import FeedTagsSideBar from '@components/FeedTagsSideBar';
+import { extractFetchUserLoading } from '@screens/PostPage/reducers';
 
 export interface ISidebarProps extends IState, IActions {
 }
@@ -32,10 +33,11 @@ interface IState {
   currentUser: ICurrentUser;
   post: IPost;
   initialTagsData: any;
+  userLoading: boolean;
 }
 
 interface IActions {
-  fetchPostContributions: IBindingCallback1<string>;
+  fetchPostContributions: IBindingCallback1<any>;
   fetchUserProfile: IBindingCallback1<string>;
   getPostVersions: IBindingCallback1<object>;
   loadCurrentUser: IBindingAction;
@@ -55,7 +57,8 @@ const Sidebar: React.FC<ISidebarProps> = (
     post,
     initialTagsData,
     loadCurrentUser,
-    userInfo
+    userInfo,
+    userLoading
   }
 ) => {
   const { postId } = useParams();
@@ -81,7 +84,7 @@ const Sidebar: React.FC<ISidebarProps> = (
   useEffect(() => {
     if (postId) {
       getPostVersions({ postId });
-      fetchPostContributions(postId);
+      fetchPostContributions({ postId });
     }
   }, [postId]);
 
@@ -110,7 +113,6 @@ const Sidebar: React.FC<ISidebarProps> = (
       setIsFixed(true);
     }
   }, [scroll]);
-
   return (
     <div className={styles.sidebar}>
       <div ref={sidebar} className={styles.viewPostSideBar} style={sidebarStyles}>
@@ -125,6 +127,7 @@ const Sidebar: React.FC<ISidebarProps> = (
                   folloversCount={userInfo.followersQuantity}
                   rating={userInfo.rating}
                   postNotificationCount={0}
+                  userLoading={userLoading}
                 />
               ) : (
                 <ProfileSidebar
@@ -134,6 +137,7 @@ const Sidebar: React.FC<ISidebarProps> = (
                   folloversCount={0}
                   rating={0}
                   postNotificationCount={0}
+                  userLoading={userLoading}
                 />
               )}
             </div>
@@ -150,7 +154,7 @@ const Sidebar: React.FC<ISidebarProps> = (
             )}
             {postId && currentUser.id === post?.author?.id && (
               <div className={styles.history_sidebar_container}>
-                <HistorySidebar history={versionsOfPost} postId={postId} />
+                <HistorySidebar history={versionsOfPost} postId={postId} userLoading={userLoading} />
               </div>
             )}
             <div className={styles.tagsSideBar}>
@@ -180,14 +184,15 @@ const mapStateToProps: (state) => IState = state => ({
   initialTagsData: {
     popularTags: state.sidebarReducer.data.tags,
     isTagsLoaded: state.sidebarReducer.data.isTagsLoaded
-  }
+  },
+  userLoading: extractFetchUserLoading(state)
 });
 
 const mapDispatchToProps: IActions = {
   getPostVersions: getPostVersionsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
   fetchPopularTags: fetchPopularTagsRoutine,
-  fetchPostContributions: fetchOpenPostContributionsRoutine,
+  fetchPostContributions: fetchPostContributionsRoutine,
   loadCurrentUser: loadCurrentUserRoutine
 };
 

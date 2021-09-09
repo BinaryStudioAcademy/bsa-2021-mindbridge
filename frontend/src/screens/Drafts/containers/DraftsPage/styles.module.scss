@@ -1,0 +1,47 @@
+.draftsPage {
+
+  .togglePosts {
+    display: flex;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+    align-items: center;
+
+    .checkbox {
+      height: 1.18rem;
+      width: 1.18rem;
+      border: solid 1.5px rgba(102, 185, 255, 1);
+      border-radius: 0.2rem;
+      cursor: pointer;
+    }
+
+    .checked {
+      height: 1.18rem;
+      width: 1.18rem;
+      border: solid 1.5px rgba(102, 185, 255, 1);
+      border-radius: 0.2rem;
+      cursor: pointer;
+      background-color: rgba(102, 185, 255, 1);
+    }
+  }
+
+  .emptyList {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .loader {
+    margin-left: -13%;
+  }
+}
+
+.pageTitle {
+  font-family: Lato Bolt, sans-serif;
+  font-weight: 500;
+  font-size: 2em;
+  line-height: 1em;
+  color: #282828;
+  margin-bottom: 1em;
+}

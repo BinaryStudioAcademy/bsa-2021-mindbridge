@@ -21,6 +21,8 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -79,7 +81,8 @@ public class ElasticService {
 		return getSearchResult(query, searchByTitle, 0, 10);
 	}
 
-	public List<PostsListDetailsDto> searchList(String query, String tags, Integer from, Integer count) {
+	public List<PostsListDetailsDto> searchList(String query, String tags, Integer from, Integer count, Principal principal) {
+
 		String searchByTitle = "title";
 		String searchByTags = "tags";
 		List<ElasticEntity> searchResult;
@@ -87,7 +90,7 @@ public class ElasticService {
 		searchResult = getSearchByTagsAndTitleResult(query, searchByTitle, tags, searchByTags, from, count);
 
 		return postService
-				.listIDsToListPosts(searchResult.stream().map(ElasticEntity::getSourceId).collect(Collectors.toList()));
+				.listIDsToListPosts(searchResult.stream().map(ElasticEntity::getSourceId).collect(Collectors.toList()), principal);
 	}
 
 	public List<ElasticEntity> searchByAuthor(String query) {

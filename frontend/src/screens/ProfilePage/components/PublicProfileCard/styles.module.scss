@@ -33,13 +33,57 @@
     margin-top: 1.5em;
   }
 }
-
+.followBtn:hover{
+  background-color: white !important;
+  color: $dark-grey !important;
+}
 .statWrp {
   display: flex;
   flex-wrap: nowrap;
   padding: 1.6em 0 1.6em 0;
   justify-content: space-between;
   border-bottom: 1px solid #E5E5E5;
+}
+
+.achievementsWrp {
+  padding-top: 1.6rem;
+  border-bottom: 1px solid #E5E5E5;
+  padding-bottom: 1.6rem;
+}
+
+.scrollWpr{
+  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 10fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.achievements{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  overflow: hidden;
+  grid-column: 2/3;
+  :first-child{
+    margin-left: 0;
+  }
+  :last-child{
+    margin-right: 0;
+  }
+}
+
+.scrollButton{
+  background-color: rgba(0,0,0,0);
+  padding: 0;
+  filter: opacity(0.5);
+}
+
+.scrollButton:hover{
+  filter:opacity(0.7)
+}
+
+.scrollButton:active{
+  filter:opacity(1)
 }
 
 .statCell {
@@ -85,4 +129,19 @@
 .dark_button:hover {
   background-color: rgba(0,0,0,0);
   color: $dark-grey;
+}
+
+.followersNumber {
+  cursor: pointer;
+}
+
+.revert_dark_button {
+  background-color: rgba(0,0,0,0);
+  border: solid 2px #14253f;
+  transition: 0.1s;
+
+  &:hover {
+    background-color: $dark-grey;
+    color: #fff;
+  }
 }

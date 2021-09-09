@@ -3,14 +3,18 @@ package com.mindbridge.data.domains.usersAchievement.model;
 import com.mindbridge.data.domains.achievement.model.Achievement;
 import com.mindbridge.data.domains.user.model.User;
 import com.mindbridge.data.model.BaseAuditableEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users_achievements")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class UsersAchievement extends BaseAuditableEntity {
 

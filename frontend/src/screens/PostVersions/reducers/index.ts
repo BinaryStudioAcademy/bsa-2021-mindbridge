@@ -1,11 +1,15 @@
 import { combineReducers } from 'redux';
 import { postVersionsReducer } from '@screens/PostVersions/containers/PostVersionsPage/reducer';
 import { reducerCreator } from '@helpers/reducer.helper';
-import { fetchPostContributionsRoutine, fetchPostTitleRoutine } from '@screens/PostVersions/routines';
+import {
+  fetchPostContributionsRoutine,
+  fetchPostTitleRoutine,
+  fetchPrsOfMyPostsRoutine } from '@screens/PostVersions/routines';
 /* PlopJS import placeholder. Do not remove */
 
 const requests = combineReducers({
   /* PlopJS request placeholder. Do not remove */
+  fetchPrsOfMyPostsRequest: reducerCreator([fetchPrsOfMyPostsRoutine.TRIGGER]),
   fetchPostTitleRequest: reducerCreator([fetchPostTitleRoutine.TRIGGER]),
   fetchPostContributionsRequest: reducerCreator([fetchPostContributionsRoutine.TRIGGER])
 });

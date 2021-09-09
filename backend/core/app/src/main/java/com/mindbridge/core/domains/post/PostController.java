@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,8 +22,8 @@ public class PostController {
 	}
 
 	@GetMapping("/{id}")
-	public PostDetailsDto getPost(@PathVariable UUID id) {
-		return postService.getPostById(id);
+	public PostDetailsDto getPost(@PathVariable UUID id, Principal principal) {
+		return postService.getPostById(principal, id);
 	}
 
 	@PostMapping("/create")
@@ -37,8 +38,8 @@ public class PostController {
 
 	@GetMapping("/all")
 	public List<PostsListDetailsDto> getAllPosts(@RequestParam(defaultValue = "0") Integer from,
-			@RequestParam(defaultValue = "10") Integer count, @RequestParam(defaultValue = "") UUID userId) {
-		return postService.getAllPosts(from, count, userId);
+												 @RequestParam(defaultValue = "10") Integer count, Principal principal) {
+		return postService.getAllPosts(principal, from, count);
 	}
 
 	@GetMapping("/hots")
@@ -65,4 +66,8 @@ public class PostController {
 		return postService.getAllDrafts(id);
 	}
 
+	@GetMapping("/allMy/{id}")
+	public List<DraftsListDto> getAllMy(@PathVariable UUID id) {
+		return postService.getAllMyPosts(id);
+	}
 }

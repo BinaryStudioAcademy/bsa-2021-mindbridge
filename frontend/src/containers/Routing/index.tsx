@@ -25,6 +25,7 @@ import HighlightsPage from '@screens/HighlightsPage/containers/HighlightsPage';
 import PostVersionPage from '@screens/PostVersionPage/containers/PostVersionPage';
 import Drafts from '@screens/Drafts/containers/DraftsPage';
 import FavouritesPage from '@screens/FavouritesPage/containers/FavouritesPagePage';
+import ContributionsToMyPostsPage from '@root/screens/PostVersions/containers/ContributionsToMyPostsPage';
 
 export interface IRoutingProps {
   isLoading: boolean;
@@ -60,10 +61,11 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
         <PublicRoute exact path="/post/contributions/:id" component={PostVersions} />
         <PrivateRoute exact path="/favourites" component={FavouritesPage} />
         <PublicRoute exact path="/my/contributions" component={MyContributionsPage} />
-        <PublicRoute exact path="/drafts" component={Drafts} />
+        <PrivateRoute exact path="/my/posts" component={Drafts} />
         <PublicRoute exact path="/search" component={FeedPage} />
         <PrivateRoute exact path="/highlights" component={HighlightsPage} />
-        <PublicRoute component={NotFoundPage} />
+        <PublicRoute exact path="/my/posts/contributions" component={ContributionsToMyPostsPage} />
+        <PublicRoute component={NotFoundPage} isNotFound />
 
         <div>
           <LoaderWrapper loading={isLoading}>

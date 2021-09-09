@@ -12,7 +12,7 @@ public class NotificationDto {
 
 	private Date createdAt;
 
-	private UUID sourceId;
+	private String sourceId;
 
 	private String text;
 

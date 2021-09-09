@@ -12,7 +12,8 @@ const feedPageService = {
     }
   ),
   searchPosts: async (filter: object) => api.get('/api/search/list', { params: filter }),
-  loadCountResults: async (filter: object) => api.get('/api/search/count', { params: filter })
+  loadCountResults: async (filter: object) => api.get('/api/search/count', { params: filter }),
+  fetchAllUsersNumber: async () => api.get('/api/user/count')
 };
 
 export default feedPageService;

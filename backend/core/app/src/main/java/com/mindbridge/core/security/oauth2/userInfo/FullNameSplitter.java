@@ -9,6 +9,9 @@ public class FullNameSplitter {
 
 	public static FullNameSplitter fromFullName(String fullName) {
 		FullNameSplitter fullNameSplitter = new FullNameSplitter();
+		if (fullName == null) {
+			return fullNameSplitter;
+		}
 		var nameParts = fullName.split("[ _]+");
 		if (nameParts.length >= 1) {
 			fullNameSplitter.firstName = nameParts[0];

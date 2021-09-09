@@ -122,6 +122,7 @@ const PostVersionPage: React.FC<IPostVersionPageProps> = (
 
   return (
     <div className={classNames('content_wrapper', styles.container)}>
+      <p className={styles.pageTitle}>Version of post</p>
       <Tab
         previewContent={previewContent}
         diffContent={seeDifference ? diffContent : raw}

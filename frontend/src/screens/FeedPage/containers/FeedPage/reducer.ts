@@ -3,6 +3,7 @@ import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 /* import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine, resetDataRoutine } from '@screens/FeedPage/routines';*/
 import {
   addMorePostsRoutine,
+  fetchAllUsersNumberRoutine,
   fetchDataRoutine,
   likePostRoutine,
   loadCountResultsRoutine, resetDataRoutine,
@@ -18,6 +19,7 @@ export interface IFeedPageReducerState {
   hasMore: boolean;
   loadMore: boolean;
   countResults: number;
+  numberOfAllUsers: number;
 }
 
 const initialState: IFeedPageReducerState = {
@@ -25,6 +27,7 @@ const initialState: IFeedPageReducerState = {
   countResults: 0,
   hasMore: false,
   loadMore: false
+  numberOfAllUsers: 0
 };
 
 export const feedPageReducer = createReducer(initialState, {
@@ -57,20 +60,26 @@ export const feedPageReducer = createReducer(initialState, {
       if (response === null || response.isFirstReaction === true) {
         post.likesCount += action.payload.difference;
         post.postRating += action.payload.difference;
+        post.reacted = action.payload.difference === 1;
+        post.isLiked = action.payload.difference === 1;
       } else {
         post.disLikesCount -= action.payload.difference;
         post.postRating += action.payload.difference;
         post.postRating += action.payload.difference;
         post.likesCount += action.payload.difference;
+        post.isLiked = true;
       }
     } else if (response === null || response.isFirstReaction === true) {
       post.disLikesCount += action.payload.difference;
       post.postRating -= action.payload.difference;
+      post.reacted = action.payload.difference === 1;
+      post.isLiked = action.payload.difference !== 1;
     } else {
       post.likesCount -= action.payload.difference;
       post.postRating -= action.payload.difference;
       post.disLikesCount += action.payload.difference;
       post.postRating -= action.payload.difference;
+      post.isLiked = false;
     }
   },
   [resetDataRoutine.TRIGGER]: state => {
@@ -86,7 +95,13 @@ export const feedPageReducer = createReducer(initialState, {
   },
   [deleteFavouritePostRoutine.TRIGGER]: (state, action) => {
     if (state.posts) {
-      state.posts.find(post => post.id === action.payload).isFavourite = false;
+      const favorite = state.posts.find(post => post.id === action.payload.postId);
+      if (favorite) {
+        favorite.isFavourite = false;
+      }
     }
+  },
+  [fetchAllUsersNumberRoutine.SUCCESS]: (state, action) => {
+    state.numberOfAllUsers = action.payload;
   }
 });

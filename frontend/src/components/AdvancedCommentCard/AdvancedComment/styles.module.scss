@@ -16,6 +16,7 @@
   display: flex !important;
   align-items: center;
   justify-content: center;
+  padding: 0.8em 2.2em !important;
 }
 
 .commentText {
@@ -23,9 +24,21 @@
     color: #5254f5;
   }
 }
+.editComment {
+  visibility: hidden;
+}
 
 .advancedComment {
   padding-left: 2.7142em;
+
+  &:hover{
+    .editComment {
+      visibility: visible;
+      background: none;
+
+    }
+  }
+
 
   :global(.actions) {
     padding-bottom: 0.8em;
@@ -143,6 +156,10 @@
       gap: 1em;
       margin-right: 1.8371em;
 
+      .editMode {
+        cursor: pointer;
+      }
+
       .ratingComponent {
         padding-right: 0.2em;
         margin-top: -0.7857rem;
@@ -184,3 +201,23 @@
   }
 }
 
+.btn_wrapper {
+  .btnCancel {
+    color: $dark-grey;
+  }
+}
+
+.btnCancel {
+  padding-right: 0.8em !important;
+  padding-left: 0.8em !important;
+}
+
+.highlight{
+  animation-name: highlighting;
+  animation-duration: 4s;
+}
+
+@keyframes highlighting {
+  from {background-color: $light-blue;}
+  to {background-color: white;}
+}

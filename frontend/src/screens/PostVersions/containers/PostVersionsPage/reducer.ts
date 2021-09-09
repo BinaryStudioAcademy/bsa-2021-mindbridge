@@ -1,23 +1,25 @@
-import { IPostPR } from '../../../PullRequest/models/IPostPR';
-import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { fetchMyPullRequestsRoutine } from '@root/screens/PullRequest/routines';
-import {
+import { fetchPrsOfMyPostsRoutine,
   fetchOpenPostContributionsRoutine,
   fetchPostContributionsRoutine,
   fetchPostTitleRoutine
-} from '@screens/PostVersions/routines';
+} from '../../routines/index';
+import { IPostPR } from '../../../PullRequest/models/IPostPR';
+import { createReducer, PayloadAction } from '@reduxjs/toolkit';
+import { fetchMyPullRequestsRoutine } from '@root/screens/PullRequest/routines';
 import { IContribution } from '@screens/ViewPost/models/IContribution';
 
 export interface IPostVersionsReducerState {
   postTitle: string;
   postContributions: IContribution[];
   authorContributions: IPostPR[];
+  myPostsContributions: IContribution[];
 }
 
 const initialState: IPostVersionsReducerState = {
   postTitle: '',
   postContributions: [],
-  authorContributions: []
+  authorContributions: [],
+  myPostsContributions: []
 };
 
 export const postVersionsReducer = createReducer(initialState, {
@@ -32,5 +34,8 @@ export const postVersionsReducer = createReducer(initialState, {
   },
   [fetchMyPullRequestsRoutine.SUCCESS]: (state, { payload }: PayloadAction<IPostPR[]>) => {
     state.authorContributions = payload;
+  },
+  [fetchPrsOfMyPostsRoutine.SUCCESS]: (state, { payload }: PayloadAction<IContribution[]>) => {
+    state.myPostsContributions = payload;
   }
 });

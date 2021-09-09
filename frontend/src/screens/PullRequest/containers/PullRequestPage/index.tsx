@@ -5,7 +5,14 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
-import { acceptPrRoutine, closePrRoutine, fetchPrRoutine, resetEndSendingDataRoutine } from '../../routines';
+import {
+  acceptPrRoutine,
+  closePrRoutine,
+  editPrCommentRoutine,
+  fetchPrRoutine,
+  resetEndSendingDataRoutine, resetSendingEditCommentStatusRoutine,
+  sendCommentPrRoutine
+} from '../../routines';
 import TextDiff from '@root/components/TextDiff';
 import { IPostPR, PrState } from '../../models/IPostPR';
 import Tab from '../../components/Tab';
@@ -19,8 +26,11 @@ import LoaderWrapper from '@root/components/LoaderWrapper';
 import { history } from '@helpers/history.helper';
 import ClosedPRSvg from '@root/components/MyContributionsItem/svg/closedPrSvg';
 import OpenSvg from '@root/components/MyContributionsItem/svg/openSvg';
-import GoBackButton from '@root/components/buttons/GoBackButton';
 import SyntaxHighlighterComponent from '@root/components/SyntaxHighlighter';
+import BasicCommentsFeed from '@components/BasicCommentCard';
+import { searchUserByNicknameRoutine } from '@screens/ViewPost/routines';
+import { extractData } from '@screens/ViewPost/reducers';
+import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 
 export interface IPullRequestProps extends IState, IActions {
 }
@@ -29,6 +39,8 @@ interface IState {
   currentUser: ICurrentUser;
   postPR: IPostPR;
   endSendingDada: boolean;
+  users: IMentionsUser[];
+  sendingEditPrComment: boolean;
 }
 
 interface IActions {
@@ -36,10 +48,27 @@ interface IActions {
   closePR: IBindingCallback1<IPostPR>;
   resetEndSendingDada: IBindingAction;
   acceptPR: IBindingCallback1<IPostPR>;
+  sendCommentPR: IBindingCallback1<object>;
+  searchUsersByNickname: IBindingCallback1<string>;
+  editPrComment: IBindingCallback1<object>;
+  resetSendingPrComment: IBindingAction;
 }
 
 const PullRequest: React.FC<IPullRequestProps> = (
-  { currentUser, fetchPR, closePR, acceptPR, resetEndSendingDada, postPR, endSendingDada }
+  { currentUser,
+    fetchPR,
+    closePR,
+    acceptPR,
+    resetEndSendingDada,
+    postPR,
+    endSendingDada,
+    sendCommentPR,
+    users,
+    searchUsersByNickname,
+    editPrComment,
+    resetSendingPrComment,
+    sendingEditPrComment
+  }
 ) => {
   const { id } = useParams();
 
@@ -82,6 +111,10 @@ const PullRequest: React.FC<IPullRequestProps> = (
     setSeeDiff(!seeDiff);
   };
 
+  const goToPost = () => {
+    history.push(`/post/${postPR.post.id}`);
+  };
+
   const contributor = (
     <AuthorAndDate
       className={styles.contributor}
@@ -98,7 +131,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
   if (postPR.post.author.id === currentUser.id) {
     buttons = (
       <div className={styles.footer}>
-        <GoBackButton />
+        <DarkBorderButton content="Go to post" onClick={goToPost} />
         <DarkBorderButton
           loading={preloader.firstButton}
           disabled={preloader.firstButton || preloader.secondButton}
@@ -116,7 +149,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
   } else if (postPR.contributor.id === currentUser.id) {
     buttons = (
       <div className={styles.footer}>
-        <GoBackButton />
+        <DarkBorderButton content="Go to post" onClick={goToPost} />
         <DarkBorderButton
           loading={preloader.firstButton}
           disabled={preloader.firstButton || preloader.secondButton}
@@ -134,7 +167,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
   } else {
     buttons = (
       <div className={styles.footer}>
-        <GoBackButton />
+        <DarkBorderButton content="Go to post" onClick={goToPost} />
       </div>
     );
   }
@@ -142,7 +175,7 @@ const PullRequest: React.FC<IPullRequestProps> = (
   if (postPR.state !== PrState.open) {
     buttons = (
       <div className={styles.footer}>
-        <GoBackButton />
+        <DarkBorderButton content="Go to post" onClick={goToPost} />
       </div>
     );
   }
@@ -244,6 +277,20 @@ const PullRequest: React.FC<IPullRequestProps> = (
         seeDiff={seeDiff}
       />
       {buttons}
+      <div>
+        <BasicCommentsFeed
+          comments={postPR.comments}
+          sendCommentPR={sendCommentPR}
+          userInfo={currentUser}
+          prId={postPR.id}
+          author={postPR.post.author}
+          users={users}
+          searchUsersByNickname={searchUsersByNickname}
+          editPrComment={editPrComment}
+          resetSendingPrComment={resetSendingPrComment}
+          sendingEditPrComment={sendingEditPrComment}
+        />
+      </div>
     </div>
   );
 };
@@ -251,14 +298,20 @@ const PullRequest: React.FC<IPullRequestProps> = (
 const mapStateToProps: (state) => IState = state => ({
   currentUser: state.auth.auth.user,
   postPR: state.pullRequestReducer.data.postPR,
-  endSendingDada: state.pullRequestReducer.data.endSendingData
+  endSendingDada: state.pullRequestReducer.data.endSendingData,
+  users: extractData(state).users,
+  sendingEditPrComment: state.pullRequestReducer.data.endSendingData
 });
 
 const mapDispatchToProps: IActions = {
+  sendCommentPR: sendCommentPrRoutine,
   fetchPR: fetchPrRoutine,
   closePR: closePrRoutine,
   resetEndSendingDada: resetEndSendingDataRoutine,
-  acceptPR: acceptPrRoutine
+  acceptPR: acceptPrRoutine,
+  searchUsersByNickname: searchUserByNicknameRoutine,
+  editPrComment: editPrCommentRoutine,
+  resetSendingPrComment: resetSendingEditCommentStatusRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PullRequest);

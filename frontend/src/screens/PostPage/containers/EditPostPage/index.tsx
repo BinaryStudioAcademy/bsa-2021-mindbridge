@@ -121,6 +121,7 @@ const EditPost: React.FC<IEditPostProps> = (
   });
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isContentEmpty, setIsContentEmpty] = useState(false);
+  const [isTagsEmpty, setIsTagsEmpty] = useState(false);
   const [changesExist, setChangesExist] = useState(false);
 
   const { id } = useParams();
@@ -210,13 +211,15 @@ const EditPost: React.FC<IEditPostProps> = (
   };
 
   const handleSendForm = isDraft => {
-    if (!form.title || !form.content) {
+    if (!form.title || !form.content || !form.tags.length || form.content === '<p><br></p>') {
       setIsTitleEmpty(!form.title);
-      setIsContentEmpty(!form.content);
+      setIsContentEmpty(!form.content || form.content === '<p><br></p>');
+      setIsTagsEmpty(!form.tags.length);
       return;
     }
     setIsContentEmpty(false);
     setIsTitleEmpty(false);
+    setIsTagsEmpty(false);
     if (currentUserId === post.author.id) {
       const postOnEdit = {
         title: form.title,
@@ -376,6 +379,7 @@ const EditPost: React.FC<IEditPostProps> = (
                     resetImageTag={resetImageTag}
                     isTitleEmpty={isTitleEmpty}
                     isContentEmpty={isContentEmpty}
+                    isTagsEmpty={isTagsEmpty}
                   />
                 )
                 : (

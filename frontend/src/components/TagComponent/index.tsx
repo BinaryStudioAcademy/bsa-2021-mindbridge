@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
 import { useHistory } from 'react-router-dom';
+import ReactPlaceholder from 'react-placeholder';
 
 interface ITagsMenuProps {
   tag: string;

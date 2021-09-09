@@ -16,7 +16,7 @@ import { extractFetchFavouritePostsLoading } from '@screens/FavouritesPage/reduc
 import LoaderWrapper from '@components/LoaderWrapper';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { isEmptyArray } from 'formik';
-import NoResultsSvg from '@components/svgs/NoResultsSvg';
+import NotFoundContent from '@components/NotFoundContetn';
 
 export interface IFavouritesPageProps extends IState, IActions {
   userInfo: IUserProfile;
@@ -32,7 +32,7 @@ interface IState {
 interface IActions {
   fetchFavouritePosts: IBindingCallback1<object>;
   setLoadMorePosts: IBindingCallback1<boolean>;
-  deleteFavouritePost: IBindingCallback1<string>;
+  deleteFavouritePost: IBindingCallback1<object>;
 }
 
 const params = {
@@ -54,7 +54,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
   }, [currentUser]);
 
   const handleFavouriteAction = post => {
-    deleteFavouritePost(post.id);
+    deleteFavouritePost({ postId: post.id, userId: currentUser.id });
   };
 
   const handleLoadMorePosts = filtersPayload => {
@@ -80,6 +80,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
       </div>
     );
   }
+
   return (
     <div className={classNames('content_wrapper', styles.container)}>
       {!isEmptyArray(favouritePosts) && favouritePosts
@@ -95,6 +96,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
         {!isEmptyArray(favouritePosts) && favouritePosts ? (
           favouritePosts.map(post => (
             <PostCard
+              dataLoading={dataLoading && !loadMore}
               key={post.id}
               post={post}
               handleLikePost={undefined}
@@ -104,12 +106,7 @@ const FavouritesPage: React.FC<IFavouritesPageProps> = (
             />
           ))
         ) : (
-          <div className={styles.emptyFavourites}>
-            <NoResultsSvg width="35%" height="35%" />
-            <p className={styles.emptyLabel}>
-              Favourites list is empty
-            </p>
-          </div>
+          <NotFoundContent description="Favourites list is empty" />
         )}
       </InfiniteScroll>
     </div>
