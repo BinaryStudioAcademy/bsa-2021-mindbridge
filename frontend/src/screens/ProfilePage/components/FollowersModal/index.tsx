@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Modal } from 'semantic-ui-react';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import styles from './styles.module.scss';
 import FollowerCard from '@screens/ProfilePage/components/FollowerCard';
 
@@ -10,9 +10,12 @@ interface IFollowersModalProps {
   isModalFollowersOpen: boolean;
   isModalFollowingOpen: boolean;
   followers: any;
+  isOwnProfile: boolean;
+  handleFollowUser: IBindingCallback1<string>;
+  isUnfollowLoading: boolean;
 }
 const FollowersModal: FunctionComponent<IFollowersModalProps> = ({ setIsModalFollowersOpen, isModalFollowersOpen,
-  isModalFollowingOpen, followers, setIsModalFollowingOpen }) => {
+  isModalFollowingOpen, followers, setIsModalFollowingOpen, handleFollowUser, isUnfollowLoading, isOwnProfile }) => {
   const handleOpenModal = () => {
     setIsModalFollowersOpen(false);
     setIsModalFollowingOpen(false);
@@ -30,6 +33,9 @@ const FollowersModal: FunctionComponent<IFollowersModalProps> = ({ setIsModalFol
           <div className={styles.followerWrapper}>
             {followers.map(follower => (
               <FollowerCard
+                isOwnProfile={isOwnProfile}
+                isUnfollowLoading={isUnfollowLoading}
+                handleFollowUser={handleFollowUser}
                 key={follower.id}
                 follower={follower}
               />
