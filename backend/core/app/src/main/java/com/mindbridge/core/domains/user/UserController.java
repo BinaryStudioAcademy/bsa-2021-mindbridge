@@ -67,4 +67,8 @@ public class UserController {
 		return userService.deleteUserAvatar(id);
 	}
 
+	@GetMapping("/count")
+	public long getAllUsersCount() {
+		return userService.getAllUsersCount();
+	}
 }
