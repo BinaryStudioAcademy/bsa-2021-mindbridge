@@ -5,10 +5,12 @@ import styles from './styles.module.scss';
 import AdvancedComment from '@components/AdvancedCommentCard/AdvancedComment';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
+import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
+import { IBindingAction } from '@models/Callbacks';
 
 interface ICommentProps {
   text: string;
-  author: IUser;
+  author: ICommentAuthor;
   replies: IComments[];
   createdAt: string;
   commentRating: number;
@@ -28,6 +30,11 @@ interface ICommentProps {
   depthOfComments: number;
   searchUsersByNickname: any;
   users: IMentionsUser[];
+  editComment: any;
+  updatedAt: string;
+  commentProp: IComments;
+  resetSendingComment: IBindingAction;
+  sendingEditComment: boolean;
 }
 
 const Reply: React.FC<ICommentProps> = (
@@ -52,7 +59,12 @@ const Reply: React.FC<ICommentProps> = (
     handleDislikeComment,
     depthOfComments,
     searchUsersByNickname,
-    users
+    users,
+    editComment,
+    updatedAt,
+    commentProp,
+    resetSendingComment,
+    sendingEditComment
   }
 ) => {
   const closeCommentRef = useRef(true);
@@ -87,7 +99,12 @@ const Reply: React.FC<ICommentProps> = (
         handleLikeComment={handleLikeComment}
         handleDislikeComment={handleDislikeComment}
         users={users}
+        comment={commentProp}
         searchUsersByNickname={searchUsersByNickname}
+        editComment={editComment}
+        updatedAt={updatedAt}
+        resetSendingComment={resetSendingComment}
+        sendingEditComment={sendingEditComment}
       />
       {repliesLength && (
         <div className={!isMaxDepthOfComments && styles.leftBorder}>
@@ -115,7 +132,12 @@ const Reply: React.FC<ICommentProps> = (
                     handleLikeComment={handleLikeComment}
                     depthOfComments={depthOfComments + 1}
                     users={users}
+                    commentProp={comment}
                     searchUsersByNickname={searchUsersByNickname}
+                    editComment={editComment}
+                    updatedAt={comment.updatedAt}
+                    resetSendingComment={resetSendingComment}
+                    sendingEditComment={sendingEditComment}
                   />
                 ))}
             </div>

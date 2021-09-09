@@ -2,6 +2,7 @@ package com.mindbridge.core.domains.comment;
 
 import com.mindbridge.core.domains.comment.dto.CommentDto;
 import com.mindbridge.core.domains.comment.dto.CreateCommentDto;
+import com.mindbridge.core.domains.comment.dto.EditCommentDto;
 import com.mindbridge.core.domains.comment.dto.ReplyCommentDto;
 import com.mindbridge.data.domains.comment.model.Comment;
 import org.mapstruct.Mapper;
@@ -14,6 +15,7 @@ public interface CommentMapper {
 	CommentMapper MAPPER = Mappers.getMapper(CommentMapper.class);
 
 	@Mapping(target = "rating", ignore = true)
+	@Mapping(target = "postId", source = "post.id")
 	CommentDto commentToCommentDto(Comment comment);
 
 	@Mapping(source = "author", target = "author.id")

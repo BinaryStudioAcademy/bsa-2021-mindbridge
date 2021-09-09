@@ -12,6 +12,10 @@
   }
 }
 
+.hiddenElement {
+  visibility: hidden;
+}
+
 .postBody {
   max-width: 1000px;
   margin-left: auto;
@@ -65,6 +69,35 @@
   font-weight: 400;
   margin-bottom: 15vh;
   padding-left: 10px;
+}
+
+.imgPlaceHolder {
+  border-radius: 0.625rem;
+
+  :global(.ui.placeholder) {
+    max-width: 100%;
+    height: 22.3125rem;
+    border-radius: 0.625rem;
+  }
+}
+
+.postPlaceholder {
+  margin-left: 2.5156rem;
+}
+
+.titlePlaceholder {
+  margin-left: 2.5156rem;
+  margin-bottom: 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.paragraphPlaceHolder {
+  margin-bottom: 0.625rem;
+}
+
+.postBodyPlaceHolder {
+  margin-left: 6.75rem;
+  margin-bottom: 5.625rem;
 }
 
 .image {

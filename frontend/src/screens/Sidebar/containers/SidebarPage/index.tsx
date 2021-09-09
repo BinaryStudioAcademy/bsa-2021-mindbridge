@@ -19,6 +19,7 @@ import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { IPost } from '@screens/ViewPost/models/IPost';
 import { REFRESH_TOKEN } from '@screens/Login/constants/auth_constants';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
+import { extractFetchUserLoading } from '@screens/PostPage/reducers';
 
 export interface ISidebarProps extends IState, IActions {
 }
@@ -30,10 +31,11 @@ interface IState {
   contributionsOfPost: IContribution[];
   currentUser: ICurrentUser;
   post: IPost;
+  userLoading: boolean;
 }
 
 interface IActions {
-  fetchPostContributions: IBindingCallback1<string>;
+  fetchPostContributions: IBindingCallback1<any>;
   fetchUserProfile: IBindingCallback1<string>;
   getPostVersions: IBindingCallback1<object>;
   loadCurrentUser: IBindingAction;
@@ -48,9 +50,10 @@ const Sidebar: React.FC<ISidebarProps> = (
     fetchPostContributions,
     getPostVersions,
     currentUser,
-    userInfo,
     post,
-    loadCurrentUser
+    loadCurrentUser,
+    userInfo,
+    userLoading
   }
 ) => {
   const { postId } = useParams();
@@ -75,7 +78,7 @@ const Sidebar: React.FC<ISidebarProps> = (
   useEffect(() => {
     if (postId) {
       getPostVersions({ postId });
-      fetchPostContributions(postId);
+      fetchPostContributions({ postId });
     }
   }, [postId]);
 
@@ -104,21 +107,21 @@ const Sidebar: React.FC<ISidebarProps> = (
       setIsFixed(true);
     }
   }, [scroll]);
-
   return (
     <div className={styles.sidebar}>
       <div ref={sidebar} className={styles.viewPostSideBar} style={sidebarStyles}>
         {isAuthorized ? (
           <div className={styles.suggestChanges}>
             <div className={styles.profileSideBar}>
-              {currentUser ? (
+              {userInfo ? (
                 <ProfileSidebar
-                  id={currentUser.id}
-                  userName={currentUser.nickname}
-                  avatar={currentUser.avatar}
-                  folloversCount={0}
-                  rating={0}
+                  id={userInfo.id}
+                  userName={userInfo.nickname}
+                  avatar={userInfo.avatar}
+                  folloversCount={userInfo.followersQuantity}
+                  rating={userInfo.rating}
                   postNotificationCount={0}
+                  userLoading={userLoading}
                 />
               ) : (
                 <ProfileSidebar
@@ -128,6 +131,7 @@ const Sidebar: React.FC<ISidebarProps> = (
                   folloversCount={0}
                   rating={0}
                   postNotificationCount={0}
+                  userLoading={userLoading}
                 />
               )}
             </div>
@@ -144,7 +148,7 @@ const Sidebar: React.FC<ISidebarProps> = (
             )}
             {postId && currentUser.id === post?.author?.id && (
               <div className={styles.history_sidebar_container}>
-                <HistorySidebar history={versionsOfPost} postId={postId} />
+                <HistorySidebar history={versionsOfPost} postId={postId} userLoading={userLoading} />
               </div>
             )}
             <div className={styles.tagsSideBar}>
@@ -170,13 +174,14 @@ const mapStateToProps: (state) => IState = state => ({
   userInfo: state.postPageReducer.data.profile,
   currentUser: state.auth.auth.user,
   versionsOfPost: state.postPageReducer.data.versionsOfPost,
-  contributionsOfPost: state.postVersionsReducer.data.postContributions
+  contributionsOfPost: state.postVersionsReducer.data.postContributions,
+  userLoading: extractFetchUserLoading(state)
 });
 
 const mapDispatchToProps: IActions = {
   getPostVersions: getPostVersionsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
-  fetchPostContributions: fetchOpenPostContributionsRoutine,
+  fetchPostContributions: fetchPostContributionsRoutine,
   loadCurrentUser: loadCurrentUserRoutine
 };
 

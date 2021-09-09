@@ -25,6 +25,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
 	@Value("${app.cors.allowed_origins}")
 	private String[] corsAllowedOrigins;
 
@@ -44,7 +45,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers("/swagger-ui.html").permitAll()
 			.antMatchers("/webjars/**").permitAll()
 			.antMatchers("/auth/**", "/oauth2/**").permitAll()
+			.antMatchers("/postView/**").permitAll()
 			.antMatchers(HttpMethod.GET, "/search/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/achievement/byUser/*").permitAll()
 			.antMatchers(HttpMethod.GET, "/post/*", "/post/all", "/post/title/*", "/post/drafts/*").permitAll()
 			.antMatchers(HttpMethod.GET, "/postVersion/*", "/postVersion/all/*").permitAll()
 			.antMatchers(HttpMethod.GET, "/user/*").permitAll()

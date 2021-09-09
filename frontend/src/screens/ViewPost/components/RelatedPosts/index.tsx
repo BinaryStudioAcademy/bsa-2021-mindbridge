@@ -15,7 +15,7 @@ interface IRelatedPostsProps {
 
 const RelatedPosts: FunctionComponent<IRelatedPostsProps> = ({ relatedPosts }) => (
   <div className={styles.relatedPostsWrp}>
-    <div className={styles.headerTitle}>Related posts</div>
+    <div className={styles.headerTitle}>Similar posts</div>
     <Card.Group>
       {relatedPosts.map(relatedPost => (
         <Card>

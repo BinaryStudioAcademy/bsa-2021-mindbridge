@@ -8,6 +8,10 @@
     a:hover{
         cursor: pointer;
     }
+
+    :global(.ui.placeholder .line){
+      background-color: #f3f9fe;
+    }
 }
 .sidebar_links{
   display: flex;

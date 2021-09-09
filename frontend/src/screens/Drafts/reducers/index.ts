@@ -19,3 +19,4 @@ const reqs = (state: RootState) => state.draftsReducer.requests;
 const data = (state: RootState) => state.draftsReducer.data;
 
 /* PlopJS request_extractor placeholder. Do not remove */
+export const extractFetchDraftsLoading = state => reqs(state).fetchDraftsRequest.loading;

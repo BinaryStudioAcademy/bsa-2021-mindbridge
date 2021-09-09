@@ -18,6 +18,14 @@
         font-family: lato;
     }
     z-index: 0.5;
+
+    .postName {
+      margin: 1rem 0 1.5rem 0;
+      font-family: Libre Baskerville, sans-serif;
+      font-weight: bold;
+      font-size: 2rem;
+      line-height: 120%;
+    }
 }
 
 .header{
@@ -25,7 +33,7 @@
     display: grid;
     grid-template-columns: 2fr 2fr 10fr 1fr 0.6fr;
     align-content:flex-start;
-    margin-bottom: 0.8rem;
+    margin-bottom: 2.8571rem;
     button {
         font-size: 0.9rem;
         font-weight: 600;
@@ -39,8 +47,8 @@
     }
 
     .html_button{
-        grid-column: 1/2;
-        margin-right: 1rem;
+      grid-column: 1/2;
+      margin-right: 1rem;
     }
 
     .disabled_html_button{
@@ -52,7 +60,7 @@
 
     .markdown_button{
       grid-column: 2/3;
-      width: 6rem;
+      width: 7rem;
     }
 
     .disabled_markdown_button{
@@ -69,6 +77,7 @@
         display: flex;
         justify-self: flex-end;
         justify-content: center;
+        align-items: center;
         div{
             display: grid;
             grid-template-columns: 1fr;
@@ -90,7 +99,7 @@
         display: flex;
         justify-self: flex-end;
         justify-content: center;
-        align-content: center;
+        align-items: center;
         svg{
             height: 1.6rem;
             width: 1.6rem;
@@ -112,8 +121,8 @@
     }
     button{
         font-weight: bold !important;
-        height: 2.2rem;
-        min-width: 7rem;
+        height: 3.0714rem;
+        min-width: 8.8571rem;
         margin-left: 0.6rem;
         margin-right: 0.6rem;
     }

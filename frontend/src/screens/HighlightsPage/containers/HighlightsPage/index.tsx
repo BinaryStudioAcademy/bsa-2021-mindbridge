@@ -13,6 +13,8 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IHighlight } from '@screens/HighlightsPage/models/IHighlight';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { extractHighlightsLoading } from '@screens/HighlightsPage/reducers';
+import NotFoundContent from '@components/NotFoundContetn';
+import { isEmptyArray } from 'formik';
 
 export interface IHighlightsProps extends IState, IActions {
 }
@@ -72,22 +74,26 @@ const HighlightsPage: React.FC<IHighlightsProps> = (
       <div className={styles.pageTitle}>
         Your highlights
       </div>
-      <InfiniteScroll
-        style={{ overflow: 'none' }}
-        dataLength={highlights ? highlights.length : 0}
-        next={getMorePosts}
-        hasMore
-        loader={' '}
-        scrollThreshold={0.9}
-      >
-        {highlights && highlights.map(highlight => (
-          <HighlightCard
-            key={highlight.id}
-            highlight={highlight}
-            handleDeleteHighlight={handleDeleteHighlight}
-          />
-        ))}
-      </InfiniteScroll>
+      {!isEmptyArray(highlights) && highlights ? (
+        <InfiniteScroll
+          style={{ overflow: 'none' }}
+          dataLength={highlights ? highlights.length : 0}
+          next={getMorePosts}
+          hasMore
+          loader={' '}
+          scrollThreshold={0.9}
+        >
+          {highlights && highlights.map(highlight => (
+            <HighlightCard
+              key={highlight.id}
+              highlight={highlight}
+              handleDeleteHighlight={handleDeleteHighlight}
+            />
+          ))}
+        </InfiniteScroll>
+      ) : (
+        <NotFoundContent description="Highlights list is empty" />
+      )}
     </div>
   );
 };

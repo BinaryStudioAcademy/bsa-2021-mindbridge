@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Card, Feed } from 'semantic-ui-react';
+import { Card, Feed, Popup, Placeholder, PlaceholderImage, PlaceholderLine } from 'semantic-ui-react';
 import styles from './styles.module.scss';
 import PostInformation from '@screens/ViewPost/components/PostInformation/PostInformation';
 import RatingComponent from '../svgs/RatingIcon';
 import TagsMenu from '@components/TagComponent';
-import FavouriteSvg from '@screens/ViewPost/components/svgs/SvgComponents/favouriteSvg';
+import FavouriteSvg from '@components/FeedSvgComponents/favouriteSvg';
 import ShareSvg from '@screens/ViewPost/components/svgs/SvgComponents/shareSvg';
 import CommentSvg from '@screens/ViewPost/components/svgs/SvgComponents/commentSvg';
 import { IPost } from '@screens/ViewPost/models/IPost';
@@ -19,11 +19,14 @@ import { cursorPosition } from '@screens/ViewPost/helpers/cursorPosition';
 import AdvancedCommentsFeed from '@components/AdvancedCommentCard';
 import readingTime from 'reading-time';
 import RelatedPosts from '@screens/ViewPost/components/RelatedPosts';
-import { IBindingCallback1 } from '@models/Callbacks';
+import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import { useDebouncedCallback } from 'use-debounce';
 import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import Image from '@components/Image';
 import { defaultCoverImage } from '@images/defaultImages';
+import SharePopup from '@screens/ViewPost/components/Popups/SharePopup';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import classNames from 'classnames';
 
 interface IViewPostCardProps {
   post: IPost;
@@ -41,10 +44,19 @@ interface IViewPostCardProps {
   handleDislikeComment: IBindingCallback1<string>;
   searchUsersByNickname: any;
   users: IMentionsUser[];
+  editComment: IBindingCallback1<object>;
+  handleFavouriteAction: any;
+  postId: string;
+  className?: string;
+  resetSendingComment: IBindingAction;
+  sendingEditComment: boolean;
 }
+
+const commentBlockId = 'commentsFeed';
 
 const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   post,
+  postId,
   isAuthor,
   handleLikePost,
   handleDisLikePost,
@@ -58,7 +70,12 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   handleLikeComment,
   handleDislikeComment,
   searchUsersByNickname,
-  users
+  users,
+  className,
+  editComment,
+  handleFavouriteAction,
+  resetSendingComment,
+  sendingEditComment
 }) => {
   const highlighter = new Highlighter({
     wrapTag: 'i',
@@ -77,6 +94,15 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
   const deleteHighlight = highlightId => {
     handleDeleteHighlight(highlightId);
     highlighter.remove(highlightId);
+  };
+
+  const [popupContent, setPopupContent] = useState('Copy link');
+  const handleShare = () => {
+    setPopupContent('Copied');
+  };
+
+  const handleOnClose = () => {
+    setPopupContent('Copy link');
   };
 
   const debounced = useDebouncedCallback(
@@ -155,106 +181,220 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
     setIsPopUpShown(false);
   };
 
+  const getFavouriteAction = () => {
+    handleFavouriteAction(post);
+  };
+
+  const stubOnClickIconsDraftPage = () => 'Hello :)';
+
   return (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, className)}>
       <Card className={styles.viewCard}>
         <div className={styles.cardContent}>
           <Card.Content>
             <Feed>
-              <div className={styles.gridColumn}>
-                <div className={styles.leftSide}>
-                  <div className={styles.bgCircle}>
-                    <div className={styles.ratingComponent}>
-                      <RatingComponent
-                        postRating={post.rating}
-                        handleLikePost={handleLikePost}
-                        handleDisLikePost={handleDisLikePost}
-                        postId={post.id}
-                        userInfo={userInfo}
-                        arrowUpColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                          && postReaction.liked)
-                          ? ('#8AC858'
-                          ) : (
-                            '#66B9FF'
-                          )}
-                        arrowDownColor={userInfo.userReactions.find(postReaction => postReaction.postId === post.id
-                          && !postReaction.liked)
-                          ? ('#F75C48'
-                          ) : (
-                            '#66B9FF'
-                          )}
-                      />
+              {postId === post.id ? (
+                <div className={styles.gridColumn}>
+                  <div className={styles.leftSide}>
+                    <div className={styles.bgCircle}>
+                      <div className={styles.ratingComponent}>
+                        <RatingComponent
+                          postRating={post.rating}
+                          handleLikePost={handleLikePost}
+                          handleDisLikePost={handleDisLikePost}
+                          post={post}
+                          userInfo={userInfo}
+                          isAuthor={false}
+                          arrowUpColor={post.reacted && post.isLiked
+                            ? ('#8AC858'
+                            ) : (
+                              '#66B9FF'
+                            )}
+                          arrowDownColor={post.reacted && !post.isLiked
+                            ? ('#F75C48'
+                            ) : (
+                              '#66B9FF'
+                            )}
+                        />
+                      </div>
                     </div>
+                    {!post.draft ? (
+                      <div className={styles.bgCircle}>
+                        <FavouriteSvg
+                          handleFavouriteAction={getFavouriteAction}
+                          isFavourite={post.isFavourite}
+                          color="#66B9FF"
+                        />
+                      </div>
+                    ) : (
+                      <Popup
+                        content="This is a draft"
+                        trigger={(
+                          <div className={styles.bgCircle}>
+                            <FavouriteSvg
+                              handleFavouriteAction={stubOnClickIconsDraftPage}
+                              isFavourite={post.isFavourite}
+                              color="#808080"
+                            />
+                          </div>
+                      )}
+                      />
+                    )}
+                    {!post.draft ? (
+                      <a href={`#${commentBlockId}`} className={styles.bgCircle}>
+                        <CommentSvg color="#66B9FF" />
+                      </a>
+                    ) : (
+                      <Popup
+                        content="This is a draft"
+                        trigger={(
+                          <div className={styles.bgCircle}>
+                            <CommentSvg color="#808080" />
+                          </div>
+                      )}
+                      />
+                    )}
+                    {!post.draft ? (
+                      <div className={styles.bgCircle}>
+                        <SharePopup
+                          triggerContent={(
+                            <CopyToClipboard text={`${window.location.href}`}>
+                              <button style={{ background: 'none' }} type="button" onClick={handleShare}>
+                                <ShareSvg color="#66B9FF" />
+                              </button>
+                            </CopyToClipboard>
+                        )}
+                          popupContent={popupContent}
+                          handleOnClose={handleOnClose}
+                        />
+                      </div>
+                    ) : (
+                      <Popup
+                        content="This is a draft"
+                        trigger={(
+                          <div className={styles.bgCircle}>
+                            <button style={{ background: 'none' }} type="button" onClick={stubOnClickIconsDraftPage}>
+                              <ShareSvg color="#808080" />
+                            </button>
+                          </div>
+                      )}
+                      />
+                    )}
+                    {isAuthor && (
+                    <div role="button" tabIndex={0} className={styles.bgCircle} onKeyDown={goToEdit} onClick={goToEdit}>
+                      <EditSvg />
+                    </div>
+                    )}
                   </div>
-                  <div className={styles.bgCircle}>
-                    <FavouriteSvg />
-                  </div>
-                  <div className={styles.bgCircle}>
-                    <CommentSvg />
-                  </div>
-                  <div className={styles.bgCircle}>
-                    <ShareSvg />
-                  </div>
-                  {isAuthor && (
-                  <div role="button" tabIndex={0} className={styles.bgCircle} onKeyDown={goToEdit} onClick={goToEdit}>
-                    <EditSvg />
-                  </div>
-                  )}
-                </div>
-                <Image
-                  className={styles.image}
-                  src={post.coverImage ?? defaultCoverImage}
-                  alt="media"
-                />
-              </div>
-              <div className={styles.postName}>{post.title}</div>
-              <div className={styles.btnWrapper}>
-                {post.tags.map(tag => (
-                  <TagsMenu
-                    key={tag.id}
-                    tag={tag.name}
+                  <Image
+                    className={styles.image}
+                    src={post.coverImage ?? defaultCoverImage}
+                    alt="media"
                   />
-                ))}
-              </div>
-              <div className={styles.cardHeader}>
-                <PostInformation
-                  id={post.author.id}
-                  nickname={post.author.nickname}
-                  date={post.createdAt}
-                  avatar={post.author.avatar}
-                  readTime={readingTime(post.text).text}
-                  draft={post.draft}
+                </div>
+              ) : (
+                <div className={styles.imgPlaceHolder}>
+                  <Placeholder>
+                    <Placeholder.Image rectangular />
+                  </Placeholder>
+                </div>
+              )}
+              {postId === post.id ? (
+                <div>
+                  <div className={styles.postName}>
+                    {post.title}
+                  </div>
+                  <div className={styles.btnWrapper}>
+                    {post.tags.map(tag => (
+                      <TagsMenu
+                        key={tag.id}
+                        tag={tag.name}
+                      />
+                    ))}
+                  </div>
+                  <div className={styles.cardHeader}>
+                    <PostInformation
+                      author={post.author}
+                      date={post.createdAt}
+                      readTime={readingTime(post.text).text}
+                      draft={post.draft}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <Placeholder className={styles.titlePlaceholder}>
+                  <PlaceholderLine length="full" />
+                  <PlaceholderLine length="long" />
+                </Placeholder>
+              )}
+            </Feed>
+            {postId === post.id ? (
+              // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+              <div className={styles.postBody} onMouseUp={handleMouseUp}>
+                <HighlightPopup
+                  isDeletion={isDeletion}
+                  isPopUpShown={isPopUpShown}
+                  xPos={xPos}
+                  yPos={yPos}
+                  handleClosePopUp={handleClosePopUp}
+                  markdown={post.markdown}
+                  text={post.text}
                 />
               </div>
-            </Feed>
-            {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-            <div className={styles.postBody} onMouseUp={handleMouseUp}>
-              <HighlightPopup
-                isDeletion={isDeletion}
-                isPopUpShown={isPopUpShown}
-                xPos={xPos}
-                yPos={yPos}
-                handleClosePopUp={handleClosePopUp}
-                markdown={post.markdown}
-                text={post.text}
-              />
-            </div>
+            ) : (
+              <div>
+                <Placeholder className={styles.postPlaceholder}>
+                  <Placeholder.Header image>
+                    <Placeholder.Line />
+                    <Placeholder.Line />
+                  </Placeholder.Header>
+                </Placeholder>
+                <Placeholder className={styles.postBodyPlaceHolder}>
+                  <div>
+                    <Placeholder.Paragraph>
+                      <Placeholder.Line />
+                      <Placeholder.Line />
+                      <Placeholder.Line />
+                      <Placeholder.Line />
+                      <Placeholder.Line />
+                      <Placeholder.Line />
+                      <Placeholder.Line length="medium" />
+                      <Placeholder.Line length="very long" />
+                      <Placeholder.Line length="long" />
+                      <Placeholder.Line length="short" />
+                      <Placeholder.Line length="medium" />
+                      <Placeholder.Line length="very long" />
+                      <Placeholder.Line length="long" />
+                      <Placeholder.Line length="short" />
+                      <Placeholder.Line />
+                    </Placeholder.Paragraph>
+                  </div>
+                </Placeholder>
+              </div>
+            )}
           </Card.Content>
         </div>
-        { post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} /> }
-        <AdvancedCommentsFeed
-          comments={post.comments}
-          sendComment={sendComment}
-          sendReply={sendReply}
-          postId={post.id}
-          postAuthorId={post.author.id}
-          userInfo={userInfo}
-          isAuthorized={isAuthorized}
-          handleDislikeComment={handleDislikeComment}
-          handleLikeComment={handleLikeComment}
-          users={users}
-          searchUsersByNickname={searchUsersByNickname}
-        />
+        {!post.draft && (
+          <div>
+            {post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} />}
+            <AdvancedCommentsFeed
+              comments={post.comments}
+              sendComment={sendComment}
+              sendReply={sendReply}
+              postId={post.id}
+              postAuthorId={post.author.id}
+              userInfo={userInfo}
+              isAuthorized={isAuthorized}
+              handleDislikeComment={handleDislikeComment}
+              handleLikeComment={handleLikeComment}
+              users={users}
+              searchUsersByNickname={searchUsersByNickname}
+              editComment={editComment}
+              resetSendingComment={resetSendingComment}
+              sendingEditComment={sendingEditComment}
+            />
+          </div>
+        )}
       </Card>
     </div>
   );

@@ -3,7 +3,12 @@ import {
   sendNicknameRoutine,
   sendFormRoutine,
   sendAvatarRoutine,
-  openPasswordChangeModalRoutine, sendChangePasswordFormRoutine, fetchUserRoutine, deleteAvatarRoutine
+  openPasswordChangeModalRoutine,
+  sendChangePasswordFormRoutine,
+  fetchUserRoutine,
+  deleteAvatarRoutine,
+  fetchAchievementsByUserRoutine,
+  toggleFollowUserRoutine, unfollowUserFromModalRoutine
 } from '@screens/ProfilePage/routines';
 import { IDataProfile } from '@screens/ProfilePage/models/IDataProfile';
 
@@ -26,14 +31,20 @@ const initialState: IDataProfile = {
     commentsQuantity: 0,
     postsQuantity: 0,
     contributionsQuantity: 0,
+    followers: [],
+    following: [],
     followersQuantity: 0,
+    followingQuantity: 0,
     lastArticleTitles: [{ id: '', title: '' }],
-    createdAt: ''
+    createdAt: '',
+    followed: false
   },
   savingAvatar: {
     url: '',
     isLoaded: true
-  }
+  },
+  achievements: [],
+  onReloadSidebar: true
 };
 
 export const profilePageReducer = createReducer(initialState, {
@@ -48,6 +59,14 @@ export const profilePageReducer = createReducer(initialState, {
   [fetchUserRoutine.FAILURE]: state => {
     state.isUserLoaded = true;
     state.isUserIdValid = false;
+  },
+  [toggleFollowUserRoutine.SUCCESS]: state => {
+    state.user.followersQuantity += (state.user.followed ? -1 : 1);
+    state.user.followed = !state.user.followed;
+  },
+  [unfollowUserFromModalRoutine.SUCCESS]: (state, action) => {
+    state.user.following = state.user.following.filter(user => user.followerId !== action.payload);
+    state.user.followingQuantity -= 1;
   },
   [sendNicknameRoutine.TRIGGER]: state => {
     state.isNicknameLoaded = false;
@@ -65,6 +84,7 @@ export const profilePageReducer = createReducer(initialState, {
   [sendFormRoutine.SUCCESS]: (state, action) => {
     state.isNicknameEngaged = action.payload;
     state.isFormLoaded = true;
+    state.onReloadSidebar = !state.onReloadSidebar;
   },
   [sendFormRoutine.FAILURE]: state => {
     state.isFormLoaded = true;
@@ -85,6 +105,7 @@ export const profilePageReducer = createReducer(initialState, {
   [sendAvatarRoutine.SUCCESS]: (state, action) => {
     state.savingAvatar.url = action.payload;
     state.savingAvatar.isLoaded = true;
+    state.onReloadSidebar = !state.onReloadSidebar;
   },
   [sendAvatarRoutine.FAILURE]: state => {
     state.savingAvatar.url = '';
@@ -102,8 +123,12 @@ export const profilePageReducer = createReducer(initialState, {
   [deleteAvatarRoutine.SUCCESS]: state => {
     state.savingAvatar.url = '';
     state.savingAvatar.isLoaded = true;
+    state.onReloadSidebar = !state.onReloadSidebar;
   },
   [deleteAvatarRoutine.FAILURE]: state => {
     state.savingAvatar.isLoaded = true;
+  },
+  [fetchAchievementsByUserRoutine.SUCCESS]: (state, action) => {
+    state.achievements = action.payload;
   }
 });

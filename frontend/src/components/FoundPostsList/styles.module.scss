@@ -1,8 +1,14 @@
 .foundPostLink {
   text-decoration: none;
   color: #353535 !important;
+  font-family: Lato, sans-serif;
+  font-size: 0.8571rem;
+  padding: 0.3rem 1rem;
+  display: block;
+  border-bottom: 2px solid rgba(151, 151, 151, 0.15);
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-li:hover {
-  background-color: #F8F8F8;
-}

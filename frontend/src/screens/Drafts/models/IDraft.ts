@@ -6,4 +6,5 @@ export interface IDraft {
   tags: ITag[];
   createdAt: string;
   coverImage: string;
+  draft: boolean;
 }

@@ -3,7 +3,6 @@ import styles from '../styles.module.scss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import ProfileSidebar from '@root/components/ProfileSidebar';
 import { IBindingAction, IBindingCallback1 } from '@root/models/Callbacks';
 import CreatePostForm from '@root/components/CreatePostForm/CreatePostForm';
 import EditSvgPart1 from '@screens/PostPage/components/svg/editSvgPart1';
@@ -122,6 +121,7 @@ const EditPost: React.FC<IEditPostProps> = (
   });
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isContentEmpty, setIsContentEmpty] = useState(false);
+  const [isTagsEmpty, setIsTagsEmpty] = useState(false);
   const [changesExist, setChangesExist] = useState(false);
 
   const { id } = useParams();
@@ -211,13 +211,15 @@ const EditPost: React.FC<IEditPostProps> = (
   };
 
   const handleSendForm = isDraft => {
-    if (!form.title || !form.content) {
+    if (!form.title || !form.content || !form.tags.length || form.content === '<p><br></p>') {
       setIsTitleEmpty(!form.title);
-      setIsContentEmpty(!form.content);
+      setIsContentEmpty(!form.content || form.content === '<p><br></p>');
+      setIsTagsEmpty(!form.tags.length);
       return;
     }
     setIsContentEmpty(false);
     setIsTitleEmpty(false);
+    setIsTagsEmpty(false);
     if (currentUserId === post.author.id) {
       const postOnEdit = {
         title: form.title,
@@ -274,6 +276,8 @@ const EditPost: React.FC<IEditPostProps> = (
             </form>
           ) : (
             <form className={styles.create_post_container}>
+              <h3>Pull request to</h3>
+              <h2 className={styles.postName}>{post?.title}</h2>
               <div className={styles.header}>
                 { post?.markdown ? (
                   <div style={{ display: 'flex' }}>
@@ -375,19 +379,20 @@ const EditPost: React.FC<IEditPostProps> = (
                     resetImageTag={resetImageTag}
                     isTitleEmpty={isTitleEmpty}
                     isContentEmpty={isContentEmpty}
+                    isTagsEmpty={isTagsEmpty}
                   />
                 )
                 : (
                   <Preview
                     seeDiff={seeDiff}
-                    markdown={post.markdown}
-                    coverImage={post.coverImage}
+                    markdown={post?.markdown}
+                    coverImage={post?.coverImage}
                     title={form.title}
-                    oldTitle={post.title}
+                    oldTitle={post?.title}
                     text={form.content}
-                    oldText={post.text}
+                    oldText={post?.text}
                     tags={tags}
-                    oldTags={post.tags}
+                    oldTags={post?.tags}
                   />
                 )}
               <div className={styles.footer}>
