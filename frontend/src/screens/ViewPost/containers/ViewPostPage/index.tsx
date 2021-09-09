@@ -65,7 +65,7 @@ interface IActions {
   deleteFavouritePost: IBindingCallback1<object>;
   editComment: IBindingCallback1<object>;
   resetSendingComment: IBindingAction;
-  fetchUserProfile: IBindingCallback1<string>
+  fetchUserProfile: IBindingCallback1<string>;
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
