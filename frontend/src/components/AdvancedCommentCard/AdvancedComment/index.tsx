@@ -25,6 +25,7 @@ import { IComments } from '@screens/ViewPost/models/IComments';
 import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
 import classNames from 'classnames';
 import { IBindingAction } from '@models/Callbacks';
+import UserInfoPopup from '@root/screens/ViewPost/components/Popups/UserInfoPopup';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -238,7 +239,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                 handleLikePost={handleLikeComment}
                 post={comment}
                 userInfo={userInfo}
-                isAuthor
+                isAuthor={false}
                 arrowUpColor={userInfo.userReactionsComments
                   .find(commentReaction => commentReaction.commentId === commentId && commentReaction.liked)
                   ? ('#8AC858'

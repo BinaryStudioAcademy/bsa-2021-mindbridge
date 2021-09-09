@@ -47,7 +47,6 @@ const NotificationList: React.FC<INotificationListProps> = (
 
   const handleFetchMoreNotifications = () => {
     const { from, count } = params;
-    console.log('asdsdsdsd');
     fetchMoreNotifications(onlyUnread, { from, count });
     params.from = from + count;
   };
