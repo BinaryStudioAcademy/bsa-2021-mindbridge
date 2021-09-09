@@ -10,11 +10,10 @@ import {
   addMorePostsRoutine,
   fetchDataRoutine,
   likePostRoutine,
-  loadCountResultsRoutine, resetDataRoutine,
+  loadCountResultsRoutine,
   searchPostsRoutine
 } from '@screens/FeedPage/routines';
 import { IPostFeed } from '@screens/FeedPage/models/IPostFeed';
-import LoaderWrapper from '@components/LoaderWrapper';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { useHistory } from 'react-router-dom';
@@ -33,7 +32,6 @@ import { searchPostsByElasticRoutine } from '@screens/Header/routines';
 import TagsDropdown from '@components/TagsDropdown';
 import { Popup } from 'semantic-ui-react';
 import { fetchUserRoutine } from '@screens/ProfilePage/routines';
-import { da } from 'suneditor/src/lang';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -73,12 +71,29 @@ const params = {
 };
 
 const ENTER_CHAR_CODE = 13;
+const LOADING_PLACEHOLDERS = [...Array(3)];
 
 const FeedPage: React.FC<IFeedPageProps> = (
-  { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
-    currentUser, userInfo, likePost, searchTitlesByElastic, countResults,
-    searchPostsByElastic, searchPosts, loadCountResults, saveFavouritePost,
-    deleteFavouritePost, fetchTags, allTags }
+  {
+    data,
+    fetchData,
+    dataLoading,
+    hasMore,
+    setLoadMorePosts,
+    loadMore,
+    currentUser,
+    userInfo,
+    likePost,
+    searchTitlesByElastic,
+    countResults,
+    searchPostsByElastic,
+    searchPosts,
+    loadCountResults,
+    saveFavouritePost,
+    deleteFavouritePost,
+    fetchTags,
+    allTags
+  }
 ) => {
   const location = useLocation();
   const history = useHistory();
@@ -116,25 +131,44 @@ const FeedPage: React.FC<IFeedPageProps> = (
 
       if (allTags.length !== 0 && tags !== '') {
         setTagsContent(tags.split(','));
-        setInitialTags(tags.split(',').map(val => allTags.find(tag => val === tag.text).key));
+        setInitialTags(tags.split(',')
+          .map(val => allTags.find(tag => val === tag.text).key));
       }
 
-      loadCountResults({ query, tags });
-      searchPostsByElastic({ query, tags, params });
+      loadCountResults({
+        query,
+        tags
+      });
+      searchPostsByElastic({
+        query,
+        tags,
+        params
+      });
       setSearchRequest(query);
     } else {
       setSearchRequest('');
       if (currentUser) {
-        fetchData({ from: 0, count: 10, userId: currentUser.id, filter });
+        fetchData({
+          from: 0,
+          count: 10,
+          userId: currentUser.id,
+          filter
+        });
       } else {
-        fetchData({ params, filter });
+        fetchData({
+          params,
+          filter
+        });
       }
       setIsSearch(false);
     }
   }, [fetchData, location, currentUser, allTags]);
 
   const handleLoadMorePosts = filtersPayload => {
-    fetchData({ params: filtersPayload, filter });
+    fetchData({
+      params: filtersPayload,
+      filter
+    });
     setLoadMorePosts(true);
   };
 
@@ -169,9 +203,15 @@ const FeedPage: React.FC<IFeedPageProps> = (
       return;
     }
     if (!post.isFavourite) {
-      saveFavouritePost({ userId: currentUser.id, postId: post.id });
+      saveFavouritePost({
+        userId: currentUser.id,
+        postId: post.id
+      });
     } else {
-      deleteFavouritePost({ userId: currentUser.id, postId: post.id });
+      deleteFavouritePost({
+        userId: currentUser.id,
+        postId: post.id
+      });
     }
   };
 
@@ -198,7 +238,10 @@ const FeedPage: React.FC<IFeedPageProps> = (
 
   const getMorePosts = () => {
     setLoadMorePosts(true);
-    const { from, count } = params;
+    const {
+      from,
+      count
+    } = params;
     params.from = from + count;
     if (isSearch) {
       handleSearchMorePosts(params);
@@ -235,14 +278,20 @@ const FeedPage: React.FC<IFeedPageProps> = (
 
   if (dataLoading && !loadMore) {
     return (
-      <PostCard
-        dataLoading={dataLoading}
-        handleLikePost={handleLikePost}
-        handleDisLikePost={handleDisLikePost}
-        handleFavouriteAction={handleFavouriteAction}
-        post={data[0]}
-        userInfo={userInfo}
-      />
+      <div className={styles.feedPage}>
+        <div className={styles.main}>
+          {LOADING_PLACEHOLDERS.map(() => (
+            <PostCard
+              dataLoading={dataLoading}
+              handleLikePost={handleLikePost}
+              handleDisLikePost={handleDisLikePost}
+              handleFavouriteAction={handleFavouriteAction}
+              post={data[0]}
+              userInfo={userInfo}
+            />
+          ))}
+        </div>
+      </div>
     );
   }
 
@@ -303,7 +352,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
                 <h4>
                   {'Found '}
                   <span className={styles.countPosts}>{countResults}</span>
-                  { countResults === 1 ? ' article.' : ' articles.'}
+                  {countResults === 1 ? ' article.' : ' articles.'}
                 </h4>
               </div>
             )}
