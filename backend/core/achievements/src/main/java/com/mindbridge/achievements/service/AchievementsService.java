@@ -99,7 +99,7 @@ public class AchievementsService {
 			notificationService.createNotification(
 				user.getId(),
 				achievement.getAchievement().getText(),
-				achievementId,
+				user.getId(),
 				Notification.Type.newAchievement
 			);
 		}
