@@ -220,7 +220,11 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                     </div>
                     {!post.draft ? (
                       <div className={styles.bgCircle}>
-                        <FavouriteSvg handleFavouriteAction={getFavouriteAction} isFavourite={post.isFavourite} />
+                        <FavouriteSvg
+                          handleFavouriteAction={getFavouriteAction}
+                          isFavourite={post.isFavourite}
+                          color="#66B9FF"
+                        />
                       </div>
                     ) : (
                       <Popup
@@ -230,6 +234,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                             <FavouriteSvg
                               handleFavouriteAction={stubOnClickIconsDraftPage}
                               isFavourite={post.isFavourite}
+                              color="#808080"
                             />
                           </div>
                       )}
@@ -237,14 +242,14 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                     )}
                     {!post.draft ? (
                       <a href={`#${commentBlockId}`} className={styles.bgCircle}>
-                        <CommentSvg />
+                        <CommentSvg color="#66B9FF" />
                       </a>
                     ) : (
                       <Popup
                         content="This is a draft"
                         trigger={(
                           <div className={styles.bgCircle}>
-                            <CommentSvg />
+                            <CommentSvg color="#808080" />
                           </div>
                       )}
                       />
@@ -255,7 +260,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                           triggerContent={(
                             <CopyToClipboard text={`${window.location.href}`}>
                               <button style={{ background: 'none' }} type="button" onClick={handleShare}>
-                                <ShareSvg />
+                                <ShareSvg color="#66B9FF" />
                               </button>
                             </CopyToClipboard>
                         )}
@@ -269,7 +274,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                         trigger={(
                           <div className={styles.bgCircle}>
                             <button style={{ background: 'none' }} type="button" onClick={stubOnClickIconsDraftPage}>
-                              <ShareSvg />
+                              <ShareSvg color="#808080" />
                             </button>
                           </div>
                       )}
