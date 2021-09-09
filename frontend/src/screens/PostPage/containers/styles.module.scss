@@ -77,6 +77,7 @@
         display: flex;
         justify-self: flex-end;
         justify-content: center;
+        align-items: center;
         div{
             display: grid;
             grid-template-columns: 1fr;
@@ -98,7 +99,7 @@
         display: flex;
         justify-self: flex-end;
         justify-content: center;
-        align-content: center;
+        align-items: center;
         svg{
             height: 1.6rem;
             width: 1.6rem;
