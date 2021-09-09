@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { IBindingCallback1 } from '@models/Callbacks';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
-import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
 import { fetchPrsOfMyPostsRoutine } from '../../routines';
 import PostContributionItem from '@root/components/PostContributionItem';
 import { IContribution } from '@root/screens/ViewPost/models/IContribution';
@@ -21,21 +20,18 @@ interface IState {
 }
 
 interface IActions {
-  fetchUserProfile: IBindingCallback1<string>;
   fetchPrsOfMyPosts: IBindingCallback1<string>;
 }
 
 const ContributionsToMyPosts: React.FC<IContributionsToMyProps> = (
   {
     currentUser,
-    fetchUserProfile,
     contributionsOfMyPosts,
     fetchPrsOfMyPosts
   }
 ) => {
   useEffect(() => {
     if (currentUser.id) {
-      fetchUserProfile(currentUser.id);
       fetchPrsOfMyPosts(currentUser.id);
     }
   }, [currentUser]);
@@ -72,7 +68,6 @@ const mapStateToProps: (state) => IState = state => ({
 });
 
 const mapDispatchToProps: IActions = {
-  fetchUserProfile: fetchUserProfileRoutine,
   fetchPrsOfMyPosts: fetchPrsOfMyPostsRoutine
 };
 
