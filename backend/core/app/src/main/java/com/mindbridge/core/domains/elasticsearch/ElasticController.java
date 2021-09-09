@@ -29,7 +29,7 @@ public class ElasticController {
 	public List<PostsListDetailsDto> searchList(@RequestParam("query") String query,
 												@RequestParam("tags") String tags,
 			@RequestParam(defaultValue = "0") Integer from, @RequestParam(defaultValue = "10") Integer count, Principal principal) {
-		return service.searchList(query, tags, from, count);
+		return service.searchList(query, tags, from, count, principal);
 	}
 
 	@GetMapping("/count")

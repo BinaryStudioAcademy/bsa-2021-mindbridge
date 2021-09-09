@@ -19,7 +19,7 @@ import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { useHistory } from 'react-router-dom';
 
-import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
+import { fetchTagsRoutine, fetchUserProfileRoutine } from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 import { useLocation } from 'react-use';
@@ -76,9 +76,9 @@ const ENTER_CHAR_CODE = 13;
 
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
-    currentUser, userInfo, likePost, likePostView, searchTitlesByElastic, countResults,
-    disLikePostView, searchPostsByElastic, searchPosts, loadCountResults,
-    saveFavouritePost, deleteFavouritePost, fetchTags, allTags }
+    currentUser, userInfo, likePost, searchTitlesByElastic, countResults,
+    searchPostsByElastic, searchPosts, loadCountResults, saveFavouritePost,
+    deleteFavouritePost, fetchTags, allTags }
 ) => {
   const location = useLocation();
   const history = useHistory();
@@ -370,7 +370,7 @@ const mapDispatchToProps: IActions = {
   searchPostsByElastic: searchPostsRoutine,
   searchTitlesByElastic: searchPostsByElasticRoutine,
   loadCountResults: loadCountResultsRoutine,
-  fetchTags: fetchTagsRoutine
+  fetchTags: fetchTagsRoutine,
   fetchUserData: fetchUserRoutine
 };
 

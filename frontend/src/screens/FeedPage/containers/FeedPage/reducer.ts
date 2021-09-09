@@ -26,7 +26,7 @@ const initialState: IFeedPageReducerState = {
   posts: [],
   countResults: 0,
   hasMore: false,
-  loadMore: false
+  loadMore: false,
   numberOfAllUsers: 0
 };
 

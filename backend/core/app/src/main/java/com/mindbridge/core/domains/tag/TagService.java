@@ -1,10 +1,10 @@
 package com.mindbridge.core.domains.tag;
 
+import com.mindbridge.core.domains.tag.dto.TagDto;
 import com.mindbridge.data.domains.tag.TagRepository;
-import com.mindbridge.data.domains.tag.dto.TagDto;
+import com.mindbridge.data.domains.tag.dto.TagDataDto;
 import org.springframework.stereotype.Service;
 
-import com.mindbridge.data.domains.tag.dto.TagDataDto;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,8 +21,8 @@ public class TagService {
 		return tagRepository.findAll().stream().map(TagDataDto::fromEntity).collect(Collectors.toList());
 	}
 
-	public List<TagDto> getPopularTags() {
-		return tagRepository.findPopularTags().stream().map(TagDto::fromEntity).collect(Collectors.toList());
+	public List<TagDataDto> getPopularTags() {
+		return tagRepository.findPopularTags().stream().map(TagDataDto::fromEntity).collect(Collectors.toList());
 	}
 
 }

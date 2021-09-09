@@ -1,9 +1,6 @@
 package com.mindbridge.core.domains.tag;
 
-import com.mindbridge.data.domains.tag.dto.TagDto;
 import com.mindbridge.data.domains.tag.dto.TagDataDto;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +27,7 @@ public class TagController {
 	}
 
 	@GetMapping("/popular")
-	public List<TagDto> getPopularTags() {
+	public List<TagDataDto> getPopularTags() {
 		return tagService.getPopularTags();
 	}
 
