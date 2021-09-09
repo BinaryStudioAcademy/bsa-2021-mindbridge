@@ -20,7 +20,7 @@ const isEqual = (oldTags, newTags) => {
       } return true;
     });
   });
-  return true;
+  return false;
 };
 
 const SeeDiffTags = ({ className, oldTags, newTags }: ISeeDiffTagsProps) => {

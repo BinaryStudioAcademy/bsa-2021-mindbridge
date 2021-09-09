@@ -1,4 +1,5 @@
-img {
+.followerCard{
+  img {
   height: 2.8rem;
   width: 2.8rem;
   border-radius: 50%;
@@ -12,7 +13,16 @@ img {
   color: #353535;
   margin-top: -34px;
 }
+}
 
 .followerCard {
   margin-bottom: 2em;
+
+  a {
+    display: block;
+  }
+  button {
+    float: right;
+    margin-top: -6% !important;
+  }
 }

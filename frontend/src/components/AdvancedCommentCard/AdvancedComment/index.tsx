@@ -238,6 +238,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                 handleLikePost={handleLikeComment}
                 post={comment}
                 userInfo={userInfo}
+                isAuthor
                 arrowUpColor={userInfo.userReactionsComments
                   .find(commentReaction => commentReaction.commentId === commentId && commentReaction.liked)
                   ? ('#8AC858'

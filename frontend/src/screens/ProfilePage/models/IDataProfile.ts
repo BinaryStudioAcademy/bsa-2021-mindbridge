@@ -16,4 +16,5 @@ export interface IDataProfile {
     isLoaded: boolean;
   };
   achievements: IAchievementToUser [];
+  onReloadSidebar: boolean;
 }

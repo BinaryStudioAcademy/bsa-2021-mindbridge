@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
@@ -13,6 +13,7 @@ import {
 import { RootState } from '@root/store';
 import PasswordChangeModal from '@screens/ProfilePage/components/PasswordChangeModal';
 import LoaderWrapper from '@components/LoaderWrapper';
+import { fetchUserProfileRoutine } from '@screens/PostPage/routines';
 
 export interface IProfileFormRequest {
   id: string;
@@ -35,6 +36,7 @@ export interface IProfilePageProps extends IState, IActions {
   initialState: any;
   modalInitialState: any;
   isPasswordChangeModalOpen: boolean;
+  onReloadSidebar: boolean;
 }
 
 interface IState {
@@ -48,6 +50,7 @@ interface IActions {
   sendNickname: IBindingCallback1<string>;
   deleteAvatar: IBindingCallback1<string>;
   openPasswordChangeModal: IBindingCallback1<boolean>;
+  fetchUserProfile: IBindingCallback1<string>;
 }
 
 const ProfilePage: React.FC<IProfilePageProps> = (
@@ -59,38 +62,46 @@ const ProfilePage: React.FC<IProfilePageProps> = (
     sendAvatar,
     deleteAvatar,
     sendNickname,
-    openPasswordChangeModal
+    openPasswordChangeModal,
+    fetchUserProfile,
+    onReloadSidebar
   }
-) => (
-  <div>
-    {initialData.id ? (
-      <div className={styles.profilePage}>
-        <PasswordChangeModal
-          userId={initialData.id}
-          openPasswordChangeModal={openPasswordChangeModal}
-          sendChangePasswordForm={sendChangePasswordForm}
-          modalInitialState={modalInitialState}
-        />
-        <div className={styles.main}>
-          {/* eslint-disable-next-line max-len */}
-          <ProfileCard
-            initialData={initialData}
-            initialState={initialState}
-            sendForm={sendForm}
-            sendAvatar={sendAvatar}
-            deleteAvatar={deleteAvatar}
-            sendNickname={sendNickname}
+) => {
+  useEffect(() => {
+    fetchUserProfile(initialData.id);
+  }, [onReloadSidebar]);
+
+  return (
+    <div>
+      {initialData.id ? (
+        <div className={styles.profilePage}>
+          <PasswordChangeModal
+            userId={initialData.id}
             openPasswordChangeModal={openPasswordChangeModal}
+            sendChangePasswordForm={sendChangePasswordForm}
+            modalInitialState={modalInitialState}
           />
+          <div className={styles.main}>
+            {/* eslint-disable-next-line max-len */}
+            <ProfileCard
+              initialData={initialData}
+              initialState={initialState}
+              sendForm={sendForm}
+              sendAvatar={sendAvatar}
+              deleteAvatar={deleteAvatar}
+              sendNickname={sendNickname}
+              openPasswordChangeModal={openPasswordChangeModal}
+            />
+          </div>
         </div>
-      </div>
-    ) : (
-      <div className={styles.profilePage}>
-        <LoaderWrapper loading />
-      </div>
-    )}
-  </div>
-);
+      ) : (
+        <div className={styles.profilePage}>
+          <LoaderWrapper loading />
+        </div>
+      )}
+    </div>
+  );
+};
 
 const mapStateToProps = (state: RootState) => {
   const { user } = state.auth.auth;
@@ -115,7 +126,8 @@ const mapStateToProps = (state: RootState) => {
       isPasswordChangeModalOpen: data.isPasswordChangeModalOpen,
       isPasswordRight: data.isPasswordRight,
       isChangePasswordFormLoaded: data.isChangePasswordFormLoaded
-    }
+    },
+    onReloadSidebar: data.onReloadSidebar
   });
 };
 
@@ -123,6 +135,7 @@ const mapDispatchToProps: IActions = {
   sendForm: sendFormRoutine,
   sendChangePasswordForm: sendChangePasswordFormRoutine,
   sendAvatar: sendAvatarRoutine,
+  fetchUserProfile: fetchUserProfileRoutine,
   sendNickname: sendNicknameRoutine,
   deleteAvatar: deleteAvatarRoutine,
   openPasswordChangeModal: openPasswordChangeModalRoutine.trigger

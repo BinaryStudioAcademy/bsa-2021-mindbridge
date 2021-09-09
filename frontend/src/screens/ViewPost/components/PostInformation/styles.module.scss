@@ -10,6 +10,17 @@
   align-items: center;
   flex-direction: row;
   grid-gap: 0.3571rem;
+  img {
+    height: 2.8rem;
+    width: 2.8rem;
+    border-radius: 50%;
+    }
+}
+
+.popup_img {
+  height: 2.8rem;
+  width: 2.8rem;
+  border-radius: 50%;
 }
 
 .userBlock {

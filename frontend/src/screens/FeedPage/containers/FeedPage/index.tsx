@@ -30,6 +30,7 @@ import { IPost } from '@screens/Header/models/IPost';
 
 import { searchPostsByElasticRoutine } from '@screens/Header/routines';
 import { fetchUserRoutine } from '@screens/ProfilePage/routines';
+import { da } from 'suneditor/src/lang';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -104,6 +105,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
 
   const handleLoadMorePosts = filtersPayload => {
     fetchData(filtersPayload);
+    setLoadMorePosts(true);
   };
 
   const handleSearchMorePosts = filtersPayload => {
@@ -163,16 +165,6 @@ const FeedPage: React.FC<IFeedPageProps> = (
     }
   };
 
-  if (dataLoading && !loadMore) {
-    return (
-      <div className={styles.feedPage}>
-        <div className={styles.main}>
-          <LoaderWrapper className={styles.loader} loading={dataLoading} />
-        </div>
-      </div>
-    );
-  }
-
   const handleLinkClick = () => {
     setIsSearchInputFilled(false);
     searchTitlesByElastic('');
@@ -199,6 +191,19 @@ const FeedPage: React.FC<IFeedPageProps> = (
       setIsSearchInputFilled(false);
     }
   };
+
+  if (dataLoading && !loadMore) {
+    return (
+      <PostCard
+        dataLoading={dataLoading}
+        handleLikePost={handleLikePost}
+        handleDisLikePost={handleDisLikePost}
+        handleFavouriteAction={handleFavouriteAction}
+        post={data[0]}
+        userInfo={userInfo}
+      />
+    );
+  }
 
   const handleEnterDown = (event: any) => {
     if (event.keyCode === ENTER_CHAR_CODE) {
@@ -262,6 +267,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
           {data ? (
             data.map(post => (
               <PostCard
+                dataLoading={dataLoading && !loadMore}
                 key={post.id}
                 handleLikePost={handleLikePost}
                 handleDisLikePost={handleDisLikePost}

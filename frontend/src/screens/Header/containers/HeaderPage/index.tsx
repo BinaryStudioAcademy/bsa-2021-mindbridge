@@ -274,7 +274,7 @@ const Header: React.FC<IHeaderProps> = (
             value={elasticContent}
             onKeyDown={handleEnterDown}
           />
-          {isSearchInputFilled
+          {elasticContent
           && <button type="button" className={styles.close_image} onClick={handleLinkClick}>✖</button>}
           <button type="button" onClick={goToSearchPage}>
             <SearchSvg />

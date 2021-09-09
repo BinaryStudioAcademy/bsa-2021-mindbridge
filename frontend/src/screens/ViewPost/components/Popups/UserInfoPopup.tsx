@@ -6,6 +6,7 @@ import { defaultAvatar } from '@images/defaultImages';
 import { getHowLong } from '@helpers/date.helper';
 import { Popup } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 interface IUserInfoPopup {
   author: any;
@@ -24,7 +25,7 @@ const UserInfoPopup: FunctionComponent<IUserInfoPopup> = ({ author }) => (
             <FollowBtn />
           </div>
           <Link to={`/user/${author.id}`}>
-            <Image className={styles.userAvatar} src={author.avatar ?? defaultAvatar} />
+            <Image className={classNames(styles.userAvatar, styles.popup_img)} src={author.avatar ?? defaultAvatar} />
             <p className={styles.userNamePopup}>{author.nickname}</p>
           </Link>
           <p className={styles.timeOnPage}>{getHowLong(author.createdAt)}</p>
