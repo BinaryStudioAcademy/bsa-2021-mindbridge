@@ -330,6 +330,8 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
           </Card.Content>
         </div>
         { post.relatedPosts.length !== 0 && <RelatedPosts relatedPosts={post.relatedPosts} /> }
+        {!post.draft
+        && (
         <AdvancedCommentsFeed
           comments={post.comments}
           sendComment={sendComment}
@@ -346,6 +348,7 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
           resetSendingComment={resetSendingComment}
           sendingEditComment={sendingEditComment}
         />
+        )}
       </Card>
     </div>
   );
