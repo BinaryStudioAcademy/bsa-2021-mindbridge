@@ -10,6 +10,8 @@ import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.model.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -23,7 +25,7 @@ import java.awt.print.Pageable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
@@ -79,10 +81,13 @@ public class ElasticService {
 		return getSearchResult(query, searchByTitle, 0, 10);
 	}
 
-	public List<PostsListDetailsDto> searchList(String query, Integer from, Integer count, Principal principal) {
-		String searchByTitle = "title";
+	public List<PostsListDetailsDto> searchList(String query, String tags, Integer from, Integer count, Principal principal) {
 
-		var searchResult = getSearchResult(query, searchByTitle, from, count);
+		String searchByTitle = "title";
+		String searchByTags = "tags";
+		List<ElasticEntity> searchResult;
+
+		searchResult = getSearchByTagsAndTitleResult(query, searchByTitle, tags, searchByTags, from, count);
 
 		return postService
 				.listIDsToListPosts(searchResult.stream().map(ElasticEntity::getSourceId).collect(Collectors.toList()), principal);
@@ -113,8 +118,47 @@ public class ElasticService {
 		return result;
 	}
 
-	public long getCountOfResults(String query) {
-		NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("title", query)).build();
+	private List<ElasticEntity> getSearchByTagsAndTitleResult(String query1, String searchBy1,
+															 String query2, String searchBy2,
+															 Integer from, Integer count) {
+		var pageable = PageRequest.of(from / count, count);
+
+		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
+
+		if (!Objects.equals(query1, "")) {
+			boolQuery.must(QueryBuilders.matchQuery(searchBy1, query1));
+		}
+		if (!Objects.equals(query2, "")) {
+			List<String> tagsList = List.of(query2.split(","));
+			for (String entry : tagsList) {
+				boolQuery.must(QueryBuilders.matchQuery(searchBy2, entry));
+			}
+		}
+
+		NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(boolQuery)
+			.withPageable(pageable).build();
+
+		SearchHits<ElasticEntity> entities = elasticsearchTemplate.search(searchQuery, ElasticEntity.class);
+
+		List<ElasticEntity> result = entities.getSearchHits().stream().map(SearchHit::getContent).distinct()
+			.collect(Collectors.toList());
+		return result;
+	}
+
+	public long getCountOfResults(String query, String tags) {
+		BoolQueryBuilder boolQuery = new BoolQueryBuilder();
+
+		if (!Objects.equals(query, "")) {
+			boolQuery.must(QueryBuilders.matchQuery("title", query));
+		}
+		if (!Objects.equals(tags, "")) {
+			List<String> tagsList = List.of(tags.split(","));
+			for (String entry : tagsList) {
+				boolQuery.must(QueryBuilders.matchQuery("tags", entry));
+			}
+		}
+
+		NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(boolQuery).build();
 		return elasticsearchTemplate.count(searchQuery, ElasticEntity.class);
 
 	}

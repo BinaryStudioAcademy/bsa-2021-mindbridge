@@ -13,7 +13,19 @@ import { Routine } from 'redux-saga-routines';
 
 function* fetchData(filter) {
   try {
-    const response = yield call(feedPageService.getData, filter.payload);
+    let response;
+
+    switch (filter.payload.filter) {
+      case 'hots':
+        response = yield call(feedPageService.getHotPosts, filter.payload.params);
+        break;
+      case 'bests':
+        response = yield call(feedPageService.getBestPosts, filter.payload.params);
+        break;
+      default:
+        response = yield call(feedPageService.getData, filter.payload.params);
+        break;
+    }
     const postsList = { posts: response };
     yield put(fetchDataRoutine.success(postsList));
   } catch (error) {
@@ -57,7 +69,7 @@ function* disLikePost(action) {
 function* searchPosts({ payload }: Routine<any>) {
   try {
     const response = yield call(feedPageService.searchPosts,
-      { query: payload.query, from: payload.params.from, count: payload.params.count });
+      { query: payload.query, tags: payload.tags, from: payload.params.from, count: payload.params.count });
     yield put(searchPostsRoutine.success({ posts: response }));
   } catch (error) {
     yield put(searchPostsRoutine.failure(error?.message));
@@ -67,7 +79,9 @@ function* searchPosts({ payload }: Routine<any>) {
 
 function* loadCountResults({ payload }: Routine<any>) {
   try {
-    const response = yield call(feedPageService.loadCountResults, payload);
+    console.log(`query: ${payload.query}`);
+    console.log(`tags: ${payload.tags}`);
+    const response = yield call(feedPageService.loadCountResults, { query: payload.query, tags: payload.tags });
     yield put(loadCountResultsRoutine.success(response));
   } catch (error) {
     yield put(loadCountResultsRoutine.failure(error?.message));

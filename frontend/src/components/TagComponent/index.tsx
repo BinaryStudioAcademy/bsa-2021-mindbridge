@@ -1,13 +1,26 @@
 import React, { FunctionComponent } from 'react';
 import styles from './styles.module.scss';
+import { useHistory } from 'react-router-dom';
 import ReactPlaceholder from 'react-placeholder';
 
 interface ITagsMenuProps {
   tag: string;
 }
 
-const TagsMenu: FunctionComponent<ITagsMenuProps> = ({ tag }) => (
-  <button type="button" className={styles.tag}>{tag}</button>
-);
+const TagsMenu: FunctionComponent<ITagsMenuProps> = ({ tag }) => {
+  const history = useHistory();
+
+  return (
+    <button
+      type="button"
+      className={styles.tag}
+      onClick={() => {
+        history.push(`/search?tags=${tag}&query=`);
+      }}
+    >
+      {tag}
+    </button>
+  );
+};
 
 export default TagsMenu;

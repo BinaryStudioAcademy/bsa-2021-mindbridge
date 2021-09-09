@@ -1,10 +1,12 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
+// eslint-disable-next-line max-len
+/* import { addMorePostsRoutine, fetchDataRoutine, likePostRoutine, resetDataRoutine } from '@screens/FeedPage/routines';*/
 import {
   addMorePostsRoutine,
   fetchAllUsersNumberRoutine,
   fetchDataRoutine,
   likePostRoutine,
-  loadCountResultsRoutine,
+  loadCountResultsRoutine, resetDataRoutine,
   searchPostsRoutine
 } from '@screens/FeedPage/routines';
 import { IPostFeed } from '@screens/FeedPage/models/IPostFeed';
@@ -23,7 +25,7 @@ export interface IFeedPageReducerState {
 const initialState: IFeedPageReducerState = {
   posts: [],
   countResults: 0,
-  hasMore: true,
+  hasMore: false,
   loadMore: false,
   numberOfAllUsers: 0
 };
@@ -79,6 +81,12 @@ export const feedPageReducer = createReducer(initialState, {
       post.postRating -= action.payload.difference;
       post.isLiked = false;
     }
+  },
+  [resetDataRoutine.TRIGGER]: state => {
+    state.posts = initialState.posts;
+    state.hasMore = false;
+    state.loadMore = false;
+    state.countResults = 0;
   },
   [saveFavouritePostRoutine.SUCCESS]: (state, action) => {
     if (state.posts) {

@@ -214,7 +214,7 @@ const Header: React.FC<IHeaderProps> = (
   const goToSearchPage = () => {
     setIsSearchInputFilled(false);
     setElasticContent('');
-    history.push(`/search?query=${elasticContent}`);
+    history.push(`/search?tags=&query=${elasticContent}`);
   };
 
   const handleBlur = (event: any) => {

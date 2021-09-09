@@ -1,38 +1,44 @@
 import React, { FunctionComponent } from 'react';
-import SvgSearch from '@components/FeedSvgComponents/svgSearch';
 import styles from './styles.module.scss';
+import { ITag } from '@screens/FeedPage/models/ITag';
+import LoaderWrapper from '@components/LoaderWrapper';
+import { useHistory } from 'react-router-dom';
 
-const FeedTagsSideBar: FunctionComponent = () => {
-  const tags = [{ id: 1, name: 'IT' }, { id: 2, name: 'Code' }, { id: 3, name: 'Humor' }, { id: 4, name: 'Work' },
-    { id: 5, name: 'Tech' }, { id: 6, name: 'API' }, { id: 7, name: 'React' }, { id: 8, name: 'Sport' },
-    { id: 9, name: 'Books' }, { id: 10, name: 'Self' }, { id: 11, name: 'Fitness' }];
+interface IFeedTagsSideBarProps {
+  initialTagsData: {
+    popularTags: ITag[];
+    isTagsLoaded: true;
+  };
+}
+
+const FeedTagsSideBar: FunctionComponent<IFeedTagsSideBarProps> = ({
+  initialTagsData
+}) => {
+  const history = useHistory();
+
   return (
     <div className={styles.tagsSideBar}>
       <div className={styles.title}>
-        Search by tags
-      </div>
-      <div className={styles.searchInput}>
-        <input type="text" placeholder="Search..." />
-        <button type="button">
-          <SvgSearch />
-        </button>
+        Popular tags
       </div>
       <div className={styles.btnWrapper}>
-        <div>
-          {tags.map(tag => (
-            <button
-              type="button"
-              key={tag.id}
-              className={styles.tag}
-            >
-              <p className="tagsSd">{tag.name}</p>
-            </button>
-          ))}
-        </div>
+        {initialTagsData.isTagsLoaded ? (
+          <div>
+            {initialTagsData.popularTags.map(tag => (
+              <button
+                type="button"
+                key={tag.id}
+                className={styles.tag}
+                onClick={() => {
+                  history.push(`/search?tags=${tag.name}&query=`);
+                }}
+              >
+                {tag.name}
+              </button>
+            ))}
+          </div>
+        ) : <LoaderWrapper loading />}
       </div>
-      <button type="button" className={`${styles.dark_button} ${styles.searchBtn}`}>
-        <span className={styles.searchLabel}>Search</span>
-      </button>
     </div>
   );
 };
