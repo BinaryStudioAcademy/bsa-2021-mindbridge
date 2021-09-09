@@ -192,10 +192,11 @@ const EditPrPage: React.FC<IEditPrProps> = (
   };
 
   const handleSendForm = () => {
-    if (!form.title || !form.content || !form.tags.length) {
+    if (!form.title || !form.content || !form.tags.length || form.content === "<p><br></p>") {
       setIsTitleEmpty(!form.title);
-      setIsContentEmpty(!form.content);
+      setIsContentEmpty(!form.content || form.content === "<p><br></p>");
       setIsTagsEmpty(!form.tags.length);
+      console.log(isContentEmpty);
       return;
     }
     setIsContentEmpty(false);

@@ -224,7 +224,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
           </div>
         )}
         content="Content is required"
-        open={!form.content && isContentEmpty}
+        open={!form.content && isContentEmpty || form.content === "<p><br></p>"}
         position="left center"
       />
 
