@@ -31,6 +31,7 @@ import { IMentionsUser } from '@screens/ViewPost/models/IMentionsUser';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 import ScrollUpSvg from '../../components/svgs/SvgComponents/scrollUpSvg';
 import { getUserIpRoutine, savePostViewRoutine } from '@root/screens/Login/routines';
+import { fetchUserProfileRoutine } from '@root/screens/PostPage/routines';
 
 export interface IViewPostProps extends IState, IActions {
   isAuthorized: boolean;
@@ -64,6 +65,7 @@ interface IActions {
   deleteFavouritePost: IBindingCallback1<object>;
   editComment: IBindingCallback1<object>;
   resetSendingComment: IBindingAction;
+  fetchUserProfile: IBindingCallback1<string>
 }
 
 const ViewPost: React.FC<IViewPostProps> = (
@@ -90,7 +92,8 @@ const ViewPost: React.FC<IViewPostProps> = (
     savePostView,
     userIp,
     resetSendingComment,
-    sendingEditComment
+    sendingEditComment,
+    fetchUserProfile
   }
 ) => {
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -183,12 +186,13 @@ const ViewPost: React.FC<IViewPostProps> = (
   };
 
   const handleLikeComment = id => {
-    if (currentUser.id && currentUser.id !== data.post.author.id) {
+    if (currentUser.id) {
       const comment = {
         commentId: id,
         userId: currentUser.id,
         liked: true
       };
+      fetchUserProfile(currentUser.id);
       leaveReactionOnComment(comment);
     }
   };
@@ -200,6 +204,7 @@ const ViewPost: React.FC<IViewPostProps> = (
         userId: currentUser.id,
         liked: false
       };
+      fetchUserProfile(currentUser.id);
       leaveReactionOnComment(comment);
     }
   };
@@ -297,7 +302,8 @@ const mapDispatchToProps: IActions = {
   deleteFavouritePost: deleteFavouritePostRoutine,
   getUserIp: getUserIpRoutine,
   savePostView: savePostViewRoutine,
-  resetSendingComment: resetSendingEditCommentStatusRoutine
+  resetSendingComment: resetSendingEditCommentStatusRoutine,
+  fetchUserProfile: fetchUserProfileRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);

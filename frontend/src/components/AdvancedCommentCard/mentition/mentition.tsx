@@ -10,6 +10,7 @@ import commentInputStyle from './commentInputStyle.module.scss';
 import replyInputStyle from './replyInputStyle.module.scss';
 
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
+import classNames from 'classnames';
 
 interface IUserMentionsProps {
   onChange: any;
@@ -154,7 +155,7 @@ const AsyncUserMentions: FunctionComponent<IUserMentionsProps> = (
           <div className="actions">
             <DarkBorderButton
               onClick={handleSendReply}
-              className={styles.btnReplay}
+              className={newReply.text ? classNames(styles.buttonSend, styles.buttonSendFill) : styles.buttonSend}
               content="Send"
             />
           </div>
@@ -179,7 +180,7 @@ const AsyncUserMentions: FunctionComponent<IUserMentionsProps> = (
 
           <DarkBorderButton
             onClick={handleSendComment}
-            className={styles.buttonSend}
+            className={newComment.text ? classNames(styles.buttonSend, styles.buttonSendFill) : styles.buttonSend}
             content="Send"
           />
         </div>
