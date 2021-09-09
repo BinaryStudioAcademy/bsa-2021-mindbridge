@@ -86,10 +86,13 @@ public class PostPRService {
 		if (userDto.getId() == postPR.getContributor().getId()
 				|| userDto.getId() == postPR.getPost().getAuthor().getId()) {
 			postPRRepository.setPRClosed(prId);
-			notificationService.createNotification(postPR.getContributor().getId(),
-				userDto.getNickname(),
-				prId,
-				Notification.Type.PRClosed);
+			if (!postPR.getContributor().getId().equals(user.getId())) {
+				notificationService.createNotification(
+					postPR.getContributor().getId(),
+					userDto.getNickname(),
+					prId,
+					Notification.Type.PRClosed);
+			}
 			return true;
 		}
 		else

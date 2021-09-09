@@ -13,3 +13,4 @@ export const sendPasswordRoutine = profilePageRoutine('SEND_PASSWORD');
 export const openPasswordChangeModalRoutine = profilePageRoutine('OPEN_PASSWORD_CHANGE_MODAL');
 export const fetchAchievementsByUserRoutine = profilePageRoutine('FETCH_ACHIEVEMENTS_BY_USER');
 export const toggleFollowUserRoutine = profilePageRoutine('TOGGLE_FOLLOW_USER');
+export const unfollowUserFromModalRoutine = profilePageRoutine('UNFOLLOW_USER_FROM_MODAL');

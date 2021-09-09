@@ -204,15 +204,15 @@ const ViewPost: React.FC<IViewPostProps> = (
     }
   };
 
-  if (postId !== data.post.id) {
-    return (
-      <div className={styles.viewPost}>
-        <div className={styles.main}>
-          <LoaderWrapper className={styles.loader} loading />
-        </div>
-      </div>
-    );
-  }
+  // if (postId !== data.post.id) {
+  //   return (
+  //     <div className={styles.viewPost}>
+  //       <div className={styles.main}>
+  //         <LoaderWrapper className={styles.loader} loading />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   const handleFavouriteAction = post => {
     if (!currentUser?.id) {
@@ -251,6 +251,7 @@ const ViewPost: React.FC<IViewPostProps> = (
           sendReply={sendReply}
           isAuthorized={isAuthorized}
           users={users}
+          postId={postId}
           searchUsersByNickname={searchUsersByNickname}
           handleFavouriteAction={handleFavouriteAction}
           editComment={editComment}

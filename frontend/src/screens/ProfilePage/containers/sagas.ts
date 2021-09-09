@@ -8,7 +8,7 @@ import {
   fetchUserRoutine,
   deleteAvatarRoutine,
   fetchAchievementsByUserRoutine,
-  toggleFollowUserRoutine
+  toggleFollowUserRoutine, unfollowUserFromModalRoutine
 } from '@screens/ProfilePage/routines';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
@@ -34,6 +34,16 @@ function* toggleFollowUser({ payload }: Routine<any>) {
   } catch (error) {
     yield put(toggleFollowUserRoutine.failure(error?.message));
     toastr.error('Error', 'Following user failed');
+  }
+}
+
+function* unfollowUserFromModal({ payload }: Routine<any>) {
+  try {
+    const response = yield call(profilePageService.toggleFollowUser, payload);
+    yield put(unfollowUserFromModalRoutine.success(payload.followedId));
+  } catch (error) {
+    yield put(unfollowUserFromModalRoutine.failure(error?.message));
+    toastr.error('Error', 'Unfollow user failed');
   }
 }
 
@@ -158,6 +168,10 @@ function* watchToggleFollowUser() {
   yield takeEvery(toggleFollowUserRoutine.TRIGGER, toggleFollowUser);
 }
 
+function* watchUnfollowUserFromModal() {
+  yield takeEvery(unfollowUserFromModalRoutine.TRIGGER, unfollowUserFromModal);
+}
+
 export default function* defaultProfileSagas() {
   yield all([
     watchFetchUserDataRequest(),
@@ -167,7 +181,8 @@ export default function* defaultProfileSagas() {
     watchSendAvatarRequest(),
     deleteAvatarRequest(),
     watchFetchAchievementsByUserRequest(),
-    watchToggleFollowUser()
+    watchToggleFollowUser(),
+    watchUnfollowUserFromModal()
   ]);
 }
 

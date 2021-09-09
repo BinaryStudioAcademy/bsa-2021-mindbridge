@@ -141,7 +141,10 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
 
   const handleImgDelete = () => {
     deleteAvatar(userForm.id);
-    setDafaultState();
+    setUserForm({
+      ...userForm,
+      avatar: ''
+    });
   };
 
   const handleOnBlur = val => {
@@ -159,7 +162,7 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
   };
 
   const handleSaveClick = () => {
-    if (userForm.avatar !== initialData.avatar) {
+    if (userForm.avatar !== initialData.avatar && userForm.avatar) {
       sendAvatar({
         avatar: imgToSave,
         userId: userForm.id
@@ -168,6 +171,10 @@ const ProfileCard: FunctionComponent<IProfileCardProps> = (
     sendForm(userForm);
     setCanChangeNick(true);
     setIsPressEdit(false);
+    setUserForm({
+      ...userForm,
+      avatar: initialData.avatar
+    });
   };
 
   return (

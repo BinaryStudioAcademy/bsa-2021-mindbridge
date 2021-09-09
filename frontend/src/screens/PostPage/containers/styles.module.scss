@@ -33,7 +33,7 @@
     display: grid;
     grid-template-columns: 2fr 2fr 10fr 1fr 0.6fr;
     align-content:flex-start;
-    margin-bottom: 0.8rem;
+    margin-bottom: 2.8571rem;
     button {
         font-size: 0.9rem;
         font-weight: 600;
@@ -47,8 +47,8 @@
     }
 
     .html_button{
-        grid-column: 1/2;
-        margin-right: 1rem;
+      grid-column: 1/2;
+      margin-right: 1rem;
     }
 
     .disabled_html_button{
@@ -60,7 +60,7 @@
 
     .markdown_button{
       grid-column: 2/3;
-      width: 6rem;
+      width: 7rem;
     }
 
     .disabled_markdown_button{
@@ -120,8 +120,8 @@
     }
     button{
         font-weight: bold !important;
-        height: 2.2rem;
-        min-width: 7rem;
+        height: 3.0714rem;
+        min-width: 8.8571rem;
         margin-left: 0.6rem;
         margin-right: 0.6rem;
     }

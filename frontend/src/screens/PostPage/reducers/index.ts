@@ -23,7 +23,7 @@ const requests = combineReducers({
   resetLoadingImageRequest: reducerCreator([resetLoadingImageRoutine.TRIGGER]),
   sendPostRequest: reducerCreator([sendPostRoutine.TRIGGER]),
   sendImageRequest: reducerCreator([sendImageRoutine.TRIGGER]),
-  fetchUserProfileRequest: reducerCreator[fetchUserProfileRoutine.TRIGGER],
+  fetchUserProfileRequest: reducerCreator([fetchUserProfileRoutine.TRIGGER]),
   fetchPostRequest: reducerCreator[fetchPostRoutine.TRIGGER],
   sendPRRequest: reducerCreator[sendPRRoutine.TRIGGER],
   editPostRequest: reducerCreator[editPostRoutine.TRIGGER],
@@ -49,4 +49,5 @@ export const extractSendPostLoading = state => reqs(state).sendPostRequest.loadi
 export const extractSendPostError = state => reqs(state).sendPostRequest.error;
 export const extractSendImageLoading = state => reqs(state).sendImageRequest.loading;
 export const extractSendImageError = state => reqs(state).sendImageRequest.error;
+export const extractFetchUserLoading = state => reqs(state).fetchUserProfileRequest.loading;
 export const extractData = state => data(state);

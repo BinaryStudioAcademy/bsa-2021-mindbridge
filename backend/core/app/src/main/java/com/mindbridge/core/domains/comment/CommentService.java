@@ -71,11 +71,27 @@ public class CommentService {
 	public Comment addComment(CreateCommentDto comment) {
 		var commentToDto = CommentMapper.MAPPER.createCommentDtoToComment(comment);
 		Comment result = commentRepository.save(commentToDto);
-		notificationService.createNotification(
-			postService.getPostById(null, comment.getPostId()).getAuthor().getId(),
-			userService.getUserById(comment.getAuthor()).getNickname(),
-			result.getId(),
-			Notification.Type.newComment);
+
+		var authorPostId = postService.getPostById(null, comment.getPostId()).getAuthor().getId();
+		if (!authorPostId.equals(comment.getAuthor())) {
+			notificationService.createNotification(
+				authorPostId,
+				userService.getUserById(comment.getAuthor()).getNickname(),
+				result.getId(),
+				Notification.Type.newComment);
+		}
+
+		var IDs = findMentionsAtString(comment.getText());
+		for (UUID id: IDs) {
+			if (!result.getAuthor().getId().equals(id)) {
+				notificationService.createNotification(
+					id,
+					comment.getNickname(),
+					result.getId(),
+					Notification.Type.newMention
+				);
+			}
+		}
 
 		achievementHelper.checkCommentsCount(commentToDto.getAuthor());
 		return result;
@@ -92,19 +108,22 @@ public class CommentService {
 			comment.getId(),
 			Notification.Type.newReply);
 
-		IDs.stream().map(id -> notificationService.createNotification(
-			id,
-			reply.getNickname(),
-			comment.getId(),
-			Notification.Type.newMention
-		)).collect(Collectors.toList());
+		for (UUID id: IDs) {
+			if (!comment.getAuthor().getId().equals(id)) {
+				notificationService.createNotification(
+					id,
+					reply.getNickname(),
+					comment.getId(),
+					Notification.Type.newMention
+				);
+			}
+		}
 
 		return comment;
 	}
 
 	public CommentDto getCommentById(UUID id) {
-		var comment = commentRepository.findById(id).map(CommentMapper.MAPPER::commentToCommentDto).orElseThrow();
-		return comment;
+		return commentRepository.findById(id).map(CommentMapper.MAPPER::commentToCommentDto).orElseThrow();
 	}
 
 	public List<UUID> findMentionsAtString(String text) {

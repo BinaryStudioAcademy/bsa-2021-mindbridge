@@ -14,7 +14,7 @@ export interface IFavouritesPageReducerState {
 }
 
 const initialState: IFavouritesPageReducerState = {
-  favouritePosts: undefined,
+  favouritePosts: [],
   hasMore: true,
   loadMore: false
 };

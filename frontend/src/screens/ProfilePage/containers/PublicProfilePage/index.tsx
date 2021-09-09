@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styles from '../styles.module.scss';
 import { IBindingCallback1 } from '@models/Callbacks';
 import {
-  fetchUserRoutine, toggleFollowUserRoutine
+  fetchUserRoutine, toggleFollowUserRoutine, unfollowUserFromModalRoutine
 } from '@screens/ProfilePage/routines';
 import { RootState } from '@root/store';
 import { useLocation } from 'react-use';
@@ -12,7 +12,7 @@ import LoaderWrapper from '@components/LoaderWrapper';
 import PublicProfileCard from '@screens/ProfilePage/components/PublicProfileCard';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
-import { extractToggleFollowUserLoading } from '@screens/ProfilePage/reducers';
+import { extractToggleFollowUserLoading, extractUnfollowUserFromModalLoading } from '@screens/ProfilePage/reducers';
 
 export interface IPublicProfilePageProps extends IState, IActions {
   userProfileData: any;
@@ -21,6 +21,7 @@ export interface IPublicProfilePageProps extends IState, IActions {
   isAuthorized: boolean;
   currentUser: ICurrentUser;
   isToggleFollowLoading: boolean;
+  isUnfollowLoading: boolean;
 }
 
 interface IState {
@@ -29,6 +30,7 @@ interface IState {
 interface IActions {
   fetchUserData: IBindingCallback1<string>;
   toggleFollowUser: IBindingCallback1<object>;
+  unfollowUser: IBindingCallback1<object>;
 }
 
 const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
@@ -39,7 +41,9 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
     isAuthorized,
     currentUser,
     toggleFollowUser,
-    isToggleFollowLoading
+    isToggleFollowLoading,
+    unfollowUser,
+    isUnfollowLoading
   }
 ) => {
   const location = useLocation();
@@ -57,6 +61,8 @@ const PublicProfilePage: React.FC<IPublicProfilePageProps> = (
             <div className={styles.profilePage}>
               <div className={styles.main}>
                 <PublicProfileCard
+                  isUnfollowLoading={isUnfollowLoading}
+                  unfollowUser={unfollowUser}
                   toggleFollowUser={toggleFollowUser}
                   currentUser={currentUser}
                   user={userProfileData}
@@ -81,6 +87,7 @@ const mapStateToProps = (state: RootState) => {
   const { data } = state.profilePageReducer;
   return ({
     isToggleFollowLoading: extractToggleFollowUserLoading(state),
+    isUnfollowLoading: extractUnfollowUserFromModalLoading(state),
     userProfileData: data.user,
     isUserLoaded: data.isUserLoaded,
     isUserIdValid: data.isUserIdValid,
@@ -91,6 +98,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps: IActions = {
   fetchUserData: fetchUserRoutine,
+  unfollowUser: unfollowUserFromModalRoutine,
   toggleFollowUser: toggleFollowUserRoutine
 };
 

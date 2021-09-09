@@ -8,7 +8,7 @@
   input, textarea {
     background-color: rgba(248, 248, 248, 1);
     border: none;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.0714rem;
     padding: 1.5rem;
   }
   input::placeholder, textarea::placeholder{
@@ -21,7 +21,7 @@
     color: rgba(20, 37, 63, 1);
   }
   .content_input_container{
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.0714rem;
     display: grid;
     grid-template-columns: 1fr 2.5rem 1fr;
     grid-template-rows: 5fr 1fr 0.8fr;
@@ -59,7 +59,7 @@
   .file_input_rectangle{
     background-color: rgba(248, 248, 248, 1);
     border: none;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.0714rem;
     padding: 1.5rem;
     border-radius: 3px;
     display: flex;
