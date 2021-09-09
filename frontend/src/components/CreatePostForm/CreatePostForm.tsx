@@ -110,6 +110,10 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
       : `![Alt Text](${imageTag.url})`
   );
 
+  const stylePopup = {
+    width: "10rem"
+  }
+
   let dropzoneOrTag;
   if (!imageTag.isPresent) {
     dropzoneOrTag = <DropZoneComponent sendImage={sendImage} checkImage={checkImage} />;
@@ -177,6 +181,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
           content="You can't add a cover image when post was created"
           on="hover"
           position="left center"
+          style={stylePopup}
         />
       )}
       <Popup
@@ -186,6 +191,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
         content="Title is required"
         open={!form.title && isTitleEmpty}
         position="left center"
+        style={stylePopup}
       />
       <Popup
         trigger={(
@@ -226,6 +232,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
         content="Content is required"
         open={!form.content && isContentEmpty || form.content === "<p><br></p>"}
         position="left center"
+        style={stylePopup}
       />
 
       { modes.markdownMode && dropzoneOrTag}
@@ -236,6 +243,7 @@ const CreatePostForm: React.FC<ICreatePostFormProps> = (
         content={form.tags.length ? 'Maximum number of tags has been reached' : 'At least one tag required'}
         open={form.tags.length === 5 || (form.tags.length === 0 && isTagsEmpty)}
         position="left center"
+        style={stylePopup}
       />
     </div>
   );
