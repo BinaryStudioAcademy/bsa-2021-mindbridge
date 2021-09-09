@@ -1,3 +1,5 @@
+@import "../../../../styles/common_variables";
+
 .feedPage {
   height: 100vh;
 }
@@ -27,47 +29,79 @@
     grid-template-columns: 12fr 1fr;
     grid-template-rows: 1fr;
     height: 3.2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 8rem;
 
     input {
       width: 100%;
-      height: 100%;
-      border: none;
+      height: 2.7em;
+      border: 0.15em solid #F8F8F8;
       background-color: #F8F8F8;
-      border-radius: 2%/16%;
+      border-radius: 0.3em 0.3em 0 0;
       padding-left: 1.5rem;
       padding-right: 2.4rem;
       grid-column: 1/3;
-      grid-row: 1/2;
+      grid-row: 1;
       outline: none;
     }
+
+    .tagsDropdown {
+      width: 100%;
+      border: 0.15em solid #F8F8F8 !important;
+      border-radius: 0 0 0.3em 0.3em !important;
+      background-color: white !important;
+      padding: 0.3rem 0 0.3rem 0.8rem !important;
+      margin: 0 !important;
+      grid-column: 1/3;
+      grid-row: 2;
+      outline: none;
+
+      input{
+        height: auto;
+      }
+    }
+
+    .tagsDropdown:hover{
+      outline: none !important;
+      box-shadow: none !important;
+      border: solid $light-blue 2px !important;
+    }
+
     input::placeholder{
       font-family: lato, sans-serif;
       font-size: 1rem;
+      color: rgba(191,191,191,.87);
     }
+
     button {
       outline: none;
       background-color: #F8F8F8;
       grid-column: 2/3;
-      grid-row: 1/2;
+      grid-row: 1;
       margin: 2px;
       opacity: 0.6;
     }
+
     button:hover{
       opacity: 1;
     }
+
+    .requestInfo {
+      margin-top: 1em;
+      grid-row: 3;
+    }
+
     .close_image {
       color: #14253F;
       margin-left: -1.2rem;
       width: 1.3em;
       opacity: 0.4;
     }
-    
+
     .foundPosts {
       position: absolute;
       border-radius: 0.32em;
       width: 100%;
-      margin-top: 3em;
+      margin-top: 3.1em;
       height: 16em;
       border: 0.5px solid #F8F8F8;
       box-shadow: 0px 4px 6px rgba(189, 189, 189, 8%);
@@ -75,13 +109,18 @@
       font-family: Lato, sans-serif;
       font-size: 0.86rem;
       overflow-y: scroll;
-      z-index: 10;
+      z-index: 402;
     }
   }
+
   h4 {
     margin-bottom: 2rem;
     font-size: 1.285rem;
     font-weight: normal;
+  }
+
+  :global(.ui.multiple.dropdown>.label) {
+    margin: 0 0.2em 0 0.5em !important;
   }
 }
 

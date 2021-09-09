@@ -9,7 +9,6 @@ import com.mindbridge.core.domains.tag.dto.TagDto;
 import com.mindbridge.data.domains.favorite.FavoriteRepository;
 import com.mindbridge.data.domains.favorite.model.Favorite;
 import com.mindbridge.data.domains.post.PostRepository;
-import com.mindbridge.data.domains.post.model.Post;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
 import com.mindbridge.data.domains.user.UserRepository;
@@ -19,7 +18,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -95,26 +97,24 @@ public class PostService {
 		post.setIsFavourite(found.isPresent());
 	}
 
-	public List<PostsListDetailsDto> getHotPosts(Integer from, Integer count) {
+	public List<PostsListDetailsDto> getHotPosts(Integer from, Integer count, UUID userId) {
 		var pageable = PageRequest.of(from / count, count);
-		return postRepository.getHotPosts(pageable).stream()
+		var hotPosts = postRepository.getHotPosts(pageable).stream()
 			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
 			.collect(Collectors.toList());
+		var favouritePosts = favouriteRepository.getAllPostByUserId(userId);
+		hotPosts.forEach(post -> setIfFavourite(favouritePosts, post));
+		return hotPosts;
 	}
 
-	public List<PostsListDetailsDto> getBestPosts(Integer from, Integer count) {
+	public List<PostsListDetailsDto> getBestPosts(Integer from, Integer count, UUID userId) {
 		var pageable = PageRequest.of(from / count, count);
-		return postRepository.getBestPosts(pageable).stream()
+		var bestPosts = postRepository.getBestPosts(pageable).stream()
 			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
 			.collect(Collectors.toList());
-	}
-
-	public List<PostsListDetailsDto> getPostsByTags(String tagQuery, Integer from, Integer count) {
-		List<String> tags = List.of(tagQuery.split("\\+"));
-		var pageable = PageRequest.of(from / count, count);
-		return postRepository.getPostsByTags(tags, tags.size(), pageable).stream()
-			.map(post -> PostsListDetailsDto.fromEntity(post, postRepository.getAllReactionsOnPost(post.getId())))
-			.collect(Collectors.toList());
+		var favouritePosts = favouriteRepository.getAllPostByUserId(userId);
+		bestPosts.forEach(post -> setIfFavourite(favouritePosts, post));
+		return bestPosts;
 	}
 
 	public UUID editPost(EditPostDto editPostDto) {

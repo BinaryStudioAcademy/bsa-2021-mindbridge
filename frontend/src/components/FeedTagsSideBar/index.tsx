@@ -30,7 +30,7 @@ const FeedTagsSideBar: FunctionComponent<IFeedTagsSideBarProps> = ({
                 key={tag.id}
                 className={styles.tag}
                 onClick={() => {
-                  history.push(`/tag/${tag.name}`);
+                  history.push(`/search?tags=${tag.name}&query=`);
                 }}
               >
                 {tag.name}

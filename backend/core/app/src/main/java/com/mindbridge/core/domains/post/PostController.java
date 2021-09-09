@@ -43,21 +43,16 @@ public class PostController {
 
 	@GetMapping("/hots")
 	public List<PostsListDetailsDto> getHotPosts(@RequestParam(defaultValue = "0") Integer from,
-												 @RequestParam(defaultValue = "10") Integer count) {
-		return postService.getHotPosts(from, count);
+												 @RequestParam(defaultValue = "10") Integer count,
+												 @RequestParam(defaultValue = "") UUID userId) {
+		return postService.getHotPosts(from, count, userId);
 	}
 
 	@GetMapping("/bests")
 	public List<PostsListDetailsDto> getBestPosts(@RequestParam(defaultValue = "0") Integer from,
-												 @RequestParam(defaultValue = "10") Integer count) {
-		return postService.getBestPosts(from, count);
-	}
-
-	@GetMapping("/tag/{tags}")
-	public List<PostsListDetailsDto> getPostsByTagName(@PathVariable String tags,
-													   @RequestParam(defaultValue = "0") Integer from,
-												  @RequestParam(defaultValue = "10") Integer count) {
-		return postService.getPostsByTags(tags, from, count);
+												 @RequestParam(defaultValue = "10") Integer count,
+												 @RequestParam(defaultValue = "") UUID userId) {
+		return postService.getBestPosts(from, count, userId);
 	}
 
 	@GetMapping("/title/{id}")

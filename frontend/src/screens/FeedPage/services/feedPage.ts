@@ -12,7 +12,7 @@ const feedPageService = {
     }
   ),
   searchPosts: async (filter: object) => api.get('/api/search/list', { params: filter }),
-  loadCountResults: async (query: string) => api.get('/api/search/count', { params: { query } })
+  loadCountResults: async (filter: object) => api.get('/api/search/count', { params: filter })
 };
 
 export default feedPageService;

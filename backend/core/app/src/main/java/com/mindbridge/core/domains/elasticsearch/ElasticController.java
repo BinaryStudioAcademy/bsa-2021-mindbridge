@@ -26,13 +26,14 @@ public class ElasticController {
 
 	@GetMapping("/list")
 	public List<PostsListDetailsDto> searchList(@RequestParam("query") String query,
+												@RequestParam("tags") String tags,
 			@RequestParam(defaultValue = "0") Integer from, @RequestParam(defaultValue = "10") Integer count) {
-		return service.searchList(query, from, count);
+		return service.searchList(query, tags, from, count);
 	}
 
 	@GetMapping("/count")
-	public long getCountOfResults(@RequestParam("query") String query) {
-		return service.getCountOfResults(query);
+	public long getCountOfResults(@RequestParam("query") String query, @RequestParam("tags") String tags) {
+		return service.getCountOfResults(query, tags);
 	}
 
 	@DeleteMapping("/clear")

@@ -5,12 +5,12 @@ import PostCard from '@components/PostCard';
 import { IBindingAction, IBindingCallback1 } from '@models/Callbacks';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { RootState } from '@root/store';
-import { extractData, extractFetchDataLoading, extractSearchPostsLoading } from '@screens/FeedPage/reducers';
+import { extractFetchDataLoading, extractSearchPostsLoading } from '@screens/FeedPage/reducers';
 import {
   addMorePostsRoutine,
   fetchDataRoutine,
   likePostRoutine,
-  loadCountResultsRoutine,
+  loadCountResultsRoutine, resetDataRoutine,
   searchPostsRoutine
 } from '@screens/FeedPage/routines';
 import { IPostFeed } from '@screens/FeedPage/models/IPostFeed';
@@ -18,7 +18,12 @@ import LoaderWrapper from '@components/LoaderWrapper';
 import { ICurrentUser } from '@screens/Login/models/ICurrentUser';
 import { loadCurrentUserRoutine } from '@screens/Login/routines';
 import { useHistory } from 'react-router-dom';
-import { disLikePostViewRoutine, fetchUserProfileRoutine, likePostViewRoutine } from '@screens/PostPage/routines';
+import {
+  disLikePostViewRoutine,
+  fetchTagsRoutine,
+  fetchUserProfileRoutine,
+  likePostViewRoutine
+} from '@screens/PostPage/routines';
 import { IUserProfile } from '@screens/PostPage/models/IUserProfile';
 import { deleteFavouritePostRoutine, saveFavouritePostRoutine } from '@screens/FavouritesPage/routines';
 import { useLocation } from 'react-use';
@@ -29,6 +34,8 @@ import { useDebouncedCallback } from 'use-debounce';
 import { IPost } from '@screens/Header/models/IPost';
 
 import { searchPostsByElasticRoutine } from '@screens/Header/routines';
+import TagsDropdown from '@components/TagsDropdown';
+import { Popup } from 'semantic-ui-react';
 
 export interface IFeedPageProps extends IState, IActions {
   isAuthorized: boolean;
@@ -43,11 +50,13 @@ interface IState {
   loadMore: boolean;
   searchPosts: IPost[];
   countResults: number;
+  allTags: any[];
 }
 
 interface IActions {
   fetchData: IBindingCallback1<object>;
   likePost: IBindingCallback1<object>;
+  resetList: IBindingAction;
   fetchUserProfile: IBindingCallback1<string>;
   setLoadMorePosts: IBindingCallback1<boolean>;
   searchTitlesByElastic: IBindingCallback1<string>;
@@ -57,7 +66,8 @@ interface IActions {
   saveFavouritePost: IBindingCallback1<object>;
   deleteFavouritePost: IBindingCallback1<string>;
   searchPostsByElastic: IBindingCallback1<object>;
-  loadCountResults: IBindingCallback1<string>;
+  loadCountResults: IBindingCallback1<object>;
+  fetchTags: IBindingAction;
 }
 
 const params = {
@@ -69,7 +79,8 @@ const params = {
 const FeedPage: React.FC<IFeedPageProps> = (
   { data, fetchData, dataLoading, hasMore, setLoadMorePosts, loadMore,
     currentUser, userInfo, likePost, likePostView, searchTitlesByElastic, countResults,
-    disLikePostView, searchPostsByElastic, searchPosts, loadCountResults, saveFavouritePost, deleteFavouritePost }
+    disLikePostView, searchPostsByElastic, searchPosts, loadCountResults,
+    saveFavouritePost, deleteFavouritePost, resetList, fetchTags, allTags }
 ) => {
   const location = useLocation();
   const history = useHistory();
@@ -77,48 +88,63 @@ const FeedPage: React.FC<IFeedPageProps> = (
   const [searchRequest, setSearchRequest] = useState('');
   const [isSearchInputFilled, setIsSearchInputFilled] = useState(false);
   const [elasticContent, setElasticContent] = useState('');
+  const [tagsContent, setTagsContent] = useState([]);
+  const [initialTags, setInitialTags] = useState([]);
 
   const filter = location.pathname.substring(1, location.pathname.length);
 
-  /* useEffect(() => {
+  useEffect(() => {
+    fetchTags();
+  }, [fetchTags]);
+
+  useEffect(() => {
     params.from = 0;
     setLoadMorePosts(false);
     window.scrollTo(0, 0);
-    if (location.search) {
-      let query;
+    const regex = /\\?tags=(.*)&query=(.*)/;
 
-      if (location.search.startsWith('?query=')) {
-        query = decodeURI(location.search.replace('?query=', ''));
+    if (regex.exec(location.search)) {
+      const urlParams = new URLSearchParams(location.search);
+
+      const query = urlParams.get('query');
+      const tags = urlParams.get('tags');
+
+      if (query === '' && tags === '') {
+        history.push('/');
+        return;
       }
-      if (location.search.startsWith('?tags=')) {
-        query = decodeURI(location.search.replace('?tags=', ''));
-      }
-      setElasticContent(query);
-      loadCountResults(query);
-      searchPostsByElastic({ query, params });
-      setSearchRequest(query);
       setIsSearch(true);
+      setElasticContent(query);
+
+      if (allTags.length !== 0 && tags !== '') {
+        setTagsContent(tags.split(','));
+        setInitialTags(tags.split(',').map(val => allTags.find(tag => val === tag.text).key));
+      }
+
+      loadCountResults({ query, tags });
+      searchPostsByElastic({ query, tags, params });
+      setSearchRequest(query);
     } else {
       setSearchRequest('');
       if (currentUser) {
         fetchData({ from: 0, count: 10, userId: currentUser.id, filter });
       } else {
-        fetchData(params);
+        fetchData({ params, filter });
       }
       setIsSearch(false);
     }
-  }, [fetchData, location, currentUser]);*/
-
-  useEffect(() => {
-    fetchData({ params, filter });
-  }, [fetchData]);
+  }, [fetchData, location, currentUser, allTags]);
 
   const handleLoadMorePosts = filtersPayload => {
     fetchData({ params: filtersPayload, filter });
   };
 
   const handleSearchMorePosts = filtersPayload => {
-    searchPostsByElastic({ query: elasticContent, params: filtersPayload });
+    searchPostsByElastic({
+      query: elasticContent,
+      tags: tagsContent.toString(),
+      params: filtersPayload
+    });
   };
 
   const debounced = useDebouncedCallback(value => {
@@ -156,6 +182,14 @@ const FeedPage: React.FC<IFeedPageProps> = (
       likePost(post);
     } else {
       history.push('/login');
+    }
+  };
+
+  const handleTags = (event: any, tags: any) => {
+    if (tags.value.length <= 5) {
+      const tagNames = tags.value.map(val => tags.options.find(o => o.value === val).text);
+      setTagsContent(tagNames);
+      setInitialTags(tags.value);
     }
   };
 
@@ -197,8 +231,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
   };
 
   const goToSearchPage = () => {
-    setIsSearchInputFilled(false);
-    history.push(`/search?query=${elasticContent}`);
+    history.push(`/search?tags=${tagsContent}&query=${elasticContent}`);
   };
 
   const handleBlur = (event: any) => {
@@ -238,14 +271,29 @@ const FeedPage: React.FC<IFeedPageProps> = (
                 </ul>
               </div>
             )}
+            <Popup
+              trigger={(
+                <TagsDropdown
+                  className={styles.tagsDropdown}
+                  onChange={handleTags}
+                  data={initialTags}
+                  allTags={allTags}
+                />
+              )}
+              content="Max amount of tags has reached"
+              open={tagsContent.length === 5}
+              position="left center"
+            />
+            {isSearch && data && (
+              <div className={styles.requestInfo}>
+                <h4>
+                  {'Found '}
+                  <span className={styles.countPosts}>{countResults}</span>
+                  { countResults === 1 ? ' article.' : ' articles.'}
+                </h4>
+              </div>
+            )}
           </div>
-        )}
-        {isSearch && data && (
-          <h4>
-            {`On your request "${searchRequest}" found `}
-            <span className={styles.countPosts}>{countResults}</span>
-            {' articles'}
-          </h4>
         )}
       </div>
 
@@ -292,11 +340,13 @@ const mapStateToProps: (state: RootState) => IState = state => ({
   isAuthorized: state.auth.auth.isAuthorized,
   currentUser: state.auth.auth.user,
   userInfo: state.postPageReducer.data.profile,
-  searchPosts: state.headerReducer.data.posts
+  searchPosts: state.headerReducer.data.posts,
+  allTags: state.postPageReducer.data.allTags
 });
 
 const mapDispatchToProps: IActions = {
   fetchData: fetchDataRoutine,
+  resetList: resetDataRoutine,
   setLoadMorePosts: addMorePostsRoutine,
   fetchUserProfile: fetchUserProfileRoutine,
   likePost: likePostRoutine,
@@ -307,7 +357,8 @@ const mapDispatchToProps: IActions = {
   deleteFavouritePost: deleteFavouritePostRoutine,
   searchPostsByElastic: searchPostsRoutine,
   searchTitlesByElastic: searchPostsByElasticRoutine,
-  loadCountResults: loadCountResultsRoutine
+  loadCountResults: loadCountResultsRoutine,
+  fetchTags: fetchTagsRoutine
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedPage);

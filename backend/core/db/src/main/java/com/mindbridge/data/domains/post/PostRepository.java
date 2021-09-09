@@ -39,6 +39,7 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 		"order by (SELECT COALESCE(SUM(CASE WHEN pr.liked = TRUE THEN 1 ELSE -1 END), 0) FROM post_reactions pr WHERE pr.post_id = p.id) desc", nativeQuery = true)
 	List<Post> getBestPosts(PageRequest pageable);
 
+	/* Search by multiple tags
 	@Query(value = "SELECT p.* FROM Posts p " +
 		"INNER JOIN post2tag tg " +
 		"ON p.id = tg.post_id " +
@@ -50,7 +51,7 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 		"GROUP BY p.id, p.created_at " +
 		"HAVING COUNT(DISTINCT t.id) = :quantity " +
 		"ORDER BY p.created_at DESC", nativeQuery = true)
-	List<Post> getPostsByTags(List<String> tags, int quantity, Pageable pageable);
+	List<Post> getPostsByTags(List<String> tags, int quantity, Pageable pageable);*/
 
 	@Query("select p from Post p where p.deleted = false and p.author.id = :userId")
 	List<Post> getPostsByAuthorId(UUID userId);
