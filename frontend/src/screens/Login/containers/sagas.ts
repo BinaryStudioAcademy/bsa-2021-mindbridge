@@ -67,7 +67,7 @@ function* getUserIp() {
     const res: any = yield call(userIp);
     yield put(getUserIpRoutine.success(res.data.IPv4));
   } catch (ex) {
-    yield put(getUserIpRoutine.failure(ex.massage));
+    yield put(getUserIpRoutine.failure(ex.message));
   }
 }
 
