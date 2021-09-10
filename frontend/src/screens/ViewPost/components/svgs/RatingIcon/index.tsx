@@ -10,19 +10,15 @@ interface IRatingIconProps {
   userInfo: IUserProfile;
   arrowUpColor: string;
   arrowDownColor: string;
-  isAuthor: boolean;
+  isAuthor?: boolean;
 }
 const RatingComponent: FunctionComponent<IRatingIconProps> = ({ postRating, handleLikePost, handleDisLikePost,
-  post, arrowUpColor, arrowDownColor, userInfo, isAuthor }) => {
+  post, arrowUpColor, arrowDownColor, userInfo }) => {
   const likePost = () => {
-    if (userInfo.id !== post.author.id) {
-      handleLikePost(post.id);
-    }
+    handleLikePost(post.id);
   };
   const disLikePost = () => {
-    if (userInfo.id !== post.author.id) {
-      handleDisLikePost(post.id);
-    }
+    handleDisLikePost(post.id);
   };
   return (
     <div className={styles.ratingElement}>
@@ -37,7 +33,7 @@ const RatingComponent: FunctionComponent<IRatingIconProps> = ({ postRating, hand
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            fill={!isAuthor && userInfo.id !== post.author.id ? (arrowUpColor) : ('rgba(53, 53, 53, 0.4)')}
+            fill={arrowUpColor}
             clipRule="evenodd"
             d="M10 5L5 -4.37114e-07L0 5L10 5Z"
           />
@@ -57,7 +53,7 @@ const RatingComponent: FunctionComponent<IRatingIconProps> = ({ postRating, hand
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            fill={!isAuthor && userInfo.id !== post.author.id ? (arrowDownColor) : ('rgba(53, 53, 53, 0.4)')}
+            fill={arrowDownColor}
             clipRule="evenodd"
             d="M0 0L5 5L10 0L0 0Z"
           />
