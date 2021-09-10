@@ -196,7 +196,6 @@ const EditPrPage: React.FC<IEditPrProps> = (
       setIsTitleEmpty(!form.title);
       setIsContentEmpty(!form.content || form.content === '<p><br></p>');
       setIsTagsEmpty(!form.tags.length);
-      console.log(isContentEmpty);
       return;
     }
     setIsContentEmpty(false);
@@ -244,6 +243,8 @@ const EditPrPage: React.FC<IEditPrProps> = (
             </form>
           ) : (
             <form className={styles.create_post_container}>
+              <h3>Edit pull request to</h3>
+              <h2 className={styles.postName}>{postPR?.title}</h2>
               <div className={styles.header}>
                 { postPR?.markdown ? (
                   <div style={{ display: 'flex' }}>

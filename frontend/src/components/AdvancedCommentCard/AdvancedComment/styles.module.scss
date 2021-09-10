@@ -11,7 +11,7 @@
   line-height: 1.1875em;
   color: $dark-grey;
   width: 3.125em;
-  height: 1.525em;
+  height: 2.3rem;
   margin-top: 1.4285em !important;
   display: flex !important;
   align-items: center;
@@ -207,9 +207,16 @@
   }
 }
 
-.btnCancel {
+.btnCancel, .btnEdit {
   padding-right: 0.8em !important;
   padding-left: 0.8em !important;
+  padding-top: 0.3em !important;
+  padding-bottom: 0.3em !important;
+  height: 2.3rem !important;
+  font-family: Lato, sans-serif !important;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1em ;
 }
 
 .highlight{

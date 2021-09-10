@@ -43,6 +43,9 @@ const Routing: React.FunctionComponent<IRoutingProps> = ({ isLoading }) => {
       <Switch>
         <PublicRoute exact path="/public" component={Default} />
         <PublicRoute exact path="/" component={FeedPage} />
+        <PublicRoute exact path="/hots" component={FeedPage} />
+        <PublicRoute exact path="/bests" component={FeedPage} />
+        <PublicRoute exact path="/tag/:name" component={FeedPage} />
         <PublicRoute exact path="/login" component={LoginPage} />
         <PublicRoute exact path="/registration" component={RegistrationPage} />
         <PublicRoute exact path="/oauth2/resolve" component={oauth2handler} />

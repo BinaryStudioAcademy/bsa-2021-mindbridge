@@ -25,6 +25,7 @@ import { IComments } from '@screens/ViewPost/models/IComments';
 import { ICommentAuthor } from '@screens/ViewPost/models/ICommentAuthor';
 import classNames from 'classnames';
 import { IBindingAction } from '@models/Callbacks';
+import UserInfoPopup from '@root/screens/ViewPost/components/Popups/UserInfoPopup';
 
 interface IBasicCommentProps {
   createdAt: string;
@@ -189,6 +190,14 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     return moment(createdDate).fromNow();
   };
 
+  const handleEditButton = () => {
+    setChangeableComment({
+      ...changeableComment,
+      text: comment.text
+    });
+    setEditMode(!editMode);
+  };
+
   return (
     <ScrollableAnchor id={commentId}>
       <div className={highlight ? classNames(styles.advancedComment, styles.highlight) : styles.advancedComment}>
@@ -225,7 +234,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
             {author.id === userInfo.id && (
               <div>
                 {!disabled && (
-                  <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
+                  <button type="button" className={styles.editComment} onClick={handleEditButton}>
                     <EditSvg />
                   </button>
                 )}
@@ -238,7 +247,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
                 handleLikePost={handleLikeComment}
                 post={comment}
                 userInfo={userInfo}
-                isAuthor
+                isAuthor={false}
                 arrowUpColor={userInfo.userReactionsComments
                   .find(commentReaction => commentReaction.commentId === commentId && commentReaction.liked)
                   ? ('#8AC858'

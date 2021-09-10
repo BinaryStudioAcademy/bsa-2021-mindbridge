@@ -18,5 +18,6 @@ public interface CommentPRMapper {
 	@Mapping(source = "avatar", target = "author.avatar")
 	PRComment createCommentPrDtoToComment(CreateCommentPrDto commentPrDto);
 
+	@Mapping(source = "postPR.id", target = "prId")
     CommentPrDto commentPrToCommentDto(PRComment savePrComment);
 }

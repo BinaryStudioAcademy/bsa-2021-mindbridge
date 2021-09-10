@@ -1,6 +1,7 @@
 package com.mindbridge.core.domains.notification;
 
 import com.mindbridge.core.domains.comment.CommentService;
+import com.mindbridge.core.domains.commentPR.CommentPRService;
 import com.mindbridge.core.domains.notification.dto.CreateNotificationDto;
 import com.mindbridge.core.domains.notification.dto.NotificationDto;
 import com.mindbridge.core.domains.user.UserService;
@@ -32,15 +33,18 @@ public class NotificationService {
 
 	private final CommentService commentService;
 
+	private final CommentPRService commentPRService;
+
 	@Lazy
 	@Autowired
-	public NotificationService(NotificationRepository notificationRepository, SimpMessagingTemplate template,
+	public NotificationService(NotificationRepository notificationRepository, SimpMessagingTemplate template, CommentPRService commentPRService,
 							   UserService userService, FollowerRepository followerRepository, CommentService commentService) {
 		this.notificationRepository = notificationRepository;
 		this.template = template;
 		this.userService = userService;
 		this.followerRepository = followerRepository;
 		this.commentService = commentService;
+		this.commentPRService = commentPRService;
 	}
 
 	public long getNotificationCount(UUID userId) {
@@ -109,6 +113,12 @@ public class NotificationService {
 				createNotificationDto.setType("newAchievement");
 				break;
 			}
+			case newPRComment: {
+				description = authorNicknameOrAwardTitle + " commented your pull request";
+				destination = "newPRComment";
+				createNotificationDto.setType("newPRComment");
+				break;
+			}
 			default: {
 				return false;
 			}
@@ -147,6 +157,9 @@ public class NotificationService {
 		for (NotificationDto notif : list) {
 			if (notif.getType().equals("newReply") || notif.getType().equals("newComment") || notif.getType().equals("newMention")) {
 				notif.setSourceId(commentService.getCommentById(UUID.fromString(notif.getSourceId())).getPostId().toString() + "#" + notif.getSourceId());
+			}
+			if (notif.getType().equals("newPRComment")) {
+				notif.setSourceId(commentPRService.getCommentPR(UUID.fromString(notif.getSourceId())).getPrId().toString() + "#" + notif.getSourceId());
 			}
 		}
 

@@ -95,4 +95,9 @@
 
 .btnWrapper {
   width: 22rem;
+
+    :global(.ui.active.loader) {
+      margin-top: 1.5em;
+      position: relative !important;
+    }
 }

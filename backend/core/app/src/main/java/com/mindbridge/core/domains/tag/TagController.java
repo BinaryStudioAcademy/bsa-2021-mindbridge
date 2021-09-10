@@ -1,12 +1,13 @@
 package com.mindbridge.core.domains.tag;
 
 import com.mindbridge.data.domains.tag.dto.TagDataDto;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("tag")
@@ -23,6 +24,11 @@ public class TagController {
 	@GetMapping("/all")
 	public List<TagDataDto> getTags() {
 		return tagService.getTags();
+	}
+
+	@GetMapping("/popular")
+	public List<TagDataDto> getPopularTags() {
+		return tagService.getPopularTags();
 	}
 
 }

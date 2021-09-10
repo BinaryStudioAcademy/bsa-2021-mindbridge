@@ -3,41 +3,37 @@ package com.mindbridge.core.domains.post;
 import com.mindbridge.core.domains.achievement.AchievementHelper;
 import com.mindbridge.core.domains.comment.CommentService;
 import com.mindbridge.core.domains.elasticsearch.ElasticService;
-import com.mindbridge.core.domains.post.dto.CreatePostDto;
-import com.mindbridge.core.domains.post.dto.DraftsListDto;
-import com.mindbridge.core.domains.post.dto.EditPostDto;
-import com.mindbridge.core.domains.post.dto.PostDetailsDto;
-import com.mindbridge.core.domains.post.dto.PostsListDetailsDto;
-import com.mindbridge.core.domains.post.dto.RelatedPostDto;
 import com.mindbridge.core.domains.helpers.DateFormatter;
 import com.mindbridge.core.domains.notification.NotificationService;
+import com.mindbridge.core.domains.post.dto.*;
 import com.mindbridge.core.domains.postReaction.PostReactionService;
 import com.mindbridge.core.domains.postReaction.dto.ReceivedPostReactionDto;
 import com.mindbridge.core.domains.tag.dto.TagDto;
 import com.mindbridge.core.domains.user.UserMapper;
-import com.mindbridge.data.domains.favorite.model.Favorite;
-import com.mindbridge.data.domains.post.dto.PostsReactionsQueryResult;
-import com.mindbridge.data.domains.tag.dto.TagDataDto;
 import com.mindbridge.core.domains.user.UserService;
-import com.mindbridge.data.domains.post.PostRepository;
-import com.mindbridge.data.domains.postReaction.PostReactionRepository;
 import com.mindbridge.data.domains.favorite.FavoriteRepository;
+import com.mindbridge.data.domains.favorite.model.Favorite;
+import com.mindbridge.data.domains.post.PostRepository;
+import com.mindbridge.data.domains.post.dto.PostsReactionsQueryResult;
 import com.mindbridge.data.domains.post.model.Post;
+import com.mindbridge.data.domains.postReaction.PostReactionRepository;
 import com.mindbridge.data.domains.postVersion.PostVersionRepository;
 import com.mindbridge.data.domains.postViews.PostViewsRepository;
 import com.mindbridge.data.domains.tag.TagRepository;
+import com.mindbridge.data.domains.tag.dto.TagDataDto;
 import com.mindbridge.data.domains.user.UserRepository;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
 import java.security.Principal;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -159,6 +155,26 @@ public class PostService {
 		post.setIsFavourite(found.isPresent());
 	}
 
+	public List<PostsListDetailsDto> getHotPosts(Principal principal, Integer from, Integer count, UUID userId) {
+		var pageable = PageRequest.of(from / count, count);
+		var hotPosts = postRepository.getHotPosts(pageable).stream()
+			.map(post -> mapPost(post, principal))
+			.collect(Collectors.toList());
+		var favouritePosts = favouriteRepository.getAllPostByUserId(userId);
+		hotPosts.forEach(post -> setIfFavourite(favouritePosts, post));
+		return hotPosts;
+	}
+
+	public List<PostsListDetailsDto> getBestPosts(Principal principal, Integer from, Integer count, UUID userId) {
+		var pageable = PageRequest.of(from / count, count);
+		var bestPosts = postRepository.getBestPosts(pageable).stream()
+			.map(post -> mapPost(post, principal))
+			.collect(Collectors.toList());
+		var favouritePosts = favouriteRepository.getAllPostByUserId(userId);
+		bestPosts.forEach(post -> setIfFavourite(favouritePosts, post));
+		return bestPosts;
+	}
+
 	public UUID editPost(EditPostDto editPostDto) {
 		var currentPost = postRepository.getOne(editPostDto.getPostId());
 		if (!editPostDto.getDraft()) {
@@ -184,11 +200,11 @@ public class PostService {
 		notificationService.sendFollowersNewPost(createPostDto.getAuthor(), savedPost.getId());
 		postReactionService
 				.setReaction(new ReceivedPostReactionDto(savedPost.getId(), createPostDto.getAuthor(), true));
+		if(!savedPost.getDraft()) {
+			achievementHelper.checkPostCount(savedPost.getAuthor());
+		}
 		if (!savedPost.getDraft()) {
 			elasticService.put(savedPost);
-		}
-		if(!savedPost.getDraft()) {
-			achievementHelper.checkPostCount(post.getAuthor());
 		}
 		return savedPost.getId();
 	}
