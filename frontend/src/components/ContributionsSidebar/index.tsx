@@ -10,7 +10,7 @@ export interface IContributionsSidebarProps {
 }
 
 const ContributionsSidebar: FunctionComponent<IContributionsSidebarProps> = ({ contributions, postId }) => {
-  if (contributions.length === 0) {
+  if (!contributions) {
     return null;
   }
 
