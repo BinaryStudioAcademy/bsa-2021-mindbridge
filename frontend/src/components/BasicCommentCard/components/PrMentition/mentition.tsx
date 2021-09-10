@@ -93,6 +93,7 @@ function UserPrMentions(
         <DarkBorderButton
           className={styles.buttonSend}
           content="Send"
+          disabled={!newPrComment.text}
           onClick={handleSentPrComment}
         />
       </div>

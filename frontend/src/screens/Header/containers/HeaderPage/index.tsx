@@ -108,6 +108,10 @@ const Header: React.FC<IHeaderProps> = (
         toastr.info('You get a new award', message.body);
         fetchNotificationCount(currentUser.id);
       });
+      stompClient.subscribe(`/user/${currentUser.id}/newPRComment`, message => {
+        toastr.info('New comment on your pull request', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
     }, warning => {
       toastr.warning('Warning', 'Internet connection is unstable');
       console.log(warning);
