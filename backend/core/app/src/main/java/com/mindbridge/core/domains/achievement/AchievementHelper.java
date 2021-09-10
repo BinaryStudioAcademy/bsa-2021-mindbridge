@@ -166,7 +166,7 @@ public class AchievementHelper {
 		Achievement achievement = achievementRepository.getOne(achievementId);
 		usersAchievementRepository.save(new UsersAchievement(user, achievement));
 
-		notificationService.createNotification(user.getId(), achievement.getTitle(), achievementId, Type.newAchievement);
+		notificationService.createNotification(user.getId(), achievement.getTitle(), user.getId(), Type.newAchievement);
 	}
 
 }
