@@ -229,9 +229,7 @@ const Header: React.FC<IHeaderProps> = (
 
   const handleEnterDown = (event: any) => {
     if (event.keyCode === ENTER_CHAR_CODE) {
-      setIsSearchInputFilled(false);
-      setElasticContent('');
-      history.push(`/search?query=${elasticContent}`);
+      goToSearchPage();
     }
   };
 
