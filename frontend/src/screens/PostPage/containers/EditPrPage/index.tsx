@@ -243,6 +243,8 @@ const EditPrPage: React.FC<IEditPrProps> = (
             </form>
           ) : (
             <form className={styles.create_post_container}>
+              <h3>Edit pull request to</h3>
+              <h2 className={styles.postName}>{postPR?.title}</h2>
               <div className={styles.header}>
                 { postPR?.markdown ? (
                   <div style={{ display: 'flex' }}>

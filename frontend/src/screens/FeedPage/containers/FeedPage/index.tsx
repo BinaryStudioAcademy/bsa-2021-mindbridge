@@ -267,6 +267,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
   };
 
   const goToSearchPage = () => {
+    setIsSearchInputFilled(false);
     history.push(`/search?tags=${tagsContent}&query=${elasticContent}`);
   };
 
@@ -297,8 +298,7 @@ const FeedPage: React.FC<IFeedPageProps> = (
 
   const handleEnterDown = (event: any) => {
     if (event.keyCode === ENTER_CHAR_CODE) {
-      setIsSearchInputFilled(false);
-      history.push(`/search?query=${elasticContent}`);
+      goToSearchPage();
     }
   };
 

@@ -204,7 +204,6 @@ const ViewPostCard: FunctionComponent<IViewPostCardProps> = ({
                           handleDisLikePost={handleDisLikePost}
                           post={post}
                           userInfo={userInfo}
-                          isAuthor={false}
                           arrowUpColor={post.reacted && post.isLiked
                             ? ('#8AC858'
                             ) : (

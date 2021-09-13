@@ -108,6 +108,10 @@ const Header: React.FC<IHeaderProps> = (
         toastr.info('You get a new award', message.body);
         fetchNotificationCount(currentUser.id);
       });
+      stompClient.subscribe(`/user/${currentUser.id}/newPRComment`, message => {
+        toastr.info('New comment on your pull request', message.body);
+        fetchNotificationCount(currentUser.id);
+      });
     }, warning => {
       toastr.warning('Warning', 'Internet connection is unstable');
       console.log(warning);
@@ -225,9 +229,7 @@ const Header: React.FC<IHeaderProps> = (
 
   const handleEnterDown = (event: any) => {
     if (event.keyCode === ENTER_CHAR_CODE) {
-      setIsSearchInputFilled(false);
-      setElasticContent('');
-      history.push(`/search?query=${elasticContent}`);
+      goToSearchPage();
     }
   };
 

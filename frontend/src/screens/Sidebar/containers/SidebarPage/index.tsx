@@ -75,9 +75,12 @@ const Sidebar: React.FC<ISidebarProps> = (
   }, [currentUser, loadCurrentUser]);
 
   useEffect(() => {
+    fetchPopularTags();
+  }, []);
+
+  useEffect(() => {
     if (currentUser?.id) {
       fetchUserProfile(currentUser.id);
-      fetchPopularTags();
     }
   }, [currentUser?.id]);
 

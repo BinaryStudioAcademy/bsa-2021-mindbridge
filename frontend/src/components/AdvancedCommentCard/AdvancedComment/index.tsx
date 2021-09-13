@@ -190,6 +190,14 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
     return moment(createdDate).fromNow();
   };
 
+  const handleEditButton = () => {
+    setChangeableComment({
+      ...changeableComment,
+      text: comment.text
+    });
+    setEditMode(!editMode);
+  };
+
   return (
     <ScrollableAnchor id={commentId}>
       <div className={highlight ? classNames(styles.advancedComment, styles.highlight) : styles.advancedComment}>
@@ -226,7 +234,7 @@ const AdvancedComment: FunctionComponent<IBasicCommentProps> = React.forwardRef(
             {author.id === userInfo.id && (
               <div>
                 {!disabled && (
-                  <button type="button" className={styles.editComment} onClick={() => setEditMode(!editMode)}>
+                  <button type="button" className={styles.editComment} onClick={handleEditButton}>
                     <EditSvg />
                   </button>
                 )}

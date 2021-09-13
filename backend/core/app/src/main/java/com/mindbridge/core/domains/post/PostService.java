@@ -200,11 +200,11 @@ public class PostService {
 		notificationService.sendFollowersNewPost(createPostDto.getAuthor(), savedPost.getId());
 		postReactionService
 				.setReaction(new ReceivedPostReactionDto(savedPost.getId(), createPostDto.getAuthor(), true));
+		if(!savedPost.getDraft()) {
+			achievementHelper.checkPostCount(savedPost.getAuthor());
+		}
 		if (!savedPost.getDraft()) {
 			elasticService.put(savedPost);
-		}
-		if(!savedPost.getDraft()) {
-			achievementHelper.checkPostCount(post.getAuthor());
 		}
 		return savedPost.getId();
 	}

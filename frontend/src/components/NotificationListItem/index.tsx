@@ -77,6 +77,11 @@ const NotificationListItem: React.FC<INotificationListItemProps> = (
         setTitle('You Were Mentioned');
         break;
       }
+      case 'newPRComment': {
+        setLink(`/pullRequest/${sourceId}`);
+        setTitle('New comment');
+        break;
+      }
       default: {
         break;
       }

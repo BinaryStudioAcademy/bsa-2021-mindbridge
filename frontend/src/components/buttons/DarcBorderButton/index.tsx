@@ -3,7 +3,6 @@ import styles from './styles.module.scss';
 import classNames from 'classnames';
 import { Button, ButtonProps } from 'semantic-ui-react';
 
-// eslint-disable-next-line max-len
 interface IFormButtonProps extends ButtonProps {
   content: any;
 }
